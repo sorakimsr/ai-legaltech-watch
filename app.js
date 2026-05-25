@@ -454,6 +454,8 @@ function renderContent() {
   }
 
   newsGrid.classList.remove('hidden');
+  // v2.8.8: renderAnalysesView/renderSavedView가 설정한 inline display 잔존 제거 — grid 복원
+  newsGrid.style.display = '';
   renderCategoryBar();
   renderStats();
 
