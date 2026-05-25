@@ -1287,7 +1287,8 @@ mark {
   color: #2563eb;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
-#strategy-period-select {
+#strategy-period-select,
+#papers-period-select {
   padding: 7px 14px;
   border: 1px solid #e5e7eb;
   border-radius: 7px;
@@ -1296,6 +1297,18 @@ mark {
   color: #0f172a;
   font-weight: 500;
 }
+/* v2.8.5: 논문 흐름 페이지 — 탭과 dropdown 사이에 paper count 인라인 표시 */
+.papers-meta-inline {
+  flex: 1;
+  text-align: center;
+  font-size: 13px;
+  color: #4b5563;
+}
+.papers-meta-inline strong {
+  color: #0f172a;
+  font-weight: 700;
+}
+.papers-meta-empty { color: #9ca3af; }
 
 /* 7일 추이 차트 */
 .chart-wrap {

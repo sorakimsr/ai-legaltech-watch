@@ -1422,16 +1422,15 @@ function renderPapersView() {
   renderPapersControls();
   const { trends: t } = getPapersTrendsFor(state.papersPeriod, state.papersKey);
   const trends = t || state.paperTrends;
-  const meta = document.getElementById('papers-meta');
+  const metaInline = document.getElementById('papers-meta-inline');
   if (!trends || !trends.paper_count) {
-    meta.innerHTML = `
+    if (metaInline) metaInline.innerHTML = '<span class="papers-meta-empty">아직 분석 데이터가 없습니다</span>';
+    document.getElementById('papers-narrative').innerHTML = `
       <div class="empty-state">
         <div class="empty-icon">📑</div>
         <div class="empty-title">논문 흐름 분석이 아직 없습니다</div>
         <div class="empty-desc">다음 빌드(매일 KST 06:00)부터 자동 생성됩니다.</div>
-      </div>
-    `;
-    document.getElementById('papers-narrative').innerHTML = '';
+      </div>`;
     document.getElementById('papers-hot-topics').innerHTML = '';
     document.getElementById('papers-techniques').innerHTML = '';
     document.getElementById('papers-institutions').innerHTML = '';
@@ -1441,13 +1440,10 @@ function renderPapersView() {
     return;
   }
 
-  const analyzedAt = trends.analyzed_at ? formatKoreanDate(new Date(trends.analyzed_at)) : '';
-  meta.innerHTML = `
-    <div class="papers-meta-row">
-      <span><strong>${trends.paper_count}</strong>편 논문 · 최근 <strong>${trends.days_window}</strong>일 분석</span>
-      <span class="papers-meta-time">${escapeHtml(analyzedAt)}</span>
-    </div>
-  `;
+  // v2.8.5: 인라인 메타 (탭과 같은 행) — paper_count + 기간 라벨
+  if (metaInline) {
+    metaInline.innerHTML = `<strong>${trends.paper_count}</strong>편 논문 · 최근 <strong>${trends.days_window}</strong>일 분석`;
+  }
 
   // Narrative
   document.getElementById('papers-narrative').innerHTML = renderMarkdown(trends.narrative || '');

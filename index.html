@@ -157,17 +157,19 @@
 
         <!-- 논문 흐름 분석 뷰 -->
         <div id="papers-view" class="papers-view hidden">
-          <!-- v2.7.1: Daily/Weekly/Monthly 시계열 탭 -->
+          <!-- v2.8.5: 탭 + 논문 카운트 + dropdown 한 행 통합 (전략·기획 시사점과 동일 layout) -->
           <div id="papers-controls" class="strategy-controls">
             <div class="strategy-period-tabs">
               <button class="period-tab" data-papers-period="daily">Daily</button>
               <button class="period-tab active" data-papers-period="weekly">Weekly</button>
               <button class="period-tab" data-papers-period="monthly">Monthly</button>
             </div>
+            <div id="papers-meta-inline" class="papers-meta-inline"></div>
             <select id="papers-period-select"></select>
           </div>
 
-          <div id="papers-meta" class="papers-meta"></div>
+          <!-- 빈 papers-meta는 backward-compat 위해 유지 (script가 참조함) -->
+          <div id="papers-meta" class="papers-meta hidden"></div>
 
           <div class="papers-section papers-narrative-section">
             <h3>🔥 최근 흐름 — 한국 전략·기획 담당자 시사점</h3>
