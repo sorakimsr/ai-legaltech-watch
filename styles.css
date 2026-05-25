@@ -1132,6 +1132,41 @@ input, select { font-family: inherit; outline: none; }
   flex: 1;
   min-width: 0;
 }
+/* v3.0: 시사점 카드 우측 상단 — 즐겨찾기 + AI 분석 체크박스 */
+.strategy-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.trend-check {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: #2563eb;
+  margin: 0;
+}
+.strategy-card.is-selected {
+  border-color: #2563eb;
+  background: #eff6ff;
+}
+/* AI 분석 모달 미리보기 — kind 배지 */
+.rel-kind {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  margin-right: 4px;
+}
+.rel-kind.kind-trend {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+.rel-kind.kind-citation {
+  background: #f1f5f9;
+  color: #475569;
+}
 .strategy-card-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);

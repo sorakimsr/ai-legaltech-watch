@@ -69,8 +69,9 @@ const state = {
   sortBy: 'latest',
   // chart instance
   trendChart: null,
-  // 다중 선택
+  // 다중 선택 — 뉴스 카드(URL 기반) + 시사점 trend 카드(cardKey 기반)
   selectedUrls: new Set(),
+  selectedTrends: new Set(),  // v3.0: trend cardKey 집합 — AI 분석 시 trend 본문+근거 기사 포함
   // 분석 모달 상태
   analyzeBackend: "openai",
   analyzeModel: "gpt-4o-mini",
@@ -188,7 +189,7 @@ const VIEW_META = {
   // 백워드 호환: 구 url/링크가 top, today를 가리킬 경우 latest로 매핑
   top:       { title: '뉴스 피드', hint: '중요도순으로 정렬됨' },
   today:     { title: '뉴스 피드', hint: '오늘 추가된 항목만' },
-  strategy:  { title: '전략·기획 시사점', hint: 'Daily/Weekly/Monthly로 LLM 자동 생성' },
+  strategy:  { title: '시사점', hint: 'Daily/Weekly/Monthly로 LLM 자동 생성' },
   papers:    { title: 'AI 논문 흐름', hint: 'Daily/Weekly/Monthly 시계열 분석' },
   sources:   { title: '소스 현황', hint: '활성·유휴·오류 + 7일 추이' },
   saved:     { title: '저장한 항목', hint: '북마크한 시사점·뉴스 카드' },
@@ -675,7 +676,7 @@ function renderAnalysesView(root) {
   };
   const promptPreset = (id) => {
     const map = {
-      summary: '핵심 요약', insights: '전략·기획 시사점',
+      summary: '핵심 요약', insights: '시사점',
       trends: '트렌드 분석', competitive: '경쟁 구도',
       opportunity: '한국 시장 진출 기회', custom: '직접 입력',
     };
@@ -910,6 +911,9 @@ function renderStrategy() {
     return;
   }
 
+  // v3.0: trend 데이터를 cardKey로 조회 가능하게 caching — AI 분석에서 사용
+  state.trendCardMap = state.trendCardMap || {};
+
   root.innerHTML = cards.map(s => {
     const citations = Array.isArray(s.citations) ? s.citations : [];
     const citationsBlock = citations.length > 0 ? `
@@ -921,14 +925,20 @@ function renderStrategy() {
       </details>` : '';
     const cardKey = makeStrategyKey(period, currentKey, s);
     const saved = isSaved('strategy', cardKey);
+    // v3.0: cardKey → 카드 데이터 매핑 (체크박스로 선택 시 AI 분석 input 구성용)
+    state.trendCardMap[cardKey] = { period, periodKey: currentKey, card: s };
+    const checked = state.selectedTrends.has(cardKey);
     return `
-      <div class="strategy-card">
+      <div class="strategy-card${checked ? ' is-selected' : ''}" data-trend-key="${escapeHtml(cardKey)}">
         <div class="strategy-card-head">
           <div>
             <div class="strat-tag">${escapeHtml(s.tag || 'TREND')}</div>
             <h3>${escapeHtml(s.title || '')}</h3>
           </div>
-          <button class="bookmark-btn ${saved ? 'is-saved' : ''}" data-bookmark-strategy='${escapeAttr(JSON.stringify({k: cardKey, period, key: currentKey, card: s}))}' title="${saved ? '저장 해제' : '저장하기'}">${saved ? '★' : '☆'}</button>
+          <div class="strategy-card-actions">
+            <button class="bookmark-btn ${saved ? 'is-saved' : ''}" data-bookmark-strategy='${escapeAttr(JSON.stringify({k: cardKey, period, key: currentKey, card: s}))}' title="${saved ? '저장 해제' : '저장하기'}">${saved ? '★' : '☆'}</button>
+            <input type="checkbox" class="trend-check" data-trend-key="${escapeHtml(cardKey)}" ${checked ? 'checked' : ''} title="AI 분석 대상으로 선택" />
+          </div>
         </div>
         <div class="strategy-card-grid">
           <p class="strategy-body">${escapeHtmlWithMark(s.body || '')}</p>
@@ -941,6 +951,16 @@ function renderStrategy() {
       </div>
     `;
   }).join('');
+
+  // v3.0: trend 체크박스 이벤트
+  root.querySelectorAll('.trend-check').forEach(cb => {
+    cb.addEventListener('change', e => {
+      e.stopPropagation();
+      const key = cb.dataset.trendKey;
+      toggleTrendSelection(key);
+    });
+    cb.addEventListener('click', e => e.stopPropagation());
+  });
 }
 
 // ========================= 소스 현황 (status / trend) =========================
@@ -1629,10 +1649,24 @@ function toggleSelection(url) {
   if (card) card.classList.toggle('is-selected', state.selectedUrls.has(url));
 }
 
+// v3.0: trend 카드 선택 — selectedUrls와 별도 Set으로 관리
+function toggleTrendSelection(cardKey) {
+  if (state.selectedTrends.has(cardKey)) {
+    state.selectedTrends.delete(cardKey);
+  } else {
+    state.selectedTrends.add(cardKey);
+  }
+  updateSelectBar();
+  const card = document.querySelector(`.strategy-card[data-trend-key="${cssEscape(cardKey)}"]`);
+  if (card) card.classList.toggle('is-selected', state.selectedTrends.has(cardKey));
+}
+
 function clearSelection() {
   state.selectedUrls.clear();
+  state.selectedTrends.clear();  // v3.0
   document.querySelectorAll('.news-card.is-selected').forEach(c => c.classList.remove('is-selected'));
-  document.querySelectorAll('.card-check:checked').forEach(c => c.checked = false);
+  document.querySelectorAll('.strategy-card.is-selected').forEach(c => c.classList.remove('is-selected'));
+  document.querySelectorAll('.card-check:checked, .trend-check:checked').forEach(c => c.checked = false);
   updateSelectBar();
 }
 
@@ -1645,9 +1679,15 @@ function selectSearchResults() {
 
 function updateSelectBar() {
   const bar = document.getElementById('select-bar');
-  const count = state.selectedUrls.size;
-  document.getElementById('selected-count').textContent = `${count}개 선택`;
-  if (count > 0) {
+  // v3.0: 뉴스 카드 + trend 카드 합산
+  const newsCount = state.selectedUrls.size;
+  const trendCount = state.selectedTrends.size;
+  const total = newsCount + trendCount;
+  const label = trendCount > 0
+    ? `${total}개 선택 (뉴스 ${newsCount} · 시사점 ${trendCount})`
+    : `${total}개 선택`;
+  document.getElementById('selected-count').textContent = label;
+  if (total > 0) {
     bar.classList.remove('hidden');
   } else {
     bar.classList.add('hidden');
@@ -1660,19 +1700,77 @@ function updateSelectBar() {
   }
 }
 
+// v3.0: 선택된 trend들을 펼쳐서 analysis items 리스트 구성
+//   각 trend는 (1) trend 본문 + (2) 링크된 근거 기사들로 분해되어 별도 항목으로 포함
+function buildAnalysisItems() {
+  const items = [];
+  // 1. 뉴스 카드 (URL 기반)
+  for (const it of (state.data.items || [])) {
+    if (state.selectedUrls.has(it.url)) {
+      items.push({
+        kind: 'news',
+        title: it.title,
+        source: it.source,
+        date: (it.date || '').slice(0, 10),
+        url: it.url,
+        summary: it.summary_ko || it.summary || '',
+      });
+    }
+  }
+  // 2. trend 카드 (cardKey 기반)
+  const seenCitationUrls = new Set();  // 동일 근거 기사 중복 방지
+  for (const key of state.selectedTrends) {
+    const entry = (state.trendCardMap || {})[key];
+    if (!entry) continue;
+    const card = entry.card;
+    // 2-a. trend 본문 자체를 1개 항목으로
+    const bodyText = [card.body, card.action ? `[ACTION] ${card.action}` : ''].filter(Boolean).join('\n');
+    items.push({
+      kind: 'trend',
+      title: `[시사점] ${card.title || ''}`,
+      source: `${entry.period} ${entry.periodKey}`,
+      date: entry.periodKey || '',
+      url: '',
+      summary: bodyText,
+    });
+    // 2-b. trend 작성 근거 기사들 각각을 별도 항목으로
+    const cites = Array.isArray(card.citations) ? card.citations : [];
+    for (const c of cites) {
+      if (!c.url || seenCitationUrls.has(c.url)) continue;
+      seenCitationUrls.add(c.url);
+      items.push({
+        kind: 'citation',
+        title: c.title || '',
+        source: c.source || '',
+        date: (c.date || '').slice(0, 10),
+        url: c.url,
+        summary: '',  // citation은 원본 기사이지만 enriched_news에 별도 summary 안 가지고 있음
+      });
+    }
+  }
+  return items;
+}
+
 function openAnalyzeModal() {
-  if (state.selectedUrls.size === 0) {
+  if (state.selectedUrls.size === 0 && state.selectedTrends.size === 0) {
     alert('먼저 카드를 선택해주세요.');
     return;
   }
   const modal = document.getElementById('analyze-modal');
   modal.classList.remove('hidden');
 
-  // 선택 항목 미리보기
-  const items = (state.data.items || []).filter(i => state.selectedUrls.has(i.url));
-  document.getElementById('analyze-count').textContent = `${items.length}개 항목 선택`;
+  // v3.0: 뉴스 + trend(+근거) 펼친 전체 items
+  const items = buildAnalysisItems();
+  const newsN = items.filter(i => i.kind === 'news').length;
+  const trendN = items.filter(i => i.kind === 'trend').length;
+  const citationN = items.filter(i => i.kind === 'citation').length;
+  document.getElementById('analyze-count').textContent =
+    trendN > 0
+      ? `${items.length}개 항목 (뉴스 ${newsN} · 시사점 ${trendN} · 근거 ${citationN})`
+      : `${items.length}개 항목 선택`;
   const list = document.getElementById('analyze-preview-list');
-  list.innerHTML = items.map(i => `<li>${escapeHtml(i.title)} <span class="rel-source">— ${escapeHtml(i.source)}</span></li>`).join('');
+  const kindBadge = (k) => k === 'trend' ? '<span class="rel-kind kind-trend">시사점</span>' : k === 'citation' ? '<span class="rel-kind kind-citation">근거</span>' : '';
+  list.innerHTML = items.map(i => `<li>${kindBadge(i.kind)} ${escapeHtml(i.title)} <span class="rel-source">— ${escapeHtml(i.source)}</span></li>`).join('');
 
   // 모델 드롭다운 채우기
   populateModelSelect();
@@ -1722,7 +1820,8 @@ function applyPromptPreset() {
 }
 
 async function runAnalysis() {
-  const items = (state.data.items || []).filter(i => state.selectedUrls.has(i.url));
+  // v3.0: 뉴스 + trend + 근거 기사 통합 항목 사용
+  const items = buildAnalysisItems();
   if (items.length === 0) {
     alert('선택된 항목이 없습니다.');
     return;
@@ -1734,13 +1833,21 @@ async function runAnalysis() {
     return;
   }
 
-  // 데이터 묶어서 프롬프트 구성
-  const newsBlob = items.slice(0, 60).map((it, i) => {
-    const ko = it.summary_ko || it.summary || '';
-    return `${i + 1}. [${it.source}, ${(it.date || '').slice(0,10)}] ${it.title}\n   ${ko.slice(0, 300)}\n   URL: ${it.url}`;
+  // v3.0: kind별 라벨 붙여서 프롬프트 구성 (LLM이 시사점/근거를 구분해서 이해하도록)
+  const kindLabel = (k) => k === 'trend' ? '시사점' : k === 'citation' ? '시사점 근거' : '뉴스';
+  const blob = items.slice(0, 80).map((it, i) => {
+    const summary = (it.summary || '').slice(0, 300);
+    const meta = [it.source, it.date].filter(Boolean).join(', ');
+    const urlLine = it.url ? `   URL: ${it.url}` : '';
+    return `${i + 1}. [${kindLabel(it.kind)}|${meta}] ${it.title}\n   ${summary}${urlLine ? '\n' + urlLine : ''}`;
   }).join('\n\n');
 
-  const fullPrompt = `${promptInstruction}\n\n[분석 대상 뉴스 ${items.length}건]\n\n${newsBlob}`;
+  const trendN = items.filter(i => i.kind === 'trend').length;
+  const newsN = items.filter(i => i.kind !== 'trend').length;
+  const header = trendN > 0
+    ? `[분석 대상] 시사점 ${trendN}건 + 뉴스/근거 ${newsN}건 (총 ${items.length}건)`
+    : `[분석 대상 뉴스 ${items.length}건]`;
+  const fullPrompt = `${promptInstruction}\n\n${header}\n\n${blob}`;
 
   // 본인 API 키 (옵션)
   const userKey = document.getElementById('user-api-key').value.trim();
@@ -1879,9 +1986,9 @@ async function runAnalysis() {
         model: meta.model,
         promptPreset: state.analyzePromptPreset,
         promptText: promptInstruction,
-        items: items.slice(0, 60).map(it => ({
+        items: items.slice(0, 80).map(it => ({
           title: it.title, url: it.url, source: it.source,
-          date: it.date, lang: it.lang, score: it.score,
+          date: it.date, kind: it.kind,
         })),
         result: accumulated,
         usage: { input: inT, output: outT },
