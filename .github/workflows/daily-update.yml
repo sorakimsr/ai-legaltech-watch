@@ -74,13 +74,14 @@ jobs:
       - name: "Step 2/4 — Dedupe similar news"
         run: python scripts/dedupe_similar.py
 
-      # ===== 3단계: LLM 한국어 요약·시사점 =====
+      # ===== 3단계: LLM 한국어 요약·개별 시사점 =====
+      # v2.7: 단순 번역·요약은 Haiku 4.5로 — Sonnet 4.6 대비 3~4배 저렴, 충분히 정확
       - name: "Step 3/4 — Enrich with LLM (Korean summary & insight)"
         if: github.event.inputs.skip_enrich != 'true'
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          ANTHROPIC_MODEL: "claude-sonnet-4-6"
+          ANTHROPIC_MODEL: "claude-haiku-4-5-20251001"
           ENRICH_TOP_N: "40"
           ENRICH_MAX_PER_RUN: "40"
         run: python scripts/enrich_with_llm.py
