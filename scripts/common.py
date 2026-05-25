@@ -620,23 +620,30 @@ PROMO_PATTERNS = [
 
 
 def detect_score_buckets(title: str, summary: str) -> dict:
-    """4개 버킷별 매칭 강도 (0~1)"""
+    """4개 버킷별 매칭 강도 (0~1) — v3.2: 매칭 수 기반 연속 분포"""
     text = (title + " " + summary).lower()
     title_lower = title.lower()
 
     buckets = {"law": 0.0, "global": 0.0, "policy": 0.0, "promo": 0.0}
 
-    # v2.9: 매칭 단위 fine-grained — 점수가 10단위로 뭉치지 않게 분산
-    for kw in LAW_AI_KEYWORDS:
-        if kw in text:
-            buckets["law"] = min(1.0, buckets["law"] + 0.25)  # 0.5 → 0.25 (4단계)
-    for kw in GLOBAL_MARKET_KEYWORDS:
-        if kw in text:
-            buckets["global"] = min(1.0, buckets["global"] + 0.2)  # 0.4 → 0.2 (5단계)
-    for kw in POLICY_KEYWORDS:
-        if kw in text:
-            buckets["policy"] = min(1.0, buckets["policy"] + 0.25)  # 0.45 → 0.25 (4단계)
-    # PROMO는 헤드라인 위주
+    # v3.2: 매칭된 키워드 개수를 세고 logarithm으로 매핑 → 다양한 분포
+    law_hits = sum(1 for kw in LAW_AI_KEYWORDS if kw in text)
+    global_hits = sum(1 for kw in GLOBAL_MARKET_KEYWORDS if kw in text)
+    policy_hits = sum(1 for kw in POLICY_KEYWORDS if kw in text)
+
+    # 매칭 n개 → 강도: 1개=0.2, 2개=0.35, 3개=0.5, 4개=0.65, 5개=0.75, 6개=0.85, 7개+=1.0
+    # (1 - 0.85^n) 의 형태로 빠르게 차오르되 1을 넘지 않는 연속 분포
+    def hits_to_strength(n: int) -> float:
+        if n == 0:
+            return 0.0
+        # 1 - 0.78^n: 1→0.22, 2→0.39, 3→0.53, 4→0.63, 5→0.71, 6→0.78, 7→0.83, 8→0.87
+        return round(1.0 - 0.78 ** n, 3)
+
+    buckets["law"] = hits_to_strength(law_hits)
+    buckets["global"] = hits_to_strength(global_hits)
+    buckets["policy"] = hits_to_strength(policy_hits)
+
+    # PROMO는 헤드라인 위주 (옛 동작 유지)
     for pat in PROMO_PATTERNS:
         if pat in title_lower:
             buckets["promo"] = 1.0
@@ -683,14 +690,22 @@ def score_item(title: str, summary: str, date, categories: list) -> int:
     elif action_signal < 0.5:
         score -= 5   # 약한 시그널 base 가볍게 감점
 
-    # v2.9: 본문 깊이 보너스 — 긴 summary는 풍부한 정보
+    # v3.2: 본문 깊이 보너스 — 연속 함수로 미세 분포 (정수 결과지만 분포가 더 다양해짐)
+    # 80자=0점 / 200자=+2 / 400자=+4 / 700자=+5.5 ... 점진적
     summary_len = len(summary or "")
-    if summary_len >= 400:
-        score += 4
-    elif summary_len >= 200:
-        score += 2
-    elif summary_len < 80:
-        score -= 3   # 너무 짧으면 감점 (정보 부족)
+    if summary_len >= 80:
+        # log scale: max +6 around 1000+ chars
+        import math as _math
+        score += min(6.0, _math.log2(summary_len / 40.0) * 1.2)
+    else:
+        score -= 3   # 너무 짧으면 감점
+
+    # v3.2: title 길이 보너스 — 짧고 명확한 제목 vs 긴 SEO 제목
+    title_len = len((title or "").strip())
+    if 20 <= title_len <= 80:
+        score += 1  # 적당한 길이
+    elif title_len > 120:
+        score -= 1  # 너무 긴 SEO 제목
 
     # 시간 가중치
     if date:
@@ -714,7 +729,8 @@ def score_item(title: str, summary: str, date, categories: list) -> int:
     if buckets["promo"] > 0:
         score = min(score, 40)
 
-    return max(0, min(150, int(score)))
+    # v3.2: 정수 round 대신 fine-grained 정수 (1점 단위, 음수 방지)
+    return max(0, min(150, int(round(score))))
 
 
 def normalize_url(url: str) -> str:

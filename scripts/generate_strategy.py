@@ -382,22 +382,27 @@ def main():
         daily_cards = fixed
     history["daily"][today_iso] = daily_cards
 
-    # === Weekly === (월요일 또는 이번 주 weekly 없을 때)
+    # v3.2: 강제 재생성 옵션 — 프롬프트 정책 변경 후 weekly/monthly도 새 음영 적용
+    force_refresh = os.environ.get("STRATEGY_FORCE_REFRESH", "0") == "1"
+
+    # === Weekly === (월요일 또는 이번 주 weekly 없을 때, 또는 force_refresh)
     is_monday = today.weekday() == 0
     weekly_missing = week_key not in history["weekly"]
-    if backend != "none" and (is_monday or weekly_missing):
+    if backend != "none" and (is_monday or weekly_missing or force_refresh):
         weekly_items, _ = filter_items_by_period(items, "weekly", today)
         if len(weekly_items) >= 20:
+            print(f"  weekly: regenerating ({'force' if force_refresh else 'missing' if weekly_missing else 'monday'})", flush=True)
             weekly_cards = generate_cards(weekly_items, "weekly", today, items)
             if weekly_cards:
                 history["weekly"][week_key] = weekly_cards
 
-    # === Monthly === (매월 1일 또는 이번 달 monthly 없을 때)
+    # === Monthly === (매월 1일 또는 이번 달 monthly 없을 때, 또는 force_refresh)
     is_month_start = today.day == 1
     monthly_missing = month_key not in history["monthly"]
-    if backend != "none" and (is_month_start or monthly_missing):
+    if backend != "none" and (is_month_start or monthly_missing or force_refresh):
         monthly_items, _ = filter_items_by_period(items, "monthly", today)
         if len(monthly_items) >= 30:
+            print(f"  monthly: regenerating ({'force' if force_refresh else 'missing' if monthly_missing else 'month-start'})", flush=True)
             monthly_cards = generate_cards(monthly_items, "monthly", today, items)
             if monthly_cards:
                 history["monthly"][month_key] = monthly_cards
