@@ -84,8 +84,10 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           ANTHROPIC_MODEL: "claude-haiku-4-5-20251001"
-          ENRICH_TOP_N: "40"
-          ENRICH_MAX_PER_RUN: "40"
+          # v2.7: Haiku 4.5는 항목당 ~$0.0015로 저렴 → 한도 40→200 상향
+          # 빌드당 ~$0.30, 일 6빌드 ≈ $1.8/일, 월 약 $50. 백로그 반나절 내 해소
+          ENRICH_TOP_N: "200"
+          ENRICH_MAX_PER_RUN: "200"
         run: python scripts/enrich_with_llm.py
         continue-on-error: true
 
