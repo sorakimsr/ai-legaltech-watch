@@ -43,6 +43,50 @@
         "body": "OpenAI·Anthropic·Google·MS·xAI가 모두 美 상무부 AI Standards 센터에 모델 사전 검토 권한 부여. EU AI Act와 별개로 미국 거버넌스가 글로벌 영향. AI 도입이 '구매'에서 '컴플라이언스 검토 포함 프로젝트'로 진화.",
         "action": "AI 도입 의사결정 체크리스트에 '거버넌스 단계' 명시 추가. (1) 데이터 처리·국외 이전 (2) 모델 출처·정부 검토 이력 (3) 감사 로그 가용성."
       }
+    ],
+    "2026-05-26": [
+      {
+        "tag": "TREND 01 · 에이전트 시대의 본격화",
+        "title": "단일 챗봇에서 '커스텀 에이전트 × 장기 워크플로우'로",
+        "body": "Harvey의 LAB(Long-horizon Agent Builder), Command Center, Gemini Spark, Ironclad의 5종 에이전트 + Manager Agent 등 모든 주요 플레이어가 같은 방향을 가리킴. '같은 패턴이 반복되는 다단계 절차'를 식별하면 자동화 ROI가 가장 큰 영역.",
+        "action": "본인 업무 중 '주 1회 이상 반복 + 3단계 이상 절차' 후보 5개를 추리고, 각각 Plan-Act-Reflect 루프로 분해. 그중 1개를 PoC로 자동화."
+      },
+      {
+        "tag": "TREND 02 · 멀티 모델 전략의 필수화",
+        "title": "GPT-5.5 vs Claude Opus 4.6 vs Gemini 3.5 — 단일 벤더 충성은 위험",
+        "body": "모델별 우위 영역 분명: GPT-5.5는 멀티모달·터미널 작업, Claude는 코딩·1M 컨텍스트·에이전트, Gemini는 비용 효율과 Google 생태계. Anthropic의 $200B 인프라 투자가 의존성 분산 요구를 키움.",
+        "action": "'작업 유형별 모델 라우팅' 가이드를 1페이지로 정리. 장문 분석 → Claude / 코드 자동화 → Claude·GPT-5.5 / 이미지·음성 → GPT-5.5 / 비용 민감 → Gemini Flash."
+      },
+      {
+        "tag": "TREND 03 · 오픈소스 + 데이터 주권의 부상",
+        "title": "Mike 현상 — '비싼 SaaS' vs '자체호스팅 + BYO API'",
+        "body": "Mike가 GitHub 72시간만에 1,000+ 스타. 핵심은 가격(0원)이 아니라 '데이터가 자기 인프라에 머문다'는 사실. Robin AI의 dedicated cloud, BHSN의 한국형 솔루션도 같은 맥락. Harvey LAB도 오픈소스로 풀림.",
+        "action": "조직 데이터 민감도를 High/Mid/Low로 분류 후, High는 자체호스팅·오픈소스, Mid는 dedicated cloud, Low는 SaaS — 3-tier 전략 수립."
+      },
+      {
+        "tag": "TREND 04 · 컨텍스트 윈도우 경쟁의 종료",
+        "title": "1M 토큰이 기본값 — 워크플로우 자체를 재설계할 때",
+        "body": "Claude Sonnet 4.6과 GPT-5.5 모두 1M 토큰 컨텍스트. 전체 정책 문서·전체 코드베이스·전체 계약서 묶음을 한 번에 처리. 'RAG로 잘게 쪼개기'가 더 이상 기본이 아님.",
+        "action": "기존 RAG/임베딩 기반 워크플로우 중 1M 토큰 직접 입력으로 단순화 가능한 것 점검. 정확도·비용 둘 다 개선되는 경우 많음."
+      },
+      {
+        "tag": "TREND 05 · 리걸테크의 양극화",
+        "title": "슈퍼유니콘($5B+) vs 오픈소스 — 중간층 squeeze",
+        "body": "Harvey $11B + Legora $5.6B가 상위, Mike·오픈소스가 하단 형성. 중간 가격대 단일 기능 도구들은 인수되거나(Spellbook $40M debt for M&A) 도태 위험.",
+        "action": "도입 검토 시 (1) 슈퍼유니콘 — 안전·통합·고비용 (2) 오픈소스 — 통제·저비용·운영부담 두 갈래로 단순화. 중간 가격대 단일 기능 도구는 portability 조항부터 확인."
+      },
+      {
+        "tag": "TREND 06 · 한국 리걸테크의 본격 자본화",
+        "title": "BHSN·로앤컴퍼니가 한국 양강 — 200조 시장 전망",
+        "body": "BHSN 시리즈 B, 로앤컴퍼니 500억 펀딩, 로앤굿 영역 확장. 한국 시장이 글로벌 대비 1~2년 lag지만 빠른 추격. 한국어·한국법 특화는 글로벌 SaaS가 따라잡기 어려운 영역.",
+        "action": "한국 시장 진출·협력 기획이라면 BHSN PoC 고려. 글로벌 도구(Harvey/Legora)와 1:1 비교 매트릭스 작성."
+      },
+      {
+        "tag": "TREND 07 · AI 거버넌스의 글로벌 표준화",
+        "title": "美 정부 사전 검토가 사실상 표준 — 컴플라이언스가 도입 프로세스의 일부",
+        "body": "OpenAI·Anthropic·Google·MS·xAI가 모두 美 상무부 AI Standards 센터에 모델 사전 검토 권한 부여. EU AI Act와 별개로 미국 거버넌스가 글로벌 영향. AI 도입이 '구매'에서 '컴플라이언스 검토 포함 프로젝트'로 진화.",
+        "action": "AI 도입 의사결정 체크리스트에 '거버넌스 단계' 명시 추가. (1) 데이터 처리·국외 이전 (2) 모델 출처·정부 검토 이력 (3) 감사 로그 가용성."
+      }
     ]
   },
   "weekly": {},
