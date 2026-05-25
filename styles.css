@@ -521,6 +521,39 @@ input, select { font-family: inherit; outline: none; }
   color: #6b7280;
   padding: 20px;
 }
+/* v2.7.2: 스트리밍 — 로딩 dot 애니메이션 + 타이핑 커서 */
+.analyze-loading .dots::after {
+  content: "";
+  display: inline-block;
+  animation: dots 1.4s steps(4, end) infinite;
+}
+@keyframes dots {
+  0%   { content: ""; }
+  25%  { content: "."; }
+  50%  { content: ".."; }
+  75%  { content: "..."; }
+  100% { content: ""; }
+}
+.analyze-stream {
+  white-space: normal;
+  word-break: break-word;
+}
+.stream-cursor {
+  display: inline-block;
+  margin-left: 1px;
+  color: #2563eb;
+  font-weight: 700;
+  animation: blink 1s steps(2, start) infinite;
+}
+@keyframes blink {
+  to { visibility: hidden; }
+}
+/* 분석 결과 안의 ## 🧭 분석 계획 / 📊 분석 결과 헤더 살짝 강조 */
+.analyze-result h2 {
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 4px;
+  margin-top: 14px;
+}
 .analyze-error {
   background: #fef2f2;
   color: #b91c1c;

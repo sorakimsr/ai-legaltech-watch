@@ -1454,11 +1454,13 @@ async function runAnalysis() {
   runBtn.disabled = true;
   runBtn.textContent = '분석 중...';
   resultWrap.classList.remove('hidden');
-  resultEl.innerHTML = '<div class="analyze-loading">⏳ AI가 분석 중입니다. 보통 10~30초 소요…</div>';
+  resultEl.innerHTML = '<div class="analyze-loading">🤖 모델 연결 중<span class="dots"></span></div>';
   metaEl.textContent = '';
 
+  // v2.7.2: SSE 스트리밍 — 첫 글자가 1~2초 안에 도착, 타이핑하듯 누적
   try {
     const t0 = Date.now();
+    let firstByteTime = null;
     const r = await fetch(WORKER_ENDPOINT, {
       method: 'POST',
       headers,
@@ -1466,31 +1468,99 @@ async function runAnalysis() {
         backend: state.analyzeBackend,
         model: state.analyzeModel,
         prompt: fullPrompt,
-        max_tokens: 2000,
+        max_tokens: 2500,
+        stream: true,  // ← 스트리밍 요청
       }),
     });
-    const elapsed = ((Date.now() - t0) / 1000).toFixed(1);
-    const data = await r.json();
     if (!r.ok) {
+      // 비-스트리밍 에러 응답
+      let data;
+      try { data = await r.json(); } catch (e) { data = { error: `HTTP ${r.status}` }; }
       const msg = data.error || `HTTP ${r.status}`;
       if (data.limit_reached) {
         resultEl.innerHTML = `
           <div class="analyze-error">
             <strong>${escapeHtml(msg)}</strong>
-            <p>본인 API 키를 입력하시면 한도 제한 없이 사용할 수 있습니다 (위 "본인 API 키 사용" 펼치기).</p>
+            <p>본인 API 키를 입력하시면 한도 제한 없이 사용할 수 있습니다.</p>
           </div>
         `;
       } else {
         resultEl.innerHTML = `<div class="analyze-error"><strong>분석 실패</strong><p>${escapeHtml(msg)}</p></div>`;
       }
-    } else {
-      // 마크다운 → HTML (단순)
-      resultEl.innerHTML = renderMarkdown(data.result || '');
-      const usage = data.usage || {};
-      const tokens = usage.input_tokens || usage.prompt_tokens || '?';
-      const outTokens = usage.output_tokens || usage.completion_tokens || '?';
-      metaEl.textContent = `${data.backend} · ${data.model} · ${elapsed}초 · 입력 ${tokens}토큰 / 출력 ${outTokens}토큰` + (data.used_user_key ? ' · 본인 키' : '');
+      return;
     }
+
+    // 스트리밍 응답 처리
+    const contentType = r.headers.get('Content-Type') || '';
+    if (!contentType.includes('text/event-stream')) {
+      // Worker가 옛 버전이면 JSON으로 폴백
+      const data = await r.json();
+      resultEl.innerHTML = renderMarkdown(data.result || '');
+      const elapsed = ((Date.now() - t0) / 1000).toFixed(1);
+      const usage = data.usage || {};
+      metaEl.textContent = `${data.backend} · ${data.model} · ${elapsed}초 · 입력 ${usage.input_tokens || usage.prompt_tokens || '?'}토큰 / 출력 ${usage.output_tokens || usage.completion_tokens || '?'}토큰`;
+      return;
+    }
+
+    const reader = r.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = '';
+    let accumulated = '';
+    let meta = { backend: state.analyzeBackend, model: state.analyzeModel, used_user_key: false };
+    let usage = {};
+    let streamErr = null;
+
+    resultEl.innerHTML = '<div class="analyze-stream"></div>';
+    const streamEl = resultEl.querySelector('.analyze-stream');
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+      const events = buffer.split('\n\n');
+      buffer = events.pop() || '';
+
+      for (const evt of events) {
+        const dataLine = evt.split('\n').find(l => l.startsWith('data:'));
+        if (!dataLine) continue;
+        const payload = dataLine.slice(5).trim();
+        if (!payload) continue;
+        try {
+          const parsed = JSON.parse(payload);
+          if (parsed.type === 'meta') {
+            meta = { ...meta, ...parsed };
+            if (firstByteTime === null) firstByteTime = Date.now();
+            metaEl.textContent = `${meta.backend} · ${meta.model} · 응답 수신 시작…`;
+          } else if (parsed.type === 'delta' && parsed.text) {
+            if (firstByteTime === null) {
+              firstByteTime = Date.now();
+              const ttfb = ((firstByteTime - t0) / 1000).toFixed(1);
+              metaEl.textContent = `${meta.backend} · ${meta.model} · TTFB ${ttfb}초 · 생성 중…`;
+            }
+            accumulated += parsed.text;
+            streamEl.innerHTML = renderMarkdown(accumulated) + '<span class="stream-cursor">▌</span>';
+            // 자동 스크롤
+            resultEl.scrollTop = resultEl.scrollHeight;
+          } else if (parsed.type === 'done') {
+            usage = parsed.usage || {};
+            meta.model = parsed.model || meta.model;
+          } else if (parsed.type === 'error') {
+            streamErr = parsed.error;
+          }
+        } catch (e) { /* incomplete chunk */ }
+      }
+    }
+
+    // 완료
+    streamEl.innerHTML = renderMarkdown(accumulated);
+    if (streamErr) {
+      streamEl.innerHTML += `<div class="analyze-error"><strong>스트림 오류</strong><p>${escapeHtml(streamErr)}</p></div>`;
+    }
+    const elapsed = ((Date.now() - t0) / 1000).toFixed(1);
+    const ttfb = firstByteTime ? ((firstByteTime - t0) / 1000).toFixed(1) : '?';
+    const inT = usage.input_tokens || usage.prompt_tokens || '?';
+    const outT = usage.output_tokens || usage.completion_tokens || '?';
+    metaEl.textContent = `${meta.backend} · ${meta.model} · 첫 응답 ${ttfb}초 / 전체 ${elapsed}초 · 입력 ${inT}토큰 / 출력 ${outT}토큰` + (meta.used_user_key ? ' · 본인 키' : '');
   } catch (e) {
     resultEl.innerHTML = `<div class="analyze-error"><strong>네트워크 오류</strong><p>${escapeHtml(e.message || String(e))}</p><p>Worker URL이 살아있는지, CORS가 허용되는지 확인하세요.</p></div>`;
   } finally {
