@@ -13,17 +13,19 @@ SOURCES = [
     # 글로벌 AI 산업 (영문)
     # ====================================================================
     ("OpenAI Blog", "https://openai.com/blog/rss.xml", "rss", ["ai-industry", "product"], "en"),
-    ("Anthropic News", "https://www.anthropic.com/news/rss.xml", "rss", ["ai-industry", "product"], "en"),
+    # v2.7: Anthropic·Meta·Mistral·Stability·Perplexity 공식 RSS feed가 403/404 또는 비표준 XML 응답 →
+    # Google News site: 쿼리로 우회 (회사 자체 발행 글이 Google에 인덱싱되면 잡힘)
+    ("Anthropic News", "https://news.google.com/rss/search?q=site%3Aanthropic.com%2Fnews&hl=en&gl=US&ceid=US:en", "google_news", ["ai-industry", "product"], "en"),
     ("Google AI Blog", "https://blog.google/technology/ai/rss/", "rss", ["ai-industry", "product"], "en"),
     ("Google DeepMind", "https://deepmind.google/blog/rss.xml", "rss", ["ai-industry"], "en"),
     ("Google Research", "https://research.google/blog/rss/", "rss", ["ai-industry"], "en"),
-    ("Meta AI Blog", "https://ai.meta.com/blog/rss/", "rss", ["ai-industry", "product"], "en"),
+    ("Meta AI Blog", "https://news.google.com/rss/search?q=site%3Aai.meta.com%2Fblog&hl=en&gl=US&ceid=US:en", "google_news", ["ai-industry", "product"], "en"),
     ("Microsoft AI Blog", "https://blogs.microsoft.com/ai/feed/", "rss", ["ai-industry", "product"], "en"),
     ("NVIDIA Blog", "https://blogs.nvidia.com/feed/", "rss", ["ai-industry"], "en"),
     ("Hugging Face Blog", "https://huggingface.co/blog/feed.xml", "rss", ["ai-industry"], "en"),
-    ("Mistral AI Blog", "https://mistral.ai/news/feed.xml", "rss", ["ai-industry", "product"], "en"),
-    ("Stability AI", "https://stability.ai/news?format=rss", "rss", ["ai-industry", "product"], "en"),
-    ("Perplexity Blog", "https://www.perplexity.ai/blog/rss.xml", "rss", ["ai-industry", "product"], "en"),
+    ("Mistral AI Blog", "https://news.google.com/rss/search?q=site%3Amistral.ai+(news+OR+launches+OR+announces+OR+release)&hl=en&gl=US&ceid=US:en", "google_news", ["ai-industry", "product"], "en"),
+    ("Stability AI", "https://news.google.com/rss/search?q=%22Stability+AI%22+(news+OR+release+OR+announces+OR+launches)&hl=en&gl=US&ceid=US:en", "google_news", ["ai-industry", "product"], "en"),
+    ("Perplexity Blog", "https://news.google.com/rss/search?q=site%3Aperplexity.ai+OR+%22Perplexity%22+(launches+OR+announces+OR+blog)&hl=en&gl=US&ceid=US:en", "google_news", ["ai-industry", "product"], "en"),
 
     # ====================================================================
     # AI 뉴스 매체 (영문)
@@ -58,8 +60,9 @@ SOURCES = [
     ("Legal Futures", "https://www.legalfutures.co.uk/feed", "rss", ["legaltech"], "en"),
     ("Global Legal Post", "https://www.globallegalpost.com/feed/", "rss", ["legaltech"], "en"),
     ("Stanford CodeX", "https://law.stanford.edu/codex-the-stanford-center-for-legal-informatics/feed/", "rss", ["legaltech"], "en"),
-    ("Harvey Blog", "https://www.harvey.ai/blog/rss.xml", "rss", ["legaltech", "product"], "en"),
-    ("Legora Blog", "https://legora.com/blog/rss.xml", "rss", ["legaltech", "product"], "en"),
+    # v2.7: Harvey·Legora 공식 블로그 RSS 미제공 → Google News site:로 우회
+    ("Harvey Blog", "https://news.google.com/rss/search?q=site%3Aharvey.ai+OR+%22Harvey+AI%22+(blog+OR+announces+OR+launches+OR+raises)&hl=en&gl=US&ceid=US:en", "google_news", ["legaltech", "product"], "en"),
+    ("Legora Blog", "https://news.google.com/rss/search?q=site%3Alegora.com+OR+%22Legora%22+(legal+OR+blog+OR+announces+OR+launches)&hl=en&gl=US&ceid=US:en", "google_news", ["legaltech", "product"], "en"),
 
     # ====================================================================
     # AI 논문 (arXiv) — papers 카테고리는 여기에서만 부여
@@ -111,6 +114,21 @@ SOURCES = [
     ("Google News: AI Agents (EN)", "https://news.google.com/rss/search?q=%22AI+agent%22+OR+%22autonomous+agent%22+OR+%22multi-agent%22+launches+OR+benchmark&hl=en&gl=US&ceid=US:en", "google_news", ["ai-industry"], "en"),
     ("Google News: AI Funding (EN)", "https://news.google.com/rss/search?q=%22AI+startup%22+raises+OR+%22Series+B%22+OR+%22valuation%22+legal+OR+enterprise&hl=en&gl=US&ceid=US:en", "google_news", ["funding"], "en"),
     ("Google News: AI Regulation (EN)", "https://news.google.com/rss/search?q=%22AI+regulation%22+OR+%22AI+governance%22+OR+%22EU+AI+Act%22&hl=en&gl=US&ceid=US:en", "google_news", ["policy"], "en"),
+
+    # ====================================================================
+    # v2.7 추가 — 실무자 관점 확장 키워드
+    # 단순 산업 동향이 아닌 'AI 도입·시장 구도·실무 적용' 시각 강화
+    # ====================================================================
+    # 한국 — AI 도입·활용·전환
+    ("Google News: AI 도입·전환 (KR)", "https://news.google.com/rss/search?q=%22AI+%EB%8F%84%EC%9E%85%22+OR+%22AI+%ED%99%9C%EC%9A%A9+%EC%82%AC%EB%A1%80%22+OR+%22AI+%EC%A0%84%ED%99%98%22+OR+%22%EC%82%AC%EB%82%B4+AI%22&hl=ko&gl=KR&ceid=KR:ko", "google_news", ["ai-industry", "domestic"], "ko"),
+    ("Google News: 엔터프라이즈 AI (KR)", "https://news.google.com/rss/search?q=%22%EC%97%94%ED%84%B0%ED%94%84%EB%9D%BC%EC%9D%B4%EC%A6%88+AI%22+OR+%22%EA%B8%B0%EC%97%85%EC%9A%A9+AI%22+OR+%22%EC%97%85%EB%AC%B4+%EC%9E%90%EB%8F%99%ED%99%94%22&hl=ko&gl=KR&ceid=KR:ko", "google_news", ["ai-industry", "domestic"], "ko"),
+    ("Google News: 로펌·법무법인 AI (KR)", "https://news.google.com/rss/search?q=(%22%EB%A1%9C%ED%8E%8C+AI%22+OR+%22%EB%B2%95%EB%AC%B4%EB%B2%95%EC%9D%B8+AI%22+OR+%22%EB%B3%80%ED%98%B8%EC%82%AC+AI%22+OR+%22%EA%B3%84%EC%95%BD%EC%84%9C+AI%22)&hl=ko&gl=KR&ceid=KR:ko", "google_news", ["legaltech", "domestic"], "ko"),
+    ("Google News: AI 컴플라이언스 (KR)", "https://news.google.com/rss/search?q=%22AI+%EC%BB%B4%ED%94%8C%EB%9D%BC%EC%9D%B4%EC%96%B8%EC%8A%A4%22+OR+%22AI+%EA%B0%80%EC%9D%B4%EB%93%9C%EB%9D%BC%EC%9D%B8%22+OR+%22AI+%EC%9C%A4%EB%A6%AC%22+OR+%22%EA%B0%9C%EC%9D%B8%EC%A0%95%EB%B3%B4+AI%22&hl=ko&gl=KR&ceid=KR:ko", "google_news", ["policy", "domestic"], "ko"),
+
+    # 영문 — 계약서/실무 use case + 오픈소스 + 시장 구도
+    ("Google News: Contract & Legal AI Use Cases (EN)", "https://news.google.com/rss/search?q=%22contract+AI%22+OR+%22contract+review+AI%22+OR+%22due+diligence+AI%22+OR+%22legal+research+AI%22&hl=en&gl=US&ceid=US:en", "google_news", ["legaltech"], "en"),
+    ("Google News: Open-source LLM (EN)", "https://news.google.com/rss/search?q=%22open-source+LLM%22+OR+%22open+source+language+model%22+OR+%22Llama%22+OR+%22DeepSeek%22+OR+%22vLLM%22&hl=en&gl=US&ceid=US:en", "google_news", ["ai-industry"], "en"),
+    ("Google News: Build vs Buy AI (EN)", "https://news.google.com/rss/search?q=%22build+vs+buy+AI%22+OR+%22in-house+AI%22+OR+%22vendor+lock-in%22+OR+%22AI+ROI%22+OR+%22AI+cost%22&hl=en&gl=US&ceid=US:en", "google_news", ["ai-industry"], "en"),
 ]
 
 
