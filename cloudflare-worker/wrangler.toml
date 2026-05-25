@@ -2,10 +2,12 @@ name = "daibfy-ai-proxy"
 main = "worker.js"
 compatibility_date = "2024-09-01"
 
-# Smart Placement — Cloudflare가 worker를 origin(OpenAI/Anthropic) 가까운 region에서 실행
-# OpenAI가 HKG datacenter를 차단하는 문제 해결
-[placement]
-mode = "smart"
+# v2.7.1: Smart Placement 비활성화
+# Smart Placement가 HKG 같은 차단 데이터센터로 worker를 옮겨 Anthropic 403 발생.
+# 기본값(사용자 edge에서 실행)으로 두면 KR 사용자는 ICN colo에서 실행됨 → Anthropic 허용.
+# OpenAI HKG 차단은 worker.js의 retry 로직으로 보완.
+# [placement]
+# mode = "smart"
 
 # KV namespace for rate limiting (선택)
 # wrangler kv namespace create RATE_LIMIT 로 생성 후 ID 붙여넣기

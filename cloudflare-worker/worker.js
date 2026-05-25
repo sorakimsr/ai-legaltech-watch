@@ -50,7 +50,13 @@ export default {
     const url = new URL(request.url);
 
     if (url.pathname === "/health") {
-      return jsonResponse({ status: "ok" }, request, env);
+      // v2.7.1: 콜로 정보 노출 → 지역 차단 진단
+      return jsonResponse({
+        status: "ok",
+        colo: (request.cf && request.cf.colo) || "?",
+        country: (request.cf && request.cf.country) || "?",
+        timezone: (request.cf && request.cf.timezone) || "?",
+      }, request, env);
     }
 
     if (url.pathname !== "/analyze") {
@@ -136,7 +142,19 @@ export default {
         used_user_key: useUserKey,
       }, request, env);
     } catch (e) {
-      return jsonResponse({ error: e.message || String(e) }, request, env, 502);
+      // v2.7.1: 진단용 콜로(colo) 정보를 에러 응답에 첨부 → 지역 차단 진단 용이
+      const colo = (request.cf && request.cf.colo) || "?";
+      const country = (request.cf && request.cf.country) || "?";
+      const rawMsg = e.message || String(e);
+      let errorMsg = rawMsg;
+      // Anthropic 지역 차단(403 forbidden) → 사용자에게 친절한 안내
+      if (/403/.test(rawMsg) && /forbidden|not allowed/i.test(rawMsg)) {
+        errorMsg = `${rawMsg}\n\n[진단] Worker colo=${colo}, country=${country}.\n해당 데이터센터에서 ${backend} API가 차단되었습니다. wrangler.toml의 Smart Placement를 비활성화 후 재배포(wrangler deploy)하면 사용자 edge(ICN)에서 실행되어 해결됩니다.`;
+      }
+      return jsonResponse({
+        error: errorMsg,
+        debug: { colo, country, backend, model },
+      }, request, env, 502);
     }
   },
 };
