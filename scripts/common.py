@@ -217,23 +217,6 @@ def is_relevant(title: str, summary: str, source_type: str = "rss") -> bool:
     return False
 
 
-def is_relevant(title: str, summary: str, source_type: str = "rss") -> bool:
-    """관련성 체크 — Naver/Google News 결과만 사후 필터링.
-    RSS·arXiv는 이미 큐레이션된 소스라 통과."""
-    if source_type not in ("naver", "google_news"):
-        return True
-    text = (title + " " + summary).lower()
-    # 블랙리스트 매칭이면 즉시 제외
-    for kw in BLACKLIST_KEYWORDS:
-        if kw in text:
-            return False
-    # 핵심 키워드 매칭 필수
-    for kw in RELEVANCE_KEYWORDS:
-        if kw in text:
-            return True
-    return False
-
-
 HIGH_VALUE_KEYWORDS = {
     "harvey": 15, "legora": 15, "mike oss": 15, "mike legal": 12,
     "openai": 10, "anthropic": 10, "gpt-5": 12, "claude opus": 10, "claude sonnet": 8,
