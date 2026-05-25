@@ -213,5 +213,42 @@ def call_llm_json(prompt: str, max_tokens: int = 800, temperature: float = 0.2):
         except json.JSONDecodeError:
             continue
 
+    # 4) max_tokens 한도로 잘린 JSON array 복구 시도
+    #    (`[ {...}, {...}, {... 까지만 와서 닫힘 `]` 가 없는 경우)
+    if first_arr != -1:
+        depth = 0
+        in_string = False
+        escape = False
+        last_complete_obj_end = -1
+        for i in range(first_arr, len(candidate)):
+            c = candidate[i]
+            if escape:
+                escape = False
+                continue
+            if c == "\\":
+                escape = True
+                continue
+            if c == '"':
+                in_string = not in_string
+                continue
+            if in_string:
+                continue
+            if c == "{":
+                depth += 1
+            elif c == "}":
+                depth -= 1
+                # array 안에서 object 하나가 완전히 닫힘
+                if depth == 0:
+                    last_complete_obj_end = i
+        if last_complete_obj_end > first_arr:
+            # `[ ... <마지막 완전한 object>` 까지만 잘라서 `]` 닫음
+            salvaged = candidate[first_arr:last_complete_obj_end + 1].rstrip().rstrip(",") + "]"
+            try:
+                result = json.loads(salvaged)
+                print(f"  [llm-json] truncated array salvaged ({len(result)} items)", file=sys.stderr)
+                return result
+            except json.JSONDecodeError:
+                pass
+
     print(f"  [llm-json] parse failed. raw[:300]: {response[:300]}", file=sys.stderr)
     return {}

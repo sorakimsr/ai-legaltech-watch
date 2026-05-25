@@ -153,8 +153,9 @@ def generate_cards(items: list, period: str, ref_date: date, all_items: list) ->
         period_focus=PERIOD_FOCUS.get(period, ""),
     )
 
-    # body/action 길이 확대로 max_tokens 상향 (7카드 × ~800자 ≈ 5500자)
-    result = call_llm_json(prompt, max_tokens=5000, temperature=0.4)
+    # v2.7 추가: weekly/monthly는 50~80 items 컨텍스트라 응답도 김 → 8000으로 더 상향
+    # (5000에서 잘려 ```json까지만 와서 JSON 파싱 실패하는 케이스 방지)
+    result = call_llm_json(prompt, max_tokens=8000, temperature=0.4)
     if not isinstance(result, list):
         print(f"  [warn] {period}: LLM did not return a list", flush=True)
         return []
