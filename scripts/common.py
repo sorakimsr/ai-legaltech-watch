@@ -30,15 +30,20 @@ def kw_regex(kw):
 
 CATEGORY_KEYWORDS = {
     "legaltech": [
-        # 회사명 (확실한 시그널)
-        "harvey", "legora", "mike oss", "hebbia", "ironclad", "spellbook",
-        "robin ai", "evenup", "deepjudge", "lexis nexis", "thomson reuters",
-        "bhsn", "lboxai", "엘박스", "인텔리콘", "로앤컴퍼니", "로앤굿",
-        # 도메인 키워드
-        "legal ai", "legal tech", "legaltech", "리걸테크", "리걸 ai", "법률 ai",
-        "law firm", "law firms", "big law", "in-house counsel",
-        "contract ai", "contract intelligence", "clm", "e-discovery",
-        "변호사", "로펌", "계약 검토", "법무",
+        # 회사명 (확실한 시그널 — 단독 매칭 OK)
+        "harvey", "legora", "mike oss", "mike legal",
+        "hebbia", "ironclad", "spellbook", "robin ai",
+        "evenup", "deepjudge", "lexis nexis", "thomson reuters",
+        "bhsn", "lboxai", "엘박스", "인텔리콘",
+        "로앤컴퍼니", "로앤굿",
+        # 도메인 키워드 (구체적·명확)
+        "legal ai", "legal tech", "legaltech", "리걸테크", "리걸 테크",
+        "리걸 ai", "법률 ai", "법무 ai", "변호사 ai",
+        "law firm ai", "biglaw ai", "ai for lawyers",
+        "contract ai", "contract intelligence", "clm",
+        "e-discovery", "ediscovery",
+        "계약 검토 ai", "법률 자동화",
+        # ※ "변호사", "법률", "법무" 같은 단독 단어는 제외 (정치·일반 뉴스 잡음)
     ],
     "papers": [
         # papers는 출처 기반으로만 부여하지만, 명시적 키워드는 추가 보강
@@ -106,45 +111,110 @@ COMPILED_KEYWORDS = {
 
 
 # ============================================================================
-# 관련성 필터 (Naver/Google News 결과 사후 검증)
+# 관련성 필터 (Naver/Google News 결과 사후 검증) — v2.5 엄격화
 # ============================================================================
-# AI·리걸테크와 관련 있다고 볼 수 있는 핵심 키워드.
-# Naver Search API 같은 키워드 검색은 무관한 뉴스도 잡으므로 사후 필터링.
-RELEVANCE_KEYWORDS = [
-    # AI 일반
-    "ai ", " ai", "인공지능", "생성형 ai", "생성 ai",
-    "llm", "agent", "agentic", "에이전트", "ai 에이전트",
-    "gpt", "chatgpt", "claude", "gemini", "llama", "mistral",
-    "openai", "anthropic", "deepmind", "meta ai", "nvidia",
-    "perplexity", "hugging face", "stability",
-    "machine learning", "deep learning", "neural", "model",
-    "transformer", "diffusion", "rag", "retrieval",
-    # 리걸테크
-    "법률", "리걸", "법무", "변호사", "로펌", "계약",
-    "legal", "lawyer", "law firm", "biglaw", "litigation",
-    "harvey", "legora", "mike oss", "hebbia", "ironclad", "spellbook",
-    "bhsn", "로앤컴퍼니", "로앤굿", "엘박스", "인텔리콘",
-    # 투자·산업
-    "스타트업", "유니콘", "투자 유치",
-    "series a", "series b", "valuation", "startup",
-    # 규제·정책 (AI 맥락)
-    "ai 규제", "ai 거버넌스", "ai 법", "ai 윤리",
-    "ai regulation", "ai governance", "ai ethics",
+# 두 그룹으로 나눔:
+# - STRONG_KEYWORDS: 단독으로 통과 가능 (회사명·명확한 도메인 용어)
+# - AI_SIGNALS + LEGAL_SIGNALS: 둘 다 있어야 통과 (조합 시그널)
+
+# 단독 통과 키워드 — 매우 명확한 AI/리걸테크 시그널
+STRONG_KEYWORDS = [
+    # AI 회사·제품 (단독으로 확실)
+    "openai", "anthropic", "claude", "chatgpt", "gpt-4", "gpt-5",
+    "deepmind", "gemini", "llama", "mistral",
+    "perplexity", "hugging face", "stability ai",
+    "scale ai", "databricks ai", "cohere",
+    "huggingface",
+    # AI 도메인 명확
+    "생성형 ai", "생성ai", "인공지능", "ai 에이전트", "agentic ai",
+    "multi-agent", "autonomous agent",
+    "llm",
+    "transformer model", "diffusion model",
+    # 리걸테크 회사·제품 (단독으로 확실)
+    "harvey", "legora", "mike oss", "mike legal",
+    "hebbia", "ironclad", "spellbook", "robin ai",
+    "evenup", "deepjudge", "lexis nexis", "thomson reuters",
+    "bhsn", "lboxai", "엘박스", "인텔리콘", "로앤컴퍼니", "로앤굿",
+    # 리걸테크 도메인 명확
+    "리걸테크", "리걸 테크", "legaltech", "legal tech",
+    "legal ai", "법률 ai", "법무 ai", "변호사 ai",
+    "law firm ai", "biglaw ai", "ai for lawyers",
+    "contract ai", "contract intelligence", "clm software",
+    # 규제·정책 (AI 맥락 명확)
+    "eu ai act", "ai 기본법", "ai기본법",
+    "ai 규제", "ai규제", "ai governance", "ai 거버넌스",
+    "ai standards", "ai 표준",
 ]
 
-# 정치·선거·일반 시사 등 무관한 뉴스 차단 (Naver/Google News 사후 필터)
+# AI 시그널 (도메인 시그널과 조합되어야 통과)
+AI_SIGNALS = [
+    "ai", "인공지능", "ml", "machine learning",
+    "agent", "에이전트", "model",
+    "gpt", "claude", "gemini", "llm",
+]
+
+# 도메인 시그널 (AI 시그널과 조합되어야 통과)
+LEGAL_SIGNALS = [
+    "법률", "리걸", "법무", "변호사", "로펌", "법조",
+    "계약", "소송", "판례", "법원", "특허",
+    "legal", "lawyer", "law firm", "litigation", "patent",
+]
+
+# 정치·선거·일반 시사 등 무관한 뉴스 차단 (즉시 제외)
 BLACKLIST_KEYWORDS = [
     # 선거·정치
-    "지방선거", "대선", "총선", "보궐선거", "재선거",
-    "후보 공약", "공약 발표", "지지율",
+    "선거", "후보", "공약", "지지율", "당선",
     "여당", "야당", "민주당", "국민의힘", "정의당", "더민주",
     "지방의회", "도의회", "시의회",
-    # 일반 시사
-    "사망", "사고", "체포", "기소", "구속",
-    "교통사고", "화재",
+    "지방선거", "교육감", "도지사", "시장 후보",
+    "정근식", "맹수석", "진동규", "오석진", "성광진",
+    # 일반 시사·사건
+    "사망", "체포", "기소", "구속", "성폭행", "살해", "방화",
+    "교통사고", "화재", "흉기",
+    "급식 중단", "급식대란",
     # 연예·스포츠
-    "연예인", "아이돌", "k-pop", "kpop",
+    "연예인", "아이돌", "k-pop", "kpop", "야구", "축구",
+    # 종교
+    "교황",  # 일반적으로 AI 관련 아님 (예외 케이스는 본문에서 다른 강력 신호로 통과)
 ]
+
+
+def is_relevant(title: str, summary: str, source_type: str = "rss") -> bool:
+    """관련성 체크 — Naver/Google News 결과만 사후 필터링.
+    RSS·arXiv는 이미 큐레이션된 소스라 통과.
+
+    규칙 (v2.5):
+    1. 블랙리스트 키워드가 제목 또는 요약에 있으면 즉시 제외
+    2. STRONG_KEYWORDS 중 하나라도 있으면 통과
+    3. AI_SIGNALS + LEGAL_SIGNALS 둘 다 있으면 통과 (법률 AI 관련)
+    4. AI_SIGNALS만 있고 도메인 시그널 없으면 일반 AI 뉴스로 통과 (이는 별도 조건)
+    5. 그 외 제외
+    """
+    if source_type not in ("naver", "google_news"):
+        return True
+
+    text = (title + " " + summary).lower()
+    title_lower = title.lower()
+
+    # 1. 블랙리스트 — 제목에 있으면 즉시 제외 (가장 엄격)
+    for kw in BLACKLIST_KEYWORDS:
+        if kw in title_lower:
+            return False
+
+    # 2. Strong keyword 단독 통과
+    for kw in STRONG_KEYWORDS:
+        if kw in text:
+            return True
+
+    # 3. AI 시그널 + 도메인 시그널 조합 (둘 다 있어야)
+    has_ai = any(kw in text for kw in AI_SIGNALS)
+    has_legal = any(kw in text for kw in LEGAL_SIGNALS)
+    if has_ai and has_legal:
+        return True
+
+    # 4. 도메인 시그널 단독은 제외 (예: 단순 "변호사 회견" 같은 정치 뉴스)
+    # 5. AI 시그널 단독도 STRONG에 없으면 제외 (모호한 일반 표현 차단)
+    return False
 
 
 def is_relevant(title: str, summary: str, source_type: str = "rss") -> bool:
