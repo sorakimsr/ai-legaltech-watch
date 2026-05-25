@@ -89,13 +89,15 @@ def fetch_papers(queries=None, per_query_limit: int = 12, days_back: int = 30):
 
     fields = "title,abstract,authors,year,publicationDate,url,externalIds,venue,citationCount"
 
-    # v2.7: 시작 전 5초 wait — 같은 IP의 직전 빌드 잔여 카운터 정리
-    print("  [semantic-scholar] warm-up wait 5s for rate-limit window", flush=True)
-    time.sleep(5)
+    # v2.7: 시작 전 30초 wait — GitHub Actions runner IP가 다른 사용자와 공유되어
+    # 직전 빌드의 카운터가 누적될 수 있음. 5분 윈도우 일부를 비우기 위해 더 길게.
+    print("  [semantic-scholar] warm-up wait 30s for rate-limit window", flush=True)
+    time.sleep(30)
 
     for q in queries:
         url = f"{API_BASE}?query={quote(q)}&limit={per_query_limit}&year={cutoff_year}-&fields={fields}"
-        print(f"  [semantic-scholar] {q!r}", flush=True)
+        # v2.7: 로그에 따옴표 없이 평이하게 출력 (실제 API에는 따옴표 안 들어감)
+        print(f"  [semantic-scholar] {q}", flush=True)
         try:
             data = _api_request(url)
         except Exception as e:
@@ -187,8 +189,8 @@ def fetch_papers(queries=None, per_query_limit: int = 12, days_back: int = 30):
                 "score": score,
             })
 
-        # Rate limit 친화적으로 잠시 대기 (v2.7: 1.2 → 3s)
-        time.sleep(3)
+        # Rate limit 친화적으로 잠시 대기 (v2.7: 1.2 → 8s)
+        time.sleep(8)
 
     print(f"  [semantic-scholar] total: {len(items)} papers", flush=True)
     return items

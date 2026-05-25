@@ -102,8 +102,8 @@ SOURCES = [
     ("디지털타임스 IT", "https://news.google.com/rss/search?q=site%3Adt.co.kr+(AI+OR+%EC%9D%B8%EA%B3%B5%EC%A7%80%EB%8A%A5+OR+%EA%B8%B0%EC%88%A0)&hl=ko&gl=KR&ceid=KR:ko", "google_news", ["ai-industry", "domestic"], "ko"),
     ("전자신문 AI", "https://rss.etnews.com/Section902.xml", "korean", ["ai-industry", "domestic"], "ko"),
     ("바이라인네트워크", "https://byline.network/feed/", "korean", ["ai-industry", "domestic"], "ko"),
-    ("디일렉", "https://www.thelec.kr/rss/allArticle.xml", "korean", ["ai-industry", "domestic"], "ko"),
-    ("플래텀 (스타트업)", "https://platum.kr/feed", "korean", ["ai-industry", "domestic", "funding"], "ko"),
+    # v2.7: 디일렉(반도체·디스플레이 중심), 플래텀(일반 스타트업) — AI 관련성 약함, 제거
+    # 스타트업 투자 동향은 Naver "AI 스타트업 투자" 쿼리에서 충분히 잡힘
     ("벤처스퀘어", "https://www.venturesquare.net/feed", "korean", ["domestic", "funding"], "ko"),
     # 더밀크 RSS 실패 → Google News 우회
     ("더밀크", "https://news.google.com/rss/search?q=site%3Athemiilk.com+OR+%22%EB%8D%94%EB%B0%80%ED%81%AC%22&hl=ko&gl=KR&ceid=KR:ko", "google_news", ["ai-industry", "domestic"], "ko"),
@@ -165,17 +165,26 @@ SOURCES = [
     # v2.7: 한국 매체의 영어 기사도 잡히도록 영문 키워드를 OR로 같이 포함
     ("Google News: 리걸테크 (KR)", _gnews('리걸테크 OR legaltech OR "legal tech"'), "google_news", ["legaltech", "domestic"], "ko"),
     ("Google News: 법률 AI (KR)", _gnews('"법률 AI" OR "법무 AI" OR "법률 인공지능" OR "legal AI"'), "google_news", ["legaltech", "domestic"], "ko"),
+    # v2.7: 회사·제품 단독 쿼리로 분리 (OR 묶음은 Google News 결과 가시성↓)
     ("Google News: BHSN (KR)", _gnews("BHSN"), "google_news", ["legaltech", "domestic"], "ko"),
-    ("Google News: 로앤컴퍼니 로앤굿 (KR)", _gnews('"로앤컴퍼니" OR "로앤굿" OR "LawCompany"'), "google_news", ["legaltech", "domestic"], "ko"),
-    ("Google News: 엘박스 케이스노트 (KR)", _gnews('"엘박스" OR "케이스노트"'), "google_news", ["legaltech", "domestic"], "ko"),
+    ("Google News: 로앤컴퍼니 (KR)", _gnews('"로앤컴퍼니" OR "LawCompany"'), "google_news", ["legaltech", "domestic"], "ko"),
+    ("Google News: 로앤굿 (KR)", _gnews('"로앤굿"'), "google_news", ["legaltech", "domestic"], "ko"),
+    ("Google News: 엘박스 (KR)", _gnews('"엘박스" OR "Lbox" OR "lbox.kr"'), "google_news", ["legaltech", "domestic"], "ko"),
+    ("Google News: 케이스노트 (KR)", _gnews('"케이스노트" OR "casenote"'), "google_news", ["legaltech", "domestic"], "ko"),
 
-    # === 한국어(+영문 OR) — AI 회사·산업·도입·실무 ===
-    ("Google News: OpenAI ChatGPT (KR)", _gnews('"OpenAI" OR "오픈AI" OR "ChatGPT" OR "챗GPT"'), "google_news", ["ai-industry", "domestic"], "ko"),
-    ("Google News: Anthropic Claude (KR)", _gnews('"Anthropic" OR "앤트로픽" OR "Claude" OR "클로드"'), "google_news", ["ai-industry", "domestic"], "ko"),
-    ("Google News: Gemini Google AI (KR)", _gnews('"Gemini" OR "제미나이" OR "Google AI" OR "DeepMind" OR "딥마인드"'), "google_news", ["ai-industry", "domestic"], "ko"),
-    ("Google News: xAI Grok (KR)", _gnews('"xAI" OR "Grok" OR "그록"'), "google_news", ["ai-industry", "domestic"], "ko"),
-    ("Google News: Meta AI Llama (KR)", _gnews('"Meta AI" OR "Llama" OR "라마"'), "google_news", ["ai-industry", "domestic"], "ko"),
-    ("Google News: Mistral Perplexity (KR)", _gnews('"Mistral" OR "미스트랄" OR "Perplexity" OR "퍼플렉시티"'), "google_news", ["ai-industry", "domestic"], "ko"),
+    # === 한국어(+영문 OR) — AI 회사·제품 (회사명 단독 쿼리) ===
+    ("Google News: OpenAI (KR)", _gnews('"OpenAI" OR "오픈AI"'), "google_news", ["ai-industry", "domestic"], "ko"),
+    ("Google News: ChatGPT (KR)", _gnews('"ChatGPT" OR "챗GPT"'), "google_news", ["ai-industry", "domestic"], "ko"),
+    ("Google News: Anthropic (KR)", _gnews('"Anthropic" OR "앤트로픽"'), "google_news", ["ai-industry", "domestic"], "ko"),
+    ("Google News: Claude (KR)", _gnews('"Claude" OR "클로드"'), "google_news", ["ai-industry", "domestic"], "ko"),
+    ("Google News: Gemini (KR)", _gnews('"Gemini" OR "제미나이"'), "google_news", ["ai-industry", "domestic"], "ko"),
+    ("Google News: Google DeepMind (KR)", _gnews('"Google AI" OR "DeepMind" OR "딥마인드"'), "google_news", ["ai-industry", "domestic"], "ko"),
+    ("Google News: xAI (KR)", _gnews('"xAI"'), "google_news", ["ai-industry", "domestic"], "ko"),
+    ("Google News: Grok (KR)", _gnews('"Grok" OR "그록"'), "google_news", ["ai-industry", "domestic"], "ko"),
+    ("Google News: Meta AI (KR)", _gnews('"Meta AI" OR "메타 AI"'), "google_news", ["ai-industry", "domestic"], "ko"),
+    ("Google News: Llama (KR)", _gnews('"Llama" OR "라마"'), "google_news", ["ai-industry", "domestic"], "ko"),
+    ("Google News: Mistral (KR)", _gnews('"Mistral" OR "미스트랄"'), "google_news", ["ai-industry", "domestic"], "ko"),
+    ("Google News: Perplexity (KR)", _gnews('"Perplexity" OR "퍼플렉시티"'), "google_news", ["ai-industry", "domestic"], "ko"),
     ("Google News: 생성형 AI 에이전트 (KR)", _gnews('"생성형 AI" OR "AI 에이전트" OR "generative AI" OR "AI agent"'), "google_news", ["ai-industry", "domestic"], "ko"),
     ("Google News: AI 도입 전환 AX (KR)", _gnews('"AI 도입" OR "AI 전환" OR AX OR "사내 AI" OR "AI adoption" OR "AI transformation"'), "google_news", ["ai-industry", "domestic"], "ko"),
     ("Google News: 엔터프라이즈 AI (KR)", _gnews('"엔터프라이즈 AI" OR "기업용 AI" OR "enterprise AI"'), "google_news", ["ai-industry", "domestic"], "ko"),

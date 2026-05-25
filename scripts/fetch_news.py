@@ -277,6 +277,7 @@ def main():
 
     for src in sources:
         name = src[0]
+        source_type = src[2]
         items, status = fetch_source(src)
         source_status.append({
             "name": name,
@@ -288,7 +289,11 @@ def main():
         new_in_src = sum(1 for it in items if it["url"] not in prev_map)
         new_items_by_source[name] = new_in_src
         all_new_items.extend(items)
-        time.sleep(0.3)
+        # v2.7: arXiv API는 권장 호출 간격 3초 (429 방지)
+        if source_type == "arxiv":
+            time.sleep(3)
+        else:
+            time.sleep(0.3)
 
     # 2-b. Naver Search API 추가 fetch (credentials 있을 때만)
     if has_naver():
