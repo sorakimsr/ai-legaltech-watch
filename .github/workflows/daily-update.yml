@@ -80,6 +80,7 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          ANTHROPIC_MODEL: "claude-sonnet-4-6"
           ENRICH_TOP_N: "40"
           ENRICH_MAX_PER_RUN: "40"
         run: python scripts/enrich_with_llm.py
@@ -95,6 +96,7 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          ANTHROPIC_MODEL: "claude-sonnet-4-6"
         run: python scripts/generate_strategy.py
         continue-on-error: true
 
@@ -119,6 +121,7 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          ANTHROPIC_MODEL: "claude-sonnet-4-6"
         run: python scripts/analyze_papers.py
         continue-on-error: true
 
