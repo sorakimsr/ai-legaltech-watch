@@ -244,6 +244,8 @@ function renderContent() {
   const papersView = document.getElementById('papers-view');
   const controlsRow = document.querySelector('.controls-row');
   const filterLabel = document.querySelector('.filter-label');
+  const statRow = document.getElementById('stat-row');
+  const categoryBar = document.getElementById('category-bar');
   const title = document.getElementById('topbar-title');
   const hint = document.getElementById('view-hint');
 
@@ -253,6 +255,9 @@ function renderContent() {
   if (papersView) papersView.classList.add('hidden');
   controlsRow.style.display = 'flex';
   if (filterLabel) filterLabel.style.display = 'block';
+  // 기본: stat-row와 category-bar 표시 (papers view에서만 숨김)
+  if (statRow) statRow.style.display = '';
+  if (categoryBar) categoryBar.style.display = '';
 
   const meta = VIEW_META[state.view] || VIEW_META.latest;
   title.textContent = meta.title;
@@ -278,8 +283,10 @@ function renderContent() {
     if (papersView) papersView.classList.remove('hidden');
     controlsRow.style.display = 'none';
     if (filterLabel) filterLabel.style.display = 'none';
+    // 논문 분석 페이지에서는 상단 수치 / 카테고리 필터 모두 숨김
+    if (statRow) statRow.style.display = 'none';
+    if (categoryBar) categoryBar.style.display = 'none';
     renderPapersView();
-    renderStats();
     return;
   }
 
@@ -711,8 +718,18 @@ function bindEvents() {
       document.querySelectorAll('.backend-tab').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       state.analyzeBackend = btn.dataset.backend;
+      populateModelSelect();   // 모델 드롭다운 백엔드 따라 갱신
     });
   });
+
+  // 모달 — 모델 선택
+  const modelSel = document.getElementById('model-select');
+  if (modelSel) {
+    modelSel.addEventListener('change', e => {
+      state.analyzeModel = e.target.value;
+      updateModelHint();
+    });
+  }
 
   // 모달 — 프롬프트 프리셋
   const presetSel = document.getElementById('prompt-preset');
