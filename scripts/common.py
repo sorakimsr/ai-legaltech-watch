@@ -162,12 +162,15 @@ LEGAL_SIGNALS = [
 
 # 정치·선거·일반 시사 등 무관한 뉴스 차단 (즉시 제외)
 BLACKLIST_KEYWORDS = [
-    # 선거·정치
+    # 선거·정치 — 일반 키워드
     "선거", "후보", "공약", "지지율", "당선",
     "여당", "야당", "민주당", "국민의힘", "정의당", "더민주",
     "지방의회", "도의회", "시의회",
-    "지방선거", "교육감", "도지사", "시장 후보",
+    "지방선거", "교육감", "도지사", "시장 후보", "도지사 후보", "경기지사",
+    "31개 시·군", "원팀", "원팀 선거", "원팀 승리", "광역단체장",
+    # 선거·정치 — 인물명
     "정근식", "맹수석", "진동규", "오석진", "성광진",
+    "추미애", "이재명", "한동훈", "윤석열", "오세훈", "조국", "김동연",
     # 일반 시사·사건
     "사망", "체포", "기소", "구속", "성폭행", "살해", "방화",
     "교통사고", "화재", "흉기",
@@ -175,10 +178,11 @@ BLACKLIST_KEYWORDS = [
     # 연예·스포츠
     "연예인", "아이돌", "k-pop", "kpop", "야구", "축구",
     # 종교
-    "교황",  # 일반적으로 AI 관련 아님 (예외 케이스는 본문에서 다른 강력 신호로 통과)
-    # 운세·라이프·건강 컬럼 (v2.7)
-    "운세", "mbti", "오늘의 운세", "이번주 운세", "별자리",
-    "하루건강", "장마철", "불면증", "다이어트", "혈압", "당뇨",
+    "교황",
+    # 운세·라이프·건강 컬럼 (v2.7 확장)
+    "운세", "mbti", "오늘의 운세", "이번주 운세", "별자리", "사주", "타로",
+    "하루건강", "장마철", "불면증", "다이어트", "혈압", "당뇨", "갱년기",
+    "열돔", "폭염", "한파", "장마", "꽃샘추위", "황사",  # 기상·날씨 lifestyle 컬럼
     # 부음·장례
     "부음", "별세", "모친상", "부친상", "장모상", "장인상",
     "장례식장", "발인", "빈소", "조문",
@@ -187,61 +191,76 @@ BLACKLIST_KEYWORDS = [
     "상표 출원", "상표 등록", "지정상품", "디퓨저", "핸드크림",
     # 일반 라이프스타일·취미
     "캠핑", "차박", "낚시", "등산", "맛집", "여행지 추천",
+    # AI 자동 생성 lifestyle 컬럼 시리즈명 (v2.7)
+    "ai 와 함께 쓴", "ai와 함께 쓴",
+    "ai 와 함께", "ai가 쓰는",
+    "ai 와 함께 한", "ai와 함께 한",
 ]
 
 
-# Naver hankookilbo 등에서 자동 생성한 AI 보일러플레이트 기사 차단
-# (제목·요약에 "AI"가 등장하지만 실제 콘텐츠는 AI 관련 없음)
+# Naver hankookilbo, 전자신문 등에서 자동 생성한 AI 보일러플레이트 기사 차단
 BOILERPLATE_PATTERNS = [
+    # 한국일보 패턴
     "이 기사는 생성형 ai 로 제작",
     "이 기사는 생성형 ai로 제작",
     "이 기사는 ai로 작성",
     "ai 활용 준칙을 준수합니다",
+    "ai 활용준칙을 준수",
     "본 기사는 ai가 작성",
     "ai가 자동으로 작성한",
+    # "도움을 받아" 패턴 (v2.7 추가 — 전자신문 등)
+    "ai 도움을 받아 작성",
+    "ai의 도움을 받아",
+    "생성형 ai 도움을 받아",
+    "생성형 ai(챗gpt) 도움",
+    "생성형 ai (챗gpt) 도움",
+    "chatgpt 도움을 받아",
+    "챗gpt 도움을 받아",
+    "챗gpt의 도움",
+    # 시리즈 라벨
+    "[ai 와 함께 쓴",
+    "[ai와 함께 쓴",
 ]
 
 
 def is_relevant(title: str, summary: str, source_type: str = "rss") -> bool:
-    """관련성 체크 — Naver/Google News 결과 + 모든 소스에 보일러플레이트/블랙리스트 적용.
+    """관련성 체크 — 모든 소스에 보일러플레이트 + 블랙리스트 적용.
 
-    규칙 (v2.7):
-    0. AI 생성 보일러플레이트(생성형 AI로 제작) 패턴이 본문에 있으면 모든 소스에서 즉시 제외
-    1. 블랙리스트 키워드가 제목 또는 요약에 있으면 즉시 제외 (Naver/Google News만)
-    2. STRONG_KEYWORDS 중 하나라도 있으면 통과
-    3. AI_SIGNALS + LEGAL_SIGNALS 둘 다 있으면 통과 (법률 AI 관련)
-    4. 그 외 제외
+    규칙 (v2.7 강화):
+    0. AI 생성 보일러플레이트 패턴이 본문에 있으면 모든 소스에서 즉시 제외
+    1. 블랙리스트 키워드가 제목 또는 요약에 있으면 모든 소스에서 즉시 제외
+       (이전: Naver/Google News만 → RSS 일부 매체가 정치·라이프 기사 섞어 보내는 케이스가 있어 모든 소스로 확장)
+    2. Naver·Google News는 STRONG 또는 (AI+LEGAL) 시그널 추가 검증
+    3. RSS·arXiv·OpenAlex는 블랙리스트만 통과하면 OK (큐레이션된 소스로 가정)
     """
     text = (title + " " + summary).lower()
     title_lower = title.lower()
 
-    # 0. AI 생성 보일러플레이트 — 모든 소스에서 즉시 차단 (Naver/hankookilbo 등의 lifestyle 자동기사)
+    # 0. AI 생성 보일러플레이트 — 모든 소스에서 즉시 차단
     for pat in BOILERPLATE_PATTERNS:
         if pat in text:
             return False
 
-    # RSS·arXiv는 보일러플레이트만 체크하고 통과
-    if source_type not in ("naver", "google_news"):
-        return True
-
-    # 1. 블랙리스트 — 제목 또는 요약에 있으면 즉시 제외
+    # 1. 블랙리스트 — 모든 소스에 적용 (RSS도 정치·lifestyle 기사 종종 포함)
     for kw in BLACKLIST_KEYWORDS:
         if kw in title_lower or kw in text:
             return False
+
+    # RSS·arXiv·OpenAlex는 큐레이션된 소스이므로 블랙리스트 통과만으로 OK
+    if source_type not in ("naver", "google_news"):
+        return True
 
     # 2. Strong keyword 단독 통과
     for kw in STRONG_KEYWORDS:
         if kw in text:
             return True
 
-    # 3. AI 시그널 + 도메인 시그널 조합 (둘 다 있어야)
+    # 3. AI 시그널 + 도메인 시그널 조합
     has_ai = any(kw in text for kw in AI_SIGNALS)
     has_legal = any(kw in text for kw in LEGAL_SIGNALS)
     if has_ai and has_legal:
         return True
 
-    # 4. 도메인 시그널 단독은 제외 (예: 단순 "변호사 회견" 같은 정치 뉴스)
-    # 5. AI 시그널 단독도 STRONG에 없으면 제외 (모호한 일반 표현 차단)
     return False
 
 
