@@ -183,11 +183,13 @@ def load_previous_items():
         out = {}
         dropped = 0
         dropped_examples = []
+        rescored = 0
+        rescored_examples = []
         for it in prev.get("items", []):
             url = it.get("url")
             if not url:
                 continue
-            # 새 is_relevant 규칙으로 재평가 — 통과 못 하면 drop
+            # 1. 새 is_relevant 규칙으로 재평가 — 통과 못 하면 drop
             if not is_relevant(
                 it.get("title", ""),
                 it.get("summary", ""),
@@ -197,10 +199,27 @@ def load_previous_items():
                 if len(dropped_examples) < 5:
                     dropped_examples.append(it.get("title", "")[:60])
                 continue
+            # 2. v2.7.9: 새 PROMO hard cap (v2.7.6) + 가중치(v2.7.3) 재 scoring 일괄 적용
+            old_score = it.get("score", 0)
+            new_score = score_item(
+                it.get("title", ""),
+                it.get("summary", ""),
+                it.get("date", ""),
+                it.get("categories", []),
+            )
+            if abs(new_score - old_score) >= 5:
+                rescored += 1
+                if len(rescored_examples) < 5 and new_score < old_score:
+                    rescored_examples.append(f"{old_score}→{new_score} {it.get('title', '')[:55]}")
+            it["score"] = new_score
             out[url] = it
         if dropped:
             print(f"  [prune] dropped {dropped} previously-stored items (new BLACKLIST)", flush=True)
             for ex in dropped_examples:
+                print(f"    - {ex}", flush=True)
+        if rescored:
+            print(f"  [rescore] re-scored {rescored} items (new PROMO hard cap / 가중치)", flush=True)
+            for ex in rescored_examples:
                 print(f"    - {ex}", flush=True)
         return out
     except Exception as exc:
