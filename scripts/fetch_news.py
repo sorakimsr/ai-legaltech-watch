@@ -170,13 +170,39 @@ def fetch_source(source_def):
 
 
 def load_previous_items():
-    """이전 빌드 결과 로드. URL → item 매핑."""
+    """이전 빌드 결과 로드. URL → item 매핑.
+
+    v2.7.5: 과거 항목도 새 BLACKLIST/BOILERPLATE 규칙으로 재검증 →
+    이전 빌드에서 들어온 추미애·폭우·MBTI·하루건강 등 불용 기사를 즉시 drop.
+    """
     if not os.path.exists(PREV_NEWS_PATH):
         return {}
     try:
         with open(PREV_NEWS_PATH, "r", encoding="utf-8") as f:
             prev = json.load(f)
-        return {it["url"]: it for it in prev.get("items", []) if "url" in it}
+        out = {}
+        dropped = 0
+        dropped_examples = []
+        for it in prev.get("items", []):
+            url = it.get("url")
+            if not url:
+                continue
+            # 새 is_relevant 규칙으로 재평가 — 통과 못 하면 drop
+            if not is_relevant(
+                it.get("title", ""),
+                it.get("summary", ""),
+                it.get("source_type", "rss"),
+            ):
+                dropped += 1
+                if len(dropped_examples) < 5:
+                    dropped_examples.append(it.get("title", "")[:60])
+                continue
+            out[url] = it
+        if dropped:
+            print(f"  [prune] dropped {dropped} previously-stored items (new BLACKLIST)", flush=True)
+            for ex in dropped_examples:
+                print(f"    - {ex}", flush=True)
+        return out
     except Exception as exc:
         print(f"  [warn] failed to load previous news.json: {exc}", flush=True)
         return {}

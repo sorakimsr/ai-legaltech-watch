@@ -195,6 +195,18 @@ BLACKLIST_KEYWORDS = [
     "토토", "로또", "스포츠토토", "로또복권",
     # v2.7.5: 부동산·시세 lifestyle
     "아파트값", "전세값", "월세값", "분양가",
+    # v2.7.5: 정치/선거 추가 (경기지사·예상 강수량 케이스 보강)
+    "경기지사", "경기지사 후보", "경기 대도약", "대도약 추진",
+    "민주당 후보들", "원팀 승리", "원팀 선거",
+    "예상 강수량", "예상강수량",
+    # v2.7.5: 헤드라인 보일러플레이트 (AI 자동 생성 lifestyle 컬럼 헤드라인 확장)
+    "[ai 와 함께", "[ai와 함께", "[ai가 쓰는", "[ai 와 함께 쓴",
+    "ai 와 함께 쓴 날씨", "ai와 함께 쓴 날씨",
+    "그여름 홍천", "올해도 열돔",
+    "[mbti 오늘의 운세]", "[mbti오늘의 운세]",
+    "장마철 심해지는", "줄어든 햇빛",
+    # v2.7.5: 강수량 단위 헤드라인
+    "150㎜", "150mm", "100㎜", "100mm", "80㎜", "80mm", "50㎜",
     # 부음·장례
     "부음", "별세", "모친상", "부친상", "장모상", "장인상",
     "장례식장", "발인", "빈소", "조문",
@@ -545,10 +557,11 @@ def score_item(title: str, summary: str, date, categories: list) -> int:
             elif delta_h < 168:
                 score += 2
 
-    # PROMO 단독 — 다른 의미있는 시그널이 약하면 강제 dampening
-    other_signals = max(buckets["law"], buckets["global"], buckets["policy"])
-    if buckets["promo"] > 0 and other_signals < 0.3:
-        score = min(score, 35)
+    # v2.7.6: PROMO 헤드라인 hard cap — 본문에 우연히 POLICY 키워드가 섞여도 dampening 유지
+    # 헤드라인이 [AI 클로즈업]/TIPS 선정/~기업 선언 같은 홍보성이면 본질이 광고이므로
+    # POLICY/LAW가 본문에 부수적으로 매칭돼도 강제 cap 40 (홍보 weight 0.1 정책 반영).
+    if buckets["promo"] > 0:
+        score = min(score, 40)
 
     return max(0, min(150, int(score)))
 
