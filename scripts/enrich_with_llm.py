@@ -151,9 +151,11 @@ def needs_enrich(item: dict) -> bool:
 
 
 def main():
-    print(f"[start] enrich_with_llm @ {datetime.now(KST).isoformat()}", flush=True)
-
     backend = detect_backend()
+    model_env = os.environ.get("ANTHROPIC_MODEL") or os.environ.get("OPENAI_MODEL") or "(default)"
+    print(f"[start] enrich_with_llm @ {datetime.now(KST).isoformat()}", flush=True)
+    print(f"  [llm] backend: {backend} · model: {model_env}", flush=True)
+
     if backend == "none":
         print("  [warn] No LLM backend available. Skipping enrichment.", flush=True)
         with open(INPUT_PATH, "r", encoding="utf-8") as f:

@@ -45,6 +45,11 @@ MAX_AGE_DAYS = 30
 MAX_PER_SOURCE = 20
 SOURCE_HISTORY_RETAIN_DAYS = 30
 
+# v2.7.5: fetch 단계에서 최근 N일(KST) 항목만 수집. 누적은 merge에서 30일 유지.
+# date_unknown=True 인 항목은 일단 통과 (수집일 = 오늘이라 가정).
+# 자정 경계 누락 방지 위해 today + yesterday = 2일 (사용자 정책).
+FETCH_DAYS = 2
+
 
 # 보존할 필드 — 기존 항목과 새 항목 merge 시 이전 enriched 값을 잃지 않게
 PRESERVE_FIELDS = [
@@ -130,6 +135,19 @@ def fetch_source(source_def):
             # 발행일 처리 — 못 파싱하면 None (오늘로 fallback 안 함 — 시사점 분석 오염 방지)
             date_iso = dt.isoformat() if dt else None
             date_unknown = dt is None
+
+            # v2.7.5: 최근 N일(KST) 항목만 수집 — N=2 (오늘+어제, 자정 경계 방어)
+            if FETCH_DAYS > 0 and dt is not None:
+                today_kst = datetime.now(KST).date()
+                cutoff_kst = today_kst - timedelta(days=FETCH_DAYS - 1)
+                # dt를 KST로 변환 후 날짜 비교
+                if dt.tzinfo is None:
+                    dt_with_tz = dt.replace(tzinfo=timezone.utc)
+                else:
+                    dt_with_tz = dt
+                dt_kst_date = dt_with_tz.astimezone(KST).date()
+                if dt_kst_date < cutoff_kst:
+                    continue  # 어제 이전 → skip (누적 30일은 prev_map에서 유지됨)
 
             items.append({
                 "title": title,
@@ -353,7 +371,8 @@ def main():
     # 2-c. OpenAlex API 논문 fetch (v2.7 — Semantic Scholar 대체)
     # OPENALEX_API_KEY 등록 시 polite pool 진입 → 안정적 수집
     try:
-        oa_items = fetch_openalex(per_query_limit=25, days_back=30)
+        # v2.7.5: OpenAlex도 최근 N일만 (publication_date >= today-N+1). 누적은 prev_map 유지.
+        oa_items = fetch_openalex(per_query_limit=25, days_back=FETCH_DAYS if FETCH_DAYS > 0 else 30)
         all_new_items.extend(oa_items)
         new_oa = sum(1 for it in oa_items if it["url"] not in prev_map)
         new_items_by_source["OpenAlex"] = new_oa
@@ -372,6 +391,26 @@ def main():
             "status": "error",
             "count": 0,
         })
+
+    # v2.7.5: 모든 소스(Naver/OpenAlex/RSS) 통합 후 최근 N일(KST) 필터를 한 번 더 적용
+    # — Naver처럼 fetch_source 밖에서 들어온 항목도 동일 정책으로 거름
+    if FETCH_DAYS > 0:
+        today_kst = datetime.now(KST).date()
+        cutoff_kst = today_kst - timedelta(days=FETCH_DAYS - 1)
+        before = len(all_new_items)
+        kept = []
+        for it in all_new_items:
+            try:
+                dt = dateparser.parse(it.get("date", ""))
+                if dt.tzinfo is None:
+                    dt = dt.replace(tzinfo=timezone.utc)
+                if dt.astimezone(KST).date() >= cutoff_kst:
+                    kept.append(it)
+            except Exception:
+                # 날짜 못 읽으면 보수적으로 keep (date_unknown=True 항목 등)
+                kept.append(it)
+        all_new_items = kept
+        print(f"  [today-filter] {before} → {len(all_new_items)} (cutoff {cutoff_kst.isoformat()})", flush=True)
 
     # 3. 같은 빌드 내 URL 중복 제거
     seen = set()
