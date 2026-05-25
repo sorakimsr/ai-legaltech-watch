@@ -372,8 +372,8 @@ function applyViewFilter(items) {
   if (state.view === 'latest') {
     switch (state.sortBy) {
       case 'score':
+        // v2.8.6: 정렬은 cap 없이 — 사용자가 "정렬인데 필터처럼 동작"이라 지적
         arr.sort((a, b) => (b.score || 0) - (a.score || 0));
-        arr = arr.slice(0, 200);  // 중요도 상위 200개
         break;
       case 'today': {
         const now = new Date();
@@ -1830,12 +1830,13 @@ async function runAnalysis() {
 
 function renderMarkdown(text) {
   if (!text) return '';
+  // v2.8.6: 빈 헤더 라인(`#` 또는 `## ` 등만 있고 텍스트 없음) 제거 — LLM이 가끔 빈 헤더 출력
+  text = text.replace(/^\s*#{1,6}\s*$/gm, '');
   // 매우 단순한 마크다운 → HTML (안전한 escape 후)
   let html = escapeHtml(text);
   // 코드블록 ```...```
   html = html.replace(/```([\s\S]*?)```/g, (m, p) => `<pre><code>${p}</code></pre>`);
   // v2.7.9: LLM이 \n 없이 inline으로 ## 헤더를 출력한 경우 강제 줄바꿈 삽입
-  // (한국 전략·기획 시사점 narrative 문단 분리)
   html = html.replace(/([^\n])\s*(#{1,3} )/g, '$1\n\n$2');
   // 헤딩 (### / ## / #)
   html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');

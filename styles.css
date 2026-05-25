@@ -500,7 +500,10 @@ input, select { font-family: inherit; outline: none; }
   font-size: 13.5px;
   line-height: 1.7;
   color: #1f2937;
+  /* v2.8.6: 본문 weight 명시 (mark 외에는 절대 굵게 X) */
+  font-weight: 400;
 }
+.analyze-result p, .analyze-result li, .analyze-result span { font-weight: 400; }
 /* v2.8.4: 헤더 폰트 본문과 동일 + 볼드만 */
 .analyze-result h1,
 .analyze-result h2,
@@ -1413,6 +1416,13 @@ mark {
   font-size: 13.5px;
   line-height: 1.75;
   color: #1f2937;
+  /* v2.8.6: 본문 weight 명시 (mark 외에는 절대 굵게 X) */
+  font-weight: 400;
+}
+.papers-narrative p,
+.papers-narrative li,
+.papers-narrative span {
+  font-weight: 400;
 }
 /* v2.8.4: 헤더 폰트를 본문과 동일하게 + 볼드만. mark가 아닌 강조는 normal weight */
 .papers-narrative h1,
