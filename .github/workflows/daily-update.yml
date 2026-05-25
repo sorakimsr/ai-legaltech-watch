@@ -63,11 +63,13 @@ jobs:
           npm install -g @anthropic-ai/claude-code || echo "Claude CLI install failed, will fall back to SDK"
           claude --version || true
 
-      # ===== 1단계: 뉴스 수집 (Naver API 통합) =====
+      # ===== 1단계: 뉴스 수집 (Naver Search API + OpenAlex 통합) =====
       - name: "Step 1/4 — Fetch news"
         env:
           NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
           NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
+          OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
+          OPENALEX_MAILTO: "eternalpassionfor@gmail.com"
         run: python scripts/fetch_news.py
 
       # ===== 2단계: 유사 뉴스 병합 =====
