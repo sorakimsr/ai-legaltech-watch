@@ -33,18 +33,19 @@ SOURCES = [
     ("MIT Technology Review AI", "https://www.technologyreview.com/topic/artificial-intelligence/feed", "rss", ["ai-industry"], "en"),
     ("TechCrunch AI", "https://techcrunch.com/category/artificial-intelligence/feed/", "rss", ["ai-industry"], "en"),
     ("VentureBeat AI", "https://venturebeat.com/category/ai/feed/", "rss", ["ai-industry"], "en"),
-    ("The Verge AI", "https://www.theverge.com/ai-artificial-intelligence/rss/index.xml", "rss", ["ai-industry"], "en"),
+    # v2.7: 실패 RSS는 Google News site: 쿼리로 일괄 우회
+    ("The Verge AI", "https://news.google.com/rss/search?q=site%3Atheverge.com+(AI+OR+%22artificial+intelligence%22)&hl=en&gl=US&ceid=US:en", "google_news", ["ai-industry"], "en"),
     ("Wired AI", "https://www.wired.com/feed/tag/ai/latest/rss", "rss", ["ai-industry"], "en"),
     ("Ars Technica AI", "https://feeds.arstechnica.com/arstechnica/technology-lab", "rss", ["ai-industry"], "en"),
     ("Axios AI", "https://api.axios.com/feed/", "rss", ["ai-industry"], "en"),
-    ("The Information AI", "https://www.theinformation.com/feed", "rss", ["ai-industry"], "en"),
+    ("The Information AI", "https://news.google.com/rss/search?q=site%3Atheinformation.com+AI&hl=en&gl=US&ceid=US:en", "google_news", ["ai-industry"], "en"),
     ("Semianalysis", "https://www.semianalysis.com/feed", "rss", ["ai-industry"], "en"),
     ("The Decoder", "https://the-decoder.com/feed/", "rss", ["ai-industry"], "en"),
-    ("Import AI (Jack Clark)", "https://importai.substack.com/feed", "blog", ["ai-industry"], "en"),
-    ("Ben's Bites", "https://bensbites.beehiiv.com/feed", "blog", ["ai-industry"], "en"),
-    ("The Batch (DeepLearning.AI)", "https://www.deeplearning.ai/the-batch/feed/", "blog", ["ai-industry"], "en"),
+    ("Import AI (Jack Clark)", "https://news.google.com/rss/search?q=%22Import+AI%22+OR+(%22Jack+Clark%22+AI)&hl=en&gl=US&ceid=US:en", "google_news", ["ai-industry"], "en"),
+    ("Ben's Bites", "https://news.google.com/rss/search?q=%22Ben%27s+Bites%22+OR+site%3Abensbites.com&hl=en&gl=US&ceid=US:en", "google_news", ["ai-industry"], "en"),
+    ("The Batch (DeepLearning.AI)", "https://news.google.com/rss/search?q=%22The+Batch%22+%22DeepLearning.AI%22+OR+site%3Adeeplearning.ai&hl=en&gl=US&ceid=US:en", "google_news", ["ai-industry"], "en"),
     ("AI Snake Oil", "https://www.aisnakeoil.com/feed", "blog", ["ai-industry", "policy"], "en"),
-    ("Marginal Revolution AI", "https://marginalrevolution.com/marginalrevolution/category/economics/artificial-intelligence/feed", "blog", ["ai-industry"], "en"),
+    ("Marginal Revolution AI", "https://news.google.com/rss/search?q=site%3Amarginalrevolution.com+AI&hl=en&gl=US&ceid=US:en", "google_news", ["ai-industry"], "en"),
     ("Last Week in AI", "https://lastweekin.ai/feed", "blog", ["ai-industry"], "en"),
 
     # ====================================================================
@@ -54,12 +55,12 @@ SOURCES = [
     ("Legal IT Insider", "https://legaltechnology.com/feed/", "rss", ["legaltech"], "en"),
     ("Legal Cheek", "https://www.legalcheek.com/feed/", "rss", ["legaltech"], "en"),
     ("LawSites (Bob Ambrogi)", "https://www.lawnext.com/feed", "rss", ["legaltech"], "en"),
-    ("ABA Journal Tech", "https://www.abajournal.com/topic/legal_technology/feed", "rss", ["legaltech"], "en"),
+    ("ABA Journal Tech", "https://news.google.com/rss/search?q=site%3Aabajournal.com+(%22legal+technology%22+OR+%22legal+tech%22+OR+AI)&hl=en&gl=US&ceid=US:en", "google_news", ["legaltech"], "en"),
     ("Above the Law", "https://abovethelaw.com/feed/", "rss", ["legaltech"], "en"),
-    ("Law.com Legal Tech", "https://www.law.com/legaltechnews/feed/", "rss", ["legaltech"], "en"),
+    ("Law.com Legal Tech", "https://news.google.com/rss/search?q=site%3Alaw.com+(%22legaltech%22+OR+%22legal+tech%22+OR+%22legal+AI%22)&hl=en&gl=US&ceid=US:en", "google_news", ["legaltech"], "en"),
     ("Legal Futures", "https://www.legalfutures.co.uk/feed", "rss", ["legaltech"], "en"),
-    ("Global Legal Post", "https://www.globallegalpost.com/feed/", "rss", ["legaltech"], "en"),
-    ("Stanford CodeX", "https://law.stanford.edu/codex-the-stanford-center-for-legal-informatics/feed/", "rss", ["legaltech"], "en"),
+    ("Global Legal Post", "https://news.google.com/rss/search?q=site%3Agloballegalpost.com&hl=en&gl=US&ceid=US:en", "google_news", ["legaltech"], "en"),
+    ("Stanford CodeX", "https://news.google.com/rss/search?q=site%3Alaw.stanford.edu+(%22CodeX%22+OR+%22legal+informatics%22)&hl=en&gl=US&ceid=US:en", "google_news", ["legaltech"], "en"),
     # v2.7: Harvey·Legora 공식 블로그 RSS 미제공 → Google News site:로 우회
     ("Harvey Blog", "https://news.google.com/rss/search?q=site%3Aharvey.ai+OR+%22Harvey+AI%22+(blog+OR+announces+OR+launches+OR+raises)&hl=en&gl=US&ceid=US:en", "google_news", ["legaltech", "product"], "en"),
     ("Legora Blog", "https://news.google.com/rss/search?q=site%3Alegora.com+OR+%22Legora%22+(legal+OR+blog+OR+announces+OR+launches)&hl=en&gl=US&ceid=US:en", "google_news", ["legaltech", "product"], "en"),
@@ -73,23 +74,28 @@ SOURCES = [
     ("arXiv cs.IR", "http://export.arxiv.org/rss/cs.IR", "arxiv", ["papers"], "en"),
     ("arXiv cs.MA (Multi-Agent)", "http://export.arxiv.org/rss/cs.MA", "arxiv", ["papers"], "en"),
     ("arXiv cs.CY (Computers & Society)", "http://export.arxiv.org/rss/cs.CY", "arxiv", ["papers", "policy"], "en"),
-    ("Papers With Code", "https://paperswithcode.com/latest/feed.xml", "arxiv", ["papers"], "en"),
+    # Papers With Code RSS 미제공 → Semantic Scholar가 동등 커버. 보조로 Google News 우회.
+    ("Papers With Code", "https://news.google.com/rss/search?q=site%3Apaperswithcode.com+OR+%22paperswithcode%22+AI&hl=en&gl=US&ceid=US:en", "google_news", ["papers"], "en"),
 
     # ====================================================================
     # 국내 매체 (한국어)
     # ====================================================================
     ("AI타임스", "https://www.aitimes.com/rss/allArticle.xml", "korean", ["ai-industry", "domestic"], "ko"),
-    ("AI타임스 (정책)", "https://www.aitimes.com/rss/S1N2.xml", "korean", ["policy", "domestic"], "ko"),
-    ("법률신문 (테크)", "https://www.lawtimes.co.kr/rss/CategoryRss.aspx?serial=1004", "korean", ["legaltech", "domestic"], "ko"),
-    ("법률신문 (전체)", "https://www.lawtimes.co.kr/rss/totalRss.aspx", "korean", ["domestic"], "ko"),
+    # AI타임스 정책 카테고리 RSS 실패 → Google News 우회
+    ("AI타임스 (정책)", "https://news.google.com/rss/search?q=site%3Aaitimes.com+(%22%EC%A0%95%EC%B1%85%22+OR+%22%EA%B7%9C%EC%A0%9C%22)&hl=ko&gl=KR&ceid=KR:ko", "google_news", ["policy", "domestic"], "ko"),
+    # 법률신문 RSS 실패 → Google News 우회
+    ("법률신문 (테크)", "https://news.google.com/rss/search?q=site%3Alawtimes.co.kr+(%EB%A6%AC%EA%B1%B8%ED%85%8C%ED%81%AC+OR+AI+OR+%EA%B8%B0%EC%88%A0)&hl=ko&gl=KR&ceid=KR:ko", "google_news", ["legaltech", "domestic"], "ko"),
+    ("법률신문 (전체)", "https://news.google.com/rss/search?q=site%3Alawtimes.co.kr&hl=ko&gl=KR&ceid=KR:ko", "google_news", ["domestic"], "ko"),
     ("ZDNet Korea", "https://feeds.feedburner.com/zdkorea", "korean", ["ai-industry", "domestic"], "ko"),
-    ("디지털타임스 IT", "https://www.dt.co.kr/rss/section_rss.xml?section=S1N3", "korean", ["ai-industry", "domestic"], "ko"),
+    # 디지털타임스 IT 카테고리 RSS 실패 → Google News 우회
+    ("디지털타임스 IT", "https://news.google.com/rss/search?q=site%3Adt.co.kr+(AI+OR+%EC%9D%B8%EA%B3%B5%EC%A7%80%EB%8A%A5+OR+%EA%B8%B0%EC%88%A0)&hl=ko&gl=KR&ceid=KR:ko", "google_news", ["ai-industry", "domestic"], "ko"),
     ("전자신문 AI", "https://rss.etnews.com/Section902.xml", "korean", ["ai-industry", "domestic"], "ko"),
     ("바이라인네트워크", "https://byline.network/feed/", "korean", ["ai-industry", "domestic"], "ko"),
     ("디일렉", "https://www.thelec.kr/rss/allArticle.xml", "korean", ["ai-industry", "domestic"], "ko"),
     ("플래텀 (스타트업)", "https://platum.kr/feed", "korean", ["ai-industry", "domestic", "funding"], "ko"),
     ("벤처스퀘어", "https://www.venturesquare.net/feed", "korean", ["domestic", "funding"], "ko"),
-    ("더밀크", "https://www.themiilk.com/rss", "korean", ["ai-industry", "domestic"], "ko"),
+    # 더밀크 RSS 실패 → Google News 우회
+    ("더밀크", "https://news.google.com/rss/search?q=site%3Athemiilk.com+OR+%22%EB%8D%94%EB%B0%80%ED%81%AC%22&hl=ko&gl=KR&ceid=KR:ko", "google_news", ["ai-industry", "domestic"], "ko"),
     ("매일경제 IT", "https://www.mk.co.kr/rss/30000023/", "korean", ["domestic"], "ko"),
     ("한국경제 IT", "https://www.hankyung.com/feed/it", "korean", ["domestic"], "ko"),
 
