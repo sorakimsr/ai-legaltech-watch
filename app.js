@@ -76,6 +76,8 @@ const state = {
   analyzePromptPreset: "summary",
   // v2.7: 사용자 저장 항목 (localStorage 동기화)
   saved: { items: {}, strategy: {} },  // {url: true}, {strategyKey: {card data}}
+  // v2.7.7: 저장한 항목 페이지의 활성 탭 — insights | news
+  savedTab: 'insights',
   // v2.7.5: AI 분석 결과 history (localStorage)
   analyses: [],  // [{id, timestamp, backend, model, prompt, items: [{title,url,source,date}], result}]
 };
@@ -493,11 +495,27 @@ function renderSavedView(root) {
     return `${yy}-${mm}-${dd} ${hh}:${mi}`;
   };
 
-  let html = '';
+  // v2.7.7: 시사점/뉴스 탭 분리 — 검색창 아래 탭 UI
+  const counts = { insights: savedStrategies.length, news: savedItems.length };
+  // 활성 탭 결정: state.savedTab 유지하되 비어있으면 다른 탭으로 자동 전환
+  let activeTab = state.savedTab || 'insights';
+  if (activeTab === 'insights' && counts.insights === 0 && counts.news > 0) activeTab = 'news';
+  if (activeTab === 'news' && counts.news === 0 && counts.insights > 0) activeTab = 'insights';
+  state.savedTab = activeTab;
 
-  // 저장한 시사점 카드
-  if (savedStrategies.length > 0) {
-    html += `<h3 class="saved-section-head">⭐ 저장한 시사점 (${savedStrategies.length})</h3>`;
+  let html = `
+    <div class="saved-tabs">
+      <button class="saved-tab ${activeTab === 'insights' ? 'active' : ''}" data-saved-tab="insights">
+        ⭐ 시사점 <span class="saved-tab-count">${counts.insights}</span>
+      </button>
+      <button class="saved-tab ${activeTab === 'news' ? 'active' : ''}" data-saved-tab="news">
+        📰 뉴스 <span class="saved-tab-count">${counts.news}</span>
+      </button>
+    </div>
+  `;
+
+  // 저장한 시사점 카드 (insights 탭일 때만)
+  if (activeTab === 'insights' && savedStrategies.length > 0) {
     html += `<div class="saved-list">`;
     html += savedStrategies.map(([k, entry]) => {
       const card = (entry && entry.card) || {};
@@ -527,9 +545,8 @@ function renderSavedView(root) {
     html += `</div>`;  // /.saved-list
   }
 
-  // 저장한 뉴스 카드 — savedAt desc 순서 + 저장 시점 표시
-  if (savedItems.length > 0) {
-    html += `<h3 class="saved-section-head">📰 저장한 뉴스 (${savedItems.length})</h3>`;
+  // 저장한 뉴스 카드 — savedAt desc 순서 + 저장 시점 표시 (news 탭일 때만)
+  if (activeTab === 'news' && savedItems.length > 0) {
     html += `<div class="news-grid saved-news-grid">${savedItems.map(({item, savedAt}) => {
       const card = renderCard(item);
       const label = fmtSavedAt(savedAt);
@@ -540,7 +557,20 @@ function renderSavedView(root) {
     }).join('')}</div>`;
   }
 
+  // 활성 탭이 비어있을 때 안내
+  if ((activeTab === 'insights' && counts.insights === 0) || (activeTab === 'news' && counts.news === 0)) {
+    html += `<div class="saved-empty"><div style="font-size:28px;margin-bottom:8px;">${activeTab === 'insights' ? '⭐' : '📰'}</div>저장된 ${activeTab === 'insights' ? '시사점' : '뉴스'}이 없습니다.</div>`;
+  }
+
   root.innerHTML = html;
+
+  // 탭 클릭 이벤트
+  root.querySelectorAll('[data-saved-tab]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      state.savedTab = btn.dataset.savedTab;
+      renderSavedView(root);
+    });
+  });
 }
 
 // v2.7.5: AI 분석 결과 history view
@@ -695,15 +725,15 @@ function renderCard(item) {
 
   return `
     <article class="news-card ${isSelected ? 'is-selected' : ''}" data-url="${escapeHtml(item.url)}">
-      <label class="card-checkbox" title="AI 분석 선택">
-        <input type="checkbox" class="card-check" data-url="${escapeHtml(item.url)}" ${isSelected ? 'checked' : ''} />
-      </label>
       <div class="card-top">
-        <div style="display:flex;gap:6px;align-items:center;">
+        <div class="card-top-left">
+          <label class="card-checkbox" title="AI 분석 선택">
+            <input type="checkbox" class="card-check" data-url="${escapeHtml(item.url)}" ${isSelected ? 'checked' : ''} />
+          </label>
           <span class="score-badge ${scoreClass}">${escapeHtml(scoreLabel)}</span>
           ${newBadge}
         </div>
-        <div style="display:flex;gap:6px;align-items:center;">${langBadge}${relBadge}<span class="date-text">${escapeHtml(dateStr)}</span></div>
+        <div class="card-top-right">${langBadge}${relBadge}<span class="date-text">${escapeHtml(dateStr)}</span></div>
       </div>
       <div class="card-cats">${cats}</div>
       <h3 class="card-title"><a href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.title)}</a></h3>
