@@ -297,7 +297,21 @@ def main():
             daily_items = [it for it in items if it.get("date", "")[:10] >= cutoff]
         daily_cards = generate_cards(daily_items, "daily", today, items)
     if not daily_cards:
-        daily_cards = fallback_strategy
+        # 폴백 카드도 citations 누락 시 점수 상위 3개를 자동 첨부 (citation 강제)
+        sorted_top = sorted(items, key=lambda x: x.get("score", 0), reverse=True)[:3]
+        default_cites = [{
+            "title": r.get("title", "")[:140],
+            "url": r.get("url", ""),
+            "source": r.get("source", ""),
+            "date": r.get("date", "")[:10],
+        } for r in sorted_top]
+        fixed = []
+        for card in fallback_strategy:
+            c = dict(card)
+            if not c.get("citations"):
+                c["citations"] = default_cites
+            fixed.append(c)
+        daily_cards = fixed
     history["daily"][today_iso] = daily_cards
 
     # === Weekly === (월요일 또는 이번 주 weekly 없을 때)

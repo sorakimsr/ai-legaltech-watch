@@ -162,29 +162,48 @@ def call_llm(prompt: str, max_tokens: int = 800, temperature: float = 0.3) -> st
         return ""
 
 
-def call_llm_json(prompt: str, max_tokens: int = 800, temperature: float = 0.2) -> dict:
-    """LLM 응답을 JSON으로 파싱"""
+def call_llm_json(prompt: str, max_tokens: int = 800, temperature: float = 0.2):
+    """LLM 응답을 JSON(dict or list)으로 파싱.
+
+    버그 fix: 기존 regex `(\\{.*?\\}|\\[.*?\\])` 가 배열 응답에서 첫 번째 object만
+    캡처해 dict 반환 → 호출자의 isinstance(result, list) 체크 실패 → 빈 결과.
+    """
     response = call_llm(prompt, max_tokens, temperature)
     if not response:
         return {}
 
-    # ```json ... ``` 블록 추출 시도
     import re
-    m = re.search(r"```(?:json)?\s*(\{.*?\}|\[.*?\])\s*```", response, re.DOTALL)
-    if m:
-        response = m.group(1)
-    else:
-        # 첫 { 부터 마지막 } 까지
-        start = response.find("{")
-        if start == -1:
-            start = response.find("[")
-        end = max(response.rfind("}"), response.rfind("]"))
-        if start != -1 and end != -1 and end > start:
-            response = response[start:end + 1]
 
+    # 1) ```json ... ``` 또는 ``` ... ``` 코드블록 안의 모든 내용 추출
+    m = re.search(r"```(?:json)?\s*(.*?)\s*```", response, re.DOTALL)
+    candidate = m.group(1).strip() if m else response.strip()
+
+    # 2) 1차 시도 — 코드블록/원본 그대로 파싱
     try:
-        return json.loads(response)
-    except json.JSONDecodeError as e:
-        print(f"  [llm-json] parse error: {e}", file=sys.stderr)
-        print(f"  raw: {response[:200]}", file=sys.stderr)
-        return {}
+        return json.loads(candidate)
+    except json.JSONDecodeError:
+        pass
+
+    # 3) 2차 시도 — 가장 바깥쪽 배열([) 또는 객체({) 추출
+    #    배열이 먼저 등장하면 배열을, 아니면 객체를 시도
+    first_arr = candidate.find("[")
+    first_obj = candidate.find("{")
+
+    spans = []
+    if first_arr != -1 and (first_obj == -1 or first_arr <= first_obj):
+        last_arr = candidate.rfind("]")
+        if last_arr > first_arr:
+            spans.append(candidate[first_arr:last_arr + 1])
+    if first_obj != -1:
+        last_obj = candidate.rfind("}")
+        if last_obj > first_obj:
+            spans.append(candidate[first_obj:last_obj + 1])
+
+    for span in spans:
+        try:
+            return json.loads(span)
+        except json.JSONDecodeError:
+            continue
+
+    print(f"  [llm-json] parse failed. raw[:300]: {response[:300]}", file=sys.stderr)
+    return {}
