@@ -50,6 +50,10 @@
           <span class="nav-icon">🕒</span>
           <span class="nav-label">최신순</span>
         </a>
+        <a href="#" class="nav-item" data-view="papers">
+          <span class="nav-icon">📑</span>
+          <span class="nav-label">AI 논문 흐름</span>
+        </a>
 
         <!-- 소스 현황 (expandable) -->
         <div class="nav-group" data-group="sources">
@@ -142,6 +146,48 @@
             <select id="strategy-period-select"></select>
           </div>
           <div id="strategy-cards"></div>
+        </div>
+
+        <!-- 논문 흐름 분석 뷰 -->
+        <div id="papers-view" class="papers-view hidden">
+          <div id="papers-meta" class="papers-meta"></div>
+
+          <div class="papers-section">
+            <h3>🔥 최근 흐름</h3>
+            <div id="papers-narrative" class="papers-narrative"></div>
+          </div>
+
+          <div class="papers-grid">
+            <div class="papers-section">
+              <h3>📈 부상 주제</h3>
+              <div id="papers-hot-topics"></div>
+            </div>
+            <div class="papers-section">
+              <h3>⚙️ 핵심 기법</h3>
+              <div id="papers-techniques"></div>
+            </div>
+          </div>
+
+          <div class="papers-grid">
+            <div class="papers-section">
+              <h3>🏛 주요 기관</h3>
+              <div id="papers-institutions"></div>
+            </div>
+            <div class="papers-section">
+              <h3>🔑 키워드 빈도</h3>
+              <div id="papers-keywords"></div>
+            </div>
+          </div>
+
+          <div class="papers-section">
+            <h3>💡 실무 시사점</h3>
+            <ul id="papers-actionable" class="papers-actionable"></ul>
+          </div>
+
+          <div class="papers-section">
+            <h3>📚 분석 대상 논문 (중요도순)</h3>
+            <div id="papers-list" class="papers-list"></div>
+          </div>
         </div>
 
         <div id="sources-view" class="sources-view hidden">

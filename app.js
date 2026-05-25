@@ -60,6 +60,7 @@ const VIEW_META = {
   top:       { title: '중요도 TOP', hint: 'AI 중요도 점수 상위 100개 항목' },
   today:     { title: '오늘 추가됨', hint: '오늘(KST) 신규 수집' },
   strategy:  { title: '전략·기획 시사점', hint: 'Daily/Weekly/Monthly로 LLM 자동 생성' },
+  papers:    { title: 'AI 논문 흐름', hint: 'arXiv 최근 14일 논문 종합 분석' },
   sources:   { title: '소스 현황', hint: '활성·유휴·오류 + 7일 추이' },
 };
 
@@ -84,6 +85,12 @@ async function init() {
     state.sourceHistory = await r.json();
   } catch (e) {
     state.sourceHistory = {};
+  }
+  try {
+    const r = await fetch('./data/paper_trends.json?t=' + Date.now());
+    state.paperTrends = await r.json();
+  } catch (e) {
+    state.paperTrends = null;
   }
 
   renderTopbar();
@@ -215,6 +222,7 @@ function renderContent() {
   const newsGrid = document.getElementById('news-grid');
   const stratView = document.getElementById('strategy-view');
   const sourcesView = document.getElementById('sources-view');
+  const papersView = document.getElementById('papers-view');
   const controlsRow = document.querySelector('.controls-row');
   const filterLabel = document.querySelector('.filter-label');
   const title = document.getElementById('topbar-title');
@@ -223,6 +231,7 @@ function renderContent() {
   newsGrid.classList.add('hidden');
   stratView.classList.add('hidden');
   sourcesView.classList.add('hidden');
+  if (papersView) papersView.classList.add('hidden');
   controlsRow.style.display = 'flex';
   if (filterLabel) filterLabel.style.display = 'block';
 
@@ -243,6 +252,14 @@ function renderContent() {
     controlsRow.style.display = 'none';
     if (filterLabel) filterLabel.style.display = 'none';
     renderSourcesView();
+    renderStats();
+    return;
+  }
+  if (state.view === 'papers') {
+    if (papersView) papersView.classList.remove('hidden');
+    controlsRow.style.display = 'none';
+    if (filterLabel) filterLabel.style.display = 'none';
+    renderPapersView();
     renderStats();
     return;
   }
@@ -711,6 +728,116 @@ function bindEvents() {
       if (input) input.value = saved;
     }
   } catch (e) {}
+}
+
+// ========================= 논문 흐름 분석 =========================
+
+function renderPapersView() {
+  const trends = state.paperTrends;
+  const meta = document.getElementById('papers-meta');
+  if (!trends || !trends.paper_count) {
+    meta.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">📑</div>
+        <div class="empty-title">논문 흐름 분석이 아직 없습니다</div>
+        <div class="empty-desc">다음 빌드(매일 KST 06:00)부터 자동 생성됩니다.</div>
+      </div>
+    `;
+    document.getElementById('papers-narrative').innerHTML = '';
+    document.getElementById('papers-hot-topics').innerHTML = '';
+    document.getElementById('papers-techniques').innerHTML = '';
+    document.getElementById('papers-institutions').innerHTML = '';
+    document.getElementById('papers-keywords').innerHTML = '';
+    document.getElementById('papers-actionable').innerHTML = '';
+    document.getElementById('papers-list').innerHTML = '';
+    return;
+  }
+
+  const analyzedAt = trends.analyzed_at ? formatKoreanDate(new Date(trends.analyzed_at)) : '';
+  meta.innerHTML = `
+    <div class="papers-meta-row">
+      <span><strong>${trends.paper_count}</strong>편 논문 · 최근 <strong>${trends.days_window}</strong>일 분석</span>
+      <span class="papers-meta-time">${escapeHtml(analyzedAt)}</span>
+    </div>
+  `;
+
+  // Narrative
+  document.getElementById('papers-narrative').innerHTML = renderMarkdown(trends.narrative || '');
+
+  // Hot topics
+  const topicsRoot = document.getElementById('papers-hot-topics');
+  const topics = trends.hot_topics || [];
+  topicsRoot.innerHTML = topics.length === 0
+    ? '<div class="papers-empty">데이터 없음</div>'
+    : topics.map(t => `
+        <div class="topic-item">
+          <div class="topic-head">
+            <span class="topic-name">${escapeHtml(t.topic || '')}</span>
+            ${t.paper_count ? `<span class="topic-count">${t.paper_count}편</span>` : ''}
+          </div>
+          <div class="topic-desc">${escapeHtml(t.description || '')}</div>
+        </div>
+      `).join('');
+
+  // Techniques
+  const techRoot = document.getElementById('papers-techniques');
+  const techs = trends.key_techniques || [];
+  techRoot.innerHTML = techs.length === 0
+    ? '<div class="papers-empty">데이터 없음</div>'
+    : techs.map(t => `
+        <div class="topic-item">
+          <div class="topic-head"><span class="topic-name">${escapeHtml(t.technique || '')}</span></div>
+          <div class="topic-desc">${escapeHtml(t.description || '')}</div>
+        </div>
+      `).join('');
+
+  // Institutions
+  const instRoot = document.getElementById('papers-institutions');
+  const insts = trends.top_institutions || [];
+  instRoot.innerHTML = insts.length === 0
+    ? '<div class="papers-empty">데이터 없음</div>'
+    : `<div class="freq-list">${
+        insts.map(i => `
+          <div class="freq-item">
+            <span class="freq-name">${escapeHtml(i.name)}</span>
+            <span class="freq-bar" style="width:${Math.min(100, i.count * 10)}%"></span>
+            <span class="freq-count">${i.count}</span>
+          </div>
+        `).join('')
+      }</div>`;
+
+  // Keywords
+  const kwRoot = document.getElementById('papers-keywords');
+  const kws = (trends.top_keywords || []).slice(0, 15);
+  kwRoot.innerHTML = kws.length === 0
+    ? '<div class="papers-empty">데이터 없음</div>'
+    : `<div class="kw-cloud">${
+        kws.map(k => `<span class="kw-tag" style="font-size:${Math.min(18, 11 + k.count)}px">${escapeHtml(k.keyword)} <em>${k.count}</em></span>`).join('')
+      }</div>`;
+
+  // Actionable insights
+  const actRoot = document.getElementById('papers-actionable');
+  const acts = trends.actionable_insights || [];
+  actRoot.innerHTML = acts.length === 0
+    ? '<li class="papers-empty">데이터 없음</li>'
+    : acts.map(a => `<li>${escapeHtml(a)}</li>`).join('');
+
+  // 논문 목록
+  const listRoot = document.getElementById('papers-list');
+  const papers = trends.recent_papers || [];
+  listRoot.innerHTML = papers.length === 0
+    ? '<div class="papers-empty">논문 없음</div>'
+    : papers.map(p => `
+        <div class="paper-row">
+          <div class="paper-row-head">
+            <span class="score-badge mid">중요도 ${p.score || 0}</span>
+            <span class="date-text">${escapeHtml(p.date || '')}</span>
+          </div>
+          <a class="paper-row-title" href="${escapeHtml(p.url)}" target="_blank" rel="noopener">${escapeHtml(p.title)}</a>
+          ${p.summary_ko ? `<div class="paper-row-summary">${escapeHtml(p.summary_ko)}</div>` : ''}
+          <div class="paper-row-source">${escapeHtml(p.source || 'arXiv')}</div>
+        </div>
+      `).join('');
 }
 
 // ========================= 다중 선택 + AI 분석 =========================
