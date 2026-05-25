@@ -17,34 +17,56 @@
 
       <div class="nav-section">
         <div class="nav-section-title">관점 · 뷰</div>
-        <a href="#" class="nav-item active" data-view="latest">
-          <span class="nav-icon">🕒</span>
-          <span>최신순 뉴스</span>
-        </a>
+
+        <!-- 시사점 (expandable) -->
+        <div class="nav-group" data-group="strategy">
+          <a href="#" class="nav-item nav-parent" data-view="strategy" data-period="daily">
+            <span class="nav-icon">🎯</span>
+            <span class="nav-label">전략·기획 시사점</span>
+            <span class="nav-toggle">▾</span>
+          </a>
+          <div class="nav-children" data-children-of="strategy">
+            <a href="#" class="nav-sub active" data-view="strategy" data-period="daily">
+              <span class="nav-sub-bullet">·</span> Daily
+            </a>
+            <a href="#" class="nav-sub" data-view="strategy" data-period="weekly">
+              <span class="nav-sub-bullet">·</span> Weekly
+            </a>
+            <a href="#" class="nav-sub" data-view="strategy" data-period="monthly">
+              <span class="nav-sub-bullet">·</span> Monthly
+            </a>
+          </div>
+        </div>
+
         <a href="#" class="nav-item" data-view="top">
           <span class="nav-icon">⭐</span>
-          <span>중요도 TOP</span>
-        </a>
-        <a href="#" class="nav-item" data-view="insights">
-          <span class="nav-icon">💡</span>
-          <span>시사점 있는 항목</span>
+          <span class="nav-label">중요도 TOP</span>
         </a>
         <a href="#" class="nav-item" data-view="today">
           <span class="nav-icon">📅</span>
-          <span>오늘 추가됨</span>
+          <span class="nav-label">오늘 추가됨</span>
         </a>
-      </div>
+        <a href="#" class="nav-item active" data-view="latest">
+          <span class="nav-icon">🕒</span>
+          <span class="nav-label">최신순</span>
+        </a>
 
-      <div class="nav-section">
-        <div class="nav-section-title">분석</div>
-        <a href="#" class="nav-item" data-view="strategy">
-          <span class="nav-icon">🎯</span>
-          <span>전략·기획 시사점</span>
-        </a>
-        <a href="#" class="nav-item" data-view="sources">
-          <span class="nav-icon">🔗</span>
-          <span>소스 현황</span>
-        </a>
+        <!-- 소스 현황 (expandable) -->
+        <div class="nav-group" data-group="sources">
+          <a href="#" class="nav-item nav-parent" data-view="sources" data-tab="status">
+            <span class="nav-icon">🔗</span>
+            <span class="nav-label">소스 현황</span>
+            <span class="nav-toggle">▾</span>
+          </a>
+          <div class="nav-children" data-children-of="sources">
+            <a href="#" class="nav-sub active" data-view="sources" data-tab="status">
+              <span class="nav-sub-bullet">·</span> 현재 상태
+            </a>
+            <a href="#" class="nav-sub" data-view="sources" data-tab="trend">
+              <span class="nav-sub-bullet">·</span> 7일 추이
+            </a>
+          </div>
+        </div>
       </div>
 
       <div class="sidebar-footer">
@@ -100,16 +122,35 @@
         <div class="news-grid" id="news-grid"></div>
 
         <div id="strategy-view" class="strategy-view hidden">
+          <!-- period 선택 컨트롤 -->
+          <div id="strategy-controls" class="strategy-controls">
+            <div class="strategy-period-tabs">
+              <button class="period-tab active" data-period="daily">Daily</button>
+              <button class="period-tab" data-period="weekly">Weekly</button>
+              <button class="period-tab" data-period="monthly">Monthly</button>
+            </div>
+            <select id="strategy-period-select"></select>
+          </div>
           <div id="strategy-cards"></div>
         </div>
 
         <div id="sources-view" class="sources-view hidden">
-          <div id="sources-table"></div>
+          <div id="sources-tab-status">
+            <div id="sources-table"></div>
+          </div>
+          <div id="sources-tab-trend" class="hidden">
+            <div class="chart-wrap">
+              <h3>최근 7일 소스별 수집 추이</h3>
+              <div class="chart-canvas-wrap"><canvas id="trend-chart"></canvas></div>
+              <div id="trend-legend" class="trend-legend"></div>
+            </div>
+          </div>
         </div>
       </div>
     </main>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
