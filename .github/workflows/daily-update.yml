@@ -39,7 +39,9 @@ concurrency:
 jobs:
   fetch-and-deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    # v3.0: enrich 500건 + strategy(daily/weekly/monthly) + papers + deploy 합치면 30분 부족.
+    # 빌드 #17이 [428/483] enrich 중에 cancelled됨. 90분으로 상향.
+    timeout-minutes: 90
     steps:
       - name: Checkout
         uses: actions/checkout@v4
