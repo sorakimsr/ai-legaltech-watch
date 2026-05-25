@@ -59,6 +59,46 @@ PRESERVE_FIELDS = [
 ]
 
 
+def _arxiv_fetch_with_retry(url: str, max_retries: int = 3):
+    """v3.0: arXiv API HTTP 429 대응 — Retry-After 헤더 + exponential backoff.
+
+    arXiv 권장 정책: 호출 간격 최소 3초, 트래픽 많을 때 429 반환 후 Retry-After 제공.
+    """
+    from urllib.request import Request, urlopen
+    from urllib.error import HTTPError
+
+    headers = {"User-Agent": "Mozilla/5.0 (compatible; AI-Legaltech-Watch/3.0)"}
+    delays = [5, 15, 30]  # 1차 5초, 2차 15초, 3차 30초
+
+    for attempt in range(max_retries + 1):
+        try:
+            req = Request(url, headers=headers)
+            with urlopen(req, timeout=25) as resp:
+                return resp.read().decode("utf-8", errors="replace")
+        except HTTPError as exc:
+            if exc.code == 429 and attempt < max_retries:
+                # Retry-After 헤더 우선, 없으면 backoff 시퀀스 사용
+                ra = exc.headers.get("Retry-After") if exc.headers else None
+                wait = delays[attempt]
+                if ra:
+                    try:
+                        wait = max(wait, int(ra))
+                    except (TypeError, ValueError):
+                        pass
+                print(f"    -> arxiv 429, retry in {wait}s (attempt {attempt+1}/{max_retries})", flush=True)
+                time.sleep(wait)
+                continue
+            raise
+        except Exception:
+            if attempt < max_retries:
+                wait = delays[attempt]
+                print(f"    -> arxiv transient error, retry in {wait}s (attempt {attempt+1}/{max_retries})", flush=True)
+                time.sleep(wait)
+                continue
+            raise
+    return None  # unreachable
+
+
 def fetch_source(source_def):
     name, url, source_type, default_cats, lang = source_def
     items = []
@@ -66,14 +106,13 @@ def fetch_source(source_def):
         print(f"  [fetch] {name}", flush=True)
         # v2.7: arXiv API는 응답이 무거워서 전역 8초 timeout으로는 잘림 →
         # urllib로 별도 호출 (25s timeout) 후 raw text를 feedparser에 전달
+        # v3.0: HTTP 429 대응 retry 로직 추가
         if source_type == "arxiv" and "api/query" in url:
             try:
-                from urllib.request import Request, urlopen
-                req = Request(url, headers={
-                    "User-Agent": "Mozilla/5.0 (compatible; AI-Legaltech-Watch/2.7)"
-                })
-                with urlopen(req, timeout=25) as resp:
-                    body = resp.read().decode("utf-8", errors="replace")
+                body = _arxiv_fetch_with_retry(url, max_retries=3)
+                if not body:
+                    print(f"    -> arxiv api fetch error: empty body", flush=True)
+                    return [], "error"
                 feed = feedparser.parse(body)
             except Exception as exc:
                 print(f"    -> arxiv api fetch error: {exc}", flush=True)
@@ -394,9 +433,11 @@ def main():
         new_in_src = sum(1 for it in items if it["url"] not in prev_map)
         new_items_by_source[name] = new_in_src
         all_new_items.extend(items)
-        # v2.7: arXiv API는 권장 호출 간격 3초 (429 방지)
+        # v3.0: arXiv API는 권장 호출 간격 3초 (429 방지). 카테고리 6개 연속 호출 시
+        # IP-based rate limit이 누적되므로 5초로 상향. retry 로직(_arxiv_fetch_with_retry)이
+        # backoff를 처리하므로 sleep은 정상 흐름의 throttle 역할.
         if source_type == "arxiv":
-            time.sleep(3)
+            time.sleep(5)
         else:
             time.sleep(0.3)
 

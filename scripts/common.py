@@ -86,6 +86,29 @@ CATEGORY_KEYWORDS = {
         "deepmind", "meta ai", "llama", "mistral", "xai", "grok",
         "nvidia ai", "microsoft ai", "perplexity",
     ],
+    # v3.0: AI 거버넌스·리스크 — 사내 거버넌스 (정부 규제와 구분)
+    "governance": [
+        "ai 거버넌스", "ai governance", "governance gap",
+        "거버넌스 공백", "거버넌스 부재",
+        "ai 리스크", "ai risk", "ai risk management",
+        "에이전트 거버넌스", "agent governance",
+        "엔터프라이즈 ai 거버넌스", "enterprise ai governance",
+        "ai 윤리", "ai ethics", "responsible ai",
+        "ai 평가", "ai evaluation", "ai eval", "ai 벤치마크", "ai benchmark",
+        "evaluation challenges", "ai 안전성", "ai safety",
+        "ai 리터러시", "ai literacy",
+        "compliance ai", "ai audit", "ai impact assessment",
+    ],
+    # v3.0: 시장·경쟁 구도 — 벤더 종속·모트·자체 구축 등 시장 구조 변화
+    "market": [
+        "borrowed time", "commoditising", "commoditizing",
+        "wrappers", "wrapper", "in-house tool", "build their own", "self-hosted",
+        "vendor lock", "lock-in", "벤더 종속", "moat", "differentiation",
+        "alternative to", "challenger", "disrupt", "disruption",
+        "competitive landscape", "market shift", "consolidation",
+        "frontrunner", "incumbent", "market commoditization",
+        "단일 llm", "단일 모델",
+    ],
 }
 
 # 카테고리 우선순위 (정렬 시 사용)
@@ -94,9 +117,11 @@ CATEGORY_PRIORITY = {
     "legaltech": 2,
     "funding": 3,
     "adoption": 4,
-    "policy": 5,
-    "product": 6,
-    "ai-industry": 7,
+    "governance": 5,  # v3.0: 사내 거버넌스 (정부 정책보다 실무 가까움)
+    "policy": 6,
+    "market": 7,      # v3.0: 시장·경쟁 구도
+    "product": 8,
+    "ai-industry": 9,
 }
 
 # 사전 컴파일
@@ -253,6 +278,16 @@ BLACKLIST_KEYWORDS = [
     "전자담배", "무니코틴", "니코틴 액상", "액상 흡연",
     "흡연", "금연", "담배", "ai 앵커 광고", "ai 의사 광고",
     "사후 광고", "광고 심의", "광고 규제 우회",
+    # v3.0: 일반 산업 PR·이모저모 패턴 (AI 무관 retail/heavy industry PR 차단)
+    "이모저모", "유통 이모저모", "패션 이모저모", "식품 이모저모",
+    "브랜드 엑스포", "대한민국 브랜드 엑스포",
+    "조선소", "조선소 인수", "해양종합기업", "해양 종합기업",
+    "기자재사", "기자재사들", "조선 기자재",
+    "철강사", "정유사", "석유화학",
+    # v3.0: 일반 유통·소비재 회장·총수 인사 동정 (AI 무관)
+    "이재현 회장", "구광모 회장", "정의선 회장", "신동빈 회장",
+    "회장 인사", "총수 회동", "총수 회담",
+    "그룹 인사", "임원 인사 이모저모",
     # AI 자동 생성 lifestyle 컬럼 시리즈명 (v2.7)
     "ai 와 함께 쓴", "ai와 함께 쓴",
     "ai 와 함께", "ai가 쓰는",
@@ -285,13 +320,34 @@ BOILERPLATE_PATTERNS = [
 ]
 
 
+# v3.0: 외교·정치 인물명 — AI 정책 시그널이 함께 있으면 차단 우회 (regulation/executive order 관련 기사 보호)
+POLITICAL_FIGURES = {
+    "vucic", "putin", "trump", "biden", "macron", "merkel",
+    "xi jinping", "시진핑", "푸틴", "트럼프", "바이든", "마크롱",
+    "kim jong un", "김정은",
+}
+
+# AI 정책·규제 화이트리스트 — 이 시그널이 본문에 있으면 정치 인물명 차단을 우회
+POLICY_GUARD_SIGNALS = [
+    "ai 규제", "ai규제", "ai 정책", "ai정책", "ai 법안", "ai법안",
+    "ai 입법", "ai 행정명령", "행정명령 ai",
+    "ai act", "eu ai act", "ai 액트",
+    "ai 거버넌스", "ai governance",
+    "ai 기본법", "ai기본법",
+    "executive order", "ai standards", "ai 표준",
+    "ai regulation", "regulation ai",
+    "데이터 규제", "개인정보 규제", "알고리즘 규제",
+]
+
+
 def is_relevant(title: str, summary: str, source_type: str = "rss") -> bool:
     """관련성 체크 — 모든 소스에 보일러플레이트 + 블랙리스트 적용.
 
-    규칙 (v2.7 강화):
+    규칙 (v3.0 강화):
     0. AI 생성 보일러플레이트 패턴이 본문에 있으면 모든 소스에서 즉시 제외
     1. 블랙리스트 키워드가 제목 또는 요약에 있으면 모든 소스에서 즉시 제외
-       (이전: Naver/Google News만 → RSS 일부 매체가 정치·라이프 기사 섞어 보내는 케이스가 있어 모든 소스로 확장)
+       (v3.0) 단, 정치 인물명(trump/biden 등)이 매칭된 경우에도
+       본문에 AI 정책·규제 시그널이 함께 있으면 통과 (AI 정책 동향 보호)
     2. Naver·Google News는 STRONG 또는 (AI+LEGAL) 시그널 추가 검증
     3. RSS·arXiv·OpenAlex는 블랙리스트만 통과하면 OK (큐레이션된 소스로 가정)
     """
@@ -303,9 +359,15 @@ def is_relevant(title: str, summary: str, source_type: str = "rss") -> bool:
         if pat in text:
             return False
 
+    # v3.0: AI 정책 시그널 존재 여부 사전 계산 (정치 인물명 차단 우회용)
+    has_policy_guard = any(g in text for g in POLICY_GUARD_SIGNALS)
+
     # 1. 블랙리스트 — 모든 소스에 적용 (RSS도 정치·lifestyle 기사 종종 포함)
     for kw in BLACKLIST_KEYWORDS:
         if kw in title_lower or kw in text:
+            # v3.0: 정치 인물명 매칭이지만 AI 정책 시그널이 있으면 통과
+            if kw in POLITICAL_FIGURES and has_policy_guard:
+                continue
             return False
 
     # RSS·arXiv·OpenAlex는 큐레이션된 소스이므로 블랙리스트 통과만으로 OK
@@ -476,6 +538,11 @@ LAW_AI_KEYWORDS = [
     "knowledge management ai", "법률 지식관리", "지식관리 ai",
     "legal knowledge graph", "matter management ai", "clm",
     "contract intelligence", "contract lifecycle",
+    # v3.0: 일반인 법률 접근·소송 자동화 (대형로펌이 모니터링할 시장 변화)
+    "나홀로 소송", "셀프 소송", "self-represented litigant",
+    "소송 자동화", "litigation automation",
+    "ai 변호", "변호 자동화", "법률 챗봇", "legal chatbot",
+    "온라인 법률 상담", "ai 법률 상담",
 ]
 
 GLOBAL_MARKET_KEYWORDS = [
@@ -508,6 +575,18 @@ POLICY_KEYWORDS = [
     "ai 저작권", "ai copyright", "copyright ai", "fair use ai",
     "compliance ai", "ai audit", "ai impact assessment",
     "executive order ai", "행정명령 ai", "ai 행정명령",
+    # v3.0: AI 거버넌스·리스크·평가 (사내 거버넌스 영역)
+    "governance gap", "거버넌스 공백", "거버넌스 부재",
+    "ai 리스크", "ai risk", "ai risk management",
+    "에이전트 거버넌스", "agent governance",
+    "엔터프라이즈 ai 거버넌스", "enterprise ai governance",
+    "ai 윤리", "ai ethics", "responsible ai",
+    "ai 평가", "ai evaluation", "ai eval", "ai 벤치마크", "ai benchmark",
+    "evaluation challenges", "ai 안전성", "ai safety",
+    "ai 리터러시", "ai literacy", "ai 문해력",
+    # v3.0: 기준 마련 변형 (정책 공백 케이스 추가 매칭)
+    "기준 마련 못", "기준 못 마련", "기준이 없",
+    "1년째 기준", "수년째 기준", "기준 부재",
 ]
 
 PROMO_PATTERNS = [
