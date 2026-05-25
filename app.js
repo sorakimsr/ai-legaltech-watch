@@ -1,4 +1,10 @@
-// AI & Legaltech Watch v2.5 — 다중선택 + AI 분석 + 시계열 + 7일 추이
+// AI & Legaltech Watch v2.7 — 다중선택 + AI 분석 + 시계열 + 7일 추이
+
+// 강제 HTTPS — Mixed Content 차단으로 worker fetch가 실패하는 문제 방지
+// (http:// 로 접속한 사용자는 https:// 로 즉시 redirect)
+if (location.protocol === 'http:' && !location.hostname.startsWith('localhost') && !location.hostname.startsWith('127.0.0.1')) {
+  location.replace(location.href.replace(/^http:/, 'https:'));
+}
 
 // ============================================================================
 // AI 분석 백엔드 (Cloudflare Worker)
@@ -47,6 +53,8 @@ const state = {
   strategyKey: null,        // 선택된 날짜·주·월 키
   // 소스 sub-state
   sourcesTab: 'status',     // status | trend
+  sourcesPeriod: '7days',   // today | 7days | 30days | all (소스 현황 표용)
+  trendView: 'source',      // source | category (7일 추이 차트 모드)
   // 필터
   category: 'all',
   search: '',
@@ -517,31 +525,116 @@ function renderSourcesStatus() {
     root.innerHTML = '<div class="empty-state"><div class="empty-icon">🔗</div><div class="empty-title">소스 정보 없음</div></div>';
     return;
   }
-  const byStatus = sources.reduce((a, s) => { a[s.status] = (a[s.status] || 0) + 1; return a; }, {});
-  const total = sources.reduce((sum, s) => sum + (s.count || 0), 0);
-  const rows = sources.map(s => `
+
+  // 선택된 기간 키 목록 생성
+  const today = new Date();
+  const periodDayKeys = (() => {
+    const ks = [];
+    const make = n => {
+      for (let i = 0; i < n; i++) {
+        const d = new Date(today);
+        d.setDate(d.getDate() - i);
+        ks.push(d.toISOString().slice(0, 10));
+      }
+    };
+    if (state.sourcesPeriod === 'today') make(1);
+    else if (state.sourcesPeriod === '7days') make(7);
+    else if (state.sourcesPeriod === '30days') make(30);
+    else make(60); // all — source_history는 60일 보존
+    return ks;
+  })();
+
+  const history = state.sourceHistory || {};
+
+  // source_type 결정 — items에서 추정 (items의 source가 일치하는 첫 항목의 source_type)
+  const itemBySource = {};
+  for (const it of (state.data.items || [])) {
+    if (it.source && !itemBySource[it.source]) itemBySource[it.source] = it;
+  }
+
+  // 소스별로 row 계산
+  const enriched = sources.map(s => {
+    const hist = history[s.name] || {};
+    let periodFetched = 0;
+    let periodNew = 0;
+    let lastActiveDate = null;
+    for (const k of periodDayKeys) {
+      const entry = hist[k];
+      if (entry) {
+        const f = entry.fetched || 0;
+        periodFetched += f;
+        periodNew += entry.new || 0;
+        if (f > 0 && (!lastActiveDate || k > lastActiveDate)) lastActiveDate = k;
+      }
+    }
+    // 마지막 활성일은 전체 기간으로 따로 한 번 더 봄 (선택 기간이 짧을 때 의미 없을까봐)
+    let everLastActive = null;
+    for (const k of Object.keys(hist)) {
+      if ((hist[k]?.fetched || 0) > 0 && (!everLastActive || k > everLastActive)) everLastActive = k;
+    }
+    const stype = itemBySource[s.name]?.source_type || '-';
+    return {
+      ...s,
+      source_type: stype,
+      periodFetched,
+      periodNew,
+      lastActive: lastActiveDate || everLastActive || '-',
+    };
+  });
+
+  // 정렬: 기간 내 수집 많은 순
+  enriched.sort((a, b) => b.periodFetched - a.periodFetched);
+
+  const byStatus = enriched.reduce((a, s) => { a[s.status] = (a[s.status] || 0) + 1; return a; }, {});
+  const periodTotal = enriched.reduce((sum, s) => sum + s.periodFetched, 0);
+
+  const statusBadge = (st) => {
+    const label = st === 'active' ? 'Active' : st === 'error' ? 'Error' : 'Idle';
+    return `<span class="badge-${escapeHtml(st)}">${label}</span>`;
+  };
+  const typeBadge = (t) => {
+    const labels = { rss: 'RSS', arxiv: 'arXiv', naver: 'Naver', google_news: 'Google News', semantic_scholar: 'S2', korean: 'KR', blog: 'Blog' };
+    return `<span class="type-badge type-${escapeHtml(t)}">${escapeHtml(labels[t] || t || '-')}</span>`;
+  };
+
+  const periodLabel = { today: '오늘', '7days': '최근 7일', '30days': '최근 30일', all: '전체 누적' }[state.sourcesPeriod] || '';
+
+  const rows = enriched.map(s => `
     <tr>
       <td class="src-name">${escapeHtml(s.name)}</td>
-      <td><span class="badge-${escapeHtml(s.status)}">${escapeHtml(s.status === 'active' ? 'Active' : s.status === 'error' ? 'Error' : 'Idle')}</span></td>
-      <td>${s.count || 0}</td>
-      <td style="color:#6b7280;font-size:11px;">${escapeHtml(s.url || '')}</td>
+      <td>${typeBadge(s.source_type)}</td>
+      <td>${statusBadge(s.status)}</td>
+      <td class="num-cell">${s.periodFetched}</td>
+      <td class="num-cell">${s.periodNew}</td>
+      <td>${escapeHtml(s.lastActive)}</td>
+      <td class="src-url">${s.url ? `<a href="${escapeHtml(s.url)}" target="_blank" rel="noopener">${escapeHtml(s.url)}</a>` : '-'}</td>
     </tr>
   `).join('');
+
   root.innerHTML = `
     <div class="sources-table-wrap">
-      <h3>소스 현황 (총 ${sources.length}개 · 활성 ${byStatus.active || 0}개 · 수집 ${total}건)</h3>
-      <table class="src-table">
-        <thead><tr><th>소스</th><th>상태</th><th>이번 빌드</th><th>URL</th></tr></thead>
-        <tbody>${rows}</tbody>
-      </table>
+      <h3>소스 현황 — ${escapeHtml(periodLabel)} (총 ${enriched.length}개 · 활성 ${byStatus.active || 0}개 · 수집 ${periodTotal}건)</h3>
+      <div class="sources-table-scroll">
+        <table class="src-table">
+          <thead>
+            <tr>
+              <th class="col-name">소스</th>
+              <th class="col-type">유형</th>
+              <th class="col-status">상태</th>
+              <th class="col-num">${escapeHtml(periodLabel)} 수집</th>
+              <th class="col-num">신규</th>
+              <th class="col-date">마지막 활성</th>
+              <th class="col-url">URL</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
     </div>
   `;
 }
 
 function renderSourceTrend() {
-  const history = state.sourceHistory || {};
-  const sources = state.data.sources || [];
-  // 최근 7일 키 (오늘 포함)
   const today = new Date();
   const days = [];
   for (let i = 6; i >= 0; i--) {
@@ -550,54 +643,90 @@ function renderSourceTrend() {
     days.push(d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'));
   }
 
-  // 활성 소스 상위 (수집량 기준 top 8) — 너무 많으면 라인 가독성 떨어짐
-  const topSources = sources
-    .filter(s => s.status === 'active')
-    .sort((a, b) => (b.count || 0) - (a.count || 0))
-    .slice(0, 8)
-    .map(s => s.name);
+  const colors = ['#2563eb', '#16a34a', '#f59e0b', '#dc2626', '#7c3aed', '#0891b2', '#db2777', '#65a30d', '#0ea5e9', '#a16207'];
 
-  const colors = ['#2563eb', '#16a34a', '#f59e0b', '#dc2626', '#7c3aed', '#0891b2', '#db2777', '#65a30d'];
+  // 차트 제목 + view 모드별 데이터셋
+  const titleEl = document.getElementById('trend-chart-title');
+  let datasets = [];
+  let noteHtml = '';
 
-  const datasets = topSources.map((name, idx) => {
-    const series = days.map(d => {
-      const entry = (history[name] || {})[d];
-      return entry ? (entry.fetched || 0) : 0;
-    });
-    return {
-      label: name,
-      data: series,
+  if (state.trendView === 'category') {
+    if (titleEl) titleEl.textContent = '최근 7일 컨텐츠 태그별 수집 추이';
+    // items의 categories 별로 발행일 기준 일별 카운트
+    const items = state.data.items || [];
+    const catDayMap = {}; // category → { date → count }
+    for (const it of items) {
+      if (it.date_unknown) continue;
+      const d = (it.date || '').slice(0, 10);
+      if (!days.includes(d)) continue;
+      const cats = it.categories || [];
+      for (const c of cats) {
+        if (!catDayMap[c]) catDayMap[c] = {};
+        catDayMap[c][d] = (catDayMap[c][d] || 0) + 1;
+      }
+    }
+    // 합계 큰 카테고리 상위 10
+    const catTotals = Object.entries(catDayMap).map(([c, m]) =>
+      [c, Object.values(m).reduce((a, b) => a + b, 0)]
+    ).sort((a, b) => b[1] - a[1]).slice(0, 10);
+
+    datasets = catTotals.map(([cat, _], idx) => ({
+      label: cat,
+      data: days.map(d => (catDayMap[cat][d] || 0)),
       borderColor: colors[idx % colors.length],
       backgroundColor: colors[idx % colors.length] + '20',
       tension: 0.3,
       borderWidth: 2,
       pointRadius: 3,
-      pointHoverRadius: 5,
-    };
-  });
+    }));
+    noteHtml = `<div class="trend-note">발행일 기준. 상위 ${catTotals.length}개 태그만 표시.</div>`;
+  } else {
+    if (titleEl) titleEl.textContent = '최근 7일 소스별 수집 추이';
+    const history = state.sourceHistory || {};
+    const sources = state.data.sources || [];
+    const topSources = sources
+      .filter(s => s.status === 'active')
+      .sort((a, b) => (b.count || 0) - (a.count || 0))
+      .slice(0, 8)
+      .map(s => s.name);
 
-  const ctx = document.getElementById('trend-chart');
-  if (!ctx) return;
+    datasets = topSources.map((name, idx) => ({
+      label: name,
+      data: days.map(d => ((history[name] || {})[d]?.fetched || 0)),
+      borderColor: colors[idx % colors.length],
+      backgroundColor: colors[idx % colors.length] + '20',
+      tension: 0.3,
+      borderWidth: 2,
+      pointRadius: 3,
+    }));
+    noteHtml = `<div class="trend-note">수집일 기준. 활성 소스 중 수집량 상위 8개만 표시.</div>`;
+  }
 
+  const wrap = document.querySelector('.chart-canvas-wrap');
   if (state.trendChart) {
     state.trendChart.destroy();
+    state.trendChart = null;
   }
-
   if (typeof Chart === 'undefined') {
-    document.querySelector('.chart-canvas-wrap').innerHTML = '<div class="empty-state">Chart.js 로드 실패. 새로고침해주세요.</div>';
+    if (wrap) wrap.innerHTML = '<div class="empty-state">Chart.js 로드 실패</div>';
     return;
   }
-
   if (datasets.length === 0) {
-    document.querySelector('.chart-canvas-wrap').innerHTML = '<div class="empty-state">7일 추이 데이터가 아직 누적되지 않았습니다. 며칠 후 확인해주세요.</div>';
+    if (wrap) wrap.innerHTML = '<div class="empty-state">아직 데이터가 충분히 누적되지 않았습니다.</div>';
     return;
   }
 
+  // canvas 복원 (이전 empty-state 메시지가 들어있을 수 있어서)
+  if (wrap && !document.getElementById('trend-chart')) {
+    wrap.innerHTML = '<canvas id="trend-chart"></canvas>';
+  }
+
+  const ctx = document.getElementById('trend-chart');
   state.trendChart = new Chart(ctx, {
     type: 'line',
     data: {
-      labels: days.map(d => d.slice(5)),  // MM-DD만
-      datasets: datasets,
+      labels: days.map(d => d.slice(5)),
+      datasets,
     },
     options: {
       responsive: true,
@@ -607,15 +736,12 @@ function renderSourceTrend() {
         legend: { position: 'bottom', labels: { font: { size: 11 } } },
         tooltip: { mode: 'index' },
       },
-      scales: {
-        y: { beginAtZero: true, ticks: { stepSize: 5 } },
-      },
+      scales: { y: { beginAtZero: true, ticks: { stepSize: 5 } } },
     },
   });
 
-  // 사용자에게 안내 — 전체 소스 라인 보고 싶으면
   const legend = document.getElementById('trend-legend');
-  legend.innerHTML = `<div class="trend-note">활성 소스 중 수집량 상위 8개만 표시. 전체 소스 데이터는 source_history.json에 누적되어 있습니다.</div>`;
+  if (legend) legend.innerHTML = noteHtml;
 }
 
 // ========================= 이벤트 =========================
@@ -698,6 +824,26 @@ function bindEvents() {
   // 선택 해제
   const btnClear = document.getElementById('btn-clear-selection');
   if (btnClear) btnClear.addEventListener('click', clearSelection);
+
+  // 소스 현황 기간 selector
+  const sourcesPeriodSel = document.getElementById('sources-period');
+  if (sourcesPeriodSel) {
+    sourcesPeriodSel.value = state.sourcesPeriod;
+    sourcesPeriodSel.addEventListener('change', e => {
+      state.sourcesPeriod = e.target.value;
+      renderSourcesStatus();
+    });
+  }
+
+  // 추이 차트 view 토글 (소스별 / 카테고리별)
+  document.querySelectorAll('.trend-view-tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.trend-view-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      state.trendView = btn.dataset.trendView;
+      renderSourceTrend();
+    });
+  });
 
   // 검색결과 전체 선택
   const btnSelectSearch = document.getElementById('btn-select-search-results');
@@ -800,6 +946,24 @@ function renderPapersView() {
   // Narrative
   document.getElementById('papers-narrative').innerHTML = renderMarkdown(trends.narrative || '');
 
+  // 관련 논문 드롭다운 헬퍼
+  const renderPapersBlock = (papers) => {
+    if (!Array.isArray(papers) || papers.length === 0) return '';
+    return `
+      <details class="topic-papers">
+        <summary>관련 논문 ${papers.length}편 ▾</summary>
+        <ol class="topic-paper-list">
+          ${papers.map(p => `
+            <li>
+              <a href="${escapeHtml(p.url)}" target="_blank" rel="noopener">${escapeHtml(p.title)}</a>
+              <span class="topic-paper-meta">— ${escapeHtml(p.source || 'arXiv')} · ${escapeHtml(p.date || '')}</span>
+            </li>
+          `).join('')}
+        </ol>
+      </details>
+    `;
+  };
+
   // Hot topics
   const topicsRoot = document.getElementById('papers-hot-topics');
   const topics = trends.hot_topics || [];
@@ -812,6 +976,7 @@ function renderPapersView() {
             ${t.paper_count ? `<span class="topic-count">${t.paper_count}편</span>` : ''}
           </div>
           <div class="topic-desc">${escapeHtml(t.description || '')}</div>
+          ${renderPapersBlock(t.papers)}
         </div>
       `).join('');
 
@@ -822,8 +987,12 @@ function renderPapersView() {
     ? '<div class="papers-empty">데이터 없음</div>'
     : techs.map(t => `
         <div class="topic-item">
-          <div class="topic-head"><span class="topic-name">${escapeHtml(t.technique || '')}</span></div>
+          <div class="topic-head">
+            <span class="topic-name">${escapeHtml(t.technique || '')}</span>
+            ${t.paper_count ? `<span class="topic-count">${t.paper_count}편</span>` : ''}
+          </div>
           <div class="topic-desc">${escapeHtml(t.description || '')}</div>
+          ${renderPapersBlock(t.papers)}
         </div>
       `).join('');
 

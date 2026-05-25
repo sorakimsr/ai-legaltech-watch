@@ -385,6 +385,12 @@ input, select { font-family: inherit; outline: none; }
   text-transform: uppercase;
   margin-bottom: 8px;
 }
+.model-hint {
+  display: block;
+  margin-top: 6px;
+  color: #6b7280;
+  font-size: 11.5px;
+}
 .backend-tabs {
   display: flex;
   background: #f3f4f6;
@@ -1126,6 +1132,42 @@ input, select { font-family: inherit; outline: none; }
   line-height: 1.5;
 }
 
+/* 관련 논문 드롭다운 (부상 주제 / 핵심 기법 내부) */
+.topic-papers {
+  margin-top: 8px;
+  font-size: 12px;
+}
+.topic-papers summary {
+  cursor: pointer;
+  user-select: none;
+  display: inline-block;
+  padding: 4px 10px;
+  background: #eef2ff;
+  color: #4338ca;
+  border-radius: 4px;
+  font-weight: 500;
+  font-size: 11.5px;
+  list-style: none;
+}
+.topic-papers summary::-webkit-details-marker { display: none; }
+.topic-papers summary:hover { background: #e0e7ff; }
+.topic-papers .topic-paper-list {
+  margin-top: 8px;
+  padding-left: 18px;
+  color: #4b5563;
+  line-height: 1.6;
+}
+.topic-papers .topic-paper-list li { margin-bottom: 5px; }
+.topic-papers .topic-paper-list a {
+  color: #2563eb;
+  font-weight: 500;
+}
+.topic-papers .topic-paper-list a:hover { text-decoration: underline; }
+.topic-papers .topic-paper-meta {
+  color: #9ca3af;
+  font-size: 11px;
+}
+
 .freq-list { display: flex; flex-direction: column; gap: 8px; }
 .freq-item {
   display: grid;
@@ -1242,12 +1284,67 @@ input, select { font-family: inherit; outline: none; }
   font-weight: 700;
   margin-bottom: 16px;
 }
-.src-table { width: 100%; border-collapse: collapse; }
+/* 소스 현황 컨트롤 + 추이 view 탭 */
+.sources-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.sources-control-label {
+  font-size: 12px;
+  color: #6b7280;
+  font-weight: 500;
+}
+.sources-controls select {
+  padding: 6px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 13px;
+  background: #fff;
+}
+.chart-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.trend-view-tabs {
+  display: flex;
+  background: #f3f4f6;
+  padding: 3px;
+  border-radius: 8px;
+  gap: 2px;
+}
+.trend-view-tab {
+  padding: 6px 14px;
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12.5px;
+  color: #6b7280;
+  font-weight: 500;
+}
+.trend-view-tab.active {
+  background: #fff;
+  color: #0f172a;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+/* 소스 표 — 가로 스크롤 허용 + 컬럼 너비 명시 */
+.sources-table-scroll {
+  overflow-x: auto;
+}
+.src-table { width: 100%; border-collapse: collapse; min-width: 900px; }
 .src-table th, .src-table td {
   text-align: left;
-  padding: 9px 12px;
+  padding: 10px 14px;
   border-bottom: 1px solid #f3f4f6;
   font-size: 13px;
+  white-space: nowrap;
 }
 .src-table th {
   background: #f9fafb;
@@ -1257,9 +1354,38 @@ input, select { font-family: inherit; outline: none; }
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
+.src-table .col-name { width: 240px; }
+.src-table .col-type { width: 90px; }
+.src-table .col-status { width: 90px; }
+.src-table .col-num { width: 110px; text-align: right; }
+.src-table .col-date { width: 120px; }
+.src-table .col-url { width: auto; min-width: 250px; }
+.src-table td.num-cell { text-align: right; font-variant-numeric: tabular-nums; font-weight: 500; color: #0f172a; }
 .src-table td.src-name { font-weight: 500; color: #0f172a; }
+.src-table td.src-url {
+  font-size: 11.5px;
+  max-width: 380px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.src-table td.src-url a { color: #6b7280; }
+.src-table td.src-url a:hover { color: #2563eb; text-decoration: underline; }
 .src-table .badge-active { color: #16a34a; font-weight: 600; }
 .src-table .badge-idle { color: #9ca3af; }
+.type-badge {
+  display: inline-block;
+  padding: 3px 9px;
+  background: #eef2ff;
+  color: #4338ca;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.type-badge.type-arxiv { background: #fef3c7; color: #92400e; }
+.type-badge.type-semantic_scholar { background: #ddd6fe; color: #6d28d9; }
+.type-badge.type-naver { background: #d1fae5; color: #065f46; }
+.type-badge.type-google_news { background: #fee2e2; color: #991b1b; }
+.type-badge.type-korean { background: #dbeafe; color: #1e40af; }
 .src-table .badge-error { color: #dc2626; }
 
 /* ===== Empty State ===== */

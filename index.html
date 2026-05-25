@@ -192,11 +192,26 @@
 
         <div id="sources-view" class="sources-view hidden">
           <div id="sources-tab-status">
+            <div class="sources-controls">
+              <label class="sources-control-label">기간</label>
+              <select id="sources-period">
+                <option value="today">오늘</option>
+                <option value="7days" selected>최근 7일</option>
+                <option value="30days">최근 30일</option>
+                <option value="all">전체 누적</option>
+              </select>
+            </div>
             <div id="sources-table"></div>
           </div>
           <div id="sources-tab-trend" class="hidden">
             <div class="chart-wrap">
-              <h3>최근 7일 소스별 수집 추이</h3>
+              <div class="chart-head">
+                <h3 id="trend-chart-title">최근 7일 소스별 수집 추이</h3>
+                <div class="trend-view-tabs">
+                  <button class="trend-view-tab active" data-trend-view="source">소스별</button>
+                  <button class="trend-view-tab" data-trend-view="category">컨텐츠 태그별</button>
+                </div>
+              </div>
               <div class="chart-canvas-wrap"><canvas id="trend-chart"></canvas></div>
               <div id="trend-legend" class="trend-legend"></div>
             </div>
