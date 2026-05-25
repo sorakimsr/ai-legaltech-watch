@@ -199,6 +199,9 @@ def load_previous_items():
                 if len(dropped_examples) < 5:
                     dropped_examples.append(it.get("title", "")[:60])
                 continue
+            # 1-b. v2.8.9: 옛 'domestic' 카테고리 자동 제거 (v2.8.3에서 카테고리 폐기)
+            if "categories" in it:
+                it["categories"] = [c for c in it["categories"] if c != "domestic"]
             # 2. v2.7.9: 새 PROMO hard cap (v2.7.6) + 가중치(v2.7.3) 재 scoring 일괄 적용
             old_score = it.get("score", 0)
             new_score = score_item(
