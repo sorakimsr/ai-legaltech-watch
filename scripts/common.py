@@ -70,10 +70,7 @@ CATEGORY_KEYWORDS = {
         "case study", "rolls out across", "firm-wide adoption",
         "도입 사례", "활용 사례", "전사 도입", "적용 사례",
     ],
-    "domestic": [
-        # 출처 기반이 더 정확하지만 키워드도 보강
-        "한국", "korea ", "korean ", "korean firm", "korean lawyer",
-    ],
+    # v2.8.3: 'domestic' 카테고리 제거 — 언어 필터(ko/en)로 대체
     "policy": [
         "regulation", "regulator", "compliance",
         "eu ai act", "white house ai", "fcc", "ftc ", "doj ",
@@ -99,8 +96,7 @@ CATEGORY_PRIORITY = {
     "adoption": 4,
     "policy": 5,
     "product": 6,
-    "domestic": 7,
-    "ai-industry": 8,
+    "ai-industry": 7,
 }
 
 # 사전 컴파일
@@ -236,6 +232,18 @@ BLACKLIST_KEYWORDS = [
     "상표 출원", "상표 등록", "지정상품", "디퓨저", "핸드크림",
     # 일반 라이프스타일·취미
     "캠핑", "차박", "낚시", "등산", "맛집", "여행지 추천",
+    # v2.8.3: 경마·도박·레저 (Ironclad/AI 무관)
+    "경마", "경마장", "렛츠런파크", "한국마사회", "경륜", "경정",
+    # v2.8.3: 외교·정치 정상회담 (Ironclad 회사명 우연 매칭 차단)
+    "vucic", "putin", "trump", "biden", "macron", "merkel",
+    "xi jinping", "시진핑", "푸틴", "트럼프", "바이든", "마크롱",
+    "china-serbia", "ironclad friendship", "blood brothers",
+    "전략적 동반자", "정상회담", "외교 정상화", "외교부 장관 회담",
+    "north korea", "kim jong un", "북한", "김정은",
+    # v2.8.3: 연예인 사생활·법적 분쟁 (AI 음성 조작 언급은 부수적)
+    "김수현", "김세의", "정치탄압", "녹취파일", "녹취록 공개",
+    "사생활 폭로", "열애설", "결별설", "공개 연애",
+    "이혼 소송", "친자 확인", "양육권",
     # AI 자동 생성 lifestyle 컬럼 시리즈명 (v2.7)
     "ai 와 함께 쓴", "ai와 함께 쓴",
     "ai 와 함께", "ai가 쓰는",
