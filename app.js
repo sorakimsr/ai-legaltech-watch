@@ -1790,6 +1790,9 @@ function renderMarkdown(text) {
   let html = escapeHtml(text);
   // 코드블록 ```...```
   html = html.replace(/```([\s\S]*?)```/g, (m, p) => `<pre><code>${p}</code></pre>`);
+  // v2.7.9: LLM이 \n 없이 inline으로 ## 헤더를 출력한 경우 강제 줄바꿈 삽입
+  // (한국 전략·기획 시사점 narrative 문단 분리)
+  html = html.replace(/([^\n])\s*(#{1,3} )/g, '$1\n\n$2');
   // 헤딩 (### / ## / #)
   html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
   html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
