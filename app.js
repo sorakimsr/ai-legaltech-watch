@@ -1556,8 +1556,8 @@ function renderPapersView() {
   }
 
   // Narrative
-  // v3.2: papers narrative는 헤더(#, ##, ###) 표시 안 함 — 평문 단락만 보여줌
-  document.getElementById('papers-narrative').innerHTML = renderMarkdown(trends.narrative || '', { stripHeaders: true });
+  // v3.2: papers narrative는 헤더를 본문 사이즈 + bold inline으로 표시 (사용자 정책)
+  document.getElementById('papers-narrative').innerHTML = renderMarkdown(trends.narrative || '', { inlineHeaders: true });
 
   // 관련 논문 드롭다운 헬퍼
   const renderPapersBlock = (papers) => {
@@ -2031,18 +2031,22 @@ function renderMarkdown(text, opts) {
   opts = opts || {};
   // v2.8.6: 빈 헤더 라인(`#` 또는 `## ` 등만 있고 텍스트 없음) 제거
   text = text.replace(/^\s*#{1,6}\s*$/gm, '');
-  // v3.2: stripHeaders 옵션 — 논문 narrative처럼 헤더를 보여주고 싶지 않은 곳에서
-  //   `## 한 줄 요약` 같은 라인을 단락 시작 부분의 평문으로 변환
-  if (opts.stripHeaders) {
-    text = text.replace(/^\s*#{1,6}\s+(.+)$/gm, '$1');
+  // v3.2: inlineHeaders 옵션 — 헤더를 본문 사이즈 + bold 인라인으로 표시
+  //   `## 한 줄 요약` → `<strong class="inline-h">한 줄 요약</strong>` (본문 사이즈, bold)
+  //   사용자 정책: 헤더 폰트 사이즈 = 본문, 음영(mark) 외 일반 텍스트는 bold X
+  if (opts.inlineHeaders || opts.stripHeaders) {
+    text = text.replace(/^\s*#{1,6}\s+(.+)$/gm, (m, p) => `__INLINE_HEADER_OPEN__${p}__INLINE_HEADER_CLOSE__`);
   }
   // 매우 단순한 마크다운 → HTML (안전한 escape 후)
   let html = escapeHtml(text);
+  // inline header placeholder → strong.inline-h
+  html = html.replace(/__INLINE_HEADER_OPEN__/g, '<strong class="inline-h">');
+  html = html.replace(/__INLINE_HEADER_CLOSE__/g, '</strong>');
   // 코드블록 ```...```
   html = html.replace(/```([\s\S]*?)```/g, (m, p) => `<pre><code>${p}</code></pre>`);
   // v2.7.9: LLM이 \n 없이 inline으로 ## 헤더를 출력한 경우 강제 줄바꿈 삽입
   html = html.replace(/([^\n])\s*(#{1,3} )/g, '$1\n\n$2');
-  // 헤딩 (### / ## / #)
+  // 헤딩 (### / ## / #) — inlineHeaders 옵션 안 켜진 경우만
   html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
   html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
   html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
@@ -2104,7 +2108,14 @@ function escapeHtml(text) {
 // v2.7.1: **text** → <mark>text</mark> (HTML escape 후 변환)
 // LLM이 핵심 키워드/문구에 **굵게** 마크업을 추가하면 투명 형광색으로 강조
 function escapeHtmlWithMark(text) {
-  const escaped = escapeHtml(text);
+  if (!text) return '';
+  // v3.2: 빈 헤더 라인 제거 + inline 헤더 변환 (시사점 daily/weekly/monthly 모두 적용)
+  let t = text.replace(/^\s*#{1,6}\s*$/gm, '');
+  // `# 헤더` → __INLINE_HEADER_OPEN__텍스트__INLINE_HEADER_CLOSE__ (escapeHtml 통과 후 변환)
+  t = t.replace(/^\s*#{1,6}\s+(.+)$/gm, (m, p) => `__INLINE_HEADER_OPEN__${p}__INLINE_HEADER_CLOSE__`);
+  const escaped = escapeHtml(t)
+    .replace(/__INLINE_HEADER_OPEN__/g, '<strong class="inline-h">')
+    .replace(/__INLINE_HEADER_CLOSE__/g, '</strong>');
   // **...** 패턴 (개행 제외) → <mark>...</mark>
   return escaped.replace(/\*\*([^*\n]+?)\*\*/g, '<mark>$1</mark>');
 }

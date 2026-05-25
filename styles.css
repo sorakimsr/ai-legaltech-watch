@@ -1355,11 +1355,12 @@ mark {
   font-weight: 500;
 }
 /* v2.8.5: 논문 흐름 페이지 — 탭과 dropdown 사이에 paper count 인라인 표시 */
+/* v3.2: 정중앙에서 탭 바로 오른쪽으로 이동 (flex: 1 + text-align: center 제거) */
 .papers-meta-inline {
-  flex: 1;
-  text-align: center;
   font-size: 13px;
   color: #4b5563;
+  margin-right: auto;  /* 좌측에 붙고 우측의 select는 우측 끝으로 밀려남 */
+  padding-left: 4px;
 }
 .papers-meta-inline strong {
   color: #0f172a;
@@ -1495,6 +1496,29 @@ mark {
 .papers-narrative strong, .papers-narrative b {
   font-weight: normal;
   color: inherit;
+}
+/* v3.2: 헤더(`# 한 줄 요약` 등) → 본문 사이즈 + bold, # 자체는 표시 안 함 */
+.papers-narrative strong.inline-h,
+.strategy-body strong.inline-h,
+.action-body strong.inline-h,
+.analyze-result strong.inline-h,
+.analysis-result-body strong.inline-h {
+  font-weight: 700;
+  font-size: inherit;
+  color: #0f172a;
+  display: inline;
+}
+/* 시사점 카드 body/action 도 음영(mark) 외 strong은 normal */
+.strategy-body strong,
+.strategy-body b,
+.action-body strong,
+.action-body b {
+  font-weight: normal;
+  color: inherit;
+}
+.strategy-body strong.inline-h,
+.action-body strong.inline-h {
+  font-weight: 700;  /* inline-h만 bold 복원 */
 }
 
 .papers-grid {
