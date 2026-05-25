@@ -59,8 +59,9 @@ const state = {
   sourcesTab: 'status',     // status | trend
   sourcesPeriod: '7days',   // today | 7days | 30days | all (소스 현황 표용)
   trendView: 'source',      // source | category (7일 추이 차트 모드)
-  // 필터
-  category: 'all',
+  // 필터 — v2.8.3: 카테고리 OR 다중 선택 (Set)
+  category: 'all',  // legacy 단일 선택 호환 (UI 표시 한 줄에 사용)
+  categories: new Set(['all']),  // 실제 필터 적용용 다중 선택
   search: '',
   dateFilter: 'all',
   langFilter: 'all',
@@ -176,7 +177,7 @@ const CATEGORIES = [
   { id: 'product', label: '제품·기능' },
   { id: 'funding', label: '투자·M&A' },
   { id: 'adoption', label: '도입사례' },
-  { id: 'domestic', label: '국내' },
+  // v2.8.3: '국내' 카테고리 제거 — 언어 필터(ko/en)로 대체
   { id: 'policy', label: '정책·규제' },
 ];
 
@@ -332,13 +333,33 @@ function renderCategoryBar() {
 
   bar.innerHTML = CATEGORIES.map(cat => {
     const cnt = cat.id === 'all' ? pool.length : (counts[cat.id] || 0);
-    const active = cat.id === state.category ? 'active' : '';
+    // v2.8.3: 다중 선택 — Set에 포함되면 active
+    const active = state.categories.has(cat.id) ? 'active' : '';
     return `<button class="cat-chip ${active}" data-category="${cat.id}"><span>${escapeHtml(cat.label)}</span><span class="cat-count">${cnt}</span></button>`;
   }).join('');
 
   bar.querySelectorAll('.cat-chip').forEach(chip => {
     chip.addEventListener('click', () => {
-      state.category = chip.dataset.category;
+      const id = chip.dataset.category;
+      // v2.8.3: OR 다중 선택 로직
+      if (id === 'all') {
+        // 'all' 클릭 → 다른 거 다 해제, all만 선택
+        state.categories = new Set(['all']);
+      } else {
+        // 다른 카테고리 클릭 → 'all' 자동 해제 + toggle
+        state.categories.delete('all');
+        if (state.categories.has(id)) {
+          state.categories.delete(id);
+          if (state.categories.size === 0) {
+            state.categories.add('all');  // 아무것도 없으면 all 복원
+          }
+        } else {
+          state.categories.add(id);
+        }
+      }
+      // legacy state.category 동기화 (UI 한줄 표시 등 호환)
+      state.category = state.categories.has('all') ? 'all'
+        : (state.categories.size === 1 ? Array.from(state.categories)[0] : 'multi');
       renderCategoryBar();
       renderContent();
     });
@@ -667,8 +688,16 @@ function applyNonCategoryFilters(items) {
 
 function filterItems() {
   let items = applyNonCategoryFilters(applyViewFilter(state.data.items || []));
-  if (state.category !== 'all') {
-    items = items.filter(i => (i.categories || []).includes(state.category));
+  // v2.8.3: OR 다중 카테고리 필터
+  if (!state.categories.has('all') && state.categories.size > 0) {
+    items = items.filter(i => {
+      const itemCats = i.categories || [];
+      // 선택된 카테고리 중 하나라도 매칭되면 통과 (OR)
+      for (const c of state.categories) {
+        if (itemCats.includes(c)) return true;
+      }
+      return false;
+    });
   }
   return items;
 }
@@ -1175,6 +1204,7 @@ function bindEvents() {
         state.view = view;
       }
       state.category = 'all';
+      state.categories = new Set(['all']);  // v2.8.3: 다중 선택 초기화
 
       // 정렬 dropdown sync
       const sortSel = document.getElementById('sort-filter');
