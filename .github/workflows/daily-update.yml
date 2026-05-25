@@ -39,6 +39,19 @@ jobs:
           cache: "pip"
           cache-dependency-path: scripts/requirements.txt
 
+      # 중간 단계 JSON (raw/deduped/enriched) 을 캐시로 보존
+      # → LLM enrich 결과를 매 빌드마다 재사용 (비용 절약)
+      - name: Cache intermediate data
+        uses: actions/cache@v4
+        with:
+          path: |
+            data/raw_news.json
+            data/deduped_news.json
+            data/enriched_news.json
+          key: intermediate-data-${{ github.run_id }}
+          restore-keys: |
+            intermediate-data-
+
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
@@ -50,8 +63,11 @@ jobs:
           npm install -g @anthropic-ai/claude-code || echo "Claude CLI install failed, will fall back to SDK"
           claude --version || true
 
-      # ===== 1단계: 뉴스 수집 =====
+      # ===== 1단계: 뉴스 수집 (Naver API 통합) =====
       - name: "Step 1/4 — Fetch news"
+        env:
+          NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
+          NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
         run: python scripts/fetch_news.py
 
       # ===== 2단계: 유사 뉴스 병합 =====
@@ -97,7 +113,54 @@ jobs:
               json.dump(d, f, ensure_ascii=False, indent=2)
           "
 
-      # ===== Git Commit =====
+      # ===== 5단계: Obsidian Vault로 마크다운 export =====
+      - name: "Step 5 — Clone vault repo"
+        if: env.VAULT_PAT != ''
+        env:
+          VAULT_PAT: ${{ secrets.VAULT_PAT }}
+          VAULT_REPO: ${{ secrets.VAULT_REPO }}
+        run: |
+          if [ -z "$VAULT_REPO" ]; then
+            VAULT_REPO="${{ github.repository_owner }}/daibfy-vault"
+          fi
+          git clone "https://x-access-token:${VAULT_PAT}@github.com/${VAULT_REPO}.git" _vault_local || \
+            mkdir -p _vault_local
+
+      - name: "Step 5 — Export markdown to vault"
+        if: env.VAULT_PAT != ''
+        env:
+          VAULT_PAT: ${{ secrets.VAULT_PAT }}
+          VAULT_DIR: ${{ github.workspace }}/_vault_local
+        run: python scripts/export_to_vault.py
+
+      - name: "Step 5 — Push to vault repo"
+        if: env.VAULT_PAT != ''
+        env:
+          VAULT_PAT: ${{ secrets.VAULT_PAT }}
+          VAULT_REPO: ${{ secrets.VAULT_REPO }}
+        run: |
+          if [ -z "$VAULT_REPO" ]; then
+            VAULT_REPO="${{ github.repository_owner }}/daibfy-vault"
+          fi
+          cd _vault_local
+          git init -q 2>/dev/null || true
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git remote remove origin 2>/dev/null || true
+          git remote add origin "https://x-access-token:${VAULT_PAT}@github.com/${VAULT_REPO}.git"
+          git add -A
+          if ! git diff --staged --quiet 2>/dev/null && [ "$(git rev-parse --verify HEAD 2>/dev/null || echo none)" != "none" ]; then
+            git commit -m "vault update $(date -u +'%Y-%m-%d %H:%M UTC')"
+            git push origin HEAD:main || git push -u origin HEAD:main
+          elif [ "$(git rev-parse --verify HEAD 2>/dev/null || echo none)" = "none" ]; then
+            git commit -m "initial vault commit $(date -u +'%Y-%m-%d %H:%M UTC')"
+            git branch -M main
+            git push -u origin main
+          else
+            echo "No vault changes to push."
+          fi
+
+      # ===== Git Commit (메인 repo) =====
       - name: Commit updated data
         run: |
           git config user.name "github-actions[bot]"
