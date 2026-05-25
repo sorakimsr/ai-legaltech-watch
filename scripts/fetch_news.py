@@ -69,7 +69,7 @@ def fetch_source(source_def):
             if not title or not link:
                 continue
 
-            categories = categorize(title, summary, default_cats)
+            categories = categorize(title, summary, default_cats, source_type)
             score = score_item(title, summary, dt, categories)
 
             items.append({

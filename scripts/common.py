@@ -9,51 +9,102 @@ from datetime import datetime, timezone
 from dateutil import parser as dateparser
 
 
+# ============================================================================
+# 카테고리 분류 정책 (v2.1 — 엄격화)
+# ============================================================================
+# 원칙:
+# 1. papers = arXiv·Papers With Code 소스만 (키워드 매칭 X)
+# 2. 키워드 매칭은 word boundary로 엄격하게
+# 3. funding은 raises + 금액 패턴이 같이 있을 때만
+# 4. 카테고리 우선순위: papers > legaltech > funding > adoption > policy > product > ai-industry
+# 5. 항목당 카테고리 최대 3개 (UI에서는 2개만 표시)
+
+# 키워드 매칭 시 단어 경계 정규식
+def kw_regex(kw):
+    """키워드를 word boundary regex로 컴파일.
+    한국어는 word boundary 적용 불가하므로 일반 includes."""
+    if re.search(r"[가-힣]", kw):
+        return re.compile(re.escape(kw), re.IGNORECASE)
+    return re.compile(r"\b" + re.escape(kw) + r"\b", re.IGNORECASE)
+
+
 CATEGORY_KEYWORDS = {
     "legaltech": [
+        # 회사명 (확실한 시그널)
         "harvey", "legora", "mike oss", "hebbia", "ironclad", "spellbook",
-        "robin ai", "lexis", "thomson reuters", "legal ai", "legal tech",
-        "리걸테크", "리걸 ai", "법률 ai", "bhsn", "로앤컴퍼니", "로앤굿",
-        "law firm", "lawyer", "litigation", "contract ai", "clm",
-        "변호사", "로펌", "계약 검토", "엘박스", "인텔리콘", "lboxai",
-        "lab ai", "evenup", "deepjudge",
+        "robin ai", "evenup", "deepjudge", "lexis nexis", "thomson reuters",
+        "bhsn", "lboxai", "엘박스", "인텔리콘", "로앤컴퍼니", "로앤굿",
+        # 도메인 키워드
+        "legal ai", "legal tech", "legaltech", "리걸테크", "리걸 ai", "법률 ai",
+        "law firm", "law firms", "big law", "in-house counsel",
+        "contract ai", "contract intelligence", "clm", "e-discovery",
+        "변호사", "로펌", "계약 검토", "법무",
     ],
     "papers": [
-        "arxiv", "paper", "preprint", "neurips", "icml", "iclr", "acl",
-        "논문", "발표", "연구", "research"
+        # papers는 출처 기반으로만 부여하지만, 명시적 키워드는 추가 보강
+        "arxiv", "neurips", "icml", "iclr", "acl", "emnlp",
+        "preprint", "peer-reviewed",
     ],
     "product": [
-        "launch", "release", "announce", "introduce", "unveil", "rolls out",
-        "출시", "공개", "선보", "발표", "ga", "general availability"
+        # 영문은 단어 경계
+        "launches", "released", "rolls out", "unveils", "introduces",
+        "general availability", "ga release",
+        # 한국어
+        "출시", "공개", "선보였", "발표",
     ],
     "funding": [
-        "raises", "raised", "funding", "valuation", "series ", "investment",
-        "투자", "조달", "유치", "시리즈", "ipo", "acquires", "acquisition",
-        "인수", "m&a"
+        # 금액·시리즈 (엄격하게)
+        "raises $", "raised $", "series a", "series b", "series c", "series d",
+        "valuation", "billion valuation", "ipo", "acquires", "acquired",
+        # 한국어
+        "투자 유치", "조달", "유치", "시리즈 a", "시리즈 b", "인수", "m&a",
     ],
     "adoption": [
-        "adopts", "deploys", "rolls out", "implementing", "integrating",
-        "case study", "도입", "활용 사례", "적용", "사례"
+        "adopts", "deploys", "deployed", "implementing", "integrating",
+        "case study", "rolls out across", "firm-wide adoption",
+        "도입 사례", "활용 사례", "전사 도입", "적용 사례",
     ],
-    "domestic": ["한국", "국내", "korea", "korean", "korean firm"],
+    "domestic": [
+        # 출처 기반이 더 정확하지만 키워드도 보강
+        "한국", "korea ", "korean ", "korean firm", "korean lawyer",
+    ],
     "policy": [
-        "regulation", "regulator", "law", "act", "compliance", "government",
-        "policy", "ban", "ruling", "court", "ftc", "doj", "eu ai act",
-        "규제", "정책", "법안", "법령", "당국", "정부", "위원회",
-        "trump", "white house"
+        "regulation", "regulator", "compliance",
+        "eu ai act", "white house ai", "fcc", "ftc ", "doj ",
+        "executive order", "ai standards",
+        "규제", "법안", "법령", "위원회 의결", "당국이",
     ],
     "ai-industry": [
-        "openai", "anthropic", "claude", "gpt", "chatgpt", "gemini",
+        # 회사명 — 다른 카테고리에 속하지 않는 경우의 fallback
+        "openai", "anthropic", "claude ", "gpt-", "chatgpt", "gemini",
         "deepmind", "meta ai", "llama", "mistral", "xai", "grok",
-        "nvidia", "microsoft ai", "perplexity"
+        "nvidia ai", "microsoft ai", "perplexity",
     ],
+}
+
+# 카테고리 우선순위 (정렬 시 사용)
+CATEGORY_PRIORITY = {
+    "papers": 1,
+    "legaltech": 2,
+    "funding": 3,
+    "adoption": 4,
+    "policy": 5,
+    "product": 6,
+    "domestic": 7,
+    "ai-industry": 8,
+}
+
+# 사전 컴파일
+COMPILED_KEYWORDS = {
+    cat: [kw_regex(kw) for kw in kws]
+    for cat, kws in CATEGORY_KEYWORDS.items()
 }
 
 
 HIGH_VALUE_KEYWORDS = {
     "harvey": 15, "legora": 15, "mike oss": 15, "mike legal": 12,
     "openai": 10, "anthropic": 10, "gpt-5": 12, "claude opus": 10, "claude sonnet": 8,
-    "raises": 8, "funding": 8, "valuation": 8, "billion": 10, "series ": 6,
+    "raises $": 8, "funding": 6, "valuation": 8, "billion": 10, "series ": 6,
     "launches": 6, "announces": 5, "introduces": 5, "unveils": 6,
     "breakthrough": 10, "state-of-the-art": 8, "sota": 8,
     "리걸테크": 10, "법률 ai": 8, "리걸 ai": 10,
@@ -93,20 +144,42 @@ def parse_date_safe(date_str: str):
         return None
 
 
-def categorize(title: str, summary: str, default_cats: list) -> list:
-    """제목·요약 기반 카테고리 추론"""
-    text = (title + " " + summary).lower()
-    cats = list(default_cats)
+def categorize(title: str, summary: str, default_cats: list, source_type: str = "rss") -> list:
+    """제목·요약·출처 기반 카테고리 추론. v2.1 엄격 분류.
 
-    for cat, keywords in CATEGORY_KEYWORDS.items():
+    규칙:
+    - papers: arXiv·blog source_type만 부여 가능 (default_cats에 있을 때만)
+    - 다른 카테고리도 키워드 매칭은 정밀하게 (word boundary)
+    - 결과는 우선순위 순서로 정렬, 최대 3개
+    """
+    text = title + " " + summary
+    cats = set(default_cats)
+
+    # papers는 default_cats에 이미 있을 때만 유지 (소스 기반)
+    # 키워드 매칭으로 추가 안 함
+    has_papers_default = "papers" in default_cats
+
+    for cat, patterns in COMPILED_KEYWORDS.items():
+        if cat == "papers":
+            # papers는 소스 기반만 — 키워드 매칭으로 새로 추가 X
+            continue
         if cat in cats:
             continue
-        for kw in keywords:
-            if kw in text:
-                cats.append(cat)
+        for pat in patterns:
+            if pat.search(text):
+                cats.add(cat)
                 break
 
-    return cats
+    # papers가 default에 있어도, 회사 발표 같은 product/funding 시그널이 강하면 papers 제거
+    # → arXiv 소스에서는 그대로 두지만, 'blog' source_type의 papers default는 키워드 검증
+    if has_papers_default and source_type != "arxiv":
+        # blog source에서는 실제 논문 관련 키워드가 있을 때만 papers 유지
+        if not any(pat.search(text) for pat in COMPILED_KEYWORDS["papers"]):
+            cats.discard("papers")
+
+    # 우선순위 순으로 정렬, 최대 3개
+    sorted_cats = sorted(cats, key=lambda c: CATEGORY_PRIORITY.get(c, 99))
+    return sorted_cats[:3]
 
 
 def score_item(title: str, summary: str, date, categories: list) -> int:
@@ -149,7 +222,6 @@ def normalize_url(url: str) -> str:
     """URL 정규화 (utm 등 트래킹 파라미터 제거)"""
     if not url:
         return ""
-    # 트래킹 파라미터 제거
     url = re.sub(r"[?&](utm_[^=]+|fbclid|gclid|mc_cid|mc_eid)=[^&]*", "", url)
     url = re.sub(r"\?$", "", url)
     return url.strip()
