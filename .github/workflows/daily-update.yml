@@ -1,9 +1,9 @@
 name: Daily News Update
 
-# 매일 KST 06:00 (UTC 전날 21:00) 자동 실행
+# v2.7: KST 매 4시간 (9, 13, 17, 21, 1, 5시) — RSS 윈도우 누락 최소화
 on:
   schedule:
-    - cron: "0 21 * * *"
+    - cron: "0 */4 * * *"
   workflow_dispatch:  # 수동 실행 가능
     inputs:
       skip_enrich:
