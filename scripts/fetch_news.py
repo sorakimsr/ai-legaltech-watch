@@ -27,7 +27,8 @@ socket.setdefaulttimeout(8)
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from common import (
-    clean_text, truncate, parse_date_safe, categorize, score_item, normalize_url
+    clean_text, truncate, parse_date_safe, categorize, score_item, normalize_url,
+    is_relevant
 )
 from sources import get_active_sources
 from naver_fetcher import fetch_all_naver, has_credentials as has_naver
@@ -86,6 +87,10 @@ def fetch_source(source_def):
                 dt = datetime(*e.published_parsed[:6], tzinfo=timezone.utc)
 
             if not title or not link:
+                continue
+
+            # 관련성 필터 — Naver/Google News만 적용 (RSS는 패스)
+            if not is_relevant(title, summary, source_type):
                 continue
 
             categories = categorize(title, summary, default_cats, source_type)

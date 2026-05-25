@@ -20,7 +20,7 @@ import requests
 from dateutil import parser as dateparser
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from common import clean_text, truncate, normalize_url, categorize, score_item
+from common import clean_text, truncate, normalize_url, categorize, score_item, is_relevant
 
 KST = timezone(timedelta(hours=9))
 
@@ -37,11 +37,15 @@ NAVER_QUERIES = [
     ("엘박스", ["legaltech", "domestic"], 10),
     ("AI 에이전트", ["ai-industry", "domestic"], 20),
     ("생성형 AI", ["ai-industry", "domestic"], 15),
-    ("AI 규제", ["policy", "domestic"], 15),
-    ("AI 투자", ["funding", "domestic"], 15),
+    # 정확한 구문으로 제한 — 단어 단독 매칭 회피
+    ("\"AI 규제\"", ["policy", "domestic"], 15),
+    ("\"AI 기본법\"", ["policy", "domestic"], 10),
+    ("\"AI 스타트업\" 투자", ["funding", "domestic"], 15),
+    ("\"AI 투자 유치\"", ["funding", "domestic"], 10),
     ("Claude Anthropic", ["ai-industry", "domestic"], 10),
     ("OpenAI GPT", ["ai-industry", "domestic"], 10),
     ("Google Gemini", ["ai-industry", "domestic"], 10),
+    ("AI 거버넌스", ["policy", "domestic"], 10),
 ]
 
 
@@ -88,6 +92,10 @@ def fetch_naver_query(query: str, default_cats: list, display: int = 20):
             dt = datetime.now(timezone.utc)
 
         if not title or not link:
+            continue
+
+        # 관련성 필터 — AI/리걸테크 핵심 키워드 매칭 안 되면 제외
+        if not is_relevant(title, desc, "naver"):
             continue
 
         cats = categorize(title, desc, default_cats, "naver")

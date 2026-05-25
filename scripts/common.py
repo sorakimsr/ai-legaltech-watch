@@ -56,8 +56,9 @@ CATEGORY_KEYWORDS = {
         # 금액·시리즈 (엄격하게)
         "raises $", "raised $", "series a", "series b", "series c", "series d",
         "valuation", "billion valuation", "ipo", "acquires", "acquired",
-        # 한국어
-        "투자 유치", "조달", "유치", "시리즈 a", "시리즈 b", "인수", "m&a",
+        # 한국어 — "유치"·"조달" 단독은 정치 뉴스 잡으니 명확한 구문만
+        "투자 유치", "투자유치", "자금 조달", "자금조달", "시리즈 a", "시리즈 b",
+        "시리즈 c", "시리즈 d", "라운드 마감", "기업가치", "인수합병", "m&a",
     ],
     "adoption": [
         "adopts", "deploys", "deployed", "implementing", "integrating",
@@ -72,7 +73,10 @@ CATEGORY_KEYWORDS = {
         "regulation", "regulator", "compliance",
         "eu ai act", "white house ai", "fcc", "ftc ", "doj ",
         "executive order", "ai standards",
-        "규제", "법안", "법령", "위원회 의결", "당국이",
+        # 한국어 — "규제·법안" 단독은 일반 정치 뉴스 잡으니 AI/리걸 맥락 구문만
+        "ai 규제", "ai규제", "데이터 규제", "개인정보 규제",
+        "ai 거버넌스", "ai act", "ai 윤리", "알고리즘 규제",
+        "ai기본법", "ai 기본법", "ai 법안",
     ],
     "ai-industry": [
         # 회사명 — 다른 카테고리에 속하지 않는 경우의 fallback
@@ -99,6 +103,65 @@ COMPILED_KEYWORDS = {
     cat: [kw_regex(kw) for kw in kws]
     for cat, kws in CATEGORY_KEYWORDS.items()
 }
+
+
+# ============================================================================
+# 관련성 필터 (Naver/Google News 결과 사후 검증)
+# ============================================================================
+# AI·리걸테크와 관련 있다고 볼 수 있는 핵심 키워드.
+# Naver Search API 같은 키워드 검색은 무관한 뉴스도 잡으므로 사후 필터링.
+RELEVANCE_KEYWORDS = [
+    # AI 일반
+    "ai ", " ai", "인공지능", "생성형 ai", "생성 ai",
+    "llm", "agent", "agentic", "에이전트", "ai 에이전트",
+    "gpt", "chatgpt", "claude", "gemini", "llama", "mistral",
+    "openai", "anthropic", "deepmind", "meta ai", "nvidia",
+    "perplexity", "hugging face", "stability",
+    "machine learning", "deep learning", "neural", "model",
+    "transformer", "diffusion", "rag", "retrieval",
+    # 리걸테크
+    "법률", "리걸", "법무", "변호사", "로펌", "계약",
+    "legal", "lawyer", "law firm", "biglaw", "litigation",
+    "harvey", "legora", "mike oss", "hebbia", "ironclad", "spellbook",
+    "bhsn", "로앤컴퍼니", "로앤굿", "엘박스", "인텔리콘",
+    # 투자·산업
+    "스타트업", "유니콘", "투자 유치",
+    "series a", "series b", "valuation", "startup",
+    # 규제·정책 (AI 맥락)
+    "ai 규제", "ai 거버넌스", "ai 법", "ai 윤리",
+    "ai regulation", "ai governance", "ai ethics",
+]
+
+# 정치·선거·일반 시사 등 무관한 뉴스 차단 (Naver/Google News 사후 필터)
+BLACKLIST_KEYWORDS = [
+    # 선거·정치
+    "지방선거", "대선", "총선", "보궐선거", "재선거",
+    "후보 공약", "공약 발표", "지지율",
+    "여당", "야당", "민주당", "국민의힘", "정의당", "더민주",
+    "지방의회", "도의회", "시의회",
+    # 일반 시사
+    "사망", "사고", "체포", "기소", "구속",
+    "교통사고", "화재",
+    # 연예·스포츠
+    "연예인", "아이돌", "k-pop", "kpop",
+]
+
+
+def is_relevant(title: str, summary: str, source_type: str = "rss") -> bool:
+    """관련성 체크 — Naver/Google News 결과만 사후 필터링.
+    RSS·arXiv는 이미 큐레이션된 소스라 통과."""
+    if source_type not in ("naver", "google_news"):
+        return True
+    text = (title + " " + summary).lower()
+    # 블랙리스트 매칭이면 즉시 제외
+    for kw in BLACKLIST_KEYWORDS:
+        if kw in text:
+            return False
+    # 핵심 키워드 매칭 필수
+    for kw in RELEVANCE_KEYWORDS:
+        if kw in text:
+            return True
+    return False
 
 
 HIGH_VALUE_KEYWORDS = {
