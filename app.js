@@ -76,7 +76,39 @@ const state = {
   analyzePromptPreset: "summary",
   // v2.7: 사용자 저장 항목 (localStorage 동기화)
   saved: { items: {}, strategy: {} },  // {url: true}, {strategyKey: {card data}}
+  // v2.7.5: AI 분석 결과 history (localStorage)
+  analyses: [],  // [{id, timestamp, backend, model, prompt, items: [{title,url,source,date}], result}]
 };
+
+const ANALYSES_STORAGE_KEY = 'daibfy_analyses_v1';
+
+function loadAnalyses() {
+  try {
+    const raw = localStorage.getItem(ANALYSES_STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) state.analyses = parsed;
+    }
+  } catch (e) {}
+}
+
+function persistAnalyses() {
+  try {
+    localStorage.setItem(ANALYSES_STORAGE_KEY, JSON.stringify(state.analyses));
+  } catch (e) {}
+}
+
+function saveAnalysis(entry) {
+  // 최대 50개 보관 (오래된 것부터 제거)
+  state.analyses.unshift(entry);
+  if (state.analyses.length > 50) state.analyses = state.analyses.slice(0, 50);
+  persistAnalyses();
+}
+
+function deleteAnalysis(id) {
+  state.analyses = state.analyses.filter(a => a.id !== id);
+  persistAnalyses();
+}
 
 // ===== 저장(북마크) 기능 =====
 const SAVED_STORAGE_KEY = 'daibfy_saved_v1';
@@ -155,10 +187,12 @@ const VIEW_META = {
   papers:    { title: 'AI 논문 흐름', hint: 'Daily/Weekly/Monthly 시계열 분석' },
   sources:   { title: '소스 현황', hint: '활성·유휴·오류 + 7일 추이' },
   saved:     { title: '저장한 항목', hint: '북마크한 시사점·뉴스 카드' },
+  analyses:  { title: 'AI 분석 결과', hint: '이전에 실행한 AI 분석 세션 기록' },
 };
 
 async function init() {
   loadSaved();  // v2.7: localStorage 북마크 복원
+  loadAnalyses();  // v2.7.5: AI 분석 결과 history 복원
   try {
     const res = await fetch('./data/news.json?t=' + Date.now());
     state.data = await res.json();
@@ -399,6 +433,15 @@ function renderContent() {
     return;
   }
 
+  // v2.7.5: AI 분석 결과 history view
+  if (state.view === 'analyses') {
+    controlsRow.style.display = 'none';
+    if (filterLabel) filterLabel.style.display = 'none';
+    if (categoryBar) categoryBar.style.display = 'none';
+    renderAnalysesView(newsGrid);
+    return;
+  }
+
   const filtered = filterItems();
   if (filtered.length === 0) {
     newsGrid.innerHTML = `<div class="empty-state"><div class="empty-icon">📭</div><div class="empty-title">조건에 맞는 항목이 없습니다</div></div>`;
@@ -491,6 +534,78 @@ function renderSavedView(root) {
   }
 
   root.innerHTML = html;
+}
+
+// v2.7.5: AI 분석 결과 history view
+function renderAnalysesView(root) {
+  const list = state.analyses || [];
+  root.style.display = 'block';
+  if (list.length === 0) {
+    root.innerHTML = `<div class="saved-empty"><div style="font-size:32px;margin-bottom:8px;">🤖</div>아직 저장된 AI 분석 결과가 없습니다.<br><span style="font-size:13px;color:#9ca3af;">뉴스 카드를 여러 개 선택하고 "🤖 AI 분석" 버튼을 누르면 결과가 자동으로 여기 저장됩니다.</span></div>`;
+    return;
+  }
+  const fmt = (ts) => {
+    const d = new Date(ts);
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+  };
+  const promptPreset = (id) => {
+    const map = {
+      summary: '핵심 요약', insights: '전략·기획 시사점',
+      trends: '트렌드 분석', competitive: '경쟁 구도',
+      opportunity: '한국 시장 진출 기회', custom: '직접 입력',
+    };
+    return map[id] || id || '';
+  };
+  root.innerHTML = `
+    <div class="analyses-list">
+      ${list.map(a => `
+        <div class="analysis-entry" data-analysis-id="${escapeHtml(a.id)}">
+          <div class="analysis-head">
+            <div>
+              <div class="analysis-time">${escapeHtml(fmt(a.timestamp))}</div>
+              <div class="analysis-meta-row">
+                <span class="analysis-backend">${escapeHtml(a.backend || '?')}</span>
+                <span class="analysis-model">${escapeHtml(a.model || '?')}</span>
+                <span class="analysis-count">${(a.items || []).length}개 항목</span>
+                ${a.promptPreset ? `<span class="analysis-preset">${escapeHtml(promptPreset(a.promptPreset))}</span>` : ''}
+              </div>
+            </div>
+            <div class="analysis-actions">
+              <button class="link-btn" data-toggle-analysis="${escapeHtml(a.id)}">결과 보기 ▾</button>
+              <button class="link-btn analysis-del" data-delete-analysis="${escapeHtml(a.id)}" title="삭제">×</button>
+            </div>
+          </div>
+          <details class="analysis-detail">
+            <summary>분석 대상 ${(a.items || []).length}건 ▾</summary>
+            <ol class="analysis-items">
+              ${(a.items || []).map(it => `<li><a href="${escapeHtml(it.url)}" target="_blank" rel="noopener">${escapeHtml(it.title)}</a> <span class="rel-source">— ${escapeHtml(it.source || '')} · ${escapeHtml((it.date || '').slice(0, 10))}</span></li>`).join('')}
+            </ol>
+          </details>
+          ${a.promptText ? `<details class="analysis-prompt-detail"><summary>요청 프롬프트 ▾</summary><pre>${escapeHtml(a.promptText)}</pre></details>` : ''}
+          <div class="analysis-result-body" id="analysis-result-${escapeHtml(a.id)}">${renderMarkdown(a.result || '')}</div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+  // 결과 보기 토글
+  root.querySelectorAll('[data-toggle-analysis]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.dataset.toggleAnalysis;
+      const body = root.querySelector(`#analysis-result-${id}`);
+      if (body) body.classList.toggle('hidden');
+      btn.textContent = body.classList.contains('hidden') ? '결과 보기 ▾' : '접기 ▴';
+    });
+  });
+  // 삭제
+  root.querySelectorAll('[data-delete-analysis]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.dataset.deleteAnalysis;
+      if (confirm('이 분석 결과를 삭제할까요?')) {
+        deleteAnalysis(id);
+        renderContent();
+      }
+    });
+  });
 }
 
 // v2.7.1: 카테고리 외 필터만 적용 (chip 카운트 계산용)
@@ -1605,6 +1720,25 @@ async function runAnalysis() {
     const inT = usage.input_tokens || usage.prompt_tokens || '?';
     const outT = usage.output_tokens || usage.completion_tokens || '?';
     metaEl.textContent = `${meta.backend} · ${meta.model} · 첫 응답 ${ttfb}초 / 전체 ${elapsed}초 · 입력 ${inT}토큰 / 출력 ${outT}토큰` + (meta.used_user_key ? ' · 본인 키' : '');
+
+    // v2.7.5: 분석 성공 시 history에 저장 (AI 분석 결과 페이지에서 다시 볼 수 있도록)
+    if (accumulated && !streamErr) {
+      saveAnalysis({
+        id: 'a' + Date.now() + Math.random().toString(36).slice(2, 6),
+        timestamp: Date.now(),
+        backend: meta.backend,
+        model: meta.model,
+        promptPreset: state.analyzePromptPreset,
+        promptText: promptInstruction,
+        items: items.slice(0, 60).map(it => ({
+          title: it.title, url: it.url, source: it.source,
+          date: it.date, lang: it.lang, score: it.score,
+        })),
+        result: accumulated,
+        usage: { input: inT, output: outT },
+        ttfbSec: parseFloat(ttfb), totalSec: parseFloat(elapsed),
+      });
+    }
   } catch (e) {
     resultEl.innerHTML = `<div class="analyze-error"><strong>네트워크 오류</strong><p>${escapeHtml(e.message || String(e))}</p><p>Worker URL이 살아있는지, CORS가 허용되는지 확인하세요.</p></div>`;
   } finally {

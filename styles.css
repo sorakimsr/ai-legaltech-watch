@@ -687,6 +687,81 @@ input, select { font-family: inherit; outline: none; }
   gap: 14px;
 }
 
+/* v2.7.5: AI 분석 결과 history page */
+.analyses-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.analysis-entry {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 16px 20px;
+}
+.analysis-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.analysis-time {
+  font-size: 13px;
+  font-weight: 600;
+  color: #0f172a;
+  margin-bottom: 4px;
+}
+.analysis-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-size: 11px;
+  color: #6b7280;
+}
+.analysis-meta-row > span {
+  background: #f1f5f9;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+.analysis-preset { color: #2563eb; background: #eff6ff !important; }
+.analysis-actions { display: flex; gap: 6px; align-items: center; }
+.analysis-del { color: #dc2626; }
+.analysis-detail, .analysis-prompt-detail {
+  font-size: 12px;
+  color: #6b7280;
+  margin: 8px 0;
+}
+.analysis-items {
+  margin: 6px 0;
+  padding-left: 22px;
+}
+.analysis-items li { margin: 3px 0; font-size: 12px; }
+.analysis-prompt-detail pre {
+  background: #f8fafc;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.analysis-result-body {
+  background: #f8fafc;
+  padding: 14px 16px;
+  border-radius: 8px;
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: #1f2937;
+  margin-top: 10px;
+}
+.analysis-result-body h2 {
+  font-size: 15px;
+  margin-top: 12px;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 4px;
+}
+.analysis-result-body.hidden { display: none; }
+
 /* v2.7.4: 저장한 항목 view 레이아웃 — 섹션 헤더와 nested grid가 풀폭 차지 */
 .news-grid > .saved-section-head,
 .news-grid > .saved-list,
