@@ -35,7 +35,9 @@ RECENT_DAYS = 14
 MAX_PAPERS_FOR_LLM = 60
 
 
-PROMPT_TEMPLATE = """다음은 최근 {days}일간 발표된 AI 관련 arXiv 논문 {n}편입니다.
+PROMPT_TEMPLATE = """당신은 한국 기업의 시니어 전략·기획 컨설턴트입니다. 독자는 전략·기획·AI 업무를 동시에 수행하는 한국 실무자이며, AI 연구자가 아니라 '이 흐름이 내 업무·우리 회사에 어떤 의미인가'를 알고 싶어합니다.
+
+다음은 최근 {days}일간 발표된 AI 관련 논문 {n}편입니다.
 
 [논문 목록]
 {paper_blob}
@@ -43,25 +45,27 @@ PROMPT_TEMPLATE = """다음은 최근 {days}일간 발표된 AI 관련 arXiv 논
 위 논문들을 종합 분석해주세요. JSON 응답만, 다른 텍스트 없이:
 
 {{
-  "narrative": "최근 흐름을 종합한 분석 (마크다운 형식, 400~700자). ## 헤딩과 - 불릿 사용 가능. 다음을 포함: (1) 어떤 연구 주제가 부상하고 있는가 (2) 어떤 기법이 인기인가 (3) 산업/응용 vs 기초 연구 비중 (4) 한국 전략·기획·AI 업무 담당자가 주목할 만한 점",
+  "narrative": "최근 흐름을 한국 전략·기획 담당자 관점에서 풀어쓴 분석. 마크다운 형식, 800~1500자 (충분히 길게, 풍부하게). 다음 구조 권장:\\n\\n## 한 줄 요약\\n(이번 14일을 한 문장으로)\\n\\n## 1) 무엇이 부상하고 있는가\\n구체 논문/주제 2~3개를 회사명·기법명 그대로 인용하면서 풀어 설명. 연구자용 용어는 한국어로 풀어쓰기 (예: 'retrieval-augmented generation' → '검색-증강 생성·RAG').\\n\\n## 2) 한국 실무자에게 이 흐름이 무슨 의미인가\\n전략·기획 담당자가 '아 그래서 어떻게 해야 하지'를 떠올릴 수 있도록 구체 사례로 풀어쓰기. 예: '예전엔 RAG가 필수였지만 1M 토큰 컨텍스트가 보편화되며 단순화 가능 → 사내 RAG 파이프라인 재검토 시점'\\n\\n## 3) 산업 적용 흐름\\n어떤 분야(법률·금융·제조·콘텐츠 등)에 먼저 들어올 가능성이 높은가, 한국 기업이 채택 시 어떤 제약(개인정보·국외이전·on-prem 요구)이 있을 가능성이 있는가.",
   "hot_topics": [
-    {{"topic": "주제명", "description": "한 줄 설명", "paper_count": 정수}}
+    {{"topic": "주제명 (한국어 풀어쓴 표현 + 영문 병기)", "description": "한 줄 설명 — 한국 전략·기획자가 이해할 수 있는 평이한 표현", "paper_count": 정수}}
   ],
   "key_techniques": [
-    {{"technique": "기법명", "description": "한 줄 설명"}}
+    {{"technique": "기법명 (한국어 풀어쓴 표현 + 영문 병기)", "description": "한 줄 설명 — '왜 이 기법이 중요한가'를 한국 실무자 관점에서"}}
   ],
   "actionable_insights": [
-    "실무자가 본인 업무에 적용할 수 있는 시사점 1",
-    "시사점 2",
-    "시사점 3"
+    "실무자가 본인 업무에 바로 시도해볼 수 있는 구체 시사점 (어떤 업무 → 어떤 시도 → 어떤 가설). '주 1회 반복 + 3단계 이상 절차'를 자동화 후보로 검토 같은 디테일 수준.",
+    "시사점 2 — 다른 관점/주제",
+    "시사점 3 — 다른 관점/주제",
+    "시사점 4 — 다른 관점/주제 (5개까지 가능)"
   ]
 }}
 
 규칙:
-- 한국어
-- 구체적 사실 (논문 제목·키워드) 근거로
-- 일반론 금지
-- hot_topics는 3~6개, key_techniques는 3~5개
+- 모든 텍스트는 한국어 (영문 용어는 괄호 병기)
+- 구체적 사실(논문 제목·회사명·기법명) 근거로
+- 일반론·교과서적 설명 금지. '한국 실무자 시점'을 시종일관 유지
+- hot_topics 3~6개, key_techniques 3~5개, actionable_insights 4~5개
+- narrative는 800~1500자 (짧지 않게)
 - JSON 외 텍스트 절대 금지
 """
 
@@ -122,11 +126,12 @@ def extract_keywords(papers: list) -> list:
 
 
 def filter_papers(items: list, days: int) -> list:
-    """최근 N일 발표된 arXiv 논문"""
+    """최근 N일 발표된 논문 — arXiv + Semantic Scholar 모두 포함"""
     cutoff = (datetime.now(KST).date() - timedelta(days=days)).isoformat()
+    PAPER_TYPES = {"arxiv", "semantic_scholar"}
     return [
         it for it in items
-        if it.get("source_type") == "arxiv"
+        if it.get("source_type") in PAPER_TYPES
         and not it.get("date_unknown", False)
         and it.get("date", "")[:10] >= cutoff
     ]
@@ -178,7 +183,8 @@ def main():
             paper_blob=paper_blob,
         )
 
-        llm_result = call_llm_json(prompt, max_tokens=2500, temperature=0.4)
+        # narrative 800~1500자로 늘렸으므로 max_tokens 확대
+        llm_result = call_llm_json(prompt, max_tokens=4000, temperature=0.4)
         if not isinstance(llm_result, dict):
             llm_result = {}
 

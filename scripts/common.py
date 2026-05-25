@@ -176,29 +176,57 @@ BLACKLIST_KEYWORDS = [
     "연예인", "아이돌", "k-pop", "kpop", "야구", "축구",
     # 종교
     "교황",  # 일반적으로 AI 관련 아님 (예외 케이스는 본문에서 다른 강력 신호로 통과)
+    # 운세·라이프·건강 컬럼 (v2.7)
+    "운세", "mbti", "오늘의 운세", "이번주 운세", "별자리",
+    "하루건강", "장마철", "불면증", "다이어트", "혈압", "당뇨",
+    # 부음·장례
+    "부음", "별세", "모친상", "부친상", "장모상", "장인상",
+    "장례식장", "발인", "빈소", "조문",
+    # 상표·브랜드 마케팅 (AI 관련성 약함)
+    "라이프집", "집덕후", "향기 굿즈", "라이프스타일 커뮤니티",
+    "상표 출원", "상표 등록", "지정상품", "디퓨저", "핸드크림",
+    # 일반 라이프스타일·취미
+    "캠핑", "차박", "낚시", "등산", "맛집", "여행지 추천",
+]
+
+
+# Naver hankookilbo 등에서 자동 생성한 AI 보일러플레이트 기사 차단
+# (제목·요약에 "AI"가 등장하지만 실제 콘텐츠는 AI 관련 없음)
+BOILERPLATE_PATTERNS = [
+    "이 기사는 생성형 ai 로 제작",
+    "이 기사는 생성형 ai로 제작",
+    "이 기사는 ai로 작성",
+    "ai 활용 준칙을 준수합니다",
+    "본 기사는 ai가 작성",
+    "ai가 자동으로 작성한",
 ]
 
 
 def is_relevant(title: str, summary: str, source_type: str = "rss") -> bool:
-    """관련성 체크 — Naver/Google News 결과만 사후 필터링.
-    RSS·arXiv는 이미 큐레이션된 소스라 통과.
+    """관련성 체크 — Naver/Google News 결과 + 모든 소스에 보일러플레이트/블랙리스트 적용.
 
-    규칙 (v2.5):
-    1. 블랙리스트 키워드가 제목 또는 요약에 있으면 즉시 제외
+    규칙 (v2.7):
+    0. AI 생성 보일러플레이트(생성형 AI로 제작) 패턴이 본문에 있으면 모든 소스에서 즉시 제외
+    1. 블랙리스트 키워드가 제목 또는 요약에 있으면 즉시 제외 (Naver/Google News만)
     2. STRONG_KEYWORDS 중 하나라도 있으면 통과
     3. AI_SIGNALS + LEGAL_SIGNALS 둘 다 있으면 통과 (법률 AI 관련)
-    4. AI_SIGNALS만 있고 도메인 시그널 없으면 일반 AI 뉴스로 통과 (이는 별도 조건)
-    5. 그 외 제외
+    4. 그 외 제외
     """
-    if source_type not in ("naver", "google_news"):
-        return True
-
     text = (title + " " + summary).lower()
     title_lower = title.lower()
 
-    # 1. 블랙리스트 — 제목에 있으면 즉시 제외 (가장 엄격)
+    # 0. AI 생성 보일러플레이트 — 모든 소스에서 즉시 차단 (Naver/hankookilbo 등의 lifestyle 자동기사)
+    for pat in BOILERPLATE_PATTERNS:
+        if pat in text:
+            return False
+
+    # RSS·arXiv는 보일러플레이트만 체크하고 통과
+    if source_type not in ("naver", "google_news"):
+        return True
+
+    # 1. 블랙리스트 — 제목 또는 요약에 있으면 즉시 제외
     for kw in BLACKLIST_KEYWORDS:
-        if kw in title_lower:
+        if kw in title_lower or kw in text:
             return False
 
     # 2. Strong keyword 단독 통과
@@ -218,14 +246,54 @@ def is_relevant(title: str, summary: str, source_type: str = "rss") -> bool:
 
 
 HIGH_VALUE_KEYWORDS = {
-    "harvey": 15, "legora": 15, "mike oss": 15, "mike legal": 12,
-    "openai": 10, "anthropic": 10, "gpt-5": 12, "claude opus": 10, "claude sonnet": 8,
-    "raises $": 8, "funding": 6, "valuation": 8, "billion": 10, "series ": 6,
-    "launches": 6, "announces": 5, "introduces": 5, "unveils": 6,
+    # 회사·제품 (브랜드 가중치는 약간 낮춤 — 출시 뉴스가 무조건 1등 되지 않게)
+    "harvey": 10, "legora": 10, "mike oss": 12, "mike legal": 10, "mikeoss": 12,
+    "openai": 8, "anthropic": 8, "gpt-5": 10, "claude opus": 8, "claude sonnet": 6,
+
+    # === 시장 구도·경쟁 분석 (가장 중요 — 실무자가 알아야 할 흐름) ===
+    "borrowed time": 22, "commoditising": 20, "commoditizing": 20,
+    "wrappers": 18, "wrapper": 14,
+    "in-house": 15, "in house tool": 15, "build their own": 16, "self-hosted": 14,
+    "open source": 14, "open-source": 14, "오픈소스": 14,
+    "alternative to": 14, "rival": 12, "challenger": 12,
+    "disrupt": 14, "disruption": 14, "shift": 8, "market shift": 16,
+    "competitive landscape": 14, "frontrunner": 12,
+    "moat": 16, "differentiation": 12,
+    "vendor lock": 16, "lock-in": 12, "벤더 종속": 16,
+    "pay-as-you-go": 10, "contract length": 8,
+
+    # === 정책·규제·거버넌스 (한국 실무자 필독) ===
+    "ai 기본법": 20, "ai act": 16, "eu ai act": 16,
+    "가이드라인": 14, "가이드라인 공백": 22, "가이드라인 부재": 22, "기준 마련": 16, "기준 못": 18,
+    "규제 공백": 22, "규제 부재": 20, "정책 공백": 18,
+    "ai 거버넌스": 16, "ai governance": 14,
+    "정부": 6, "법무부": 12, "과기정통부": 12,
+    "개인정보": 10, "데이터 주권": 14, "data sovereignty": 14,
+    "compliance": 8, "audit": 6,
+
+    # === 자금·M&A (가치 있지만 출시 뉴스보다는 낮게) ===
+    "raises $": 7, "funding": 5, "valuation": 7, "billion": 9, "series ": 5,
+    "acquires": 10, "acquired by": 12, "merger": 10,
+
+    # === 출시·발표 (가중치 낮춤 — 그 자체로는 시장 의미가 약함) ===
+    "launches": 3, "announces": 3, "introduces": 3, "unveils": 3,
+    "release": 3, "available now": 4,
+
+    # === 연구·기술 시그널 ===
     "breakthrough": 10, "state-of-the-art": 8, "sota": 8,
+    "agent": 5, "agentic": 6, "multi-agent": 7,
+    "1m context": 12, "long context": 10, "long-horizon": 14,
+
+    # === 도메인 ===
     "리걸테크": 10, "법률 ai": 8, "리걸 ai": 10,
     "한국": 4, "korea": 4,
-    "agent": 5, "agentic": 6, "multi-agent": 7,
+
+    # === 한국 시장·실무 ===
+    "법무법인": 6, "로펌": 6, "변호사": 4,
+    "ai 도입": 12, "ai 활용": 10, "ai 전환": 12,
+    "사내 ai": 14, "엔터프라이즈 ai": 12,
+    "한국형": 10, "한국 시장": 8,
+    "나홀로 소송": 14, "소송장": 8,
 }
 
 
@@ -331,7 +399,9 @@ def score_item(title: str, summary: str, date, categories: list) -> int:
             elif delta_h < 168:
                 score += 2
 
-    return max(0, min(100, score))
+    # v2.7: 0~150 범위 — 시장 분석/정책 공백 같은 다중 시그널 기사가
+    # 단순 출시 뉴스보다 충분히 높게 노출되도록 캡 상향 (UI 표시는 그대로 숫자).
+    return max(0, min(150, score))
 
 
 def normalize_url(url: str) -> str:
