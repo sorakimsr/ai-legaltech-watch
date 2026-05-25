@@ -874,7 +874,12 @@ function renderSourcesStatus() {
     return;
   }
 
-  // 선택된 기간 키 목록 생성
+  // v2.8.1: KST 기준 날짜 키 생성 — source_history.py가 KST로 기록하므로 매칭
+  // 이전 버그: d.toISOString().slice(0,10)는 UTC 날짜 → KST 06:00 이전엔 mismatch
+  const kstDateStr = (d) => {
+    const kst = new Date(d.getTime() + 9 * 60 * 60 * 1000);
+    return kst.toISOString().slice(0, 10);
+  };
   const today = new Date();
   const periodDayKeys = (() => {
     const ks = [];
@@ -882,7 +887,7 @@ function renderSourcesStatus() {
       for (let i = 0; i < n; i++) {
         const d = new Date(today);
         d.setDate(d.getDate() - i);
-        ks.push(d.toISOString().slice(0, 10));
+        ks.push(kstDateStr(d));
       }
     };
     if (state.sourcesPeriod === 'today') make(1);
@@ -983,12 +988,17 @@ function renderSourcesStatus() {
 }
 
 function renderSourceTrend() {
+  // v2.8.1: KST 기준 날짜 키 (source_history.json과 일관)
+  const kstDateStr = (d) => {
+    const kst = new Date(d.getTime() + 9 * 60 * 60 * 1000);
+    return kst.toISOString().slice(0, 10);
+  };
   const today = new Date();
   const days = [];
   for (let i = 6; i >= 0; i--) {
     const d = new Date(today);
     d.setDate(d.getDate() - i);
-    days.push(d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'));
+    days.push(kstDateStr(d));
   }
 
   const colors = ['#2563eb', '#16a34a', '#f59e0b', '#dc2626', '#7c3aed', '#0891b2', '#db2777', '#65a30d', '#0ea5e9', '#a16207'];
@@ -1005,7 +1015,10 @@ function renderSourceTrend() {
     const catDayMap = {}; // category → { date → count }
     for (const it of items) {
       if (it.date_unknown) continue;
-      const d = (it.date || '').slice(0, 10);
+      // v2.8.1: item.date를 KST 날짜로 변환 (days 배열과 일관)
+      const dt = new Date(it.date);
+      if (isNaN(dt)) continue;
+      const d = kstDateStr(dt);
       if (!days.includes(d)) continue;
       const cats = it.categories || [];
       for (const c of cats) {
@@ -1018,8 +1031,13 @@ function renderSourceTrend() {
       [c, Object.values(m).reduce((a, b) => a + b, 0)]
     ).sort((a, b) => b[1] - a[1]).slice(0, 10);
 
+    // v2.8.1: 카테고리 ID → 한글 label 매핑
+    const catLabel = (id) => {
+      const found = CATEGORIES.find(c => c.id === id);
+      return found ? found.label : id;
+    };
     datasets = catTotals.map(([cat, _], idx) => ({
-      label: cat,
+      label: catLabel(cat),
       data: days.map(d => (catDayMap[cat][d] || 0)),
       borderColor: colors[idx % colors.length],
       backgroundColor: colors[idx % colors.length] + '20',
