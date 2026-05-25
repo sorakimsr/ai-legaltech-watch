@@ -609,22 +609,33 @@ function renderSavedView(root) {
     </div>
   `;
 
-  // 저장한 시사점 카드 (insights 탭일 때만)
+  // 저장한 시사점 카드 (insights 탭일 때만) — v3.2: 시사점 페이지와 동일한 footer 구조
   if (activeTab === 'insights' && savedStrategies.length > 0) {
+    // v3.2: state.trendCardMap에도 등록 (AI 분석 시 trend 본문+근거 포함 위해)
+    state.trendCardMap = state.trendCardMap || {};
     html += `<div class="saved-list">`;
     html += savedStrategies.map(([k, entry]) => {
       const card = (entry && entry.card) || {};
       const period = (entry && entry.period) || '';
       const keyLabel = (entry && entry.key) || '';
       const savedAtLabel = fmtSavedAt(entry && entry.savedAt);
+      state.trendCardMap[k] = { period, periodKey: keyLabel, card };
+      const checked = state.selectedTrends.has(k);
+      const citations = Array.isArray(card.citations) ? card.citations : [];
+      const citationsBlock = citations.length > 0 ? `
+        <details class="strategy-citations">
+          <summary>근거 ${citations.length}건 ▾</summary>
+          <ol class="citation-list">
+            ${citations.map(c => `<li><a href="${escapeHtml(c.url)}" target="_blank" rel="noopener">${escapeHtml(c.title)}</a><span class="citation-meta">— ${escapeHtml(c.source)} · ${escapeHtml(c.date)}</span></li>`).join('')}
+          </ol>
+        </details>` : '';
       return `
-        <div class="strategy-card">
+        <div class="strategy-card${checked ? ' is-selected' : ''}" data-trend-key="${escapeHtml(k)}">
           <div class="strategy-card-head">
             <div>
               <div class="strat-tag">${escapeHtml(card.tag || 'TREND')} · ${escapeHtml(period)} ${escapeHtml(keyLabel)}</div>
               <h3>${escapeHtml(card.title || '')}</h3>
             </div>
-            <button class="bookmark-btn is-saved" data-bookmark-strategy='${escapeAttr(JSON.stringify({k, period, key: keyLabel, card}))}' title="저장 해제">★</button>
           </div>
           <div class="strategy-card-grid">
             <p class="strategy-body">${escapeHtmlWithMark(card.body || '')}</p>
@@ -632,6 +643,11 @@ function renderSavedView(root) {
               <span class="action-label">ACTION</span>
               <div class="action-body">${escapeHtmlWithMark(card.action || '')}</div>
             </div>
+          </div>
+          <div class="strategy-card-footer">
+            <input type="checkbox" class="trend-check" data-trend-key="${escapeHtml(k)}" ${checked ? 'checked' : ''} title="AI 분석 대상으로 선택" />
+            <button class="bookmark-btn is-saved" data-bookmark-strategy='${escapeAttr(JSON.stringify({k, period, key: keyLabel, card}))}' title="저장 해제">★</button>
+            ${citationsBlock}
           </div>
           ${savedAtLabel ? `<div class="saved-at-label">저장 ${escapeHtml(savedAtLabel)}</div>` : ''}
         </div>
@@ -665,6 +681,16 @@ function renderSavedView(root) {
       state.savedTab = btn.dataset.savedTab;
       renderSavedView(root);
     });
+  });
+
+  // v3.2: 저장한 항목 페이지의 시사점 카드 체크박스
+  root.querySelectorAll('.trend-check').forEach(cb => {
+    cb.addEventListener('change', e => {
+      e.stopPropagation();
+      const key = cb.dataset.trendKey;
+      toggleTrendSelection(key);
+    });
+    cb.addEventListener('click', e => e.stopPropagation());
   });
 }
 
@@ -751,10 +777,10 @@ function applyNonCategoryFilters(items) {
     arr = arr.filter(i => new Date(i.date) >= cutoff);
   }
   if (state.search) {
-    const q = state.search.toLowerCase();
+    // v3.3: 동의어 OR 매칭 (영한 자동 확장)
     arr = arr.filter(i => {
-      const blob = [i.title, i.summary, i.summary_ko, i.insight_ko, i.source, ...(i.categories || [])].filter(Boolean).join(' ').toLowerCase();
-      return blob.includes(q);
+      const blob = [i.title, i.summary, i.summary_ko, i.insight_ko, i.source, ...(i.categories || [])].filter(Boolean).join(' ');
+      return matchSearchQuery(blob, state.search);
     });
   }
   return arr;
@@ -1693,10 +1719,84 @@ function clearSelection() {
   updateSelectBar();
 }
 
+// v3.3: 검색어를 동의어와 함께 OR로 확장 (한↔영 자동 매핑)
+const SEARCH_SYNONYMS = {
+  '거버넌스': ['governance'],
+  'governance': ['거버넌스'],
+  '에이전트': ['agent', 'agentic'],
+  'agent': ['에이전트', 'agentic'],
+  'agentic': ['에이전트', 'agent'],
+  '리스크': ['risk'],
+  'risk': ['리스크'],
+  '규제': ['regulation', 'regulatory'],
+  'regulation': ['규제'],
+  'regulatory': ['규제'],
+  '평가': ['evaluation', 'eval', 'benchmark'],
+  'evaluation': ['평가', 'eval', 'benchmark'],
+  'benchmark': ['평가', '벤치마크'],
+  '벤치마크': ['benchmark'],
+  '시사점': ['insight', 'implication'],
+  'insight': ['시사점'],
+  '리걸테크': ['legaltech', 'legal tech', 'legal ai'],
+  'legaltech': ['리걸테크'],
+  '로펌': ['law firm', 'biglaw'],
+  'law firm': ['로펌'],
+  '인공지능': ['ai', 'artificial intelligence'],
+  'ai': ['인공지능'],
+  '모델': ['model', 'llm'],
+  '한국': ['korea', 'korean'],
+  'korea': ['한국'],
+  '투자': ['funding', 'investment', 'raises'],
+  'funding': ['투자', '자금'],
+  '정책': ['policy'],
+  'policy': ['정책'],
+  '계약': ['contract'],
+  'contract': ['계약'],
+  '오픈소스': ['open source', 'open-source', 'oss'],
+  'open source': ['오픈소스'],
+  '검색': ['retrieval', 'search'],
+  'rag': ['검색-증강 생성', '검색 증강', '리트리벌'],
+  '소송': ['litigation', 'lawsuit'],
+  'litigation': ['소송'],
+};
+function expandSearchQuery(q) {
+  if (!q) return [q];
+  const lower = q.toLowerCase().trim();
+  const syns = SEARCH_SYNONYMS[lower];
+  if (!syns) return [lower];
+  // 원본 + 동의어 모두 반환 (lowercase)
+  return [lower, ...syns.map(s => s.toLowerCase())];
+}
+// 검색 매칭: 원본 또는 동의어 중 하나라도 텍스트에 있으면 true
+function matchSearchQuery(text, q) {
+  if (!q) return true;
+  const terms = expandSearchQuery(q);
+  const t = (text || '').toLowerCase();
+  return terms.some(term => t.includes(term));
+}
+
 function selectSearchResults() {
+  // v3.3: view에 따라 분기 — 저장한 항목 페이지의 시사점 탭에서는 시사점 검색 결과를 selectedTrends에
+  if (state.view === 'saved' && state.savedTab === 'insights') {
+    const q = (state.search || '').toLowerCase().trim();
+    const entries = Object.entries(state.saved.strategy || {});
+    for (const [k, entry] of entries) {
+      const card = (entry && entry.card) || {};
+      const blob = [card.tag, card.title, card.body, card.action,
+        ...(Array.isArray(card.citations) ? card.citations.map(c => c.title + ' ' + c.source) : [])
+      ].filter(Boolean).join(' ');
+      if (!q || matchSearchQuery(blob, q)) {
+        state.selectedTrends.add(k);
+      }
+    }
+    renderContent();
+    updateSelectBar();
+    return;
+  }
+  // 일반 뉴스 카드 검색 결과 선택
   const visible = filterItems();
   visible.forEach(it => state.selectedUrls.add(it.url));
-  renderContent();   // 카드 재렌더해서 체크 표시
+  renderContent();
   updateSelectBar();
 }
 
