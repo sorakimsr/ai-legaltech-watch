@@ -101,12 +101,26 @@ function isSaved(kind, key) {
   return !!(state.saved[kind] || {})[key];
 }
 
+// v2.7.4: 저장 시점(timestamp) 반환 — 이전 boolean 데이터도 호환
+function getSavedAt(kind, key) {
+  const entry = (state.saved[kind] || {})[key];
+  if (!entry) return 0;
+  if (typeof entry === 'object' && entry.savedAt) return entry.savedAt;
+  return 1;  // legacy boolean → 가장 옛날로 정렬
+}
+
 function toggleSaved(kind, key, value) {
   if (!state.saved[kind]) state.saved[kind] = {};
   if (isSaved(kind, key)) {
     delete state.saved[kind][key];
   } else {
-    state.saved[kind][key] = value || true;
+    // v2.7.4: 저장 시 timestamp 기록. value가 객체면 savedAt 추가, 아니면 {savedAt} 만 저장
+    const now = Date.now();
+    if (value && typeof value === 'object') {
+      state.saved[kind][key] = { ...value, savedAt: now };
+    } else {
+      state.saved[kind][key] = { savedAt: now };
+    }
   }
   persistSaved();
 }
@@ -400,25 +414,46 @@ function renderContent() {
 }
 
 function renderSavedView(root) {
+  // v2.7.4: 저장 시점(savedAt) 기준 desc 정렬 — 최근 저장한 항목이 위로
   const savedItems = (state.data.items || [])
     .filter(i => isSaved('items', i.url))
-    .sort((a, b) => (b.score || 0) - (a.score || 0));
-  const savedStrategies = Object.entries(state.saved.strategy || {});
+    .map(i => ({ item: i, savedAt: getSavedAt('items', i.url) }))
+    .sort((a, b) => b.savedAt - a.savedAt);
+  const savedStrategies = Object.entries(state.saved.strategy || {})
+    .sort((a, b) => {
+      const ta = (a[1] && a[1].savedAt) || 0;
+      const tb = (b[1] && b[1].savedAt) || 0;
+      return tb - ta;
+    });
 
   if (savedItems.length === 0 && savedStrategies.length === 0) {
     root.innerHTML = `<div class="saved-empty"><div style="font-size:32px;margin-bottom:8px;">★</div>아직 저장한 항목이 없습니다.<br><span style="font-size:13px;color:#9ca3af;">시사점 카드나 뉴스 카드의 ☆ 별표를 눌러 저장하세요.</span></div>`;
     return;
   }
 
+  // 저장 시점 포맷터
+  const fmtSavedAt = (ts) => {
+    if (!ts || ts < 100) return '';
+    const d = new Date(ts);
+    const yy = d.getFullYear();
+    const mm = String(d.getMonth() + 1).padStart(2, '0');
+    const dd = String(d.getDate()).padStart(2, '0');
+    const hh = String(d.getHours()).padStart(2, '0');
+    const mi = String(d.getMinutes()).padStart(2, '0');
+    return `${yy}-${mm}-${dd} ${hh}:${mi}`;
+  };
+
   let html = '';
 
   // 저장한 시사점 카드
   if (savedStrategies.length > 0) {
-    html += `<h3 style="margin:8px 0 14px;font-size:14px;color:#6b7280;">⭐ 저장한 시사점 (${savedStrategies.length})</h3>`;
+    html += `<h3 class="saved-section-head">⭐ 저장한 시사점 (${savedStrategies.length})</h3>`;
+    html += `<div class="saved-list">`;
     html += savedStrategies.map(([k, entry]) => {
       const card = (entry && entry.card) || {};
       const period = (entry && entry.period) || '';
       const keyLabel = (entry && entry.key) || '';
+      const savedAtLabel = fmtSavedAt(entry && entry.savedAt);
       return `
         <div class="strategy-card">
           <div class="strategy-card-head">
@@ -435,15 +470,24 @@ function renderSavedView(root) {
               <div class="action-body">${escapeHtmlWithMark(card.action || '')}</div>
             </div>
           </div>
+          ${savedAtLabel ? `<div class="saved-at-label">저장 ${escapeHtml(savedAtLabel)}</div>` : ''}
         </div>
       `;
     }).join('');
+    html += `</div>`;  // /.saved-list
   }
 
-  // 저장한 뉴스 카드
+  // 저장한 뉴스 카드 — savedAt desc 순서 + 저장 시점 표시
   if (savedItems.length > 0) {
-    html += `<h3 style="margin:24px 0 14px;font-size:14px;color:#6b7280;">📰 저장한 뉴스 (${savedItems.length})</h3>`;
-    html += `<div class="news-grid">${savedItems.map(renderCard).join('')}</div>`;
+    html += `<h3 class="saved-section-head">📰 저장한 뉴스 (${savedItems.length})</h3>`;
+    html += `<div class="news-grid saved-news-grid">${savedItems.map(({item, savedAt}) => {
+      const card = renderCard(item);
+      const label = fmtSavedAt(savedAt);
+      // 카드 안에 저장 시점 라벨 inject (card-bottom 위)
+      return label
+        ? card.replace('<div class="card-bottom">', `<div class="saved-at-label">저장 ${escapeHtml(label)}</div><div class="card-bottom">`)
+        : card;
+    }).join('')}</div>`;
   }
 
   root.innerHTML = html;

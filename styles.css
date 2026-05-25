@@ -687,6 +687,45 @@ input, select { font-family: inherit; outline: none; }
   gap: 14px;
 }
 
+/* v2.7.4: 저장한 항목 view 레이아웃 — 섹션 헤더와 nested grid가 풀폭 차지 */
+.news-grid > .saved-section-head,
+.news-grid > .saved-list,
+.news-grid > .saved-news-grid {
+  grid-column: 1 / -1;
+}
+.saved-section-head {
+  margin: 8px 0 14px;
+  font-size: 14px;
+  color: #6b7280;
+  font-weight: 600;
+}
+.saved-section-head + .saved-section-head,
+.saved-list + .saved-section-head {
+  margin-top: 28px;
+}
+.saved-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.saved-news-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 14px;
+}
+.saved-at-label {
+  font-size: 11px;
+  color: #9ca3af;
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px dashed #f3f4f6;
+}
+.news-card .saved-at-label {
+  margin: 6px 0 0;
+  padding: 4px 0 0;
+  border-top: 1px dashed #f3f4f6;
+}
+
 .news-card {
   background: #fff;
   border: 1px solid #e5e7eb;
