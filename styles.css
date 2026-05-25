@@ -903,41 +903,66 @@ input, select { font-family: inherit; outline: none; }
   padding: 26px 28px;
   margin-bottom: 16px;
 }
+/* v2.7: TREND + ACTION 좌우 2단 그리드 (좌 7 : 우 5 비율) */
+.strategy-card-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+  gap: 22px;
+  align-items: stretch;
+}
+@media (max-width: 900px) {
+  .strategy-card-grid { grid-template-columns: 1fr; gap: 14px; }
+}
+.strategy-trend {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
 .strategy-card .strat-tag {
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
+  /* v2.7: 트렌드 태그 더 두드러지게. title(19px)보다 약간 작은 16px */
+  font-size: 16px;
+  letter-spacing: 0.01em;
   color: #2563eb;
   font-weight: 700;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
+  text-transform: none;
 }
 .strategy-card h3 {
-  font-size: 19px;
+  font-size: 20px;
   font-weight: 700;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
   letter-spacing: -0.01em;
+  line-height: 1.35;
 }
 .strategy-card p {
   font-size: 14px;
   color: #4b5563;
   line-height: 1.65;
-  margin-bottom: 14px;
+  margin-bottom: 0;
 }
 .strategy-action {
   background: #0f172a;
   color: #f1f5f9;
-  padding: 14px 18px;
+  padding: 16px 20px;
   border-radius: 9px;
   font-size: 13px;
-  line-height: 1.6;
+  line-height: 1.65;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
 }
 .strategy-action .action-label {
   display: block;
   color: #93c5fd;
   font-size: 10px;
   font-weight: 700;
-  margin-bottom: 4px;
   letter-spacing: 0.06em;
+}
+.strategy-action .action-body {
+  font-size: 13.5px;
+  line-height: 1.65;
+  white-space: pre-line;
 }
 
 /* Strategy controls (Daily/Weekly/Monthly + 셀렉트) */
@@ -1284,24 +1309,37 @@ input, select { font-family: inherit; outline: none; }
   font-weight: 700;
   margin-bottom: 16px;
 }
-/* 소스 현황 컨트롤 + 추이 view 탭 */
-.sources-controls {
+/* 카테고리 탭 row + 우측 inline 기간 dropdown (소스 현황 view 전용) */
+.category-bar-row {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 14px;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: nowrap;
 }
+.category-bar-row .category-bar {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.category-bar-aside {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.category-bar-aside.hidden { display: none; }
 .sources-control-label {
   font-size: 12px;
   color: #6b7280;
   font-weight: 500;
 }
-.sources-controls select {
+.category-bar-aside select {
   padding: 6px 12px;
   border: 1px solid #d1d5db;
   border-radius: 6px;
   font-size: 13px;
   background: #fff;
+  cursor: pointer;
 }
 .chart-head {
   display: flex;

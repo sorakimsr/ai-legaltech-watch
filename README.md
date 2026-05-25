@@ -1,200 +1,178 @@
-# AI & Legaltech Watch v2
+# AI & Legaltech Watch — v2.7
 
-매일 KST 오전 6시 자동으로 50+ 신뢰 소스에서 글로벌 AI 산업·리걸테크·AI 논문 뉴스를 수집하고, Claude로 한국어 요약·시사점·전략 카드를 자동 생성하는 라이브 대시보드입니다.
+> 한국 전략·기획 + AI 실무자를 위한 자동 큐레이션 대시보드
+> KST 4시간마다 글로벌·국내 AI / 리걸테크 / 논문을 수집하고, LLM으로 한국어 요약·전략 시사점·논문 흐름 분석까지 생성합니다.
 
-## 핵심 기능
+🌐 **Live:** [daibfy.com](https://daibfy.com)
+📂 **Vault (Obsidian) 백업:** 별도 private repo로 매일 자동 sync
 
-### 데이터 파이프라인 (매일 오전 6시 자동 실행)
+---
 
-1. **Fetch** — 50+개 RSS·arXiv 소스에서 최신 항목 수집
-2. **Dedupe** — 유사 뉴스(같은 사건을 다룬 여러 출처) 자동 그룹화. 대표 1개 + 관련 N건으로 표시
-3. **Enrich** — 상위 40개 항목에 Claude로 한국어 요약·시사점 자동 생성
-4. **Strategy** — 오늘 수집된 흐름 종합 → 전략·기획 시사점 카드 5~7개 매일 자동 갱신
-5. **Deploy** — GitHub Pages로 자동 배포
+## 1. 무엇을 하는 사이트인가
 
-### 데이터 소스 (50+)
+- 매일 **80여 개 글로벌·국내 소스**에서 AI / 리걸테크 / arXiv 논문을 수집
+- **유사 기사 자동 병합** — Legora aOS 같이 매체별 표현이 달라도 묶임
+- **Claude Sonnet 4.6**으로 영문 항목 한국어 요약 + 개별 카드 시사점 생성
+- **Daily / Weekly / Monthly 전략·기획 시사점 카드** 자동 생성 — 발행일 기준으로 정확히 분리
+- 시사점마다 **근거 출처 N건 드롭다운**으로 어떤 컨텐츠를 참조했는지 확인 가능
+- **AI 논문 흐름 분석** — 14일치 논문을 부상 주제 / 핵심 기법 / 주요 기관 / 키워드 / 실무 시사점으로 압축, 각 항목마다 관련 논문 드롭다운
+- **AI 분석 모달** — 선택한 카드 N개에 대해 Claude / OpenAI 자유 모델로 즉시 분석
 
-**글로벌 AI 산업 (영문)**: OpenAI Blog, Anthropic News, Google AI / DeepMind / Research, Meta AI, Microsoft AI, NVIDIA, Hugging Face, Mistral, Stability AI, Perplexity Blog
+---
 
-**AI 매체**: MIT Technology Review AI, TechCrunch AI, VentureBeat AI, The Verge AI, Wired AI, Ars Technica, Axios AI, Semianalysis, The Decoder, Import AI, Ben's Bites, The Batch, AI Snake Oil, Last Week in AI
+## 2. 핵심 설계 원칙
 
-**리걸테크**: Artificial Lawyer, Legal IT Insider, Legal Cheek, LawSites, ABA Journal, Above the Law, Law.com Legal Tech, Legal Futures, Global Legal Post, Stanford CodeX, Harvey Blog, Legora Blog
+1. **실무자 시점** — "Harvey가 무엇을 출시했다"보다 "이 흐름이 내 업무에 무슨 의미인가"를 우선
+2. **발행일 = 컨텐츠 실제 발행/수정일** — 수집일 아님. arXiv는 API의 `updated`(v2 revision date) 사용
+3. **시장 분석/정책 공백 기사가 단순 출시 뉴스보다 상위 노출** — score 가중치에 시장 구도·정책 공백·in-house 키워드 우선
+4. **citation 강제** — 모든 시사점에 근거 출처 보장 (LLM 누락 시 점수 상위 자동 첨부)
+5. **TREND/ACTION 좌우 분할** — 한 트렌드 안에서 본문(좌)과 실행 액션(우)을 2단 그리드로 한눈에
 
-**AI 논문**: arXiv cs.AI / cs.CL / cs.LG / cs.IR / cs.MA / cs.CY, Papers With Code
+---
 
-**국내 매체**: AI타임스, 법률신문(테크/전체), ZDNet Korea, 디지털타임스, 전자신문, 바이라인네트워크, 디일렉, 플래텀, 벤처스퀘어, 더밀크, 매일경제, 한국경제
+## 3. 데이터 파이프라인 (매 4시간)
 
-### LLM 백엔드 (자동 선택)
+```
+scripts/fetch_news.py            # 80여 소스 RSS·API·Naver·Semantic Scholar 수집
+        ↓
+scripts/dedupe_similar.py        # 유사 기사 그룹화 (회사명·매체-일자 보너스)
+        ↓
+scripts/enrich_with_llm.py       # Claude Sonnet 4.6 한국어 요약·개별 시사점
+        ↓
+scripts/generate_strategy.py     # Daily/Weekly/Monthly 시사점 카드 생성
+scripts/analyze_papers.py        # AI 논문 흐름 분석 (narrative + topics + techniques)
+        ↓
+data/news.json + data/strategy_history.json + data/paper_trends.json
+        ↓
+GitHub Pages → daibfy.com
+        ↓
+Obsidian Vault repo로 markdown export (옵션)
+```
 
-우선순위:
-1. **Claude Code CLI** (`claude --print`) — GitHub Actions에서 가장 안정적
-2. **Anthropic SDK** — ANTHROPIC_API_KEY 등록 시
-3. **OpenAI SDK** — OPENAI_API_KEY 등록 시 (폴백)
+스케줄: `cron: "0 */4 * * *"` (UTC) = **KST 매 9, 13, 17, 21, 1, 5시 자동 실행**
 
-LLM이 없거나 호출 실패해도 파이프라인은 정상 동작 — 룰 기반 분류·점수·유사도만으로 사이트가 갱신됩니다.
+---
 
-### UI 특징
+## 4. 소스 카탈로그 (총 80개)
 
-- 좌측 사이드바: 뉴스 / 리걸테크 / AI 논문 / 국내 동향 / 전략 카드 / 소스 현황
-- 상단 통계: 전체 항목 수, AI 분석 완료 수, 유사 뉴스 병합 수, 활성 소스 수, LLM 백엔드
-- 카테고리·언어·기간·정렬 필터, 키워드 검색
-- 각 카드에 한국어 요약 + 시사점 + 유사 뉴스 그룹 토글
-- 모든 항목에 명확한 출처·발행일자 표시
+| 카테고리 | 개수 | 비고 |
+|---|---|---|
+| RSS (안정) | 21 | OpenAI, Google AI, MSFT, NVIDIA, Hugging Face, TechCrunch, Wired, Above the Law 등 |
+| Google News site: 우회 | 42 | RSS feed가 없거나 막힌 소스 (Anthropic, Meta AI, Mistral, Stability, Perplexity, Harvey, Legora, The Verge, The Information, Law.com 등) + 실무자 관점 키워드 검색 |
+| arXiv API | 6 | cs.AI · cs.CL · cs.LG · cs.IR · cs.MA · cs.CY — `lastUpdatedDate` 기준 |
+| Semantic Scholar API | 1 | Google Scholar 대체. AI 8개 쿼리 |
+| 국내 RSS | 9 | AI타임스, ZDNet Korea, 전자신문, 바이라인, 디일렉, 플래텀 등 |
+| Naver Search API | (선택) | NAVER_CLIENT_ID 등록 시 활성화. 리걸테크·BHSN·로앤컴퍼니 등 키워드 검색 |
 
-## 프로젝트 구조
+---
+
+## 5. 필터링·스코어
+
+**Boilerplate 즉시 차단** — "이 기사는 생성형 AI로 제작" 같은 자동 생성 라이프스타일 기사는 모든 소스에서 제외
+
+**Blacklist** — 선거·정치, 부음·장례, 운세·MBTI, 라이프집·상표출원 등 비관련 토픽 차단
+
+**Score 가중치 (실무자 관점, 0~150)**
+
+- 시장 구도/경쟁 분석: `borrowed time` `commoditising` `wrappers` `in-house` `open source` `disruption` → +12~22
+- 정책 공백: `가이드라인 공백` `규제 공백` `기준 못` `AI 거버넌스` `EU AI Act` → +12~22
+- 단순 출시 (`launches` `announces` `unveils`): +3만 (이전 6에서 하향)
+- 도메인 보너스: legaltech +8, papers +5, funding +4, domestic +3
+- 최신성: 24h 이내 +10, 72h +5, 1주일 +2
+
+---
+
+## 6. UI
+
+### 사이드바 (관점·뷰)
+- **전략·기획 시사점** (Daily / Weekly / Monthly) — 시사점 카드는 TREND(좌) + ACTION(우) 2단 그리드, 근거 출처 N건 드롭다운
+- **중요도 TOP** — score 기준 상위
+- **오늘 추가됨** — 오늘 첫 수집
+- **최신순** — 발행일 정렬
+- **AI 논문 흐름** — 한국 시사점 narrative → 실무 시사점 → 부상 주제·핵심 기법 → 기관·키워드 → 논문 목록
+- **소스 현황** (현재 상태 / 7일 추이)
+
+### 카드 (메인 view)
+- 다중 선택 후 **AI 분석 모달** → Claude / OpenAI 모델 선택해 분석 실행
+- 유사 기사 그룹화 시 "관련 N건" 배지
+
+### 소스 현황
+- 기간 dropdown (오늘 / 7일 / 30일 / 전체) — 카테고리 탭 row 우측 inline
+- 7일 추이 차트는 **소스별 / 컨텐츠 태그별** 토글
+- 컬럼: 소스 / 유형 / 상태 / 기간 내 수집 / 신규 / 마지막 활성 / URL
+
+---
+
+## 7. AI 분석 백엔드 (Cloudflare Worker)
+
+- `cloudflare-worker/worker.js` — `POST /analyze` 엔드포인트
+- 모델 화이트리스트: Claude (opus-4-6 / sonnet-4-6 / haiku-4-5 / 3-7-sonnet / 3-5-haiku) + OpenAI (gpt-4o / gpt-4o-mini / gpt-4-turbo / o1 / o1-mini)
+- Smart Placement(`mode = "smart"`)로 OpenAI HKG 차단 우회
+- IP당 일 5회 무료, 본인 API 키 입력 시 무제한 (`X-User-Api-Key` 헤더)
+- 배포: `cd cloudflare-worker && npx wrangler deploy`
+
+---
+
+## 8. 디렉토리
 
 ```
 ai-legaltech-watch/
-├── index.html              메인 페이지
-├── styles.css              스타일
-├── app.js                  프론트엔드
-├── data/
-│   ├── raw_news.json       1단계: 수집된 원본
-│   ├── deduped_news.json   2단계: 유사 뉴스 병합 후
-│   ├── enriched_news.json  3단계: 한국어 요약·시사점 추가
-│   └── news.json           4단계: 최종 (전략 카드 포함, 프론트엔드가 읽음)
+├── index.html              # 대시보드 SPA
+├── app.js                  # state + 렌더링
+├── styles.css
 ├── scripts/
-│   ├── common.py           공통 유틸 (정제·분류·점수)
-│   ├── sources.py          소스 카탈로그 (50+ 소스 정의)
-│   ├── llm_client.py       LLM 클라이언트 (Claude CLI / SDK / OpenAI 폴백)
-│   ├── fetch_news.py       1단계
-│   ├── dedupe_similar.py   2단계
-│   ├── enrich_with_llm.py  3단계
-│   ├── generate_strategy.py 4단계
-│   └── requirements.txt
-├── .github/
-│   └── workflows/
-│       └── daily-update.yml  5단계 자동 파이프라인
-└── README.md
+│   ├── sources.py          # 80개 소스 카탈로그
+│   ├── fetch_news.py       # 수집 + 중복 방지
+│   ├── dedupe_similar.py   # 유사 기사 병합
+│   ├── enrich_with_llm.py  # LLM 한국어 요약·시사점
+│   ├── generate_strategy.py # Daily/Weekly/Monthly 시사점
+│   ├── analyze_papers.py   # 논문 흐름 분석
+│   ├── llm_client.py       # Claude/OpenAI 백엔드 추상화 (Sonnet 4.6 기본)
+│   ├── naver_fetcher.py    # Naver Search API
+│   ├── semantic_scholar_fetcher.py # 논문 API
+│   ├── common.py           # 카테고리·blacklist·score
+│   └── export_to_vault.py  # Obsidian Vault sync
+├── cloudflare-worker/      # AI 분석 백엔드
+│   ├── worker.js
+│   └── wrangler.toml
+├── .github/workflows/
+│   ├── daily-update.yml    # 매 4시간 자동 빌드
+│   └── deploy-pages.yml    # push 시 자동 deploy
+└── data/                   # 빌드 결과 (news.json / strategy_history.json / paper_trends.json / source_history.json)
 ```
 
-## 배포 가이드 (GitHub Pages)
+---
 
-### 1단계: GitHub 레포지토리 생성
+## 9. 직접 운영 시
 
-1. GitHub.com 로그인 → 우측 상단 `+` → **New repository**
-2. Repository name: `ai-legaltech-watch` (원하는 이름)
-3. **Public** 선택 (GitHub Pages 무료 사용)
-4. **Create repository** 클릭
+GitHub Secrets에 다음 등록:
+- `ANTHROPIC_API_KEY` — 시사점·논문 분석용 Claude API 키
+- `OPENAI_API_KEY` — fallback / AI 분석 백엔드용
+- `NAVER_CLIENT_ID` + `NAVER_CLIENT_SECRET` — Naver Search 활성화 (선택)
+- `VAULT_PAT` — Obsidian Vault 자동 sync (선택)
 
-### 2단계: 코드 업로드
+Workflow 환경변수:
+- `ANTHROPIC_MODEL = "claude-sonnet-4-6"` — 기본 모델
+- `ENRICH_TOP_N = 40` — 빌드당 enrich할 상위 N개
+- `ENRICH_MAX_PER_RUN = 40` — 비용 캡
 
-방법 A) **웹에서 직접 업로드** (가장 쉬움)
-1. 생성된 빈 레포에서 **uploading an existing file** 클릭
-2. 이 폴더의 모든 파일을 드래그 (숨김 폴더 `.github` 포함)
-3. **Commit changes**
+수동 트리거: Actions → Daily News Update → Run workflow
 
-방법 B) **터미널에서 Git 사용**
-```bash
-cd ai-legaltech-watch
-git init
-git add .
-git commit -m "initial commit"
-git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/ai-legaltech-watch.git
-git push -u origin main
-```
+---
 
-### 3단계: API 키를 GitHub Secrets에 등록 (필수)
+## 10. 변경 이력 요약
 
-LLM 한국어 요약·시사점·전략 카드를 자동 생성하려면 API 키가 필요합니다.
+- **v2.7** (현재) — 시사점 본문 4~5문장 + ACTION 동사형 2~3문장, TREND/ACTION 좌우 2단 분할, 발행일 = 실제 컨텐츠 발행/수정일(arXiv API 교체로 v2 revision date 정확히), Semantic Scholar 통합, dedupe 임계값·매체-일자 보너스, 시장·정책 시그널 가중치, 보일러플레이트·운세·부음 등 차단 강화, 실패 RSS 23개 Google News 우회, cron 매 4시간, AI 모달 HTTPS redirect, 논문 부상 주제/핵심 기법에 관련 논문 드롭다운, 소스 현황 기간 필터·태그별 추이 토글, Sonnet 4.6 명시
+- **v2.6** — 논문 흐름 분석 메뉴, push 시 자동 deploy, Cloudflare Workers 백엔드
+- **v2.5** — 관련성 필터, 카드 태그 오분류 수정
+- **v2.4** — Daily/Weekly/Monthly 시계열, 사이드바 expandable, 시사점 시계열 UI
+- **v2.3** — NEW 배지, 오늘 신규 카운트
+- **v2.2** — 누적·중복 방지, Citation, Vault export
+- **v2.1** — 카테고리 엄격 분류, 영문 전체 한국어 요약
+- **v2.0** — UI 전면 재설계, 소스 확장, LLM enrichment, 유사 뉴스 병합
 
-1. 레포지토리 **Settings** → **Secrets and variables** → **Actions**
-2. **New repository secret** 클릭
-3. 다음 두 개 등록:
+---
 
-| Name | Value |
-|------|-------|
-| `ANTHROPIC_API_KEY` | https://console.anthropic.com/ 에서 발급 |
-| `OPENAI_API_KEY` | https://platform.openai.com/api-keys 에서 발급 |
+## License & Disclaimer
 
-> 둘 다 등록하면 Claude를 메인으로, GPT를 폴백으로 사용. 하나만 등록해도 동작.
-> 키가 없어도 파이프라인은 돌아가지만 한국어 요약·시사점은 비어있게 됩니다.
-
-### 4단계: GitHub Pages 활성화
-
-1. 레포지토리 **Settings** → **Pages**
-2. **Source**: **GitHub Actions** 선택 (중요!)
-
-### 5단계: 첫 실행
-
-1. **Actions** 탭 → 좌측 **Daily News Update** 워크플로우
-2. 우측 **Run workflow** → **Run workflow** 클릭
-3. 약 3~5분 후 초록 체크 ✓ (LLM 호출 시간 포함)
-4. **Settings → Pages**에서 사이트 URL 확인
-
-기본 URL: `https://YOUR_USERNAME.github.io/ai-legaltech-watch/`
-
-### 6단계: 커스텀 도메인 연결
-
-1. DNS에 CNAME 추가:
-   - Host: `www` (또는 원하는 서브도메인)
-   - Value: `YOUR_USERNAME.github.io`
-2. GitHub **Settings → Pages → Custom domain** 에 도메인 입력
-3. **Enforce HTTPS** 체크
-
-### 7단계: 매일 자동 갱신
-
-매일 UTC 21:00 = **KST 06:00** 자동 실행. Public 레포는 GitHub Actions 무제한 무료.
-
-## 로컬 실행
-
-```bash
-cd ai-legaltech-watch
-
-# 의존성
-pip install -r scripts/requirements.txt
-
-# (선택) Claude Code CLI 설치
-npm install -g @anthropic-ai/claude-code
-
-# 환경 변수 (둘 중 하나)
-export ANTHROPIC_API_KEY="sk-ant-..."
-export OPENAI_API_KEY="sk-..."
-
-# 5단계 순차 실행
-python scripts/fetch_news.py        # 1단계
-python scripts/dedupe_similar.py    # 2단계
-python scripts/enrich_with_llm.py   # 3단계
-python scripts/generate_strategy.py # 4단계
-
-# 로컬 서버 (브라우저 fetch 차단 회피)
-python -m http.server 8000
-# → http://localhost:8000 열기
-```
-
-## 비용 가이드 (LLM)
-
-- **Enrichment**: 매일 상위 40개에만 호출, 중복 호출 캐시. 1회 ~$0.05 (Claude Sonnet 기준) / ~$0.01 (GPT-4o-mini 기준)
-- **Strategy**: 매일 1회 큰 프롬프트 1번. 1회 ~$0.02 (Claude Sonnet) / ~$0.005 (GPT-4o-mini)
-- **월 예상**: Claude $2~3 / GPT $0.5 안팎
-
-비용 절약 옵션:
-- workflow 수동 실행 시 `skip_enrich: true` 입력하면 LLM 단계 건너뜀
-- `ENRICH_TOP_N` 환경 변수로 enrich 항목 수 조정
-
-## 커스터마이징
-
-### 새 소스 추가
-
-`scripts/sources.py` 의 `SOURCES` 리스트에 한 줄 추가하면 끝.
-
-```python
-("새 소스 이름", "https://example.com/rss", "rss", ["ai-industry"], "en"),
-```
-
-### 카테고리 키워드 / 점수 가중치
-
-`scripts/common.py` 의 `CATEGORY_KEYWORDS`, `HIGH_VALUE_KEYWORDS` 수정.
-
-### 유사도 임계값
-
-`scripts/dedupe_similar.py` 의 `SIMILARITY_THRESHOLD` (기본 0.55) 조정.
-
-### LLM 프롬프트
-
-`scripts/enrich_with_llm.py` / `scripts/generate_strategy.py` 의 `PROMPT_TEMPLATE` 직접 수정.
-
-## 라이선스
-
-개인 사용 / 내부용.
+수집된 컨텐츠 자체의 저작권은 원 매체에 있습니다. 본 사이트는 큐레이션·요약·시사점 제공을 위한 비상업 연구 프로젝트입니다.

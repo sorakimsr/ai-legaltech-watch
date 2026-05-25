@@ -263,9 +263,12 @@ function renderContent() {
   if (papersView) papersView.classList.add('hidden');
   controlsRow.style.display = 'flex';
   if (filterLabel) filterLabel.style.display = 'block';
-  // 기본: stat-row와 category-bar 표시 (papers view에서만 숨김)
-  if (statRow) statRow.style.display = '';
+  // 기본 — v2.7: stat-row는 소스 현황 view에만 표시 (다른 view에서는 숨김)
+  if (statRow) statRow.style.display = 'none';
   if (categoryBar) categoryBar.style.display = '';
+  // 카테고리바 우측 기간 dropdown은 sources view에서만 표시
+  const periodAside = document.getElementById('category-bar-aside');
+  if (periodAside) periodAside.classList.add('hidden');
 
   const meta = VIEW_META[state.view] || VIEW_META.latest;
   title.textContent = meta.title;
@@ -275,14 +278,18 @@ function renderContent() {
     stratView.classList.remove('hidden');
     controlsRow.style.display = 'none';
     if (filterLabel) filterLabel.style.display = 'none';
+    if (categoryBar) categoryBar.style.display = 'none';
     renderStrategy();
-    renderStats();
     return;
   }
   if (state.view === 'sources') {
     sourcesView.classList.remove('hidden');
     controlsRow.style.display = 'none';
     if (filterLabel) filterLabel.style.display = 'none';
+    // 소스 현황에서만 stat-row + 카테고리 탭 우측 기간 dropdown 표시
+    if (statRow) statRow.style.display = '';
+    if (periodAside) periodAside.classList.remove('hidden');
+    renderCategoryBar();
     renderSourcesView();
     renderStats();
     return;
@@ -291,8 +298,6 @@ function renderContent() {
     if (papersView) papersView.classList.remove('hidden');
     controlsRow.style.display = 'none';
     if (filterLabel) filterLabel.style.display = 'none';
-    // 논문 분석 페이지에서는 상단 수치 / 카테고리 필터 모두 숨김
-    if (statRow) statRow.style.display = 'none';
     if (categoryBar) categoryBar.style.display = 'none';
     renderPapersView();
     return;
@@ -489,10 +494,17 @@ function renderStrategy() {
       </details>` : '';
     return `
       <div class="strategy-card">
-        <div class="strat-tag">${escapeHtml(s.tag || 'TREND')}</div>
-        <h3>${escapeHtml(s.title || '')}</h3>
-        <p>${escapeHtml(s.body || '')}</p>
-        <div class="strategy-action"><span class="action-label">ACTION</span>${escapeHtml(s.action || '')}</div>
+        <div class="strategy-card-grid">
+          <div class="strategy-trend">
+            <div class="strat-tag">${escapeHtml(s.tag || 'TREND')}</div>
+            <h3>${escapeHtml(s.title || '')}</h3>
+            <p>${escapeHtml(s.body || '')}</p>
+          </div>
+          <div class="strategy-action">
+            <span class="action-label">ACTION</span>
+            <div class="action-body">${escapeHtml(s.action || '')}</div>
+          </div>
+        </div>
         ${citationsBlock}
       </div>
     `;

@@ -103,9 +103,20 @@
           <button class="btn btn-primary" id="btn-ai-analyze">🤖 AI 분석</button>
         </div>
 
-        <!-- 카테고리 필터 = 주제 -->
+        <!-- 카테고리 필터 = 주제 (소스 현황 view에서는 우측에 기간 dropdown inline) -->
         <div class="filter-label">주제별 필터</div>
-        <div class="category-bar" id="category-bar"></div>
+        <div class="category-bar-row">
+          <div class="category-bar" id="category-bar"></div>
+          <div class="category-bar-aside hidden" id="category-bar-aside">
+            <label class="sources-control-label">기간</label>
+            <select id="sources-period">
+              <option value="today">오늘</option>
+              <option value="7days" selected>최근 7일</option>
+              <option value="30days">최근 30일</option>
+              <option value="all">전체 누적</option>
+            </select>
+          </div>
+        </div>
 
         <div class="controls-row">
           <div class="search-wrap">
@@ -192,15 +203,6 @@
 
         <div id="sources-view" class="sources-view hidden">
           <div id="sources-tab-status">
-            <div class="sources-controls">
-              <label class="sources-control-label">기간</label>
-              <select id="sources-period">
-                <option value="today">오늘</option>
-                <option value="7days" selected>최근 7일</option>
-                <option value="30days">최근 30일</option>
-                <option value="all">전체 누적</option>
-              </select>
-            </div>
             <div id="sources-table"></div>
           </div>
           <div id="sources-tab-trend" class="hidden">
