@@ -1,175 +1,122 @@
 {
-  "analyzed_at": "2026-05-26T00:32:05.564721+09:00",
-  "llm_backend": "claude-cli",
+  "analyzed_at": "2026-05-26T03:28:07.107426+09:00",
+  "llm_backend": "anthropic",
   "days_window": 14,
-  "paper_count": 111,
-  "narrative": "## 최근 14일 arXiv AI 연구 흐름\n\n- **에이전트 시스템의 사회 인프라화**: 단일 LLM 성능에서 다중 에이전트 협업·조정으로 무게중심이 이동. `Foundation Protocol`, `MAS-Orchestra`, `How to Steer Your Multi-Agent System`은 에이전트 간 신뢰·조정·인간 개입 설계를 정식화했고, `CHRONOS`, `Computable Fairness`는 자원·시간 진화 환경에서의 거버넌스를 다룬다.\n- **신뢰성·검증·책임성**: `EVE-Agent`(증거 검증 자가진화), `Inductive Deductive Synthesis`(형식 검증 코드 생성), `Ontological Knowledge Blocks`(실행 가능한 컴플라이언스), `Redrawing the AI Map`(책임 경계 이론)이 동시에 등장—환각·미검증 학습·법규 준수 압박을 반영.\n- **실용 인프라 기법**: `Parallel Context Compaction`, `DART`(의미론적 복구), `Latent Cache Flow`(KV 캐시 직접 교환), `MARGIN`(런타임 신뢰도 보정) 등 장기·대규모 에이전트 운영을 위한 시스템 최적화 기법이 부상.\n- **산업 vs 기초**: 응용(헬스케어 환기기 의사결정, 정원 가꾸기, 3D 촬영, 토폴로지 최적화)과 기초(인증 가능성 한계, 차원성 분석, 불가능성 정리) 비중이 균형. 단, `Knowledge Work 벤치마크 재설계` 등 '실제 업무 적용' 평가 담론이 빠르게 성장.\n- **한국 전략·기획 담당자 시사점**: ① 에이전트 도입 시 '성공한 목표당 에너지'·책임 경계 등 새 KPI/거버넌스 지표가 표준화될 가능성, ② 오픈소스 LLM의 정치 영향력 레드팀 결과는 보안·정책 부서가 선제 대응할 영역.",
-  "hot_topics": [
-    {
-      "topic": "멀티에이전트 조정·오케스트레이션",
-      "description": "에이전트 간 신뢰·계획·토론·자원배분을 다루는 조정 계층 연구가 폭증",
-      "paper_count": 12
-    },
-    {
-      "topic": "에이전트 신뢰성·검증·책임성",
-      "description": "증거 검증, 형식 검증, 컴플라이언스, 책임 경계 등 trustworthy agentic AI 담론 확산",
-      "paper_count": 8
-    },
-    {
-      "topic": "에이전트 런타임 인프라 최적화",
-      "description": "컨텍스트 컴팩션, 의미론적 복구, KV캐시 통신 등 장기 운영용 시스템 기법",
-      "paper_count": 5
-    },
-    {
-      "topic": "에이전트형 과학연구 자동화",
-      "description": "RMA, SciAtlas, AutoResearch AI, Ax-Prover 등 연구급 자동화 에이전트",
-      "paper_count": 5
-    },
-    {
-      "topic": "응용 도메인 에이전트",
-      "description": "환기기 의사결정, 자폐 평가, 정원 가꾸기, 3D 촬영 등 도메인 특화 멀티에이전트",
-      "paper_count": 5
-    },
-    {
-      "topic": "LLM의 사회·문화적 영향과 안전",
-      "description": "신앙 비대칭, 정치 영향력 레드팀, 사회적 선의 도덕적 지리학, 숨겨진 역할 게임 기만성",
-      "paper_count": 5
-    }
-  ],
-  "key_techniques": [
-    {
-      "technique": "휴먼인더루프 협업 계획(Human-LLM Collaborative Planning)",
-      "description": "중간 추론 가시화와 개입 지점 구조화로 사용자가 에이전트 플랜을 조종(How to Steer, Ventilator Decision Support)"
-    },
-    {
-      "technique": "사후 분포 기반 토론·신뢰도 보정",
-      "description": "베이지안 영감(SVR-MAD)과 런타임 캘리브레이션(MARGIN)으로 환각·과신 메시지 가지치기"
-    },
-    {
-      "technique": "증거 검증 자가진화 학습",
-      "description": "EVE-Agent처럼 자가 생성 데이터에 '검증 가능한 근거'를 요구해 학습 오염 차단"
-    },
-    {
-      "technique": "신경-기호 합성 및 형식 검증 생성",
-      "description": "Inductive Deductive Synthesis, NeuroNL2LTL, ImProver 2가 검증된 코드·증명 자동 생성"
-    },
-    {
-      "technique": "비텍스트 모델 간 통신(Latent Cache Flow)",
-      "description": "KV 캐시를 어댑터로 교환해 에이전트 간 지연·정보손실을 줄이는 C2C 후속 기법"
-    }
-  ],
-  "actionable_insights": [
-    "AI 도입 KPI를 토큰·호출 단위가 아닌 '성공한 목표당 에너지·비용'으로 재설계하라—`Energy per Successful Goal` 논문이 제시한 회계 방식은 사내 ROI 보고서·그린AI 보고에 즉시 차용 가능하다.",
-    "에이전트 PoC 단계부터 책임 경계(Accountability Boundary)와 실행 가능한 컴플라이언스(Ontological Knowledge Blocks)를 설계에 반영하라—문서 기반 거버넌스는 더 이상 충분치 않으며 규제 대응 비용을 선제적으로 낮출 수 있다.",
-    "장기 에이전트 운영을 계획 중이라면 컨텍스트 컴팩션(Parallel Context Compaction), 의미론적 복구(DART), 신뢰도 캘리브레이션(MARGIN)을 운영 아키텍처에 포함하라—단순 RAG 청킹 개선(Query-Adaptive Semantic Chunking)만으로는 한계가 명확하다.",
-    "오픈소스 로컬 LLM의 정치 영향력 캠페인 악용 가능성(`How Far Will They Go?`)을 보안·홍보·법무 부서가 공동 모니터링하는 레드팀 체계를 사내에 구축하라."
-  ],
+  "paper_count": 197,
+  "narrative": "",
+  "hot_topics": [],
+  "key_techniques": [],
+  "actionable_insights": [],
   "top_institutions": [
     {
       "name": "ETH",
-      "count": 23
+      "count": 39
     },
     {
       "name": "MIT",
-      "count": 17
+      "count": 20
     },
     {
       "name": "FAIR",
-      "count": 3
+      "count": 6
+    },
+    {
+      "name": "Meta",
+      "count": 5
+    },
+    {
+      "name": "AWS",
+      "count": 2
     },
     {
       "name": "Apple",
       "count": 1
     },
     {
-      "name": "AWS",
-      "count": 1
-    },
-    {
-      "name": "Meta",
+      "name": "Amazon",
       "count": 1
     }
   ],
   "top_keywords": [
     {
-      "keyword": "multi",
-      "count": 14
+      "keyword": "language",
+      "count": 23
     },
     {
-      "keyword": "language",
-      "count": 14
+      "keyword": "multi",
+      "count": 16
     },
     {
       "keyword": "agent",
-      "count": 13
-    },
-    {
-      "keyword": "multi agent",
-      "count": 11
-    },
-    {
-      "keyword": "large",
-      "count": 10
-    },
-    {
-      "keyword": "framework",
-      "count": 9
-    },
-    {
-      "keyword": "agentic",
-      "count": 8
-    },
-    {
-      "keyword": "knowledge",
-      "count": 8
-    },
-    {
-      "keyword": "systems",
-      "count": 7
-    },
-    {
-      "keyword": "retrieval",
-      "count": 7
-    },
-    {
-      "keyword": "large language",
-      "count": 7
-    },
-    {
-      "keyword": "design",
-      "count": 6
-    },
-    {
-      "keyword": "human",
-      "count": 5
-    },
-    {
-      "keyword": "data",
-      "count": 5
-    },
-    {
-      "keyword": "semantic",
-      "count": 5
-    },
-    {
-      "keyword": "augmented",
-      "count": 5
-    },
-    {
-      "keyword": "text",
-      "count": 5
-    },
-    {
-      "keyword": "self",
-      "count": 4
-    },
-    {
-      "keyword": "optimization",
-      "count": 4
+      "count": 16
     },
     {
       "keyword": "reasoning",
-      "count": 4
+      "count": 15
+    },
+    {
+      "keyword": "large",
+      "count": 14
+    },
+    {
+      "keyword": "generative",
+      "count": 13
+    },
+    {
+      "keyword": "systems",
+      "count": 12
+    },
+    {
+      "keyword": "data",
+      "count": 11
+    },
+    {
+      "keyword": "multi agent",
+      "count": 10
+    },
+    {
+      "keyword": "agentic",
+      "count": 10
+    },
+    {
+      "keyword": "knowledge",
+      "count": 10
+    },
+    {
+      "keyword": "design",
+      "count": 9
+    },
+    {
+      "keyword": "retrieval",
+      "count": 9
+    },
+    {
+      "keyword": "agents",
+      "count": 9
+    },
+    {
+      "keyword": "large language",
+      "count": 9
+    },
+    {
+      "keyword": "framework",
+      "count": 8
+    },
+    {
+      "keyword": "aware",
+      "count": 8
+    },
+    {
+      "keyword": "llms",
+      "count": 8
+    },
+    {
+      "keyword": "evaluation",
+      "count": 7
+    },
+    {
+      "keyword": "human",
+      "count": 7
     }
   ],
   "recent_papers": [
@@ -190,14 +137,6 @@
       "score": 83
     },
     {
-      "title": "Self-Refining Topology Optimization via an LLM-Based Multi-Agent Framework",
-      "url": "https://arxiv.org/abs/2605.23273",
-      "source": "arXiv cs.MA (Multi-Agent)",
-      "date": "2026-05-25",
-      "summary_ko": "토폴로지 최적화 워크플로우에서 엔지니어가 수행하던 파라미터 설정·결과 평가 등 의사결정을 LLM 기반 멀티에이전트 프레임워크로 자동화·자기개선하는 연구. 설계 수렴 판단까지 에이전트가 협업해 처리한다.",
-      "score": 83
-    },
-    {
       "title": "Ax-Prover: A Deep Reasoning Agentic Framework for Theorem Proving in Mathematics and Quantum Physics",
       "url": "https://arxiv.org/abs/2510.12787",
       "source": "arXiv cs.MA (Multi-Agent)",
@@ -206,11 +145,27 @@
       "score": 83
     },
     {
+      "title": "Librarian Responsibility in the Face of Generative AI",
+      "url": "https://palrap.org/ojs/palrap/article/download/327/970",
+      "source": "OpenAlex",
+      "date": "2026-05-21",
+      "summary_ko": "생성형 AI는 도서관이 이전에 경험한 기술 변화와 근본적으로 다르며, 사서들은 비판적 지지자도 반대자도 아닌 양심적 정보 전문가로서 생성형 AI 리더십을 주도할 수 있는 독특한 위치에 있다.",
+      "score": 80
+    },
+    {
       "title": "Design and Report Benchmarks for Knowledge Work",
       "url": "https://arxiv.org/abs/2605.23262",
       "source": "arXiv cs.AI",
       "date": "2026-05-25",
       "summary_ko": "LLM 에이전트 기반 지식 업무(코딩·연구·헬스케어) 평가가 여전히 전통 NLP 과제 방식에 머물러, 벤치마크 점수가 실제 업무 수행 능력을 제대로 반영하지 못한다는 문제를 지적하고 새로운 설계·보고 기준을 제안한 논문이다.",
+      "score": 78
+    },
+    {
+      "title": "Architecture and Evaluation of a Multi-Agent System for Market Monitoring",
+      "url": "https://doi.org/10.46793/spsunp2601.01m",
+      "source": "OpenAlex",
+      "date": "2026-05-18",
+      "summary_ko": "금융시장의 대규모 이질적 데이터를 자동으로 통합·분석하기 위해 다중에이전트 시스템 아키텍처를 제시한 연구로, 시장 모니터링의 효율성 향상을 목표로 함.",
       "score": 78
     },
     {
@@ -227,38 +182,6 @@
       "source": "arXiv cs.CL",
       "date": "2026-05-25",
       "summary_ko": "자폐 스펙트럼의 사회적 언어장애(SLD) 특성인 반향어, 대명사 전도, 정형화된 미디어 인용은 자발적 대화에서 잘 드러나지 않고 특정 조건에서만 발현된다. 이를 평가하기 위한 능동적 다중 에이전트 대화 프레임워크를 제안한 연구다.",
-      "score": 77
-    },
-    {
-      "title": "MARGIN: Runtime Confidence Calibration for Multi-Agent Foundation Model Coordination",
-      "url": "https://arxiv.org/abs/2605.22949",
-      "source": "arXiv cs.LG",
-      "date": "2026-05-25",
-      "summary_ko": "다중 에이전트 환경에서 파운데이션 모델의 자가 신뢰도가 어려운 과제일수록 역상관을 보이는 문제를 해결하기 위해, MARGIN은 런타임에서 에이전트 신뢰도를 보정해 코디네이터가 신뢰할 응답을 선별하도록 한다.",
-      "score": 77
-    },
-    {
-      "title": "How to Steer Your Multi-Agent System: Human-LLM Collaborative Planning",
-      "url": "https://arxiv.org/abs/2605.23023",
-      "source": "arXiv cs.MA (Multi-Agent)",
-      "date": "2026-05-25",
-      "summary_ko": "arXiv 논문은 멀티에이전트 시스템에서 사용자가 최종 결과만 검증하는 한계를 지적하고, 인간-LLM 협업 계획 수립을 위한 3축 설계 공간을 정식화했다. 중간 추론 단계의 가시성과 개입 지점을 구조화해 복잡한 에이전트 플랜을 인간이 효과적으로 조종할 수 있도록 한다.",
-      "score": 77
-    },
-    {
-      "title": "SVR-MAD: A Bayesian-Inspired Framework for Posterior-Guided Multi-Agent Debate",
-      "url": "https://arxiv.org/abs/2605.23099",
-      "source": "arXiv cs.MA (Multi-Agent)",
-      "date": "2026-05-25",
-      "summary_ko": "SVR-MAD는 다중 에이전트 토론(MAD)에서 컨텍스트 폭증 문제를 해결하기 위한 베이지안 영감 기반 프레임워크다. 기존의 토큰 로그우도나 자기보고 신뢰도 같은 사전 신호는 환각 상황에서 불안정하므로, 사후 분포 기반 신호로 저효용 메시지를 가지치기해 확장성을 높인다.",
-      "score": 77
-    },
-    {
-      "title": "ARMS: Automatic Reward Shaping for Sparse-Reward Multi-Agent Reinforcement Learning",
-      "url": "https://arxiv.org/abs/2605.23562",
-      "source": "arXiv cs.MA (Multi-Agent)",
-      "date": "2026-05-25",
-      "summary_ko": "다중 에이전트 강화학습의 희소 보상 문제를 해결하기 위해 전략적 구조를 보존하면서 자동으로 보상을 설계하는 ARMS 기법을 제안했다. 단순 단기 성과 개선이 아닌 비정상성 문제를 고려한 보상 셰이핑으로 학습을 가속화한다.",
       "score": 77
     },
     {
@@ -283,6 +206,14 @@
       "source": "arXiv cs.MA (Multi-Agent)",
       "date": "2026-05-25",
       "summary_ko": "arXiv 신규 연구로, 다중 에이전트 시스템(MAS) 자동 설계의 한계를 지적하고 전체적 오케스트레이션과 통제된 벤치마크를 통해 MAS 추론을 개선하는 MAS-Orchestra를 제안한다. 순차적 코드 실행 방식의 복잡성 문제를 시스템 수준에서 재설계한 점이 특징이다.",
+      "score": 77
+    },
+    {
+      "title": "นองไลฟลอง (NongLifelong): AI Agent ผชวยอจฉรยะในสำนกการเรยนรตลอดชวตฯ",
+      "url": "https://so14.tci-thaijo.org/index.php/PJ/article/download/2681/2189",
+      "source": "OpenAlex",
+      "date": "2026-05-22",
+      "summary_ko": "태국 연구팀이 평생학습센터(KLLC)의 서비스 혁신을 위해 'NongLifelong'이라는 AI Agent를 개발·평가했다. 카이젠과 디자인씽킹을 적용한 이 프로젝트는 AI 기반 학습 정보 제공 및 혁신 방안을 제시한다.",
       "score": 77
     },
     {
@@ -342,12 +273,44 @@
       "score": 76
     },
     {
+      "title": "Boiling the Frog: A Multi-Turn Benchmark for Agentic Safety",
+      "url": "https://arxiv.org/abs/2605.22643v2",
+      "source": "arXiv cs.CL",
+      "date": "2026-05-22",
+      "summary_ko": "Background. Traditional safety benchmarks for language models evaluate generated text: whether a model outputs toxic language, reproduces bias, or follows harmful instructions. When models are deploye",
+      "score": 76
+    },
+    {
+      "title": "PRISM: Pareto-Efficient Retrieval over Intent-Aware Structured Memory for Long-Horizon Agents",
+      "url": "https://arxiv.org/abs/2605.12260v2",
+      "source": "arXiv cs.CL",
+      "date": "2026-05-22",
+      "summary_ko": "Long-horizon language agents accumulate conversation history far faster than any fixed context window can hold, making memory management critical to both answer accuracy and serving cost. Existing app",
+      "score": 76
+    },
+    {
+      "title": "SWE-EVO: Benchmarking Coding Agents in Long-Horizon Software Evolution Scenarios",
+      "url": "https://arxiv.org/abs/2512.18470v6",
+      "source": "arXiv cs.MA (Multi-Agent)",
+      "date": "2026-05-22",
+      "summary_ko": "Existing benchmarks for AI coding agents focus on isolated, single-issue tasks such as fixing a bug or adding a small feature. However, real-world software engineering is a long-horizon endeavor: deve",
+      "score": 76
+    },
+    {
       "title": "Is Dimensionality a Barrier for Retrieval Models?",
       "url": "https://arxiv.org/abs/2605.23556",
       "source": "arXiv cs.IR",
       "date": "2026-05-25",
       "summary_ko": "임베딩 검색 모델이 약 1000차원의 낮은 표현 차원에서도 수십억~수조 데이터 규모로 확장 가능한 이유를, 통신 복잡도 이론의 최대 마진 임베딩 관점에서 이론적으로 분석한 논문이다.",
       "score": 75
+    },
+    {
+      "title": "AAIA-RAG-LEGAL AI Governance for Italian Law",
+      "url": "https://doi.org/10.5281/zenodo.20329734",
+      "source": "OpenAlex",
+      "date": "2026-05-21",
+      "summary_ko": "Alberto Minasi della Rocca — [Zenodo (CERN European Organization for Nuclear Research)] Large language models produce plausible outputs even without verifiable grounding. In legal contexts this struct",
+      "score": 74
     },
     {
       "title": "BOHM: Zero-Cost Hierarchical Attribution for Compound AI Systems",
@@ -382,36 +345,20 @@
       "score": 73
     },
     {
-      "title": "SciAtlas: A Large-Scale Knowledge Graph for Automated Scientific Research",
-      "url": "https://arxiv.org/abs/2605.22878",
-      "source": "arXiv cs.AI",
-      "date": "2026-05-25",
-      "summary_ko": "arXiv에 공개된 SciAtlas는 학술 정보 폭증 문제를 해결하기 위한 대규모 지식 그래프로, 키워드·벡터 기반 검색의 한계를 넘어 분야 간 통합 지식 구조를 제공한다. 자동화된 과학 연구 에이전트가 심층적 학제간 탐색을 수행하도록 설계됐다.",
-      "score": 70
+      "title": "Entropy-Gradient Inversion: Moving Toward Internal Mechanism of Large Reasoning Models",
+      "url": "https://arxiv.org/abs/2605.17770v2",
+      "source": "arXiv cs.CL",
+      "date": "2026-05-22",
+      "summary_ko": "The advancement of Large Reasoning Models (LRMs) has catalyzed a paradigm shift from reactive ``fast thinking'' text generation to systematic, step-by-step ``slow thinking'' reasoning, unlocking state",
+      "score": 73
     },
     {
-      "title": "EVE-Agent: Evidence-Verifiable Self-Evolving Agents",
-      "url": "https://arxiv.org/abs/2605.22905",
-      "source": "arXiv cs.AI",
+      "title": "The triad of identity, trust and responsibility in multi-agent systems",
+      "url": "https://eprints.soton.ac.uk/509930/1/AAMAS_2026_The_Triad_of_Identity_Trust_and_Responsibility_in_Multi-Agent_Systems.pdf",
+      "source": "OpenAlex",
       "date": "2026-05-25",
-      "summary_ko": "EVE-Agent는 사람이 만든 정답 없이도 스스로 질문·답변·피드백을 만들어 학습하는 자가진화형 검색 에이전트이며, 핵심은 '검증 가능한 근거'를 요구해 환각이나 미검증 예시로 학습이 오염되는 것을 막는 데 있다.",
-      "score": 70
-    },
-    {
-      "title": "Inductive Deductive Synthesis: Enabling AI to Generate Formally Verified Systems",
-      "url": "https://arxiv.org/abs/2605.23109",
-      "source": "arXiv cs.AI",
-      "date": "2026-05-25",
-      "summary_ko": "AI 에이전트가 코드 생성·테스트에는 능하지만 분산 시스템처럼 모든 이벤트 순서에서 정합성을 보장해야 하는 영역에서는 한계가 있다. 이를 해결하기 위해 귀납·연역 합성을 결합해 형식 검증이 보장된 시스템을 AI가 자동 생성하도록 하는 기법이 제안되었다.",
-      "score": 70
-    },
-    {
-      "title": "GENSTRAT: Toward a Science of Strategic Reasoning in Large Language Models",
-      "url": "https://arxiv.org/abs/2605.23238",
-      "source": "arXiv cs.AI",
-      "date": "2026-05-25",
-      "summary_ko": "LLM이 시장·경매·입찰 등 경제 에이전트로 배치되며 전략적 추론 행동 예측이 중요해진 가운데, 기존 고정 게임 기반 벤치마크의 한계를 넘어 GENSTRAT라는 전략 추론 평가 과학 체계를 제안하는 연구다.",
-      "score": 70
+      "summary_ko": "Jayati Deshmukh, Vahid Yazdanpanah, Sebastian Stein — [ePrints Soton (University of Southampton)] The design of autonomous AI agents that behave responsibly and foster trust in open multi-agent system",
+      "score": 72
     }
   ]
 }

@@ -46,49 +46,703 @@
     ],
     "2026-05-26": [
       {
-        "tag": "TREND 01 · 에이전트 시대의 본격화",
-        "title": "단일 챗봇에서 '커스텀 에이전트 × 장기 워크플로우'로",
-        "body": "Harvey의 LAB(Long-horizon Agent Builder), Command Center, Gemini Spark, Ironclad의 5종 에이전트 + Manager Agent 등 모든 주요 플레이어가 같은 방향을 가리킴. '같은 패턴이 반복되는 다단계 절차'를 식별하면 자동화 ROI가 가장 큰 영역.",
-        "action": "본인 업무 중 '주 1회 이상 반복 + 3단계 이상 절차' 후보 5개를 추리고, 각각 Plan-Act-Reflect 루프로 분해. 그중 1개를 PoC로 자동화."
+        "tag": "TREND 01 · AI 에이전트의 업무 시간 압축 효과",
+        "title": "KB금융 PB 상담자료 반나절→10분, 금융권 AI 에이전트 실전 성과 가시화",
+        "body": "KB금융지주 조영서 부사장은 2026 한국금융미래포럼에서 PB 상담자료 작성 업무가 AI 에이전트 도입 후 기존 반나절에서 10분으로 단축됐다고 공개했으며, 5년 내 'AI 뱅커' 전면화를 선언했다. 기업은행은 내부 생성형 AI 플랫폼 'IBK GenAI(제니)'를 중심으로 업무 자동화를 확대 중이고, 수출입은행은 'KEXIM AI'를 통해 내규 검색·승인서 검토·신용평가 AX를 동시에 추진하고 있다. 이 흐름의 핵심은 단순 챗봇이 아니라 '판단 보조→초안 생성→검토 자동화'로 이어지는 워크플로 자체의 재설계라는 점이다. 금융권이 이 속도로 내부 AI 에이전트를 고도화하면, 외부 컨설팅·기획 파트너에게 요구하는 산출물의 속도와 밀도 기준도 함께 올라가게 된다. 즉, 금융 고객사를 상대하는 전략·기획 실무자는 '우리도 같은 속도로 작업할 수 있는가'를 지금 당장 점검해야 하는 시점이다.",
+        "action": "이번 주 안에 자사 반복 기획 산출물(보고서 초안, 회의록, 제안서 목차) 중 AI 에이전트로 대체 가능한 항목을 목록화하고, 가장 시간이 많이 걸리는 한 가지를 골라 Claude 또는 GPT-4o 기반 프롬프트 파이프라인을 직접 구성해본다. 한 달 안에 해당 산출물의 소요 시간을 측정해 도입 전 대비 50% 이상 단축되는지를 기준으로 확장 여부를 판단한다.",
+        "citations": [
+          {
+            "title": "조영서 KB금융지주 부사장 “ AI 로 반나절 업무 10분만에…5년 내 AI 뱅커...",
+            "url": "http://www.fntimes.com/html/view.php?ud=202605250836278689dd55077bc2_18",
+            "source": "Naver / fntimes",
+            "date": "2026-05-26"
+          },
+          {
+            "title": "장민영號 기업은행, ‘IBK GenAI’ AX 가속…기업금융 혁신 [금융권 AI 人...",
+            "url": "http://www.fntimes.com/html/view.php?ud=202605250737118333dd55077bc2_18",
+            "source": "Naver / fntimes",
+            "date": "2026-05-26"
+          },
+          {
+            "title": "황기연號 수출입은행, ‘KEXIM AI ’ 구축…신용평가 AX 속도 [금융권 AI ...",
+            "url": "http://www.fntimes.com/html/view.php?ud=202605250743058272dd55077bc2_18",
+            "source": "Naver / fntimes",
+            "date": "2026-05-26"
+          },
+          {
+            "title": "[개회사] 김봉국 한국금융신문 대표 “ AI 혁명, 금융 DNA 바꿔 미래 좌우...",
+            "url": "http://www.fntimes.com/html/view.php?ud=20260525080758277dd55077bc2_18",
+            "source": "Naver / fntimes",
+            "date": "2026-05-26"
+          }
+        ]
       },
       {
-        "tag": "TREND 02 · 멀티 모델 전략의 필수화",
-        "title": "GPT-5.5 vs Claude Opus 4.6 vs Gemini 3.5 — 단일 벤더 충성은 위험",
-        "body": "모델별 우위 영역 분명: GPT-5.5는 멀티모달·터미널 작업, Claude는 코딩·1M 컨텍스트·에이전트, Gemini는 비용 효율과 Google 생태계. Anthropic의 $200B 인프라 투자가 의존성 분산 요구를 키움.",
-        "action": "'작업 유형별 모델 라우팅' 가이드를 1페이지로 정리. 장문 분석 → Claude / 코드 자동화 → Claude·GPT-5.5 / 이미지·음성 → GPT-5.5 / 비용 민감 → Gemini Flash."
+        "tag": "TREND 02 · AI가 '성장 사다리'를 재편하는 조직 역학",
+        "title": "신입 성과 35% 급등·중간관리자 축소, AI가 조직 위계 자체를 흔든다",
+        "body": "고객 상담 직원 5000명 대상 실험에서 AI 도입 후 신입 직원 성과가 35% 개선되며 숙련자와의 격차가 급격히 줄었고, 컨설턴트 대상 GPT-4 실험에서도 작업 속도가 25% 향상됐다는 데이터가 오늘 시론으로 공개됐다. 조선일보 보도에 따르면 글로벌 빅테크는 7000명을 AI 클라우드 인프라·내부 AI 에이전트 조직으로 전보하고 일부 매니저를 실무 역할로 전환하며 중간 관리층을 실질적으로 해체하고 있다. 이 두 흐름이 동시에 진행된다는 것은 AI가 '경험 프리미엄'을 희석시키는 동시에 '관리 레이어의 존재 이유'도 약화시키고 있다는 뜻이다. 한국 대기업도 마케팅·보안·인사교육 등 전방위에서 AI 에이전트를 도입 중이어서, 기획 조직 내 시니어의 가치는 '경험 기반 판단'보다 'AI 아웃풋을 맥락에 맞게 재조합하는 능력'으로 빠르게 이동하고 있다. 이 구조 변화는 인사 평가 체계와 팀 설계 방식에도 직접 충격을 줄 것이며, 전략·기획 리더는 자신의 팀이 AI 이후 어떤 구조로 재편될지를 선제적으로 설계해야 한다.",
+        "action": "지금 당장 팀 내 업무를 'AI가 초안을 내는 영역'과 '사람이 최종 판단해야 하는 영역'으로 이분해서 한 장짜리 맵을 만들어보자. 다음 달 안에 신입·주니어 구성원에게 AI 보조 업무를 실제로 맡겨보고, 시니어와의 산출물 품질 차이가 어느 항목에서 발생하는지를 구체적으로 기록해 팀 역할 재정의의 근거 데이터로 활용한다.",
+        "citations": [
+          {
+            "title": "[시론] AI 로 빼앗기는 '성장 사다리'",
+            "url": "https://www.hankyung.com/article/2026052573951",
+            "source": "한국경제",
+            "date": "2026-05-26"
+          },
+          {
+            "title": "AI 와 협업 위해… 소규모 수평 조직이 뜬다",
+            "url": "https://www.chosun.com/economy/tech_it/2026/05/26/ECB74HPHUJGJTOYENZJ5JUSEQ4/",
+            "source": "조선일보",
+            "date": "2026-05-26"
+          },
+          {
+            "title": "[이명희의 인사이트] 인공지능 시대 생존법",
+            "url": "https://www.kmib.co.kr/article/view.asp?arcid=1779680821&code=11171420&cp=nv",
+            "source": "국민일보",
+            "date": "2026-05-26"
+          },
+          {
+            "title": "삼전 성과급 공방, 해외 빅테크로 번져… ‘ AI 과실 재분배’ 논쟁",
+            "url": "https://www.kmib.co.kr/article/view.asp?arcid=1779697691&code=11151400&cp=nv",
+            "source": "국민일보",
+            "date": "2026-05-26"
+          }
+        ]
       },
       {
-        "tag": "TREND 03 · 오픈소스 + 데이터 주권의 부상",
-        "title": "Mike 현상 — '비싼 SaaS' vs '자체호스팅 + BYO API'",
-        "body": "Mike가 GitHub 72시간만에 1,000+ 스타. 핵심은 가격(0원)이 아니라 '데이터가 자기 인프라에 머문다'는 사실. Robin AI의 dedicated cloud, BHSN의 한국형 솔루션도 같은 맥락. Harvey LAB도 오픈소스로 풀림.",
-        "action": "조직 데이터 민감도를 High/Mid/Low로 분류 후, High는 자체호스팅·오픈소스, Mid는 dedicated cloud, Low는 SaaS — 3-tier 전략 수립."
+        "tag": "TREND 03 · 앤트로픽 밸류에이션과 AI 인프라 투자 경쟁",
+        "title": "앤트로픽 기업가치 9000억 달러 돌파 임박, OpenAI 추월 시나리오가 현실화",
+        "body": "세쿼이아 캐피털·드라고니어 등이 참여한 이번 투자 라운드에서 앤트로픽(Anthropic)의 기업가치가 9000억 달러를 돌파할 가능성이 제기됐으며, 이는 지난 3월 기준 약 8520억 달러로 평가된 OpenAI를 넘어서는 수치다. 이 밸류에이션 경쟁은 단순한 스타트업 투자 열기가 아니라, 엔터프라이즈 AI 시장에서 '안전성·신뢰성' 포지셔닝을 앞세운 앤트로픽이 금융·의료·법률 등 규제 산업 고객을 빠르게 흡수하고 있다는 시장 구조의 반영이다. OpenAI가 GPT-5.5를 통해 코딩·해킹 수준의 능력을 공개하며 공격적 확장을 이어가는 동시에, 앤트로픽은 Claude 시리즈로 기업 내부망 적용 레퍼런스를 쌓고 있어 두 회사의 경쟁은 '모델 성능'보다 '엔터프라이즈 신뢰 확보' 싸움으로 전환되고 있다. 한국 실무자 입장에서는 어떤 모델을 사내 AI 인프라의 기반으로 선택하느냐가 향후 2~3년의 기술 의존도와 비용 구조를 결정하는 전략적 선택이 된다. SKT가 리벨리온 AI 반도체 '아톰'을 에이닷 서비스에 실전 적용하며 기술 내재화를 추진하는 것처럼, 외산 모델 의존도를 어떻게 분산할지도 함께 검토해야 한다.",
+        "action": "이번 달 안에 현재 사내에서 사용 중인 AI 모델(OpenAI, Anthropic, 국내 모델 등)의 계약 조건·데이터 처리 방식·비용 구조를 한 장으로 정리하고, 특정 벤더 의존도가 70% 이상이라면 대안 모델 파일럿 계획을 수립해본다. 6개월 후 모델별 업무 적용 성과(속도·정확도·비용)를 수치로 비교해 멀티모델 전략의 지속 여부를 판단한다.",
+        "citations": [
+          {
+            "title": "美 앤트로픽, 기업가치 9000억 달러 돌파해 오픈 AI 추월 가능성 [KDF Worl...",
+            "url": "http://www.kdfnews.com/news/articleView.html?idxno=183523",
+            "source": "Naver / kdfnews",
+            "date": "2026-05-26"
+          },
+          {
+            "title": "When AI evolves on its own",
+            "url": "https://koreajoongangdaily.joins.com/news/2026-05-26/opinion/columns/When-AI-evolves-on-its-own/2600329",
+            "source": "Naver / koreajoongangdaily",
+            "date": "2026-05-26"
+          },
+          {
+            "title": "정재헌號 SKT가 ‘ AI 지주사’로 불리는 까닭",
+            "url": "http://www.fntimes.com/html/view.php?ud=202605250853166281dd55077bc2_18",
+            "source": "Naver / fntimes",
+            "date": "2026-05-26"
+          }
+        ]
       },
       {
-        "tag": "TREND 04 · 컨텍스트 윈도우 경쟁의 종료",
-        "title": "1M 토큰이 기본값 — 워크플로우 자체를 재설계할 때",
-        "body": "Claude Sonnet 4.6과 GPT-5.5 모두 1M 토큰 컨텍스트. 전체 정책 문서·전체 코드베이스·전체 계약서 묶음을 한 번에 처리. 'RAG로 잘게 쪼개기'가 더 이상 기본이 아님.",
-        "action": "기존 RAG/임베딩 기반 워크플로우 중 1M 토큰 직접 입력으로 단순화 가능한 것 점검. 정확도·비용 둘 다 개선되는 경우 많음."
+        "tag": "TREND 04 · 금융 규제 완화와 망분리 해소의 실무 기회",
+        "title": "금융위 망분리 규제 합리화 가속, 내부망 AI 도입 장벽이 실질적으로 낮아진다",
+        "body": "금융위원회는 2026 한국금융미래포럼에서 망분리 규제 합리화에 속도를 내겠다고 공식 발표했으며, 금감원 이종오 부원장보도 클라우드·SaaS 도입을 위한 세칙 개정 완료와 내부망 생성형 AI 활용 확대를 과제로 명시했다. 산업은행은 이미 외부 도움 없이 임직원 주도로 내부망 생성형 AI 'KDB GPT'를 개발해 기술 안정성과 보안성을 확보한 선례를 만들었고, 수출입은행도 내규 검색·계약서 검토 AI 에이전트를 병행 개발 중이다. 이 규제 완화 흐름은 금융사 내부 AI 도입 속도를 2026년 하반기부터 급격히 높일 것이며, 이는 금융 고객사를 대상으로 하는 컨설팅·IT 서비스 기업에게는 새로운 수요 창출 시점이 된다. 동시에 AI 에이전트가 스테이블코인·블록체인 기반 결제 체계와 연동되는 시나리오도 포럼에서 제기됐는데, 이는 결제 인프라 재설계 수요가 금융 AX와 함께 패키지로 발생할 가능성을 시사한다. 규제 완화 타이밍을 선점하는 쪽이 레퍼런스를 먼저 확보하게 된다.",
+        "action": "이번 주 안에 금융위 망분리 규제 합리화 로드맵 원문을 확인하고, 자사 또는 고객사의 내부망 AI 도입 가능 시점과 필요 요건을 체크리스트로 정리한다. 다음 달 안에 금융 고객사 담당자와 '망분리 완화 이후 첫 번째 AI 에이전트 파일럿 대상 업무'를 함께 정의하는 워킹 세션을 잡아보자.",
+        "citations": [
+          {
+            "title": "금융委 “망분리 규제 합리화 속도 낼 것” [2026 한국금융미래포럼]",
+            "url": "http://www.fntimes.com/html/view.php?ud=202605250721116305dd55077bc2_18",
+            "source": "Naver / fntimes",
+            "date": "2026-05-26"
+          },
+          {
+            "title": "이종오 금융감독원 디지털·IT부문 부원장보 “ AI 금융혁신, 설계부터 소...",
+            "url": "http://www.fntimes.com/html/view.php?ud=202605250834144468dd55077bc2_18",
+            "source": "Naver / fntimes",
+            "date": "2026-05-26"
+          },
+          {
+            "title": "박상진號 산업은행, AI 로 여신심사 [금융권 AI 人포그래픽]",
+            "url": "http://www.fntimes.com/html/view.php?ud=202605250739132315dd55077bc2_18",
+            "source": "Naver / fntimes",
+            "date": "2026-05-26"
+          },
+          {
+            "title": "황기연號 수출입은행, ‘KEXIM AI ’ 구축…신용평가 AX 속도 [금융권 AI ...",
+            "url": "http://www.fntimes.com/html/view.php?ud=202605250743058272dd55077bc2_18",
+            "source": "Naver / fntimes",
+            "date": "2026-05-26"
+          }
+        ]
       },
       {
-        "tag": "TREND 05 · 리걸테크의 양극화",
-        "title": "슈퍼유니콘($5B+) vs 오픈소스 — 중간층 squeeze",
-        "body": "Harvey $11B + Legora $5.6B가 상위, Mike·오픈소스가 하단 형성. 중간 가격대 단일 기능 도구들은 인수되거나(Spellbook $40M debt for M&A) 도태 위험.",
-        "action": "도입 검토 시 (1) 슈퍼유니콘 — 안전·통합·고비용 (2) 오픈소스 — 통제·저비용·운영부담 두 갈래로 단순화. 중간 가격대 단일 기능 도구는 portability 조항부터 확인."
+        "tag": "TREND 05 · AI 과실 분배 논쟁과 인재 이탈 리스크",
+        "title": "삼성·카카오발 'AI 과실 재분배' 공방, 조직 내 고용 불안이 전략 리스크로 부상",
+        "body": "삼성전자 성과급 공방이 해외 빅테크로 번지며 'AI 과실 재분배' 논쟁이 본격화됐고, 카카오는 AI 에이전트 생태계 집중을 위해 계열사 정리를 가속하면서 구성원 사이 고용 불안감이 커지고 있다는 사실이 오늘 보도됐다. 이 현상의 구조적 본질은 AI가 생산성을 높이는 과실이 주주·경영진에게 집중되고 현장 구성원에게는 고용 불안으로 돌아오는 분배 비대칭이다. 전략·기획 실무자 입장에서 이 논쟁은 단순한 노사 이슈가 아니라, AI 전환 과정에서 핵심 인재가 이탈하거나 내부 저항이 생겨 AX 프로젝트 자체가 지연되는 실질적 리스크로 연결된다. 특히 AI 에이전트 도입으로 중간 관리자 역할이 축소되는 조직에서는 해당 계층의 비협조가 변화 관리의 최대 병목이 될 수 있다. AI 전환 계획을 세울 때 기술 로드맵과 함께 '누가 어떤 역할로 이동하는가'에 대한 구성원 커뮤니케이션 설계를 반드시 병행해야 한다.",
+        "action": "현재 진행 중이거나 계획 중인 AI 도입 프로젝트에서 역할이 축소될 가능성이 있는 직군을 지금 당장 식별하고, 해당 구성원에게 어떤 새로운 역할을 제시할 수 있는지를 HR 담당자와 함께 초안으로 만들어본다. 한 달 안에 AI 전환 관련 내부 설명회 또는 Q&A 세션을 열고, 구성원 불안 지수를 간단한 익명 설문으로 측정해 프로젝트 리스크 지표로 관리한다.",
+        "citations": [
+          {
+            "title": "삼전 성과급 공방, 해외 빅테크로 번져… ‘ AI 과실 재분배’ 논쟁",
+            "url": "https://www.kmib.co.kr/article/view.asp?arcid=1779697691&code=11151400&cp=nv",
+            "source": "국민일보",
+            "date": "2026-05-26"
+          },
+          {
+            "title": "AI 와 협업 위해… 소규모 수평 조직이 뜬다",
+            "url": "https://www.chosun.com/economy/tech_it/2026/05/26/ECB74HPHUJGJTOYENZJ5JUSEQ4/",
+            "source": "조선일보",
+            "date": "2026-05-26"
+          },
+          {
+            "title": "[시론] AI 로 빼앗기는 '성장 사다리'",
+            "url": "https://www.hankyung.com/article/2026052573951",
+            "source": "한국경제",
+            "date": "2026-05-26"
+          },
+          {
+            "title": "[기고] 직업능력개발은 상생의 성장전략",
+            "url": "https://www.kmib.co.kr/article/view.asp?arcid=1779604055&code=11171314&cp=nv",
+            "source": "국민일보",
+            "date": "2026-05-26"
+          }
+        ]
       },
       {
-        "tag": "TREND 06 · 한국 리걸테크의 본격 자본화",
-        "title": "BHSN·로앤컴퍼니가 한국 양강 — 200조 시장 전망",
-        "body": "BHSN 시리즈 B, 로앤컴퍼니 500억 펀딩, 로앤굿 영역 확장. 한국 시장이 글로벌 대비 1~2년 lag지만 빠른 추격. 한국어·한국법 특화는 글로벌 SaaS가 따라잡기 어려운 영역.",
-        "action": "한국 시장 진출·협력 기획이라면 BHSN PoC 고려. 글로벌 도구(Harvey/Legora)와 1:1 비교 매트릭스 작성."
+        "tag": "TREND 06 · 양자컴퓨터×AI 융합의 기술 지평선",
+        "title": "양자컴퓨터로 AI 40년 난제 돌파, 차세대 인공신경망 실용화 시대 개막",
+        "body": "오늘 YTN 보도에 따르면 양자컴퓨터를 활용해 생성형 AI가 40년간 해결하지 못한 난제를 풀고 차세대 인공신경망을 세계 최초로 실용화했다는 연구 결과가 공개됐다. 이 기술은 현재 생성형 AI의 연산 한계를 뛰어넘는 새로운 모델 아키텍처의 가능성을 열어두는 것으로, 단기 제품화보다는 2~3년 내 기업용 AI 인프라의 기반 기술로 흡수될 가능성이 크다. 전략·기획 실무자에게 이 뉴스의 의미는 '지금 도입하는 AI 솔루션의 기술 수명이 예상보다 짧을 수 있다'는 점이며, 특히 대규모 AI 인프라 투자를 검토 중인 조직은 기술 교체 주기를 보수적으로 설정해야 한다. 동시에 양자-AI 융합 기술이 상용화되면 현재 금융권이 구축 중인 신용평가·여신심사 AI 모델의 성능 기준 자체가 재정의될 수 있어, 지금 구축하는 모델의 아키텍처 유연성이 중요해진다. 이 흐름을 기술 트렌드 모니터링 대상에 포함시켜두되, 지금 당장의 투자 결정에는 과도하게 반영하지 않는 균형 잡힌 시각이 필요하다.",
+        "action": "이번 달 안에 사내 AI 기술 로드맵에 '양자-AI 융합 기술 상용화 시점 시나리오(낙관 2년/중립 4년/보수 7년)'를 별도 섹션으로 추가하고, 현재 도입 중인 AI 솔루션의 계약 기간과 기술 교체 조건을 재검토해본다. 분기별로 해당 기술의 상용화 신호(논문 수, 기업 파일럿 사례)를 추적해 로드맵 업데이트 트리거 기준으로 삼는다.",
+        "citations": [
+          {
+            "title": "양자컴퓨터로 AI '40년 난제' 해결...차세대 인공신경망 등장",
+            "url": "https://www.ytn.co.kr/_ln/0105_202605260224561737",
+            "source": "Naver / ytn",
+            "date": "2026-05-26"
+          },
+          {
+            "title": "美 앤트로픽, 기업가치 9000억 달러 돌파해 오픈 AI 추월 가능성 [KDF Worl...",
+            "url": "http://www.kdfnews.com/news/articleView.html?idxno=183523",
+            "source": "Naver / kdfnews",
+            "date": "2026-05-26"
+          },
+          {
+            "title": "When AI evolves on its own",
+            "url": "https://koreajoongangdaily.joins.com/news/2026-05-26/opinion/columns/When-AI-evolves-on-its-own/2600329",
+            "source": "Naver / koreajoongangdaily",
+            "date": "2026-05-26"
+          }
+        ]
       },
       {
-        "tag": "TREND 07 · AI 거버넌스의 글로벌 표준화",
-        "title": "美 정부 사전 검토가 사실상 표준 — 컴플라이언스가 도입 프로세스의 일부",
-        "body": "OpenAI·Anthropic·Google·MS·xAI가 모두 美 상무부 AI Standards 센터에 모델 사전 검토 권한 부여. EU AI Act와 별개로 미국 거버넌스가 글로벌 영향. AI 도입이 '구매'에서 '컴플라이언스 검토 포함 프로젝트'로 진화.",
-        "action": "AI 도입 의사결정 체크리스트에 '거버넌스 단계' 명시 추가. (1) 데이터 처리·국외 이전 (2) 모델 출처·정부 검토 이력 (3) 감사 로그 가용성."
+        "tag": "TREND 07 · 공공·세무 영역 AI 챗봇의 제도화",
+        "title": "홈택스 생성형 AI 챗봇 시범 운영, 공공 AI 서비스가 '안내'에서 '맞춤 판단'으로 진화",
+        "body": "국세청 홈택스는 현재 생성형 AI 챗봇을 종합소득세 신고 지원 목적으로 시범 운영 중이며, 단순 Q&A를 넘어 납세자 개인 사업 현황에 따른 맞춤형 공제 안내까지 확장하는 것을 목표로 설정했다고 오늘 기고에서 밝혔다. 이는 공공 서비스 AI가 '정보 검색 보조' 단계에서 '개인화된 행정 판단 지원' 단계로 이동하고 있음을 보여주는 구체적 사례다. 금융권의 AI 에이전트 고도화와 공공 영역의 AI 챗봇 제도화가 동시에 진행되면, 기업 실무자가 세무·법무·규제 대응 업무에서 AI를 활용하는 방식도 근본적으로 달라진다. 특히 리걸테크·세무테크 영역에서 외부 전문가 의존도가 낮아지고 AI 기반 셀프 서비스가 확대되면, 전략·기획 부서가 직접 규제 검토와 세무 시뮬레이션을 수행하는 시나리오가 현실화된다. 이 변화는 전략 기획 실무자에게 위협이 아니라 '전문가 의존 없이 빠른 의사결정을 내릴 수 있는 역량 확장'의 기회로 읽어야 한다.",
+        "action": "지금 당장 홈택스 AI 챗봇 시범 서비스를 직접 사용해보고, 현재 외부 세무사나 법무팀에 의뢰하는 업무 중 AI로 1차 검토가 가능한 항목을 두세 가지 식별해본다. 한 달 안에 해당 항목에 대해 AI 챗봇과 전문가 답변을 비교 테스트하고, 정확도와 소요 시간 차이를 기록해 내부 AI 활용 가이드라인 초안의 근거 데이터로 활용한다.",
+        "citations": [
+          {
+            "title": "[기고] 쉽고 빠른 종합소득세 신고 향한 여정",
+            "url": "https://www.segye.com/newsView/20260525507654?OutUrl=naver",
+            "source": "Naver / segye",
+            "date": "2026-05-26"
+          },
+          {
+            "title": "이종오 금융감독원 디지털·IT부문 부원장보 “ AI 금융혁신, 설계부터 소...",
+            "url": "http://www.fntimes.com/html/view.php?ud=202605250834144468dd55077bc2_18",
+            "source": "Naver / fntimes",
+            "date": "2026-05-26"
+          },
+          {
+            "title": "금융委 “망분리 규제 합리화 속도 낼 것” [2026 한국금융미래포럼]",
+            "url": "http://www.fntimes.com/html/view.php?ud=202605250721116305dd55077bc2_18",
+            "source": "Naver / fntimes",
+            "date": "2026-05-26"
+          }
+        ]
       }
     ]
   },
-  "weekly": {},
-  "monthly": {}
+  "weekly": {
+    "2026-W22": [
+      {
+        "tag": "TREND 01 · 규제 공백 속 법률 AI 시장 선점 경쟁",
+        "title": "정부 가이드라인 1년째 공백, 법률 AI는 이미 시장을 점령 중",
+        "body": "국내 정부가 법률 AI 가이드라인을 1년 넘게 확정하지 못하는 사이, 스웨덴 AI 법률 스타트업 레고라(Legora)는 미국 상위 100대 로펌의 20%를 고객으로 확보했고, 오픈AI·앤트로픽은 각각 싱가포르·밀라노에 해외 거점을 신설하며 B2B 법률·기업 시장을 빠르게 잠식하고 있다. 금융 분야 AI 가이드라인도 당초 1분기 완료 목표에서 상반기로 재차 밀리면서, 현장 실무자들은 기준 없이 도구를 도입해야 하는 역설적 상황에 놓였다. 이 공백은 단순한 행정 지연이 아니라, 규제 불확실성을 활용해 시장 지위를 먼저 굳히려는 글로벌 플레이어에게 구조적 진입 기회를 제공하는 메커니즘으로 작동하고 있다. 가이드라인이 뒤늦게 나올수록 기준은 이미 시장에서 사실상 확립된 해외 서비스의 관행을 추인하는 방향으로 수렴할 가능성이 높다.",
+        "action": "지금 당장 사내에서 현재 활용 중인 법률·계약 관련 AI 도구 목록을 전수 조사하고, EU AI Act 및 국내 AI 기본법상 '고위험 AI' 해당 여부를 자체 판단 기준으로 먼저 분류해 둔다. 다음 달 안에 금융위·법무부 가이드라인 초안이 공개될 경우 즉시 갭 분석(Gap Analysis)을 수행할 수 있도록 내부 체크리스트를 미리 작성해 두자. 성공 기준은 가이드라인 공표 후 2주 이내에 자사 도구별 컴플라이언스 상태를 경영진에게 보고할 수 있는 준비 상태 확보 여부로 판단한다.",
+        "citations": [
+          {
+            "title": "변호사 대신 AI가 소송장 쓰는데… 1년째 기준 못 만든 정부",
+            "url": "http://www.fnnews.com/news/202605251908219357",
+            "source": "파이낸셜뉴스",
+            "date": "2026-05-25"
+          },
+          {
+            "title": "반복되는 금융분야 AI 가이드라인 개정 지연…금융위 “상반기 마련 전...",
+            "url": "https://www.nspna.com/news/?mode=view&newsid=814269",
+            "source": "Naver / nspna",
+            "date": "2026-05-25"
+          },
+          {
+            "title": "오픈AI·앤트로픽, 해외 거점 확장…싱가포르·밀라노에 신규 기지 마련",
+            "url": "https://www.aitimes.com/news/articleView.html?idxno=210895",
+            "source": "AI타임스",
+            "date": "2026-05-25"
+          },
+          {
+            "title": "미국행 택하던 유럽 스타트업…이제 실리콘밸리 안간다",
+            "url": "https://www.digitaltoday.co.kr/news/articleView.html?idxno=668801",
+            "source": "Naver / digitaltoday",
+            "date": "2026-05-25"
+          }
+        ]
+      },
+      {
+        "tag": "TREND 02 · 섀도우 AI 거버넌스의 부상",
+        "title": "조직 내 무단 AI 사용이 다음 컴플라이언스 폭탄으로 떠오른다",
+        "body": "Ammune.ai가 런타임 섀도우 AI(Shadow AI) 거버넌스 플랫폼을 출시하며 조직 내 무단 AI 사용 탐지 시장이 본격화되고 있고, KB국민카드는 그룹 차원 AI 거버넌스 및 에이전트 도입 현황을 공개하며 금융권 내 공식 거버넌스 체계 구축을 가시화했다. 산업부도 'AI 혁신 자문단'을 출범시키며 AI 거버넌스 구축을 3대 과제 중 하나로 명시했다. 이 흐름의 핵심은 AI 도구 도입 속도가 내부 통제 속도를 이미 초과했다는 사실이며, 직원들이 승인 없이 사용하는 외부 AI 서비스가 데이터 유출·규제 위반·책임 귀속 불명확이라는 세 가지 리스크를 동시에 발생시킨다는 점이다. EU AI Act 4조의 역할 오해 리스크 경고와 맞물려, 기업이 공급자(Provider)인지 배포자(Deployer)인지조차 불분명한 상태에서 섀도우 AI가 확산되면 법적 책임 소재가 더욱 복잡해진다.",
+        "action": "이번 주 안에 IT·법무·HR 부서와 합동으로 '섀도우 AI 현황 파악 킥오프'를 잡고, 직원들이 업무에 사용하는 비공식 AI 도구를 익명 설문으로 수집하는 절차를 시작한다. 한 달 안에 수집된 도구 목록을 EU AI Act 역할 분류(공급자/배포자/사용자) 기준으로 매핑하고, 고위험 범주에 해당하는 도구는 즉시 사용 중단 또는 공식 승인 프로세스로 전환하는 내부 정책 초안을 완성해 보자. 판단 기준은 설문 응답률 70% 이상 달성 및 식별된 비공식 도구 중 80% 이상의 위험 등급 분류 완료 여부로 설정한다.",
+        "citations": [
+          {
+            "title": "The Most Overlooked Risk in the EU AI Act: Misunderstanding Your Role - corporatecomplianceinsights.com",
+            "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxOT0ZTWG5odElTZzE2anVsOUczWDVNUzROTXZoRU9iUTdlZEx5QTBVY3d1T2RGdGNhNW96WW1YWnB4MXdRVER2NnFhd29aUF9yWmxsRzFpclRxQmZmLTNvWlNzRU95T0g3Q0hHT0ROVzc3Q1NyMXN2b1liRXdmOEoxUQ?oc=5",
+            "source": "Google News: AI Regulation EU Act (EN)",
+            "date": "2026-05-25"
+          },
+          {
+            "title": "인포매티카, 스노우플레이크 AI 거버넌스 강화",
+            "url": "https://zdnet.co.kr/view/?no=20260525092646",
+            "source": "ZDNet Korea",
+            "date": "2026-05-25"
+          },
+          {
+            "title": "[위클리 생활금융] 연체율 낮추고 AI 키우고…KB국민카드, 체질개선 본격...",
+            "url": "http://www.the-biz.co.kr/news/articleView.html?idxno=721245",
+            "source": "Naver / the-biz",
+            "date": "2026-05-25"
+          },
+          {
+            "title": "산업부, ' AI 혁신 자문단' 출범… 행정 업무에 AI 도입 본격화",
+            "url": "https://www.itbiznews.com/news/articleView.html?idxno=213862",
+            "source": "Naver / itbiznews",
+            "date": "2026-05-25"
+          },
+          {
+            "title": "Ammune.ai Launches First Runtime AI Governance Platform to Discover and Map Shadow AI - The National Law Review",
+            "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxQUWYxc2NyalFFZDhlSWs4UV9Rb0otTXJOQWczaWMtbW9PVkt3b2pFV2p5LVVwUnZGR3l5TVo0dEw4amJfbXpNdjQ4MXJGbFg3amExU1U4eE1WNVQ2TmlCMkJBSm5fVG40N2NsQ3ZWc2hmLW5LRldNSXBvM25neG1TbTZHRXhRV01oTmV5ekNoMGZPb1hhNlpHeXluam1Sdl9TdEpaNGxjVGZRYkZ1ZDhVYg?oc=5",
+            "source": "Google News: AI Governance (EN)",
+            "date": "2026-05-25"
+          }
+        ]
+      },
+      {
+        "tag": "TREND 03 · 에이전틱 AI의 책임 경계 이론화",
+        "title": "멀티에이전트 시대, '누가 책임지는가'가 설계의 핵심 변수로 등극",
+        "body": "이번 주 arXiv에는 에이전트 AI의 책임 경계를 이론화한 논문(Redrawing the AI Map)과 에이전트 간 조정 프로토콜을 제안한 Foundation Protocol 논문이 동시에 등장했고, MAS-Orchestra는 멀티에이전트 시스템의 오케스트레이션 설계 한계를 시스템 수준에서 재정의했다. 이 논문들이 공통으로 지적하는 것은 에이전트 AI가 조직 간 경계를 넘어 모듈화·분산될수록 증빙·서명·책임 귀속이 필요한 기능은 오히려 통합된 형태로 남아야 한다는 역설이다. 실무적으로 이는 기업이 외부 AI 에이전트를 오케스트레이터로 활용할 때 어느 단계에서 인간 승인(Human-in-the-Loop)을 삽입할지를 설계 초기에 명시하지 않으면, 사고 발생 시 책임이 공중에 뜨는 구조가 된다는 의미다. 화웨이의 AgentArts 오픈소스 강화판 공개(5월 30일 예정)처럼 에이전트 플랫폼 경쟁이 가속화될수록 이 설계 공백은 더 빠르게 현실 문제로 전환될 것이다.",
+        "action": "현재 사내에서 기획·운영 중인 AI 자동화 워크플로우를 대상으로 '의사결정 단계별 책임 귀속 지도(Accountability Map)'를 한 장짜리 다이어그램으로 그려보고, 인간 승인 없이 외부 시스템에 자동 전달되는 구간을 빨간색으로 표시한다. 다음 달 안에 해당 구간에 대해 승인 삽입 또는 로그 기록 의무화 중 하나를 선택해 파일럿 적용하고, 적용 후 처리 지연 시간 증가분이 전체 워크플로우의 15% 이내인지를 수용 가능 기준으로 삼아 판단한다.",
+        "citations": [
+          {
+            "title": "Foundation Protocol: A Coordination Layer for Agentic Society",
+            "url": "https://arxiv.org/abs/2605.23218",
+            "source": "arXiv cs.AI",
+            "date": "2026-05-25"
+          },
+          {
+            "title": "MAS-Orchestra: Understanding and Improving Multi-Agent Reasoning Through Holistic Orchestration and Controlled Benchmarks",
+            "url": "https://arxiv.org/abs/2601.14652",
+            "source": "arXiv cs.MA (Multi-Agent)",
+            "date": "2026-05-25"
+          },
+          {
+            "title": "Redrawing the AI Map: A Theory of Accountability Boundaries in Agentic Ecosystems",
+            "url": "https://arxiv.org/abs/2605.23179",
+            "source": "arXiv cs.AI",
+            "date": "2026-05-25"
+          },
+          {
+            "title": "[중국증시 주간 포인트] 5월 PMI, D램 리더 '창신메모리' IPO, 화웨이 '에...",
+            "url": "https://www.newspim.com/news/view/20260525000259",
+            "source": "Naver / newspim",
+            "date": "2026-05-25"
+          }
+        ]
+      },
+      {
+        "tag": "TREND 04 · AI가 성장 사다리를 재편하는 노동 구조 변화",
+        "title": "AI 도입 후 신입이 숙련자를 따라잡는다—조직 내 지식 위계가 흔들린다",
+        "body": "한국경제 시론이 인용한 실험 데이터에 따르면 고객 상담 직원 5000명 대상 실험에서 AI 도입 후 평균 생산성이 14% 상승했고, 신입 직원 성과는 35% 개선되어 숙련자와의 격차가 급격히 줄었으며, 컨설턴트 대상 GPT-4 활용 실험에서는 작업 속도가 25% 빨라졌다. 이 수치가 의미하는 것은 단순한 효율화가 아니라, 조직 내에서 '경험 연수'가 가져다주던 프리미엄이 AI 접근성으로 대체되기 시작했다는 구조적 변화다. 전략·기획 직군에서도 이 논리는 동일하게 적용되며, 시니어가 보유한 암묵지(tacit knowledge)의 가치는 유지되지만 그것을 표현하고 전달하는 속도 격차는 빠르게 좁혀지고 있다. 이는 인사 평가 체계, 승진 기준, 팀 구성 방식 전반에 대한 재설계 압력으로 이어질 것이며, 이를 먼저 내재화한 조직이 인재 유지와 생산성 모두에서 유리한 위치를 점할 가능성이 크다.",
+        "action": "지금 당장 팀 내 AI 도구 활용 수준을 직급별로 비교 측정할 수 있는 간단한 기준(예: 주간 AI 활용 과제 수, 초안 생성 비율)을 설정하고, 신입과 시니어 간 생산성 격차 변화를 분기 단위로 추적하는 지표를 기획 보고서에 포함시킨다. 한 달 안에 AI 활용 역량을 기존 인사 평가 항목에 어떻게 반영할지에 대한 초안을 HR과 공동으로 작성해 보자. 성공 기준은 다음 분기 평가 사이클 전에 AI 역량 평가 기준 초안이 경영진 검토 단계에 올라가는 것으로 설정한다.",
+        "citations": [
+          {
+            "title": "[시론] AI 로 빼앗기는 '성장 사다리'",
+            "url": "https://www.hankyung.com/article/2026052573951",
+            "source": "한국경제",
+            "date": "2026-05-26"
+          },
+          {
+            "title": "Labour Transition To Broader Adoption Base: Five Suggestions For AI Governance, Economic Group - NDTV Profit",
+            "url": "https://news.google.com/rss/articles/CBMiywFBVV95cUxPUjNKNVI5LWV4a3lwdDZYY3A0bWRTQlBHaEU0SVN6czFLSmh3QThnMGlRLU14UmJlTktCSWFGZHYzd3NKZzdFY3o1R2VnRUpPdGZKeUthS19KVjNQemdQYW5rNHpkSDZCelNYVVFEQmQxMG9IQlBPNXROdUFua29SZGdMLWxUdlpvMHlBTzNRSG9rM3AxdTJYZmppaGo3ZlQ2Yzg3WWg5Qjc3ekhPMklleXZobGdHam1FSm9Bcm9QalYtWFFGdGJqbUVaUdIB0wFBVV95cUxPbURPN19GTm5nMk9URF9jSk1pZW51QU9YRzNsVFJsMm9RZnhlSVdSZGpXMmZ2SEVJSzhmZGFpVnFjeEdfTU5wRlA2a0ZkOGxWYmh3NGlpTGVBa0RvR1BwbTJmaTd1dTJpcGFJUGVYNHpqWHliWjhGT25SWDBsZXhmemhYMjhFdHptUU03cmdGdlRjR1R5WWJhSmR4em5oMmRNdXQ1VzdxUkR6TjZXSmxreGRlb05xaWxHdjVyRl9YMTNVNGZaTlU5LWtYT3V4M2U4akRV?oc=5",
+            "source": "Google News: AI Governance (EN)",
+            "date": "2026-05-25"
+          }
+        ]
+      },
+      {
+        "tag": "TREND 05 · XAI 설명 가능성의 법적 의무화 현실화",
+        "title": "설명 못 하는 AI 판단은 이제 법적 리스크—XAI가 규제 대응 필수재로 전환",
+        "body": "국내 스타트업 자블리가 TIPS에 선정되며 주목받은 핵심은 비자 거절 AI가 '어떤 법 조항 근거로 판단했는지'를 자동 설명하는 XAI(설명 가능한 AI) 기능이며, 이는 2026년 시행 EU AI Act와 국내 AI 기본법 제31조가 고위험 AI 및 생성형 AI 사업자에게 판단 근거 공개를 법적으로 의무화하고 있기 때문이다. AI 기본법 시행 이후 딥페이크·AI 생성 영상에 대한 워터마크 및 메타데이터 표시 의무도 현실화되면서, 설명 가능성은 더 이상 기술적 선택이 아니라 법적 요건이 됐다. 전략·기획 부서가 AI 도구를 도입할 때 '이 도구가 왜 이 결론을 냈는지 외부에 설명할 수 있는가'라는 질문을 사전 검토 항목에 포함하지 않으면, 도입 후 규제 대응 비용이 도입 비용을 초과하는 상황이 발생할 수 있다. 특히 인사·심사·신용·법률 등 개인에게 영향을 미치는 의사결정 영역의 AI는 XAI 적용 여부가 계약·조달 기준으로 빠르게 편입될 것이다.",
+        "action": "현재 사내에서 운영 중인 AI 도구 중 개인 또는 기업에 대한 판단·분류·추천 기능을 수행하는 것을 우선 식별하고, 각 도구의 판단 근거 출력 기능 유무를 공급사에 서면으로 확인하는 절차를 이번 달 안에 시작한다. 다음 달까지 신규 AI 도구 도입 검토 체크리스트에 'XAI 기능 보유 여부' 및 'AI 기본법 고위험 해당 여부' 항목을 필수 항목으로 추가하고, 기존 도구 중 XAI 미지원 고위험 도구는 대체재 탐색 또는 사용 범위 제한 계획을 수립해 보자.",
+        "citations": [
+          {
+            "title": "AI 인과추론 스타트업 '자블리',TIPS 선정 행정 자동화 플랫폼으로 글로...",
+            "url": "https://www.aitimes.kr/news/articleView.html?idxno=40180",
+            "source": "Naver / aitimes",
+            "date": "2026-05-25"
+          },
+          {
+            "title": "“비자 거절 이유를 AI 가 법 조항으로 설명”… 자블리, TIPS 선정",
+            "url": "https://www.edaily.co.kr/news/newspath.asp?newsid=01407126645452528",
+            "source": "이데일리",
+            "date": "2026-05-25"
+          },
+          {
+            "title": "[권희춘의 인공지능세상] 완벽해지는 AI … 시공간 창조하는 '영상' 시대...",
+            "url": "https://m.skyedaily.com/news_view.html?ID=304615",
+            "source": "Naver / skyedaily",
+            "date": "2026-05-25"
+          },
+          {
+            "title": "AI 영상, 구분 가능하신가요?",
+            "url": "https://www.ilyosisa.co.kr/news/article.html?no=255879",
+            "source": "Naver / ilyosisa",
+            "date": "2026-05-25"
+          }
+        ]
+      },
+      {
+        "tag": "TREND 06 · 앤트로픽의 기업가치 역전과 AI 빅2 구도 재편",
+        "title": "앤트로픽 기업가치 9000억 달러 돌파 임박—오픈AI 독주 체제에 균열",
+        "body": "앤트로픽이 세쿼이아 캐피털 등 참여로 기업가치 9000억 달러를 돌파할 가능성이 제기되며, 지난 3월 기준 8520억 달러였던 오픈AI를 역전할 수 있다는 전망이 나왔다. 동시에 앤트로픽 공동 창립자 올라가 바티칸에서 'AI 기업을 무조건 신뢰하지 말라'고 발언한 것은 단순한 겸손이 아니라, 안전성 중심 포지셔닝으로 기업·정부 고객을 공략하는 전략적 메시지로 읽힌다. 오픈AI의 영리 법인화 논란과 일론 머스크와의 200조 원대 소송이 거버넌스 불확실성을 키우는 사이, 앤트로픽은 밀라노 사무소 개설로 유럽 B2B 시장을 직접 공략하며 규제 친화적 이미지를 강화하고 있다. 이 구도는 한국 기업이 AI 파트너를 선택할 때 단순 성능 비교를 넘어 '어느 플레이어가 규제 환경에서 더 안정적인 파트너인가'라는 기준을 추가해야 함을 시사한다.",
+        "action": "현재 사내에서 오픈AI API 또는 클로드(Claude) API를 사용 중인 서비스·프로젝트 목록을 정리하고, 각각의 서비스 약관 변경 이력과 가격 정책 변동 리스크를 분기 1회 모니터링하는 담당자를 지정한다. 다음 달 안에 주요 AI 공급사 2~3곳의 거버넌스 리스크(소송 현황, 규제 대응 방식, 데이터 처리 정책)를 비교한 1페이지 요약 보고서를 작성해 의사결정자에게 공유하고, 단일 공급사 의존도가 70%를 초과하는 경우 멀티 벤더 전환 계획을 검토하는 기준을 설정해 보자.",
+        "citations": [
+          {
+            "title": "AI 정보를 이해하는 능력",
+            "url": "https://www.abcn.kr/news/articleView.html?idxno=88261",
+            "source": "Naver / abcn",
+            "date": "2026-05-25"
+          },
+          {
+            "title": "A cold shower for the AI mania",
+            "url": "https://www.koreatimes.co.kr/path/A2026052113280001446",
+            "source": "Naver / koreatimes",
+            "date": "2026-05-25"
+          },
+          {
+            "title": "오픈AI·앤트로픽, 해외 거점 확장…싱가포르·밀라노에 신규 기지 마련",
+            "url": "https://www.aitimes.com/news/articleView.html?idxno=210895",
+            "source": "AI타임스",
+            "date": "2026-05-25"
+          },
+          {
+            "title": "Anthropic Billionaire Olah To Vatican: Don’t Trust Us - Forbes",
+            "url": "https://news.google.com/rss/articles/CBMi_wFBVV95cUxQcEQ3dTBkMm5ZcmNOdW9JT19lTTJXcVlFVDU3dGtubGpDbk1lY0ZUOG1XM0d3cW9sai1IZGZudnMtSmpSQ1FlcGFTek02Rm15cTU2aTFWS211b3BmWmliYmpLY2NGNTdIcElvZzR4bmlMTTFydFZTaGw2Qkw0eW1Vb1pESThFQm9ZWjBNWkZfY0paZGRwemVTLUwySWxpR1NjWjFoeXJPVWdqWloxaWF0NDRfeWJnZmFXLXF2VGNKZldlRWZZbUlDeGJkZ1pSc2NJR2JvMTFUOE5HMFRVbDNxUUExRlJUbS1DVzVWNlRyVVZDa25vM2FoTGpFWUtldU0?oc=5",
+            "source": "Google News: Anthropic Claude (EN)",
+            "date": "2026-05-25"
+          },
+          {
+            "title": "美 앤트로픽, 기업가치 9000억 달러 돌파해 오픈 AI 추월 가능성 [KDF Worl...",
+            "url": "http://www.kdfnews.com/news/articleView.html?idxno=183523",
+            "source": "Naver / kdfnews",
+            "date": "2026-05-26"
+          }
+        ]
+      },
+      {
+        "tag": "TREND 07 · RAG·에이전트 AI의 에너지·비용 회계 현실화",
+        "title": "에이전트 AI 비용은 호출 단위가 아닌 '목표 달성 단위'로 측정해야 한다",
+        "body": "arXiv 논문 'Energy per Successful Goal'은 에이전트 AI가 단일 API 호출이 아닌 다단계 오케스트레이션·도구 호출·재시도로 작동하기 때문에 기존 토큰·호출 단위 비용 측정이 실제 비용을 심각하게 과소평가한다고 지적한다. 같은 주에 발표된 RAG 청킹 최적화 논문은 검색 정확도가 청킹 전략에 따라 크게 달라지며 고정 청킹 방식이 정밀도-재현율 트레이드오프를 해결하지 못한다고 밝혔는데, 이는 RAG 기반 업무 자동화의 실제 품질이 겉으로 보이는 것보다 훨씬 설계 의존적임을 의미한다. 기업이 에이전트 AI 파일럿을 '비용 대비 효과'로 평가할 때 API 호출 비용만 보고 성공이라 판단하면, 실제 목표 달성률과 재시도 비용을 포함한 총소유비용(TCO)이 예산을 초과하는 상황이 발생할 수 있다. 에이전트 AI 도입이 본격화되는 2026년 하반기에는 이 측정 방식의 차이가 프로젝트 성패를 가르는 핵심 변수가 될 것이다.",
+        "action": "현재 운영 중이거나 기획 중인 AI 자동화 프로젝트에서 비용 측정 단위를 'API 호출 수'에서 '목표 과제 완료 건당 비용(Cost per Completed Task)'으로 전환하고, 재시도·실패 건수를 별도로 집계하는 로그 구조를 이번 달 안에 설계한다. 다음 달 파일럿 결과 보고 시 목표 달성률(성공한 과제 수 / 전체 시도 수)과 목표당 실제 비용을 핵심 KPI로 포함시키고, 목표 달성률 80% 미만이거나 목표당 비용이 수동 처리 대비 1.5배를 초과하면 설계 재검토 기준으로 삼아 보자.",
+        "citations": [
+          {
+            "title": "Energy per Successful Goal: Goal-Level Energy Accounting for Agentic AI Systems",
+            "url": "https://arxiv.org/abs/2605.22883",
+            "source": "arXiv cs.AI",
+            "date": "2026-05-25"
+          },
+          {
+            "title": "Query-Adaptive Semantic Chunking for Retrieval-Augmented Generation: A Dynamic Strategy with Contextual Window Expansion",
+            "url": "https://arxiv.org/abs/2605.22834",
+            "source": "arXiv cs.CL",
+            "date": "2026-05-25"
+          },
+          {
+            "title": "Design and Report Benchmarks for Knowledge Work",
+            "url": "https://arxiv.org/abs/2605.23262",
+            "source": "arXiv cs.AI",
+            "date": "2026-05-25"
+          }
+        ]
+      }
+    ]
+  },
+  "monthly": {
+    "2026-05": [
+      {
+        "tag": "TREND 01 · 리걸테크 시장 구조 재편",
+        "title": "법률 AI, B2B 전문화·무료화·서비스화 3방향으로 동시 분화 중",
+        "body": "이번 달 리걸테크 시장에서 세 가지 상이한 벡터가 동시에 관찰된다. 첫째, 기업가치 110억 달러의 Harvey가 오픈소스 벤치마크 LAB를 공개하며 평가 표준 선점에 나섰고, 20억 달러 가치의 EvenUp은 소프트웨어 판매를 넘어 PI 로펌 대상 '소송 전 단계 서비스(Pre-Litigation-as-a-Service)'로 사업 모델 자체를 전환했다. 둘째, 전 Latham 변호사가 무료 법률 AI 'Mike'를 공개하고 오픈소스 버전 Mike OSS가 계약 협상 방식을 바꾼다는 평가를 받으며, 유료 플랫폼의 가격 정당성을 정면으로 흔들고 있다. 셋째, 국내에서는 멘타트가 서면 작성 시간 90% 단축을 내세우며 상용 서비스를 정식 출시했고, 로앤컴퍼니 슈퍼로이어는 AWS 서밋 서울 2026에서 글로벌 클라우드 사업자의 대표 성공 사례로 호명됐다. 이 구도는 '누가 더 좋은 AI 모델을 쓰느냐'가 아니라 '누가 법률 업무 워크플로우 자체를 장악하느냐'로 경쟁 축이 이동했음을 보여준다. 향후 6~12개월 안에 무료·오픈소스 도구의 확산이 중소 로펌과 기업 법무팀의 외부 플랫폼 의존도를 높이면서, 대형 로펌과 리걸테크 간 협업 구조가 더욱 공고해질 가능성이 크다.",
+        "action": "지금 당장 우리 회사 법무팀 또는 외부 자문 로펌이 현재 사용 중인 법률 AI 도구 목록을 작성하고, 멘타트·슈퍼로이어·엘박스 중 최소 하나를 30일 파일럿으로 돌려 서면 초안 작성 시간과 검토 사이클 횟수를 측정해보자. 한 달 후 '초안 작성 소요 시간 50% 이상 단축 여부'와 '변호사 검토 수정률 30% 이하 달성 여부'를 기준으로 내재화 vs. 외부 플랫폼 구독 전략을 결정한다.",
+        "citations": [
+          {
+            "title": "Some Thoughts On Harvey’s Launch of ‘LAB,’ An Open-Source, Long-Horizon Benchmark for Legal AI Agents",
+            "url": "https://www.lawnext.com/2026/05/some-thoughts-on-harveys-launch-of-lab-an-open-source-long-horizon-benchmark-for-legal-ai-agents.html",
+            "source": "LawSites (Bob Ambrogi)",
+            "date": "2026-05-19"
+          },
+          {
+            "title": "Ex-Latham associate unveils free legal AI tool ‘Mike’ to challenge billion-dollar tech giants",
+            "url": "https://www.legalcheek.com/2026/05/ex-latham-associate-unveils-free-legal-ai-tool-mike-to-challenge-billion-dollar-tech-giants/",
+            "source": "Legal Cheek",
+            "date": "2026-05-15"
+          },
+          {
+            "title": "EvenUp Extends Beyond Software with Launch of ‘Pre-Litigation-as-a-Service’ Offering For PI Law Firms",
+            "url": "https://www.lawnext.com/2026/05/evenup-extends-beyond-software-with-launch-of-pre-litigation-as-a-service-offering-for-pi-law-firms.html",
+            "source": "LawSites (Bob Ambrogi)",
+            "date": "2026-05-14"
+          },
+          {
+            "title": "멘타트, AI로 변호사 서면 작성 돕는다… “작성 시간 90% 단축”",
+            "url": "https://www.venturesquare.net/1084348/",
+            "source": "벤처스퀘어",
+            "date": "2026-05-21"
+          },
+          {
+            "title": "AI가 서면 초안 작성…법률 시장 생산성 구조 변화 시작됐나",
+            "url": "https://www.gokorea.kr/news/articleView.html?idxno=867163",
+            "source": "Naver / gokorea",
+            "date": "2026-05-21"
+          }
+        ]
+      },
+      {
+        "tag": "TREND 02 · AI 규제 실행 공백",
+        "title": "EU AI Act 8월 시행 vs. 국내 가이드라인 공백, 기업 리스크 창 열렸다",
+        "body": "EU AI Act 제50조(AI 생성물 워터마크 의무)가 2026년 8월 2일부터 본격 시행되고, 의료 AI는 고위험 분류로 가장 강도 높은 규제를 받는다. 반면 국내에서는 금융 분야 AI 가이드라인 개정이 당초 1분기에서 상반기로 또다시 밀렸고, 법률 AI 기준도 1년째 마련되지 않은 상태다. 이 공백은 단순한 행정 지연이 아니라, 유럽 시장에 제품·서비스를 공급하는 한국 기업이 '역할 오분류(misclassification of role)'로 인한 법적 책임을 떠안을 수 있다는 구조적 리스크를 만들어낸다. 한컴이 GDPR·EU AI Act가 가장 강한 유럽을 온프레미스 AI 솔루션의 역설적 기회로 보고 폴란드 파트너 3곳과 MOU를 맺은 것은, 규제 강도가 높을수록 빅테크 클라우드가 진입하기 어렵다는 역발상 전략의 실증 사례다. 국내 규제 공백이 길어질수록 글로벌 기준을 먼저 내재화한 기업이 국내 시장에서도 선제적 신뢰 자산을 쌓는 구조로 귀결될 가능성이 높다.",
+        "action": "이번 주 안에 우리 회사가 EU 시장에 공급하거나 공급 예정인 AI 관련 제품·서비스를 EU AI Act 기준으로 '공급자(Provider)·배포자(Deployer)·사용자' 중 어느 역할에 해당하는지 법무팀과 함께 분류 작업을 시작한다. 8월 2일 워터마크 의무 시행 전까지 생성형 AI 출력물에 기계 판독 가능한 표시 체계를 기술팀과 협의해 설계하고, '역할 오분류 제로' 달성 여부를 8월 1일 기준으로 내부 감사 체크리스트에 포함시킨다.",
+        "citations": [
+          {
+            "title": "변호사 대신 AI가 소송장 쓰는데… 1년째 기준 못 만든 정부",
+            "url": "http://www.fnnews.com/news/202605251908219357",
+            "source": "파이낸셜뉴스",
+            "date": "2026-05-25"
+          },
+          {
+            "title": "반복되는 금융분야 AI 가이드라인 개정 지연…금융위 “상반기 마련 전...",
+            "url": "https://www.nspna.com/news/?mode=view&newsid=814269",
+            "source": "Naver / nspna",
+            "date": "2026-05-25"
+          },
+          {
+            "title": "AI ·사이버보안 규제, 수출 기업 새 관문 됐다",
+            "url": "https://byline.network/?p=9004111222604277",
+            "source": "바이라인네트워크",
+            "date": "2026-05-21"
+          },
+          {
+            "title": "The Most Overlooked Risk in the EU AI Act: Misunderstanding Your Role - corporatecomplianceinsights.com",
+            "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxOT0ZTWG5odElTZzE2anVsOUczWDVNUzROTXZoRU9iUTdlZEx5QTBVY3d1T2RGdGNhNW96WW1YWnB4MXdRVER2NnFhd29aUF9yWmxsRzFpclRxQmZmLTNvWlNzRU95T0g3Q0hHT0ROVzc3Q1NyMXN2b1liRXdmOEoxUQ?oc=5",
+            "source": "Google News: AI Regulation EU Act (EN)",
+            "date": "2026-05-25"
+          },
+          {
+            "title": "[안광섭 AI 진테제] 구글, AI 워터마크도 장악하나",
+            "url": "https://zdnet.co.kr/view/?no=20260523150157",
+            "source": "ZDNet Korea",
+            "date": "2026-05-23"
+          }
+        ]
+      },
+      {
+        "tag": "TREND 03 · AI 에이전트 거버넌스 공백",
+        "title": "AI 에이전트 행동을 사후에야 아는 법무팀, 감시 체계 설계가 시급하다",
+        "body": "Icertis 조사에 따르면 법무팀의 약 50%가 AI 에이전트의 무단·오류 행동을 수일에서 수주 후에야 감지한다. 이는 에이전트가 계약 검토·소환장 처리 같은 고위험 업무에 투입되기 시작한 시점에서 특히 위험한 수치다. Exterro는 CLOC 2026에서 자율 소환장 관리 도구와 함께 ARMOUR(자율 리스크 관리·오케스트레이션·통합 대응) 프레임워크를 공개하며 리걸옵스 AI 거버넌스 표준 선점에 나섰고, Ammune.ai는 조직 내 섀도우 AI를 실시간으로 발견·매핑하는 런타임 거버넌스 플랫폼을 출시했다. 국내에서도 KB금융지주가 AI 에이전트 도입 현황을 그룹 차원에서 공유하고 산업부가 AI 거버넌스 구축을 3대 과제 중 하나로 명시했지만, 실제 에이전트 행동 모니터링 체계를 갖춘 기업은 극소수다. 이 흐름은 'AI를 도입했느냐'가 아니라 'AI 에이전트의 행동을 실시간으로 감사할 수 있느냐'가 기업 리스크 관리의 새 기준이 되는 방향으로 빠르게 이동하고 있음을 시사한다.",
+        "action": "지금 당장 사내에서 운영 중인 AI 에이전트 목록을 인벤토리화하고, 각 에이전트가 어떤 데이터에 접근해 어떤 행동을 자율 실행하는지 로그 기록 체계가 있는지 확인한다. 다음 달 안에 '에이전트 행동 이상 감지 후 알림까지 소요 시간 24시간 이내'를 목표로 모니터링 파이프라인 초안을 설계하고, 분기별 에이전트 행동 감사 리포트를 경영진 보고 루틴에 포함시킨다.",
+        "citations": [
+          {
+            "title": "Survey: Legal Teams Lack Visibility Into AI Agents’ Actions, Icertis Research Finds",
+            "url": "https://www.lawnext.com/2026/05/survey-legal-teams-lack-visibility-into-ai-agents-actions-icertis-research-finds.html",
+            "source": "LawSites (Bob Ambrogi)",
+            "date": "2026-05-11"
+          },
+          {
+            "title": "Exterro Launches Autonomous Subpoena Tool, Unveils Broader AI Governance Vision at CLOC",
+            "url": "https://www.lawnext.com/2026/05/exterro-launches-autonomous-subpoena-tool-unveils-broader-ai-governance-vision-at-cloc.html",
+            "source": "LawSites (Bob Ambrogi)",
+            "date": "2026-05-11"
+          },
+          {
+            "title": "Ammune.ai Launches First Runtime AI Governance Platform to Discover and Map Shadow AI - The National Law Review",
+            "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxQUWYxc2NyalFFZDhlSWs4UV9Rb0otTXJOQWczaWMtbW9PVkt3b2pFV2p5LVVwUnZGR3l5TVo0dEw4amJfbXpNdjQ4MXJGbFg3amExU1U4eE1WNVQ2TmlCMkJBSm5fVG40N2NsQ3ZWc2hmLW5LRldNSXBvM25neG1TbTZHRXhRV01oTmV5ekNoMGZPb1hhNlpHeXluam1Sdl9TdEpaNGxjVGZRYkZ1ZDhVYg?oc=5",
+            "source": "Google News: AI Governance (EN)",
+            "date": "2026-05-25"
+          },
+          {
+            "title": "[위클리 생활금융] 연체율 낮추고 AI 키우고…KB국민카드, 체질개선 본격...",
+            "url": "http://www.the-biz.co.kr/news/articleView.html?idxno=721245",
+            "source": "Naver / the-biz",
+            "date": "2026-05-25"
+          },
+          {
+            "title": "산업부, ' AI 혁신 자문단' 출범… 행정 업무에 AI 도입 본격화",
+            "url": "https://www.itbiznews.com/news/articleView.html?idxno=213862",
+            "source": "Naver / itbiznews",
+            "date": "2026-05-25"
+          }
+        ]
+      },
+      {
+        "tag": "TREND 04 · 멀티에이전트 시스템 실용화",
+        "title": "멀티에이전트 논문 쏟아지는데, 실무 적용 기준은 아직 없다",
+        "body": "이번 달 arXiv에서 멀티에이전트 시스템(MAS) 관련 논문이 집중적으로 쏟아졌다. CHRONOS는 시간 진화형 데이터 마켓플레이스의 가격·프라이버시 문제를 3계층 에이전트 아키텍처로 풀었고, MAS-Orchestra는 기존 자동 설계 MAS의 한계를 오케스트레이션 수준에서 재설계했으며, Foundation Protocol은 에이전트 간 신뢰 관계와 업무 조직화를 위한 조정 계층을 제안했다. 그러나 별도 논문(Design and Report Benchmarks for Knowledge Work)은 LLM 에이전트 기반 지식 업무 평가가 여전히 전통 NLP 과제 방식에 머물러 벤치마크 점수가 실제 업무 수행 능력을 반영하지 못한다고 지적한다. 이는 전략·기획 실무자 입장에서 중요한 신호인데, 벤더가 제시하는 에이전트 성능 수치가 실제 우리 업무 맥락에서의 성능과 괴리될 수 있다는 뜻이다. 향후 Harvey의 LAB처럼 도메인 특화 벤치마크가 업계 표준으로 자리잡으면, 이를 기준으로 에이전트 솔루션을 평가하는 역량 자체가 구매·도입 의사결정의 핵심 역량이 될 것이다.",
+        "action": "다음 달 안에 우리 팀이 자동화하려는 업무 3가지를 선정하고, 각 업무에 대해 '에이전트가 틀렸을 때 어떻게 감지하는가'라는 실패 시나리오를 먼저 작성한 뒤 벤더 데모를 요청한다. Harvey LAB나 Icertis 조사 방법론을 참고해 우리 업무 맥락에 맞는 내부 평가 기준 5개 항목을 만들고, 파일럿 종료 시 이 기준으로 에이전트 도입 여부를 판단한다.",
+        "citations": [
+          {
+            "title": "Some Thoughts On Harvey’s Launch of ‘LAB,’ An Open-Source, Long-Horizon Benchmark for Legal AI Agents",
+            "url": "https://www.lawnext.com/2026/05/some-thoughts-on-harveys-launch-of-lab-an-open-source-long-horizon-benchmark-for-legal-ai-agents.html",
+            "source": "LawSites (Bob Ambrogi)",
+            "date": "2026-05-19"
+          },
+          {
+            "title": "Foundation Protocol: A Coordination Layer for Agentic Society",
+            "url": "https://arxiv.org/abs/2605.23218",
+            "source": "arXiv cs.AI",
+            "date": "2026-05-25"
+          },
+          {
+            "title": "Survey: Legal Teams Lack Visibility Into AI Agents’ Actions, Icertis Research Finds",
+            "url": "https://www.lawnext.com/2026/05/survey-legal-teams-lack-visibility-into-ai-agents-actions-icertis-research-finds.html",
+            "source": "LawSites (Bob Ambrogi)",
+            "date": "2026-05-11"
+          },
+          {
+            "title": "Design and Report Benchmarks for Knowledge Work",
+            "url": "https://arxiv.org/abs/2605.23262",
+            "source": "arXiv cs.AI",
+            "date": "2026-05-25"
+          },
+          {
+            "title": "CHRONOS: Temporally-Aware Multi-Agent Coordination for Evolving Data Marketplaces",
+            "url": "https://arxiv.org/abs/2605.23887",
+            "source": "arXiv cs.MA (Multi-Agent)",
+            "date": "2026-05-25"
+          }
+        ]
+      },
+      {
+        "tag": "TREND 05 · 설명 가능 AI 규제 의무화",
+        "title": "XAI 의무화 시대, '왜 이 결정인가'를 설명 못 하면 고위험 AI 운영 불가",
+        "body": "EU AI Act와 한국 AI 기본법이 고위험 AI 시스템에 대해 판단 근거 공개를 법적으로 요구하면서, 설명 가능 AI(XAI)가 선택이 아닌 규제 준수 요건으로 전환되고 있다. 자블리는 비자 거절 시 어떤 법 조항과 데이터가 판단 근거였는지를 XAI로 설명하는 행정 자동화 플랫폼으로 TIPS에 선정됐고, 이는 공공 행정 영역에서 AI 인과추론 기반 설명 체계가 실제 조달 경쟁력이 됨을 보여준다. 금융·의료·법률 등 고위험 분류 영역에서 AI를 운영하는 기업은 모델 출력값뿐 아니라 '어떤 피처가 얼마나 기여했는가'를 감사 가능한 형태로 기록해야 하는 부담을 안게 됐다. 국내 AI 기본법의 적용 대상과 의무 범위가 아직 모호하다는 점은 단기적으로는 불확실성이지만, 역으로 지금 XAI 체계를 먼저 갖춘 기업이 규제 명확화 시점에 빠르게 인증·조달 시장을 선점할 수 있는 구조다.",
+        "action": "지금 당장 우리 회사가 운영하는 AI 시스템 중 EU AI Act 또는 AI 기본법 기준 '고위험' 분류에 해당할 가능성이 있는 것을 리스트업하고, 각 시스템에 대해 현재 설명 가능성 수준(출력 근거 로그 존재 여부)을 점검한다. 한 달 안에 고위험 후보 시스템 하나를 선택해 SHAP 또는 LIME 기반 설명 레이어 추가 가능성을 기술팀과 검토하고, '규제 감사 시 설명 자료 제출 가능 여부'를 판단 기준으로 삼는다.",
+        "citations": [
+          {
+            "title": "AI 인과추론 스타트업 '자블리',TIPS 선정 행정 자동화 플랫폼으로 글로...",
+            "url": "https://www.aitimes.kr/news/articleView.html?idxno=40180",
+            "source": "Naver / aitimes",
+            "date": "2026-05-25"
+          },
+          {
+            "title": "“비자 거절 이유를 AI 가 법 조항으로 설명”… 자블리, TIPS 선정",
+            "url": "https://www.edaily.co.kr/news/newspath.asp?newsid=01407126645452528",
+            "source": "이데일리",
+            "date": "2026-05-25"
+          },
+          {
+            "title": "2650억불 EU 디지털 헬스케어 시장, 4대 규제 동시 발효..2027년 4월 뮌헨...",
+            "url": "https://www.yakup.com/news/index.html?mode=view&cat=12&nid=327444",
+            "source": "Naver / yakup",
+            "date": "2026-05-20"
+          },
+          {
+            "title": "[권희춘의 인공지능세상] 완벽해지는 AI … 시공간 창조하는 '영상' 시대...",
+            "url": "https://m.skyedaily.com/news_view.html?ID=304615",
+            "source": "Naver / skyedaily",
+            "date": "2026-05-25"
+          },
+          {
+            "title": "\" AI 와 사랑에 빠지지 마라\" 중국, 세계 최초 ' AI 감정 교류' 규제",
+            "url": "https://www.mt.co.kr/tech/2026/05/24/2026052110182491909",
+            "source": "Naver / mt",
+            "date": "2026-05-24"
+          }
+        ]
+      },
+      {
+        "tag": "TREND 06 · 앤트로픽 법률·기업 시장 직접 진입",
+        "title": "앤트로픽의 법률 AI 직접 진입, 리걸테크 스타트업과 로펌 모두를 흔든다",
+        "body": "앤트로픽이 법률 AI 시장에 직접 진입하면서 국내 로펌 업계의 지형 변화가 불가피해졌다. 동시에 앤트로픽은 유럽 B2B 시장 공략을 위해 이탈리아 밀라노에 신규 사무소를 열었고, 오픈AI는 싱가포르에 첫 해외 응용 AI 연구소를 설립하며 아시아 거점을 확보했다. 국내에서는 법무법인 세종이 영문 계약서 검토에 Harvey를 일부 도입했고, 율촌은 BHSN과 협력해 RAG 기반 '아이율(AI:Yul)'을 전사 도입했다. 이 구도에서 주목할 점은 빅테크 AI 기업이 리걸테크 스타트업의 고객(API 공급)이었던 관계가 직접 경쟁 관계로 전환되고 있다는 것이다. Law.com이 Harvey와 Legora의 지속 가능성에 의문을 제기한 것도 같은 맥락으로, 모델 제공사가 수직 통합을 가속화할수록 중간 레이어 리걸테크의 차별화 근거가 얼마나 견고한지가 핵심 변수가 된다.",
+        "action": "우리 회사 법무팀 또는 외부 로펌과의 계약 구조를 점검하면서, 앤트로픽·오픈AI 직접 계약과 리걸테크 플랫폼 구독 중 어느 경로가 우리 업무 볼륨과 데이터 보안 요건에 더 적합한지 비교 분석을 이번 달 안에 시작한다. 특히 온프레미스 배포 가능 여부(슈퍼로이어 Solar Open 사례 참고)를 데이터 유출 리스크 기준으로 평가하고, 6개월 후 '법무 업무 외부 의뢰 비용 대비 내부 AI 처리 비율 20% 이상 증가'를 목표 지표로 설정한다.",
+        "citations": [
+          {
+            "title": "Could Harvey and Legora Be on Borrowed Time? - Law.com",
+            "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxPLVJyQVRobkFOTjBLbmRScUpkMXZSUlBTSTg2RFZQQ0FBSUdrWnk5N0llWDhyeXFLbGlWVTM3T0dodWJnMDdKQTJzc1A2VGZqSV9EM3hfbFl4enNpYUJCX2hKWWRtcVMwblA4ekg0MXlXUUZteTgxVWdCb3gwYkZoWXpfOHdtbDdNb3NLOURhcTNxRldmRUNXSzgwM3JaMk0?oc=5",
+            "source": "Google News: Harvey (EN)",
+            "date": "2026-05-19"
+          },
+          {
+            "title": "국내 로펌업계도 격변 불가피…앤트로픽, 법률 AI 시장 직접 진입 [AI 클...",
+            "url": "https://www.ddaily.co.kr/page/view/2026051610120671555",
+            "source": "Naver / ddaily",
+            "date": "2026-05-17"
+          },
+          {
+            "title": "류정혜 국가인공지능전략위원회 위원, '한국 AI 3강 정책과 미래' 발표",
+            "url": "https://www.irobotnews.com/news/articleView.html?idxno=46533",
+            "source": "Naver / irobotnews",
+            "date": "2026-05-22"
+          },
+          {
+            "title": "오픈AI·앤트로픽, 해외 거점 확장…싱가포르·밀라노에 신규 기지 마련",
+            "url": "https://www.aitimes.com/news/articleView.html?idxno=210895",
+            "source": "AI타임스",
+            "date": "2026-05-25"
+          },
+          {
+            "title": "게임· 법률 ·뷰티 넘어 휴머노이드까지…산업 전방위로 확산되는 'K- AI '",
+            "url": "https://www.mstoday.co.kr/news/articleView.html?idxno=101558",
+            "source": "Naver / mstoday",
+            "date": "2026-05-18"
+          }
+        ]
+      },
+      {
+        "tag": "TREND 07 · 데이터 거버넌스 신통행증화",
+        "title": "AI 데이터 거버넌스, 규제 준수 비용이 아닌 시장 진입 자격증이 됐다",
+        "body": "EU AI Act가 범용 AI 모델 사업자에게 학습 콘텐츠 요약 공개를 의무화하고, 인포매티카가 스노우플레이크와 협력해 에이전틱 AI 통합·접근 거버넌스·오픈 포맷 데이터 검색 기능을 인포매티카 월드 2026에서 공개한 것은 같은 방향의 신호다. 데이터 거버넌스가 '있으면 좋은 것'에서 '없으면 계약 못 하는 것'으로 전환되고 있다는 뜻이다. 한컴이 유럽 온프레미스 시장을 공략하는 근거도 결국 데이터 주권 규제인데, 이는 거버넌스 역량이 곧 시장 접근권임을 보여주는 사례다. 국내에서도 AI 데이터 유통 시장에서 거버넌스가 '새 통행증'이라는 분석이 나오고 있으며, 섀도우 AI 매핑 플랫폼(Ammune.ai)의 등장은 기업 내부에서도 데이터 흐름 가시성 확보가 거버넌스의 출발점임을 시사한다. 향후 공공 조달·글로벌 파트너십에서 AI 데이터 거버넌스 인증 또는 감사 보고서 제출이 입찰 요건으로 명문화되는 속도가 빨라질 것으로 예상된다.",
+        "action": "이번 달 안에 우리 회사 AI 시스템이 학습·추론에 사용하는 데이터의 출처, 보존 기간, 접근 권한 현황을 한 장짜리 데이터 맵으로 정리하고, EU AI Act 학습 데이터 공개 의무 항목과 대조해 갭을 식별한다. 다음 달까지 섀도우 AI 사용 현황(미승인 AI 도구 사용 부서·빈도)을 설문 또는 네트워크 로그로 파악하고, '승인된 AI 도구 사용 비율 80% 이상'을 분기 거버넌스 KPI로 경영진에 제안한다.",
+        "citations": [
+          {
+            "title": "인포매티카, 스노우플레이크 AI 거버넌스 강화",
+            "url": "https://zdnet.co.kr/view/?no=20260525092646",
+            "source": "ZDNet Korea",
+            "date": "2026-05-25"
+          },
+          {
+            "title": "\"데이터 많아도 소용없다\"… AI 데이터 유통 시장, 거버넌스가 새 통행증",
+            "url": "https://www.ddaily.co.kr/page/view/2026050215104000957",
+            "source": "Naver / ddaily",
+            "date": "2026-05-22"
+          },
+          {
+            "title": "Ammune.ai Launches First Runtime AI Governance Platform to Discover and Map Shadow AI - The National Law Review",
+            "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxQUWYxc2NyalFFZDhlSWs4UV9Rb0otTXJOQWczaWMtbW9PVkt3b2pFV2p5LVVwUnZGR3l5TVo0dEw4amJfbXpNdjQ4MXJGbFg3amExU1U4eE1WNVQ2TmlCMkJBSm5fVG40N2NsQ3ZWc2hmLW5LRldNSXBvM25neG1TbTZHRXhRV01oTmV5ekNoMGZPb1hhNlpHeXluam1Sdl9TdEpaNGxjVGZRYkZ1ZDhVYg?oc=5",
+            "source": "Google News: AI Governance (EN)",
+            "date": "2026-05-25"
+          },
+          {
+            "title": "[ AI 클로즈업] 한컴, 글로벌 AI OS 기업 선언… 기존 고객 전환·해외 매...",
+            "url": "https://www.ddaily.co.kr/page/view/2026052311335869455",
+            "source": "Naver / ddaily",
+            "date": "2026-05-24"
+          },
+          {
+            "title": "한컴, '한글과컴퓨터' 떼고 AI 중심 기업 선언",
+            "url": "http://www.hansbiz.co.kr/news/articleView.html?idxno=839891",
+            "source": "Naver / hansbiz",
+            "date": "2026-05-20"
+          }
+        ]
+      }
+    ]
+  }
 }
