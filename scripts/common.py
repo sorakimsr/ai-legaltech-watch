@@ -532,15 +532,16 @@ def detect_score_buckets(title: str, summary: str) -> dict:
 
     buckets = {"law": 0.0, "global": 0.0, "policy": 0.0, "promo": 0.0}
 
+    # v2.9: 매칭 단위 fine-grained — 점수가 10단위로 뭉치지 않게 분산
     for kw in LAW_AI_KEYWORDS:
         if kw in text:
-            buckets["law"] = min(1.0, buckets["law"] + 0.5)
+            buckets["law"] = min(1.0, buckets["law"] + 0.25)  # 0.5 → 0.25 (4단계)
     for kw in GLOBAL_MARKET_KEYWORDS:
         if kw in text:
-            buckets["global"] = min(1.0, buckets["global"] + 0.4)
+            buckets["global"] = min(1.0, buckets["global"] + 0.2)  # 0.4 → 0.2 (5단계)
     for kw in POLICY_KEYWORDS:
         if kw in text:
-            buckets["policy"] = min(1.0, buckets["policy"] + 0.45)
+            buckets["policy"] = min(1.0, buckets["policy"] + 0.25)  # 0.45 → 0.25 (4단계)
     # PROMO는 헤드라인 위주
     for pat in PROMO_PATTERNS:
         if pat in title_lower:
@@ -561,12 +562,12 @@ def score_item(title: str, summary: str, date, categories: list) -> int:
     PROMO 헤드라인 매칭 시 → 40점 이하로 강제 캡 (홍보 weight 0.1 정책)
     """
     # v2.8.2: base 40→50 + 카테고리 보너스 상향 (자본·논문 복원)
-    score = 50
+    score = 50.0  # v2.9: float로 미세 분포 허용
     text = (title + " " + summary).lower()
 
     buckets = detect_score_buckets(title, summary)
 
-    # 가중치 보너스
+    # 가중치 보너스 (이제 fine-grained 단위로 누적되어 다양한 점수 분포)
     score += buckets["law"]    * 40
     score += buckets["global"] * 25
     score += buckets["policy"] * 25
@@ -574,11 +575,28 @@ def score_item(title: str, summary: str, date, categories: list) -> int:
 
     # v2.8.2: 카테고리 보너스 상향 — papers·funding·legaltech 정상 컨텐츠 점수 복원
     if "legaltech" in categories:
-        score += 10  # 6 → 10
+        score += 10
     if "papers" in categories:
-        score += 10  # 4 → 10 (논문 점수 복원)
+        score += 10
     if "funding" in categories:
-        score += 8   # 3 → 8 (자금조달 점수 복원)
+        score += 8
+
+    # v2.9: "행동 가치" 시그널 — 로펌·시장·정책 어느 것도 매칭 안 되면 감점
+    # (대형로펌 경영전략팀이 검토할 가치가 낮은 기사 자동 강등)
+    action_signal = buckets["law"] + buckets["global"] + buckets["policy"]
+    if action_signal < 0.2:
+        score -= 15  # 무관 컨텐츠 base 50 → 35 미만으로
+    elif action_signal < 0.5:
+        score -= 5   # 약한 시그널 base 가볍게 감점
+
+    # v2.9: 본문 깊이 보너스 — 긴 summary는 풍부한 정보
+    summary_len = len(summary or "")
+    if summary_len >= 400:
+        score += 4
+    elif summary_len >= 200:
+        score += 2
+    elif summary_len < 80:
+        score -= 3   # 너무 짧으면 감점 (정보 부족)
 
     # 시간 가중치
     if date:
