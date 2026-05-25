@@ -22,6 +22,10 @@ on:
         description: "데이터 갱신 없이 GitHub Pages만 재배포 (UI 변경 후 빠른 배포)"
         required: false
         default: "false"
+      refresh_recent_days:
+        description: "최근 N일 이내 항목 enrich 재실행 (캐시 무시) — 프롬프트 정책 변경 후 새 음영/시사점 적용용"
+        required: false
+        default: "0"
 
 permissions:
   contents: write
@@ -90,8 +94,9 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           ANTHROPIC_MODEL: "claude-haiku-4-5-20251001"
-          ENRICH_TOP_N: "200"
-          ENRICH_MAX_PER_RUN: "200"
+          ENRICH_TOP_N: "500"
+          ENRICH_MAX_PER_RUN: "500"
+          ENRICH_REFRESH_DAYS: ${{ github.event.inputs.refresh_recent_days || '0' }}
         run: python scripts/enrich_with_llm.py
         continue-on-error: true
 
