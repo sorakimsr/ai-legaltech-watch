@@ -78,14 +78,29 @@ def fetch_source(source_def):
             )
             summary = truncate(clean_text(raw_summary), 400)
 
-            date_str = (
-                getattr(e, "published", None)
-                or getattr(e, "updated", None)
-                or getattr(e, "pubDate", None)
-            )
-            dt = parse_date_safe(date_str)
-            if not dt and hasattr(e, "published_parsed") and e.published_parsed:
-                dt = datetime(*e.published_parsed[:6], tzinfo=timezone.utc)
+            # v2.7: arxiv는 updated(최신 revision) 우선 사용 — v2 revision 같은 실제 컨텐츠 수정일 잡기 위해
+            if source_type == "arxiv":
+                date_str = (
+                    getattr(e, "updated", None)
+                    or getattr(e, "published", None)
+                    or getattr(e, "pubDate", None)
+                )
+                dt = parse_date_safe(date_str)
+                if not dt and hasattr(e, "updated_parsed") and e.updated_parsed:
+                    dt = datetime(*e.updated_parsed[:6], tzinfo=timezone.utc)
+                if not dt and hasattr(e, "published_parsed") and e.published_parsed:
+                    dt = datetime(*e.published_parsed[:6], tzinfo=timezone.utc)
+            else:
+                date_str = (
+                    getattr(e, "published", None)
+                    or getattr(e, "updated", None)
+                    or getattr(e, "pubDate", None)
+                )
+                dt = parse_date_safe(date_str)
+                if not dt and hasattr(e, "published_parsed") and e.published_parsed:
+                    dt = datetime(*e.published_parsed[:6], tzinfo=timezone.utc)
+                if not dt and hasattr(e, "updated_parsed") and e.updated_parsed:
+                    dt = datetime(*e.updated_parsed[:6], tzinfo=timezone.utc)
 
             if not title or not link:
                 continue

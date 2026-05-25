@@ -66,14 +66,16 @@ SOURCES = [
     ("Legora Blog", "https://news.google.com/rss/search?q=site%3Alegora.com+OR+%22Legora%22+(legal+OR+blog+OR+announces+OR+launches)&hl=en&gl=US&ceid=US:en", "google_news", ["legaltech", "product"], "en"),
 
     # ====================================================================
-    # AI 논문 (arXiv) — papers 카테고리는 여기에서만 부여
+    # AI 논문 (arXiv API) — papers 카테고리는 여기에서만 부여
+    # v2.7: 기존 /rss/ 는 announce-date만 줘서 실제 발행/수정일을 못 잡음 →
+    # /api/query 로 교체 (각 entry에 published[v1 제출일] + updated[최신 revision] 정확히 제공)
     # ====================================================================
-    ("arXiv cs.AI", "http://export.arxiv.org/rss/cs.AI", "arxiv", ["papers"], "en"),
-    ("arXiv cs.CL", "http://export.arxiv.org/rss/cs.CL", "arxiv", ["papers"], "en"),
-    ("arXiv cs.LG", "http://export.arxiv.org/rss/cs.LG", "arxiv", ["papers"], "en"),
-    ("arXiv cs.IR", "http://export.arxiv.org/rss/cs.IR", "arxiv", ["papers"], "en"),
-    ("arXiv cs.MA (Multi-Agent)", "http://export.arxiv.org/rss/cs.MA", "arxiv", ["papers"], "en"),
-    ("arXiv cs.CY (Computers & Society)", "http://export.arxiv.org/rss/cs.CY", "arxiv", ["papers", "policy"], "en"),
+    ("arXiv cs.AI", "https://export.arxiv.org/api/query?search_query=cat:cs.AI&max_results=30&sortBy=lastUpdatedDate&sortOrder=descending", "arxiv", ["papers"], "en"),
+    ("arXiv cs.CL", "https://export.arxiv.org/api/query?search_query=cat:cs.CL&max_results=30&sortBy=lastUpdatedDate&sortOrder=descending", "arxiv", ["papers"], "en"),
+    ("arXiv cs.LG", "https://export.arxiv.org/api/query?search_query=cat:cs.LG&max_results=30&sortBy=lastUpdatedDate&sortOrder=descending", "arxiv", ["papers"], "en"),
+    ("arXiv cs.IR", "https://export.arxiv.org/api/query?search_query=cat:cs.IR&max_results=30&sortBy=lastUpdatedDate&sortOrder=descending", "arxiv", ["papers"], "en"),
+    ("arXiv cs.MA (Multi-Agent)", "https://export.arxiv.org/api/query?search_query=cat:cs.MA&max_results=30&sortBy=lastUpdatedDate&sortOrder=descending", "arxiv", ["papers"], "en"),
+    ("arXiv cs.CY (Computers & Society)", "https://export.arxiv.org/api/query?search_query=cat:cs.CY&max_results=30&sortBy=lastUpdatedDate&sortOrder=descending", "arxiv", ["papers", "policy"], "en"),
     # Papers With Code RSS 미제공 → Semantic Scholar가 동등 커버. 보조로 Google News 우회.
     ("Papers With Code", "https://news.google.com/rss/search?q=site%3Apaperswithcode.com+OR+%22paperswithcode%22+AI&hl=en&gl=US&ceid=US:en", "google_news", ["papers"], "en"),
 
