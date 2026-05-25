@@ -178,7 +178,9 @@ const CATEGORIES = [
   { id: 'funding', label: '투자·M&A' },
   { id: 'adoption', label: '도입사례' },
   // v2.8.3: '국내' 카테고리 제거 — 언어 필터(ko/en)로 대체
+  { id: 'governance', label: 'AI 거버넌스·리스크' },  // v3.0: 사내 거버넌스·리스크·평가
   { id: 'policy', label: '정책·규제' },
+  { id: 'market', label: '시장·경쟁' },               // v3.0: 시장 구조·벤더 종속·모트
 ];
 
 const VIEW_META = {
@@ -266,15 +268,78 @@ function renderStats() {
   }
   row.style.display = 'grid';
 
-  const stats = state.data.stats || {};
-  const total = stats.total_items || (state.data.items || []).length;
-  const enriched = stats.enriched_items || 0;
-  const withRelated = stats.with_related || 0;
-  const sources = state.data.sources || [];
-  const activeSrc = sources.filter(s => s.status === 'active').length;
-  const backend = state.data.llm_backend || 'none';
-  const newToday = (state.data.items || []).filter(isNewToday).length;
+  // v3.0: 6개 카드를 state.sourcesPeriod(today/7days/30days/all)에 따라 동적 계산
+  // — 하단 표와 동일한 기준(source_history의 'new' 합산)을 사용해 일치성 확보.
+  const period = state.sourcesPeriod || '7days';
+  const periodMeta = {
+    today:    { days: 1,  label: '오늘',       itemLabel: '오늘 항목',       newLabel: '오늘 신규',       hint: 'today 발행 기준' },
+    '7days':  { days: 7,  label: '최근 7일',   itemLabel: '최근 7일 항목',   newLabel: '최근 7일 신규',   hint: '최근 7일 발행 기준' },
+    '30days': { days: 30, label: '최근 30일',  itemLabel: '최근 30일 항목',  newLabel: '최근 30일 신규',  hint: '최근 30일 발행 기준' },
+    all:      { days: 60, label: '전체 누적',  itemLabel: '전체 항목',       newLabel: '전체 신규',       hint: 'source_history 60일' },
+  };
+  const meta = periodMeta[period] || periodMeta['7days'];
 
+  // KST 날짜 키 생성 — renderSourcesStatus와 동일
+  const kstDateStr = (d) => {
+    const kst = new Date(d.getTime() + 9 * 60 * 60 * 1000);
+    return kst.toISOString().slice(0, 10);
+  };
+  const todayKst = kstDateStr(new Date());
+  const periodDayKeys = (() => {
+    const ks = [];
+    const today = new Date();
+    for (let i = 0; i < meta.days; i++) {
+      const d = new Date(today);
+      d.setDate(d.getDate() - i);
+      ks.push(kstDateStr(d));
+    }
+    return ks;
+  })();
+  const periodDaySet = new Set(periodDayKeys);
+  const cutoffDate = periodDayKeys[periodDayKeys.length - 1];  // 가장 오래된 날짜
+
+  // 1. 기간 내 발행 항목 (KST 발행일 기준) — 하단 표의 신규와 다른 정의(URL 1회)이지만
+  //    "선택 기간에 보고 있는 항목 수"로서 의미가 있음
+  const allItems = state.data.items || [];
+  const periodItems = allItems.filter(it => {
+    if (!it.date) return false;
+    const d = new Date(it.date);
+    if (isNaN(d)) return false;
+    return kstDateStr(d) >= cutoffDate;
+  });
+
+  // 2. 기간 내 신규 수집 — source_history의 new 합산 (하단 표와 100% 동일 기준)
+  const history = state.sourceHistory || {};
+  let periodNew = 0;
+  for (const name of Object.keys(history)) {
+    const h = history[name] || {};
+    for (const k of periodDayKeys) {
+      if (h[k]) periodNew += (h[k].new || 0);
+    }
+  }
+
+  // 3. AI 분석 완료 — 기간 내 항목 중 llm_enriched
+  const periodEnriched = periodItems.filter(it => it.llm_enriched).length;
+
+  // 4. 유사 뉴스 병합 — 기간 내 항목 중 related_count > 0
+  const periodRelated = periodItems.filter(it => (it.related_count || 0) > 0).length;
+
+  // 5. 활성 소스 — 기간 내에 한 번이라도 fetched > 0 이었던 소스 수
+  const sources = state.data.sources || [];
+  let periodActive = 0;
+  for (const s of sources) {
+    const h = history[s.name] || {};
+    let active = false;
+    for (const k of periodDayKeys) {
+      if (h[k] && (h[k].fetched || 0) > 0) { active = true; break; }
+    }
+    // source_history에 흔적이 없어도 이번 빌드에서 active면 포함 (오늘만 선택 시 fresh 빌드)
+    if (!active && period === 'today' && s.status === 'active') active = true;
+    if (active) periodActive += 1;
+  }
+
+  // 6. LLM 백엔드 (그대로)
+  const backend = state.data.llm_backend || 'none';
   const backendLabel = {
     'claude-cli': 'Claude CLI', 'anthropic': 'Anthropic SDK',
     'openai': 'OpenAI SDK', 'none': '비활성',
@@ -282,29 +347,29 @@ function renderStats() {
 
   row.innerHTML = `
     <div class="stat-card accent">
-      <span class="stat-label">전체 항목</span>
-      <span class="stat-value">${total}</span>
-      <span class="stat-hint">최근 30일 수집</span>
+      <span class="stat-label">${escapeHtml(meta.itemLabel)}</span>
+      <span class="stat-value">${periodItems.length}</span>
+      <span class="stat-hint">${escapeHtml(meta.hint)}</span>
     </div>
     <div class="stat-card highlight">
-      <span class="stat-label">오늘 신규</span>
-      <span class="stat-value">${newToday}</span>
-      <span class="stat-hint">today 첫 수집</span>
+      <span class="stat-label">${escapeHtml(meta.newLabel)}</span>
+      <span class="stat-value">${periodNew}</span>
+      <span class="stat-hint">소스별 신규 URL 합산</span>
     </div>
     <div class="stat-card success">
       <span class="stat-label">AI 분석 완료</span>
-      <span class="stat-value">${enriched}</span>
-      <span class="stat-hint">한국어 요약/시사점</span>
+      <span class="stat-value">${periodEnriched}</span>
+      <span class="stat-hint">${escapeHtml(meta.label)} 항목 중</span>
     </div>
     <div class="stat-card">
       <span class="stat-label">유사 뉴스 병합</span>
-      <span class="stat-value">${withRelated}</span>
-      <span class="stat-hint">중복 자동 그룹화</span>
+      <span class="stat-value">${periodRelated}</span>
+      <span class="stat-hint">${escapeHtml(meta.label)} 항목 중</span>
     </div>
     <div class="stat-card">
       <span class="stat-label">활성 소스</span>
-      <span class="stat-value">${activeSrc} / ${sources.length}</span>
-      <span class="stat-hint">RSS·arXiv·Naver</span>
+      <span class="stat-value">${periodActive} / ${sources.length}</span>
+      <span class="stat-hint">${escapeHtml(meta.label)} 동안 활성</span>
     </div>
     <div class="stat-card">
       <span class="stat-label">LLM 백엔드</span>
@@ -1296,12 +1361,13 @@ function bindEvents() {
   const btnClear = document.getElementById('btn-clear-selection');
   if (btnClear) btnClear.addEventListener('click', clearSelection);
 
-  // 소스 현황 기간 selector
+  // 소스 현황 기간 selector — v3.0: 상단 stat-row도 함께 갱신
   const sourcesPeriodSel = document.getElementById('sources-period');
   if (sourcesPeriodSel) {
     sourcesPeriodSel.value = state.sourcesPeriod;
     sourcesPeriodSel.addEventListener('change', e => {
       state.sourcesPeriod = e.target.value;
+      renderStats();
       renderSourcesStatus();
     });
   }
