@@ -87,8 +87,11 @@ export default {
       return jsonResponse({ error: "Prompt too long (max 50000 chars)" }, request, env, 400);
     }
 
-    const system = body.system || "당신은 전략·기획·AI 업무 분석을 돕는 한국어 AI 어시스턴트입니다.";
+    // v2.7.2: 사용자 체감 속도 개선을 위해 시스템 프롬프트에 "분석 계획 먼저" 지시 추가
+    const defaultSystem = "당신은 한국 전략·기획·AI 업무 담당자를 돕는 한국어 AI 어시스턴트입니다.\n\n응답 규칙(반드시 지킬 것):\n1. **항상 두 섹션으로 응답**: 먼저 `## 🧭 분석 계획` (2~3줄, 어떤 관점으로 어떤 흐름을 살필지) → 그 다음 `## 📊 분석 결과` (실제 분석).\n2. 핵심 키워드·회사명·금액·기법명은 `**굵게**` 마크다운으로 강조 (한 문장당 1~2개).\n3. 단정 어조 지양, 구체 근거(회사명·날짜·금액) 우선.";
+    const system = body.system || defaultSystem;
     const maxTokens = Math.min(parseInt(body.max_tokens || 1500, 10), 4000);
+    const wantStream = body.stream === true;
 
     // 모델 선택 — 화이트리스트 검증
     let model = body.model || DEFAULT_MODELS[backend];
@@ -128,6 +131,14 @@ export default {
     }
 
     try {
+      // v2.7.2: 스트리밍 모드 — 첫 글자가 1~2초 안에 도착하도록 token-by-token SSE 전송
+      if (wantStream) {
+        if (backend === "claude") {
+          return await streamClaude(apiKey, prompt, system, maxTokens, model, request, env, useUserKey);
+        } else {
+          return await streamOpenAI(apiKey, prompt, system, maxTokens, model, request, env, useUserKey);
+        }
+      }
       let result;
       if (backend === "claude") {
         result = await callClaude(apiKey, prompt, system, maxTokens, model);
@@ -208,6 +219,141 @@ async function callOpenAI(apiKey, prompt, system, maxTokens, model) {
   const data = await r.json();
   const text = (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || "";
   return { text, model, usage: data.usage };
+}
+
+// ============================================================================
+// v2.7.2: 스트리밍 — Anthropic/OpenAI 응답을 token 단위로 클라이언트에 전달
+// 정규화 SSE 포맷:
+//   data: {"type":"delta","text":"..."}
+//   data: {"type":"done","model":"...","usage":{...}}
+//   data: {"type":"error","error":"..."}
+// ============================================================================
+
+async function streamClaude(apiKey, prompt, system, maxTokens, model, request, env, useUserKey) {
+  model = model || DEFAULT_MODELS.claude;
+  const upstream = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers: {
+      "x-api-key": apiKey,
+      "anthropic-version": "2023-06-01",
+      "content-type": "application/json",
+    },
+    body: JSON.stringify({
+      model,
+      max_tokens: maxTokens,
+      system,
+      stream: true,
+      messages: [{ role: "user", content: prompt }],
+    }),
+  });
+  if (!upstream.ok) {
+    const errBody = await upstream.text();
+    throw new Error(`Claude API ${upstream.status}: ${errBody.slice(0, 300)}`);
+  }
+  return makeNormalizedStream(upstream, "claude", model, request, env, useUserKey);
+}
+
+async function streamOpenAI(apiKey, prompt, system, maxTokens, model, request, env, useUserKey) {
+  model = model || DEFAULT_MODELS.openai;
+  const upstream = await fetch("https://api.openai.com/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${apiKey}`,
+      "content-type": "application/json",
+    },
+    body: JSON.stringify({
+      model,
+      max_tokens: maxTokens,
+      stream: true,
+      stream_options: { include_usage: true },
+      messages: [
+        { role: "system", content: system },
+        { role: "user", content: prompt },
+      ],
+    }),
+  });
+  if (!upstream.ok) {
+    const errBody = await upstream.text();
+    throw new Error(`OpenAI API ${upstream.status}: ${errBody.slice(0, 300)}`);
+  }
+  return makeNormalizedStream(upstream, "openai", model, request, env, useUserKey);
+}
+
+function makeNormalizedStream(upstream, backend, model, request, env, useUserKey) {
+  const reader = upstream.body.getReader();
+  const decoder = new TextDecoder();
+  const encoder = new TextEncoder();
+  let usage = null;
+
+  const stream = new ReadableStream({
+    async start(controller) {
+      const send = (obj) => controller.enqueue(encoder.encode(`data: ${JSON.stringify(obj)}\n\n`));
+
+      // 메타 (used_user_key 등) 즉시 송신
+      send({ type: "meta", backend, model, used_user_key: !!useUserKey });
+
+      let buffer = "";
+      try {
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          buffer += decoder.decode(value, { stream: true });
+
+          // SSE는 \n\n 으로 이벤트 구분
+          const events = buffer.split("\n\n");
+          buffer = events.pop() || "";
+
+          for (const evt of events) {
+            // 각 줄에서 "data: ..." 부분만 추출
+            const lines = evt.split("\n").filter(l => l.startsWith("data:"));
+            for (const line of lines) {
+              const payload = line.slice(5).trim();
+              if (!payload || payload === "[DONE]") continue;
+              try {
+                const parsed = JSON.parse(payload);
+                if (backend === "claude") {
+                  if (parsed.type === "content_block_delta" && parsed.delta && parsed.delta.text) {
+                    send({ type: "delta", text: parsed.delta.text });
+                  } else if (parsed.type === "message_delta" && parsed.usage) {
+                    usage = parsed.usage;
+                  } else if (parsed.type === "message_start" && parsed.message && parsed.message.usage) {
+                    usage = { ...usage, ...parsed.message.usage };
+                  }
+                } else {
+                  // OpenAI
+                  const choice = (parsed.choices && parsed.choices[0]) || null;
+                  if (choice && choice.delta && choice.delta.content) {
+                    send({ type: "delta", text: choice.delta.content });
+                  }
+                  if (parsed.usage) {
+                    usage = parsed.usage;
+                  }
+                }
+              } catch (e) {
+                // 파싱 실패는 무시 (불완전 chunk)
+              }
+            }
+          }
+        }
+        send({ type: "done", model, usage: usage || {}, backend });
+      } catch (e) {
+        send({ type: "error", error: e.message || String(e) });
+      } finally {
+        controller.close();
+      }
+    },
+  });
+
+  return new Response(stream, {
+    status: 200,
+    headers: {
+      "Content-Type": "text/event-stream; charset=utf-8",
+      "Cache-Control": "no-cache, no-transform",
+      "Connection": "keep-alive",
+      "X-Accel-Buffering": "no",
+      ...corsHeaders(request, env),
+    },
+  });
 }
 
 function corsHeaders(request, env) {
