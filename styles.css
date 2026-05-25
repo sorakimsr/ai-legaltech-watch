@@ -251,13 +251,15 @@ input, select { font-family: inherit; outline: none; }
   justify-content: center;
   cursor: pointer;
   z-index: 5;
-  opacity: 0;
-  transition: opacity 0.15s;
-  border: 1px solid #cbd5e1;
-}
-.news-card:hover .card-checkbox,
-.news-card.is-selected .card-checkbox {
+  /* v2.7.3: 체크박스 상시 노출 (hover 의존 제거) */
   opacity: 1;
+  transition: border-color 0.15s, background 0.15s;
+  border: 1.5px solid #cbd5e1;
+}
+.card-checkbox:hover { border-color: #2563eb; }
+.news-card.is-selected .card-checkbox {
+  border-color: #2563eb;
+  background: #eff6ff;
 }
 .card-check {
   margin: 0;
@@ -877,8 +879,13 @@ input, select { font-family: inherit; outline: none; }
   padding-top: 10px;
   border-top: 1px solid #f3f4f6;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;  /* v2.7.3: 좌측 정렬, 카드 액션은 우측 자동 push */
   align-items: center;
+  gap: 8px;
+}
+/* v2.7.3: card-actions는 우측 끝으로 push */
+.card-bottom .card-actions {
+  margin-left: auto;
 }
 .card-source {
   font-size: 12px;
@@ -914,7 +921,9 @@ input, select { font-family: inherit; outline: none; }
 }
 .icon-btn:hover { background: #f3f4f6; color: #0f172a; }
 
+/* v2.7.3: ai-badge 제거 — 모든 카드에 시사점이 들어가므로 더 이상 차별 표시 불필요 */
 .ai-badge {
+  display: none !important;
   position: absolute;
   top: 0;
   right: 18px;
@@ -1052,14 +1061,14 @@ mark {
 .bookmark-btn.is-saved:hover {
   background: #fde68a;
 }
+/* v2.7.3: 뉴스 카드 북마크 — 좌하단 card-bottom 안의 첫 요소로 인라인 배치 */
 .card-bookmark {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  width: 30px;
-  height: 30px;
-  font-size: 16px;
+  position: static;  /* 더 이상 absolute 아님 */
+  width: 26px;
+  height: 26px;
+  font-size: 14px;
   border-radius: 6px;
+  flex-shrink: 0;
 }
 .news-card { position: relative; }
 

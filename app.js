@@ -201,7 +201,8 @@ function renderTopbar() {
 
 function renderStats() {
   const row = document.getElementById('stat-row');
-  if (state.view === 'strategy' || state.view === 'sources') {
+  // v2.7.3: stat-row는 소스 현황 view에서만 표시. 다른 view에서는 숨김.
+  if (state.view !== 'sources') {
     row.style.display = 'none';
     return;
   }
@@ -519,7 +520,7 @@ function renderCard(item) {
   const relBadge = relCount > 0 ? `<span class="related-badge" title="유사 뉴스 ${relCount}건">+${relCount} 매체 ▾</span>` : '';
   const relDetail = relCount > 0 && item.related ? `<div class="related-detail">${item.related.map(r => `<div class="rel-item"><span class="rel-source">${escapeHtml(r.source)}</span><a href="${escapeHtml(r.url)}" target="_blank" rel="noopener">${escapeHtml(r.title)}</a></div>`).join('')}</div>` : '';
 
-  const aiBadge = item.llm_enriched ? '<span class="ai-badge">AI 분석</span>' : '';
+  // v2.7.3: ai-badge 제거 (모든 카드에 시사점이 들어가므로 의미 없음)
   const langBadge = isEnglish ? '<span class="lang-badge">EN</span>' : '';
   const newBadge = isNewToday(item) ? '<span class="new-badge">NEW</span>' : '';
 
@@ -528,11 +529,9 @@ function renderCard(item) {
 
   return `
     <article class="news-card ${isSelected ? 'is-selected' : ''}" data-url="${escapeHtml(item.url)}">
-      ${aiBadge}
       <label class="card-checkbox" title="AI 분석 선택">
         <input type="checkbox" class="card-check" data-url="${escapeHtml(item.url)}" ${isSelected ? 'checked' : ''} />
       </label>
-      <button class="bookmark-btn card-bookmark ${itemSaved ? 'is-saved' : ''}" data-bookmark-item="${escapeHtml(item.url)}" title="${itemSaved ? '저장 해제' : '저장하기'}">${itemSaved ? '★' : '☆'}</button>
       <div class="card-top">
         <div style="display:flex;gap:6px;align-items:center;">
           <span class="score-badge ${scoreClass}">${escapeHtml(scoreLabel)}</span>
@@ -546,6 +545,7 @@ function renderCard(item) {
       ${insightBlock}
       ${relDetail}
       <div class="card-bottom">
+        <button class="bookmark-btn card-bookmark ${itemSaved ? 'is-saved' : ''}" data-bookmark-item="${escapeHtml(item.url)}" title="${itemSaved ? '저장 해제' : '저장하기'}">${itemSaved ? '★' : '☆'}</button>
         <span class="card-source"><span class="card-source-icon">${escapeHtml(sourceInitial)}</span>${escapeHtml(item.source || '')}</span>
         <div class="card-actions"><a class="icon-btn" href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer" title="원문">↗</a></div>
       </div>
