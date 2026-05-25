@@ -32,7 +32,7 @@ from common import (
 )
 from sources import get_active_sources
 from naver_fetcher import fetch_all_naver, has_credentials as has_naver
-from semantic_scholar_fetcher import fetch_papers as fetch_semantic_scholar
+from openalex_fetcher import fetch_papers as fetch_openalex
 
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -311,24 +311,25 @@ def main():
     else:
         print("  [naver] no credentials, skipped", flush=True)
 
-    # 2-c. Semantic Scholar 논문 fetch (Google Scholar 대안)
+    # 2-c. OpenAlex API 논문 fetch (v2.7 — Semantic Scholar 대체)
+    # OPENALEX_API_KEY 등록 시 polite pool 진입 → 안정적 수집
     try:
-        ss_items = fetch_semantic_scholar(per_query_limit=10, days_back=30)
-        all_new_items.extend(ss_items)
-        new_ss = sum(1 for it in ss_items if it["url"] not in prev_map)
-        new_items_by_source["Semantic Scholar"] = new_ss
+        oa_items = fetch_openalex(per_query_limit=25, days_back=30)
+        all_new_items.extend(oa_items)
+        new_oa = sum(1 for it in oa_items if it["url"] not in prev_map)
+        new_items_by_source["OpenAlex"] = new_oa
         source_status.append({
-            "name": "Semantic Scholar",
-            "url": "https://api.semanticscholar.org",
-            "status": "active" if ss_items else "idle",
-            "count": len(ss_items),
+            "name": "OpenAlex",
+            "url": "https://api.openalex.org",
+            "status": "active" if oa_items else "idle",
+            "count": len(oa_items),
         })
-        print(f"  [semantic-scholar] +{len(ss_items)} papers ({new_ss} new)", flush=True)
+        print(f"  [openalex] +{len(oa_items)} papers ({new_oa} new)", flush=True)
     except Exception as exc:
-        print(f"  [semantic-scholar] failed: {exc}", flush=True)
+        print(f"  [openalex] failed: {exc}", flush=True)
         source_status.append({
-            "name": "Semantic Scholar",
-            "url": "https://api.semanticscholar.org",
+            "name": "OpenAlex",
+            "url": "https://api.openalex.org",
             "status": "error",
             "count": 0,
         })

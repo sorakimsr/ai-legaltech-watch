@@ -127,9 +127,9 @@ def extract_keywords(papers: list) -> list:
 
 
 def filter_papers(items: list, days: int) -> list:
-    """최근 N일 발표된 논문 — arXiv + Semantic Scholar 모두 포함"""
+    """최근 N일 발표된 논문 — arXiv + OpenAlex 통합"""
     cutoff = (datetime.now(KST).date() - timedelta(days=days)).isoformat()
-    PAPER_TYPES = {"arxiv", "semantic_scholar"}
+    PAPER_TYPES = {"arxiv", "openalex"}
     return [
         it for it in items
         if it.get("source_type") in PAPER_TYPES
