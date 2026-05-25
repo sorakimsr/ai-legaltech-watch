@@ -113,6 +113,15 @@ jobs:
               json.dump(d, f, ensure_ascii=False, indent=2)
           "
 
+      # ===== 4-b단계: 논문 흐름 분석 =====
+      - name: "Step 4b — Analyze paper trends"
+        if: github.event.inputs.skip_strategy != 'true'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: python scripts/analyze_papers.py
+        continue-on-error: true
+
       # ===== 5단계: Obsidian Vault로 마크다운 export =====
       - name: "Step 5 — Clone vault repo"
         if: env.VAULT_PAT != ''
