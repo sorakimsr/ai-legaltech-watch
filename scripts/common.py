@@ -533,7 +533,7 @@ def detect_score_buckets(title: str, summary: str) -> dict:
 
 
 def score_item(title: str, summary: str, date, categories: list) -> int:
-    """가중치 기반 중요도 (v2.7.3)
+    """가중치 기반 중요도 (v2.8.2)
 
     버킷별 최대 보너스:
       LAW(로펌)  : +40  (weight 0.40)
@@ -541,9 +541,10 @@ def score_item(title: str, summary: str, date, categories: list) -> int:
       POLICY     : +25  (weight 0.25)
       PROMO      : +10  (weight 0.10)
 
-    PROMO 단독 매칭 (LAW/GLOBAL/POLICY 모두 약함) → 35점 이하로 강제 캡
+    PROMO 헤드라인 매칭 시 → 40점 이하로 강제 캡 (홍보 weight 0.1 정책)
     """
-    score = 40  # 기본값 (기존 50 → 40)
+    # v2.8.2: base 40→50 + 카테고리 보너스 상향 (자본·논문 복원)
+    score = 50
     text = (title + " " + summary).lower()
 
     buckets = detect_score_buckets(title, summary)
@@ -554,13 +555,13 @@ def score_item(title: str, summary: str, date, categories: list) -> int:
     score += buckets["policy"] * 25
     score += buckets["promo"]  * 10
 
-    # 카테고리 보강 (보조)
+    # v2.8.2: 카테고리 보너스 상향 — papers·funding·legaltech 정상 컨텐츠 점수 복원
     if "legaltech" in categories:
-        score += 6
+        score += 10  # 6 → 10
     if "papers" in categories:
-        score += 4
+        score += 10  # 4 → 10 (논문 점수 복원)
     if "funding" in categories:
-        score += 3
+        score += 8   # 3 → 8 (자금조달 점수 복원)
 
     # 시간 가중치
     if date:
