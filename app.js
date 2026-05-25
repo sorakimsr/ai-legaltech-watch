@@ -193,8 +193,15 @@ const VIEW_META = {
 async function init() {
   loadSaved();  // v2.7: localStorage 북마크 복원
   loadAnalyses();  // v2.7.5: AI 분석 결과 history 복원
+
+  // v2.7.6: cache 강제 무효화 — Cache-Control: no-cache 헤더 + ?t= 버스터 동시 사용
+  const noCacheFetch = (path) => fetch(path + '?t=' + Date.now(), {
+    cache: 'no-store',
+    headers: { 'Cache-Control': 'no-cache', 'Pragma': 'no-cache' },
+  });
+
   try {
-    const res = await fetch('./data/news.json?t=' + Date.now());
+    const res = await noCacheFetch('./data/news.json');
     state.data = await res.json();
   } catch (e) {
     console.error('news.json 로드 실패:', e);
@@ -203,26 +210,26 @@ async function init() {
 
   // 보조 데이터 (옵션)
   try {
-    const r = await fetch('./data/strategy_history.json?t=' + Date.now());
+    const r = await noCacheFetch('./data/strategy_history.json');
     state.history = await r.json();
   } catch (e) {
     state.history = { daily: {}, weekly: {}, monthly: {} };
   }
   try {
-    const r = await fetch('./data/source_history.json?t=' + Date.now());
+    const r = await noCacheFetch('./data/source_history.json');
     state.sourceHistory = await r.json();
   } catch (e) {
     state.sourceHistory = {};
   }
   try {
-    const r = await fetch('./data/paper_trends.json?t=' + Date.now());
+    const r = await noCacheFetch('./data/paper_trends.json');
     state.paperTrends = await r.json();
   } catch (e) {
     state.paperTrends = null;
   }
   // v2.7.1: 논문 시계열 history (선택 사항 — 없으면 paper_trends만 표시)
   try {
-    const r = await fetch('./data/paper_trends_history.json?t=' + Date.now());
+    const r = await noCacheFetch('./data/paper_trends_history.json');
     state.paperTrendsHistory = await r.json();
   } catch (e) {
     state.paperTrendsHistory = null;
