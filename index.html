@@ -22,17 +22,10 @@
           <span class="nav-label">전략·기획 시사점</span>
         </a>
 
-        <a href="#" class="nav-item" data-view="top">
-          <span class="nav-icon">⭐</span>
-          <span class="nav-label">중요도 TOP</span>
-        </a>
-        <a href="#" class="nav-item" data-view="today">
-          <span class="nav-icon">📅</span>
-          <span class="nav-label">오늘 추가됨</span>
-        </a>
+        <!-- v2.7.1: 중요도 TOP / 오늘 추가됨 / 최신순을 "뉴스 피드" 하나로 통합 (정렬·기간은 페이지 내 dropdown) -->
         <a href="#" class="nav-item active" data-view="latest">
-          <span class="nav-icon">🕒</span>
-          <span class="nav-label">최신순</span>
+          <span class="nav-icon">📰</span>
+          <span class="nav-label">뉴스 피드</span>
         </a>
         <a href="#" class="nav-item" data-view="papers">
           <span class="nav-icon">📑</span>
@@ -113,10 +106,19 @@
             <input type="text" id="search-input" placeholder="키워드 검색 (제목, 출처, 요약, 시사점)" />
             <button class="search-action hidden" id="btn-select-search-results" title="현재 검색 결과 전체 선택">검색결과 전체 선택</button>
           </div>
+          <!-- v2.7.1: 정렬 기준 dropdown (뉴스 피드 통합 후) -->
+          <div class="control-group">
+            <span class="control-label">정렬</span>
+            <select id="sort-filter">
+              <option value="latest" selected>최신순</option>
+              <option value="score">중요도</option>
+              <option value="today">오늘 추가</option>
+            </select>
+          </div>
           <div class="control-group">
             <span class="control-label">기간</span>
             <select id="date-filter">
-              <option value="all">전체 기간</option>
+              <option value="all" selected>전체 기간</option>
               <option value="today">오늘</option>
               <option value="3days">최근 3일</option>
               <option value="week">최근 1주일</option>
@@ -150,6 +152,16 @@
 
         <!-- 논문 흐름 분석 뷰 -->
         <div id="papers-view" class="papers-view hidden">
+          <!-- v2.7.1: Daily/Weekly/Monthly 시계열 탭 -->
+          <div id="papers-controls" class="strategy-controls">
+            <div class="strategy-period-tabs">
+              <button class="period-tab" data-papers-period="daily">Daily</button>
+              <button class="period-tab active" data-papers-period="weekly">Weekly</button>
+              <button class="period-tab" data-papers-period="monthly">Monthly</button>
+            </div>
+            <select id="papers-period-select"></select>
+          </div>
+
           <div id="papers-meta" class="papers-meta"></div>
 
           <div class="papers-section papers-narrative-section">

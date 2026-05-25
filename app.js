@@ -51,6 +51,10 @@ const state = {
   // 시사점 sub-state
   strategyPeriod: 'daily',  // daily | weekly | monthly
   strategyKey: null,        // 선택된 날짜·주·월 키
+  // v2.7.1: 논문 흐름 sub-state
+  papersPeriod: 'weekly',   // daily | weekly | monthly
+  papersKey: null,          // 선택된 날짜·주·월 키
+  paperTrendsHistory: null, // paper_trends_history.json
   // 소스 sub-state
   sourcesTab: 'status',     // status | trend
   sourcesPeriod: '7days',   // today | 7days | 30days | all (소스 현황 표용)
@@ -60,6 +64,8 @@ const state = {
   search: '',
   dateFilter: 'all',
   langFilter: 'all',
+  // v2.7.1: 정렬 기준 (뉴스 피드 통합 후) — latest | score | today
+  sortBy: 'latest',
   // chart instance
   trendChart: null,
   // 다중 선택
@@ -127,11 +133,12 @@ const CATEGORIES = [
 ];
 
 const VIEW_META = {
-  latest:    { title: '최신순', hint: '최근 30일 · 발행일 최신순' },
-  top:       { title: '중요도 TOP', hint: 'AI 중요도 점수 상위 100개 항목' },
-  today:     { title: '오늘 추가됨', hint: '오늘(KST) 신규 수집 · 중요도순' },
+  latest:    { title: '뉴스 피드', hint: '정렬·기간·언어 필터로 자유 탐색' },
+  // 백워드 호환: 구 url/링크가 top, today를 가리킬 경우 latest로 매핑
+  top:       { title: '뉴스 피드', hint: '중요도순으로 정렬됨' },
+  today:     { title: '뉴스 피드', hint: '오늘 추가된 항목만' },
   strategy:  { title: '전략·기획 시사점', hint: 'Daily/Weekly/Monthly로 LLM 자동 생성' },
-  papers:    { title: 'AI 논문 흐름', hint: 'arXiv 최근 14일 논문 종합 분석' },
+  papers:    { title: 'AI 논문 흐름', hint: 'Daily/Weekly/Monthly 시계열 분석' },
   sources:   { title: '소스 현황', hint: '활성·유휴·오류 + 7일 추이' },
   saved:     { title: '저장한 항목', hint: '북마크한 시사점·뉴스 카드' },
 };
@@ -164,6 +171,13 @@ async function init() {
     state.paperTrends = await r.json();
   } catch (e) {
     state.paperTrends = null;
+  }
+  // v2.7.1: 논문 시계열 history (선택 사항 — 없으면 paper_trends만 표시)
+  try {
+    const r = await fetch('./data/paper_trends_history.json?t=' + Date.now());
+    state.paperTrendsHistory = await r.json();
+  } catch (e) {
+    state.paperTrendsHistory = null;
   }
 
   renderTopbar();
@@ -252,7 +266,9 @@ function renderCategoryBar() {
   bar.style.display = 'flex';
   if (label) label.style.display = 'block';
 
-  const pool = applyViewFilter(state.data.items || []);
+  // v2.7.1: 카테고리 카운트는 "현재 적용된 lang/date/search 필터"까지 반영해야
+  // 표시되는 카드 수와 일치한다 (category 자체만 제외).
+  const pool = applyNonCategoryFilters(applyViewFilter(state.data.items || []));
   const counts = {};
   pool.forEach(item => (item.categories || []).forEach(c => counts[c] = (counts[c] || 0) + 1));
 
@@ -273,27 +289,30 @@ function renderCategoryBar() {
 
 function applyViewFilter(items) {
   let arr = items.slice();
-  switch (state.view) {
-    case 'latest':
-      arr.sort((a, b) => new Date(b.date) - new Date(a.date));
-      break;
-    case 'top':
-      arr.sort((a, b) => (b.score || 0) - (a.score || 0));
-      arr = arr.slice(0, 100);
-      break;
-    case 'today':
-      const now = new Date();
-      const start = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-      arr = arr.filter(i => new Date(i.first_seen || i.date) >= start);
-      // v2.7: '오늘 추가됨'을 중요도(score) 내림차순으로 정렬
-      arr.sort((a, b) => (b.score || 0) - (a.score || 0));
-      break;
-    case 'saved':
-      // v2.7: 북마크한 항목만
-      arr = arr.filter(i => isSaved('items', i.url));
-      arr.sort((a, b) => (b.score || 0) - (a.score || 0));
-      break;
+  // v2.7.1: latest/top/today 통합 → state.sortBy로 분기
+  if (state.view === 'latest') {
+    switch (state.sortBy) {
+      case 'score':
+        arr.sort((a, b) => (b.score || 0) - (a.score || 0));
+        arr = arr.slice(0, 200);  // 중요도 상위 200개
+        break;
+      case 'today': {
+        const now = new Date();
+        const start = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        arr = arr.filter(i => new Date(i.first_seen || i.date) >= start);
+        arr.sort((a, b) => (b.score || 0) - (a.score || 0));
+        break;
+      }
+      case 'latest':
+      default:
+        arr.sort((a, b) => new Date(b.date) - new Date(a.date));
+        break;
+    }
+  } else if (state.view === 'saved') {
+    arr = arr.filter(i => isSaved('items', i.url));
+    arr.sort((a, b) => (b.score || 0) - (a.score || 0));
   }
+  // 'top'/'today' 구 view 이름은 백워드 호환을 위해 latest+sortBy로 매핑
   return arr;
 }
 
@@ -409,10 +428,10 @@ function renderSavedView(root) {
             <button class="bookmark-btn is-saved" data-bookmark-strategy='${escapeAttr(JSON.stringify({k, period, key: keyLabel, card}))}' title="저장 해제">★</button>
           </div>
           <div class="strategy-card-grid">
-            <p class="strategy-body">${escapeHtml(card.body || '')}</p>
+            <p class="strategy-body">${escapeHtmlWithMark(card.body || '')}</p>
             <div class="strategy-action">
               <span class="action-label">ACTION</span>
-              <div class="action-body">${escapeHtml(card.action || '')}</div>
+              <div class="action-body">${escapeHtmlWithMark(card.action || '')}</div>
             </div>
           </div>
         </div>
@@ -429,24 +448,30 @@ function renderSavedView(root) {
   root.innerHTML = html;
 }
 
-function filterItems() {
-  let items = applyViewFilter(state.data.items || []);
-  if (state.category !== 'all') {
-    items = items.filter(i => (i.categories || []).includes(state.category));
-  }
+// v2.7.1: 카테고리 외 필터만 적용 (chip 카운트 계산용)
+function applyNonCategoryFilters(items) {
+  let arr = items;
   if (state.langFilter !== 'all') {
-    items = items.filter(i => i.lang === state.langFilter);
+    arr = arr.filter(i => i.lang === state.langFilter);
   }
   if (state.dateFilter !== 'all') {
     const cutoff = computeDateCutoff(state.dateFilter);
-    items = items.filter(i => new Date(i.date) >= cutoff);
+    arr = arr.filter(i => new Date(i.date) >= cutoff);
   }
   if (state.search) {
     const q = state.search.toLowerCase();
-    items = items.filter(i => {
+    arr = arr.filter(i => {
       const blob = [i.title, i.summary, i.summary_ko, i.insight_ko, i.source, ...(i.categories || [])].filter(Boolean).join(' ').toLowerCase();
       return blob.includes(q);
     });
+  }
+  return arr;
+}
+
+function filterItems() {
+  let items = applyNonCategoryFilters(applyViewFilter(state.data.items || []));
+  if (state.category !== 'all') {
+    items = items.filter(i => (i.categories || []).includes(state.category));
   }
   return items;
 }
@@ -480,15 +505,15 @@ function renderCard(item) {
   const summaryEn = item.summary;
   let summaryHtml = '';
   if (summaryKo) {
-    summaryHtml = `<div class="card-summary has-ko">${escapeHtml(summaryKo)}</div>`;
+    summaryHtml = `<div class="card-summary has-ko">${escapeHtmlWithMark(summaryKo)}</div>`;
     if (isEnglish && summaryEn) {
       summaryHtml += `<details class="card-original"><summary>원문 요약 보기</summary><div class="card-original-text">${escapeHtml(summaryEn)}</div></details>`;
     }
   } else if (summaryEn) {
-    summaryHtml = `<div class="card-summary ${isEnglish ? 'is-en' : ''}">${escapeHtml(summaryEn)}</div>`;
+    summaryHtml = `<div class="card-summary ${isEnglish ? 'is-en' : ''}">${escapeHtmlWithMark(summaryEn)}</div>`;
   }
 
-  const insightBlock = item.insight_ko ? `<div class="card-insight"><span class="insight-label">시사점</span>${escapeHtml(item.insight_ko)}</div>` : '';
+  const insightBlock = item.insight_ko ? `<div class="card-insight"><span class="insight-label">시사점</span>${escapeHtmlWithMark(item.insight_ko)}</div>` : '';
 
   const relCount = item.related_count || 0;
   const relBadge = relCount > 0 ? `<span class="related-badge" title="유사 뉴스 ${relCount}건">+${relCount} 매체 ▾</span>` : '';
@@ -614,10 +639,10 @@ function renderStrategy() {
           <button class="bookmark-btn ${saved ? 'is-saved' : ''}" data-bookmark-strategy='${escapeAttr(JSON.stringify({k: cardKey, period, key: currentKey, card: s}))}' title="${saved ? '저장 해제' : '저장하기'}">${saved ? '★' : '☆'}</button>
         </div>
         <div class="strategy-card-grid">
-          <p class="strategy-body">${escapeHtml(s.body || '')}</p>
+          <p class="strategy-body">${escapeHtmlWithMark(s.body || '')}</p>
           <div class="strategy-action">
             <span class="action-label">ACTION</span>
-            <div class="action-body">${escapeHtml(s.action || '')}</div>
+            <div class="action-body">${escapeHtmlWithMark(s.action || '')}</div>
           </div>
         </div>
         ${citationsBlock}
@@ -925,8 +950,21 @@ function bindEvents() {
       if (parentItem) parentItem.classList.add('active');
       item.classList.add('active');
 
-      state.view = view;
+      // v2.7.1: 'top'/'today' 구 메뉴는 'latest' + sortBy로 매핑
+      if (view === 'top') {
+        state.view = 'latest';
+        state.sortBy = 'score';
+      } else if (view === 'today') {
+        state.view = 'latest';
+        state.sortBy = 'today';
+      } else {
+        state.view = view;
+      }
       state.category = 'all';
+
+      // 정렬 dropdown sync
+      const sortSel = document.getElementById('sort-filter');
+      if (sortSel) sortSel.value = state.sortBy;
 
       if (view === 'strategy') {
         const period = item.dataset.period;
@@ -942,8 +980,8 @@ function bindEvents() {
     });
   });
 
-  // 시사점 period 탭
-  document.querySelectorAll('.period-tab').forEach(btn => {
+  // 시사점 period 탭 (data-period 만)
+  document.querySelectorAll('.period-tab[data-period]').forEach(btn => {
     btn.addEventListener('click', () => {
       state.strategyPeriod = btn.dataset.period;
       state.strategyKey = null;
@@ -957,6 +995,22 @@ function bindEvents() {
     select.addEventListener('change', e => {
       state.strategyKey = e.target.value;
       renderStrategy();
+    });
+  }
+
+  // v2.7.1: 논문 흐름 period 탭
+  document.querySelectorAll('.period-tab[data-papers-period]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      state.papersPeriod = btn.dataset.papersPeriod;
+      state.papersKey = null;
+      renderPapersView();
+    });
+  });
+  const papersSel = document.getElementById('papers-period-select');
+  if (papersSel) {
+    papersSel.addEventListener('change', e => {
+      state.papersKey = e.target.value;
+      renderPapersView();
     });
   }
 
@@ -974,6 +1028,15 @@ function bindEvents() {
     state.langFilter = e.target.value;
     renderContent();
   });
+  // v2.7.1: 정렬 기준 dropdown
+  const sortSel = document.getElementById('sort-filter');
+  if (sortSel) {
+    sortSel.value = state.sortBy;
+    sortSel.addEventListener('change', e => {
+      state.sortBy = e.target.value;
+      renderContent();
+    });
+  }
 
   // 다중 선택 — 카드 체크박스 (delegation)
   document.getElementById('news-grid').addEventListener('change', e => {
@@ -1076,8 +1139,45 @@ function bindEvents() {
 
 // ========================= 논문 흐름 분석 =========================
 
+function getPapersTrendsFor(period, key) {
+  // history 우선, 없으면 paper_trends.json (= 기본 weekly) 사용
+  if (state.paperTrendsHistory && state.paperTrendsHistory[period]) {
+    const bucket = state.paperTrendsHistory[period];
+    const keys = Object.keys(bucket).sort().reverse();
+    const useKey = (key && keys.includes(key)) ? key : keys[0];
+    if (useKey) return { trends: bucket[useKey], key: useKey, keys };
+  }
+  // fallback
+  if (period === (state.paperTrends && state.paperTrends.period || 'weekly')) {
+    return { trends: state.paperTrends, key: null, keys: [] };
+  }
+  return { trends: null, key: null, keys: [] };
+}
+
+function renderPapersControls() {
+  const period = state.papersPeriod;
+  // 탭 active 표시
+  document.querySelectorAll('[data-papers-period]').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.papersPeriod === period);
+  });
+  const { keys, key } = getPapersTrendsFor(period, state.papersKey);
+  const sel = document.getElementById('papers-period-select');
+  if (sel) {
+    if (!keys || keys.length === 0) {
+      sel.innerHTML = '<option>—</option>';
+      sel.disabled = true;
+    } else {
+      sel.disabled = false;
+      sel.innerHTML = keys.map(k => `<option value="${escapeHtml(k)}">${escapeHtml(k)}</option>`).join('');
+      if (key) sel.value = key;
+    }
+  }
+}
+
 function renderPapersView() {
-  const trends = state.paperTrends;
+  renderPapersControls();
+  const { trends: t } = getPapersTrendsFor(state.papersPeriod, state.papersKey);
+  const trends = t || state.paperTrends;
   const meta = document.getElementById('papers-meta');
   if (!trends || !trends.paper_count) {
     meta.innerHTML = `
@@ -1134,10 +1234,10 @@ function renderPapersView() {
     : topics.map(t => `
         <div class="topic-item">
           <div class="topic-head">
-            <span class="topic-name">${escapeHtml(t.topic || '')}</span>
+            <span class="topic-name">${escapeHtmlWithMark(t.topic || '')}</span>
             ${t.paper_count ? `<span class="topic-count">${t.paper_count}편</span>` : ''}
           </div>
-          <div class="topic-desc">${escapeHtml(t.description || '')}</div>
+          <div class="topic-desc">${escapeHtmlWithMark(t.description || '')}</div>
           ${renderPapersBlock(t.papers)}
         </div>
       `).join('');
@@ -1150,10 +1250,10 @@ function renderPapersView() {
     : techs.map(t => `
         <div class="topic-item">
           <div class="topic-head">
-            <span class="topic-name">${escapeHtml(t.technique || '')}</span>
+            <span class="topic-name">${escapeHtmlWithMark(t.technique || '')}</span>
             ${t.paper_count ? `<span class="topic-count">${t.paper_count}편</span>` : ''}
           </div>
-          <div class="topic-desc">${escapeHtml(t.description || '')}</div>
+          <div class="topic-desc">${escapeHtmlWithMark(t.description || '')}</div>
           ${renderPapersBlock(t.papers)}
         </div>
       `).join('');
@@ -1182,12 +1282,12 @@ function renderPapersView() {
         kws.map(k => `<span class="kw-tag" style="font-size:${Math.min(18, 11 + k.count)}px">${escapeHtml(k.keyword)} <em>${k.count}</em></span>`).join('')
       }</div>`;
 
-  // Actionable insights
+  // Actionable insights — **굵게** → <mark> 하이라이트
   const actRoot = document.getElementById('papers-actionable');
   const acts = trends.actionable_insights || [];
   actRoot.innerHTML = acts.length === 0
     ? '<li class="papers-empty">데이터 없음</li>'
-    : acts.map(a => `<li>${escapeHtml(a)}</li>`).join('');
+    : acts.map(a => `<li>${escapeHtmlWithMark(a)}</li>`).join('');
 
   // 논문 목록
   const listRoot = document.getElementById('papers-list');
@@ -1409,8 +1509,8 @@ function renderMarkdown(text) {
   html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
   html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
   html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
-  // 굵게 **text**
-  html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+  // v2.7.1: 굵게 **text** → <mark> (투명 형광색 + bold)
+  html = html.replace(/\*\*([^*]+)\*\*/g, '<mark>$1</mark>');
   // 인라인 코드 `text`
   html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
   // 리스트 라인 (- item)
@@ -1462,6 +1562,14 @@ function isNewToday(item) {
 }
 function escapeHtml(text) {
   return String(text == null ? '' : text).replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+}
+
+// v2.7.1: **text** → <mark>text</mark> (HTML escape 후 변환)
+// LLM이 핵심 키워드/문구에 **굵게** 마크업을 추가하면 투명 형광색으로 강조
+function escapeHtmlWithMark(text) {
+  const escaped = escapeHtml(text);
+  // **...** 패턴 (개행 제외) → <mark>...</mark>
+  return escaped.replace(/\*\*([^*\n]+?)\*\*/g, '<mark>$1</mark>');
 }
 function formatKoreanDate(d) {
   if (!d || isNaN(d)) return '날짜 없음';

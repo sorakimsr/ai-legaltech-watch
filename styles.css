@@ -975,6 +975,21 @@ input, select { font-family: inherit; outline: none; }
   white-space: pre-line;
 }
 
+/* v2.7.1: 핵심 키워드/문구 하이라이트 — 투명한 형광색 (옅은 노랑) + Bold */
+mark {
+  background: linear-gradient(180deg, transparent 55%, rgba(254, 240, 138, 0.7) 55%);
+  color: inherit;
+  padding: 0 1px;
+  border-radius: 2px;
+  font-weight: 700;  /* Bold */
+}
+/* ACTION (어두운 배경)에서는 형광 청록색으로 — 가독성 보장 */
+.strategy-action mark {
+  background: linear-gradient(180deg, transparent 55%, rgba(110, 231, 183, 0.5) 55%);
+  color: #ecfdf5;
+  font-weight: 700;
+}
+
 /* v2.7: 북마크 버튼 (시사점 카드 + 뉴스 카드 공용) */
 .bookmark-btn {
   background: transparent;
