@@ -94,8 +94,9 @@ input, select { font-family: inherit; outline: none; }
   top: 0;
   z-index: 10;
 }
-.topbar-title { display: flex; align-items: center; gap: 12px; }
+.topbar-title { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
 .topbar h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.01em; }
+.view-hint { font-size: 12px; color: #6b7280; }
 .topbar-meta {
   display: flex;
   align-items: center;
@@ -146,7 +147,15 @@ input, select { font-family: inherit; outline: none; }
 .stat-card.accent .stat-value { color: #2563eb; }
 .stat-card.success .stat-value { color: #16a34a; }
 
-/* ===== Category Bar ===== */
+/* ===== Filter Label & Category Bar ===== */
+.filter-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #9ca3af;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
 .category-bar {
   display: flex;
   gap: 6px;
@@ -335,8 +344,47 @@ input, select { font-family: inherit; outline: none; }
   line-height: 1.6;
 }
 .card-summary.has-ko {
-  /* 한국어 요약은 영문보다 시각적 강조 */
   color: #1f2937;
+}
+.card-summary.is-en {
+  color: #6b7280;
+  font-style: italic;
+}
+
+/* 원문 요약 토글 (영문 → 한국어 요약이 있을 때 영문 원문 펼침) */
+.card-original {
+  margin-top: 6px;
+  font-size: 11px;
+  color: #9ca3af;
+  cursor: pointer;
+}
+.card-original summary {
+  display: inline-block;
+  user-select: none;
+  outline: none;
+}
+.card-original summary:hover { color: #4b5563; }
+.card-original-text {
+  margin-top: 6px;
+  padding: 8px 10px;
+  background: #f9fafb;
+  border-radius: 6px;
+  color: #4b5563;
+  font-size: 12px;
+  font-style: italic;
+  line-height: 1.55;
+}
+
+/* 언어 배지 */
+.lang-badge {
+  display: inline-block;
+  padding: 1px 6px;
+  background: #f3f4f6;
+  color: #6b7280;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
 }
 
 .card-insight {

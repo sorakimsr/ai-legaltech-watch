@@ -8,7 +8,7 @@
 </head>
 <body>
   <div class="app">
-    <!-- 좌측 사이드바 -->
+    <!-- 좌측 사이드바: 관점·뷰 -->
     <aside class="sidebar">
       <div class="brand">
         <span class="brand-icon">📡</span>
@@ -16,31 +16,31 @@
       </div>
 
       <div class="nav-section">
-        <div class="nav-section-title">핵심 업무</div>
-        <a href="#" class="nav-item active" data-view="news">
-          <span class="nav-icon">📰</span>
-          <span>뉴스 수집 및 분석</span>
+        <div class="nav-section-title">관점 · 뷰</div>
+        <a href="#" class="nav-item active" data-view="latest">
+          <span class="nav-icon">🕒</span>
+          <span>최신순 뉴스</span>
         </a>
-        <a href="#" class="nav-item" data-view="legaltech">
-          <span class="nav-icon">⚖️</span>
-          <span>리걸테크 모니터링</span>
+        <a href="#" class="nav-item" data-view="top">
+          <span class="nav-icon">⭐</span>
+          <span>중요도 TOP</span>
         </a>
-        <a href="#" class="nav-item" data-view="papers">
-          <span class="nav-icon">📑</span>
-          <span>AI 논문 동향</span>
+        <a href="#" class="nav-item" data-view="insights">
+          <span class="nav-icon">💡</span>
+          <span>시사점 있는 항목</span>
         </a>
-        <a href="#" class="nav-item" data-view="domestic">
-          <span class="nav-icon">🇰🇷</span>
-          <span>국내 동향</span>
-        </a>
-        <a href="#" class="nav-item" data-view="strategy">
-          <span class="nav-icon">🎯</span>
-          <span>전략·기획 시사점</span>
+        <a href="#" class="nav-item" data-view="today">
+          <span class="nav-icon">📅</span>
+          <span>오늘 추가됨</span>
         </a>
       </div>
 
       <div class="nav-section">
         <div class="nav-section-title">분석</div>
+        <a href="#" class="nav-item" data-view="strategy">
+          <span class="nav-icon">🎯</span>
+          <span>전략·기획 시사점</span>
+        </a>
         <a href="#" class="nav-item" data-view="sources">
           <span class="nav-icon">🔗</span>
           <span>소스 현황</span>
@@ -54,10 +54,10 @@
 
     <!-- 메인 영역 -->
     <main class="main">
-      <!-- 상단 헤더 -->
       <header class="topbar">
         <div class="topbar-title">
           <h1 id="topbar-title">AI & Legaltech Watch</h1>
+          <span class="view-hint" id="view-hint">최근 30일, 점수+날짜 정렬</span>
         </div>
         <div class="topbar-meta" id="topbar-meta">
           <span class="status-dot"></span>
@@ -65,31 +65,17 @@
         </div>
       </header>
 
-      <!-- 페이지 컨텐츠 -->
       <div class="content">
-        <!-- 통계 헤더 -->
-        <div class="stat-row" id="stat-row">
-          <!-- JS로 채워짐 -->
-        </div>
+        <div class="stat-row" id="stat-row"></div>
 
-        <!-- 카테고리 필터 -->
-        <div class="category-bar" id="category-bar">
-          <!-- JS로 채워짐 -->
-        </div>
+        <!-- 카테고리 필터 = 주제 -->
+        <div class="filter-label">주제별 필터</div>
+        <div class="category-bar" id="category-bar"></div>
 
-        <!-- 검색·정렬 컨트롤 -->
         <div class="controls-row">
           <div class="search-wrap">
             <span class="search-icon">🔍</span>
-            <input type="text" id="search-input" placeholder="키워드 검색 (제목, 출처, 시사점)" />
-          </div>
-          <div class="control-group">
-            <span class="control-label">정렬</span>
-            <div class="btn-group">
-              <button class="seg-btn active" data-sort="date">최신순</button>
-              <button class="seg-btn" data-sort="score">중요도순</button>
-              <button class="seg-btn" data-sort="source">출처별</button>
-            </div>
+            <input type="text" id="search-input" placeholder="키워드 검색 (제목, 출처, 요약, 시사점)" />
           </div>
           <div class="control-group">
             <span class="control-label">기간</span>
@@ -111,17 +97,12 @@
           </div>
         </div>
 
-        <!-- 뉴스 카드 그리드 -->
-        <div class="news-grid" id="news-grid">
-          <!-- JS로 채워짐 -->
-        </div>
+        <div class="news-grid" id="news-grid"></div>
 
-        <!-- 전략 시사점 섹션 -->
         <div id="strategy-view" class="strategy-view hidden">
           <div id="strategy-cards"></div>
         </div>
 
-        <!-- 소스 현황 섹션 -->
         <div id="sources-view" class="sources-view hidden">
           <div id="sources-table"></div>
         </div>

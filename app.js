@@ -1,13 +1,14 @@
-// AI & Legaltech Watch v2 — 프론트엔드 로직
+// AI & Legaltech Watch v2.1 — 관점·뷰 + 주제 필터 분리
 
 const state = {
   data: null,
-  view: 'news',         // news | papers | legaltech | domestic | strategy | sources
+  // view = 사이드바 (관점·뷰)
+  view: 'latest',       // latest | top | insights | today | strategy | sources
+  // category = 카테고리 탭 (주제)
   category: 'all',
   search: '',
-  sort: 'date',         // date | score | source
   dateFilter: 'all',
-  langFilter: 'all',    // all | ko | en
+  langFilter: 'all',
 };
 
 const CATEGORIES = [
@@ -22,7 +23,15 @@ const CATEGORIES = [
   { id: 'policy', label: '정책·규제' },
 ];
 
-// ===== 초기화 =====
+const VIEW_META = {
+  latest:    { title: '최신순 뉴스', hint: '최근 30일 · 발행일 최신순' },
+  top:       { title: '중요도 TOP', hint: 'AI 중요도 점수 상위 항목 (회사·금액·신선도·카테고리)' },
+  insights:  { title: '시사점 있는 항목', hint: 'Claude가 전략·기획·AI 업무 관점 시사점을 도출한 항목' },
+  today:     { title: '오늘 추가됨', hint: '오늘(KST) 발행/업데이트된 항목' },
+  strategy:  { title: '전략·기획 시사점', hint: '오늘 흐름을 종합한 LLM 자동 생성 카드' },
+  sources:   { title: '소스 현황', hint: '활성·유휴·오류 상태' },
+};
+
 async function init() {
   try {
     const res = await fetch('./data/news.json?t=' + Date.now());
@@ -50,14 +59,12 @@ function renderTopbar() {
   }
   const buildInfo = document.getElementById('last-build-info');
   const bc = state.data.build_count;
-  if (bc) {
-    buildInfo.textContent = `Build #${bc} · © 2026`;
-  }
+  if (bc) buildInfo.textContent = `Build #${bc} · © 2026`;
 }
 
 function renderStats() {
   const row = document.getElementById('stat-row');
-  if (state.view !== 'news') {
+  if (state.view === 'strategy' || state.view === 'sources') {
     row.style.display = 'none';
     return;
   }
@@ -70,12 +77,9 @@ function renderStats() {
   const sources = state.data.sources || [];
   const activeSrc = sources.filter(s => s.status === 'active').length;
   const backend = state.data.llm_backend || 'none';
-
   const backendLabel = {
-    'claude-cli': 'Claude CLI',
-    'anthropic': 'Anthropic SDK',
-    'openai': 'OpenAI SDK',
-    'none': '비활성',
+    'claude-cli': 'Claude CLI', 'anthropic': 'Anthropic SDK',
+    'openai': 'OpenAI SDK', 'none': '비활성',
   }[backend] || backend;
 
   row.innerHTML = `
@@ -87,7 +91,7 @@ function renderStats() {
     <div class="stat-card success">
       <span class="stat-label">AI 분석 완료</span>
       <span class="stat-value">${enriched}</span>
-      <span class="stat-hint">한국어 요약·시사점 포함</span>
+      <span class="stat-hint">한국어 요약/시사점</span>
     </div>
     <div class="stat-card">
       <span class="stat-label">유사 뉴스 병합</span>
@@ -97,7 +101,7 @@ function renderStats() {
     <div class="stat-card">
       <span class="stat-label">활성 소스</span>
       <span class="stat-value">${activeSrc} / ${sources.length}</span>
-      <span class="stat-hint">RSS · arXiv · 국내 매체</span>
+      <span class="stat-hint">RSS · arXiv · 국내</span>
     </div>
     <div class="stat-card">
       <span class="stat-label">LLM 백엔드</span>
@@ -109,17 +113,26 @@ function renderStats() {
 
 function renderCategoryBar() {
   const bar = document.getElementById('category-bar');
+  const label = document.querySelector('.filter-label');
   if (state.view === 'strategy' || state.view === 'sources') {
     bar.style.display = 'none';
+    if (label) label.style.display = 'none';
     return;
   }
   bar.style.display = 'flex';
+  if (label) label.style.display = 'block';
 
-  const counts = countByCategory();
+  // 뷰 적용된 전체 풀에서 카운트 계산
+  const pool = applyViewFilter(state.data.items || []);
+  const counts = {};
+  pool.forEach(item => {
+    (item.categories || []).forEach(c => {
+      counts[c] = (counts[c] || 0) + 1;
+    });
+  });
+
   bar.innerHTML = CATEGORIES.map(cat => {
-    const cnt = cat.id === 'all'
-      ? (state.data.items || []).length
-      : (counts[cat.id] || 0);
+    const cnt = cat.id === 'all' ? pool.length : (counts[cat.id] || 0);
     const active = cat.id === state.category ? 'active' : '';
     return `
       <button class="cat-chip ${active}" data-category="${cat.id}">
@@ -138,58 +151,69 @@ function renderCategoryBar() {
   });
 }
 
-function countByCategory() {
-  const counts = {};
-  (state.data.items || []).forEach(item => {
-    (item.categories || []).forEach(c => {
-      counts[c] = (counts[c] || 0) + 1;
-    });
-  });
-  return counts;
+// 사이드바 뷰별 필터링 (카테고리·검색·기타 무관)
+function applyViewFilter(items) {
+  let arr = items.slice();
+  switch (state.view) {
+    case 'latest':
+      arr.sort((a, b) => new Date(b.date) - new Date(a.date));
+      break;
+    case 'top':
+      arr.sort((a, b) => (b.score || 0) - (a.score || 0));
+      // 상위 100개로 제한해서 진짜 중요한 것만
+      arr = arr.slice(0, 100);
+      break;
+    case 'insights':
+      arr = arr.filter(i => i.insight_ko);
+      arr.sort((a, b) => new Date(b.date) - new Date(a.date));
+      break;
+    case 'today':
+      const now = new Date();
+      const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      arr = arr.filter(i => new Date(i.date) >= todayStart);
+      arr.sort((a, b) => new Date(b.date) - new Date(a.date));
+      break;
+  }
+  return arr;
 }
 
-// ===== 메인 컨텐츠 렌더 =====
 function renderContent() {
   const newsGrid = document.getElementById('news-grid');
   const stratView = document.getElementById('strategy-view');
   const sourcesView = document.getElementById('sources-view');
   const controlsRow = document.querySelector('.controls-row');
-  const statRow = document.getElementById('stat-row');
+  const filterLabel = document.querySelector('.filter-label');
   const title = document.getElementById('topbar-title');
+  const hint = document.getElementById('view-hint');
 
-  // 뷰별 표시 조정
   newsGrid.classList.add('hidden');
   stratView.classList.add('hidden');
   sourcesView.classList.add('hidden');
   controlsRow.style.display = 'flex';
-  statRow.style.display = 'grid';
+  if (filterLabel) filterLabel.style.display = 'block';
+
+  const meta = VIEW_META[state.view] || VIEW_META.latest;
+  title.textContent = meta.title;
+  if (hint) hint.textContent = meta.hint;
 
   if (state.view === 'strategy') {
     stratView.classList.remove('hidden');
     controlsRow.style.display = 'none';
-    statRow.style.display = 'none';
-    title.textContent = '전략·기획 시사점';
+    if (filterLabel) filterLabel.style.display = 'none';
     renderStrategy();
+    renderStats();
     return;
   }
   if (state.view === 'sources') {
     sourcesView.classList.remove('hidden');
     controlsRow.style.display = 'none';
-    statRow.style.display = 'none';
-    title.textContent = '소스 현황';
+    if (filterLabel) filterLabel.style.display = 'none';
     renderSourcesView();
+    renderStats();
     return;
   }
 
   newsGrid.classList.remove('hidden');
-  const titles = {
-    news: '뉴스 통합 수집',
-    papers: 'AI 논문 동향',
-    legaltech: '리걸테크 모니터링',
-    domestic: '국내 동향',
-  };
-  title.textContent = titles[state.view] || '뉴스 통합 수집';
-
   renderCategoryBar();
   renderStats();
 
@@ -199,14 +223,13 @@ function renderContent() {
       <div class="empty-state">
         <div class="empty-icon">📭</div>
         <div class="empty-title">조건에 맞는 항목이 없습니다</div>
-        <div class="empty-desc">검색어를 바꾸거나 카테고리를 '전체'로 변경해보세요.</div>
+        <div class="empty-desc">사이드바·카테고리·검색어를 바꿔보세요.</div>
       </div>
     `;
     return;
   }
   newsGrid.innerHTML = filtered.map(renderCard).join('');
 
-  // related 토글
   newsGrid.querySelectorAll('.related-badge').forEach(b => {
     b.addEventListener('click', e => {
       const detail = e.currentTarget.closest('.news-card').querySelector('.related-detail');
@@ -216,15 +239,7 @@ function renderContent() {
 }
 
 function filterItems() {
-  let items = (state.data.items || []).slice();
-
-  if (state.view === 'papers') {
-    items = items.filter(i => (i.categories || []).includes('papers'));
-  } else if (state.view === 'legaltech') {
-    items = items.filter(i => (i.categories || []).includes('legaltech'));
-  } else if (state.view === 'domestic') {
-    items = items.filter(i => (i.categories || []).includes('domestic') || i.lang === 'ko');
-  }
+  let items = applyViewFilter(state.data.items || []);
 
   if (state.category !== 'all') {
     items = items.filter(i => (i.categories || []).includes(state.category));
@@ -250,14 +265,6 @@ function filterItems() {
     });
   }
 
-  if (state.sort === 'date') {
-    items.sort((a, b) => new Date(b.date) - new Date(a.date));
-  } else if (state.sort === 'score') {
-    items.sort((a, b) => (b.score || 0) - (a.score || 0));
-  } else if (state.sort === 'source') {
-    items.sort((a, b) => (a.source || '').localeCompare(b.source || ''));
-  }
-
   return items;
 }
 
@@ -273,7 +280,6 @@ function computeDateCutoff(key) {
   return d;
 }
 
-// ===== 카드 =====
 function renderCard(item) {
   const score = item.score || 0;
   const scoreClass = score >= 80 ? 'high' : score >= 65 ? 'mid' : 'low';
@@ -281,17 +287,26 @@ function renderCard(item) {
   const dateStr = formatKoreanDate(new Date(item.date));
   const sourceInitial = (item.source || '?').charAt(0).toUpperCase();
 
-  // 카테고리 칩 (최대 3개)
-  const cats = (item.categories || []).slice(0, 3).map(c => {
+  // 카테고리 최대 2개만 표시 (UI 정돈)
+  const cats = (item.categories || []).slice(0, 2).map(c => {
     const label = (CATEGORIES.find(x => x.id === c) || { label: c }).label;
     return `<span class="card-category cat-${escapeHtml(c)}">${escapeHtml(label)}</span>`;
   }).join('');
 
-  // 요약: 한국어 우선
-  const summary = item.summary_ko || item.summary || '';
-  const summaryClass = item.summary_ko ? 'has-ko' : '';
+  // 영문 표시: 영문 카드인데 한국어 요약 없으면 영문 그대로
+  const isEnglish = item.lang === 'en';
+  const summaryKo = item.summary_ko;
+  const summaryEn = item.summary;
+  let summaryHtml = '';
+  if (summaryKo) {
+    summaryHtml = `<div class="card-summary has-ko">${escapeHtml(summaryKo)}</div>`;
+    if (isEnglish && summaryEn) {
+      summaryHtml += `<details class="card-original"><summary>원문 요약 보기</summary><div class="card-original-text">${escapeHtml(summaryEn)}</div></details>`;
+    }
+  } else if (summaryEn) {
+    summaryHtml = `<div class="card-summary ${isEnglish ? 'is-en' : ''}">${escapeHtml(summaryEn)}</div>`;
+  }
 
-  // 시사점 (LLM 생성)
   const insightBlock = item.insight_ko ? `
     <div class="card-insight">
       <span class="insight-label">시사점</span>
@@ -299,12 +314,10 @@ function renderCard(item) {
     </div>
   ` : '';
 
-  // related
   const relCount = item.related_count || 0;
   const relBadge = relCount > 0 ? `
-    <span class="related-badge" title="유사 뉴스 ${relCount}건">중복 ${relCount}건 ▾</span>
+    <span class="related-badge" title="유사 뉴스 ${relCount}건">+${relCount} 매체 ▾</span>
   ` : '';
-
   const relDetail = relCount > 0 && item.related ? `
     <div class="related-detail">
       ${item.related.map(r => `
@@ -317,6 +330,7 @@ function renderCard(item) {
   ` : '';
 
   const aiBadge = item.llm_enriched ? '<span class="ai-badge">AI 분석</span>' : '';
+  const langBadge = isEnglish ? '<span class="lang-badge">EN</span>' : '';
 
   return `
     <article class="news-card">
@@ -324,6 +338,7 @@ function renderCard(item) {
       <div class="card-top">
         <span class="score-badge ${scoreClass}">${escapeHtml(scoreLabel)}</span>
         <div style="display:flex;gap:6px;align-items:center;">
+          ${langBadge}
           ${relBadge}
           <span class="date-text">${escapeHtml(dateStr)}</span>
         </div>
@@ -332,7 +347,7 @@ function renderCard(item) {
       <h3 class="card-title">
         <a href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.title)}</a>
       </h3>
-      ${summary ? `<div class="card-summary ${summaryClass}">${escapeHtml(summary)}</div>` : ''}
+      ${summaryHtml}
       ${insightBlock}
       ${relDetail}
       <div class="card-bottom">
@@ -348,7 +363,6 @@ function renderCard(item) {
   `;
 }
 
-// ===== 전략 카드 =====
 function renderStrategy() {
   const root = document.getElementById('strategy-cards');
   const items = state.data.strategy || [];
@@ -375,7 +389,6 @@ function renderStrategy() {
   `).join('');
 }
 
-// ===== 소스 현황 =====
 function renderSourcesView() {
   const root = document.getElementById('sources-table');
   const sources = state.data.sources || [];
@@ -384,7 +397,6 @@ function renderSourcesView() {
     return;
   }
 
-  // 상태별 카운트
   const byStatus = sources.reduce((acc, s) => {
     acc[s.status] = (acc[s.status] || 0) + 1;
     return acc;
@@ -409,7 +421,7 @@ function renderSourcesView() {
       <h3>소스 현황 (총 ${sources.length}개 · 활성 ${byStatus.active || 0}개 · 수집 ${totalCount}건)</h3>
       <table class="src-table">
         <thead>
-          <tr><th>소스</th><th>상태</th><th>이번 빌드 수집</th><th>URL</th></tr>
+          <tr><th>소스</th><th>상태</th><th>이번 빌드</th><th>URL</th></tr>
         </thead>
         <tbody>${rows}</tbody>
       </table>
@@ -417,7 +429,6 @@ function renderSourcesView() {
   `;
 }
 
-// ===== 이벤트 =====
 function bindEvents() {
   document.querySelectorAll('.nav-item').forEach(item => {
     item.addEventListener('click', e => {
@@ -435,15 +446,6 @@ function bindEvents() {
     renderContent();
   });
 
-  document.querySelectorAll('.seg-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.seg-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      state.sort = btn.dataset.sort;
-      renderContent();
-    });
-  });
-
   document.getElementById('date-filter').addEventListener('change', e => {
     state.dateFilter = e.target.value;
     renderContent();
@@ -455,7 +457,6 @@ function bindEvents() {
   });
 }
 
-// ===== 유틸 =====
 function escapeHtml(text) {
   return String(text == null ? '' : text).replace(/[&<>"']/g, ch => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
