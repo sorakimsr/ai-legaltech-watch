@@ -164,9 +164,39 @@ def load_previous_items():
         return {}
 
 
+def _is_suspicious_collection_date(prev: dict) -> bool:
+    """과거 빌드에서 발행일을 못 구해 수집일을 date로 박아둔 항목인지 추정.
+
+    조건: date_unknown 필드가 없거나 False지만, date == first_seen (분 단위 동일)
+    인 경우. v2.7 이전 빌드에서 date_unknown 플래그 도입 전 수집 데이터를 보정.
+    """
+    if prev.get("date_unknown") is True:
+        return True  # 이미 unknown 으로 표시됨
+    date_s = prev.get("date", "")
+    first_s = prev.get("first_seen", "")
+    if not date_s or not first_s:
+        return False
+    # 같은 분 안에 발행=수집인 경우 거의 확실히 fallback
+    try:
+        dt1 = dateparser.parse(date_s)
+        dt2 = dateparser.parse(first_s)
+        if dt1.tzinfo is None:
+            dt1 = dt1.replace(tzinfo=timezone.utc)
+        if dt2.tzinfo is None:
+            dt2 = dt2.replace(tzinfo=timezone.utc)
+        return abs((dt1 - dt2).total_seconds()) < 120  # 2분 이내
+    except Exception:
+        return False
+
+
 def merge_items(prev_map: dict, new_items: list) -> tuple:
     """
     이전 항목 + 새 항목 merge.
+
+    v2.7.1: date 보정 규칙
+    - 새 fetch가 실제 발행일을 줬으면(date_unknown=False) 이전 fallback을 덮어쓴다.
+    - 새 fetch도 fallback이면(date_unknown=True) 이전 값을 유지 (= 일단 표시)
+    - 이전 항목만 남았고 수집일이 의심스러우면 date_unknown=True로 마킹.
 
     Returns:
         merged_items: 합쳐진 리스트
@@ -193,6 +223,12 @@ def merge_items(prev_map: dict, new_items: list) -> tuple:
             # 최초 수집 시점은 이전 것 유지
             if "first_seen" in prev:
                 merged_it["first_seen"] = prev["first_seen"]
+            # v2.7.1: 날짜 보정 — 새 fetch가 fallback이고 이전 fetch에는 진짜 발행일이 있으면 이전 보존
+            new_unknown = bool(merged_it.get("date_unknown"))
+            prev_unknown = bool(prev.get("date_unknown")) or _is_suspicious_collection_date(prev)
+            if new_unknown and not prev_unknown and prev.get("date"):
+                merged_it["date"] = prev["date"]
+                merged_it["date_unknown"] = False
             merged.append(merged_it)
         else:
             # 진짜 새 항목
@@ -208,6 +244,9 @@ def merge_items(prev_map: dict, new_items: list) -> tuple:
             if dt.tzinfo is None:
                 dt = dt.replace(tzinfo=timezone.utc)
             if dt >= cutoff:
+                # 의심스러운 수집일이면 date_unknown=True로 보정 (시사점 분석 오염 방지)
+                if _is_suspicious_collection_date(prev_it):
+                    prev_it["date_unknown"] = True
                 merged.append(prev_it)
         except Exception:
             pass
