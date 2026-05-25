@@ -1,0 +1,24 @@
+name = "daibfy-ai-proxy"
+main = "worker.js"
+compatibility_date = "2024-09-01"
+
+# Smart Placement — Cloudflare가 worker를 origin(OpenAI/Anthropic) 가까운 region에서 실행
+# OpenAI가 HKG datacenter를 차단하는 문제 해결
+[placement]
+mode = "smart"
+
+# KV namespace for rate limiting (선택)
+# wrangler kv namespace create RATE_LIMIT 로 생성 후 ID 붙여넣기
+# [[kv_namespaces]]
+# binding = "RATE_LIMIT"
+# id = "여기에_ID_붙여넣기"
+
+# Secrets는 dashboard 또는 `wrangler secret put` 로 등록
+#   wrangler secret put ANTHROPIC_API_KEY
+#   wrangler secret put OPENAI_API_KEY
+#   wrangler secret put ALLOWED_ORIGINS   (선택)
+
+# 커스텀 도메인 (선택)
+# [routes]
+# pattern = "api.daibfy.com/*"
+# zone_name = "daibfy.com"
