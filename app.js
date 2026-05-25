@@ -376,17 +376,37 @@ function renderStrategy() {
     `;
     return;
   }
-  root.innerHTML = items.map(s => `
-    <div class="strategy-card">
-      <div class="strat-tag">${escapeHtml(s.tag || 'TREND')}</div>
-      <h3>${escapeHtml(s.title || '')}</h3>
-      <p>${escapeHtml(s.body || '')}</p>
-      <div class="strategy-action">
-        <span class="action-label">ACTION</span>
-        ${escapeHtml(s.action || '')}
+  root.innerHTML = items.map(s => {
+    const citations = Array.isArray(s.citations) ? s.citations : [];
+    const citationsBlock = citations.length > 0 ? `
+      <details class="strategy-citations">
+        <summary>근거 ${citations.length}건 ▾</summary>
+        <ol class="citation-list">
+          ${citations.map(c => `
+            <li>
+              <a href="${escapeHtml(c.url)}" target="_blank" rel="noopener">
+                ${escapeHtml(c.title)}
+              </a>
+              <span class="citation-meta">— ${escapeHtml(c.source)} · ${escapeHtml(c.date)}</span>
+            </li>
+          `).join('')}
+        </ol>
+      </details>
+    ` : '';
+
+    return `
+      <div class="strategy-card">
+        <div class="strat-tag">${escapeHtml(s.tag || 'TREND')}</div>
+        <h3>${escapeHtml(s.title || '')}</h3>
+        <p>${escapeHtml(s.body || '')}</p>
+        <div class="strategy-action">
+          <span class="action-label">ACTION</span>
+          ${escapeHtml(s.action || '')}
+        </div>
+        ${citationsBlock}
       </div>
-    </div>
-  `).join('');
+    `;
+  }).join('');
 }
 
 function renderSourcesView() {
