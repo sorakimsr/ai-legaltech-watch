@@ -54,11 +54,14 @@ def has_openai_sdk():
 
 def call_claude_cli(prompt: str, max_tokens: int = 800) -> str:
     """Claude Code CLI 호출. --print 모드로 일회성 응답.
-    stdin을 명시적으로 닫아서 stdin 대기 경고 방지."""
+    v2.7: timeout 120 → 300, 모델 명시 (Sonnet 4.6).
+    """
+    # 환경변수로 override 가능, 기본 sonnet 4.6
+    model = os.environ.get("ANTHROPIC_MODEL", "claude-sonnet-4-6")
     try:
         r = subprocess.run(
-            ["claude", "--print", "--output-format", "text", prompt],
-            capture_output=True, text=True, timeout=120,
+            ["claude", "--print", "--model", model, "--output-format", "text", prompt],
+            capture_output=True, text=True, timeout=300,
             stdin=subprocess.DEVNULL,
         )
         if r.returncode != 0:
@@ -66,7 +69,7 @@ def call_claude_cli(prompt: str, max_tokens: int = 800) -> str:
             return ""
         return r.stdout.strip()
     except subprocess.TimeoutExpired:
-        print("  [claude-cli] timeout", file=sys.stderr)
+        print("  [claude-cli] timeout (300s)", file=sys.stderr)
         return ""
     except Exception as exc:
         print(f"  [claude-cli] exception: {exc}", file=sys.stderr)
@@ -116,7 +119,10 @@ _BACKEND_CACHE = None
 
 
 def detect_backend() -> str:
-    """가용한 백엔드 자동 감지. 한 번 정해지면 캐시."""
+    """가용한 백엔드 자동 감지. 한 번 정해지면 캐시.
+
+    v2.7: 우선순위 변경 — Anthropic SDK 우선 (CLI는 stdin/timeout 제어 어려움, SDK가 더 안정적).
+    """
     global _BACKEND_CACHE
     if _BACKEND_CACHE:
         return _BACKEND_CACHE
@@ -125,12 +131,14 @@ def detect_backend() -> str:
     forced = os.environ.get("LLM_BACKEND", "").lower()
     if forced in ("claude-cli", "anthropic", "openai"):
         _BACKEND_CACHE = forced
+        print(f"  [llm] backend: {_BACKEND_CACHE} (forced)", flush=True)
         return forced
 
-    if has_claude_cli():
-        _BACKEND_CACHE = "claude-cli"
-    elif has_anthropic_sdk():
+    # SDK 우선 (ANTHROPIC_API_KEY 있으면) → CLI fallback → OpenAI fallback
+    if has_anthropic_sdk():
         _BACKEND_CACHE = "anthropic"
+    elif has_claude_cli():
+        _BACKEND_CACHE = "claude-cli"
     elif has_openai_sdk():
         _BACKEND_CACHE = "openai"
     else:
