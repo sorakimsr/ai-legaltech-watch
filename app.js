@@ -964,11 +964,11 @@ function renderSourcesStatus() {
     };
   });
 
-  // 정렬: 기간 내 수집 많은 순
-  enriched.sort((a, b) => b.periodFetched - a.periodFetched);
+  // v2.8.7: 정렬·합계 기준을 'new'(unique URL 신규)로 통일 — 상단 stat과 매칭
+  enriched.sort((a, b) => b.periodNew - a.periodNew);
 
   const byStatus = enriched.reduce((a, s) => { a[s.status] = (a[s.status] || 0) + 1; return a; }, {});
-  const periodTotal = enriched.reduce((sum, s) => sum + s.periodFetched, 0);
+  const periodTotal = enriched.reduce((sum, s) => sum + s.periodNew, 0);
 
   const statusBadge = (st) => {
     const label = st === 'active' ? 'Active' : st === 'error' ? 'Error' : 'Idle';
@@ -981,12 +981,12 @@ function renderSourcesStatus() {
 
   const periodLabel = { today: '오늘', '7days': '최근 7일', '30days': '최근 30일', all: '전체 누적' }[state.sourcesPeriod] || '';
 
+  // v2.8.7: '오늘 수집' + '신규' 두 컬럼 → 'new' 기준 단일 컬럼으로 통합
   const rows = enriched.map(s => `
     <tr>
       <td class="src-name">${escapeHtml(s.name)}</td>
       <td>${typeBadge(s.source_type)}</td>
       <td>${statusBadge(s.status)}</td>
-      <td class="num-cell">${s.periodFetched}</td>
       <td class="num-cell">${s.periodNew}</td>
       <td>${escapeHtml(s.lastActive)}</td>
       <td class="src-url">${s.url ? `<a href="${escapeHtml(s.url)}" target="_blank" rel="noopener">${escapeHtml(s.url)}</a>` : '-'}</td>
@@ -995,7 +995,8 @@ function renderSourcesStatus() {
 
   root.innerHTML = `
     <div class="sources-table-wrap">
-      <h3>소스 현황 — ${escapeHtml(periodLabel)} (총 ${enriched.length}개 · 활성 ${byStatus.active || 0}개 · 수집 ${periodTotal}건)</h3>
+      <h3>소스 현황 — ${escapeHtml(periodLabel)} (총 ${enriched.length}개 · 활성 ${byStatus.active || 0}개 · 신규 수집 ${periodTotal}건)</h3>
+      <p class="sources-table-note">※ "신규" = 기존에 없던 새 URL 기준. 같은 URL이 다른 소스에서도 발견되면 양쪽 모두 카운트되어 상단 stat과 약간의 차이가 있을 수 있음.</p>
       <div class="sources-table-scroll">
         <table class="src-table">
           <thead>
@@ -1003,8 +1004,7 @@ function renderSourcesStatus() {
               <th class="col-name">소스</th>
               <th class="col-type">유형</th>
               <th class="col-status">상태</th>
-              <th class="col-num">${escapeHtml(periodLabel)} 수집</th>
-              <th class="col-num">신규</th>
+              <th class="col-num">${escapeHtml(periodLabel)} 신규</th>
               <th class="col-date">마지막 활성</th>
               <th class="col-url">URL</th>
             </tr>
