@@ -77,6 +77,8 @@ function renderStats() {
   const sources = state.data.sources || [];
   const activeSrc = sources.filter(s => s.status === 'active').length;
   const backend = state.data.llm_backend || 'none';
+  // 오늘 신규 카운트 (first_seen이 오늘인 항목)
+  const newToday = (state.data.items || []).filter(isNewToday).length;
   const backendLabel = {
     'claude-cli': 'Claude CLI', 'anthropic': 'Anthropic SDK',
     'openai': 'OpenAI SDK', 'none': '비활성',
@@ -87,6 +89,11 @@ function renderStats() {
       <span class="stat-label">전체 항목</span>
       <span class="stat-value">${total}</span>
       <span class="stat-hint">최근 30일 수집</span>
+    </div>
+    <div class="stat-card highlight">
+      <span class="stat-label">오늘 신규</span>
+      <span class="stat-value">${newToday}</span>
+      <span class="stat-hint">today 첫 수집</span>
     </div>
     <div class="stat-card success">
       <span class="stat-label">AI 분석 완료</span>
@@ -332,11 +339,17 @@ function renderCard(item) {
   const aiBadge = item.llm_enriched ? '<span class="ai-badge">AI 분석</span>' : '';
   const langBadge = isEnglish ? '<span class="lang-badge">EN</span>' : '';
 
+  // 오늘 신규 배지 — first_seen이 오늘(KST)인 항목
+  const newBadge = isNewToday(item) ? '<span class="new-badge">NEW</span>' : '';
+
   return `
     <article class="news-card">
       ${aiBadge}
       <div class="card-top">
-        <span class="score-badge ${scoreClass}">${escapeHtml(scoreLabel)}</span>
+        <div style="display:flex;gap:6px;align-items:center;">
+          <span class="score-badge ${scoreClass}">${escapeHtml(scoreLabel)}</span>
+          ${newBadge}
+        </div>
         <div style="display:flex;gap:6px;align-items:center;">
           ${langBadge}
           ${relBadge}
@@ -475,6 +488,22 @@ function bindEvents() {
     state.langFilter = e.target.value;
     renderContent();
   });
+}
+
+function isNewToday(item) {
+  const fs = item.first_seen || item.date;
+  if (!fs) return false;
+  try {
+    const dt = new Date(fs);
+    if (isNaN(dt)) return false;
+    const now = new Date();
+    // KST 기준 오늘
+    const todayKey = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0');
+    const fsKey = dt.getFullYear() + '-' + String(dt.getMonth()+1).padStart(2,'0') + '-' + String(dt.getDate()).padStart(2,'0');
+    return todayKey === fsKey;
+  } catch (e) {
+    return false;
+  }
 }
 
 function escapeHtml(text) {
