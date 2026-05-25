@@ -385,24 +385,139 @@ def categorize(title: str, summary: str, default_cats: list, source_type: str = 
     return sorted_cats[:3]
 
 
+# ============================================================================
+# v2.7.3: 가중치 기반 중요도 — 사용자 정책
+#   로펌·법조 AI 도입:  0.40
+#   글로벌 AI 시장·자본: 0.25
+#   AI 정책·규제:       0.25
+#   홍보·소개:          0.10 (필요한 경우만)
+# ============================================================================
+
+LAW_AI_KEYWORDS = [
+    # Big Law (글로벌)
+    "kirkland", "cleary gottlieb", "skadden", "latham", "sullivan & cromwell",
+    "davis polk", "wachtell", "freshfields", "linklaters", "clifford chance",
+    "allen & overy", "white & case", "baker mckenzie", "dentons",
+    "a&o shearman", "paul hastings", "weil gotshal",
+    # 한국 대형 로펌
+    "김앤장", "광장", "법무법인 광장", "세종", "법무법인 세종",
+    "율촌", "태평양", "화우", "지평", "바른", "케이씨엘", "법무법인",
+    # AI 도입·활용
+    "law firm ai", "biglaw ai", "ai for lawyers", "legal generative ai",
+    "legal ai adoption", "lawyer copilot", "associate productivity ai",
+    "법무 ai 도입", "로펌 ai 도입", "법조 ai", "변호사 ai",
+    "법률 자동화", "법률 검토 ai", "계약 검토 ai",
+    # 리걸테크 핵심 파트너십
+    "harvey partnership", "harvey for", "harvey rollout",
+    "thomson reuters ai", "lexis ai", "lexis+ ai", "co-counsel",
+    # 지식관리 + AI
+    "knowledge management ai", "법률 지식관리", "지식관리 ai",
+    "legal knowledge graph", "matter management ai", "clm",
+    "contract intelligence", "contract lifecycle",
+]
+
+GLOBAL_MARKET_KEYWORDS = [
+    # 빅테크 흐름·시장 구조
+    "borrowed time", "commoditising", "commoditizing",
+    "wrappers", "in-house tool", "build their own", "self-hosted",
+    "vendor lock", "lock-in", "moat", "differentiation",
+    "alternative to", "challenger", "disrupt", "disruption",
+    "competitive landscape", "market shift", "consolidation",
+    "frontrunner", "incumbent",
+    # 대형 자본 흐름
+    "billion", "$1b", "$5b", "$10b", "조 원 투자",
+    "acquires", "acquired by", "merger", "m&a",
+    "ipo", "valuation", "series f", "series g",
+    # 빅테크 전략 발표
+    "openai revenue", "openai earnings", "anthropic revenue",
+    "google search ai", "meta llama", "deepseek", "kimi", "qwen",
+    "xai grok", "mistral", "perplexity",
+    "frontier model", "model race", "model launch",
+]
+
+POLICY_KEYWORDS = [
+    "ai 기본법", "ai act", "eu ai act", "ai 액트",
+    "ai 거버넌스", "ai governance",
+    "ai 규제", "ai 정책", "규제 공백", "규제 부재",
+    "가이드라인 공백", "가이드라인 부재", "기준 마련",
+    "정책 공백", "법무부", "과기정통부", "개인정보보호위원회",
+    "방통위", "공정위", "금융위 ai",
+    "data sovereignty", "데이터 주권",
+    "ai 저작권", "ai copyright", "copyright ai", "fair use ai",
+    "compliance ai", "ai audit", "ai impact assessment",
+    "executive order ai", "행정명령 ai", "ai 행정명령",
+]
+
+PROMO_PATTERNS = [
+    # 헤드라인 보일러플레이트 (소문자 비교)
+    "[ai 클로즈업]", "[ai 인사이드]", "[ai 트렌드]",
+    "tips 선정", "팁스 선정",
+    "글로벌 ai os 기업 선언", "글로벌 기업 선언", "글로벌 도약",
+    "혁신 출시", "신제품 출시", "공식 출범", "본격 출범",
+    "정식 출시", "베타 출시", "베타 오픈",
+    "유망 스타트업", "주목받는 스타트업", "주목 받는 스타트업",
+    "[기고]", "[칼럼]",
+    "공식 파트너", "공식 파트너십 체결",
+    "수상", "대상 수상", "최우수상",
+    "행정 자동화 플랫폼으로 글로", "플랫폼으로 글로벌",
+]
+
+
+def detect_score_buckets(title: str, summary: str) -> dict:
+    """4개 버킷별 매칭 강도 (0~1)"""
+    text = (title + " " + summary).lower()
+    title_lower = title.lower()
+
+    buckets = {"law": 0.0, "global": 0.0, "policy": 0.0, "promo": 0.0}
+
+    for kw in LAW_AI_KEYWORDS:
+        if kw in text:
+            buckets["law"] = min(1.0, buckets["law"] + 0.5)
+    for kw in GLOBAL_MARKET_KEYWORDS:
+        if kw in text:
+            buckets["global"] = min(1.0, buckets["global"] + 0.4)
+    for kw in POLICY_KEYWORDS:
+        if kw in text:
+            buckets["policy"] = min(1.0, buckets["policy"] + 0.45)
+    # PROMO는 헤드라인 위주
+    for pat in PROMO_PATTERNS:
+        if pat in title_lower:
+            buckets["promo"] = 1.0
+            break
+    return buckets
+
+
 def score_item(title: str, summary: str, date, categories: list) -> int:
-    """간단한 중요도 점수 (0~100)"""
-    score = 50
+    """가중치 기반 중요도 (v2.7.3)
+
+    버킷별 최대 보너스:
+      LAW(로펌)  : +40  (weight 0.40)
+      GLOBAL     : +25  (weight 0.25)
+      POLICY     : +25  (weight 0.25)
+      PROMO      : +10  (weight 0.10)
+
+    PROMO 단독 매칭 (LAW/GLOBAL/POLICY 모두 약함) → 35점 이하로 강제 캡
+    """
+    score = 40  # 기본값 (기존 50 → 40)
     text = (title + " " + summary).lower()
 
-    for kw, pts in HIGH_VALUE_KEYWORDS.items():
-        if kw in text:
-            score += pts
+    buckets = detect_score_buckets(title, summary)
 
+    # 가중치 보너스
+    score += buckets["law"]    * 40
+    score += buckets["global"] * 25
+    score += buckets["policy"] * 25
+    score += buckets["promo"]  * 10
+
+    # 카테고리 보강 (보조)
     if "legaltech" in categories:
-        score += 8
+        score += 6
     if "papers" in categories:
-        score += 5
-    if "funding" in categories:
         score += 4
-    if "domestic" in categories:
+    if "funding" in categories:
         score += 3
 
+    # 시간 가중치
     if date:
         now = datetime.now(timezone.utc)
         if isinstance(date, str):
@@ -418,9 +533,12 @@ def score_item(title: str, summary: str, date, categories: list) -> int:
             elif delta_h < 168:
                 score += 2
 
-    # v2.7: 0~150 범위 — 시장 분석/정책 공백 같은 다중 시그널 기사가
-    # 단순 출시 뉴스보다 충분히 높게 노출되도록 캡 상향 (UI 표시는 그대로 숫자).
-    return max(0, min(150, score))
+    # PROMO 단독 — 다른 의미있는 시그널이 약하면 강제 dampening
+    other_signals = max(buckets["law"], buckets["global"], buckets["policy"])
+    if buckets["promo"] > 0 and other_signals < 0.3:
+        score = min(score, 35)
+
+    return max(0, min(150, int(score)))
 
 
 def normalize_url(url: str) -> str:
