@@ -5,6 +5,24 @@
 // ============================================================================
 const WORKER_ENDPOINT = "https://daibfy-ai-proxy.sora-kim-sr.workers.dev/analyze";
 
+// 백엔드별 모델 옵션 (worker의 ALLOWED_MODELS와 동기화)
+const MODELS = {
+  openai: [
+    { id: "gpt-4o-mini", label: "GPT-4o-mini · 빠름·저렴 (기본)", hint: "토큰당 $0.00015 / $0.00060 (입·출력)" },
+    { id: "gpt-4o", label: "GPT-4o · 균형", hint: "토큰당 $0.0025 / $0.010" },
+    { id: "gpt-4-turbo", label: "GPT-4 Turbo · 이전 강력형", hint: "토큰당 $0.010 / $0.030" },
+    { id: "o1", label: "o1 · 깊은 추론", hint: "토큰당 $0.015 / $0.060, 느림" },
+    { id: "o1-mini", label: "o1-mini · 추론·저렴", hint: "토큰당 $0.003 / $0.012" },
+  ],
+  claude: [
+    { id: "claude-sonnet-4-6", label: "Claude Sonnet 4.6 · 균형 (기본)", hint: "토큰당 $3 / $15 per MTok" },
+    { id: "claude-opus-4-6", label: "Claude Opus 4.6 · 최강", hint: "토큰당 $15 / $75 per MTok, 가장 정확" },
+    { id: "claude-haiku-4-5-20251001", label: "Claude Haiku 4.5 · 가장 빠름", hint: "토큰당 $1 / $5 per MTok" },
+    { id: "claude-3-7-sonnet-latest", label: "Claude 3.7 Sonnet · 이전 세대", hint: "이전 세대 균형 모델" },
+    { id: "claude-3-5-haiku-latest", label: "Claude 3.5 Haiku · 이전 빠름", hint: "이전 세대 빠른 모델" },
+  ],
+};
+
 const PROMPT_PRESETS = {
   summary:
     "다음 뉴스들의 핵심을 3~5개의 불릿 포인트로 요약해주세요. 각 포인트는 한 문장으로, 구체적 사실(회사명·금액·날짜) 중심으로.",
@@ -40,6 +58,7 @@ const state = {
   selectedUrls: new Set(),
   // 분석 모달 상태
   analyzeBackend: "openai",
+  analyzeModel: "gpt-4o-mini",
   analyzePromptPreset: "summary",
 };
 
@@ -899,6 +918,9 @@ function openAnalyzeModal() {
   const list = document.getElementById('analyze-preview-list');
   list.innerHTML = items.map(i => `<li>${escapeHtml(i.title)} <span class="rel-source">— ${escapeHtml(i.source)}</span></li>`).join('');
 
+  // 모델 드롭다운 채우기
+  populateModelSelect();
+
   // 프롬프트 기본값
   applyPromptPreset();
 
@@ -907,6 +929,28 @@ function openAnalyzeModal() {
   resultWrap.classList.add('hidden');
   document.getElementById('analyze-result').innerHTML = '';
   document.getElementById('analyze-meta').textContent = '';
+}
+
+function populateModelSelect() {
+  const sel = document.getElementById('model-select');
+  if (!sel) return;
+  const models = MODELS[state.analyzeBackend] || [];
+  sel.innerHTML = models.map(m => `<option value="${escapeHtml(m.id)}">${escapeHtml(m.label)}</option>`).join('');
+
+  // state.analyzeModel이 현재 백엔드에 없으면 기본값 (첫 모델)로
+  const ids = models.map(m => m.id);
+  if (!ids.includes(state.analyzeModel)) {
+    state.analyzeModel = ids[0];
+  }
+  sel.value = state.analyzeModel;
+  updateModelHint();
+}
+
+function updateModelHint() {
+  const hintEl = document.getElementById('model-hint');
+  if (!hintEl) return;
+  const m = (MODELS[state.analyzeBackend] || []).find(x => x.id === state.analyzeModel);
+  hintEl.textContent = m ? m.hint : '';
 }
 
 function closeAnalyzeModal() {
@@ -972,6 +1016,7 @@ async function runAnalysis() {
       headers,
       body: JSON.stringify({
         backend: state.analyzeBackend,
+        model: state.analyzeModel,
         prompt: fullPrompt,
         max_tokens: 2000,
       }),

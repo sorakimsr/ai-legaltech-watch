@@ -224,13 +224,18 @@
           <ul class="analyze-preview-list hidden" id="analyze-preview-list"></ul>
         </div>
 
-        <!-- 백엔드 선택 -->
+        <!-- 백엔드 + 모델 선택 -->
         <div class="analyze-row">
           <label class="analyze-label">분석 엔진</label>
           <div class="backend-tabs">
-            <button class="backend-tab active" data-backend="openai">OpenAI (GPT-4o-mini · 빠름)</button>
-            <button class="backend-tab" data-backend="claude">Claude (Sonnet · 정확)</button>
+            <button class="backend-tab active" data-backend="openai">OpenAI</button>
+            <button class="backend-tab" data-backend="claude">Claude (Anthropic)</button>
           </div>
+        </div>
+        <div class="analyze-row">
+          <label class="analyze-label">모델</label>
+          <select id="model-select" class="prompt-preset"></select>
+          <small id="model-hint" class="model-hint"></small>
         </div>
 
         <!-- 프롬프트 -->
