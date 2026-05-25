@@ -16,27 +16,11 @@
       </div>
 
       <div class="nav-section">
-        <div class="nav-section-title">관점 · 뷰</div>
-
-        <!-- 시사점 (expandable) -->
-        <div class="nav-group" data-group="strategy">
-          <a href="#" class="nav-item nav-parent" data-view="strategy" data-period="daily">
-            <span class="nav-icon">🎯</span>
-            <span class="nav-label">전략·기획 시사점</span>
-            <span class="nav-toggle">▾</span>
-          </a>
-          <div class="nav-children" data-children-of="strategy">
-            <a href="#" class="nav-sub active" data-view="strategy" data-period="daily">
-              <span class="nav-sub-bullet">·</span> Daily
-            </a>
-            <a href="#" class="nav-sub" data-view="strategy" data-period="weekly">
-              <span class="nav-sub-bullet">·</span> Weekly
-            </a>
-            <a href="#" class="nav-sub" data-view="strategy" data-period="monthly">
-              <span class="nav-sub-bullet">·</span> Monthly
-            </a>
-          </div>
-        </div>
+        <!-- v2.7: 시사점은 단일 메뉴 (Daily/Weekly/Monthly는 페이지 내부 탭) -->
+        <a href="#" class="nav-item" data-view="strategy" data-period="daily">
+          <span class="nav-icon">🎯</span>
+          <span class="nav-label">전략·기획 시사점</span>
+        </a>
 
         <a href="#" class="nav-item" data-view="top">
           <span class="nav-icon">⭐</span>
@@ -53,6 +37,11 @@
         <a href="#" class="nav-item" data-view="papers">
           <span class="nav-icon">📑</span>
           <span class="nav-label">AI 논문 흐름</span>
+        </a>
+        <!-- v2.7: 저장한 항목 (북마크) -->
+        <a href="#" class="nav-item" data-view="saved">
+          <span class="nav-icon">★</span>
+          <span class="nav-label">저장한 항목</span>
         </a>
 
         <!-- 소스 현황 (expandable) -->

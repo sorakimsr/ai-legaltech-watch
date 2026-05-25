@@ -47,7 +47,7 @@ const state = {
   data: null,
   history: null,        // strategy_history.json
   sourceHistory: null,  // source_history.json
-  view: 'latest',       // latest | top | today | strategy | sources
+  view: 'latest',       // latest | top | today | strategy | sources | saved
   // 시사점 sub-state
   strategyPeriod: 'daily',  // daily | weekly | monthly
   strategyKey: null,        // 선택된 날짜·주·월 키
@@ -68,7 +68,51 @@ const state = {
   analyzeBackend: "openai",
   analyzeModel: "gpt-4o-mini",
   analyzePromptPreset: "summary",
+  // v2.7: 사용자 저장 항목 (localStorage 동기화)
+  saved: { items: {}, strategy: {} },  // {url: true}, {strategyKey: {card data}}
 };
+
+// ===== 저장(북마크) 기능 =====
+const SAVED_STORAGE_KEY = 'daibfy_saved_v1';
+
+function loadSaved() {
+  try {
+    const raw = localStorage.getItem(SAVED_STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      state.saved = { items: parsed.items || {}, strategy: parsed.strategy || {} };
+    }
+  } catch (e) {}
+}
+
+function persistSaved() {
+  try {
+    localStorage.setItem(SAVED_STORAGE_KEY, JSON.stringify(state.saved));
+  } catch (e) {}
+}
+
+function isSaved(kind, key) {
+  return !!(state.saved[kind] || {})[key];
+}
+
+function toggleSaved(kind, key, value) {
+  if (!state.saved[kind]) state.saved[kind] = {};
+  if (isSaved(kind, key)) {
+    delete state.saved[kind][key];
+  } else {
+    state.saved[kind][key] = value || true;
+  }
+  persistSaved();
+}
+
+function makeStrategyKey(period, dateKey, card) {
+  // 같은 일자·주기 내 카드 식별자: tag 또는 title 해시
+  return `${period}|${dateKey || ''}|${(card.tag || card.title || '').slice(0, 80)}`;
+}
+
+function escapeAttr(s) {
+  return (s || '').replace(/'/g, '&apos;').replace(/"/g, '&quot;');
+}
 
 const CATEGORIES = [
   { id: 'all', label: '전체' },
@@ -85,13 +129,15 @@ const CATEGORIES = [
 const VIEW_META = {
   latest:    { title: '최신순', hint: '최근 30일 · 발행일 최신순' },
   top:       { title: '중요도 TOP', hint: 'AI 중요도 점수 상위 100개 항목' },
-  today:     { title: '오늘 추가됨', hint: '오늘(KST) 신규 수집' },
+  today:     { title: '오늘 추가됨', hint: '오늘(KST) 신규 수집 · 중요도순' },
   strategy:  { title: '전략·기획 시사점', hint: 'Daily/Weekly/Monthly로 LLM 자동 생성' },
   papers:    { title: 'AI 논문 흐름', hint: 'arXiv 최근 14일 논문 종합 분석' },
   sources:   { title: '소스 현황', hint: '활성·유휴·오류 + 7일 추이' },
+  saved:     { title: '저장한 항목', hint: '북마크한 시사점·뉴스 카드' },
 };
 
 async function init() {
+  loadSaved();  // v2.7: localStorage 북마크 복원
   try {
     const res = await fetch('./data/news.json?t=' + Date.now());
     state.data = await res.json();
@@ -239,7 +285,13 @@ function applyViewFilter(items) {
       const now = new Date();
       const start = new Date(now.getFullYear(), now.getMonth(), now.getDate());
       arr = arr.filter(i => new Date(i.first_seen || i.date) >= start);
-      arr.sort((a, b) => new Date(b.date) - new Date(a.date));
+      // v2.7: '오늘 추가됨'을 중요도(score) 내림차순으로 정렬
+      arr.sort((a, b) => (b.score || 0) - (a.score || 0));
+      break;
+    case 'saved':
+      // v2.7: 북마크한 항목만
+      arr = arr.filter(i => isSaved('items', i.url));
+      arr.sort((a, b) => (b.score || 0) - (a.score || 0));
       break;
   }
   return arr;
@@ -307,6 +359,12 @@ function renderContent() {
   renderCategoryBar();
   renderStats();
 
+  // v2.7: 저장한 항목 view는 시사점 + 뉴스 카드 둘 다 렌더
+  if (state.view === 'saved') {
+    renderSavedView(newsGrid);
+    return;
+  }
+
   const filtered = filterItems();
   if (filtered.length === 0) {
     newsGrid.innerHTML = `<div class="empty-state"><div class="empty-icon">📭</div><div class="empty-title">조건에 맞는 항목이 없습니다</div></div>`;
@@ -319,6 +377,56 @@ function renderContent() {
       if (detail) detail.classList.toggle('open');
     });
   });
+}
+
+function renderSavedView(root) {
+  const savedItems = (state.data.items || [])
+    .filter(i => isSaved('items', i.url))
+    .sort((a, b) => (b.score || 0) - (a.score || 0));
+  const savedStrategies = Object.entries(state.saved.strategy || {});
+
+  if (savedItems.length === 0 && savedStrategies.length === 0) {
+    root.innerHTML = `<div class="saved-empty"><div style="font-size:32px;margin-bottom:8px;">★</div>아직 저장한 항목이 없습니다.<br><span style="font-size:13px;color:#9ca3af;">시사점 카드나 뉴스 카드의 ☆ 별표를 눌러 저장하세요.</span></div>`;
+    return;
+  }
+
+  let html = '';
+
+  // 저장한 시사점 카드
+  if (savedStrategies.length > 0) {
+    html += `<h3 style="margin:8px 0 14px;font-size:14px;color:#6b7280;">⭐ 저장한 시사점 (${savedStrategies.length})</h3>`;
+    html += savedStrategies.map(([k, entry]) => {
+      const card = (entry && entry.card) || {};
+      const period = (entry && entry.period) || '';
+      const keyLabel = (entry && entry.key) || '';
+      return `
+        <div class="strategy-card">
+          <div class="strategy-card-head">
+            <div>
+              <div class="strat-tag">${escapeHtml(card.tag || 'TREND')} · ${escapeHtml(period)} ${escapeHtml(keyLabel)}</div>
+              <h3>${escapeHtml(card.title || '')}</h3>
+            </div>
+            <button class="bookmark-btn is-saved" data-bookmark-strategy='${escapeAttr(JSON.stringify({k, period, key: keyLabel, card}))}' title="저장 해제">★</button>
+          </div>
+          <div class="strategy-card-grid">
+            <p class="strategy-body">${escapeHtml(card.body || '')}</p>
+            <div class="strategy-action">
+              <span class="action-label">ACTION</span>
+              <div class="action-body">${escapeHtml(card.action || '')}</div>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  // 저장한 뉴스 카드
+  if (savedItems.length > 0) {
+    html += `<h3 style="margin:24px 0 14px;font-size:14px;color:#6b7280;">📰 저장한 뉴스 (${savedItems.length})</h3>`;
+    html += `<div class="news-grid">${savedItems.map(renderCard).join('')}</div>`;
+  }
+
+  root.innerHTML = html;
 }
 
 function filterItems() {
@@ -391,6 +499,7 @@ function renderCard(item) {
   const newBadge = isNewToday(item) ? '<span class="new-badge">NEW</span>' : '';
 
   const isSelected = state.selectedUrls.has(item.url);
+  const itemSaved = isSaved('items', item.url);
 
   return `
     <article class="news-card ${isSelected ? 'is-selected' : ''}" data-url="${escapeHtml(item.url)}">
@@ -398,6 +507,7 @@ function renderCard(item) {
       <label class="card-checkbox" title="AI 분석 선택">
         <input type="checkbox" class="card-check" data-url="${escapeHtml(item.url)}" ${isSelected ? 'checked' : ''} />
       </label>
+      <button class="bookmark-btn card-bookmark ${itemSaved ? 'is-saved' : ''}" data-bookmark-item="${escapeHtml(item.url)}" title="${itemSaved ? '저장 해제' : '저장하기'}">${itemSaved ? '★' : '☆'}</button>
       <div class="card-top">
         <div style="display:flex;gap:6px;align-items:center;">
           <span class="score-badge ${scoreClass}">${escapeHtml(scoreLabel)}</span>
@@ -492,14 +602,19 @@ function renderStrategy() {
           ${citations.map(c => `<li><a href="${escapeHtml(c.url)}" target="_blank" rel="noopener">${escapeHtml(c.title)}</a><span class="citation-meta">— ${escapeHtml(c.source)} · ${escapeHtml(c.date)}</span></li>`).join('')}
         </ol>
       </details>` : '';
+    const cardKey = makeStrategyKey(period, currentKey, s);
+    const saved = isSaved('strategy', cardKey);
     return `
       <div class="strategy-card">
-        <div class="strategy-card-grid">
-          <div class="strategy-trend">
+        <div class="strategy-card-head">
+          <div>
             <div class="strat-tag">${escapeHtml(s.tag || 'TREND')}</div>
             <h3>${escapeHtml(s.title || '')}</h3>
-            <p>${escapeHtml(s.body || '')}</p>
           </div>
+          <button class="bookmark-btn ${saved ? 'is-saved' : ''}" data-bookmark-strategy='${escapeAttr(JSON.stringify({k: cardKey, period, key: currentKey, card: s}))}' title="${saved ? '저장 해제' : '저장하기'}">${saved ? '★' : '☆'}</button>
+        </div>
+        <div class="strategy-card-grid">
+          <p class="strategy-body">${escapeHtml(s.body || '')}</p>
           <div class="strategy-action">
             <span class="action-label">ACTION</span>
             <div class="action-body">${escapeHtml(s.action || '')}</div>
@@ -759,6 +874,41 @@ function renderSourceTrend() {
 // ========================= 이벤트 =========================
 
 function bindEvents() {
+  // v2.7: 북마크 버튼 (event delegation — 카드 동적 생성이므로)
+  document.addEventListener('click', (e) => {
+    const itemBtn = e.target.closest('[data-bookmark-item]');
+    if (itemBtn) {
+      e.preventDefault();
+      e.stopPropagation();
+      const url = itemBtn.dataset.bookmarkItem;
+      toggleSaved('items', url, true);
+      // 버튼 상태 토글
+      const nowSaved = isSaved('items', url);
+      itemBtn.classList.toggle('is-saved', nowSaved);
+      itemBtn.textContent = nowSaved ? '★' : '☆';
+      itemBtn.title = nowSaved ? '저장 해제' : '저장하기';
+      // saved view면 다시 렌더해서 제거 반영
+      if (state.view === 'saved') renderContent();
+      return;
+    }
+    const stratBtn = e.target.closest('[data-bookmark-strategy]');
+    if (stratBtn) {
+      e.preventDefault();
+      e.stopPropagation();
+      try {
+        const payload = JSON.parse(stratBtn.dataset.bookmarkStrategy);
+        const { k, card, period, key } = payload;
+        toggleSaved('strategy', k, { card, period, key });
+        const nowSaved = isSaved('strategy', k);
+        stratBtn.classList.toggle('is-saved', nowSaved);
+        stratBtn.textContent = nowSaved ? '★' : '☆';
+        stratBtn.title = nowSaved ? '저장 해제' : '저장하기';
+        if (state.view === 'saved') renderContent();
+      } catch (err) { console.error('bookmark parse', err); }
+      return;
+    }
+  });
+
   // 사이드바 nav (parent + sub 통합)
   document.querySelectorAll('.nav-item, .nav-sub').forEach(item => {
     item.addEventListener('click', e => {
