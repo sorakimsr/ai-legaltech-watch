@@ -1132,7 +1132,7 @@ input, select { font-family: inherit; outline: none; }
   flex: 1;
   min-width: 0;
 }
-/* v3.0: 시사점 카드 우측 상단 — 즐겨찾기 + AI 분석 체크박스 */
+/* v3.0: 시사점 카드 우측 상단 — 즐겨찾기 + AI 분석 체크박스 (v3.2에서 footer로 이동, deprecated) */
 .strategy-card-actions {
   display: flex;
   align-items: center;
@@ -1145,6 +1145,25 @@ input, select { font-family: inherit; outline: none; }
   cursor: pointer;
   accent-color: #2563eb;
   margin: 0;
+}
+/* v3.2: 좌측 하단 footer — 체크박스 → 즐겨찾기 → 근거 순서 */
+.strategy-card-footer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid #f3f4f6;
+}
+.strategy-card-footer .bookmark-btn {
+  width: 32px;
+  height: 32px;
+  font-size: 16px;
+}
+.strategy-card-footer .strategy-citations {
+  margin: 0;
+  margin-left: auto;  /* 우측에 별도 정렬할까 했지만 사용자 요청은 좌측 정렬 */
+  margin-left: 4px;  /* 좌측 정렬 유지 */
 }
 .strategy-card.is-selected {
   border-color: #2563eb;

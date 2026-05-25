@@ -309,15 +309,21 @@ function renderStats() {
     return kstDateStr(d) >= cutoffDate;
   });
 
-  // 2. 기간 내 신규 수집 — source_history의 new 합산 (하단 표와 100% 동일 기준)
+  // v3.2: 기간 내 신규 수집 — items의 first_seen 기준 unique URL 카운트
+  //   (이전 v3.0은 source_history.new 합산이라 같은 URL이 2개 소스에 등장 시 2회 카운트되는 문제)
+  //   사용자 요구: "기간별로 중복 제거된 신규 URL 수"
   const history = state.sourceHistory || {};
-  let periodNew = 0;
-  for (const name of Object.keys(history)) {
-    const h = history[name] || {};
-    for (const k of periodDayKeys) {
-      if (h[k]) periodNew += (h[k].new || 0);
+  const periodNew = (() => {
+    let cnt = 0;
+    for (const it of allItems) {
+      const fs = it.first_seen || it.date;
+      if (!fs) continue;
+      const d = new Date(fs);
+      if (isNaN(d)) continue;
+      if (kstDateStr(d) >= cutoffDate && kstDateStr(d) <= todayKst) cnt += 1;
     }
-  }
+    return cnt;
+  })();
 
   // 3. AI 분석 완료 — 기간 내 항목 중 llm_enriched
   const periodEnriched = periodItems.filter(it => it.llm_enriched).length;
@@ -928,16 +934,13 @@ function renderStrategy() {
     // v3.0: cardKey → 카드 데이터 매핑 (체크박스로 선택 시 AI 분석 input 구성용)
     state.trendCardMap[cardKey] = { period, periodKey: currentKey, card: s };
     const checked = state.selectedTrends.has(cardKey);
+    // v3.2: 좌측 하단 footer — 체크박스 → 즐겨찾기 → 근거 순서
     return `
       <div class="strategy-card${checked ? ' is-selected' : ''}" data-trend-key="${escapeHtml(cardKey)}">
         <div class="strategy-card-head">
           <div>
             <div class="strat-tag">${escapeHtml(s.tag || 'TREND')}</div>
             <h3>${escapeHtml(s.title || '')}</h3>
-          </div>
-          <div class="strategy-card-actions">
-            <button class="bookmark-btn ${saved ? 'is-saved' : ''}" data-bookmark-strategy='${escapeAttr(JSON.stringify({k: cardKey, period, key: currentKey, card: s}))}' title="${saved ? '저장 해제' : '저장하기'}">${saved ? '★' : '☆'}</button>
-            <input type="checkbox" class="trend-check" data-trend-key="${escapeHtml(cardKey)}" ${checked ? 'checked' : ''} title="AI 분석 대상으로 선택" />
           </div>
         </div>
         <div class="strategy-card-grid">
@@ -947,7 +950,11 @@ function renderStrategy() {
             <div class="action-body">${escapeHtmlWithMark(s.action || '')}</div>
           </div>
         </div>
-        ${citationsBlock}
+        <div class="strategy-card-footer">
+          <input type="checkbox" class="trend-check" data-trend-key="${escapeHtml(cardKey)}" ${checked ? 'checked' : ''} title="AI 분석 대상으로 선택" />
+          <button class="bookmark-btn ${saved ? 'is-saved' : ''}" data-bookmark-strategy='${escapeAttr(JSON.stringify({k: cardKey, period, key: currentKey, card: s}))}' title="${saved ? '저장 해제' : '저장하기'}">${saved ? '★' : '☆'}</button>
+          ${citationsBlock}
+        </div>
       </div>
     `;
   }).join('');
@@ -1055,7 +1062,22 @@ function renderSourcesStatus() {
   enriched.sort((a, b) => b.periodNew - a.periodNew);
 
   const byStatus = enriched.reduce((a, s) => { a[s.status] = (a[s.status] || 0) + 1; return a; }, {});
-  const periodTotal = enriched.reduce((sum, s) => sum + s.periodNew, 0);
+  // v3.2: 표 합계 = 소스별 누적 (소스 분포 보여주는 용도, 같은 URL이 N개 소스에서 잡히면 N회 카운트)
+  const periodTotalBySource = enriched.reduce((sum, s) => sum + s.periodNew, 0);
+  // v3.2: 상단 카드와 동일 기준 (items의 first_seen 기반 unique URL 카운트)
+  const periodTotalUnique = (() => {
+    const allItems = state.data.items || [];
+    let cnt = 0;
+    for (const it of allItems) {
+      const fs = it.first_seen || it.date;
+      if (!fs) continue;
+      const d = new Date(fs);
+      if (isNaN(d)) continue;
+      const k = kstDateStr(d);
+      if (periodDayKeys.includes(k)) cnt += 1;
+    }
+    return cnt;
+  })();
 
   const statusBadge = (st) => {
     const label = st === 'active' ? 'Active' : st === 'error' ? 'Error' : 'Idle';
@@ -1082,8 +1104,8 @@ function renderSourcesStatus() {
 
   root.innerHTML = `
     <div class="sources-table-wrap">
-      <h3>소스 현황 — ${escapeHtml(periodLabel)} (총 ${enriched.length}개 · 활성 ${byStatus.active || 0}개 · 신규 수집 ${periodTotal}건)</h3>
-      <p class="sources-table-note">※ "신규" = 기존에 없던 새 URL 기준. 같은 URL이 다른 소스에서도 발견되면 양쪽 모두 카운트되어 상단 stat과 약간의 차이가 있을 수 있음.</p>
+      <h3>소스 현황 — ${escapeHtml(periodLabel)} (총 ${enriched.length}개 · 활성 ${byStatus.active || 0}개 · 신규 수집 ${periodTotalUnique}건)</h3>
+      <p class="sources-table-note">※ 헤더의 "신규 수집"은 중복 제거된 unique URL 수 (상단 카드와 동일). 표 컬럼 "신규"는 소스별 누적 (같은 URL이 N개 소스에서 잡히면 N회) — 합산 ${periodTotalBySource}건.</p>
       <div class="sources-table-scroll">
         <table class="src-table">
           <thead>
@@ -1534,7 +1556,8 @@ function renderPapersView() {
   }
 
   // Narrative
-  document.getElementById('papers-narrative').innerHTML = renderMarkdown(trends.narrative || '');
+  // v3.2: papers narrative는 헤더(#, ##, ###) 표시 안 함 — 평문 단락만 보여줌
+  document.getElementById('papers-narrative').innerHTML = renderMarkdown(trends.narrative || '', { stripHeaders: true });
 
   // 관련 논문 드롭다운 헬퍼
   const renderPapersBlock = (papers) => {
@@ -2003,10 +2026,16 @@ async function runAnalysis() {
   }
 }
 
-function renderMarkdown(text) {
+function renderMarkdown(text, opts) {
   if (!text) return '';
-  // v2.8.6: 빈 헤더 라인(`#` 또는 `## ` 등만 있고 텍스트 없음) 제거 — LLM이 가끔 빈 헤더 출력
+  opts = opts || {};
+  // v2.8.6: 빈 헤더 라인(`#` 또는 `## ` 등만 있고 텍스트 없음) 제거
   text = text.replace(/^\s*#{1,6}\s*$/gm, '');
+  // v3.2: stripHeaders 옵션 — 논문 narrative처럼 헤더를 보여주고 싶지 않은 곳에서
+  //   `## 한 줄 요약` 같은 라인을 단락 시작 부분의 평문으로 변환
+  if (opts.stripHeaders) {
+    text = text.replace(/^\s*#{1,6}\s+(.+)$/gm, '$1');
+  }
   // 매우 단순한 마크다운 → HTML (안전한 escape 후)
   let html = escapeHtml(text);
   // 코드블록 ```...```
