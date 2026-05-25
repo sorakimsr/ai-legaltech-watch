@@ -37,16 +37,28 @@ MAX_PER_RUN = int(os.environ.get("ENRICH_MAX_PER_RUN", "300"))
 INSIGHT_THRESHOLD_EN = int(os.environ.get("INSIGHT_THRESHOLD_EN", "65"))
 INSIGHT_THRESHOLD_KO = int(os.environ.get("INSIGHT_THRESHOLD_KO", "70"))
 
+# v2.8.5: 최근 N일 이내 항목은 캐시 무시하고 강제 재 enrich
+# (프롬프트 변경 후 새 음영 정책 적용용)
+REFRESH_RECENT_DAYS = int(os.environ.get("ENRICH_REFRESH_DAYS", "0"))
+
 
 # v2.8: 의미론적 강조로 전환 — 고유명사가 아니라 의사결정·영향력 구절에만 **굵게**
-_HIGHLIGHT_RULES = """- **굵게(`**...**`)는 "의미론적으로 의사결정에 직결되는 구절"에만 적용**:
-  - 강조해야 할 것 (✅ 의미·영향력·시사점·행동 지침):
-    예시) "협상 레버리지가 옮겨갔다", "내재화 vs 외부 플랫폼 결정 시점", "RAG 파이프라인 재검토 시점",
-    "벤더 종속이 풀린다", "단일 LLM 의존이 더는 안전하지 않다", "온프레미스 요구가 도입을 제한"
-  - 강조 금지 (❌ 회사명·금액·기관명·기법명 같은 단순 고유명사):
-    예시) "OpenAI", "Anthropic", "Sequoia Capital", "수출입은행", "KB금융", "40억 달러", "Harvey", "RAG"
-  - 회사명·금액·기법명은 본문에 그대로 적되 강조하지 말 것. 강조는 그 사실의 "해석·의미·행동 지침"에만.
-  - 한 문장당 1~2개만. 과도한 강조 금지."""
+_HIGHLIGHT_RULES = """- **굵게(`**...**`)는 "의미론적으로 의사결정에 직결되는 구절"에만 적용** (사용자 정책):
+
+  강조해야 할 것 (✅ 인과·필요·판단·시사 구절):
+    예시) "단일 LLM 선택은 이미 낡은 질문이고, 에이전트 간 신뢰·조정 계층이 새 병목",
+    "RAG 파이프라인을 구축하고 방치하는 운영 방식은 재검토가 필요한 시점",
+    "성공한 목표당 비용으로 KPI를 재설계해야",
+    "온프레미스 또는 폐쇄망 요구가 도입 속도를 제한하는 현실적 제약",
+    "책임 경계가 명확히 설계된 아키텍처를 선택",
+    "협상 레버리지가 옮겨갔다", "벤더 종속이 풀린다",
+    "한국 기업 환경에서는 개인정보보호법상 국외 데이터 이전 제한이 도입의 현실적 장벽"
+  → "X는 Y다", "A가 B의 병목", "C 요구가 D를 제한" 같은 인과·판단 구절만.
+
+  강조 금지 (❌ 단순 고유명사·금액·기법명·기관명):
+    "OpenAI", "Anthropic", "Sequoia Capital", "수출입은행", "KB금융",
+    "Harvey", "Foundation Protocol", "40억 달러", "RAG"
+  → 회사명·금액·기법명은 그대로 적되 절대 굵게 X. 강조는 그 사실의 "해석·의미·행동 지침"에만."""
 
 PROMPT_EN_FULL = """다음 영문 뉴스를 한국 전략·기획·AI 업무 담당자 관점에서 분석해주세요.
 
@@ -192,8 +204,33 @@ def main():
         except Exception:
             pass
 
+    # v2.8.5: 최근 N일 항목은 캐시 무시 (force refresh)
+    refresh_cutoff = None
+    if REFRESH_RECENT_DAYS > 0:
+        from datetime import datetime as _dt
+        cutoff_dt = _dt.now(KST) - timedelta(days=REFRESH_RECENT_DAYS)
+        refresh_cutoff = cutoff_dt.strftime("%Y-%m-%d")
+        print(f"  [refresh] 최근 {REFRESH_RECENT_DAYS}일치 (>= {refresh_cutoff}) 캐시 무시하고 재 enrich", flush=True)
+
+    def is_recent(it):
+        if not refresh_cutoff:
+            return False
+        d = (it.get("date", "") or "")[:10]
+        if not d:
+            return False
+        return d >= refresh_cutoff
+
     cached_count = 0
+    refresh_count = 0
     for it in items:
+        # 최근 N일 항목 → 캐시 무시하고 enrich 대상으로 → 기존 summary_ko/insight_ko 삭제
+        if is_recent(it):
+            if it.get("summary_ko") or it.get("insight_ko"):
+                refresh_count += 1
+            it.pop("summary_ko", None)
+            it.pop("insight_ko", None)
+            it.pop("llm_enriched", None)
+            continue
         if it["url"] in existing_cache:
             cache = existing_cache[it["url"]]
             if cache.get("summary_ko"):
@@ -205,7 +242,10 @@ def main():
                 cached_count += 1
 
     need_list = [it for it in items if needs_enrich(it)]
-    print(f"  cached: {cached_count}, need enrich: {len(need_list)} (max per run: {MAX_PER_RUN})", flush=True)
+    if REFRESH_RECENT_DAYS > 0:
+        print(f"  cached: {cached_count}, refreshed (cleared): {refresh_count}, need enrich: {len(need_list)} (max per run: {MAX_PER_RUN})", flush=True)
+    else:
+        print(f"  cached: {cached_count}, need enrich: {len(need_list)} (max per run: {MAX_PER_RUN})", flush=True)
 
     def save_partial():
         data["enriched_at"] = datetime.now(KST).isoformat()
