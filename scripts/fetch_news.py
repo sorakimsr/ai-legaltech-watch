@@ -96,14 +96,19 @@ def fetch_source(source_def):
             categories = categorize(title, summary, default_cats, source_type)
             score = score_item(title, summary, dt, categories)
 
+            # 발행일 처리 — 못 파싱하면 None (오늘로 fallback 안 함 — 시사점 분석 오염 방지)
+            date_iso = dt.isoformat() if dt else None
+            date_unknown = dt is None
+
             items.append({
                 "title": title,
                 "url": link,
                 "source": name,
                 "source_type": source_type,
                 "lang": lang,
-                "date": (dt or datetime.now(timezone.utc)).isoformat(),
-                "first_seen": datetime.now(KST).isoformat(),  # 최초 수집 시점
+                "date": date_iso or datetime.now(timezone.utc).isoformat(),  # UI 표시용 (없으면 수집일)
+                "date_unknown": date_unknown,  # 시사점 필터에서 제외용
+                "first_seen": datetime.now(KST).isoformat(),
                 "summary": summary,
                 "categories": categories,
                 "score": score,

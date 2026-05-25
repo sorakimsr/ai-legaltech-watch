@@ -95,14 +95,17 @@ def kst_month_str(d: date) -> str:
 
 
 def filter_items_by_period(items: list, period: str, ref_date: date) -> tuple:
-    """period에 해당하는 항목들 + range 문자열 반환"""
+    """period에 해당하는 항목들 + range 문자열 반환.
+    발행일(date) 기준. date_unknown=True (발행일 불명) 항목은 제외."""
+    # 발행일 불명 항목 우선 제외
+    items = [it for it in items if not it.get("date_unknown", False)]
+
     if period == "daily":
         target = ref_date.isoformat()
         filtered = [it for it in items if it.get("date", "")[:10] == target]
         return filtered, target
     elif period == "weekly":
         iso_year, iso_week, iso_dow = ref_date.isocalendar()
-        # ISO week 시작일 (월요일)
         start = date.fromisocalendar(iso_year, iso_week, 1)
         end = date.fromisocalendar(iso_year, iso_week, 7)
         filtered = [it for it in items
@@ -177,6 +180,33 @@ def generate_cards(items: list, period: str, ref_date: date, all_items: list) ->
                         })
                 except (ValueError, TypeError):
                     continue
+
+        # Citation fallback — LLM이 sources를 안 줬으면 카드 본문에서 키워드 매칭 시도
+        if not cited:
+            body_text = (str(c.get("body", "")) + " " + str(c.get("title", ""))).lower()
+            for ref in sorted_items[:20]:
+                ref_text = (ref.get("title", "") + " " + ref.get("source", "")).lower()
+                # 카드 본문에 해당 항목의 회사명·키워드가 등장하면 citation으로
+                ref_tokens = [t for t in ref_text.split() if len(t) > 3]
+                hit_count = sum(1 for t in ref_tokens[:8] if t in body_text)
+                if hit_count >= 2:
+                    cited.append({
+                        "title": ref.get("title", "")[:140],
+                        "url": ref.get("url", ""),
+                        "source": ref.get("source", ""),
+                        "date": ref.get("date", "")[:10],
+                    })
+                if len(cited) >= 3:
+                    break
+        # 그래도 비어있으면 점수 상위 3개를 기본 citation으로
+        if not cited:
+            for ref in sorted_items[:3]:
+                cited.append({
+                    "title": ref.get("title", "")[:140],
+                    "url": ref.get("url", ""),
+                    "source": ref.get("source", ""),
+                    "date": ref.get("date", "")[:10],
+                })
 
         cards.append({
             "tag": str(c["tag"]).strip(),
