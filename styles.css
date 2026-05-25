@@ -501,14 +501,17 @@ input, select { font-family: inherit; outline: none; }
   line-height: 1.7;
   color: #1f2937;
 }
-.analyze-result h1, .analyze-result h2, .analyze-result h3 {
+/* v2.8.4: 헤더 폰트 본문과 동일 + 볼드만 */
+.analyze-result h1,
+.analyze-result h2,
+.analyze-result h3 {
+  font-size: inherit;
   font-weight: 700;
-  margin: 14px 0 8px;
+  margin: 12px 0 4px;
   color: #0f172a;
+  line-height: inherit;
+  display: block;
 }
-.analyze-result h1 { font-size: 17px; }
-.analyze-result h2 { font-size: 15px; }
-.analyze-result h3 { font-size: 14px; }
 .analyze-result p { margin: 8px 0; }
 .analyze-result ul { padding-left: 22px; margin: 6px 0; }
 .analyze-result li { margin: 4px 0; }
@@ -526,7 +529,11 @@ input, select { font-family: inherit; outline: none; }
   font-size: 12px;
   overflow-x: auto;
 }
-.analyze-result strong { color: #0f172a; }
+/* v2.8.4: mark가 아닌 강조는 normal weight — 음영(mark)만 볼드 */
+.analyze-result strong, .analyze-result b {
+  font-weight: normal;
+  color: inherit;
+}
 .analyze-loading {
   text-align: center;
   color: #6b7280;
@@ -1394,10 +1401,24 @@ mark {
   line-height: 1.75;
   color: #1f2937;
 }
-.papers-narrative h2, .papers-narrative h3 { font-size: 14px; margin: 10px 0 6px; font-weight: 700; }
+/* v2.8.4: 헤더 폰트를 본문과 동일하게 + 볼드만. mark가 아닌 강조는 normal weight */
+.papers-narrative h1,
+.papers-narrative h2,
+.papers-narrative h3 {
+  font-size: inherit;
+  font-weight: 700;
+  margin: 12px 0 4px;
+  line-height: inherit;
+  color: #0f172a;
+  display: block;
+}
 .papers-narrative ul { padding-left: 22px; margin: 6px 0; }
 .papers-narrative p { margin: 6px 0; }
-.papers-narrative strong { color: #0f172a; }
+/* mark 외 볼드 처리 제거 — 음영 처리된 부분(mark)만 강조 */
+.papers-narrative strong, .papers-narrative b {
+  font-weight: normal;
+  color: inherit;
+}
 
 .papers-grid {
   display: grid;
