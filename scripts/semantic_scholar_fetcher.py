@@ -31,21 +31,18 @@ API_BASE = "https://api.semanticscholar.org/graph/v1/paper/search"
 KST = timezone(timedelta(hours=9))
 
 
-# 검색 쿼리 — AI 산업 관련 분야 망라
+# v2.7: 쿼리 8 → 5개로 축소 (rate limit 회피, 가장 중요한 주제 우선)
 SEARCH_QUERIES = [
     "large language model",
     "AI agent",
-    "retrieval augmented generation",
     "legal AI",
-    "AI safety alignment",
     "multi-agent system",
-    "AI reasoning",
-    "diffusion model",
+    "retrieval augmented generation",
 ]
 
 
-def _api_request(url: str, retries: int = 2):
-    """API GET with optional key + simple retry."""
+def _api_request(url: str, retries: int = 4):
+    """API GET with optional key + exponential backoff on 429."""
     headers = {
         "User-Agent": "AI-Legaltech-Watch/2.7 (research)",
     }
@@ -57,18 +54,20 @@ def _api_request(url: str, retries: int = 2):
     for attempt in range(retries + 1):
         try:
             req = Request(url, headers=headers)
-            with urlopen(req, timeout=10) as r:
+            with urlopen(req, timeout=15) as r:
                 return _json.loads(r.read().decode("utf-8"))
         except HTTPError as e:
             last_err = f"HTTP {e.code}: {e.reason}"
             if e.code == 429:
-                # Rate limited — wait longer
-                time.sleep(3 * (attempt + 1))
+                # Rate limited — exponential backoff (3s → 10s → 30s → 60s)
+                wait = [3, 10, 30, 60, 120][min(attempt, 4)]
+                print(f"    [s2] 429 rate limit — waiting {wait}s before retry", flush=True)
+                time.sleep(wait)
                 continue
             break
         except URLError as e:
             last_err = f"URL error: {e.reason}"
-            time.sleep(1)
+            time.sleep(2)
             continue
         except Exception as e:
             last_err = f"Exception: {e}"
@@ -89,6 +88,10 @@ def fetch_papers(queries=None, per_query_limit: int = 12, days_back: int = 30):
     items = []
 
     fields = "title,abstract,authors,year,publicationDate,url,externalIds,venue,citationCount"
+
+    # v2.7: 시작 전 5초 wait — 같은 IP의 직전 빌드 잔여 카운터 정리
+    print("  [semantic-scholar] warm-up wait 5s for rate-limit window", flush=True)
+    time.sleep(5)
 
     for q in queries:
         url = f"{API_BASE}?query={quote(q)}&limit={per_query_limit}&year={cutoff_year}-&fields={fields}"
@@ -184,8 +187,8 @@ def fetch_papers(queries=None, per_query_limit: int = 12, days_back: int = 30):
                 "score": score,
             })
 
-        # Rate limit 친화적으로 잠시 대기
-        time.sleep(1.2)
+        # Rate limit 친화적으로 잠시 대기 (v2.7: 1.2 → 3s)
+        time.sleep(3)
 
     print(f"  [semantic-scholar] total: {len(items)} papers", flush=True)
     return items

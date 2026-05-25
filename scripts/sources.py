@@ -102,41 +102,67 @@ SOURCES = [
     ("한국경제 IT", "https://www.hankyung.com/feed/it", "korean", ["domestic"], "ko"),
 
     # ====================================================================
-    # Google News RSS — 키워드 기반 (강력한 광범위 커버리지)
-    # 패턴: https://news.google.com/rss/search?q={keyword}&hl={lang}&gl={country}&ceid={country}:{lang}
+    # Google News RSS — 키워드 기반 (v2.7: 특수문자(·, &, -, vs) 제거 + 개별 회사명 분리)
+    # 패턴: https://news.google.com/rss/search?q={url-encoded-keyword}&hl={lang}&gl={country}&ceid={country}:{lang}
+    # 원칙:
+    #   - 회사명·고유명사는 큰따옴표("...")로 묶어 정확 매칭
+    #   - 한 쿼리당 OR 키워드 4개 이내 (Google이 길면 자름)
+    #   - 특수문자(·, &, -)는 사용 금지. 공백 OR 사용
     # ====================================================================
-    # 한국어 — 리걸테크 핵심
-    ("Google News: 리걸테크 (KR)", "https://news.google.com/rss/search?q=%EB%A6%AC%EA%B1%B8%ED%85%8C%ED%81%AC+OR+%EB%B2%95%EB%A5%A0AI&hl=ko&gl=KR&ceid=KR:ko", "google_news", ["legaltech", "domestic"], "ko"),
-    ("Google News: BHSN·로앤컴퍼니 (KR)", "https://news.google.com/rss/search?q=BHSN+OR+%EB%A1%9C%EC%95%A4%EC%BB%B4%ED%8D%BC%EB%8B%88+OR+%EB%A1%9C%EC%95%A4%EA%B5%BF&hl=ko&gl=KR&ceid=KR:ko", "google_news", ["legaltech", "domestic"], "ko"),
-    ("Google News: AI 산업 (KR)", "https://news.google.com/rss/search?q=%22AI+%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8%22+OR+%22%EC%83%9D%EC%84%B1AI%22+OR+%22Claude%22+OR+%22OpenAI%22&hl=ko&gl=KR&ceid=KR:ko", "google_news", ["ai-industry", "domestic"], "ko"),
-    ("Google News: AI 규제·정책 (KR)", "https://news.google.com/rss/search?q=%22AI+%EA%B7%9C%EC%A0%9C%22+OR+%22AI+%EA%B8%B0%EB%B3%B8%EB%B2%95%22+OR+%22EU+AI+Act%22&hl=ko&gl=KR&ceid=KR:ko", "google_news", ["policy", "domestic"], "ko"),
 
-    # 영문 — 리걸테크 회사명별
-    ("Google News: Harvey AI (EN)", "https://news.google.com/rss/search?q=%22Harvey+AI%22+OR+%22Harvey.ai%22&hl=en&gl=US&ceid=US:en", "google_news", ["legaltech"], "en"),
+    # === 영문 — AI 프론티어 회사 (개별) ===
+    ("Google News: OpenAI (EN)", "https://news.google.com/rss/search?q=%22OpenAI%22+(launches+OR+announces+OR+releases+OR+raises)&hl=en&gl=US&ceid=US:en", "google_news", ["ai-industry"], "en"),
+    ("Google News: Anthropic Claude (EN)", "https://news.google.com/rss/search?q=%22Anthropic%22+OR+%22Claude%22&hl=en&gl=US&ceid=US:en", "google_news", ["ai-industry"], "en"),
+    ("Google News: Google Gemini DeepMind (EN)", "https://news.google.com/rss/search?q=%22Google+Gemini%22+OR+%22DeepMind%22&hl=en&gl=US&ceid=US:en", "google_news", ["ai-industry"], "en"),
+    ("Google News: xAI Grok (EN)", "https://news.google.com/rss/search?q=%22xAI%22+OR+%22Grok%22&hl=en&gl=US&ceid=US:en", "google_news", ["ai-industry"], "en"),
+    ("Google News: Mistral (EN)", "https://news.google.com/rss/search?q=%22Mistral+AI%22+OR+%22Mistral+Large%22&hl=en&gl=US&ceid=US:en", "google_news", ["ai-industry"], "en"),
+    ("Google News: Meta AI Llama (EN)", "https://news.google.com/rss/search?q=%22Meta+AI%22+OR+%22Llama%22&hl=en&gl=US&ceid=US:en", "google_news", ["ai-industry"], "en"),
+    ("Google News: Perplexity (EN)", "https://news.google.com/rss/search?q=%22Perplexity%22+AI&hl=en&gl=US&ceid=US:en", "google_news", ["ai-industry"], "en"),
+    ("Google News: NVIDIA AI (EN)", "https://news.google.com/rss/search?q=%22NVIDIA%22+(AI+OR+GPU+OR+CUDA)&hl=en&gl=US&ceid=US:en", "google_news", ["ai-industry"], "en"),
+    ("Google News: AI Frontier (EN)", "https://news.google.com/rss/search?q=%22frontier+AI%22+OR+%22frontier+model%22+OR+%22foundation+model%22&hl=en&gl=US&ceid=US:en", "google_news", ["ai-industry"], "en"),
+
+    # === 영문 — 리걸테크 회사 (개별) ===
+    ("Google News: Harvey (EN)", "https://news.google.com/rss/search?q=%22Harvey%22+(legal+OR+law+OR+AI)&hl=en&gl=US&ceid=US:en", "google_news", ["legaltech"], "en"),
     ("Google News: Legora (EN)", "https://news.google.com/rss/search?q=%22Legora%22+legal&hl=en&gl=US&ceid=US:en", "google_news", ["legaltech"], "en"),
-    ("Google News: Mike·Hebbia·Ironclad (EN)", "https://news.google.com/rss/search?q=%22Mike+OSS%22+OR+%22Hebbia%22+OR+%22Ironclad%22+OR+%22Spellbook%22&hl=en&gl=US&ceid=US:en", "google_news", ["legaltech"], "en"),
-    ("Google News: Law firm AI (EN)", "https://news.google.com/rss/search?q=%22law+firm+AI%22+OR+%22BigLaw+AI%22+OR+%22legal+AI+adoption%22&hl=en&gl=US&ceid=US:en", "google_news", ["legaltech"], "en"),
+    ("Google News: Mike OSS (EN)", "https://news.google.com/rss/search?q=%22MikeOss%22+OR+%22Mike+OSS%22+OR+(%22Mike%22+legal+AI)&hl=en&gl=US&ceid=US:en", "google_news", ["legaltech"], "en"),
+    ("Google News: Hebbia (EN)", "https://news.google.com/rss/search?q=%22Hebbia%22&hl=en&gl=US&ceid=US:en", "google_news", ["legaltech"], "en"),
+    ("Google News: Ironclad (EN)", "https://news.google.com/rss/search?q=%22Ironclad%22+(contract+OR+AI+OR+legal)&hl=en&gl=US&ceid=US:en", "google_news", ["legaltech"], "en"),
+    ("Google News: Spellbook (EN)", "https://news.google.com/rss/search?q=%22Spellbook%22+(legal+OR+contract+OR+AI)&hl=en&gl=US&ceid=US:en", "google_news", ["legaltech"], "en"),
+    ("Google News: Robin AI Casetext Everlaw (EN)", "https://news.google.com/rss/search?q=%22Robin+AI%22+OR+%22Casetext%22+OR+%22Everlaw%22&hl=en&gl=US&ceid=US:en", "google_news", ["legaltech"], "en"),
+    ("Google News: Eltemate (EN)", "https://news.google.com/rss/search?q=%22Eltemate%22+OR+%22Hogan+Lovells%22+AI&hl=en&gl=US&ceid=US:en", "google_news", ["legaltech"], "en"),
+    ("Google News: Law firm AI (EN)", "https://news.google.com/rss/search?q=%22law+firm%22+AI+(adoption+OR+implementation+OR+rollout)&hl=en&gl=US&ceid=US:en", "google_news", ["legaltech"], "en"),
 
-    # 영문 — AI 산업
-    ("Google News: AI Frontier Labs (EN)", "https://news.google.com/rss/search?q=%22Anthropic%22+OR+%22OpenAI%22+OR+%22DeepMind%22+OR+%22Mistral%22+announces+OR+launches&hl=en&gl=US&ceid=US:en", "google_news", ["ai-industry"], "en"),
-    ("Google News: AI Agents (EN)", "https://news.google.com/rss/search?q=%22AI+agent%22+OR+%22autonomous+agent%22+OR+%22multi-agent%22+launches+OR+benchmark&hl=en&gl=US&ceid=US:en", "google_news", ["ai-industry"], "en"),
-    ("Google News: AI Funding (EN)", "https://news.google.com/rss/search?q=%22AI+startup%22+raises+OR+%22Series+B%22+OR+%22valuation%22+legal+OR+enterprise&hl=en&gl=US&ceid=US:en", "google_news", ["funding"], "en"),
-    ("Google News: AI Regulation (EN)", "https://news.google.com/rss/search?q=%22AI+regulation%22+OR+%22AI+governance%22+OR+%22EU+AI+Act%22&hl=en&gl=US&ceid=US:en", "google_news", ["policy"], "en"),
+    # === 영문 — 분야·실무 use case ===
+    ("Google News: AI Agents (EN)", "https://news.google.com/rss/search?q=%22AI+agent%22+OR+%22autonomous+agent%22+OR+%22multi+agent%22&hl=en&gl=US&ceid=US:en", "google_news", ["ai-industry"], "en"),
+    ("Google News: AI Governance (EN)", "https://news.google.com/rss/search?q=%22AI+governance%22+OR+%22AI+ethics%22+OR+%22responsible+AI%22&hl=en&gl=US&ceid=US:en", "google_news", ["policy"], "en"),
+    ("Google News: AI Regulation EU Act (EN)", "https://news.google.com/rss/search?q=%22AI+regulation%22+OR+%22EU+AI+Act%22+OR+%22AI+compliance%22&hl=en&gl=US&ceid=US:en", "google_news", ["policy"], "en"),
+    ("Google News: AI Adoption Enterprise (EN)", "https://news.google.com/rss/search?q=%22AI+adoption%22+OR+%22enterprise+AI%22+OR+%22AI+transformation%22+OR+%22AX%22&hl=en&gl=US&ceid=US:en", "google_news", ["ai-industry"], "en"),
+    ("Google News: AI Funding (EN)", "https://news.google.com/rss/search?q=%22AI+startup%22+(raises+OR+%22Series+B%22+OR+%22Series+C%22+OR+valuation)&hl=en&gl=US&ceid=US:en", "google_news", ["funding"], "en"),
+    ("Google News: Contract Legal AI Use Cases (EN)", "https://news.google.com/rss/search?q=%22contract+AI%22+OR+%22contract+review%22+OR+%22due+diligence%22+OR+%22legal+research+AI%22&hl=en&gl=US&ceid=US:en", "google_news", ["legaltech"], "en"),
+    ("Google News: Open source LLM (EN)", "https://news.google.com/rss/search?q=%22open+source+LLM%22+OR+%22Llama%22+OR+%22DeepSeek%22+OR+%22Qwen%22&hl=en&gl=US&ceid=US:en", "google_news", ["ai-industry"], "en"),
+    ("Google News: In house AI Build (EN)", "https://news.google.com/rss/search?q=%22in+house+AI%22+OR+%22AI+ROI%22+OR+%22vendor+lock%22+OR+%22AI+cost%22&hl=en&gl=US&ceid=US:en", "google_news", ["ai-industry"], "en"),
 
-    # ====================================================================
-    # v2.7 추가 — 실무자 관점 확장 키워드
-    # 단순 산업 동향이 아닌 'AI 도입·시장 구도·실무 적용' 시각 강화
-    # ====================================================================
-    # 한국 — AI 도입·활용·전환
-    ("Google News: AI 도입·전환 (KR)", "https://news.google.com/rss/search?q=%22AI+%EB%8F%84%EC%9E%85%22+OR+%22AI+%ED%99%9C%EC%9A%A9+%EC%82%AC%EB%A1%80%22+OR+%22AI+%EC%A0%84%ED%99%98%22+OR+%22%EC%82%AC%EB%82%B4+AI%22&hl=ko&gl=KR&ceid=KR:ko", "google_news", ["ai-industry", "domestic"], "ko"),
-    ("Google News: 엔터프라이즈 AI (KR)", "https://news.google.com/rss/search?q=%22%EC%97%94%ED%84%B0%ED%94%84%EB%9D%BC%EC%9D%B4%EC%A6%88+AI%22+OR+%22%EA%B8%B0%EC%97%85%EC%9A%A9+AI%22+OR+%22%EC%97%85%EB%AC%B4+%EC%9E%90%EB%8F%99%ED%99%94%22&hl=ko&gl=KR&ceid=KR:ko", "google_news", ["ai-industry", "domestic"], "ko"),
-    ("Google News: 로펌·법무법인 AI (KR)", "https://news.google.com/rss/search?q=(%22%EB%A1%9C%ED%8E%8C+AI%22+OR+%22%EB%B2%95%EB%AC%B4%EB%B2%95%EC%9D%B8+AI%22+OR+%22%EB%B3%80%ED%98%B8%EC%82%AC+AI%22+OR+%22%EA%B3%84%EC%95%BD%EC%84%9C+AI%22)&hl=ko&gl=KR&ceid=KR:ko", "google_news", ["legaltech", "domestic"], "ko"),
-    ("Google News: AI 컴플라이언스 (KR)", "https://news.google.com/rss/search?q=%22AI+%EC%BB%B4%ED%94%8C%EB%9D%BC%EC%9D%B4%EC%96%B8%EC%8A%A4%22+OR+%22AI+%EA%B0%80%EC%9D%B4%EB%93%9C%EB%9D%BC%EC%9D%B8%22+OR+%22AI+%EC%9C%A4%EB%A6%AC%22+OR+%22%EA%B0%9C%EC%9D%B8%EC%A0%95%EB%B3%B4+AI%22&hl=ko&gl=KR&ceid=KR:ko", "google_news", ["policy", "domestic"], "ko"),
+    # === 한국어 — 리걸테크 핵심 ===
+    ("Google News: 리걸테크 (KR)", "https://news.google.com/rss/search?q=%EB%A6%AC%EA%B1%B8%ED%85%8C%ED%81%AC&hl=ko&gl=KR&ceid=KR:ko", "google_news", ["legaltech", "domestic"], "ko"),
+    ("Google News: 법률 AI (KR)", "https://news.google.com/rss/search?q=%22%EB%B2%95%EB%A5%A0+AI%22+OR+%22%EB%B2%95%EB%AC%B4+AI%22&hl=ko&gl=KR&ceid=KR:ko", "google_news", ["legaltech", "domestic"], "ko"),
+    ("Google News: BHSN (KR)", "https://news.google.com/rss/search?q=BHSN&hl=ko&gl=KR&ceid=KR:ko", "google_news", ["legaltech", "domestic"], "ko"),
+    ("Google News: 로앤컴퍼니 로앤굿 (KR)", "https://news.google.com/rss/search?q=%22%EB%A1%9C%EC%95%A4%EC%BB%B4%ED%8D%BC%EB%8B%88%22+OR+%22%EB%A1%9C%EC%95%A4%EA%B5%BF%22&hl=ko&gl=KR&ceid=KR:ko", "google_news", ["legaltech", "domestic"], "ko"),
+    ("Google News: 엘박스 케이스노트 (KR)", "https://news.google.com/rss/search?q=%22%EC%97%98%EB%B0%95%EC%8A%A4%22+OR+%22%EC%BC%80%EC%9D%B4%EC%8A%A4%EB%85%B8%ED%8A%B8%22&hl=ko&gl=KR&ceid=KR:ko", "google_news", ["legaltech", "domestic"], "ko"),
 
-    # 영문 — 계약서/실무 use case + 오픈소스 + 시장 구도
-    ("Google News: Contract & Legal AI Use Cases (EN)", "https://news.google.com/rss/search?q=%22contract+AI%22+OR+%22contract+review+AI%22+OR+%22due+diligence+AI%22+OR+%22legal+research+AI%22&hl=en&gl=US&ceid=US:en", "google_news", ["legaltech"], "en"),
-    ("Google News: Open-source LLM (EN)", "https://news.google.com/rss/search?q=%22open-source+LLM%22+OR+%22open+source+language+model%22+OR+%22Llama%22+OR+%22DeepSeek%22+OR+%22vLLM%22&hl=en&gl=US&ceid=US:en", "google_news", ["ai-industry"], "en"),
-    ("Google News: Build vs Buy AI (EN)", "https://news.google.com/rss/search?q=%22build+vs+buy+AI%22+OR+%22in-house+AI%22+OR+%22vendor+lock-in%22+OR+%22AI+ROI%22+OR+%22AI+cost%22&hl=en&gl=US&ceid=US:en", "google_news", ["ai-industry"], "en"),
+    # === 한국어 — AI 산업·도입·실무 ===
+    ("Google News: OpenAI ChatGPT (KR)", "https://news.google.com/rss/search?q=%22OpenAI%22+OR+%22%EC%98%A4%ED%94%88AI%22+OR+%22ChatGPT%22+OR+%22%EC%B1%97GPT%22&hl=ko&gl=KR&ceid=KR:ko", "google_news", ["ai-industry", "domestic"], "ko"),
+    ("Google News: Anthropic Claude (KR)", "https://news.google.com/rss/search?q=%22Anthropic%22+OR+%22%EC%95%A4%ED%8A%B8%EB%A1%9C%ED%94%BD%22+OR+%22Claude%22+OR+%22%ED%81%B4%EB%A1%9C%EB%93%9C%22&hl=ko&gl=KR&ceid=KR:ko", "google_news", ["ai-industry", "domestic"], "ko"),
+    ("Google News: Gemini xAI Grok (KR)", "https://news.google.com/rss/search?q=%22Gemini%22+OR+%22%EC%A0%9C%EB%AF%B8%EB%82%98%EC%9D%B4%22+OR+%22xAI%22+OR+%22Grok%22+OR+%22%EA%B7%B8%EB%A1%9D%22&hl=ko&gl=KR&ceid=KR:ko", "google_news", ["ai-industry", "domestic"], "ko"),
+    ("Google News: 생성형 AI 에이전트 (KR)", "https://news.google.com/rss/search?q=%22%EC%83%9D%EC%84%B1%ED%98%95+AI%22+OR+%22AI+%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8%22&hl=ko&gl=KR&ceid=KR:ko", "google_news", ["ai-industry", "domestic"], "ko"),
+    ("Google News: AI 도입 전환 (KR)", "https://news.google.com/rss/search?q=%22AI+%EB%8F%84%EC%9E%85%22+OR+%22AI+%EC%A0%84%ED%99%98%22+OR+%22AX%22+OR+%22%EC%82%AC%EB%82%B4+AI%22&hl=ko&gl=KR&ceid=KR:ko", "google_news", ["ai-industry", "domestic"], "ko"),
+    ("Google News: 엔터프라이즈 AI (KR)", "https://news.google.com/rss/search?q=%22%EC%97%94%ED%84%B0%ED%94%84%EB%9D%BC%EC%9D%B4%EC%A6%88+AI%22+OR+%22%EA%B8%B0%EC%97%85%EC%9A%A9+AI%22&hl=ko&gl=KR&ceid=KR:ko", "google_news", ["ai-industry", "domestic"], "ko"),
+    ("Google News: 로펌 법무법인 AI (KR)", "https://news.google.com/rss/search?q=%22%EB%A1%9C%ED%8E%8C+AI%22+OR+%22%EB%B2%95%EB%AC%B4%EB%B2%95%EC%9D%B8+AI%22+OR+%22%EB%B3%80%ED%98%B8%EC%82%AC+AI%22&hl=ko&gl=KR&ceid=KR:ko", "google_news", ["legaltech", "domestic"], "ko"),
+    ("Google News: 계약서 AI 자동화 (KR)", "https://news.google.com/rss/search?q=%22%EA%B3%84%EC%95%BD%EC%84%9C+AI%22+OR+%22%EA%B3%84%EC%95%BD+%EC%9E%90%EB%8F%99%ED%99%94%22&hl=ko&gl=KR&ceid=KR:ko", "google_news", ["legaltech", "domestic"], "ko"),
+
+    # === 한국어 — 정책·규제·거버넌스 ===
+    ("Google News: AI 규제 기본법 (KR)", "https://news.google.com/rss/search?q=%22AI+%EA%B7%9C%EC%A0%9C%22+OR+%22AI+%EA%B8%B0%EB%B3%B8%EB%B2%95%22&hl=ko&gl=KR&ceid=KR:ko", "google_news", ["policy", "domestic"], "ko"),
+    ("Google News: AI 가이드라인 거버넌스 (KR)", "https://news.google.com/rss/search?q=%22AI+%EA%B0%80%EC%9D%B4%EB%93%9C%EB%9D%BC%EC%9D%B8%22+OR+%22AI+%EA%B1%B0%EB%B2%84%EB%84%8C%EC%8A%A4%22+OR+%22AI+%EC%9C%A4%EB%A6%AC%22&hl=ko&gl=KR&ceid=KR:ko", "google_news", ["policy", "domestic"], "ko"),
+    ("Google News: EU AI Act (KR)", "https://news.google.com/rss/search?q=%22EU+AI+Act%22+OR+%22EU+AI+%EB%B2%95%22&hl=ko&gl=KR&ceid=KR:ko", "google_news", ["policy", "domestic"], "ko"),
 ]
 
 

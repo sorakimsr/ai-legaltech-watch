@@ -59,9 +59,24 @@ def fetch_source(source_def):
     items = []
     try:
         print(f"  [fetch] {name}", flush=True)
-        feed = feedparser.parse(url, request_headers={
-            "User-Agent": "Mozilla/5.0 (compatible; AI-Legaltech-Watch/2.2)"
-        })
+        # v2.7: arXiv API는 응답이 무거워서 전역 8초 timeout으로는 잘림 →
+        # urllib로 별도 호출 (25s timeout) 후 raw text를 feedparser에 전달
+        if source_type == "arxiv" and "api/query" in url:
+            try:
+                from urllib.request import Request, urlopen
+                req = Request(url, headers={
+                    "User-Agent": "Mozilla/5.0 (compatible; AI-Legaltech-Watch/2.7)"
+                })
+                with urlopen(req, timeout=25) as resp:
+                    body = resp.read().decode("utf-8", errors="replace")
+                feed = feedparser.parse(body)
+            except Exception as exc:
+                print(f"    -> arxiv api fetch error: {exc}", flush=True)
+                return [], "error"
+        else:
+            feed = feedparser.parse(url, request_headers={
+                "User-Agent": "Mozilla/5.0 (compatible; AI-Legaltech-Watch/2.7)"
+            })
         if feed.bozo and feed.bozo_exception and not feed.entries:
             print(f"    -> error: {feed.bozo_exception}", flush=True)
             return [], "error"

@@ -28,24 +28,59 @@ NAVER_API_URL = "https://openapi.naver.com/v1/search/news.json"
 
 
 # 키워드 → (default_categories, display 갯수)
+# v2.7 확장: 한국 사정 반영 — 영문/한국어 발음 동시 검색, AI 회사 개별 분리, 정책·도입·로펌까지
 NAVER_QUERIES = [
+    # === 리걸테크 코어 ===
     ("리걸테크", ["legaltech", "domestic"], 20),
-    ("법률 AI", ["legaltech", "domestic"], 20),
+    ("\"법률 AI\"", ["legaltech", "domestic"], 20),
+    ("\"법률 인공지능\"", ["legaltech", "domestic"], 15),
+    ("\"계약서 AI\"", ["legaltech", "domestic"], 10),
+
+    # === 국내 리걸테크 회사 ===
     ("BHSN", ["legaltech", "domestic"], 10),
     ("로앤컴퍼니", ["legaltech", "domestic"], 10),
     ("로앤굿", ["legaltech", "domestic"], 10),
     ("엘박스", ["legaltech", "domestic"], 10),
-    ("AI 에이전트", ["ai-industry", "domestic"], 20),
-    ("생성형 AI", ["ai-industry", "domestic"], 15),
-    # 정확한 구문으로 제한 — 단어 단독 매칭 회피
+    ("케이스노트", ["legaltech", "domestic"], 10),
+
+    # === 국내 로펌 (AI 도입 동향) ===
+    ("\"김앤장 AI\"", ["legaltech", "domestic"], 10),
+    ("\"광장 AI\"", ["legaltech", "domestic"], 10),
+    ("\"세종 AI\"", ["legaltech", "domestic"], 10),
+    ("\"율촌 AI\"", ["legaltech", "domestic"], 10),
+    ("\"테크앤로\"", ["legaltech", "domestic"], 10),
+
+    # === AI 회사 — 영문/한국어 발음 동시 ===
+    ("OpenAI OR 오픈AI", ["ai-industry", "domestic"], 15),
+    ("ChatGPT OR 챗GPT", ["ai-industry", "domestic"], 15),
+    ("Anthropic OR 앤트로픽", ["ai-industry", "domestic"], 15),
+    ("Claude OR 클로드", ["ai-industry", "domestic"], 15),
+    ("Gemini OR 제미나이", ["ai-industry", "domestic"], 15),
+    ("xAI OR 그록 OR Grok", ["ai-industry", "domestic"], 10),
+    ("\"Meta AI\" OR 라마 OR Llama", ["ai-industry", "domestic"], 10),
+    ("Mistral OR 미스트랄", ["ai-industry", "domestic"], 10),
+    ("Perplexity OR 퍼플렉시티", ["ai-industry", "domestic"], 10),
+
+    # === AI 분야·실무 ===
+    ("\"AI 에이전트\"", ["ai-industry", "domestic"], 20),
+    ("\"생성형 AI\"", ["ai-industry", "domestic"], 15),
+    ("\"AI 도입\"", ["ai-industry", "domestic"], 15),
+    ("\"AI 전환\" OR AX", ["ai-industry", "domestic"], 15),
+    ("\"사내 AI\" OR \"엔터프라이즈 AI\"", ["ai-industry", "domestic"], 10),
+    ("\"AI 활용 사례\"", ["ai-industry", "domestic"], 10),
+
+    # === 정책·규제·거버넌스 ===
     ("\"AI 규제\"", ["policy", "domestic"], 15),
-    ("\"AI 기본법\"", ["policy", "domestic"], 10),
+    ("\"AI 기본법\"", ["policy", "domestic"], 15),
+    ("\"AI 가이드라인\"", ["policy", "domestic"], 10),
+    ("\"AI 거버넌스\"", ["policy", "domestic"], 10),
+    ("\"AI 윤리\"", ["policy", "domestic"], 10),
+    ("\"EU AI Act\"", ["policy", "domestic"], 10),
+
+    # === 투자·M&A ===
     ("\"AI 스타트업\" 투자", ["funding", "domestic"], 15),
     ("\"AI 투자 유치\"", ["funding", "domestic"], 10),
-    ("Claude Anthropic", ["ai-industry", "domestic"], 10),
-    ("OpenAI GPT", ["ai-industry", "domestic"], 10),
-    ("Google Gemini", ["ai-industry", "domestic"], 10),
-    ("AI 거버넌스", ["policy", "domestic"], 10),
+    ("\"AI 인수\" OR \"AI 합병\"", ["funding", "domestic"], 10),
 ]
 
 
