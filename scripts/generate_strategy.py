@@ -29,7 +29,7 @@ TOP_FOR_STRATEGY = 30
 
 PROMPT_TEMPLATE = """당신은 한국의 시니어 전략 컨설턴트입니다. 사용자는 전략·기획과 AI 업무를 함께 수행하는 실무자입니다.
 
-오늘({today}) 수집된 최신 AI·리걸테크·논문 뉴스 상위 {n}개를 아래에 제시합니다.
+오늘({today}) 수집된 최신 AI·리걸테크·논문 뉴스 상위 {n}개를 아래에 제시합니다 (각 항목 앞 번호가 인덱스).
 
 [뉴스 목록]
 {news_blob}
@@ -42,7 +42,8 @@ PROMPT_TEMPLATE = """당신은 한국의 시니어 전략 컨설턴트입니다.
     "tag": "TREND 01 · [한 줄 주제]",
     "title": "[20자 이내 헤드라인]",
     "body": "[2~3문장. 흐름 + 근거 + 의미. 단정적 어조 지양.]",
-    "action": "[1~2문장. 사용자가 본인 업무에 바로 시도해볼 수 있는 액션. '시사점:' 같은 접두어 없이.]"
+    "action": "[1~2문장. 사용자가 본인 업무에 바로 시도해볼 수 있는 액션. '시사점:' 같은 접두어 없이.]",
+    "sources": [번호1, 번호2, ...]
   }},
   ...
 ]
@@ -53,6 +54,7 @@ PROMPT_TEMPLATE = """당신은 한국의 시니어 전략 컨설턴트입니다.
 - 가능한 한 오늘/이번주 뉴스의 구체적 사실(회사명·금액·날짜)을 근거로 활용
 - 일반론 금지, 실무자가 행동할 수 있는 디테일 포함
 - 5~7개 사이
+- **각 카드의 `sources`는 body·action 작성에 실제로 근거가 된 뉴스 인덱스만 (1~3개 권장, 최대 5개)**
 - JSON 배열 외 다른 텍스트 절대 금지
 """
 
@@ -114,13 +116,31 @@ def main():
             strategy_cards = []
             for c in result:
                 if isinstance(c, dict) and all(k in c for k in ("tag", "title", "body", "action")):
+                    # sources 인덱스 → 실제 항목 정보로 변환
+                    cited = []
+                    raw_sources = c.get("sources") or []
+                    if isinstance(raw_sources, list):
+                        for idx in raw_sources[:5]:
+                            try:
+                                i = int(idx) - 1  # 1-based → 0-based
+                                if 0 <= i < len(top_items):
+                                    ref = top_items[i]
+                                    cited.append({
+                                        "title": ref.get("title", "")[:140],
+                                        "url": ref.get("url", ""),
+                                        "source": ref.get("source", ""),
+                                        "date": ref.get("date", "")[:10],
+                                    })
+                            except (ValueError, TypeError):
+                                continue
                     strategy_cards.append({
                         "tag": str(c["tag"]).strip(),
                         "title": str(c["title"]).strip(),
                         "body": str(c["body"]).strip(),
                         "action": str(c["action"]).strip(),
+                        "citations": cited,
                     })
-            print(f"  generated {len(strategy_cards)} cards", flush=True)
+            print(f"  generated {len(strategy_cards)} cards (avg citations: {sum(len(c['citations']) for c in strategy_cards) / max(1, len(strategy_cards)):.1f})", flush=True)
         else:
             print(f"  [warn] LLM did not return a list: {type(result)}", flush=True)
 
