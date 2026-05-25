@@ -90,6 +90,15 @@
       <div class="content">
         <div class="stat-row" id="stat-row"></div>
 
+        <!-- 다중 선택 액션 바 (선택된 항목 있을 때만 표시) -->
+        <div class="select-bar hidden" id="select-bar">
+          <div class="select-info">
+            <span id="selected-count">0개 선택</span>
+            <button class="link-btn" id="btn-clear-selection">선택 해제</button>
+          </div>
+          <button class="btn btn-primary" id="btn-ai-analyze">🤖 AI 분석</button>
+        </div>
+
         <!-- 카테고리 필터 = 주제 -->
         <div class="filter-label">주제별 필터</div>
         <div class="category-bar" id="category-bar"></div>
@@ -98,6 +107,7 @@
           <div class="search-wrap">
             <span class="search-icon">🔍</span>
             <input type="text" id="search-input" placeholder="키워드 검색 (제목, 출처, 요약, 시사점)" />
+            <button class="search-action hidden" id="btn-select-search-results" title="현재 검색 결과 전체 선택">검색결과 전체 선택</button>
           </div>
           <div class="control-group">
             <span class="control-label">기간</span>
@@ -148,6 +158,73 @@
         </div>
       </div>
     </main>
+  </div>
+
+  <!-- AI 분석 모달 -->
+  <div id="analyze-modal" class="modal hidden">
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-panel">
+      <div class="modal-head">
+        <h2>🤖 AI 분석</h2>
+        <button class="modal-close" data-close>×</button>
+      </div>
+      <div class="modal-body">
+        <!-- 선택 항목 미리보기 -->
+        <div class="analyze-preview">
+          <div class="analyze-preview-head">
+            <span id="analyze-count">0개 항목</span>
+            <button class="link-btn" id="btn-toggle-preview">목록 ▾</button>
+          </div>
+          <ul class="analyze-preview-list hidden" id="analyze-preview-list"></ul>
+        </div>
+
+        <!-- 백엔드 선택 -->
+        <div class="analyze-row">
+          <label class="analyze-label">분석 엔진</label>
+          <div class="backend-tabs">
+            <button class="backend-tab active" data-backend="openai">OpenAI (GPT-4o-mini · 빠름)</button>
+            <button class="backend-tab" data-backend="claude">Claude (Sonnet · 정확)</button>
+          </div>
+        </div>
+
+        <!-- 프롬프트 -->
+        <div class="analyze-row">
+          <label class="analyze-label">분석 요청</label>
+          <select id="prompt-preset" class="prompt-preset">
+            <option value="summary">핵심 요약 (3~5포인트)</option>
+            <option value="insights">전략·기획 시사점</option>
+            <option value="trends">반복되는 패턴/트렌드</option>
+            <option value="competitive">경쟁 구도·플레이어 비교</option>
+            <option value="opportunity">한국 시장 진출 기회</option>
+            <option value="custom">직접 입력</option>
+          </select>
+          <textarea id="prompt-input" class="prompt-input" rows="4" placeholder="원하는 분석 요청을 적어주세요"></textarea>
+        </div>
+
+        <!-- 본인 API 키 옵션 (rate limit 해제) -->
+        <details class="analyze-row analyze-keys">
+          <summary>본인 API 키 사용 (한도 제한 해제) — 선택</summary>
+          <div class="analyze-key-input">
+            <input type="password" id="user-api-key" placeholder="sk-... 또는 sk-ant-..." />
+            <small>입력한 키는 본인 브라우저에만 저장됩니다 (localStorage)</small>
+          </div>
+        </details>
+
+        <!-- 결과 영역 -->
+        <div id="analyze-result-wrap" class="analyze-result-wrap hidden">
+          <div class="analyze-result-head">
+            <span class="analyze-result-label">결과</span>
+            <button class="link-btn" id="btn-copy-result">📋 복사</button>
+          </div>
+          <div id="analyze-result" class="analyze-result"></div>
+          <div id="analyze-meta" class="analyze-meta"></div>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn btn-secondary" data-close>닫기</button>
+        <button class="btn btn-primary" id="btn-run-analyze">분석 실행</button>
+      </div>
+    </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>

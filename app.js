@@ -1,4 +1,23 @@
-// AI & Legaltech Watch v2.4 — 시계열 시사점 + 7일 추이 차트
+// AI & Legaltech Watch v2.5 — 다중선택 + AI 분석 + 시계열 + 7일 추이
+
+// ============================================================================
+// AI 분석 백엔드 (Cloudflare Worker)
+// ============================================================================
+const WORKER_ENDPOINT = "https://daibfy-ai-proxy.sora-kim-sr.workers.dev/analyze";
+
+const PROMPT_PRESETS = {
+  summary:
+    "다음 뉴스들의 핵심을 3~5개의 불릿 포인트로 요약해주세요. 각 포인트는 한 문장으로, 구체적 사실(회사명·금액·날짜) 중심으로.",
+  insights:
+    "다음 뉴스들을 한국의 전략·기획·AI 업무 담당자 관점에서 분석해주세요. (1) 흐름 정리 (2) 의미와 영향 (3) 본인 업무에 적용할 액션 가능한 시사점 3가지.",
+  trends:
+    "다음 뉴스들에서 반복되는 패턴·키워드·플레이어를 추출해 트렌드 분석해주세요. 강한 시그널과 약한 시그널을 구분하고, 향후 3~6개월 내 추적할 가치 있는 변수를 제시.",
+  competitive:
+    "다음 뉴스들에 등장하는 회사·제품·플랫폼을 경쟁 구도로 정리해주세요. 표 형식으로 비교 (강점·약점·차별화 요소), 시장 포지셔닝 분석, 잠재적 통합·M&A 가능성.",
+  opportunity:
+    "다음 뉴스들이 시사하는 한국 시장 진출/협업 기회를 분석해주세요. (1) 글로벌 흐름 (2) 한국 시장의 갭과 기회 (3) 진입 전략·파트너십 아이디어.",
+  custom: "",
+};
 
 const state = {
   data: null,
@@ -17,6 +36,11 @@ const state = {
   langFilter: 'all',
   // chart instance
   trendChart: null,
+  // 다중 선택
+  selectedUrls: new Set(),
+  // 분석 모달 상태
+  analyzeBackend: "openai",
+  analyzePromptPreset: "summary",
 };
 
 const CATEGORIES = [
@@ -310,9 +334,14 @@ function renderCard(item) {
   const langBadge = isEnglish ? '<span class="lang-badge">EN</span>' : '';
   const newBadge = isNewToday(item) ? '<span class="new-badge">NEW</span>' : '';
 
+  const isSelected = state.selectedUrls.has(item.url);
+
   return `
-    <article class="news-card">
+    <article class="news-card ${isSelected ? 'is-selected' : ''}" data-url="${escapeHtml(item.url)}">
       ${aiBadge}
+      <label class="card-checkbox" title="AI 분석 선택">
+        <input type="checkbox" class="card-check" data-url="${escapeHtml(item.url)}" ${isSelected ? 'checked' : ''} />
+      </label>
       <div class="card-top">
         <div style="display:flex;gap:6px;align-items:center;">
           <span class="score-badge ${scoreClass}">${escapeHtml(scoreLabel)}</span>
@@ -604,6 +633,7 @@ function bindEvents() {
   document.getElementById('search-input').addEventListener('input', e => {
     state.search = e.target.value.trim();
     renderContent();
+    updateSelectBar();
   });
   document.getElementById('date-filter').addEventListener('change', e => {
     state.dateFilter = e.target.value;
@@ -613,6 +643,287 @@ function bindEvents() {
     state.langFilter = e.target.value;
     renderContent();
   });
+
+  // 다중 선택 — 카드 체크박스 (delegation)
+  document.getElementById('news-grid').addEventListener('change', e => {
+    if (e.target.classList.contains('card-check')) {
+      const url = e.target.dataset.url;
+      if (url) toggleSelection(url);
+    }
+  });
+
+  // 선택 해제
+  const btnClear = document.getElementById('btn-clear-selection');
+  if (btnClear) btnClear.addEventListener('click', clearSelection);
+
+  // 검색결과 전체 선택
+  const btnSelectSearch = document.getElementById('btn-select-search-results');
+  if (btnSelectSearch) btnSelectSearch.addEventListener('click', selectSearchResults);
+
+  // AI 분석 버튼 → 모달 열기
+  const btnAnalyze = document.getElementById('btn-ai-analyze');
+  if (btnAnalyze) btnAnalyze.addEventListener('click', openAnalyzeModal);
+
+  // 모달 닫기 (backdrop, X 버튼, 닫기 버튼)
+  document.querySelectorAll('[data-close]').forEach(el => {
+    el.addEventListener('click', closeAnalyzeModal);
+  });
+
+  // 모달 — 백엔드 탭
+  document.querySelectorAll('.backend-tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.backend-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      state.analyzeBackend = btn.dataset.backend;
+    });
+  });
+
+  // 모달 — 프롬프트 프리셋
+  const presetSel = document.getElementById('prompt-preset');
+  if (presetSel) {
+    presetSel.addEventListener('change', e => {
+      state.analyzePromptPreset = e.target.value;
+      applyPromptPreset();
+    });
+  }
+
+  // 모달 — 선택 미리보기 토글
+  const btnTogglePreview = document.getElementById('btn-toggle-preview');
+  if (btnTogglePreview) {
+    btnTogglePreview.addEventListener('click', () => {
+      document.getElementById('analyze-preview-list').classList.toggle('hidden');
+    });
+  }
+
+  // 모달 — 분석 실행
+  const btnRun = document.getElementById('btn-run-analyze');
+  if (btnRun) btnRun.addEventListener('click', runAnalysis);
+
+  // 모달 — 결과 복사
+  const btnCopy = document.getElementById('btn-copy-result');
+  if (btnCopy) btnCopy.addEventListener('click', copyAnalyzeResult);
+
+  // 본인 API 키 — localStorage 복원
+  try {
+    const saved = localStorage.getItem('daibfy_user_api_key');
+    if (saved) {
+      const input = document.getElementById('user-api-key');
+      if (input) input.value = saved;
+    }
+  } catch (e) {}
+}
+
+// ========================= 다중 선택 + AI 분석 =========================
+
+function toggleSelection(url) {
+  if (state.selectedUrls.has(url)) {
+    state.selectedUrls.delete(url);
+  } else {
+    state.selectedUrls.add(url);
+  }
+  updateSelectBar();
+  // 카드 시각 업데이트
+  const card = document.querySelector(`.news-card[data-url="${cssEscape(url)}"]`);
+  if (card) card.classList.toggle('is-selected', state.selectedUrls.has(url));
+}
+
+function clearSelection() {
+  state.selectedUrls.clear();
+  document.querySelectorAll('.news-card.is-selected').forEach(c => c.classList.remove('is-selected'));
+  document.querySelectorAll('.card-check:checked').forEach(c => c.checked = false);
+  updateSelectBar();
+}
+
+function selectSearchResults() {
+  const visible = filterItems();
+  visible.forEach(it => state.selectedUrls.add(it.url));
+  renderContent();   // 카드 재렌더해서 체크 표시
+  updateSelectBar();
+}
+
+function updateSelectBar() {
+  const bar = document.getElementById('select-bar');
+  const count = state.selectedUrls.size;
+  document.getElementById('selected-count').textContent = `${count}개 선택`;
+  if (count > 0) {
+    bar.classList.remove('hidden');
+  } else {
+    bar.classList.add('hidden');
+  }
+
+  // 검색결과 전체 선택 버튼 — 검색어 있을 때만 표시
+  const btnSelectSearch = document.getElementById('btn-select-search-results');
+  if (btnSelectSearch) {
+    btnSelectSearch.classList.toggle('hidden', !state.search);
+  }
+}
+
+function openAnalyzeModal() {
+  if (state.selectedUrls.size === 0) {
+    alert('먼저 카드를 선택해주세요.');
+    return;
+  }
+  const modal = document.getElementById('analyze-modal');
+  modal.classList.remove('hidden');
+
+  // 선택 항목 미리보기
+  const items = (state.data.items || []).filter(i => state.selectedUrls.has(i.url));
+  document.getElementById('analyze-count').textContent = `${items.length}개 항목 선택`;
+  const list = document.getElementById('analyze-preview-list');
+  list.innerHTML = items.map(i => `<li>${escapeHtml(i.title)} <span class="rel-source">— ${escapeHtml(i.source)}</span></li>`).join('');
+
+  // 프롬프트 기본값
+  applyPromptPreset();
+
+  // 결과 영역 초기화
+  const resultWrap = document.getElementById('analyze-result-wrap');
+  resultWrap.classList.add('hidden');
+  document.getElementById('analyze-result').innerHTML = '';
+  document.getElementById('analyze-meta').textContent = '';
+}
+
+function closeAnalyzeModal() {
+  document.getElementById('analyze-modal').classList.add('hidden');
+}
+
+function applyPromptPreset() {
+  const preset = state.analyzePromptPreset;
+  const input = document.getElementById('prompt-input');
+  if (preset !== 'custom') {
+    input.value = PROMPT_PRESETS[preset] || '';
+  }
+}
+
+async function runAnalysis() {
+  const items = (state.data.items || []).filter(i => state.selectedUrls.has(i.url));
+  if (items.length === 0) {
+    alert('선택된 항목이 없습니다.');
+    return;
+  }
+
+  const promptInstruction = document.getElementById('prompt-input').value.trim();
+  if (!promptInstruction) {
+    alert('분석 요청을 입력해주세요.');
+    return;
+  }
+
+  // 데이터 묶어서 프롬프트 구성
+  const newsBlob = items.slice(0, 60).map((it, i) => {
+    const ko = it.summary_ko || it.summary || '';
+    return `${i + 1}. [${it.source}, ${(it.date || '').slice(0,10)}] ${it.title}\n   ${ko.slice(0, 300)}\n   URL: ${it.url}`;
+  }).join('\n\n');
+
+  const fullPrompt = `${promptInstruction}\n\n[분석 대상 뉴스 ${items.length}건]\n\n${newsBlob}`;
+
+  // 본인 API 키 (옵션)
+  const userKey = document.getElementById('user-api-key').value.trim();
+  if (userKey) {
+    try { localStorage.setItem('daibfy_user_api_key', userKey); } catch (e) {}
+  }
+
+  const headers = { 'Content-Type': 'application/json' };
+  if (userKey) {
+    headers['X-User-Api-Key'] = userKey;
+    headers['X-User-Backend'] = state.analyzeBackend;
+  }
+
+  const runBtn = document.getElementById('btn-run-analyze');
+  const resultWrap = document.getElementById('analyze-result-wrap');
+  const resultEl = document.getElementById('analyze-result');
+  const metaEl = document.getElementById('analyze-meta');
+
+  runBtn.disabled = true;
+  runBtn.textContent = '분석 중...';
+  resultWrap.classList.remove('hidden');
+  resultEl.innerHTML = '<div class="analyze-loading">⏳ AI가 분석 중입니다. 보통 10~30초 소요…</div>';
+  metaEl.textContent = '';
+
+  try {
+    const t0 = Date.now();
+    const r = await fetch(WORKER_ENDPOINT, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        backend: state.analyzeBackend,
+        prompt: fullPrompt,
+        max_tokens: 2000,
+      }),
+    });
+    const elapsed = ((Date.now() - t0) / 1000).toFixed(1);
+    const data = await r.json();
+    if (!r.ok) {
+      const msg = data.error || `HTTP ${r.status}`;
+      if (data.limit_reached) {
+        resultEl.innerHTML = `
+          <div class="analyze-error">
+            <strong>${escapeHtml(msg)}</strong>
+            <p>본인 API 키를 입력하시면 한도 제한 없이 사용할 수 있습니다 (위 "본인 API 키 사용" 펼치기).</p>
+          </div>
+        `;
+      } else {
+        resultEl.innerHTML = `<div class="analyze-error"><strong>분석 실패</strong><p>${escapeHtml(msg)}</p></div>`;
+      }
+    } else {
+      // 마크다운 → HTML (단순)
+      resultEl.innerHTML = renderMarkdown(data.result || '');
+      const usage = data.usage || {};
+      const tokens = usage.input_tokens || usage.prompt_tokens || '?';
+      const outTokens = usage.output_tokens || usage.completion_tokens || '?';
+      metaEl.textContent = `${data.backend} · ${data.model} · ${elapsed}초 · 입력 ${tokens}토큰 / 출력 ${outTokens}토큰` + (data.used_user_key ? ' · 본인 키' : '');
+    }
+  } catch (e) {
+    resultEl.innerHTML = `<div class="analyze-error"><strong>네트워크 오류</strong><p>${escapeHtml(e.message || String(e))}</p><p>Worker URL이 살아있는지, CORS가 허용되는지 확인하세요.</p></div>`;
+  } finally {
+    runBtn.disabled = false;
+    runBtn.textContent = '분석 실행';
+  }
+}
+
+function renderMarkdown(text) {
+  if (!text) return '';
+  // 매우 단순한 마크다운 → HTML (안전한 escape 후)
+  let html = escapeHtml(text);
+  // 코드블록 ```...```
+  html = html.replace(/```([\s\S]*?)```/g, (m, p) => `<pre><code>${p}</code></pre>`);
+  // 헤딩 (### / ## / #)
+  html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+  html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+  html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+  // 굵게 **text**
+  html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+  // 인라인 코드 `text`
+  html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+  // 리스트 라인 (- item)
+  html = html.replace(/^- (.+)$/gm, '<li>$1</li>');
+  html = html.replace(/(<li>.*?<\/li>(\n|$))+/g, m => `<ul>${m}</ul>`);
+  // 줄바꿈
+  html = html.replace(/\n\n+/g, '</p><p>');
+  html = '<p>' + html + '</p>';
+  // 빈 p, ul 안의 p 정리
+  html = html.replace(/<p>\s*<\/p>/g, '');
+  html = html.replace(/<p>(<h\d>)/g, '$1');
+  html = html.replace(/(<\/h\d>)<\/p>/g, '$1');
+  html = html.replace(/<p>(<ul>)/g, '$1');
+  html = html.replace(/(<\/ul>)<\/p>/g, '$1');
+  html = html.replace(/<p>(<pre>)/g, '$1');
+  html = html.replace(/(<\/pre>)<\/p>/g, '$1');
+  return html;
+}
+
+function copyAnalyzeResult() {
+  const result = document.getElementById('analyze-result').innerText;
+  if (!result) return;
+  navigator.clipboard.writeText(result).then(() => {
+    const btn = document.getElementById('btn-copy-result');
+    const orig = btn.textContent;
+    btn.textContent = '✓ 복사됨';
+    setTimeout(() => btn.textContent = orig, 1500);
+  });
+}
+
+function cssEscape(s) {
+  // CSS attribute selector safe escape (simple)
+  return String(s).replace(/(["\\])/g, '\\$1');
 }
 
 // ========================= 유틸 =========================
