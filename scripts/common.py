@@ -899,6 +899,11 @@ NEGATIVE_SIGNALS = [
     "코스피 강세", "코스닥 강세", "닛케이",
     # 라이프스타일·여행
     "맛집", "여행지 추천", "관광 명소", "캠핑", "낚시", "등산",
+    # v4.2: 단순 행사·포럼·세미나 개최 PR (인사이트 없는 행사 알림)
+    "포럼 개최", "세미나 개최", "워크숍 개최", "심포지엄 개최",
+    "컨퍼런스 개최", "포럼 진행", "세미나 진행", "워크숍 진행",
+    "포럼이 열렸", "세미나가 열렸", "행사를 개최", "행사가 열렸",
+    "기조강연", "기조 강연", "환영사", "개회사", "축사",
 ]
 
 
@@ -908,25 +913,49 @@ def count_signal_hits(text: str, signals: list) -> int:
 
 
 def score_item(title: str, summary: str, date, categories: list) -> int:
-    """v4.0: 행동 시그널 기반 중요도 — 대형로펌 경영전략팀 페르소나.
+    """v4.3: AI 관련성 게이트 + 행동 시그널 기반 중요도 — 대형로펌 경영전략팀 페르소나.
 
     설계 원칙:
-      1) 단순 "AI" 언급으로는 통과 못함 (의미 페어 강제)
+      1) **AI 관련성 게이트** (v4.3): 4축 시그널은 모두 AI 컨텍스트 안에서만 의미.
+         - 본문 AI 언급 0회 + 카테고리도 AI 무관 → score 0 (자동 drop)
+         - AI 언급 1~2회 → 시그널 50% 인정 (약한 컨텍스트)
+         - AI 언급 3회+ → 시그널 100% 인정 (강한 컨텍스트)
       2) base 30 → 행동 시그널 없으면 자동 cut-off 미만
-      3) DECISION/REGULATORY/MARKET/LEGAL 4축 시그널 매트릭스 (각 최대 +25)
-      4) NEGATIVE 시그널은 강력한 -30
-      5) AI 단순 언급 (1~2회) + 시그널 0 → score 20 hard cap
+      3) DECISION/REGULATORY/MARKET/LEGAL 4축 시그널 (각 +28/+28/+18/+12)
+      4) NEGATIVE 시그널은 강력한 -30 또는 hard cap
+      5) cut-off 35 미만은 fetch + prev_map 단계에서 자동 drop
 
-    점수 구간 가이드 (cut-off 35):
-      0~34   = drop (광고/PR/연예/일상)
+    점수 구간 가이드:
+      0~34   = drop (AI 무관 / 광고 / PR / 연예 / 일상)
       35~49  = 약한 시그널 (참고)
       50~69  = 의미 있는 시그널 (검토)
       70~89  = 명확한 행동 가치 (f/u 필요)
       90+    = 핵심 검토 사항 (즉시 보고)
     """
-    score = 30.0  # v4.0: base 50 → 30 (시그널 없으면 자동 cut-off)
+    score = 30.0
     text = (title + " " + summary).lower()
     title_lower = title.lower()
+
+    # === v4.3 AI 관련성 게이트 ===
+    # 4축 시그널은 AI 컨텍스트 안에서만 의미. AI 언급 없으면 점수 자체를 강등.
+    ai_mentions = (text.count(" ai ") + text.count("ai ") +
+                   text.count(" ai") + text.count("인공지능") +
+                   text.count("llm") + text.count("gpt") +
+                   text.count("머신러닝") + text.count("딥러닝"))
+    # AI 무관 article 자동 drop (papers/legaltech 카테고리는 AI 도메인 내재라 보호)
+    if ai_mentions == 0:
+        if "papers" not in categories and "legaltech" not in categories:
+            return 0  # AI 키워드 0회 → score 0 (cut-off 자동 drop)
+    # 시그널 multiplier: AI 컨텍스트 강도에 따라
+    if ai_mentions >= 3:
+        signal_multiplier = 1.0
+    elif ai_mentions >= 1:
+        signal_multiplier = 0.7  # 약한 AI 컨텍스트도 의미 있게 인정 (1~2회)
+    else:
+        signal_multiplier = 0.5  # papers/legaltech 카테고리 보호받는 경우
+    # papers/legaltech는 AI/리걸테크 도메인 자체라 multiplier 보강
+    if "papers" in categories or "legaltech" in categories:
+        signal_multiplier = max(signal_multiplier, 0.85)
 
     # === v4.0 행동 시그널 매트릭스 (각 축 최대 +25) ===
     decision_hits = count_signal_hits(text, DECISION_SIGNALS)
@@ -943,11 +972,15 @@ def score_item(title: str, summary: str, date, categories: list) -> int:
     market_s = strength(market_hits)
     legal_s = strength(legal_hits)
 
-    # 가중치 (사용자 페르소나: 대형로펌 경영전략팀)
-    score += decision_s   * 25  # 의사결정 시그널 가장 중요
-    score += regulatory_s * 25  # 규제 시그널 (로펌 본업)
-    score += market_s     * 20  # 시장구조
-    score += legal_s      * 22  # 법률·로펌
+    # v4.3 가중치 + AI 관련성 게이트 — 시그널은 AI 컨텍스트와 페어일 때만 인정
+    # signal_multiplier:
+    #   1.0 = AI 언급 3+ (정상 AI 기사)
+    #   0.5 = AI 언급 1~2 (약한 AI 컨텍스트, 보너스 절반)
+    #   0.3 = AI 무관이지만 papers/legaltech 카테고리 보호
+    score += decision_s   * 28 * signal_multiplier  # 의사결정 (도입·통제·재설계)
+    score += regulatory_s * 28 * signal_multiplier  # 규제 (정책·법안·컴플라이언스)
+    score += market_s     * 18 * signal_multiplier  # 시장구조 (M&A·진출·투자)
+    score += legal_s      * 12 * signal_multiplier  # 법률·로펌 (보조 시그널)
 
     total_signal = decision_s + regulatory_s + market_s + legal_s
 
@@ -960,10 +993,7 @@ def score_item(title: str, summary: str, date, categories: list) -> int:
         else:
             score -= 30  # 강한 시그널 있어도 NEGATIVE는 강등
 
-    # === v4.0 AI 단순 언급 자동 강등 ===
-    # "AI"가 본문에 1~2회뿐이고 행동 시그널 없으면 단순 언급 — drop
-    ai_mentions = (text.count(" ai ") + text.count("ai ") +
-                   text.count(" ai") + text.count("인공지능"))
+    # === v4.0 AI 단순 언급 자동 강등 (v4.3: ai_mentions 위에서 이미 계산됨) ===
     if ai_mentions <= 2 and total_signal < 0.3:
         score = min(score, 22)
 
