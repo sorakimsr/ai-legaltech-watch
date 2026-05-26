@@ -153,6 +153,12 @@ jobs:
               json.dump(d, f, ensure_ascii=False, indent=2)
           "
 
+      # ===== Phase 2a: 엔티티 휴리스틱 추출 (LLM 없이, ~10초) =====
+      - name: "Step 4c — Extract entities (heuristic)"
+        if: github.event.inputs.deploy_only != 'true'
+        run: python scripts/entity_extractor.py
+        continue-on-error: true
+
       # ===== 5단계: Obsidian Vault로 마크다운 export =====
       - name: "Step 5 — Clone vault repo"
         if: github.event.inputs.deploy_only != 'true' && env.VAULT_PAT != ''
