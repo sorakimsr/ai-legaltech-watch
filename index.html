@@ -317,7 +317,12 @@
           <summary>본인 API 키 사용 (한도 제한 해제) — 선택</summary>
           <div class="analyze-key-input">
             <input type="password" id="user-api-key" placeholder="sk-... 또는 sk-ant-..." />
-            <small>입력한 키는 본인 브라우저에만 저장됩니다 (localStorage)</small>
+            <!-- v6.0 (P1-4): session-only 저장 토글. 체크 해제 시 localStorage 사용(영구). -->
+            <label class="analyze-key-session">
+              <input type="checkbox" id="user-api-key-session-only" checked />
+              이 세션에서만 사용 (브라우저 닫으면 키가 사라짐)
+            </label>
+            <small id="user-api-key-storage-hint">현재: 세션 메모리에만 저장됩니다. 새로고침해도 유지되지만 브라우저 종료 시 삭제됩니다.</small>
           </div>
         </details>
 
@@ -354,6 +359,8 @@
           integrity="sha384-su5kReKyYlIFrI62mbQRKXHzFobMa7BHp1cK6julLPbnYcCW9NIZKJiTODjLPeDh"
           crossorigin="anonymous"
           referrerpolicy="no-referrer"></script>
-  <script src="app.js?v=20260526-v48"></script>
+  <!-- v6.0 (P2-3): app.util.js를 app.js 앞에 로드 (escapeHtml 등 의존성) -->
+  <script src="app.util.js?v=20260526-v49"></script>
+  <script src="app.js?v=20260526-v49"></script>
 </body>
 </html>

@@ -179,9 +179,9 @@ function makeStrategyKey(period, dateKey, card) {
   return `${period}|${dateKey || ''}|${(card.tag || card.title || '').slice(0, 80)}`;
 }
 
-function escapeAttr(s) {
-  return (s || '').replace(/'/g, '&apos;').replace(/"/g, '&quot;');
-}
+// v6.0 (P2-3): escapeAttr / escapeHtml / escapeHtmlWithMark / formatKoreanDate /
+//              isNewToday / cssEscape / renderMarkdown / unboldProperNouns / UNBOLD_PROPER_NOUNS /
+//              _escapeRegex / PAPERS_NARRATIVE_LABELS 는 app.util.js로 분리되었습니다.
 
 const CATEGORIES = [
   { id: 'all', label: '전체' },
@@ -215,14 +215,26 @@ async function init() {
   loadSaved();  // v2.7: localStorage 북마크 복원
   loadAnalyses();  // v2.7.5: AI 분석 결과 history 복원
 
-  // v2.7.6: cache 강제 무효화 — Cache-Control: no-cache 헤더 + ?t= 버스터 동시 사용
-  const noCacheFetch = (path) => fetch(path + '?t=' + Date.now(), {
-    cache: 'no-store',
-    headers: { 'Cache-Control': 'no-cache', 'Pragma': 'no-cache' },
-  });
+  // v6.0 (P2-1): cache-buster를 빌드 타임스탬프로 교체.
+  //   1) data/version.json (~30byte)만 no-cache로 가져와 빌드 버전 확인.
+  //   2) 큰 파일(news.json 등)은 ?v=<build> 로 가져와 CDN/브라우저 캐시 활용.
+  //   3) 빌드가 갱신되면 ?v= 값이 바뀌어 새 파일을 가져오고, 그 사이엔 캐시 hit.
+  //   이전 동작은 ?t=Date.now()로 매 로드마다 1.1MB news.json을 강제 재다운로드했음.
+  let buildVersion = String(Date.now());  // version.json 없을 때 안전한 fallback
+  try {
+    const vr = await fetch('./data/version.json', { cache: 'no-cache' });
+    if (vr.ok) {
+      const v = await vr.json();
+      buildVersion = v.build || v.last_updated || buildVersion;
+    }
+  } catch (e) { /* version.json은 옵션 — 없어도 동작 */ }
+  state.buildVersion = buildVersion;  // loadEntities/loadRelations 등에서 공유
+
+  const versionedFetch = (path) =>
+    fetch(path + '?v=' + encodeURIComponent(buildVersion), { cache: 'default' });
 
   try {
-    const res = await noCacheFetch('./data/news.json');
+    const res = await versionedFetch('./data/news.json');
     state.data = await res.json();
   } catch (e) {
     console.error('news.json 로드 실패:', e);
@@ -231,26 +243,26 @@ async function init() {
 
   // 보조 데이터 (옵션)
   try {
-    const r = await noCacheFetch('./data/strategy_history.json');
+    const r = await versionedFetch('./data/strategy_history.json');
     state.history = await r.json();
   } catch (e) {
     state.history = { daily: {}, weekly: {}, monthly: {} };
   }
   try {
-    const r = await noCacheFetch('./data/source_history.json');
+    const r = await versionedFetch('./data/source_history.json');
     state.sourceHistory = await r.json();
   } catch (e) {
     state.sourceHistory = {};
   }
   try {
-    const r = await noCacheFetch('./data/paper_trends.json');
+    const r = await versionedFetch('./data/paper_trends.json');
     state.paperTrends = await r.json();
   } catch (e) {
     state.paperTrends = null;
   }
   // v2.7.1: 논문 시계열 history (선택 사항 — 없으면 paper_trends만 표시)
   try {
-    const r = await noCacheFetch('./data/paper_trends_history.json');
+    const r = await versionedFetch('./data/paper_trends_history.json');
     state.paperTrendsHistory = await r.json();
   } catch (e) {
     state.paperTrendsHistory = null;
@@ -1557,12 +1569,42 @@ function bindEvents() {
   const btnCopy = document.getElementById('btn-copy-result');
   if (btnCopy) btnCopy.addEventListener('click', copyAnalyzeResult);
 
-  // 본인 API 키 — localStorage 복원
+  // 본인 API 키 — 저장소 복원 (session 우선, fallback localStorage)
+  // v6.0 (P1-4): session-only 토글 지원. session에 있으면 그것, 없으면 localStorage 사용.
   try {
-    const saved = localStorage.getItem('daibfy_user_api_key');
-    if (saved) {
-      const input = document.getElementById('user-api-key');
-      if (input) input.value = saved;
+    const fromSession = sessionStorage.getItem('daibfy_user_api_key');
+    const fromLocal = localStorage.getItem('daibfy_user_api_key');
+    const saved = fromSession || fromLocal;
+    const input = document.getElementById('user-api-key');
+    const sessionToggle = document.getElementById('user-api-key-session-only');
+    if (input && saved) input.value = saved;
+    // 저장소 상태로 토글 초기화: localStorage에만 있으면 영구(unchecked), 그 외엔 session(checked)
+    if (sessionToggle) {
+      sessionToggle.checked = !fromLocal || !!fromSession;
+      const hint = document.getElementById('user-api-key-storage-hint');
+      if (hint) {
+        hint.textContent = sessionToggle.checked
+          ? '현재: 세션 메모리에만 저장됩니다. 새로고침해도 유지되지만 브라우저 종료 시 삭제됩니다.'
+          : '현재: localStorage에 영구 저장됩니다. 같은 브라우저로 돌아오면 자동 복원되지만, DevTools로 누구나 열람할 수 있습니다.';
+      }
+      sessionToggle.addEventListener('change', () => {
+        const hintEl = document.getElementById('user-api-key-storage-hint');
+        if (hintEl) {
+          hintEl.textContent = sessionToggle.checked
+            ? '현재: 세션 메모리에만 저장됩니다. 새로고침해도 유지되지만 브라우저 종료 시 삭제됩니다.'
+            : '현재: localStorage에 영구 저장됩니다. 같은 브라우저로 돌아오면 자동 복원되지만, DevTools로 누구나 열람할 수 있습니다.';
+        }
+        // 토글 변경 시 즉시 저장소 정리 (혼선 방지)
+        const k = (document.getElementById('user-api-key') || {}).value || '';
+        if (!k) return;
+        if (sessionToggle.checked) {
+          try { sessionStorage.setItem('daibfy_user_api_key', k); } catch (e) {}
+          try { localStorage.removeItem('daibfy_user_api_key'); } catch (e) {}
+        } else {
+          try { localStorage.setItem('daibfy_user_api_key', k); } catch (e) {}
+          try { sessionStorage.removeItem('daibfy_user_api_key'); } catch (e) {}
+        }
+      });
     }
   } catch (e) {}
 }
@@ -2043,9 +2085,19 @@ async function runAnalysis() {
   const fullPrompt = `${promptInstruction}\n\n${header}\n\n${blob}`;
 
   // 본인 API 키 (옵션)
+  // v6.0 (P1-4): session-only 토글에 따라 sessionStorage / localStorage 선택 저장
   const userKey = document.getElementById('user-api-key').value.trim();
   if (userKey) {
-    try { localStorage.setItem('daibfy_user_api_key', userKey); } catch (e) {}
+    const sessionOnly = !!(document.getElementById('user-api-key-session-only') || {}).checked;
+    try {
+      if (sessionOnly) {
+        sessionStorage.setItem('daibfy_user_api_key', userKey);
+        localStorage.removeItem('daibfy_user_api_key');
+      } else {
+        localStorage.setItem('daibfy_user_api_key', userKey);
+        sessionStorage.removeItem('daibfy_user_api_key');
+      }
+    } catch (e) {}
   }
 
   const headers = { 'Content-Type': 'application/json' };
@@ -2196,116 +2248,8 @@ async function runAnalysis() {
   }
 }
 
-// v3.10: 강조 제거 대상 — 회사명·논문명·기법명·단순 키워드 (analyze_papers.py와 동기화)
-const UNBOLD_PROPER_NOUNS = [
-  // AI 회사·기관
-  'OpenAI', 'Anthropic', 'Sequoia Capital', 'Google', 'DeepMind', 'Meta',
-  'Microsoft', 'NVIDIA', 'Apple', 'Amazon', 'AWS',
-  '수출입은행', 'KB금융', '신한금융', '하나금융', '우리금융',
-  // 논문 제목·프로토콜·프레임워크
-  'Foundation Protocol', 'AAIA-RAG-LEGAL', 'Redrawing the AI Map',
-  'MAS-Orchestra', 'EVE-Agent', 'Ontological Knowledge Blocks', 'CHRONOS',
-  'Query-Adaptive Semantic Chunking', 'Latent Cache Flow', 'LFRAG', 'BOHM',
-  'Energy per Successful Goal', 'AutoResearch AI',
-  'Cognitive offloading', 'Inferential Privacy Leakage',
-  // 단순 키워드 — 사용자 정책상 음영 부적절
-  'RAG', 'RAG(검색-증강 생성)',
-  '멀티에이전트 시스템', '멀티에이전트 협업 체계', '멀티에이전트(Multi-Agent System)',
-  'Multi-Agent System',
-  '책임 경계', '책임 경계(Accountability Boundary)', 'Accountability Boundary',
-  '에이전트형 AI', '에이전트형 AI의 운영 효율화',
-  '온프레미스', '온프레미스(on-premise)', 'on-premise',
-  '금융 시장 모니터링', '의료 AI',
-  // 금액·수치
-  '40억 달러', '110억 달러', '수십억 달러', '수백억 원'
-];
-
-function _escapeRegex(s) {
-  return String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-}
-
-function unboldProperNouns(text) {
-  if (!text) return text;
-  let out = text;
-  for (const name of UNBOLD_PROPER_NOUNS) {
-    // **...NAME...** 전체 매칭, 강조만 풀고 이름은 보존
-    const pat = new RegExp('\\*\\*([^*\\n]{0,40}?' + _escapeRegex(name) + '[^*\\n]{0,15}?)\\*\\*', 'g');
-    out = out.replace(pat, '$1');
-  }
-  // 길이 cap — **...**가 6자 이하면 단순 키워드일 가능성 큼
-  out = out.replace(/\*\*([^*\n]{1,6})\*\*/g, '$1');
-  return out;
-}
-
-// v3.14: papers narrative 4개 구조 라벨 — bold만 적용 (음영 X)
-const PAPERS_NARRATIVE_LABELS = [
-  '한 줄 요약',
-  '1) 무엇이 부상하고 있는가',
-  '2) 한국 실무자에게 이 흐름이 무슨 의미인가',
-  '3) 산업 적용 흐름'
-];
-
-function renderMarkdown(text, opts) {
-  if (!text) return '';
-  opts = opts || {};
-  // v2.8.6: 빈 헤더 라인(`#` 또는 `## ` 등만 있고 텍스트 없음) 제거
-  text = text.replace(/^\s*#{1,6}\s*$/gm, '');
-  // v3.10: 'N) ' 패턴 (1)~9)) 앞에 빈 줄 강제 삽입 — LLM이 인라인으로 이어쓴 경우에도 단락 분리
-  //   - 앞 문자가 '.', '(', '0~9' 가 아닐 때만 (3.1) / (1) / 10) 같은 케이스 회피)
-  //   - papers narrative: '한 줄 요약 ... 1) 무엇이... 2) 한국 실무자에게... 3) 산업 적용 흐름...'
-  text = text.replace(/([^\n.(\d])\s+([1-9]\)\s)/g, '$1\n\n$2');
-  // v3.10: 회사명·논문명·단순 키워드의 **강조** 제거 (frontend 후처리 — 캐시된 데이터에도 즉시 적용)
-  text = unboldProperNouns(text);
-  // v3.14: papers narrative 구조 라벨 강제 bold (mark 음영 X, font-weight만 강조)
-  //   - opts.inlineHeaders가 켜진 경우 (papers narrative 전용)
-  //   - 'PAPERS_NARRATIVE_LABELS' 4개 라벨을 placeholder로 감싸고, escape 후 <strong class="inline-h">로 변환
-  if (opts.inlineHeaders) {
-    for (const label of PAPERS_NARRATIVE_LABELS) {
-      const escapedLabel = label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-      // 이미 placeholder 안에 있으면 다시 감싸지 않음
-      text = text.replace(new RegExp('(?<!__INLINE_HEADER_OPEN__)' + escapedLabel, 'g'),
-        '__INLINE_HEADER_OPEN__' + label + '__INLINE_HEADER_CLOSE__');
-    }
-  }
-  // v3.2: inlineHeaders 옵션 — 헤더를 본문 사이즈 + bold 인라인으로 표시
-  //   `## 한 줄 요약` → `<strong class="inline-h">한 줄 요약</strong>` (본문 사이즈, bold)
-  //   사용자 정책: 헤더 폰트 사이즈 = 본문, 음영(mark) 외 일반 텍스트는 bold X
-  if (opts.inlineHeaders || opts.stripHeaders) {
-    text = text.replace(/^\s*#{1,6}\s+(.+)$/gm, (m, p) => `__INLINE_HEADER_OPEN__${p}__INLINE_HEADER_CLOSE__`);
-  }
-  // 매우 단순한 마크다운 → HTML (안전한 escape 후)
-  let html = escapeHtml(text);
-  // inline header placeholder → strong.inline-h
-  html = html.replace(/__INLINE_HEADER_OPEN__/g, '<strong class="inline-h">');
-  html = html.replace(/__INLINE_HEADER_CLOSE__/g, '</strong>');
-  // 코드블록 ```...```
-  html = html.replace(/```([\s\S]*?)```/g, (m, p) => `<pre><code>${p}</code></pre>`);
-  // v2.7.9: LLM이 \n 없이 inline으로 ## 헤더를 출력한 경우 강제 줄바꿈 삽입
-  html = html.replace(/([^\n])\s*(#{1,3} )/g, '$1\n\n$2');
-  // 헤딩 (### / ## / #) — inlineHeaders 옵션 안 켜진 경우만
-  html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
-  html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
-  html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
-  // v2.7.1: 굵게 **text** → <mark> (투명 형광색 + bold)
-  html = html.replace(/\*\*([^*]+)\*\*/g, '<mark>$1</mark>');
-  // 인라인 코드 `text`
-  html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
-  // 리스트 라인 (- item)
-  html = html.replace(/^- (.+)$/gm, '<li>$1</li>');
-  html = html.replace(/(<li>.*?<\/li>(\n|$))+/g, m => `<ul>${m}</ul>`);
-  // 줄바꿈
-  html = html.replace(/\n\n+/g, '</p><p>');
-  html = '<p>' + html + '</p>';
-  // 빈 p, ul 안의 p 정리
-  html = html.replace(/<p>\s*<\/p>/g, '');
-  html = html.replace(/<p>(<h\d>)/g, '$1');
-  html = html.replace(/(<\/h\d>)<\/p>/g, '$1');
-  html = html.replace(/<p>(<ul>)/g, '$1');
-  html = html.replace(/(<\/ul>)<\/p>/g, '$1');
-  html = html.replace(/<p>(<pre>)/g, '$1');
-  html = html.replace(/(<\/pre>)<\/p>/g, '$1');
-  return html;
-}
+// v6.0 (P2-3): UNBOLD_PROPER_NOUNS / _escapeRegex / unboldProperNouns /
+//              PAPERS_NARRATIVE_LABELS / renderMarkdown 는 app.util.js로 이동됨.
 
 function copyAnalyzeResult() {
   const result = document.getElementById('analyze-result').innerText;
@@ -2318,25 +2262,7 @@ function copyAnalyzeResult() {
   });
 }
 
-function cssEscape(s) {
-  // CSS attribute selector safe escape (simple)
-  return String(s).replace(/(["\\])/g, '\\$1');
-}
-
-// ========================= 유틸 =========================
-
-function isNewToday(item) {
-  const fs = item.first_seen || item.date;
-  if (!fs) return false;
-  try {
-    const dt = new Date(fs);
-    if (isNaN(dt)) return false;
-    const now = new Date();
-    const todayKey = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0');
-    const fsKey = dt.getFullYear() + '-' + String(dt.getMonth()+1).padStart(2,'0') + '-' + String(dt.getDate()).padStart(2,'0');
-    return todayKey === fsKey;
-  } catch (e) { return false; }
-}
+// v6.0 (P2-3): cssEscape / isNewToday 는 app.util.js로 이동됨.
 // ========================= Phase 2b: 엔티티 뷰 =========================
 
 const ENTITY_TYPE_LABEL = {
@@ -2351,18 +2277,22 @@ const ENTITY_TYPE_LABEL = {
   tech: '기술',
   ai_product: 'AI 제품',
   benchmark: '벤치마크',
+  academic_inst: '학술·연구 기관',  // v5.2
+  researcher: '연구자',              // v5.2
 };
 
 const ENTITY_TYPE_ORDER = [
   'ai_company', 'legaltech_company', 'korean_law_firm', 'global_law_firm',
   'korean_finance', 'korean_manufacturing', 'kr_government', 'policy',
-  'ai_product', 'benchmark', 'tech',
+  'ai_product', 'benchmark', 'academic_inst', 'researcher', 'tech',
 ];
 
 async function loadEntities() {
   if (state.entities) return state.entities;
   try {
-    const r = await fetch('data/entities.json?t=' + Date.now());
+    // v6.0 (P2-1): 빌드 버전 기반 cache-buster (state.buildVersion에 init() 단계에서 저장)
+    const v = state.buildVersion || Date.now();
+    const r = await fetch('data/entities.json?v=' + encodeURIComponent(v), { cache: 'default' });
     if (!r.ok) throw new Error('HTTP ' + r.status);
     state.entities = await r.json();
     return state.entities;
@@ -2377,7 +2307,8 @@ async function loadEntities() {
 async function loadRelations() {
   if (state.relations) return state.relations;
   try {
-    const r = await fetch('data/relations.json?t=' + Date.now());
+    const v = state.buildVersion || Date.now();
+    const r = await fetch('data/relations.json?v=' + encodeURIComponent(v), { cache: 'default' });
     if (!r.ok) throw new Error('HTTP ' + r.status);
     state.relations = await r.json();
   } catch (e) {
@@ -2448,6 +2379,8 @@ const ENTITY_TYPE_COLOR = {
   ai_product: '#59a14f',
   benchmark: '#ff9da7',
   tech: '#a0cbe8',
+  academic_inst: '#b07aa1',  // v5.2: 보라 계열
+  researcher: '#d4a373',     // v5.2: 갈색 계열
 };
 
 function renderEntitiesView() {
@@ -2944,33 +2877,6 @@ function renderGraphSvg() {
   });
 }
 
-function escapeHtml(text) {
-  return String(text == null ? '' : text).replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
-}
-
-// v2.7.1: **text** → <mark>text</mark> (HTML escape 후 변환)
-// LLM이 핵심 키워드/문구에 **굵게** 마크업을 추가하면 투명 형광색으로 강조
-function escapeHtmlWithMark(text) {
-  if (!text) return '';
-  // v3.2: 빈 헤더 라인 제거 + inline 헤더 변환 (시사점 daily/weekly/monthly 모두 적용)
-  let t = text.replace(/^\s*#{1,6}\s*$/gm, '');
-  // v3.10: 회사명·논문명·단순 키워드 강조 제거 (mark 변환 전에 처리)
-  t = unboldProperNouns(t);
-  // `# 헤더` → __INLINE_HEADER_OPEN__텍스트__INLINE_HEADER_CLOSE__ (escapeHtml 통과 후 변환)
-  t = t.replace(/^\s*#{1,6}\s+(.+)$/gm, (m, p) => `__INLINE_HEADER_OPEN__${p}__INLINE_HEADER_CLOSE__`);
-  const escaped = escapeHtml(t)
-    .replace(/__INLINE_HEADER_OPEN__/g, '<strong class="inline-h">')
-    .replace(/__INLINE_HEADER_CLOSE__/g, '</strong>');
-  // **...** 패턴 (개행 제외) → <mark>...</mark>
-  return escaped.replace(/\*\*([^*\n]+?)\*\*/g, '<mark>$1</mark>');
-}
-function formatKoreanDate(d) {
-  if (!d || isNaN(d)) return '날짜 없음';
-  const yyyy = d.getFullYear();
-  const mm = String(d.getMonth() + 1).padStart(2, '0');
-  const dd = String(d.getDate()).padStart(2, '0');
-  const days = ['일', '월', '화', '수', '목', '금', '토'];
-  return `${yyyy}-${mm}-${dd} (${days[d.getDay()]})`;
-}
+// v6.0 (P2-3): escapeHtml / escapeHtmlWithMark / formatKoreanDate 는 app.util.js로 이동됨.
 
 document.addEventListener('DOMContentLoaded', init);
