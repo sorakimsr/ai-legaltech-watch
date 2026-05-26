@@ -1600,7 +1600,10 @@ function renderPapersView() {
     `;
   };
 
-  // Hot topics
+  // v3.5: Hot topics / Key techniques
+  //   - 우측 상단의 N편 카운트 제거 (좌측 하단 '관련 논문 N편'만 유지)
+  //   - description에 형광펜 사용 안 함 → escapeHtml만 (mark 변환 X)
+  //   - topic 이름에서도 mark 제거 — bold 없는 평문
   const topicsRoot = document.getElementById('papers-hot-topics');
   const topics = trends.hot_topics || [];
   topicsRoot.innerHTML = topics.length === 0
@@ -1608,15 +1611,14 @@ function renderPapersView() {
     : topics.map(t => `
         <div class="topic-item">
           <div class="topic-head">
-            <span class="topic-name">${escapeHtmlWithMark(t.topic || '')}</span>
-            ${t.paper_count ? `<span class="topic-count">${t.paper_count}편</span>` : ''}
+            <span class="topic-name">${escapeHtml(t.topic || '')}</span>
           </div>
-          <div class="topic-desc">${escapeHtmlWithMark(t.description || '')}</div>
+          <div class="topic-desc">${escapeHtml(t.description || '')}</div>
           ${renderPapersBlock(t.papers)}
         </div>
       `).join('');
 
-  // Techniques
+  // Techniques — v3.5: 동일 정책
   const techRoot = document.getElementById('papers-techniques');
   const techs = trends.key_techniques || [];
   techRoot.innerHTML = techs.length === 0
@@ -1624,10 +1626,9 @@ function renderPapersView() {
     : techs.map(t => `
         <div class="topic-item">
           <div class="topic-head">
-            <span class="topic-name">${escapeHtmlWithMark(t.technique || '')}</span>
-            ${t.paper_count ? `<span class="topic-count">${t.paper_count}편</span>` : ''}
+            <span class="topic-name">${escapeHtml(t.technique || '')}</span>
           </div>
-          <div class="topic-desc">${escapeHtmlWithMark(t.description || '')}</div>
+          <div class="topic-desc">${escapeHtml(t.description || '')}</div>
           ${renderPapersBlock(t.papers)}
         </div>
       `).join('');
@@ -1672,7 +1673,7 @@ function renderPapersView() {
         <div class="paper-row">
           <div class="paper-row-head">
             <span class="score-badge mid">중요도 ${p.score || 0}</span>
-            <span class="date-text">${escapeHtml(p.date || '')}</span>
+            <span class="date-text" title="발행일">${escapeHtml(p.date || '—')}</span>
           </div>
           <a class="paper-row-title" href="${escapeHtml(p.url)}" target="_blank" rel="noopener">${escapeHtml(p.title)}</a>
           ${p.summary_ko ? `<div class="paper-row-summary">${escapeHtml(p.summary_ko)}</div>` : ''}
