@@ -105,6 +105,14 @@ export default {
 
     let apiKey, useUserKey = false;
     if (userApiKey && (userBackend === backend || !userBackend)) {
+      // v6.0 (P1-6): 사용자 API 키 형식 검증
+      const validClaude = backend === "claude" && /^sk-ant-[A-Za-z0-9_\-]{20,}/.test(userApiKey);
+      const validOpenAI = backend === "openai" && /^sk-[A-Za-z0-9_\-]{20,}/.test(userApiKey);
+      if (!validClaude && !validOpenAI) {
+        return jsonResponse({
+          error: `본인 API 키 형식이 올바르지 않습니다. ${backend === "claude" ? "Claude 키는 'sk-ant-'로 시작합니다." : "OpenAI 키는 'sk-'로 시작합니다."}`,
+        }, request, env, 400);
+      }
       apiKey = userApiKey;
       useUserKey = true;
     } else {
@@ -113,21 +121,27 @@ export default {
       if (!apiKey) {
         return jsonResponse({ error: `${backend} API key not configured` }, request, env, 500);
       }
-      // Rate limit (IP당 일 5회)
-      if (env.RATE_LIMIT) {
-        const ip = request.headers.get("CF-Connecting-IP") || "unknown";
-        const today = new Date().toISOString().slice(0, 10);
-        const key = `${ip}:${today}`;
-        const count = parseInt((await env.RATE_LIMIT.get(key)) || "0", 10);
-        if (count >= DAILY_FREE_LIMIT) {
-          return jsonResponse({
-            error: `오늘 무료 분석 한도(${DAILY_FREE_LIMIT}회)에 도달했습니다. 본인 API 키를 입력하시면 무제한 사용 가능합니다.`,
-            limit_reached: true,
-            free_limit: DAILY_FREE_LIMIT,
-          }, request, env, 429);
-        }
-        ctx.waitUntil(env.RATE_LIMIT.put(key, String(count + 1), { expirationTtl: 86400 }));
+      // v6.0 (P1-2): KV namespace 미설정 시 fail-secure — 서버 키 무방비 노출 방지.
+      // 본인 키 모드(위 분기)에는 영향 없음.
+      if (!env.RATE_LIMIT) {
+        return jsonResponse({
+          error: "서버 측 Rate limit 설정(KV namespace)이 누락되어 일시적으로 무료 분석을 사용할 수 없습니다. 본인 API 키를 입력하시면 즉시 사용 가능합니다.",
+          rate_limit_unconfigured: true,
+        }, request, env, 503);
       }
+      // Rate limit (IP당 일 5회)
+      const ip = request.headers.get("CF-Connecting-IP") || "unknown";
+      const today = new Date().toISOString().slice(0, 10);
+      const key = `${ip}:${today}`;
+      const count = parseInt((await env.RATE_LIMIT.get(key)) || "0", 10);
+      if (count >= DAILY_FREE_LIMIT) {
+        return jsonResponse({
+          error: `오늘 무료 분석 한도(${DAILY_FREE_LIMIT}회)에 도달했습니다. 본인 API 키를 입력하시면 무제한 사용 가능합니다.`,
+          limit_reached: true,
+          free_limit: DAILY_FREE_LIMIT,
+        }, request, env, 429);
+      }
+      ctx.waitUntil(env.RATE_LIMIT.put(key, String(count + 1), { expirationTtl: 86400 }));
     }
 
     try {
@@ -358,17 +372,22 @@ function makeNormalizedStream(upstream, backend, model, request, env, useUserKey
 
 function corsHeaders(request, env) {
   // 기본은 daibfy.com만 허용, 환경변수 ALLOWED_ORIGINS로 확장 가능
+  // v6.0 (P1-1): 비허용 Origin에는 Access-Control-Allow-Origin 헤더 자체를 생략.
+  //              이전 동작은 fallback origin을 echo해 허용 목록을 노출하는 문제가 있었음.
   const origin = request.headers.get("Origin") || "";
   const allowed = (env.ALLOWED_ORIGINS || "https://daibfy.com,https://sorakimsr.github.io,http://localhost:8000")
     .split(",")
     .map(s => s.trim());
-  const allowOrigin = allowed.includes(origin) ? origin : allowed[0];
-  return {
-    "Access-Control-Allow-Origin": allowOrigin,
+  const headers = {
     "Access-Control-Allow-Methods": "POST, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type, X-User-Api-Key, X-User-Backend",
     "Access-Control-Max-Age": "86400",
+    "Vary": "Origin",
   };
+  if (allowed.includes(origin)) {
+    headers["Access-Control-Allow-Origin"] = origin;
+  }
+  return headers;
 }
 
 function jsonResponse(obj, request, env, status = 200) {

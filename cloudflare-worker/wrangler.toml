@@ -9,11 +9,11 @@ compatibility_date = "2024-09-01"
 # [placement]
 # mode = "smart"
 
-# KV namespace for rate limiting (선택)
-# wrangler kv namespace create RATE_LIMIT 로 생성 후 ID 붙여넣기
-# [[kv_namespaces]]
-# binding = "RATE_LIMIT"
-# id = "여기에_ID_붙여넣기"
+# KV namespace for rate limiting (필수 — v6.0)
+#   미설정 시 worker가 503으로 fail-secure (서버 키 무방비 노출 방지)
+[[kv_namespaces]]
+binding = "RATE_LIMIT"
+id = "aa25ac8adbbe4c739fb287e81a0756d9"
 
 # Secrets는 dashboard 또는 `wrangler secret put` 로 등록
 #   wrangler secret put ANTHROPIC_API_KEY
