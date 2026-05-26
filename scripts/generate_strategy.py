@@ -170,9 +170,49 @@ def _unbold_strategy_names(text: str) -> str:
     return out
 
 
+def _ensure_action_emphasis(action_text: str) -> str:
+    """v3.14: ACTION에 **강조** 마크업이 전혀 없으면 마지막 핵심 문장을 자동 강조.
+
+    monthly 등에서 LLM이 action에 `**` 마크업을 누락하는 경우가 잦음.
+    body와 동일하게 의미 구절 강조 정책 적용을 강제하기 위한 후처리.
+
+    동작:
+    - 이미 `**...**` 가 1개 이상 있으면 그대로 반환
+    - 없으면 마지막 종결문 (마침표 끝 직전 문장)을 추출해 `**...**`로 감쌈
+      예: "~한다. ~을 측정한다." → "~한다. **~을 측정한다.**"
+    """
+    if not action_text or not isinstance(action_text, str):
+        return action_text
+    # 이미 강조 있으면 OK
+    if "**" in action_text:
+        return action_text
+    text = action_text.strip()
+    if not text:
+        return text
+    # 마지막 종결 문장 분리 (마침표·물음표·느낌표 기준)
+    # 한국어 종결 어미가 자주 마침표로 끝나므로, 끝에서 두 번째 마침표 위치 찾기
+    # 텍스트 끝에서 가장 가까운 종결 부호 찾기
+    text_no_trail = text.rstrip(".!? ")
+    # 마지막 문장의 시작 위치 찾기 — 직전 종결 부호 위치 + 1
+    cut = max(text_no_trail.rfind(". "), text_no_trail.rfind("! "), text_no_trail.rfind("? "))
+    if cut < 0:
+        # 종결 부호 없음 = 단일 문장 → 전체를 강조 (단, 30~120자 범위만)
+        if 10 <= len(text_no_trail) <= 150:
+            return f"**{text_no_trail}**" + text[len(text_no_trail):]
+        return text  # 너무 짧거나 너무 길면 강조 안 함
+    last_sentence = text_no_trail[cut + 2:].strip()
+    if not last_sentence or len(last_sentence) > 150:
+        return text
+    # 마지막 문장만 강조
+    before = text_no_trail[:cut + 2]
+    trail = text[len(text_no_trail):]
+    return before + "**" + last_sentence + "**" + trail
+
+
 def _postprocess_card(card: dict) -> dict:
     """v3.12: 시사점 카드 body/action 후처리 — timing 제거 + 음영 정리.
     캐시된 카드에도 매 빌드마다 재적용하여 정책 변경 시 즉시 반영.
+    v3.14: ACTION 강조 누락 시 마지막 문장 자동 강조.
     """
     if not isinstance(card, dict):
         return card
@@ -180,7 +220,9 @@ def _postprocess_card(card: dict) -> dict:
     if "body" in out and isinstance(out["body"], str):
         out["body"] = _unbold_strategy_names(out["body"])
     if "action" in out and isinstance(out["action"], str):
-        out["action"] = _unbold_strategy_names(_strip_timing_phrases(out["action"]))
+        action = _unbold_strategy_names(_strip_timing_phrases(out["action"]))
+        action = _ensure_action_emphasis(action)
+        out["action"] = action
     return out
 
 
