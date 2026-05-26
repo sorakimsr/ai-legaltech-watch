@@ -2200,6 +2200,14 @@ function unboldProperNouns(text) {
   return out;
 }
 
+// v3.14: papers narrative 4개 구조 라벨 — bold만 적용 (음영 X)
+const PAPERS_NARRATIVE_LABELS = [
+  '한 줄 요약',
+  '1) 무엇이 부상하고 있는가',
+  '2) 한국 실무자에게 이 흐름이 무슨 의미인가',
+  '3) 산업 적용 흐름'
+];
+
 function renderMarkdown(text, opts) {
   if (!text) return '';
   opts = opts || {};
@@ -2211,6 +2219,17 @@ function renderMarkdown(text, opts) {
   text = text.replace(/([^\n.(\d])\s+([1-9]\)\s)/g, '$1\n\n$2');
   // v3.10: 회사명·논문명·단순 키워드의 **강조** 제거 (frontend 후처리 — 캐시된 데이터에도 즉시 적용)
   text = unboldProperNouns(text);
+  // v3.14: papers narrative 구조 라벨 강제 bold (mark 음영 X, font-weight만 강조)
+  //   - opts.inlineHeaders가 켜진 경우 (papers narrative 전용)
+  //   - 'PAPERS_NARRATIVE_LABELS' 4개 라벨을 placeholder로 감싸고, escape 후 <strong class="inline-h">로 변환
+  if (opts.inlineHeaders) {
+    for (const label of PAPERS_NARRATIVE_LABELS) {
+      const escapedLabel = label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      // 이미 placeholder 안에 있으면 다시 감싸지 않음
+      text = text.replace(new RegExp('(?<!__INLINE_HEADER_OPEN__)' + escapedLabel, 'g'),
+        '__INLINE_HEADER_OPEN__' + label + '__INLINE_HEADER_CLOSE__');
+    }
+  }
   // v3.2: inlineHeaders 옵션 — 헤더를 본문 사이즈 + bold 인라인으로 표시
   //   `## 한 줄 요약` → `<strong class="inline-h">한 줄 요약</strong>` (본문 사이즈, bold)
   //   사용자 정책: 헤더 폰트 사이즈 = 본문, 음영(mark) 외 일반 텍스트는 bold X
