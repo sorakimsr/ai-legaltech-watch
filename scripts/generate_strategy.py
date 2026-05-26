@@ -94,7 +94,9 @@ PROMPT_TEMPLATE = """당신은 한국의 시니어 전략 컨설턴트입니다.
   분량: 시사점 카드 1개(body+action)에 위 같은 의미 구절 3~6개 강조 (촘촘하게). 한 문장 1~2개.
   ★ 동일 기준이 daily / weekly / monthly 모두 적용됨.
 - 5~7개 사이
-- `sources`는 실제로 근거가 된 뉴스 인덱스 (위 목록의 1부터 시작 번호). 카드 당 2~5개를 의무적으로 채울 것. 정확한 매칭이 어려운 인덱스는 넣지 말 것.
+- **`sources`는 trend의 핵심 근거가 되는 실제 뉴스 인덱스만 (위 목록의 1부터 시작 번호). 카드 당 3~5개 필수**. body에 인용한 회사·사건·금액·날짜가 실제로 등장하는 인덱스만 포함. 본문과 직접 관련 없는 인덱스는 절대 넣지 말 것.
+- **body 첫 문장에 sources의 인덱스 번호를 명시 권장** (예: "오늘 KB금융(16, 29번), 기업은행(22번) ..."). 이는 향후 검증 가능하도록 하는 사용자 요구사항.
+- 한 카드의 sources 인덱스들은 모두 같은 주제/이슈/회사군을 다뤄야 함. 약하게라도 매칭이 어색하면 차라리 sources를 3개로 줄여라 (5개를 억지로 채우지 말 것).
 - JSON 배열 외 다른 텍스트 절대 금지
 """
 
@@ -310,7 +312,10 @@ def generate_cards(items: list, period: str, ref_date: date, all_items: list) ->
         if not all(k in c for k in ("tag", "title", "body", "action")):
             continue
 
-        # citation 변환
+        # === v3.15: citation 정합성 강화 ===
+        # 1) LLM이 sources 반환 → 인덱스 그대로 사용 (정확한 매칭)
+        # 2) sources 누락 → 본문·제목과 강하게 일치하는 항목만 매칭 (임계값 ↑)
+        # 3) 끝까지 비어 있어도 자동 채우지 않음 — 잘못된 citation은 차라리 없는 게 나음 (사용자 정책)
         cited = []
         raw_sources = c.get("sources") or []
         if isinstance(raw_sources, list):
@@ -328,32 +333,35 @@ def generate_cards(items: list, period: str, ref_date: date, all_items: list) ->
                 except (ValueError, TypeError):
                     continue
 
-        # Citation fallback — LLM이 sources를 안 줬으면 카드 본문에서 키워드 매칭 시도
+        # Citation fallback (엄격) — LLM이 sources 누락 시
+        # 본문에 직접 등장한 회사/기관/제품명만 매칭. 단순 일반어(AI, 기술 등) 제외.
         if not cited:
             body_text = (str(c.get("body", "")) + " " + str(c.get("title", ""))).lower()
-            for ref in sorted_items[:20]:
-                ref_text = (ref.get("title", "") + " " + ref.get("source", "")).lower()
-                # 카드 본문에 해당 항목의 회사명·키워드가 등장하면 citation으로
-                ref_tokens = [t for t in ref_text.split() if len(t) > 3]
-                hit_count = sum(1 for t in ref_tokens[:8] if t in body_text)
-                if hit_count >= 2:
+            # 너무 일반적인 단어는 매칭에서 제외 (false positive 방지)
+            GENERIC_WORDS = {
+                "ai", "ml", "llm", "tech", "news", "한국", "기업", "정부", "발표", "기술",
+                "서비스", "시장", "산업", "글로벌", "신규", "관련", "통한", "위한", "지원",
+                "강화", "확대", "체계", "구축", "도입", "운영", "활용", "분석", "데이터",
+                "the", "and", "for", "with", "from", "this", "that", "have"
+            }
+            for ref in sorted_items[:30]:
+                ref_text = (ref.get("title", "")).lower()
+                ref_tokens = [t for t in ref_text.split() if len(t) > 3 and t not in GENERIC_WORDS]
+                # 의미 있는 토큰 3개 이상 일치해야 채택 (이전 2 → 3)
+                hit_count = sum(1 for t in ref_tokens[:10] if t in body_text)
+                if hit_count >= 3:
                     cited.append({
                         "title": ref.get("title", "")[:140],
                         "url": ref.get("url", ""),
                         "source": ref.get("source", ""),
                         "date": ref.get("date", "")[:10],
                     })
-                if len(cited) >= 3:
+                if len(cited) >= 5:
                     break
-        # 그래도 비어있으면 점수 상위 3개를 기본 citation으로
-        if not cited:
-            for ref in sorted_items[:3]:
-                cited.append({
-                    "title": ref.get("title", "")[:140],
-                    "url": ref.get("url", ""),
-                    "source": ref.get("source", ""),
-                    "date": ref.get("date", "")[:10],
-                })
+
+        # v3.15: 끝까지 비어 있어도 자동 채우지 않음
+        # — citation이 0개여도 본문이 잘못된 reference로 오염되는 것보다 낫다는 사용자 정책
+        # — frontend에서 citation이 비어 있으면 "근거 기사 매핑 누락" 표시
 
         # v2.7.1: ACTION에서 시점/기한 표현 사후 제거 (LLM이 어겼을 경우 안전망)
         action_text = str(c["action"]).strip()
