@@ -50,15 +50,33 @@ PROPER_NOUN_BOOST_KEYS = [
     # AI 회사
     "openai", "anthropic", "claude", "chatgpt", "gemini",
     "perplexity", "mistral", "meta", "microsoft", "nvidia",
+    "mythos", "gemma", "deepseek", "qwen",
     # 리걸테크
     "harvey", "legora", "ironclad", "spellbook", "robin ai",
     "mike legal", "mike oss", "everlaw", "casetext",
-    # 한국
+    # v3.18: 한국 7대 로펌 (이름이 짧아 dedupe 시 누락되기 쉬움)
+    "광장", "김앤장", "태평양", "세종", "율촌", "지평", "화우",
+    "법무법인 광장", "법무법인 김앤장", "법무법인 태평양",
+    "법무법인 세종", "법무법인 율촌", "법무법인 지평", "법무법인 화우",
+    # 한국 리걸테크
     "bhsn", "로앤컴퍼니", "로앤굿", "케이스노트",
     # 정책 키워드 — 같은 정책 사건 다룰 가능성
     "ai 기본법", "ai act", "ai 가이드라인", "ai 규제",
+    "ai 법정책포럼", "법정책포럼",
     "나홀로 소송", "소송장",
 ]
+
+
+# v3.18: 3자 미만이지만 식별성 강한 회사명 화이트리스트
+SHORT_BRAND_WHITELIST = {
+    "광장", "세종", "율촌", "지평", "화우",  # 한국 로펌
+}
+
+
+# v3.18: 회사명 앞 일반 prefix (first_meaningful_token에서 제거)
+COMPANY_PREFIXES = (
+    "법무법인", "주식회사", "(주)", "㈜", "법인", "유한법인", "유한회사",
+)
 
 
 def strip_korean_particle(token: str) -> str:
@@ -94,16 +112,35 @@ def proper_noun_overlap(a: str, b: str) -> int:
 def first_meaningful_token(title: str) -> str:
     """제목의 첫 의미 토큰(회사명·기관명) 추출.
     v3.9: '에이블런, AI 챔피언…' 같은 한국 PR 기사가 같은 회사면 그룹되도록.
+    v3.18: 다음 케이스를 처리하도록 강화:
+      - "[로펌이슈] 광장, ..." → 대괄호 prefix 제거 후 "광장"
+      - "법무법인 광장, ..." → "법무법인" prefix 제거 후 "광장"
+      - "광장, ..." (2자) → SHORT_BRAND_WHITELIST 허용
     """
     if not title:
         return ""
-    # 쉼표·콜론·괄호 이전 부분 추출
-    parts = re.split(r"[,:\[\]\(\)·]", title, maxsplit=1)
+    # 1) 대괄호 prefix 제거: "[로펌이슈] 광장, ..." → "광장, ..."
+    cleaned = re.sub(r"^\s*\[[^\]]*\]\s*", "", title)
+    # 2) 쉼표·콜론·괄호 이전 부분 추출
+    parts = re.split(r"[,:\[\]\(\)·]", cleaned, maxsplit=1)
     head = parts[0].strip()
-    # 너무 짧으면 (3자 미만) 사용 안 함 — '日', 'AI' 같은 약어 제외
+    if not head:
+        return ""
+    # 3) 회사 prefix 제거: "법무법인 광장" → "광장"
+    for prefix in COMPANY_PREFIXES:
+        if head.startswith(prefix):
+            head = head[len(prefix):].strip()
+            break
+    if not head:
+        return ""
+    head_lower = head.lower()
+    # 4) 짧지만 식별성 강한 브랜드는 화이트리스트 허용
+    if head in SHORT_BRAND_WHITELIST or head_lower in SHORT_BRAND_WHITELIST:
+        return head_lower
+    # 5) 너무 짧으면 (3자 미만) 사용 안 함 — '日', 'AI' 같은 약어 제외
     if len(head) < 3:
         return ""
-    return head.lower()
+    return head_lower
 
 
 def title_similarity(a: str, b: str) -> float:
