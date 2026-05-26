@@ -52,8 +52,8 @@ const state = {
   // 시사점 sub-state
   strategyPeriod: 'daily',  // daily | weekly | monthly
   strategyKey: null,        // 선택된 날짜·주·월 키
-  // v2.7.1: 논문 흐름 sub-state
-  papersPeriod: 'weekly',   // daily | weekly | monthly
+  // v2.7.1: 논문 흐름 sub-state — v4.1: daily 디폴트
+  papersPeriod: 'daily',    // daily | weekly | monthly
   papersKey: null,          // 선택된 날짜·주·월 키
   paperTrendsHistory: null, // paper_trends_history.json
   // 소스 sub-state
