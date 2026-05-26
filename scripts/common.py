@@ -303,6 +303,54 @@ BLACKLIST_KEYWORDS = [
     "금수저", "흙수저", "고급정보 절대", "주변에 절대 알리지",
     "리딩방", "주식 리딩방", "리딩방 사기",
     "보이스피싱", "메신저피싱", "스미싱",
+    # v3.5: 게임·애니메·콘텐츠 (AI 무관)
+    "사이버펑크", "엣지러너", "cdpr", "애니메 엑스포",
+    "게임 e3", "게임쇼", "콘솔 게임",
+    # v3.5: 일반 행정 공모전·상금 (AI 무관)
+    "논문공모", "상금 1500만원", "상금 1,500만원", "상금 1억원",
+    "공모전 시상", "공모전 우수상",
+    # v3.5: 화학·환경·소재 (AI 무관)
+    "순환경제 실험", "플라스틱을 다시", "원료 가스",
+    "수소 생산 전극", "차세대 수소", "수소 연료",
+    "탄소중립 실증", "ccus", "전극 개발", "촉매 개발",
+    "에코프로", "lg화학 신소재", "포스코 수소",
+    # v3.5: 금융 통계 (단순 수치 발표, AI 무관)
+    "대출 연체율", "부실채권", "연체율 하락", "연체율 상승",
+    "은행 연체율", "기업대출 부실", "가계대출 부실",
+    # v3.5: 외교·전쟁·국제유가 (AI 무관)
+    "수도 총공세", "키이우", "키이우 떠나라",
+    "호르무즈", "국제유가 폭락", "국제유가 급등",
+    "전선 확대", "휴전 협상", "정상 통화",
+    # v3.5: K-뷰티·푸드·수출 (AI 무관)
+    "k-뷰티", "k뷰티", "k-푸드", "k푸드",
+    "유럽 정조준", "프라하 홀린", "체코 넘어",
+    "한류 마케팅", "유럽 진출 가속",
+    # v3.5: 시험소·연구소 준공 (AI 무관)
+    "시험소 준공", "센터 준공식", "솔루션 센터 준공",
+    "전장 emc", "emc 시험",
+    # v3.5: 체험기·생활 컬럼 (AI 무관)
+    "체험기", "직접 가보니", "방문기", "후기 체험",
+    "가보니", "와이프와 함께",
+    # v3.5: 방산·조선·중공업 입찰 (AI 무관)
+    "kddx", "차세대 함정", "방산 입찰", "함정 입찰",
+    "hd현대중 한화오션", "전투기 입찰",
+    # v3.5: 변호사 사회면 (AI 무관)
+    "antisemitic", "antisemitic tweets",
+    "judicial pay rise", "judiciary pay", "pay rise for judiciary",
+    "lammy rejects", "lammy approves",
+    # v3.5.1: 연예인 사생활·투병 (AI 무관)
+    "남규리", "20년 투병", "父 투병", "母 투병",
+    "투병 고백", "투병 눈물", "생활보호대상자로 자랐",
+    "암 투병", "지병 별세", "지병 사망",
+    # v3.5.1: 유통·패션업계 (AI 무관)
+    "쿠팡 무신사", "자사몰로 반격", "고객 탈환",
+    "패션업계 반격", "패션 자사몰", "마트 반격",
+    "이커머스 반격", "유통업체 자사몰",
+    # v3.5.1: 미국·국내 증시 일일 시황 (AI 무관)
+    "미국 증시", "다우 지수", "다우지수", "나스닥 지수",
+    "주요 지수 일제히", "반도체 강세", "반도체 약세",
+    "서울데이터랩", "코스피 강세", "코스닥 강세",
+    "코스피 약세", "코스닥 약세", "기관 순매수", "외국인 순매수",
     # AI 자동 생성 lifestyle 컬럼 시리즈명 (v2.7)
     "ai 와 함께 쓴", "ai와 함께 쓴",
     "ai 와 함께", "ai가 쓰는",
@@ -558,6 +606,19 @@ LAW_AI_KEYWORDS = [
     "소송 자동화", "litigation automation",
     "ai 변호", "변호 자동화", "법률 챗봇", "legal chatbot",
     "온라인 법률 상담", "ai 법률 상담",
+    # v3.5: AI 가격 정책·청구 모델 (로펌 비즈니스 모델 변화 — 대형로펌 매우 중요)
+    "ai pricing", "ai 가격", "ai 요금",
+    "alternative fee", "value billing", "fixed fee ai",
+    "billable hour ai", "billing model ai",
+    "subscription pricing legal", "legal subscription",
+    "firms need to move faster on ai", "ai pricing pressure",
+    # v3.5: 변호사 AI 활용·사고 사례 (도입 리스크 사례 — 모니터링 필수)
+    "ai drafting", "ai-drafted", "ai 초안",
+    "misleading letters ai", "ai hallucination court",
+    "junior solicitor used ai", "solicitor used ai",
+    "ai sanction", "court sanction ai", "ai 제재",
+    "fake citations ai", "ai 환각 법정",
+    "ai 사용 변호사 징계", "변호사 ai 오용",
 ]
 
 GLOBAL_MARKET_KEYWORDS = [
@@ -577,6 +638,16 @@ GLOBAL_MARKET_KEYWORDS = [
     "google search ai", "meta llama", "deepseek", "kimi", "qwen",
     "xai grok", "mistral", "perplexity",
     "frontier model", "model race", "model launch",
+    # v3.5.1: 글로벌 거점 확장·해외 진출 (대형 AI 기업 전략)
+    "openai expansion", "anthropic expansion", "openai office",
+    "openai singapore", "openai milan", "anthropic singapore",
+    "해외 거점 확장", "신규 기지", "거점 확장",
+    "글로벌 사무소", "해외 사무소", "거점 마련",
+    "asia pacific office", "europe office",
+    # v3.5.1: 에이전트 스프롤·관리 이슈 (기업 도입 흐름)
+    "agent sprawl", "에이전트 스프롤",
+    "agent governance crisis", "agent proliferation",
+    "ai agent management",
 ]
 
 POLICY_KEYWORDS = [
@@ -602,6 +673,12 @@ POLICY_KEYWORDS = [
     # v3.0: 기준 마련 변형 (정책 공백 케이스 추가 매칭)
     "기준 마련 못", "기준 못 마련", "기준이 없",
     "1년째 기준", "수년째 기준", "기준 부재",
+    # v3.5.1: AI 자가진화·자율 진화·정렬 문제 (실존적 거버넌스 이슈)
+    "ai evolves on its own", "self-evolving ai", "ai self-improvement",
+    "ai 자가진화", "ai 자율진화", "ai 진화 통제",
+    "autonomous ai evolution", "recursive self-improvement",
+    "ai alignment", "ai 정렬", "alignment problem",
+    "human oversight ai", "인간 감독 ai",
 ]
 
 PROMO_PATTERNS = [
