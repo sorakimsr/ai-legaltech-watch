@@ -159,6 +159,18 @@ jobs:
         run: python scripts/entity_extractor.py
         continue-on-error: true
 
+      # ===== Phase 3: LLM 관계 추출 (Haiku, trend 카드 → triple) =====
+      # entities.json이 있어야 동작 → Step 4c 뒤에 위치
+      # daily 최근 7일 + weekly 4주 + monthly 3개월 카드만 처리 (비용 절약)
+      - name: "Step 4d — Extract relations (LLM, Haiku)"
+        if: github.event.inputs.deploy_only != 'true' && github.event.inputs.skip_enrich != 'true'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          ANTHROPIC_MODEL: "claude-haiku-4-5-20251001"
+        run: python scripts/relation_extractor.py
+        continue-on-error: true
+
       # ===== 5단계: Obsidian Vault로 마크다운 export =====
       - name: "Step 5 — Clone vault repo"
         if: github.event.inputs.deploy_only != 'true' && env.VAULT_PAT != ''
