@@ -30,6 +30,10 @@ on:
         description: "weekly/monthly 시사점 카드 강제 재생성 (이미 존재해도 새 프롬프트로) — 음영 정책 변경 후"
         required: false
         default: "false"
+      papers_force_refresh:
+        description: "monthly 논문 흐름 강제 재생성 (이미 존재해도 새 프롬프트로) — 음영/단락 정책 변경 후"
+        required: false
+        default: "false"
 
 permissions:
   contents: write
@@ -119,6 +123,8 @@ jobs:
           ANTHROPIC_MODEL: "claude-sonnet-4-6"
           # v3.2: weekly/monthly 강제 재생성 옵션 (workflow_dispatch input → '1' 또는 '0')
           STRATEGY_FORCE_REFRESH: ${{ github.event.inputs.strategy_force_refresh == 'true' && '1' || '0' }}
+          # v3.12: papers monthly 강제 재생성 옵션 (true → 'true' 그대로 전달)
+          PAPERS_FORCE_REFRESH: ${{ github.event.inputs.papers_force_refresh == 'true' && 'true' || 'false' }}
         run: |
           # 두 스크립트를 백그라운드로 동시 실행 → 약 50% 시간 단축
           python scripts/generate_strategy.py 2>&1 | sed 's/^/[strategy] /' &
