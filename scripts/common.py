@@ -12,7 +12,7 @@ common.py는 backward compat을 위해 그대로 재노출하므로
 
 import html
 import re
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from functools import lru_cache
 
 from dateutil import parser as dateparser
