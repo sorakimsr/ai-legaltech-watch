@@ -130,9 +130,76 @@ def _strip_timing(text: str) -> str:
     out = text
     for pat in _TIMING_PATTERNS:
         out = re.sub(pat, "", out, flags=re.IGNORECASE)
-    out = re.sub(r"\s{2,}", " ", out)
-    out = re.sub(r"\s+([.,!?])", r"\1", out)
+    # v3.10: \s 대신 [ \t] — \n까지 합치면 단락 줄바꿈이 사라짐
+    out = re.sub(r"[ \t]{2,}", " ", out)
+    out = re.sub(r"[ \t]+([.,!?])", r"\1", out)
     return out.strip()
+
+
+def _normalize_paragraph_breaks(text: str) -> str:
+    """v3.10: 1)~9) 단락이 인라인으로 이어진 경우 강제 분리.
+    LLM이 narrative 안에서 '... 1) 무엇이 ... 2) 한국 실무자에게 ... 3) 산업 적용 ...' 을
+    줄바꿈 없이 출력해도 빈 줄로 분리해 단락 렌더링되도록.
+
+    매칭 규칙:
+      - 앞 문자가 '.', '(', 숫자가 아닐 때만 — (1) / 3.1) / 10) 같은 케이스 회피
+      - '[1-9]) ' (괄호 + 공백) 형태만 매칭
+    """
+    if not text:
+        return text
+    return re.sub(r"([^\n.(\d])\s+([1-9]\)\s)", r"\1\n\n\2", text)
+
+
+# v3.10: 강조 제거 대상 — 회사명·논문명·기법명·기관명·금액 (PROMPT_TEMPLATE의 ❌ 목록과 동기화)
+# 사용자 정책: 단순 고유명사는 음영 금지, 유의미한 시사점 문구만 강조
+PROPER_NOUNS_TO_UNBOLD = [
+    # AI 회사·기관
+    "OpenAI", "Anthropic", "Sequoia Capital", "Google", "DeepMind", "Meta",
+    "Microsoft", "NVIDIA", "Apple", "Amazon", "AWS",
+    "수출입은행", "KB금융", "신한금융", "하나금융", "우리금융",
+    # 논문 제목·프로토콜·프레임워크
+    "Foundation Protocol", "AAIA-RAG-LEGAL", "Redrawing the AI Map",
+    "MAS-Orchestra", "EVE-Agent", "Ontological Knowledge Blocks", "CHRONOS",
+    "Query-Adaptive Semantic Chunking", "Latent Cache Flow", "LFRAG", "BOHM",
+    "Energy per Successful Goal", "AutoResearch AI",
+    "Cognitive offloading", "Inferential Privacy Leakage",
+    "Design and Report Benchmarks", "Engagement-Optimized Care",
+    "AI-Native Tokenized Money", "AI Evaluation Should Require",
+    # 단순 키워드 (사용자 지적: 음영 부적절)
+    "RAG", "RAG(검색-증강 생성)",
+    "멀티에이전트 시스템", "멀티에이전트 협업 체계", "멀티에이전트(Multi-Agent System)",
+    "Multi-Agent System",
+    "책임 경계", "책임 경계(Accountability Boundary)", "Accountability Boundary",
+    "에이전트형 AI", "에이전트형 AI의 운영 효율화",
+    "온프레미스", "온프레미스(on-premise)", "on-premise",
+    "금융 시장 모니터링", "의료 AI",
+    # 금액·수치
+    "40억 달러", "110억 달러", "수십억 달러", "수백억 원",
+]
+
+
+def _unbold_proper_nouns(text: str) -> str:
+    """v3.10: LLM이 회사명·논문명·기법명·단순 키워드에 적용한 **강조**를 제거.
+
+    사용자 정책 (PROMPT_TEMPLATE 강조 금지 목록과 동기화):
+    - 고유명사·논문 제목·기법명·기관명·금액 → 음영 X
+    - 단순 키워드 (RAG, 멀티에이전트 시스템, 온프레미스 등) → 음영 X
+    - 유의미한 시사점 문구 (X는 Y다 / A가 B의 병목 등) → 음영 O (유지)
+
+    동작: `**...PROPER_NOUN...**` 패턴을 찾아 강조만 제거 (이름 자체는 보존).
+    """
+    if not text:
+        return text
+    out = text
+    for name in PROPER_NOUNS_TO_UNBOLD:
+        # **...PROPER_NOUN...** 전체 매칭 — name 앞·뒤에 다른 문자가 더 있어도 강조 풀기
+        # 단, *...* 가 너무 길어 의미 문장 통째로 포함되는 경우 보호하려면 30자 제한
+        pattern = r"\*\*([^*\n]{0,40}?" + re.escape(name) + r"[^*\n]{0,15}?)\*\*"
+        out = re.sub(pattern, r"\1", out)
+    # 길이 cap — 강조 내부가 6자 이하면 단순 키워드일 가능성 매우 큼 → 풀기
+    # (사용자 정책: 시사점 문장만 강조, 짧은 키워드는 X)
+    out = re.sub(r"\*\*([^*\n]{1,6})\*\*", r"\1", out)
+    return out
 
 
 def extract_authors_institutions(papers: list) -> tuple:
@@ -313,7 +380,11 @@ def analyze_for_period(items: list, period: str, backend: str) -> dict:
 
     # narrative / insights에서 시점 표현 제거
     narrative = _strip_timing(llm_result.get("narrative", "") or "")
-    actionable = [_strip_timing(s) for s in (llm_result.get("actionable_insights") or []) if isinstance(s, str)]
+    # v3.10: 1)~9) 단락이 인라인으로 이어진 경우 빈 줄로 강제 분리
+    narrative = _normalize_paragraph_breaks(narrative)
+    # v3.10: 회사명·논문명·단순 키워드에 적용된 **강조** 제거 (사용자 정책: 시사점 문구만 강조)
+    narrative = _unbold_proper_nouns(narrative)
+    actionable = [_unbold_proper_nouns(_strip_timing(s)) for s in (llm_result.get("actionable_insights") or []) if isinstance(s, str)]
 
     hot_topics_enriched = attach_papers(llm_result.get("hot_topics"), sorted_for_ref)
     key_techniques_enriched = attach_papers(llm_result.get("key_techniques"), sorted_for_ref)
