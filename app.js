@@ -661,7 +661,7 @@ function renderSavedView(root) {
         <details class="strategy-citations">
           <summary>근거 ${citations.length}건 ▾</summary>
           <ol class="citation-list">
-            ${citations.map(c => `<li><a href="${escapeHtml(c.url)}" target="_blank" rel="noopener">${escapeHtml(c.title)}</a><span class="citation-meta">— ${escapeHtml(c.source)} · ${escapeHtml(c.date)}</span></li>`).join('')}
+            ${citations.map(c => `<li>${c.num ? `<span class="citation-num">(${c.num}번)</span> ` : ''}<a href="${escapeHtml(c.url)}" target="_blank" rel="noopener">${escapeHtml(c.title)}</a><span class="citation-meta">— ${escapeHtml(c.source)} · ${escapeHtml(c.date)}</span></li>`).join('')}
           </ol>
         </details>` : '';
       return `
