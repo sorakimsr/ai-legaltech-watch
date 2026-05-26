@@ -834,8 +834,12 @@ def count_signal_hits(text: str, signals: list) -> int:
 from pr_patterns import classify_pr_pattern  # noqa: E402
 
 
-def score_item(title: str, summary: str, date, categories: list) -> int:
+def score_item(title: str, summary: str, date, categories: list, persona_score: int = None) -> int:
     """v4.3: AI 관련성 게이트 + 행동 시그널 기반 중요도 — 대형로펌 경영전략팀 페르소나.
+
+    v6.8 (Phase 2): persona_score (0~10, LLM 평가) 가산형 보정.
+        final = keyword_score + persona_score × 3 (max +30)
+        persona_score=None이면 가산 없음 (enrich 안 받은 항목 또는 LLM 응답 누락).
 
     설계 원칙:
       1) **AI 관련성 게이트** (v4.3): 4축 시그널은 모두 AI 컨텍스트 안에서만 의미.
@@ -1012,6 +1016,18 @@ def score_item(title: str, summary: str, date, categories: list) -> int:
     # (block은 위에서 이미 score 0 처리됨.)
     if pr_verdict == 'cap' and pr_cap is not None:
         score = min(score, pr_cap)
+
+    # === v6.8 (Phase 2): persona_score 가산형 보정 ===
+    # LLM(Haiku) 페르소나 평가 — 대형로펌 대표 관점 (0~10).
+    # 가산형: keyword_score 그대로 + persona_score×3 boost (max +30).
+    # 단 PR cap 위반 항목엔 적용 안 함 (cap 우회 방지).
+    if persona_score is not None and pr_verdict != 'cap':
+        try:
+            ps = int(persona_score)
+            if 0 <= ps <= 10:
+                score += ps * 3
+        except (ValueError, TypeError):
+            pass
 
     return max(0, min(150, int(round(score))))
 

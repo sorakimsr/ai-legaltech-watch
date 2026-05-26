@@ -14,6 +14,7 @@
 
 import json
 import os
+import re
 import socket
 import sys
 import time
@@ -55,6 +56,7 @@ FETCH_DAYS = 2
 PRESERVE_FIELDS = [
     "summary_ko", "insight_ko", "llm_enriched",
     "entities", "relations",  # Phase 2에서 추가될 필드
+    "persona_score", "persona_reason",  # v6.8 Phase 2: LLM 페르소나 평가
     "related", "related_count",  # dedupe 단계 결과
 ]
 
@@ -136,7 +138,39 @@ def fetch_source(source_def):
                 or getattr(e, "description", None)
                 or ""
             )
-            summary = truncate(clean_text(raw_summary), 400)
+            # v5.2: 논문(arxiv)은 abstract 전문 활용 — 400자 → 1800자
+            if source_type == "arxiv":
+                summary = truncate(clean_text(raw_summary), 1800)
+            else:
+                summary = truncate(clean_text(raw_summary), 400)
+
+            # v5.2: arXiv 메타데이터 추출 — authors, Subjects 태그, arxiv_id
+            paper_meta = None
+            if source_type == "arxiv":
+                authors_list = []
+                for a in (getattr(e, "authors", None) or []):
+                    nm = a.get("name") if isinstance(a, dict) else str(a)
+                    if nm and nm.strip():
+                        authors_list.append(nm.strip())
+                arxiv_tags = []
+                for t in (getattr(e, "tags", None) or []):
+                    term = t.get("term") if isinstance(t, dict) else str(t)
+                    if term and re.match(r"^[a-z\-]+\.[A-Z]{2,}$", term):  # cs.AI, cs.LG, stat.ML 패턴
+                        arxiv_tags.append(term)
+                primary_cat = None
+                pc = getattr(e, "arxiv_primary_category", None)
+                if pc:
+                    primary_cat = pc.get("term") if isinstance(pc, dict) else str(pc)
+                arxiv_id = None
+                m = re.search(r"arxiv\.org/abs/([\d\.]+)", link or "")
+                if m:
+                    arxiv_id = m.group(1)
+                paper_meta = {
+                    "authors": authors_list[:10],
+                    "arxiv_tags": arxiv_tags,
+                    "primary_category": primary_cat,
+                    "arxiv_id": arxiv_id,
+                }
 
             # v2.7: arxiv는 updated(최신 revision) 우선 사용 — v2 revision 같은 실제 컨텐츠 수정일 잡기 위해
             if source_type == "arxiv":
@@ -194,7 +228,7 @@ def fetch_source(source_def):
                 if dt_kst_date < cutoff_kst:
                     continue  # 어제 이전 → skip (누적 30일은 prev_map에서 유지됨)
 
-            items.append({
+            new_item = {
                 "title": title,
                 "url": link,
                 "source": name,
@@ -206,7 +240,11 @@ def fetch_source(source_def):
                 "summary": summary,
                 "categories": categories,
                 "score": score,
-            })
+            }
+            # v5.2: 논문 메타 (arxiv only) — authors, arxiv_tags, primary_category, arxiv_id
+            if paper_meta:
+                new_item["paper_meta"] = paper_meta
+            items.append(new_item)
 
         return items, ("active" if items else "idle")
     except Exception as exc:
@@ -248,12 +286,14 @@ def load_previous_items():
             if "categories" in it:
                 it["categories"] = [c for c in it["categories"] if c != "domestic"]
             # 2. v2.7.9: 새 PROMO hard cap (v2.7.6) + 가중치(v2.7.3) 재 scoring 일괄 적용
+            # v6.8: persona_score 가산형 보정 (LLM이 부여한 0~10) 함께 전달
             old_score = it.get("score", 0)
             new_score = score_item(
                 it.get("title", ""),
                 it.get("summary", ""),
                 it.get("date", ""),
                 it.get("categories", []),
+                persona_score=it.get("persona_score"),
             )
             if abs(new_score - old_score) >= 5:
                 rescored += 1
