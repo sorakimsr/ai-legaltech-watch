@@ -448,14 +448,17 @@ def main():
     month_key = kst_month_str(today)
 
     # === Daily ===
+    # v6.7 (2026-05-27): 사용자 요청 — daily는 ref_date 당일 발행 기사만 사용.
+    #   기존 fallback (< 10건이면 최근 3일로 확장) 제거.
+    #   당일 자료 부족 시 카드 수 줄어들거나 없음 — 의도된 동작.
+    #   과거 유사 기사는 dedupe의 related_count로 이미 카드 내 표시됨.
     daily_cards = []
     if backend != "none":
         daily_items, _ = filter_items_by_period(items, "daily", today)
-        # 오늘 데이터가 적으면 최근 3일로 확장
-        if len(daily_items) < 10:
-            cutoff = (today - timedelta(days=3)).isoformat()
-            daily_items = [it for it in items if it.get("date", "")[:10] >= cutoff]
-        daily_cards = generate_cards(daily_items, "daily", today, items)
+        if len(daily_items) >= 3:  # 최소 3건은 있어야 trend 도출 가능
+            daily_cards = generate_cards(daily_items, "daily", today, items)
+        else:
+            print(f"  [daily] 당일({today_iso}) 발행 기사 {len(daily_items)}건 — trend 생성 skip", flush=True)
     if not daily_cards:
         # 폴백 카드도 citations 누락 시 점수 상위 3개를 자동 첨부 (citation 강제)
         sorted_top = sorted(items, key=lambda x: x.get("score", 0), reverse=True)[:3]

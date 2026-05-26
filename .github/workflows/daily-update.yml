@@ -1,11 +1,11 @@
 name: Daily News Update
 
-# v3.17: 임시로 KST 12시(UTC 3) 제외 — arXiv 429 IP throttle 회복 시간 확보
-# 다음 schedule: KST 18/24/06 (UTC 9/15/21)
-# 원복 시: "0 3,9,15,21 * * *"
+# v6.7 (2026-05-27): 사용자 요청 — 매일 4회 KST 24/06/12/18 자동 실행.
+#   UTC 15/21/03/09 = KST 24/06/12/18 (매일 4회)
+#   arXiv 429 throttle 가능성은 _arxiv_fetch_with_retry의 backoff(10/30/90초)로 mitigation.
 on:
   schedule:
-    - cron: "0 9,15,21 * * *"
+    - cron: "0 3,9,15,21 * * *"
   workflow_dispatch:  # 수동 실행 가능
     inputs:
       skip_fetch:
