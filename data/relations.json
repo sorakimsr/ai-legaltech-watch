@@ -1,15 +1,175 @@
 {
-  "generated_at": "2026-05-26T22:49:29.543825+09:00",
-  "total_relations": 81,
+  "generated_at": "2026-05-27T00:14:18.720300+09:00",
+  "total_relations": 88,
   "relations": [
+    {
+      "source": "fss",
+      "target": "agent_ai",
+      "type": "regulates",
+      "evidence": "금감원은 AI 투자액의 20%를 보안에 배분하도록 유도하는 프레임워크를 예고했고",
+      "trend_period": "daily",
+      "trend_key": "2026-05-27",
+      "trend_tag": "TREND 01 · AI 거버넌스의 제도화 가속",
+      "weight": 1.5
+    },
+    {
+      "source": "eu_ai_act",
+      "target": "agent_ai",
+      "type": "implements",
+      "evidence": "Commugen은 EU AI Act 준수 자동화 솔루션을 세계 최초로 출시했다",
+      "trend_period": "daily",
+      "trend_key": "2026-05-27",
+      "trend_tag": "TREND 01 · AI 거버넌스의 제도화 가속",
+      "weight": 1.0
+    },
+    {
+      "source": "agent_ai",
+      "target": "eu_ai_act",
+      "type": "mentions",
+      "evidence": "거버넌스 체계가 없으면 AI 도입 자체가 규제 리스크가 되는 구조",
+      "trend_period": "daily",
+      "trend_key": "2026-05-27",
+      "trend_tag": "TREND 01 · AI 거버넌스의 제도화 가속",
+      "weight": 1.0
+    },
+    {
+      "source": "fsc",
+      "target": "on_premise_ai",
+      "type": "implements",
+      "evidence": "금융위는 AI 투자액의 20%를 보안에 배분하도록 유도하는 프레임워크를 예고했다",
+      "trend_period": "daily",
+      "trend_key": "2026-05-27",
+      "trend_tag": "TREND 02 · 금융권 AI 보안 규제 대전환",
+      "weight": 1.5
+    },
     {
       "source": "fss",
       "target": "kb_finance",
       "type": "regulates",
-      "evidence": "금감원은 'AI 투자액의 20%를 보안에 배분'하는 디지털통제 프레임워크를 예고",
+      "evidence": "금감원 프레임워크 자가 점검 항목 충족률 90% 이상으로 설정한다",
       "trend_period": "daily",
-      "trend_key": "2026-05-26",
-      "trend_tag": "TREND 01 · AI 거버넌스의 제도화 가속",
+      "trend_key": "2026-05-27",
+      "trend_tag": "TREND 02 · 금융권 AI 보안 규제 대전환",
+      "weight": 1.5
+    },
+    {
+      "source": "kb_finance",
+      "target": "on_premise_ai",
+      "type": "adopts",
+      "evidence": "KB금융은 제로 트러스트 기반 다층 방어체계와 AI 거버넌스를 동시에 강화",
+      "trend_period": "daily",
+      "trend_key": "2026-05-27",
+      "trend_tag": "TREND 02 · 금융권 AI 보안 규제 대전환",
+      "weight": 1.5
+    },
+    {
+      "source": "fsc",
+      "target": "kb_finance",
+      "type": "regulates",
+      "evidence": "금융위는 망분리 완화를 추진하면서 동시에 보안 투자 의무화를 유도",
+      "trend_period": "daily",
+      "trend_key": "2026-05-27",
+      "trend_tag": "TREND 02 · 금융권 AI 보안 규제 대전환",
+      "weight": 1.0
+    },
+    {
+      "source": "harvey",
+      "target": "legora",
+      "type": "competes_with",
+      "evidence": "Harvey는 이미 아시아 지역 확장을 가속화하고 있다. 반면 레고라(Legora)는 아시아로 확장하고 있다",
+      "trend_period": "daily",
+      "trend_key": "2026-05-27",
+      "trend_tag": "TREND 03 · 리걸테크 글로벌 경쟁 격화",
+      "weight": 1.5
+    },
+    {
+      "source": "ai_guidelines",
+      "target": "harvey",
+      "type": "regulates",
+      "evidence": "한국 정부는 AI가 소송장을 작성하는 현실이 1년 이상 지속되는 동안에도 법률 AI 가이드라인을 마련하지 못한 상태",
+      "trend_period": "daily",
+      "trend_key": "2026-05-27",
+      "trend_tag": "TREND 03 · 리걸테크 글로벌 경쟁 격화",
+      "weight": 1.0
+    },
+    {
+      "source": "ai_guidelines",
+      "target": "legora",
+      "type": "regulates",
+      "evidence": "한국 정부는 AI가 소송장을 작성하는 현실이 1년 이상 지속되는 동안에도 법률 AI 가이드라인을 마련하지 못한 상태",
+      "trend_period": "daily",
+      "trend_key": "2026-05-27",
+      "trend_tag": "TREND 03 · 리걸테크 글로벌 경쟁 격화",
+      "weight": 1.0
+    },
+    {
+      "source": "eximbank",
+      "target": "agent_ai",
+      "type": "adopts",
+      "evidence": "수출입은행은 내규 검색·문서 작성·승인서 검토를 지원하는 AI 에이전트를 신용평가 시스템과 병행 개발 중",
+      "trend_period": "daily",
+      "trend_key": "2026-05-27",
+      "trend_tag": "TREND 04 · 에이전트 AI 시스템 아키텍처 전환",
+      "weight": 3.0
+    },
+    {
+      "source": "anthropic",
+      "target": "chatgpt",
+      "type": "mentions",
+      "evidence": "삼성전자는 6월 챗GPT·제미나이·클로드를 공식 도입",
+      "trend_period": "daily",
+      "trend_key": "2026-05-27",
+      "trend_tag": "TREND 04 · 에이전트 AI 시스템 아키텍처 전환",
+      "weight": 1.0
+    },
+    {
+      "source": "anthropic",
+      "target": "agent_ai",
+      "type": "mentions",
+      "evidence": "여러 에이전트 간 신뢰·조정·감시 계층을 어떻게 설계하느냐가 새로운 경쟁 병목",
+      "trend_period": "daily",
+      "trend_key": "2026-05-27",
+      "trend_tag": "TREND 04 · 에이전트 AI 시스템 아키텍처 전환",
+      "weight": 1.0
+    },
+    {
+      "source": "chatgpt",
+      "target": "agent_ai",
+      "type": "mentions",
+      "evidence": "삼성전자는 챗GPT·제미나이·클로드를 공식 도입하면서 품질·생산·물류 분야별 AI 에이전트를 통한 데이터 기반 의사결정",
+      "trend_period": "daily",
+      "trend_key": "2026-05-27",
+      "trend_tag": "TREND 04 · 에이전트 AI 시스템 아키텍처 전환",
+      "weight": 2.0
+    },
+    {
+      "source": "ministry_industry",
+      "target": "lg_ensol",
+      "type": "implements",
+      "evidence": "산업부는 LG에너지솔루션 공장을 직접 방문해 M.AX 도입을 '생존을 위한 필수 과제'로 규정했다",
+      "trend_period": "daily",
+      "trend_key": "2026-05-27",
+      "trend_tag": "TREND 05 · 국가 AI 주권 경쟁과 산업 정책 연계",
+      "weight": 1.0
+    },
+    {
+      "source": "ministry_industry",
+      "target": "max_policy",
+      "type": "launches",
+      "evidence": "산업부는 LG에너지솔루션 공장을 직접 방문해 M.AX(Manufacturing AI Transformation) 도입을 규정했다",
+      "trend_period": "daily",
+      "trend_key": "2026-05-27",
+      "trend_tag": "TREND 05 · 국가 AI 주권 경쟁과 산업 정책 연계",
+      "weight": 1.5
+    },
+    {
+      "source": "lg_ensol",
+      "target": "max_policy",
+      "type": "adopts",
+      "evidence": "산업부는 LG에너지솔루션 공장을 직접 방문해 M.AX 도입을 '생존을 위한 필수 과제'로 규정했다",
+      "trend_period": "daily",
+      "trend_key": "2026-05-27",
+      "trend_tag": "TREND 05 · 국가 AI 주권 경쟁과 산업 정책 연계",
       "weight": 1.0
     },
     {
@@ -33,16 +193,6 @@
       "weight": 1.0
     },
     {
-      "source": "chatgpt",
-      "target": "agent_ai",
-      "type": "mentions",
-      "evidence": "챗GPT·제미나이·클로드를 공식 도입하고 품질·생산·물류 분야별 AI 에이전트",
-      "trend_period": "daily",
-      "trend_key": "2026-05-26",
-      "trend_tag": "TREND 02 · 에이전트 시대의 조직 설계 충돌",
-      "weight": 1.5
-    },
-    {
       "source": "eximbank",
       "target": "agent_ai",
       "type": "implements",
@@ -51,16 +201,6 @@
       "trend_key": "2026-05-26",
       "trend_tag": "TREND 02 · 에이전트 시대의 조직 설계 충돌",
       "weight": 1.5
-    },
-    {
-      "source": "anthropic",
-      "target": "agent_ai",
-      "type": "mentions",
-      "evidence": "챗GPT·제미나이·클로드를 공식 도입하고 품질·생산·물류 분야별 AI 에이전트",
-      "trend_period": "daily",
-      "trend_key": "2026-05-26",
-      "trend_tag": "TREND 02 · 에이전트 시대의 조직 설계 충돌",
-      "weight": 1.0
     },
     {
       "source": "harvey",
@@ -76,7 +216,7 @@
       "source": "harvey",
       "target": "qwen",
       "type": "competes_with",
-      "evidence": "법률 AI 플랫폼 Harvey...Qwen은 계약서 작성 실용화 가능성을 공개적으로 시연",
+      "evidence": "법률 AI 플랫폼 Harvey...Qwen은 계약서 작성 실용화 가능성을 시연",
       "trend_period": "daily",
       "trend_key": "2026-05-26",
       "trend_tag": "TREND 03 · 법률 AI의 아시아 시장 진입 가속",
@@ -86,17 +226,7 @@
       "source": "legora",
       "target": "qwen",
       "type": "competes_with",
-      "evidence": "Legora가 아시아 시장 확장...Qwen은 계약서 작성 실용화 가능성 시연",
-      "trend_period": "daily",
-      "trend_key": "2026-05-26",
-      "trend_tag": "TREND 03 · 법률 AI의 아시아 시장 진입 가속",
-      "weight": 1.0
-    },
-    {
-      "source": "ministry_science",
-      "target": "legora",
-      "type": "regulates",
-      "evidence": "과기정통부 산하 정보통신기획평가원이 법률 분야를 테스트베드로 운영",
+      "evidence": "Legora가 아시아 시장 확장...Qwen은 계약서 작성 실용화 가능성을 시연",
       "trend_period": "daily",
       "trend_key": "2026-05-26",
       "trend_tag": "TREND 03 · 법률 AI의 아시아 시장 진입 가속",
@@ -105,7 +235,17 @@
     {
       "source": "ministry_science",
       "target": "harvey",
-      "type": "regulates",
+      "type": "implements",
+      "evidence": "과기정통부 산하 정보통신기획평가원이 법률 분야를 테스트베드로 운영",
+      "trend_period": "daily",
+      "trend_key": "2026-05-26",
+      "trend_tag": "TREND 03 · 법률 AI의 아시아 시장 진입 가속",
+      "weight": 1.0
+    },
+    {
+      "source": "ministry_science",
+      "target": "legora",
+      "type": "implements",
       "evidence": "과기정통부 산하 정보통신기획평가원이 법률 분야를 테스트베드로 운영",
       "trend_period": "daily",
       "trend_key": "2026-05-26",
@@ -115,7 +255,7 @@
     {
       "source": "ministry_science",
       "target": "qwen",
-      "type": "regulates",
+      "type": "implements",
       "evidence": "과기정통부 산하 정보통신기획평가원이 법률 분야를 테스트베드로 운영",
       "trend_period": "daily",
       "trend_key": "2026-05-26",
@@ -133,16 +273,6 @@
       "weight": 1.0
     },
     {
-      "source": "ministry_industry",
-      "target": "max_policy",
-      "type": "launches",
-      "evidence": "산업부는 LG에너지솔루션 공장을 방문해 M.AX 플랫폼 활용을",
-      "trend_period": "daily",
-      "trend_key": "2026-05-26",
-      "trend_tag": "TREND 04 · 국산 AI 인프라의 정책 드라이브",
-      "weight": 1.0
-    },
-    {
       "source": "max_policy",
       "target": "lg_ensol",
       "type": "implements",
@@ -153,20 +283,20 @@
       "weight": 1.0
     },
     {
-      "source": "ministry_industry",
-      "target": "data_sovereignty",
-      "type": "implements",
-      "evidence": "클라우드 기반 외산 AI에 대한 데이터 주권 우려가 정책 언어로 공식화",
+      "source": "data_sovereignty",
+      "target": "max_policy",
+      "type": "mentions",
+      "evidence": "데이터 주권 우려가 정책 언어로 공식화되면서",
       "trend_period": "daily",
       "trend_key": "2026-05-26",
       "trend_tag": "TREND 04 · 국산 AI 인프라의 정책 드라이브",
       "weight": 1.0
     },
     {
-      "source": "data_sovereignty",
-      "target": "lg_ensol",
-      "type": "mentions",
-      "evidence": "온프레미스 또는 국산 인프라 기반 AI 도입이 공공·방산·금융 분야에서",
+      "source": "ministry_industry",
+      "target": "data_sovereignty",
+      "type": "implements",
+      "evidence": "클라우드 기반 외산 AI에 대한 데이터 주권 우려가 정책 언어로 공식화",
       "trend_period": "daily",
       "trend_key": "2026-05-26",
       "trend_tag": "TREND 04 · 국산 AI 인프라의 정책 드라이브",
@@ -234,9 +364,19 @@
     },
     {
       "source": "harvey",
-      "target": "google_ai",
+      "target": "ironclad",
+      "type": "competes_with",
+      "evidence": "Harvey의 LAB, Command Center vs Ironclad의 5종 에이전트 + Manager Agent 등 모든 주요 플레이어가 같은 방향",
+      "trend_period": "daily",
+      "trend_key": "2026-05-25",
+      "trend_tag": "TREND 01 · 에이전트 시대의 본격화",
+      "weight": 1.0
+    },
+    {
+      "source": "google_ai",
+      "target": "harvey",
       "type": "mentions",
-      "evidence": "Harvey의 LAB, Command Center, Gemini Spark, Ironclad의 5종 에이전트",
+      "evidence": "Gemini Spark, Ironclad의 5종 에이전트 + Manager Agent 등 모든 주요 플레이어",
       "trend_period": "daily",
       "trend_key": "2026-05-25",
       "trend_tag": "TREND 01 · 에이전트 시대의 본격화",
@@ -244,19 +384,9 @@
     },
     {
       "source": "harvey",
-      "target": "ironclad",
-      "type": "competes_with",
-      "evidence": "모든 주요 플레이어가 같은 방향을 가리킴",
-      "trend_period": "daily",
-      "trend_key": "2026-05-25",
-      "trend_tag": "TREND 01 · 에이전트 시대의 본격화",
-      "weight": 1.0
-    },
-    {
-      "source": "ironclad",
-      "target": "harvey",
-      "type": "competes_with",
-      "evidence": "모든 주요 플레이어가 같은 방향을 가리킴",
+      "target": "google_ai",
+      "type": "mentions",
+      "evidence": "Harvey의 LAB, Command Center, Gemini Spark, Ironclad의 5종 에이전트",
       "trend_period": "daily",
       "trend_key": "2026-05-25",
       "trend_tag": "TREND 01 · 에이전트 시대의 본격화",
@@ -285,12 +415,12 @@
     {
       "source": "bhsn",
       "target": "harvey",
-      "type": "competes_with",
-      "evidence": "Robin AI의 dedicated cloud, BHSN의 한국형 솔루션도 같은 맥락",
+      "type": "mentions",
+      "evidence": "BHSN의 한국형 솔루션...Harvey LAB도",
       "trend_period": "daily",
       "trend_key": "2026-05-25",
       "trend_tag": "TREND 03 · 오픈소스 + 데이터 주권의 부상",
-      "weight": 1.5
+      "weight": 1.0
     },
     {
       "source": "anthropic",
@@ -300,16 +430,6 @@
       "trend_period": "daily",
       "trend_key": "2026-05-25",
       "trend_tag": "TREND 04 · 컨텍스트 윈도우 경쟁의 종료",
-      "weight": 1.0
-    },
-    {
-      "source": "harvey",
-      "target": "legora",
-      "type": "competes_with",
-      "evidence": "Harvey $11B + Legora $5.6B가 상위",
-      "trend_period": "daily",
-      "trend_key": "2026-05-25",
-      "trend_tag": "TREND 05 · 리걸테크의 양극화",
       "weight": 1.0
     },
     {
@@ -327,16 +447,6 @@
       "target": "spellbook",
       "type": "competes_with",
       "evidence": "중간 가격대 단일 기능 도구들은 인수되거나",
-      "trend_period": "daily",
-      "trend_key": "2026-05-25",
-      "trend_tag": "TREND 05 · 리걸테크의 양극화",
-      "weight": 1.0
-    },
-    {
-      "source": "spellbook",
-      "target": "harvey",
-      "type": "mentions",
-      "evidence": "Spellbook $40M debt for M&A",
       "trend_period": "daily",
       "trend_key": "2026-05-25",
       "trend_tag": "TREND 05 · 리걸테크의 양극화",
@@ -440,7 +550,7 @@
       "trend_period": "daily",
       "trend_key": "2026-05-25",
       "trend_tag": "TREND 07 · AI 거버넌스의 글로벌 표준화",
-      "weight": 1.5
+      "weight": 2.0
     },
     {
       "source": "legora",
@@ -473,16 +583,6 @@
       "weight": 1.0
     },
     {
-      "source": "eximbank",
-      "target": "agent_ai",
-      "type": "adopts",
-      "evidence": "수출입은행이 내규 검색·계약서 검토 AI 에이전트를 개발 중",
-      "trend_period": "weekly",
-      "trend_key": "2026-W22",
-      "trend_tag": "TREND 02 · AI 거버넌스의 병목 이동",
-      "weight": 2.5
-    },
-    {
       "source": "agent_ai",
       "target": "chatgpt",
       "type": "mentions",
@@ -510,46 +610,6 @@
       "trend_period": "weekly",
       "trend_key": "2026-W22",
       "trend_tag": "TREND 03 · AI 규제 환경의 양극화",
-      "weight": 1.0
-    },
-    {
-      "source": "eu_ai_act",
-      "target": "xai",
-      "type": "regulates",
-      "evidence": "EU AI Act 준수 과정에서 설명 가능성 요건 충족 여부를 점검",
-      "trend_period": "weekly",
-      "trend_key": "2026-W22",
-      "trend_tag": "TREND 03 · AI 규제 환경의 양극화",
-      "weight": 1.0
-    },
-    {
-      "source": "kb_finance",
-      "target": "on_premise_ai",
-      "type": "adopts",
-      "evidence": "KB금융은 제로 트러스트 기반 AI 거버넌스 강화를 선언했고",
-      "trend_period": "weekly",
-      "trend_key": "2026-W22",
-      "trend_tag": "TREND 05 · 금융권 AI 거버넌스와 보안의 동시 압박",
-      "weight": 1.0
-    },
-    {
-      "source": "fsc",
-      "target": "on_premise_ai",
-      "type": "implements",
-      "evidence": "금융위는 20년 만에 망분리 규제 대수술을 예고했으며",
-      "trend_period": "weekly",
-      "trend_key": "2026-W22",
-      "trend_tag": "TREND 05 · 금융권 AI 거버넌스와 보안의 동시 압박",
-      "weight": 1.0
-    },
-    {
-      "source": "fss",
-      "target": "agent_ai",
-      "type": "regulates",
-      "evidence": "금감원은 'AI 금융혁신은 설계부터 소비자 보호를 내재화해야 한다'는 원칙을 공식화했다",
-      "trend_period": "weekly",
-      "trend_key": "2026-W22",
-      "trend_tag": "TREND 05 · 금융권 AI 거버넌스와 보안의 동시 압박",
       "weight": 1.0
     },
     {
@@ -603,20 +663,30 @@
       "weight": 2.0
     },
     {
-      "source": "openai",
-      "target": "harvey",
+      "source": "harvey",
+      "target": "openai",
       "type": "competes_with",
-      "evidence": "Harvey·Anthropic·OpenAI가 동시에 법률 시장 진입",
+      "evidence": "Harvey·OpenAI·Anthropic이 동시에 법률 시장 진입",
       "trend_period": "monthly",
       "trend_key": "2026-05",
       "trend_tag": "TREND 01 · 법률 AI 플랫폼 전쟁의 한국 상륙",
       "weight": 1.0
     },
     {
-      "source": "anthropic",
-      "target": "harvey",
+      "source": "harvey",
+      "target": "anthropic",
       "type": "competes_with",
-      "evidence": "Anthropic은 국내 로펌 시장에 직접 진입하는 움직임",
+      "evidence": "Harvey·OpenAI·Anthropic이 동시에 법률 시장 진입",
+      "trend_period": "monthly",
+      "trend_key": "2026-05",
+      "trend_tag": "TREND 01 · 법률 AI 플랫폼 전쟁의 한국 상륙",
+      "weight": 1.0
+    },
+    {
+      "source": "openai",
+      "target": "anthropic",
+      "type": "competes_with",
+      "evidence": "Harvey·OpenAI·Anthropic이 동시에 법률 시장 진입",
       "trend_period": "monthly",
       "trend_key": "2026-05",
       "trend_tag": "TREND 01 · 법률 AI 플랫폼 전쟁의 한국 상륙",
@@ -633,10 +703,20 @@
       "weight": 1.0
     },
     {
+      "source": "bhsn",
+      "target": "rag",
+      "type": "adopts",
+      "evidence": "율촌이 BHSN과 협력해 RAG 기반 '아이율'을 전사 도입",
+      "trend_period": "monthly",
+      "trend_key": "2026-05",
+      "trend_tag": "TREND 01 · 법률 AI 플랫폼 전쟁의 한국 상륙",
+      "weight": 1.0
+    },
+    {
       "source": "harvey",
       "target": "codex_for_legal",
       "type": "competes_with",
-      "evidence": "벤치마크 기준을 누가 정의하느냐가 시장 지배력을 결정",
+      "evidence": "Harvey LAB vs OpenAI Codex for Legal 벤치마크 경쟁",
       "trend_period": "monthly",
       "trend_key": "2026-05",
       "trend_tag": "TREND 01 · 법률 AI 플랫폼 전쟁의 한국 상륙",
@@ -666,7 +746,7 @@
       "source": "agent_ai",
       "target": "eximbank",
       "type": "mentions",
-      "evidence": "KB금융과 수출입은행 사례에서 공통적으로 관찰되는 병목",
+      "evidence": "수출입은행의 AI 에이전트 기반 계약서 검토 시스템 구축",
       "trend_period": "monthly",
       "trend_key": "2026-05",
       "trend_tag": "TREND 02 · AI 거버넌스의 병목 이동",
@@ -684,39 +764,29 @@
     },
     {
       "source": "ai_basic_law",
-      "target": "on_premise_ai",
-      "type": "implements",
-      "evidence": "AI 기본법 시행을 앞두고 온프레미스 수요가 폭발",
-      "trend_period": "monthly",
-      "trend_key": "2026-05",
-      "trend_tag": "TREND 03 · 규제 비대칭이 만드는 시장 기회",
-      "weight": 1.0
-    },
-    {
-      "source": "eu_ai_act",
       "target": "ai_guidelines",
       "type": "mentions",
-      "evidence": "EU AI Act·한국 AI 기본법 공백기에 온프레미스 수요",
+      "evidence": "AI 기본법 시행을 앞두고 금융 분야 AI 가이드라인 개정이 1년 이상 지연",
       "trend_period": "monthly",
       "trend_key": "2026-05",
       "trend_tag": "TREND 03 · 규제 비대칭이 만드는 시장 기회",
       "weight": 1.0
     },
     {
-      "source": "ai_basic_law",
-      "target": "ai_guidelines",
+      "source": "on_premise_ai",
+      "target": "ai_basic_law",
       "type": "mentions",
-      "evidence": "AI 기본법 시행을 앞두고 금융 분야 AI 가이드라인 개정",
+      "evidence": "온프레미스 또는 폐쇄망 요구를 충족하는 솔루션",
       "trend_period": "monthly",
       "trend_key": "2026-05",
       "trend_tag": "TREND 03 · 규제 비대칭이 만드는 시장 기회",
       "weight": 1.0
     },
     {
-      "source": "xai",
+      "source": "on_premise_ai",
       "target": "eu_ai_act",
       "type": "mentions",
-      "evidence": "EU AI Act가 요구하는 설명 가능성(XAI) 의무화",
+      "evidence": "규제 공백기에 표준을 선점하는 플레이어가 규제 확정 이후 진입 장벽",
       "trend_period": "monthly",
       "trend_key": "2026-05",
       "trend_tag": "TREND 03 · 규제 비대칭이 만드는 시장 기회",
@@ -726,7 +796,7 @@
       "source": "evenup",
       "target": "agent_ai",
       "type": "mentions",
-      "evidence": "EvenUp이 개인상해 로펌 대상 'Pre-Litigation-as-a-Service'를 출시하며 소프트웨어 벤더에서 외주 운영 파트너로 사업 모델을 전환",
+      "evidence": "EvenUp이 개인상해 로펌 대상 서비스를 출시하며 소프트웨어 벤더에서 외주 운영 파트너로 전환",
       "trend_period": "monthly",
       "trend_key": "2026-05",
       "trend_tag": "TREND 04 · 법률 AI의 사업 모델 전환",
@@ -736,7 +806,7 @@
       "source": "bhsn",
       "target": "agent_ai",
       "type": "mentions",
-      "evidence": "BHSN은 CJ제일제당·한화솔루션에 계약서 검토 시간을 67% 단축하는 성과를 공개",
+      "evidence": "BHSN은 계약서 검토 시간을 67% 단축하는 성과를 공개하며 ROI 기반 영업 강화",
       "trend_period": "monthly",
       "trend_key": "2026-05",
       "trend_tag": "TREND 04 · 법률 AI의 사업 모델 전환",
@@ -746,7 +816,7 @@
       "source": "evenup",
       "target": "bhsn",
       "type": "competes_with",
-      "evidence": "'도구를 팔던' 리걸테크가 '업무 결과를 책임지는' 서비스 모델로 이동하면서 결과 기반 서비스 경쟁",
+      "evidence": "EvenUp과 BHSN 모두 결과 기반 리걸테크 서비스로 사업 모델 전환 중",
       "trend_period": "monthly",
       "trend_key": "2026-05",
       "trend_tag": "TREND 04 · 법률 AI의 사업 모델 전환",
@@ -763,8 +833,8 @@
       "weight": 1.0
     },
     {
-      "source": "openai",
-      "target": "rag",
+      "source": "rag",
+      "target": "codex_for_legal",
       "type": "mentions",
       "evidence": "파운데이션 모델 기업들이 수직 특화 시장을 직접 공략하는 단계",
       "trend_period": "monthly",
@@ -796,7 +866,7 @@
       "source": "ai_basic_law",
       "target": "legora",
       "type": "regulates",
-      "evidence": "국내 규제 환경(변호사법, AI 기본법)을 활용한 차별화 포인트",
+      "evidence": "국내 규제 환경(변호사법, AI 기본법)을 활용한 차별화",
       "trend_period": "monthly",
       "trend_key": "2026-05",
       "trend_tag": "TREND 07 · 유럽 리걸테크의 아시아 진출과 한국 시장 압박",
