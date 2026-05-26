@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AI & Legaltech Watch</title>
-  <link rel="stylesheet" href="styles.css?v=20260526-v40" />
+  <link rel="stylesheet" href="styles.css?v=20260526-v41" />
 </head>
 <body>
   <div class="app">
@@ -16,14 +16,14 @@
       </div>
 
       <div class="nav-section">
-        <!-- v2.7: 시사점은 단일 메뉴 (Daily/Weekly/Monthly는 페이지 내부 탭) -->
-        <a href="#" class="nav-item" data-view="strategy" data-period="daily">
+        <!-- v3.11: 시사점이 첫 페이지 (active) — Daily/Weekly/Monthly는 페이지 내부 탭 -->
+        <a href="#" class="nav-item active" data-view="strategy" data-period="daily">
           <span class="nav-icon">🎯</span>
           <span class="nav-label">시사점</span>
         </a>
 
         <!-- v2.7.1: 중요도 TOP / 오늘 추가됨 / 최신순을 "뉴스 피드" 하나로 통합 (정렬·기간은 페이지 내 dropdown) -->
-        <a href="#" class="nav-item active" data-view="latest">
+        <a href="#" class="nav-item" data-view="latest">
           <span class="nav-icon">📰</span>
           <span class="nav-label">뉴스 피드</span>
         </a>
@@ -115,16 +115,16 @@
           <div class="control-group">
             <span class="control-label">정렬</span>
             <select id="sort-filter">
-              <option value="latest" selected>최신순</option>
-              <option value="score">중요도</option>
+              <option value="latest">최신순</option>
+              <option value="score" selected>중요도</option>
               <option value="today">오늘 추가</option>
             </select>
           </div>
           <div class="control-group">
             <span class="control-label">기간</span>
             <select id="date-filter">
-              <option value="all" selected>전체 기간</option>
-              <option value="today">오늘</option>
+              <option value="all">전체 기간</option>
+              <option value="today" selected>오늘</option>
               <option value="3days">최근 3일</option>
               <option value="week">최근 1주일</option>
               <option value="month">최근 1개월</option>
@@ -304,6 +304,6 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-  <script src="app.js?v=20260526-v40"></script>
+  <script src="app.js?v=20260526-v41"></script>
 </body>
 </html>

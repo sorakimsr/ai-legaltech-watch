@@ -47,7 +47,8 @@ const state = {
   data: null,
   history: null,        // strategy_history.json
   sourceHistory: null,  // source_history.json
-  view: 'latest',       // latest | top | today | strategy | sources | saved
+  // v3.11: 진입 시 첫 페이지 = 시사점 daily (사용자 정책)
+  view: 'strategy',     // strategy | latest | top | today | sources | saved | papers | analyses
   // 시사점 sub-state
   strategyPeriod: 'daily',  // daily | weekly | monthly
   strategyKey: null,        // 선택된 날짜·주·월 키
@@ -63,10 +64,12 @@ const state = {
   category: 'all',  // legacy 단일 선택 호환 (UI 표시 한 줄에 사용)
   categories: new Set(['all']),  // 실제 필터 적용용 다중 선택
   search: '',
-  dateFilter: 'all',
+  // v3.11: 뉴스 피드 디폴트 기간 = 오늘 (사용자 정책)
+  dateFilter: 'today',
   langFilter: 'all',
   // v2.7.1: 정렬 기준 (뉴스 피드 통합 후) — latest | score | today
-  sortBy: 'latest',
+  // v3.11: 디폴트 = 중요도 (사용자 정책)
+  sortBy: 'score',
   // chart instance
   trendChart: null,
   // 다중 선택 — 뉴스 카드(URL 기반) + 시사점 trend 카드(cardKey 기반)
