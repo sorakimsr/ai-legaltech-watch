@@ -69,6 +69,13 @@ CATEGORY_KEYWORDS = {
         "adopts", "deploys", "deployed", "implementing", "integrating",
         "case study", "rolls out across", "firm-wide adoption",
         "도입 사례", "활용 사례", "전사 도입", "적용 사례",
+        # v3.9-D: 실무 도입 지표·ROI·파일럿
+        "ai 파일럿", "ai pilot", "ai poc", "검증 실험",
+        "ai roi", "ai 투자수익", "ai 운영 비용", "ai 비용",
+        "token 비용", "토큰 비용", "ai 생산성", "ai 효율",
+        "ai deployment", "ai 도입 효과",
+        # v3.9-C: 온프레미스 AI 도입
+        "온프레미스 ai", "on-prem ai", "on-premise ai",
     ],
     # v2.8.3: 'domestic' 카테고리 제거 — 언어 필터(ko/en)로 대체
     "policy": [
@@ -95,6 +102,11 @@ CATEGORY_KEYWORDS = {
         "하네스 엔지니어링", "harness engineering",
         "클론 엔지니어링", "clone engineering",
         "fde", "forward deployed engineer", "포워드 디플로이드",
+        # v3.9-A: AI 코딩 툴·vibe coding·MCP
+        "claude code", "클로드 코드", "cursor", "windsurf", "github copilot",
+        "vibe coding", "바이브 코딩",
+        "mcp", "model context protocol", "모델 컨텍스트 프로토콜",
+        "ai 코딩", "ai coding", "ai code generation", "ai coding assistant",
     ],
     # v3.0: AI 거버넌스·리스크 — 사내 거버넌스 (정부 규제와 구분)
     "governance": [
@@ -108,6 +120,12 @@ CATEGORY_KEYWORDS = {
         "evaluation challenges", "ai 안전성", "ai safety",
         "ai 리터러시", "ai literacy",
         "compliance ai", "ai audit", "ai impact assessment",
+        # v3.9-B: AI 감사·레드팀팅·설명가능성
+        "ai 감사", "ai 레드팀", "ai red teaming", "red team ai",
+        "explainable ai", "xai", "설명가능 ai", "설명 가능 ai",
+        "trustworthy ai", "신뢰성 ai", "신뢰할 수 있는 ai",
+        "model card", "system card", "모델 카드",
+        "ai accountability", "ai 책임", "책임 ai",
     ],
     # v3.0: 시장·경쟁 구도 — 벤더 종속·모트·자체 구축 등 시장 구조 변화
     "market": [
@@ -361,6 +379,11 @@ BLACKLIST_KEYWORDS = [
     "주요 지수 일제히", "반도체 강세", "반도체 약세",
     "서울데이터랩", "코스피 강세", "코스닥 강세",
     "코스피 약세", "코스닥 약세", "기관 순매수", "외국인 순매수",
+    # v3.9: 일본·중국·홍콩 증시 일일 시황
+    "닛케이", "닛케이 지수", "닛케이 평균", "닛케이 종가",
+    "6만5000엔", "6만엔", "7만 엔 시대", "7만엔",
+    "도쿄 증시", "상하이 종합지수", "항셍 지수", "항셍",
+    "엔화 강세", "엔화 약세", "엔달러", "위안화",
     # AI 자동 생성 lifestyle 컬럼 시리즈명 (v2.7)
     "ai 와 함께 쓴", "ai와 함께 쓴",
     "ai 와 함께", "ai가 쓰는",
@@ -699,6 +722,11 @@ POLICY_KEYWORDS = [
     "autonomous ai evolution", "recursive self-improvement",
     "ai alignment", "ai 정렬", "alignment problem",
     "human oversight ai", "인간 감독 ai",
+    # v3.9-C: Sovereign AI · 디지털 주권 · 한국형 AI
+    "sovereign ai", "소버린 ai", "ai 주권",
+    "디지털 주권", "data sovereignty",
+    "한국형 ai", "국산 ai", "k-ai",
+    "ai 자립", "ai 독립", "ai self-reliance",
 ]
 
 PROMO_PATTERNS = [

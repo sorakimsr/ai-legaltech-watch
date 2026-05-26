@@ -28,8 +28,9 @@ from common import clean_text, truncate, categorize, score_item, normalize_url
 API_BASE = "https://api.openalex.org/works"
 KST = timezone(timedelta(hours=9))
 
-# 검색 쿼리 — 이전 Semantic Scholar 세팅과 동일한 8개 (사용자 요청)
+# 검색 쿼리 — v3.9: 핵심 AI 영역 + 사용자 추가 키워드 (논문에서도 같은 흐름 잡힘)
 SEARCH_QUERIES = [
+    # 코어 AI
     "large language model",
     "AI agent",
     "retrieval augmented generation",
@@ -38,6 +39,38 @@ SEARCH_QUERIES = [
     "multi-agent system",
     "AI reasoning",
     "generative AI",
+    # v3.8: 오케스트레이션·엔지니어링·오픈소스 인프라
+    "AI orchestration",
+    "agent orchestration",
+    "prompt engineering",
+    "context engineering",
+    "open source LLM",
+    # v3.9-A: AI 코딩 툴·MCP (논문에서도 다뤄짐)
+    "AI code generation",
+    "AI coding assistant",
+    "model context protocol",
+    # v3.9-B: 거버넌스·감사·안전·설명가능성
+    "AI audit",
+    "AI red teaming",
+    "AI safety evaluation",
+    "explainable AI",
+    "trustworthy AI",
+    "AI governance",
+    # v3.9-C: Sovereign AI·디지털 주권
+    "sovereign AI",
+    "AI data sovereignty",
+    "on-premise AI deployment",
+    # v3.9-D: 실무 도입·평가
+    "AI deployment case study",
+    "AI cost efficiency",
+    "AI ROI",
+    "AI benchmark evaluation",
+    # v3.9 보강: v3.8 영문 키워드를 논문 검색에도 등록
+    "harness engineering AI",
+    "clone engineering AI",
+    "forward deployed engineer AI",
+    "AI agent infrastructure",
+    "vibe coding AI",
 ]
 
 

@@ -195,6 +195,25 @@ SOURCES = [
     ("Google News: AI 규제 기본법 (KR)", _gnews('"AI 규제" OR "AI 기본법" OR "AI regulation" OR "AI Act"'), "google_news", ["policy", "domestic"], "ko"),
     ("Google News: AI 가이드라인 거버넌스 (KR)", _gnews('"AI 가이드라인" OR "AI 거버넌스" OR "AI 윤리" OR "AI governance" OR "AI ethics"'), "google_news", ["policy", "domestic"], "ko"),
     ("Google News: EU AI Act (KR)", _gnews('"EU AI Act" OR "EU AI 법"'), "google_news", ["policy", "domestic"], "ko"),
+
+    # === v3.9: v3.8 영문 키워드 — Google News 영문 검색 ===
+    ("Google News: AI Orchestration (EN)", _gnews('"AI orchestration" OR "agent orchestration" OR "AI orchestrator"', "en", "US"), "google_news", ["ai-industry"], "en"),
+    ("Google News: Multi-agent System (EN)", _gnews('"multi-agent" OR "multiagent system" OR "agent infrastructure"', "en", "US"), "google_news", ["ai-industry"], "en"),
+    ("Google News: AI Engineering Roles (EN)", _gnews('"prompt engineering" OR "context engineering" OR "harness engineering" OR "clone engineering"', "en", "US"), "google_news", ["ai-industry"], "en"),
+    ("Google News: Forward Deployed Engineer (EN)", _gnews('"forward deployed engineer" OR "FDE role"', "en", "US"), "google_news", ["adoption"], "en"),
+    ("Google News: Open Source AI (EN)", _gnews('"open source AI" OR "open source LLM" OR "open weight" OR "open-weight model"', "en", "US"), "google_news", ["ai-industry"], "en"),
+    ("Google News: AI Coding Tools (EN)", _gnews('"Claude Code" OR "Cursor AI" OR "Windsurf" OR "GitHub Copilot" OR "vibe coding"', "en", "US"), "google_news", ["ai-industry"], "en"),
+    ("Google News: Model Context Protocol (EN)", _gnews('"Model Context Protocol" OR "MCP server" OR "MCP client"', "en", "US"), "google_news", ["ai-industry"], "en"),
+
+    # === v3.9: 거버넌스·감사 영문 ===
+    ("Google News: AI Audit Red Teaming (EN)", _gnews('"AI audit" OR "AI red teaming" OR "AI safety evaluation"', "en", "US"), "google_news", ["governance"], "en"),
+    ("Google News: Explainable AI (EN)", _gnews('"explainable AI" OR "XAI" OR "trustworthy AI" OR "model card"', "en", "US"), "google_news", ["governance"], "en"),
+
+    # === v3.9: Sovereign AI 영문 ===
+    ("Google News: Sovereign AI (EN)", _gnews('"sovereign AI" OR "AI sovereignty" OR "data sovereignty AI"', "en", "US"), "google_news", ["policy"], "en"),
+
+    # === v3.9: 실무 도입 영문 ===
+    ("Google News: AI Deployment ROI (EN)", _gnews('"AI deployment case" OR "AI ROI" OR "AI pilot" OR "AI POC"', "en", "US"), "google_news", ["adoption"], "en"),
 ]
 
 

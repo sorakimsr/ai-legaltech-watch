@@ -102,6 +102,34 @@ NAVER_QUERIES = [
     # === v3.8: FDE (Forward Deployed Engineer) — 글로벌 AI 회사 신규 직무 ===
     ("FDE OR \"forward deployed engineer\"", ["adoption", "domestic"], 10),
     ("\"포워드 디플로이드\"", ["adoption", "domestic"], 5),
+
+    # === v3.9-A: AI 코딩 툴 · vibe coding · MCP ===
+    ("\"Claude Code\" OR \"클로드 코드\"", ["ai-industry", "domestic"], 10),
+    ("Cursor OR \"커서\" AI", ["ai-industry", "domestic"], 10),
+    ("Windsurf OR \"GitHub Copilot\" OR \"깃허브 코파일럿\"", ["ai-industry", "domestic"], 10),
+    ("\"vibe coding\" OR \"바이브 코딩\"", ["ai-industry", "domestic"], 10),
+    ("MCP OR \"Model Context Protocol\" OR \"모델 컨텍스트 프로토콜\"", ["ai-industry", "domestic"], 10),
+
+    # === v3.9-B: AI 감사·안전·레드팀팅·설명가능성 (거버넌스·리스크) ===
+    ("\"AI 감사\" OR \"AI audit\"", ["governance", "domestic"], 10),
+    ("\"AI 레드팀\" OR \"AI red teaming\"", ["governance", "domestic"], 10),
+    ("\"AI 안전\" OR \"AI safety\"", ["governance", "domestic"], 10),
+    ("\"설명가능 AI\" OR XAI OR \"explainable AI\"", ["governance", "domestic"], 10),
+    ("\"신뢰성 AI\" OR \"trustworthy AI\"", ["governance", "domestic"], 5),
+    ("\"model card\" OR \"system card\" OR \"모델 카드\"", ["governance", "domestic"], 5),
+
+    # === v3.9-C: Sovereign AI · 한국형 AI · 디지털 주권 ===
+    ("\"Sovereign AI\" OR \"소버린 AI\"", ["policy", "domestic"], 10),
+    ("\"한국형 AI\" OR \"국산 AI\" OR \"K-AI\"", ["policy", "domestic"], 10),
+    ("\"디지털 주권\" OR \"AI 주권\" OR \"data sovereignty\"", ["policy", "domestic"], 10),
+    ("\"온프레미스 AI\" OR \"on-prem AI\"", ["adoption", "domestic"], 5),
+
+    # === v3.9-D: 실무 도입 지표 · ROI · 파일럿 ===
+    ("\"AI 파일럿\" OR \"AI POC\" OR \"AI 검증 실험\"", ["adoption", "domestic"], 10),
+    ("\"AI ROI\" OR \"AI 투자수익\"", ["adoption", "domestic"], 10),
+    ("\"AI 도입 사례\"", ["adoption", "domestic"], 15),
+    ("\"AI 운영 비용\" OR \"AI 비용\" OR \"token 비용\"", ["ai-industry", "domestic"], 10),
+    ("\"AI 효율\" OR \"AI 생산성\"", ["adoption", "domestic"], 10),
 ]
 
 

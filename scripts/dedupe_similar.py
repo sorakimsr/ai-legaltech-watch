@@ -91,10 +91,26 @@ def proper_noun_overlap(a: str, b: str) -> int:
     return sum(1 for kw in PROPER_NOUN_BOOST_KEYS if kw in a_l and kw in b_l)
 
 
+def first_meaningful_token(title: str) -> str:
+    """제목의 첫 의미 토큰(회사명·기관명) 추출.
+    v3.9: '에이블런, AI 챔피언…' 같은 한국 PR 기사가 같은 회사면 그룹되도록.
+    """
+    if not title:
+        return ""
+    # 쉼표·콜론·괄호 이전 부분 추출
+    parts = re.split(r"[,:\[\]\(\)·]", title, maxsplit=1)
+    head = parts[0].strip()
+    # 너무 짧으면 (3자 미만) 사용 안 함 — '日', 'AI' 같은 약어 제외
+    if len(head) < 3:
+        return ""
+    return head.lower()
+
+
 def title_similarity(a: str, b: str) -> float:
     """두 제목의 유사도 (0~1).
 
     v2.7: 양쪽에 같은 고유명사(회사·정책 키워드)가 있으면 +0.2씩 보너스.
+    v3.9: 양쪽 제목 첫 토큰(회사명)이 같으면 강력 보너스 (+0.3).
     Legora aOS 출시 같이 매체별 표현이 달라도 같은 사건으로 묶이도록.
     """
     if not a or not b:
@@ -120,6 +136,12 @@ def title_similarity(a: str, b: str) -> float:
     pn_overlap = proper_noun_overlap(a, b)
     if pn_overlap >= 1:
         base = min(1.0, base + 0.20 * pn_overlap)
+
+    # v3.9: 첫 토큰(회사명) 동일 시 강력 보너스
+    head_a = first_meaningful_token(a)
+    head_b = first_meaningful_token(b)
+    if head_a and head_b and head_a == head_b:
+        base = min(1.0, base + 0.30)
 
     return base
 
