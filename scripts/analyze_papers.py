@@ -459,17 +459,45 @@ def main():
         # 이번 주 weekly는 매일 덮어쓴다 (가장 최신 분석을 유지)
         history["weekly"][week_key] = weekly_payload
 
-    # === Monthly === (월초 또는 이번 달 monthly 없으면)
+    # === Monthly === (월초 또는 이번 달 monthly 없거나 PAPERS_FORCE_REFRESH=true)
     monthly_payload = None
     is_month_start = today.day <= 3
     monthly_missing = month_key not in history["monthly"]
-    if is_month_start or monthly_missing:
+    # v3.12: PAPERS_FORCE_REFRESH 환경변수로 monthly 강제 재생성 (음영 정책 변경 시 즉시 반영)
+    force_refresh = os.environ.get("PAPERS_FORCE_REFRESH", "").lower() == "true"
+    if is_month_start or monthly_missing or force_refresh:
         monthly_payload = analyze_for_period(items, "monthly", backend)
         if monthly_payload:
             history["monthly"][month_key] = monthly_payload
     else:
         # 이번 달 monthly가 이미 있으면 새로 생성하지 않고 기존 사용 (LLM 비용 절감)
         monthly_payload = history["monthly"].get(month_key)
+
+    # v3.12: 캐시 사용 시에도 narrative/actionable 후처리 재적용 (정책 변경 시 즉시 반영)
+    # daily/weekly/monthly 모두 — 빌드마다 history의 모든 항목을 후처리 한 번 더
+    print("[v3.12] re-applying narrative post-processing to all cached entries", flush=True)
+    for period_name in ("daily", "weekly", "monthly"):
+        for k, entry in list(history.get(period_name, {}).items()):
+            if not isinstance(entry, dict):
+                continue
+            nv = entry.get("narrative", "")
+            if nv:
+                nv2 = _normalize_paragraph_breaks(_strip_timing(nv))
+                nv2 = _unbold_proper_nouns(nv2)
+                entry["narrative"] = nv2
+            ai = entry.get("actionable_insights", [])
+            if isinstance(ai, list):
+                entry["actionable_insights"] = [
+                    _unbold_proper_nouns(_strip_timing(s)) for s in ai if isinstance(s, str)
+                ]
+            history[period_name][k] = entry
+    # monthly_payload reference 갱신 (위 루프에서 history 덮어썼으므로)
+    if monthly_payload and month_key in history["monthly"]:
+        monthly_payload = history["monthly"][month_key]
+    if daily_payload and today_iso in history["daily"]:
+        daily_payload = history["daily"][today_iso]
+    if weekly_payload and week_key in history["weekly"]:
+        weekly_payload = history["weekly"][week_key]
 
     # 히스토리 정리
     prune_history(history)

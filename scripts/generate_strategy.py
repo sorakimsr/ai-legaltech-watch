@@ -137,10 +137,51 @@ def _strip_timing_phrases(text: str) -> str:
     out = text
     for pat in _TIMING_PATTERNS:
         out = _re.sub(pat, "", out, flags=_re.IGNORECASE)
-    # 공백 정리
-    out = _re.sub(r"\s{2,}", " ", out)
-    out = _re.sub(r"\s+([.,!?])", r"\1", out)
+    # v3.10: \n 보존 — 공백·탭만 합침
+    out = _re.sub(r"[ \t]{2,}", " ", out)
+    out = _re.sub(r"[ \t]+([.,!?])", r"\1", out)
     return out.strip()
+
+
+# v3.12: 시사점 카드에서 회사명·고유명사 강조 제거 (analyze_papers.py와 동기화)
+_STRATEGY_UNBOLD_NAMES = [
+    "OpenAI", "Anthropic", "Sequoia Capital", "Google", "DeepMind", "Meta",
+    "Microsoft", "NVIDIA", "Apple", "Amazon", "AWS",
+    "수출입은행", "KB금융", "신한금융", "하나금융", "우리금융",
+    "Harvey", "Legora", "Ironclad", "Spellbook", "Robin AI",
+    "Mike Legal", "Casetext", "Everlaw",
+    "BHSN", "로앤컴퍼니", "로앤굿", "케이스노트",
+    "AI 기본법", "AI Act", "AI 가이드라인",
+]
+
+
+def _unbold_strategy_names(text: str) -> str:
+    """v3.12: LLM이 회사명·기관명·법안명 등 단순 고유명사에 적용한 **강조** 제거.
+    유의미한 시사점 문구만 음영 유지 (사용자 정책).
+    """
+    if not text:
+        return text
+    out = text
+    for name in _STRATEGY_UNBOLD_NAMES:
+        pattern = r"\*\*([^*\n]{0,40}?" + _re.escape(name) + r"[^*\n]{0,15}?)\*\*"
+        out = _re.sub(pattern, r"\1", out)
+    # 6자 이하 짧은 키워드도 풀기
+    out = _re.sub(r"\*\*([^*\n]{1,6})\*\*", r"\1", out)
+    return out
+
+
+def _postprocess_card(card: dict) -> dict:
+    """v3.12: 시사점 카드 body/action 후처리 — timing 제거 + 음영 정리.
+    캐시된 카드에도 매 빌드마다 재적용하여 정책 변경 시 즉시 반영.
+    """
+    if not isinstance(card, dict):
+        return card
+    out = dict(card)
+    if "body" in out and isinstance(out["body"], str):
+        out["body"] = _unbold_strategy_names(out["body"])
+    if "action" in out and isinstance(out["action"], str):
+        out["action"] = _unbold_strategy_names(_strip_timing_phrases(out["action"]))
+    return out
 
 
 def kst_today():
@@ -409,6 +450,16 @@ def main():
 
     # 히스토리 정리
     prune_history(history)
+
+    # v3.12: 캐시된 시사점 카드에도 매 빌드마다 후처리 재적용 (음영 정책 변경 시 즉시 반영)
+    print("[v3.12] re-applying card post-processing to all history entries", flush=True)
+    for period_name in ("daily", "weekly", "monthly"):
+        for k, cards in list(history.get(period_name, {}).items()):
+            if isinstance(cards, list):
+                history[period_name][k] = [_postprocess_card(c) for c in cards]
+    # daily_cards reference 갱신 (위 루프에서 history 덮어썼으므로)
+    if today_iso in history.get("daily", {}):
+        daily_cards = history["daily"][today_iso]
 
     # 저장
     with open(HISTORY_PATH, "w", encoding="utf-8") as f:
