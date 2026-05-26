@@ -746,8 +746,18 @@ function renderSavedView(root) {
       return tb - ta;
     });
 
+  // v6.11: 빈 상태에서도 import만큼은 가능하게 (PC 변경·복구 시나리오)
   if (savedItems.length === 0 && savedStrategies.length === 0) {
-    root.innerHTML = `<div class="saved-empty"><div style="font-size:32px;margin-bottom:8px;">★</div>아직 저장한 항목이 없습니다.<br><span style="font-size:13px;color:#9ca3af;">시사점 카드나 뉴스 카드의 ☆ 별표를 눌러 저장하세요.</span></div>`;
+    root.innerHTML = `
+      <div class="saved-toolbar">
+        <div class="saved-toolbar-spacer"></div>
+        <label class="saved-toolbar-btn" title="이전에 다운로드한 JSON으로 북마크 복원">
+          📤 가져오기
+          <input type="file" id="bookmark-import-input" accept="application/json,.json" hidden />
+        </label>
+      </div>
+      <div class="saved-empty"><div style="font-size:32px;margin-bottom:8px;">★</div>아직 저장한 항목이 없습니다.<br><span style="font-size:13px;color:#9ca3af;">시사점 카드나 뉴스 카드의 ☆ 별표를 눌러 저장하세요.</span></div>`;
+    wireBookmarkToolbar(root);
     return;
   }
 
@@ -771,7 +781,19 @@ function renderSavedView(root) {
   if (activeTab === 'news' && counts.news === 0 && counts.insights > 0) activeTab = 'insights';
   state.savedTab = activeTab;
 
+  // v6.11: 북마크 toolbar — 다운로드(JSON export) + 가져오기(JSON import)
   let html = `
+    <div class="saved-toolbar">
+      <div class="saved-toolbar-info">총 ${counts.insights + counts.news}건 저장됨</div>
+      <div class="saved-toolbar-spacer"></div>
+      <button class="saved-toolbar-btn" id="bookmark-export-btn" title="현재 북마크를 JSON 파일로 다운로드">
+        📥 다운로드
+      </button>
+      <label class="saved-toolbar-btn" title="이전에 다운로드한 JSON으로 북마크 복원/병합">
+        📤 가져오기
+        <input type="file" id="bookmark-import-input" accept="application/json,.json" hidden />
+      </label>
+    </div>
     <div class="saved-tabs">
       <button class="saved-tab ${activeTab === 'insights' ? 'active' : ''}" data-saved-tab="insights">
         ⭐ 시사점 <span class="saved-tab-count">${counts.insights}</span>
@@ -865,6 +887,142 @@ function renderSavedView(root) {
     });
     cb.addEventListener('click', e => e.stopPropagation());
   });
+
+  // v6.11: 북마크 toolbar (export/import) 이벤트 wiring
+  wireBookmarkToolbar(root);
+}
+
+// v6.11: 북마크 toolbar 이벤트 wiring — export(JSON download) + import(JSON upload & merge)
+function wireBookmarkToolbar(root) {
+  // === Export ===
+  const exportBtn = root.querySelector('#bookmark-export-btn');
+  if (exportBtn) {
+    exportBtn.addEventListener('click', () => {
+      try {
+        // localStorage 직접 읽기 (state.saved와 일관성 보장)
+        const raw = localStorage.getItem(SAVED_STORAGE_KEY);
+        if (!raw) {
+          alert('저장된 북마크가 없습니다.');
+          return;
+        }
+        // KST 기준 파일명 (YYYYMMDD)
+        const now = new Date();
+        const yyyymmdd =
+          now.getFullYear().toString() +
+          String(now.getMonth() + 1).padStart(2, '0') +
+          String(now.getDate()).padStart(2, '0');
+        const filename = `daibfy_bookmarks_${yyyymmdd}.json`;
+
+        // 예쁘게 indent된 JSON으로 저장 (사람이 열어 볼 수 있게)
+        let pretty;
+        try {
+          pretty = JSON.stringify(JSON.parse(raw), null, 2);
+        } catch (e) {
+          pretty = raw; // parse 실패해도 raw 그대로
+        }
+
+        const blob = new Blob([pretty], { type: 'application/json;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        // 다음 tick에 revoke (일부 브라우저 즉시 revoke 시 다운로드 중단)
+        setTimeout(() => URL.revokeObjectURL(url), 1500);
+      } catch (err) {
+        console.error('bookmark export failed', err);
+        alert('다운로드 실패: ' + (err.message || err));
+      }
+    });
+  }
+
+  // === Import (merge, 덮어쓰기 X) ===
+  const importInput = root.querySelector('#bookmark-import-input');
+  if (importInput) {
+    importInput.addEventListener('change', (e) => {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        try {
+          const text = String(ev.target.result || '');
+          const parsed = JSON.parse(text);
+          if (!parsed || typeof parsed !== 'object') {
+            throw new Error('JSON 구조가 올바르지 않습니다.');
+          }
+          const newItems = (parsed.items && typeof parsed.items === 'object') ? parsed.items : {};
+          const newStrategy = (parsed.strategy && typeof parsed.strategy === 'object') ? parsed.strategy : {};
+          const inCount = Object.keys(newItems).length + Object.keys(newStrategy).length;
+          if (inCount === 0) {
+            throw new Error('파일에 북마크 항목이 없습니다.');
+          }
+
+          // 현재 상태 로드 (단일 source = localStorage)
+          let current = { items: {}, strategy: {} };
+          try {
+            const raw = localStorage.getItem(SAVED_STORAGE_KEY);
+            if (raw) {
+              const cp = JSON.parse(raw);
+              current.items = cp.items || {};
+              current.strategy = cp.strategy || {};
+            }
+          } catch (_) {}
+
+          const beforeN = Object.keys(current.items).length + Object.keys(current.strategy).length;
+
+          // Merge 정책: savedAt 더 최신인 쪽이 이김 (or 신규 항목은 그대로 추가)
+          for (const [k, v] of Object.entries(newItems)) {
+            const cur = current.items[k];
+            if (!cur || ((v && v.savedAt) || 0) > ((cur && cur.savedAt) || 0)) {
+              current.items[k] = v;
+            }
+          }
+          for (const [k, v] of Object.entries(newStrategy)) {
+            const cur = current.strategy[k];
+            if (!cur || ((v && v.savedAt) || 0) > ((cur && cur.savedAt) || 0)) {
+              current.strategy[k] = v;
+            }
+          }
+
+          const merged = { items: current.items, strategy: current.strategy };
+          const afterN = Object.keys(merged.items).length + Object.keys(merged.strategy).length;
+          const added = afterN - beforeN;
+
+          // 확인 후 적용
+          const proceed = confirm(
+            `JSON 파일에서 북마크 ${inCount}건을 발견했습니다.\n\n` +
+            `· 현재: ${beforeN}건\n` +
+            `· 병합 후: ${afterN}건 (신규 +${added})\n\n` +
+            `덮어쓰지 않고 병합합니다. 진행할까요?`
+          );
+          if (!proceed) {
+            importInput.value = '';
+            return;
+          }
+
+          // 저장 → state 동기화
+          localStorage.setItem(SAVED_STORAGE_KEY, JSON.stringify(merged));
+          state.saved = merged;
+
+          alert(`✅ 북마크 ${added}건이 새로 추가되었습니다 (총 ${afterN}건).`);
+          // 페이지 재렌더
+          renderSavedView(root);
+        } catch (err) {
+          console.error('bookmark import failed', err);
+          alert('가져오기 실패: ' + (err.message || err) + '\n\n파일이 daibfy 북마크 JSON 형식인지 확인해주세요.');
+        } finally {
+          // input 초기화 (같은 파일 재선택 가능하게)
+          importInput.value = '';
+        }
+      };
+      reader.onerror = () => {
+        alert('파일을 읽지 못했습니다.');
+      };
+      reader.readAsText(file, 'utf-8');
+    });
+  }
 }
 
 // v2.7.5: AI 분석 결과 history view
