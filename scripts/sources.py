@@ -232,7 +232,7 @@ SOURCES = [
 
     # === v3.9: v3.8 영문 키워드 — Google News 영문 검색 ===
     ("Google News: AI Orchestration (EN)", _gnews('"AI orchestration" OR "agent orchestration" OR "AI orchestrator"', "en", "US"), "google_news", ["ai-industry"], "en"),
-    ("Google News: Multi-agent System (EN)", _gnews('"multi-agent" OR "multiagent system" OR "agent infrastructure"', "en", "US"), "google_news", ["ai-industry"], "en"),
+    ("Google News: Multi-agent System (EN)", _gnews('"multi agent" OR "multiagent" OR "multi agent system" OR "agent infrastructure"', "en", "US"), "google_news", ["ai-industry"], "en"),
     ("Google News: AI Engineering Roles (EN)", _gnews('"prompt engineering" OR "context engineering" OR "harness engineering" OR "clone engineering"', "en", "US"), "google_news", ["ai-industry"], "en"),
     ("Google News: Forward Deployed Engineer (EN)", _gnews('"forward deployed engineer" OR "FDE role"', "en", "US"), "google_news", ["adoption"], "en"),
     ("Google News: Open Source AI (EN)", _gnews('"open source AI" OR "open source LLM" OR "open weight" OR "open-weight model"', "en", "US"), "google_news", ["ai-industry"], "en"),
@@ -258,7 +258,7 @@ SOURCES = [
     # === v3.12: AI 모델 벤치마크·평가 (EN) ===
     ("Google News: LLM Benchmark (EN)", _gnews('"LLM benchmark" OR "AI benchmark" OR "model evaluation"', "en", "US"), "google_news", ["ai-industry"], "en"),
     ("Google News: MMLU GPQA HumanEval (EN)", _gnews('"MMLU" OR "GPQA" OR "HumanEval"', "en", "US"), "google_news", ["ai-industry"], "en"),
-    ("Google News: SWE-bench ARC-AGI (EN)", _gnews('"SWE-bench" OR "ARC-AGI" OR "LiveBench"', "en", "US"), "google_news", ["ai-industry"], "en"),
+    ("Google News: SWE-bench ARC-AGI (EN)", _gnews('"SWE bench" OR "SWEbench" OR "ARC AGI" OR "ARCAGI" OR "LiveBench"', "en", "US"), "google_news", ["ai-industry"], "en"),
     ("Google News: Chatbot Arena LMSYS (EN)", _gnews('"Chatbot Arena" OR "LMSYS" OR "AI leaderboard"', "en", "US"), "google_news", ["ai-industry"], "en"),
 ]
 
