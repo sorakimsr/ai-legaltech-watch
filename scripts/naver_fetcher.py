@@ -130,6 +130,22 @@ NAVER_QUERIES = [
     ("\"AI 도입 사례\"", ["adoption", "domestic"], 15),
     ("\"AI 운영 비용\" OR \"AI 비용\" OR \"token 비용\"", ["ai-industry", "domestic"], 10),
     ("\"AI 효율\" OR \"AI 생산성\"", ["adoption", "domestic"], 10),
+
+    # === v3.12: 주요 frontier·open-source LLM 모델 (Mythos, Gemma, DeepSeek, Qwen) ===
+    ("\"Claude Mythos\" OR \"미토스\" OR Mythos", ["ai-industry", "domestic"], 10),
+    ("Gemma OR \"젬마\" Google", ["ai-industry", "domestic"], 10),
+    ("DeepSeek OR \"딥시크\"", ["ai-industry", "domestic"], 10),
+    ("Qwen OR \"퀀\" OR \"큐원\" Alibaba", ["ai-industry", "domestic"], 10),
+
+    # === v3.12: AI 모델 벤치마크·평가 (한글 + 영문) ===
+    ("\"AI 벤치마크\" OR \"LLM 벤치마크\" OR \"모델 벤치마크\"", ["ai-industry", "domestic"], 10),
+    ("\"AI 모델 평가\" OR \"LLM 평가\" OR \"AI 성능 평가\"", ["ai-industry", "domestic"], 10),
+    ("MMLU OR HumanEval OR GPQA", ["ai-industry", "domestic"], 10),
+    ("\"SWE-bench\" OR \"ARC-AGI\" OR LiveBench", ["ai-industry", "domestic"], 10),
+    ("\"Chatbot Arena\" OR \"LMSYS\" OR \"챗봇 아레나\"", ["ai-industry", "domestic"], 10),
+    ("\"MT-Bench\" OR \"Big Bench\" OR BBH", ["ai-industry", "domestic"], 5),
+    ("\"AI 리더보드\" OR \"AI leaderboard\"", ["ai-industry", "domestic"], 10),
+    ("\"한국어 벤치마크\" OR \"KMMLU\" OR \"KoBEST\" OR \"HAE-RAE\"", ["ai-industry", "domestic"], 10),
 ]
 
 

@@ -71,6 +71,22 @@ SEARCH_QUERIES = [
     "forward deployed engineer AI",
     "AI agent infrastructure",
     "vibe coding AI",
+    # v3.12: 주요 frontier·open-source LLM 모델 (논문에서 평가·벤치마크 비교 빈번)
+    "Claude Mythos",
+    "Gemma language model",
+    "DeepSeek LLM",
+    "Qwen language model",
+    # v3.12: AI 모델 벤치마크·평가 — 논문에서 매우 빈번하게 등장
+    "MMLU benchmark",
+    "HumanEval benchmark",
+    "GPQA benchmark",
+    "SWE-bench evaluation",
+    "ARC-AGI reasoning",
+    "LiveBench LLM",
+    "Chatbot Arena LMSYS",
+    "LLM benchmark evaluation",
+    "LLM leaderboard",
+    "Korean language model benchmark",
 ]
 
 

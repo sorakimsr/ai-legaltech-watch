@@ -214,6 +214,18 @@ SOURCES = [
 
     # === v3.9: 실무 도입 영문 ===
     ("Google News: AI Deployment ROI (EN)", _gnews('"AI deployment case" OR "AI ROI" OR "AI pilot" OR "AI POC"', "en", "US"), "google_news", ["adoption"], "en"),
+
+    # === v3.12: 주요 frontier·open-source LLM 모델 (EN) ===
+    ("Google News: Claude Mythos (EN)", _gnews('"Claude Mythos" OR "Anthropic Mythos"', "en", "US"), "google_news", ["ai-industry"], "en"),
+    ("Google News: Gemma Google (EN)", _gnews('"Gemma" Google AI OR "Gemma 3" OR "Gemma model"', "en", "US"), "google_news", ["ai-industry"], "en"),
+    ("Google News: DeepSeek (EN)", _gnews('"DeepSeek" AI OR "DeepSeek V3" OR "DeepSeek R1"', "en", "US"), "google_news", ["ai-industry"], "en"),
+    ("Google News: Qwen Alibaba (EN)", _gnews('"Qwen" Alibaba OR "Qwen 2.5" OR "Qwen 3"', "en", "US"), "google_news", ["ai-industry"], "en"),
+
+    # === v3.12: AI 모델 벤치마크·평가 (EN) ===
+    ("Google News: LLM Benchmark (EN)", _gnews('"LLM benchmark" OR "AI benchmark" OR "model evaluation"', "en", "US"), "google_news", ["ai-industry"], "en"),
+    ("Google News: MMLU GPQA HumanEval (EN)", _gnews('"MMLU" OR "GPQA" OR "HumanEval"', "en", "US"), "google_news", ["ai-industry"], "en"),
+    ("Google News: SWE-bench ARC-AGI (EN)", _gnews('"SWE-bench" OR "ARC-AGI" OR "LiveBench"', "en", "US"), "google_news", ["ai-industry"], "en"),
+    ("Google News: Chatbot Arena LMSYS (EN)", _gnews('"Chatbot Arena" OR "LMSYS" OR "AI leaderboard"', "en", "US"), "google_news", ["ai-industry"], "en"),
 ]
 
 
