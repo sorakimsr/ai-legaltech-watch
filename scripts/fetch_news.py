@@ -67,8 +67,9 @@ def _arxiv_fetch_with_retry(url: str, max_retries: int = 3):
     from urllib.request import Request, urlopen
     from urllib.error import HTTPError
 
-    headers = {"User-Agent": "Mozilla/5.0 (compatible; AI-Legaltech-Watch/3.0)"}
-    delays = [5, 15, 30]  # 1차 5초, 2차 15초, 3차 30초
+    headers = {"User-Agent": "Mozilla/5.0 (compatible; AI-Legaltech-Watch/3.4)"}
+    # v3.4: arXiv 429가 retry 후에도 fail하는 케이스가 잦음 — backoff 더 길게
+    delays = [10, 30, 90]  # 1차 10초, 2차 30초, 3차 90초
 
     for attempt in range(max_retries + 1):
         try:
@@ -433,11 +434,11 @@ def main():
         new_in_src = sum(1 for it in items if it["url"] not in prev_map)
         new_items_by_source[name] = new_in_src
         all_new_items.extend(items)
-        # v3.0: arXiv API는 권장 호출 간격 3초 (429 방지). 카테고리 6개 연속 호출 시
-        # IP-based rate limit이 누적되므로 5초로 상향. retry 로직(_arxiv_fetch_with_retry)이
-        # backoff를 처리하므로 sleep은 정상 흐름의 throttle 역할.
+        # v3.4: arXiv 권장 3초이지만 카테고리 6개 연속 시 IP 누적 rate limit으로 fail 잦음.
+        # 카테고리 사이 sleep 5초 → 8초로 상향. 첫 호출 전 sleep도 추가 권장이지만
+        # 그건 fetch_source 호출 측에서 처리.
         if source_type == "arxiv":
-            time.sleep(5)
+            time.sleep(8)
         else:
             time.sleep(0.3)
 
