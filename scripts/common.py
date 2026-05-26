@@ -739,6 +739,22 @@ NEGATIVE_SIGNALS = [
     "r&d 세미나", "ai r&d", "ai 활용 사례 부족", "활용 사례 부족",
     "투자 대비 roi", "투자자본수익률",
     "[#클라우드 월드]", "클라우드 월드", "씨플랫폼", "세종디엑스",
+    # v6.4: 사용자 피드백 2차 (2026-05-26 KST 22:50) — 후순위 NEGATIVE 패턴만.
+    # (BLACKLIST 직행 키워드는 별도로 blacklist.py에 추가)
+    # — 책 출간 / 학술 발간 PR
+    "출간", "도서 출간", "신간 출간", "신지평",
+    "법연구소", "법연구원 출간", "데이터법 출간",
+    "[책 소개]", "[신간]", "[도서]",
+    # — 컨퍼런스 / 행사 예고 (BLACKLIST보다 약함 — 산학 contexts 보호)
+    "krnet", "krnet 컨퍼런스", "ai 시대 인터넷",
+    "내달 개막", "내달 22일", "다음달 개막", "다음 달 개막",
+    # — 일반 투자 round-up 시리즈 (legaltech/AI 직접 무관)
+    "[주간투자동향]", "주간투자동향", "주간 투자 동향",
+    "[월간투자동향]", "월간투자동향",
+    "[투자 동향]", "투자 동향]", "프리ipo 투자",
+    # v6.4.1 fix: " 외" 제거 (외산/외부/해외 등 일반 단어 false-positive 발생).
+    # "外" 한자만 유지 — 시리즈명 종결자로만 사용됨 (일반 텍스트엔 거의 안 등장).
+    "外",
 ]
 
 
@@ -919,6 +935,18 @@ def score_item(title: str, summary: str, date, categories: list) -> int:
     buckets = detect_score_buckets(title, summary)
     if buckets["promo"] > 0 and total_signal < 0.5:
         score = min(score, 25)  # PROMO 단독은 강제 강등
+
+    # === v6.4: NEGATIVE final cap re-apply ===
+    # 의도: 위 v4.5 NEGATIVE cap (line ~877) 이후에 카테고리 보너스(legaltech +12, funding +6),
+    #       recency 보너스(+10), 본문 깊이 보너스(+6) 등이 더해져 cap을 우회하는 버그 해결.
+    #       모든 가산 후 다시 NEGATIVE cap 적용 → 후순위 강등이 실효성 있게 동작.
+    if negative_hits >= 1:
+        if total_signal < 0.5:
+            score = min(score, 18)
+        elif total_signal < 1.0:
+            score = min(score, 28)
+        else:
+            score = min(score, 45)  # 강한 시그널이라도 final cap 45
 
     return max(0, min(150, int(round(score))))
 
