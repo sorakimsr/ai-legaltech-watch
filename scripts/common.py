@@ -984,14 +984,19 @@ def score_item(title: str, summary: str, date, categories: list) -> int:
 
     total_signal = decision_s + regulatory_s + market_s + legal_s
 
-    # === v4.0 NEGATIVE 시그널 — 행동 가치 명백히 없음 ===
+    # === v4.4 NEGATIVE 시그널 — 단계적 감점 ===
+    # 의도: 명백한 광고/연예/PR은 drop. 경쟁사 행사 등 참고 가치는 살리되 상단 X.
     negative_hits = count_signal_hits(text, NEGATIVE_SIGNALS)
     if negative_hits >= 1:
-        # 시그널이 매우 강하지 않으면 강력 감점 (cut-off 미만)
-        if total_signal < 1.0:
-            score = min(score, 18)  # 자동 drop 구간
+        if total_signal < 0.5:
+            score = min(score, 18)  # 시그널 거의 없음 + NEGATIVE → drop
+        elif total_signal < 1.0:
+            score = min(score, 28)  # 약한 시그널 + NEGATIVE → drop 근처
         else:
-            score -= 30  # 강한 시그널 있어도 NEGATIVE는 강등
+            # 강한 시그널 있는 NEGATIVE (광장 AI 법정책포럼 같은 경쟁 로펌 행사)
+            # → 살아남되 50점 넘지 못하게 (참고 구간)
+            score -= 18
+            score = min(score, 49)
 
     # === v4.0 AI 단순 언급 자동 강등 (v4.3: ai_mentions 위에서 이미 계산됨) ===
     if ai_mentions <= 2 and total_signal < 0.3:
