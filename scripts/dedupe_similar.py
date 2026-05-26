@@ -60,6 +60,15 @@ PROPER_NOUN_BOOST_KEYS = [
     "법무법인 세종", "법무법인 율촌", "법무법인 지평", "법무법인 화우",
     # 한국 리걸테크
     "bhsn", "로앤컴퍼니", "로앤굿", "케이스노트",
+    # v3.19: 한국 금융·제조 대기업 (제목 후반에 등장하는 케이스 그룹화)
+    "kb금융", "kb금융그룹", "신한금융", "하나금융", "우리금융",
+    "lg에너지솔루션", "lg엔솔", "lg에너지", "lg화학",
+    "삼성sdi", "sk온", "sk이노베이션",
+    "산업부", "산업통상자원부", "금융위", "금융감독원", "금감원",
+    # v3.19: 사건 키워드 (회사명 외에도 같은 사건 표식)
+    "ai 대 ai", "ai vs ai", "ai 방어", "ai 사이버 방어",
+    "m.ax", "m·ax", "디지털 트윈", "디지털트윈",
+    "제로 트러스트", "사이버 보안위협",
     # 정책 키워드 — 같은 정책 사건 다룰 가능성
     "ai 기본법", "ai act", "ai 가이드라인", "ai 규제",
     "ai 법정책포럼", "법정책포럼",
@@ -116,17 +125,23 @@ def first_meaningful_token(title: str) -> str:
       - "[로펌이슈] 광장, ..." → 대괄호 prefix 제거 후 "광장"
       - "법무법인 광장, ..." → "법무법인" prefix 제거 후 "광장"
       - "광장, ..." (2자) → SHORT_BRAND_WHITELIST 허용
+    v3.19: 따옴표 prefix 제거: "'AI 는 AI 로 막는다'…KB금융" → "KB금융"
     """
     if not title:
         return ""
+    cleaned = title.strip()
     # 1) 대괄호 prefix 제거: "[로펌이슈] 광장, ..." → "광장, ..."
-    cleaned = re.sub(r"^\s*\[[^\]]*\]\s*", "", title)
-    # 2) 쉼표·콜론·괄호 이전 부분 추출
-    parts = re.split(r"[,:\[\]\(\)·]", cleaned, maxsplit=1)
+    cleaned = re.sub(r"^\s*\[[^\]]*\]\s*", "", cleaned)
+    # v3.19: 2) 따옴표 인용구 prefix 제거 (제목이 직접 인용구로 시작하는 패턴)
+    #   - "'AI 는 AI 로 막는다'…KB금융, ..." → "KB금융, ..."
+    #   - '"창이 진화하면 방패도 진화한다"…KB금융그룹, ...' → "KB금융그룹, ..."
+    cleaned = re.sub(r"^\s*['\"‘“][^'\"’”]*['\"’”]\s*[…\.…]*\s*", "", cleaned)
+    # 3) 쉼표·콜론·괄호·말줄임표 이전 부분 추출
+    parts = re.split(r"[,:\[\]\(\)·……]", cleaned, maxsplit=1)
     head = parts[0].strip()
     if not head:
         return ""
-    # 3) 회사 prefix 제거: "법무법인 광장" → "광장"
+    # 4) 회사 prefix 제거: "법무법인 광장" → "광장"
     for prefix in COMPANY_PREFIXES:
         if head.startswith(prefix):
             head = head[len(prefix):].strip()
@@ -134,10 +149,10 @@ def first_meaningful_token(title: str) -> str:
     if not head:
         return ""
     head_lower = head.lower()
-    # 4) 짧지만 식별성 강한 브랜드는 화이트리스트 허용
+    # 5) 짧지만 식별성 강한 브랜드는 화이트리스트 허용
     if head in SHORT_BRAND_WHITELIST or head_lower in SHORT_BRAND_WHITELIST:
         return head_lower
-    # 5) 너무 짧으면 (3자 미만) 사용 안 함 — '日', 'AI' 같은 약어 제외
+    # 6) 너무 짧으면 (3자 미만) 사용 안 함 — '日', 'AI' 같은 약어 제외
     if len(head) < 3:
         return ""
     return head_lower
@@ -236,6 +251,27 @@ def group_items(items):
                 # 의미 토큰 3개 이상 공유 OR 의미 토큰 2개 + 일반 토큰 2개 이상이면 강한 신호
                 if len(meaningful) >= 3 or (len(meaningful) >= 2 and len(shared) >= 4):
                     sim = max(sim, SIMILARITY_THRESHOLD + 0.05)
+
+            # v4.6: title 매칭 약한 경우 summary에서 PROPER_NOUN 페어 보너스
+            # LG엔솔 M.AX 케이스 — 회사명이 title 없고 매체별 다른 사건 키워드 강조
+            if sim < SIMILARITY_THRESHOLD and same_day:
+                a_full = (items[i].get("title", "") + " " + items[i].get("summary", "")).lower()
+                b_full = (items[j].get("title", "") + " " + items[j].get("summary", "")).lower()
+                # PROPER_NOUN_BOOST_KEYS 안에서 양쪽 본문 모두 등장하는 키워드 카운트
+                proper_pairs = sum(1 for kw in PROPER_NOUN_BOOST_KEYS if kw in a_full and kw in b_full)
+                if proper_pairs >= 2:
+                    # 2개 이상의 핵심 회사·키워드가 양쪽 본문에 동시 등장 → 같은 사건
+                    sim = max(sim, SIMILARITY_THRESHOLD + 0.05)
+                elif proper_pairs >= 1:
+                    # 1개라도 강한 신호 (회사명이 본문에 있음)
+                    a_title_toks = tokenize(items[i].get("title", ""))
+                    b_title_toks = tokenize(items[j].get("title", ""))
+                    title_shared = a_title_toks & b_title_toks
+                    GENERIC2 = {"ai", "ml", "한국", "정부", "기업", "발표", "기술", "서비스", "시장", "로", "산업"}
+                    title_meaningful = [t for t in title_shared if t not in GENERIC2]
+                    # title도 의미 토큰 2개 이상 공유하면 같은 사건
+                    if len(title_meaningful) >= 2:
+                        sim = max(sim, SIMILARITY_THRESHOLD + 0.03)
 
             if sim >= SIMILARITY_THRESHOLD:
                 union(i, j)

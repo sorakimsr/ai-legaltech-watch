@@ -22,8 +22,8 @@ from datetime import datetime, timezone, timedelta
 import feedparser
 from dateutil import parser as dateparser
 
-# 각 RSS 호출에 8초 socket timeout
-socket.setdefaulttimeout(8)
+# v4.6: 각 RSS 호출 timeout 8s → 20s (Artificial Lawyer 등 글로벌 RSS timeout 잦음)
+socket.setdefaulttimeout(20)
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from common import (
@@ -512,6 +512,42 @@ def main():
                 kept.append(it)
         all_new_items = kept
         print(f"  [today-filter] {before} → {len(all_new_items)} (cutoff {cutoff_kst.isoformat()})", flush=True)
+
+    # v4.5: 수동 추가 article (data/manual_articles.json) 자동 prepend
+    # 사용자가 RSS에서 누락된 article을 별도 채널로 추가하는 통로
+    manual_path = os.path.join(os.path.dirname(__file__), "..", "data", "manual_articles.json")
+    if os.path.exists(manual_path):
+        try:
+            with open(manual_path, "r", encoding="utf-8") as f:
+                manual_data = json.load(f)
+            manual_items = manual_data.get("items", [])
+            manual_count = 0
+            for m in manual_items:
+                if not isinstance(m, dict) or not m.get("url"):
+                    continue
+                # 필수 필드 보완
+                m.setdefault("source_type", "rss")
+                m.setdefault("lang", "en")
+                m.setdefault("first_seen", datetime.now(KST).isoformat())
+                m.setdefault("date_unknown", False)
+                m.setdefault("categories", [])
+                # 카테고리 분류 자동 보강
+                cats = m.get("categories", [])
+                cats = categorize(m.get("title", ""), m.get("summary", ""), cats, m.get("source_type", "rss"))
+                m["categories"] = cats
+                # score 재계산 (manual에서 score 적어도 v4.x 로직 적용)
+                dt_obj = None
+                try:
+                    dt_obj = datetime.fromisoformat(m.get("date", "").replace("Z", "+00:00"))
+                except Exception:
+                    pass
+                m["score"] = score_item(m.get("title", ""), m.get("summary", ""), dt_obj, cats)
+                all_new_items.insert(0, m)  # prepend (최우선 fetch)
+                manual_count += 1
+            if manual_count:
+                print(f"  [manual] prepended {manual_count} articles from manual_articles.json", flush=True)
+        except Exception as e:
+            print(f"  [manual] failed: {e}", flush=True)
 
     # 3. 같은 빌드 내 URL 중복 제거
     seen = set()

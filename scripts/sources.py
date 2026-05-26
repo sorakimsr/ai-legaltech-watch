@@ -75,6 +75,40 @@ SOURCES = [
     ("Legora Blog", "https://news.google.com/rss/search?q=site%3Alegora.com+OR+%22Legora%22+(legal+OR+blog+OR+announces+OR+launches)&hl=en&gl=US&ceid=US:en", "google_news", ["legaltech", "product"], "en"),
 
     # ====================================================================
+    # v4.6: AI 회사 공식 발표 (Anthropic·OpenAI 공식 채널)
+    # ====================================================================
+    ("Anthropic News", "https://news.google.com/rss/search?q=site%3Aanthropic.com+(news+OR+announces+OR+launches+OR+claude)&hl=en&gl=US&ceid=US:en", "google_news", ["ai-industry"], "en"),
+    ("OpenAI News (Latest)", "https://news.google.com/rss/search?q=site%3Aopenai.com+(blog+OR+news+OR+launches+OR+announces)&hl=en&gl=US&ceid=US:en", "google_news", ["ai-industry"], "en"),
+    ("Apple AI", "https://news.google.com/rss/search?q=site%3Aapple.com+(%22Apple+Intelligence%22+OR+%22Apple+AI%22)&hl=en&gl=US&ceid=US:en", "google_news", ["ai-industry"], "en"),
+    ("AWS ML Blog", "https://aws.amazon.com/blogs/machine-learning/feed/", "rss", ["ai-industry"], "en"),
+    ("Cohere Blog", "https://news.google.com/rss/search?q=site%3Acohere.com+(blog+OR+announces+OR+launches)&hl=en&gl=US&ceid=US:en", "google_news", ["ai-industry"], "en"),
+
+    # ====================================================================
+    # v4.6: 분석·인사이트 뉴스레터 (Substack)
+    # ====================================================================
+    ("Stratechery", "https://stratechery.com/feed/", "rss", ["ai-industry"], "en"),
+    ("Latent Space (Swyx)", "https://www.latent.space/feed", "rss", ["ai-industry"], "en"),
+    ("Pragmatic Engineer", "https://newsletter.pragmaticengineer.com/feed", "rss", ["ai-industry"], "en"),
+    ("The Rundown AI", "https://news.google.com/rss/search?q=%22The+Rundown+AI%22+OR+site%3Atherundown.ai&hl=en&gl=US&ceid=US:en", "google_news", ["ai-industry"], "en"),
+    ("Big Technology", "https://news.google.com/rss/search?q=%22Big+Technology%22+(Newsletter+OR+Substack)&hl=en&gl=US&ceid=US:en", "google_news", ["ai-industry"], "en"),
+
+    # ====================================================================
+    # v4.6: 글로벌 법률 매체 (Bloomberg Law·Reuters Legal·JD Supra)
+    # ====================================================================
+    ("Bloomberg Law AI", "https://news.google.com/rss/search?q=site%3Anews.bloomberglaw.com+(AI+OR+%22artificial+intelligence%22+OR+%22legal+tech%22)&hl=en&gl=US&ceid=US:en", "google_news", ["legaltech"], "en"),
+    ("Reuters Legal Tech", "https://news.google.com/rss/search?q=site%3Areuters.com+(%22legal+tech%22+OR+%22law+firm+AI%22+OR+%22legal+AI%22)&hl=en&gl=US&ceid=US:en", "google_news", ["legaltech"], "en"),
+    ("JD Supra AI Legal", "https://news.google.com/rss/search?q=site%3Ajdsupra.com+(AI+OR+%22artificial+intelligence%22)&hl=en&gl=US&ceid=US:en", "google_news", ["legaltech"], "en"),
+    ("American Lawyer Tech", "https://news.google.com/rss/search?q=site%3Aamericanlawyer.com+(tech+OR+AI+OR+innovation)&hl=en&gl=US&ceid=US:en", "google_news", ["legaltech"], "en"),
+    ("Legal IT Today", "https://news.google.com/rss/search?q=site%3Alegalittoday.com&hl=en&gl=US&ceid=US:en", "google_news", ["legaltech"], "en"),
+
+    # ====================================================================
+    # v4.6: PR Wire (회사 보도자료 1차 source)
+    # ====================================================================
+    ("PRNewswire AI", "https://news.google.com/rss/search?q=site%3Aprnewswire.com+(%22artificial+intelligence%22+OR+%22AI+platform%22+OR+%22AI+launches%22)&hl=en&gl=US&ceid=US:en", "google_news", ["ai-industry"], "en"),
+    ("Business Wire AI", "https://news.google.com/rss/search?q=site%3Abusinesswire.com+(%22artificial+intelligence%22+OR+%22AI+platform%22+OR+%22AI+raises%22)&hl=en&gl=US&ceid=US:en", "google_news", ["ai-industry"], "en"),
+    ("PRNewswire Legal Tech", "https://news.google.com/rss/search?q=site%3Aprnewswire.com+(%22legal+tech%22+OR+%22law+firm+AI%22+OR+%22legaltech%22)&hl=en&gl=US&ceid=US:en", "google_news", ["legaltech"], "en"),
+
+    # ====================================================================
     # AI 논문 (arXiv API) — papers 카테고리는 여기에서만 부여
     # v2.7: 기존 /rss/ 는 announce-date만 줘서 실제 발행/수정일을 못 잡음 →
     # /api/query 로 교체 (각 entry에 published[v1 제출일] + updated[최신 revision] 정확히 제공)

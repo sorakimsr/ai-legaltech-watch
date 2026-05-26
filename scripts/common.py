@@ -907,8 +907,29 @@ NEGATIVE_SIGNALS = [
 ]
 
 
+def _normalize_text_for_match(text: str) -> str:
+    """v4.5: 한국어/영어 따옴표·이상한 공백을 정규화해 키워드 매칭 신뢰도 향상.
+    예: "AI 법정책포럼' 개최" 의 ' 때문에 "포럼 개최" 매칭 실패 → normalize 후 매칭 성공.
+    """
+    if not text:
+        return ""
+    # 한국어 인용부호 → 정규 따옴표
+    text = text.translate(str.maketrans(
+        "‘’“”«»「」『』",
+        "''\"\"''\"\"\"\""
+    ))
+    # 따옴표·괄호·중점 등을 공백으로 (키워드 매칭에서 방해)
+    import re as _re
+    text = _re.sub(r"[''\"`·]+", " ", text)
+    # 연속 공백 정리
+    text = _re.sub(r"\s+", " ", text)
+    return text.lower()
+
+
 def count_signal_hits(text: str, signals: list) -> int:
-    """텍스트에서 시그널 키워드 hit 개수 (중복 제외)"""
+    """텍스트에서 시그널 키워드 hit 개수 (중복 제외).
+    v4.5: text가 이미 normalize됐다고 가정 (score_item에서 _normalize_text_for_match 적용)
+    """
     return sum(1 for s in signals if s.lower() in text)
 
 
@@ -933,8 +954,9 @@ def score_item(title: str, summary: str, date, categories: list) -> int:
       90+    = 핵심 검토 사항 (즉시 보고)
     """
     score = 30.0
-    text = (title + " " + summary).lower()
-    title_lower = title.lower()
+    # v4.5: 한국어 따옴표·특수문자 정규화 후 매칭 (e.g. "포럼' 개최" → "포럼 개최")
+    text = _normalize_text_for_match((title or "") + " " + (summary or ""))
+    title_lower = _normalize_text_for_match(title or "")
 
     # === v4.3 AI 관련성 게이트 ===
     # 4축 시그널은 AI 컨텍스트 안에서만 의미. AI 언급 없으면 점수 자체를 강등.
@@ -984,8 +1006,15 @@ def score_item(title: str, summary: str, date, categories: list) -> int:
 
     total_signal = decision_s + regulatory_s + market_s + legal_s
 
-    # === v4.4 NEGATIVE 시그널 — 단계적 감점 ===
-    # 의도: 명백한 광고/연예/PR은 drop. 경쟁사 행사 등 참고 가치는 살리되 상단 X.
+    # === v4.6 MARKET 단독 dominance cap ===
+    # 의도: 대형로펌 경영전략팀 페르소나 — AI adoption·governance 고민이 핵심.
+    # MARKET 시그널만 강함 + LEGAL/REGULATORY/DECISION 부족 → 단순 산업 투자 트렌드.
+    # 하크 1조 시리즈A 같은 case가 상단 노출 안 되도록 cap 적용.
+    if market_s >= 0.5 and (decision_s + regulatory_s + legal_s) < 0.4:
+        score = min(score, 55)  # MARKET 단독 = 참고 구간 상한
+
+    # === v4.5 NEGATIVE 시그널 — 강화된 단계적 감점 ===
+    # 의도: 명백한 광고/연예/PR은 drop. 경쟁사 행사는 살리되 절대 상단 X (45점 cap).
     negative_hits = count_signal_hits(text, NEGATIVE_SIGNALS)
     if negative_hits >= 1:
         if total_signal < 0.5:
@@ -994,9 +1023,9 @@ def score_item(title: str, summary: str, date, categories: list) -> int:
             score = min(score, 28)  # 약한 시그널 + NEGATIVE → drop 근처
         else:
             # 강한 시그널 있는 NEGATIVE (광장 AI 법정책포럼 같은 경쟁 로펌 행사)
-            # → 살아남되 50점 넘지 못하게 (참고 구간)
-            score -= 18
-            score = min(score, 49)
+            # → 살아남되 45점 hard cap (참고 구간, 상단 노출 절대 X)
+            score -= 25
+            score = min(score, 45)
 
     # === v4.0 AI 단순 언급 자동 강등 (v4.3: ai_mentions 위에서 이미 계산됨) ===
     if ai_mentions <= 2 and total_signal < 0.3:
