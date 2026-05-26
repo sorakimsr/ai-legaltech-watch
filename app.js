@@ -183,6 +183,109 @@ function makeStrategyKey(period, dateKey, card) {
 //              isNewToday / cssEscape / renderMarkdown / unboldProperNouns / UNBOLD_PROPER_NOUNS /
 //              _escapeRegex / PAPERS_NARRATIVE_LABELS 는 app.util.js로 분리되었습니다.
 
+// ============================================================================
+// v6.5: URL routing — path-based + sub-state 포함
+// /insights, /newsfeeds, /papers, /bookmarks, /analysis,
+// /entities, /graph, /sources_status, /sources_trends
+// + /insights/<period>/<key>, /papers/<period>/<key>
+// key 형식: daily=YYYYMMDD, weekly=YYYYWxx, monthly=YYYYMM
+// ============================================================================
+
+// internal state.view ↔ URL slug
+const VIEW_TO_URL = {
+  strategy: 'insights',
+  latest:   'newsfeeds',
+  papers:   'papers',
+  saved:    'bookmarks',
+  analyses: 'analysis',
+  entities: 'entities',
+  graph:    'graph',
+  // sources는 sourcesTab에 따라 status/trends로 분기
+};
+const URL_TO_VIEW = {
+  insights:       { view: 'strategy' },
+  newsfeeds:      { view: 'latest' },
+  papers:         { view: 'papers' },
+  bookmarks:      { view: 'saved' },
+  analysis:       { view: 'analyses' },
+  entities:       { view: 'entities' },
+  graph:          { view: 'graph' },
+  sources_status: { view: 'sources', sourcesTab: 'status' },
+  sources_trends: { view: 'sources', sourcesTab: 'trend' },
+};
+
+// state key (ISO) ↔ URL slug (YYYYMMDD / YYYYWxx / YYYYMM)
+function isoKeyToUrl(isoKey) {
+  if (!isoKey) return '';
+  return String(isoKey).replace(/-/g, '');
+}
+function urlKeyToIso(urlKey, period) {
+  if (!urlKey) return null;
+  if (period === 'daily' && /^\d{8}$/.test(urlKey)) {
+    return `${urlKey.slice(0,4)}-${urlKey.slice(4,6)}-${urlKey.slice(6,8)}`;
+  }
+  if (period === 'weekly' && /^\d{4}W\d{2}$/.test(urlKey)) {
+    return `${urlKey.slice(0,4)}-W${urlKey.slice(5)}`;
+  }
+  if (period === 'monthly' && /^\d{6}$/.test(urlKey)) {
+    return `${urlKey.slice(0,4)}-${urlKey.slice(4,6)}`;
+  }
+  return urlKey;
+}
+
+// URL → state partial 추출 (init 및 popstate에서 사용)
+function parseUrlToState(pathname) {
+  const parts = (pathname || '/').split('/').filter(Boolean);
+  if (parts.length === 0) return { view: 'strategy' };
+  const head = parts[0];
+  const mapped = URL_TO_VIEW[head];
+  if (!mapped) return { view: 'strategy' };  // unknown path → default
+  const result = { ...mapped };
+  // sub-state: /insights/<period>/<key>, /papers/<period>/<key>
+  if ((head === 'insights' || head === 'papers') && parts.length >= 2) {
+    const period = parts[1];
+    if (['daily', 'weekly', 'monthly'].includes(period)) {
+      if (head === 'insights') {
+        result.strategyPeriod = period;
+        result.strategyKey = parts.length >= 3 ? urlKeyToIso(parts[2], period) : null;
+      } else {
+        result.papersPeriod = period;
+        result.papersKey = parts.length >= 3 ? urlKeyToIso(parts[2], period) : null;
+      }
+    }
+  }
+  return result;
+}
+
+// state → URL 생성 (view 전환 시 pushState용)
+function buildUrlFromState() {
+  if (state.view === 'sources') {
+    return state.sourcesTab === 'trend' ? '/sources_trends' : '/sources_status';
+  }
+  const slug = VIEW_TO_URL[state.view];
+  if (!slug) return '/';
+  let url = `/${slug}`;
+  if (state.view === 'strategy' && state.strategyPeriod) {
+    url += `/${state.strategyPeriod}`;
+    if (state.strategyKey) url += `/${isoKeyToUrl(state.strategyKey)}`;
+  } else if (state.view === 'papers' && state.papersPeriod) {
+    url += `/${state.papersPeriod}`;
+    if (state.papersKey) url += `/${isoKeyToUrl(state.papersKey)}`;
+  }
+  return url;
+}
+
+// URL sync — state 변경 후 호출하면 browser URL 갱신
+function syncUrl(replace = false) {
+  const newUrl = buildUrlFromState();
+  const current = window.location.pathname;
+  if (current === newUrl) return;
+  try {
+    if (replace) history.replaceState({ view: state.view }, '', newUrl);
+    else history.pushState({ view: state.view }, '', newUrl);
+  } catch (e) { /* security or unsupported — ignore */ }
+}
+
 const CATEGORIES = [
   { id: 'all', label: '전체' },
   { id: 'ai-industry', label: 'AI 산업' },
@@ -214,6 +317,25 @@ const VIEW_META = {
 async function init() {
   loadSaved();  // v2.7: localStorage 북마크 복원
   loadAnalyses();  // v2.7.5: AI 분석 결과 history 복원
+
+  // v6.5: URL → state 초기화. 새로고침·북마크·공유 시 해당 view로 바로 진입.
+  const fromUrl = parseUrlToState(window.location.pathname);
+  Object.assign(state, fromUrl);
+  // popstate: 브라우저 뒤로/앞으로 가기 시 state 복원
+  window.addEventListener('popstate', () => {
+    const restored = parseUrlToState(window.location.pathname);
+    Object.assign(state, restored);
+    // active 표시 갱신
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.querySelectorAll('.nav-sub').forEach(n => n.classList.remove('active'));
+    const slug = state.view === 'sources'
+      ? (state.sourcesTab === 'trend' ? 'sources_trends' : 'sources_status')
+      : VIEW_TO_URL[state.view];
+    const navEl = document.querySelector(`.nav-item[href$="/${slug}"]`)
+      || document.querySelector(`.nav-item[data-view="${state.view}"]`);
+    if (navEl) navEl.classList.add('active');
+    if (typeof renderContent === 'function') renderContent();
+  });
 
   // v6.0 (P2-1): cache-buster를 빌드 타임스탬프로 교체.
   //   1) data/version.json (~30byte)만 no-cache로 가져와 빌드 버전 확인.
@@ -1417,6 +1539,7 @@ function bindEvents() {
         if (tab) state.sourcesTab = tab;
       }
 
+      syncUrl();  // v6.5: URL 갱신
       renderContent();
     });
   });
@@ -1426,6 +1549,7 @@ function bindEvents() {
     btn.addEventListener('click', () => {
       state.strategyPeriod = btn.dataset.period;
       state.strategyKey = null;
+      syncUrl();  // v6.5
       renderStrategy();
     });
   });
@@ -1435,6 +1559,7 @@ function bindEvents() {
   if (select) {
     select.addEventListener('change', e => {
       state.strategyKey = e.target.value;
+      syncUrl();  // v6.5
       renderStrategy();
     });
   }
@@ -1444,6 +1569,7 @@ function bindEvents() {
     btn.addEventListener('click', () => {
       state.papersPeriod = btn.dataset.papersPeriod;
       state.papersKey = null;
+      syncUrl();  // v6.5
       renderPapersView();
     });
   });
@@ -1451,6 +1577,7 @@ function bindEvents() {
   if (papersSel) {
     papersSel.addEventListener('change', e => {
       state.papersKey = e.target.value;
+      syncUrl();  // v6.5
       renderPapersView();
     });
   }
@@ -2578,6 +2705,7 @@ function renderEntityDetail() {
       document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
       const navEl = document.querySelector(`.nav-item[data-view="${state.view}"]`);
       if (navEl) navEl.classList.add('active');
+      syncUrl();  // v6.5: 엔티티 row 클릭으로 strategy/papers 이동 시도 URL 갱신
       renderContent();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
@@ -2845,6 +2973,7 @@ function renderGraphSvg() {
       document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
       const navEnt = document.querySelector('.nav-item[data-view="entities"]');
       if (navEnt) navEnt.classList.add('active');
+      syncUrl();  // v6.5: 그래프 노드 클릭 → 엔티티 view 이동 시 URL 갱신
       renderContent();
     });
 
