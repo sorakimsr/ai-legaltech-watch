@@ -2156,11 +2156,58 @@ async function runAnalysis() {
   }
 }
 
+// v3.10: 강조 제거 대상 — 회사명·논문명·기법명·단순 키워드 (analyze_papers.py와 동기화)
+const UNBOLD_PROPER_NOUNS = [
+  // AI 회사·기관
+  'OpenAI', 'Anthropic', 'Sequoia Capital', 'Google', 'DeepMind', 'Meta',
+  'Microsoft', 'NVIDIA', 'Apple', 'Amazon', 'AWS',
+  '수출입은행', 'KB금융', '신한금융', '하나금융', '우리금융',
+  // 논문 제목·프로토콜·프레임워크
+  'Foundation Protocol', 'AAIA-RAG-LEGAL', 'Redrawing the AI Map',
+  'MAS-Orchestra', 'EVE-Agent', 'Ontological Knowledge Blocks', 'CHRONOS',
+  'Query-Adaptive Semantic Chunking', 'Latent Cache Flow', 'LFRAG', 'BOHM',
+  'Energy per Successful Goal', 'AutoResearch AI',
+  'Cognitive offloading', 'Inferential Privacy Leakage',
+  // 단순 키워드 — 사용자 정책상 음영 부적절
+  'RAG', 'RAG(검색-증강 생성)',
+  '멀티에이전트 시스템', '멀티에이전트 협업 체계', '멀티에이전트(Multi-Agent System)',
+  'Multi-Agent System',
+  '책임 경계', '책임 경계(Accountability Boundary)', 'Accountability Boundary',
+  '에이전트형 AI', '에이전트형 AI의 운영 효율화',
+  '온프레미스', '온프레미스(on-premise)', 'on-premise',
+  '금융 시장 모니터링', '의료 AI',
+  // 금액·수치
+  '40억 달러', '110억 달러', '수십억 달러', '수백억 원'
+];
+
+function _escapeRegex(s) {
+  return String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function unboldProperNouns(text) {
+  if (!text) return text;
+  let out = text;
+  for (const name of UNBOLD_PROPER_NOUNS) {
+    // **...NAME...** 전체 매칭, 강조만 풀고 이름은 보존
+    const pat = new RegExp('\\*\\*([^*\\n]{0,40}?' + _escapeRegex(name) + '[^*\\n]{0,15}?)\\*\\*', 'g');
+    out = out.replace(pat, '$1');
+  }
+  // 길이 cap — **...**가 6자 이하면 단순 키워드일 가능성 큼
+  out = out.replace(/\*\*([^*\n]{1,6})\*\*/g, '$1');
+  return out;
+}
+
 function renderMarkdown(text, opts) {
   if (!text) return '';
   opts = opts || {};
   // v2.8.6: 빈 헤더 라인(`#` 또는 `## ` 등만 있고 텍스트 없음) 제거
   text = text.replace(/^\s*#{1,6}\s*$/gm, '');
+  // v3.10: 'N) ' 패턴 (1)~9)) 앞에 빈 줄 강제 삽입 — LLM이 인라인으로 이어쓴 경우에도 단락 분리
+  //   - 앞 문자가 '.', '(', '0~9' 가 아닐 때만 (3.1) / (1) / 10) 같은 케이스 회피)
+  //   - papers narrative: '한 줄 요약 ... 1) 무엇이... 2) 한국 실무자에게... 3) 산업 적용 흐름...'
+  text = text.replace(/([^\n.(\d])\s+([1-9]\)\s)/g, '$1\n\n$2');
+  // v3.10: 회사명·논문명·단순 키워드의 **강조** 제거 (frontend 후처리 — 캐시된 데이터에도 즉시 적용)
+  text = unboldProperNouns(text);
   // v3.2: inlineHeaders 옵션 — 헤더를 본문 사이즈 + bold 인라인으로 표시
   //   `## 한 줄 요약` → `<strong class="inline-h">한 줄 요약</strong>` (본문 사이즈, bold)
   //   사용자 정책: 헤더 폰트 사이즈 = 본문, 음영(mark) 외 일반 텍스트는 bold X
@@ -2241,6 +2288,8 @@ function escapeHtmlWithMark(text) {
   if (!text) return '';
   // v3.2: 빈 헤더 라인 제거 + inline 헤더 변환 (시사점 daily/weekly/monthly 모두 적용)
   let t = text.replace(/^\s*#{1,6}\s*$/gm, '');
+  // v3.10: 회사명·논문명·단순 키워드 강조 제거 (mark 변환 전에 처리)
+  t = unboldProperNouns(t);
   // `# 헤더` → __INLINE_HEADER_OPEN__텍스트__INLINE_HEADER_CLOSE__ (escapeHtml 통과 후 변환)
   t = t.replace(/^\s*#{1,6}\s+(.+)$/gm, (m, p) => `__INLINE_HEADER_OPEN__${p}__INLINE_HEADER_CLOSE__`);
   const escaped = escapeHtml(t)
