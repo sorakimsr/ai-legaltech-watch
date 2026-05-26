@@ -1,0 +1,61 @@
+# Dependabot 설정 — 의존성 자동 보안 업데이트
+# 참고: https://docs.github.com/en/code-security/dependabot/dependabot-version-updates
+#
+# 효과: GitHub Actions·Python 패키지에 CVE 공개되면 자동 PR 생성 → 보안 패치 반영 속도 ↑
+
+version: 2
+updates:
+  # 1) GitHub Actions 자체 의존성 (uses: actions/checkout@v4 등)
+  #    actions/* 마이너 버전이 보안 패치를 자주 받음
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Asia/Seoul"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "security"
+    commit-message:
+      prefix: "ci"
+      include: "scope"
+
+  # 2) Python 의존성 (scripts/requirements.txt)
+  #    feedparser·requests 등에 CVE가 종종 발견됨
+  - package-ecosystem: "pip"
+    directory: "/scripts"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Asia/Seoul"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "security"
+    commit-message:
+      prefix: "deps"
+      include: "scope"
+    # major 버전 업데이트는 수동 검토 (호환성 리스크) — 보안 패치성 마이너/패치만 자동
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+
+  # 3) Cloudflare Worker (cloudflare-worker/package.json 있다면)
+  #    wrangler·@cloudflare/workers-types 등
+  - package-ecosystem: "npm"
+    directory: "/cloudflare-worker"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Asia/Seoul"
+    open-pull-requests-limit: 3
+    labels:
+      - "dependencies"
+      - "security"
+    commit-message:
+      prefix: "deps"
+      include: "scope"
