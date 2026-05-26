@@ -1647,19 +1647,39 @@ mark {
   font-weight: 700;
 }
 
+/* v3.4: 음영 박스 제거 → 1) 2) 3) 일반 numbered list, mark만 형광펜 강조 */
 .papers-actionable {
   list-style: none;
   padding: 0;
+  counter-reset: actionable-counter;
+  margin: 8px 0 0;
 }
 .papers-actionable li {
-  padding: 10px 14px;
-  background: linear-gradient(135deg, #fef3c7 0%, #fef9c3 100%);
-  border-left: 3px solid #f59e0b;
-  border-radius: 0 8px 8px 0;
-  margin-bottom: 8px;
-  font-size: 13px;
-  color: #78350f;
-  line-height: 1.6;
+  counter-increment: actionable-counter;
+  padding: 6px 0 6px 28px;
+  position: relative;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  margin-bottom: 6px;
+  font-size: 13.5px;
+  color: #1f2937;
+  font-weight: 400;
+  line-height: 1.75;
+}
+.papers-actionable li::before {
+  content: counter(actionable-counter) ")";
+  position: absolute;
+  left: 0;
+  top: 6px;
+  font-weight: 600;
+  color: #4b5563;
+}
+.papers-actionable li strong, .papers-actionable li b {
+  font-weight: normal;  /* mark 외 strong은 normal */
+}
+.papers-actionable li mark {
+  font-weight: 700;  /* mark만 bold + 노란 음영 */
 }
 
 .papers-list { display: flex; flex-direction: column; gap: 10px; }

@@ -309,16 +309,14 @@ function renderStats() {
     return kstDateStr(d) >= cutoffDate;
   });
 
-  // v3.2: 기간 내 신규 수집 — items의 first_seen 기준 unique URL 카운트
-  //   (이전 v3.0은 source_history.new 합산이라 같은 URL이 2개 소스에 등장 시 2회 카운트되는 문제)
-  //   사용자 요구: "기간별로 중복 제거된 신규 URL 수"
+  // v3.4: 기간 내 신규 수집 — items의 발행일(date) 기준 unique URL 카운트
+  //   사용자 정책: 뉴스 피드 '오늘'(발행일)과 소스 현황 '오늘 신규' 정의 통일
   const history = state.sourceHistory || {};
   const periodNew = (() => {
     let cnt = 0;
     for (const it of allItems) {
-      const fs = it.first_seen || it.date;
-      if (!fs) continue;
-      const d = new Date(fs);
+      if (!it.date) continue;
+      const d = new Date(it.date);
       if (isNaN(d)) continue;
       if (kstDateStr(d) >= cutoffDate && kstDateStr(d) <= todayKst) cnt += 1;
     }
@@ -1090,14 +1088,13 @@ function renderSourcesStatus() {
   const byStatus = enriched.reduce((a, s) => { a[s.status] = (a[s.status] || 0) + 1; return a; }, {});
   // v3.2: 표 합계 = 소스별 누적 (소스 분포 보여주는 용도, 같은 URL이 N개 소스에서 잡히면 N회 카운트)
   const periodTotalBySource = enriched.reduce((sum, s) => sum + s.periodNew, 0);
-  // v3.2: 상단 카드와 동일 기준 (items의 first_seen 기반 unique URL 카운트)
+  // v3.4: 상단 카드와 동일 기준 (items의 발행일 기반 unique URL 카운트)
   const periodTotalUnique = (() => {
     const allItems = state.data.items || [];
     let cnt = 0;
     for (const it of allItems) {
-      const fs = it.first_seen || it.date;
-      if (!fs) continue;
-      const d = new Date(fs);
+      if (!it.date) continue;
+      const d = new Date(it.date);
       if (isNaN(d)) continue;
       const k = kstDateStr(d);
       if (periodDayKeys.includes(k)) cnt += 1;
@@ -2006,7 +2003,7 @@ async function runAnalysis() {
         backend: state.analyzeBackend,
         model: state.analyzeModel,
         prompt: fullPrompt,
-        max_tokens: 2500,
+        max_tokens: 8000,  // v3.4: 답변이 잘리지 않도록 상향 (2500 → 8000)
         stream: true,  // ← 스트리밍 요청
       }),
     });
