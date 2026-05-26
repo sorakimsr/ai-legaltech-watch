@@ -88,6 +88,10 @@ const state = {
   // Phase 2b: 엔티티 데이터 (data/entities.json fetch)
   entities: null,           // {entities: {id: {...}}, generated_at, total_entities}
   selectedEntityId: null,   // 상세 화면용
+  // Phase 3: LLM 관계 데이터 (data/relations.json fetch)
+  relations: null,                // {relations: [...], generated_at, total_relations}
+  relationsByEntity: null,        // {entityId: [{otherId, type, dir, evidence, weight}, ...]}
+  graphTypeFilter: null,          // 그래프 뷰 필터: null | relation type (e.g. 'competes_with')
 };
 
 const ANALYSES_STORAGE_KEY = 'daibfy_analyses_v1';
@@ -201,6 +205,7 @@ const VIEW_META = {
   saved:     { title: '저장한 항목', hint: '북마크한 시사점·뉴스 카드' },
   analyses:  { title: 'AI 분석 결과', hint: '이전에 실행한 AI 분석 세션 기록' },
   entities:  { title: '엔티티', hint: 'AI 회사·로펌·정부 부처·정책·기술 등 추적 — 클릭하면 관련 article·시사점·논문' },
+  graph:     { title: '지식그래프', hint: '엔티티 간 관계 (경쟁·제휴·도입·규제·인수·투자) — 시사점 카드에서 LLM이 추출' },
 };
 
 async function init() {
@@ -478,6 +483,7 @@ function renderContent() {
   const sourcesView = document.getElementById('sources-view');
   const papersView = document.getElementById('papers-view');
   const entitiesView = document.getElementById('entities-view');
+  const graphView = document.getElementById('graph-view');
   const controlsRow = document.querySelector('.controls-row');
   const filterLabel = document.querySelector('.filter-label');
   const statRow = document.getElementById('stat-row');
@@ -490,6 +496,7 @@ function renderContent() {
   sourcesView.classList.add('hidden');
   if (papersView) papersView.classList.add('hidden');
   if (entitiesView) entitiesView.classList.add('hidden');
+  if (graphView) graphView.classList.add('hidden');
   controlsRow.style.display = 'flex';
   if (filterLabel) filterLabel.style.display = 'block';
   // 기본 — v2.7: stat-row는 소스 현황 view에만 표시 (다른 view에서는 숨김)
@@ -539,6 +546,17 @@ function renderContent() {
     if (filterLabel) filterLabel.style.display = 'none';
     if (categoryBar) categoryBar.style.display = 'none';
     renderEntitiesView();
+    return;
+  }
+
+  // Phase 3: 지식그래프 view
+  if (state.view === 'graph') {
+    const graphView = document.getElementById('graph-view');
+    if (graphView) graphView.classList.remove('hidden');
+    controlsRow.style.display = 'none';
+    if (filterLabel) filterLabel.style.display = 'none';
+    if (categoryBar) categoryBar.style.display = 'none';
+    renderGraphView();
     return;
   }
 
@@ -2352,6 +2370,66 @@ async function loadEntities() {
   }
 }
 
+// Phase 3: relations.json 로드 + 엔티티별 인덱스 구축
+async function loadRelations() {
+  if (state.relations) return state.relations;
+  try {
+    const r = await fetch('data/relations.json?t=' + Date.now());
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    state.relations = await r.json();
+  } catch (e) {
+    console.warn('[relations] load failed (다음 빌드에서 생성됨):', e);
+    state.relations = { relations: [], total_relations: 0, error: String(e) };
+  }
+  // 엔티티별 인덱스 (양방향)
+  const idx = {};
+  for (const r of (state.relations.relations || [])) {
+    if (!idx[r.source]) idx[r.source] = [];
+    if (!idx[r.target]) idx[r.target] = [];
+    idx[r.source].push({ otherId: r.target, type: r.type, dir: 'out', evidence: r.evidence, weight: r.weight, trend_tag: r.trend_tag });
+    idx[r.target].push({ otherId: r.source, type: r.type, dir: 'in', evidence: r.evidence, weight: r.weight, trend_tag: r.trend_tag });
+  }
+  state.relationsByEntity = idx;
+  return state.relations;
+}
+
+// Phase 3: 관계 타입 라벨 (한국어)
+const RELATION_TYPE_LABEL = {
+  competes_with: '경쟁',
+  partners_with: '제휴',
+  acquires: '인수',
+  invests_in: '투자',
+  regulates: '규제',
+  adopts: '도입',
+  launches: '출시',
+  implements: '정책',
+  mentions: '언급',
+};
+const RELATION_TYPE_COLOR = {
+  competes_with: '#e15759',
+  partners_with: '#4e9aaf',
+  acquires: '#76b7b2',
+  invests_in: '#59a14f',
+  regulates: '#a86ec9',
+  adopts: '#edc949',
+  launches: '#f28e2b',
+  implements: '#9c755f',
+  mentions: '#bab0ab',
+};
+const ENTITY_TYPE_COLOR = {
+  ai_company: '#4e79a7',
+  legaltech_company: '#76b7b2',
+  korean_law_firm: '#e15759',
+  global_law_firm: '#af7aa1',
+  korean_finance: '#edc949',
+  korean_manufacturing: '#f28e2b',
+  kr_government: '#9c755f',
+  policy: '#bab0ab',
+  ai_product: '#59a14f',
+  benchmark: '#ff9da7',
+  tech: '#a0cbe8',
+};
+
 function renderEntitiesView() {
   const wrap = document.getElementById('entities-view');
   const listEl = document.getElementById('entities-list-wrap');
@@ -2455,6 +2533,11 @@ function renderEntityDetail() {
     </div>
   </div>`;
 
+  // Phase 3: 관련 엔티티 (relations.json 기반) — 시사점 위에 배치 (가장 통찰력 있는 정보)
+  html += `<div class="entity-section entity-relations-section" id="entity-relations-placeholder">
+    <h3>🔗 관련 엔티티 <span class="entity-relations-loading">로딩 중...</span></h3>
+  </div>`;
+
   // 관련 시사점
   if (e.mentioned_trends && e.mentioned_trends.length > 0) {
     html += `<div class="entity-section">
@@ -2499,6 +2582,220 @@ function renderEntityDetail() {
       renderEntitiesView();
     });
   }
+
+  // Phase 3: 관련 엔티티 비동기 로드 (relations.json)
+  loadRelations().then(() => {
+    const placeholder = document.getElementById('entity-relations-placeholder');
+    if (!placeholder) return;
+    const rels = (state.relationsByEntity && state.relationsByEntity[state.selectedEntityId]) || [];
+    // 같은 (other, type) 묶기 → weight 합계
+    const grouped = {};
+    for (const r of rels) {
+      const k = r.otherId + '|' + r.type + '|' + r.dir;
+      if (!grouped[k]) grouped[k] = { ...r, count: 0 };
+      grouped[k].count += 1;
+      grouped[k].weight = (grouped[k].weight || 0) + (r.weight || 1);
+    }
+    const items = Object.values(grouped).sort((a, b) => b.weight - a.weight);
+    if (items.length === 0) {
+      placeholder.innerHTML = `<h3>🔗 관련 엔티티 <span class="entity-relations-empty">아직 추출된 관계 없음</span></h3>
+        <p class="entity-relations-hint">다음 빌드(KST 18시)에서 LLM이 시사점 카드로부터 관계를 추출합니다.</p>`;
+      return;
+    }
+    let h = `<h3>🔗 관련 엔티티 (${items.length})</h3>
+      <div class="entity-relations-grid">`;
+    for (const r of items.slice(0, 30)) {
+      const other = ents[r.otherId];
+      const otherName = other ? other.name : r.otherId;
+      const typeLabel = RELATION_TYPE_LABEL[r.type] || r.type;
+      const arrow = r.dir === 'out' ? '→' : '←';
+      const color = RELATION_TYPE_COLOR[r.type] || '#999';
+      h += `<div class="entity-relation-card" data-other-id="${escapeHtml(r.otherId)}">
+        <div class="entity-relation-head">
+          <span class="entity-relation-arrow">${arrow}</span>
+          <span class="entity-relation-name">${escapeHtml(otherName)}</span>
+        </div>
+        <div class="entity-relation-type" style="background:${color}22;color:${color}">
+          ${escapeHtml(typeLabel)}${r.count > 1 ? ` · ${r.count}건` : ''}
+        </div>
+        ${r.evidence ? `<div class="entity-relation-evidence">"${escapeHtml(r.evidence)}"</div>` : ''}
+      </div>`;
+    }
+    h += `</div>`;
+    placeholder.innerHTML = h;
+    // 관련 엔티티 카드 클릭 → 해당 엔티티 상세로
+    placeholder.querySelectorAll('.entity-relation-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const oid = card.getAttribute('data-other-id');
+        if (oid && ents[oid]) {
+          state.selectedEntityId = oid;
+          renderEntityDetail();
+          const detailEl = document.getElementById('entity-detail-wrap');
+          if (detailEl) detailEl.scrollTop = 0;
+        }
+      });
+    });
+  });
+}
+
+// ========================= Phase 3: 지식그래프 (D3) =========================
+
+function renderGraphView() {
+  const wrap = document.getElementById('graph-view');
+  if (!wrap) return;
+  // 컨트롤 + svg 구조 한 번만 그림
+  if (!wrap.querySelector('.graph-container')) {
+    let controlsHtml = '<div class="graph-controls">';
+    controlsHtml += '<span class="graph-controls-label">관계 타입 필터:</span>';
+    controlsHtml += '<button class="graph-filter-btn active" data-type="">전체</button>';
+    for (const t of Object.keys(RELATION_TYPE_LABEL)) {
+      const color = RELATION_TYPE_COLOR[t] || '#999';
+      controlsHtml += `<button class="graph-filter-btn" data-type="${t}" style="border-color:${color}33;color:${color}">${RELATION_TYPE_LABEL[t]}</button>`;
+    }
+    controlsHtml += '</div>';
+    controlsHtml += '<div class="graph-meta" id="graph-meta">로딩 중...</div>';
+    controlsHtml += '<div class="graph-container"><svg id="graph-svg" width="100%" height="640"><g id="graph-g"></g></svg></div>';
+    controlsHtml += '<div class="graph-tip">노드를 끌어 위치 조정 · 노드 클릭 시 엔티티 상세로 이동</div>';
+    wrap.innerHTML = controlsHtml;
+    // 필터 버튼 핸들러
+    wrap.querySelectorAll('.graph-filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        wrap.querySelectorAll('.graph-filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        state.graphTypeFilter = btn.getAttribute('data-type') || null;
+        renderGraphSvg();
+      });
+    });
+  }
+  // 데이터 로드
+  Promise.all([loadEntities(), loadRelations()]).then(() => {
+    renderGraphSvg();
+  });
+}
+
+function renderGraphSvg() {
+  const svg = document.getElementById('graph-svg');
+  const metaEl = document.getElementById('graph-meta');
+  if (!svg) return;
+  if (typeof d3 === 'undefined') {
+    if (metaEl) metaEl.textContent = 'D3 로딩 실패 — 새로고침 후 다시 시도';
+    return;
+  }
+
+  const ents = (state.entities && state.entities.entities) || {};
+  const allRels = (state.relations && state.relations.relations) || [];
+  if (Object.keys(ents).length === 0) {
+    if (metaEl) metaEl.innerHTML = '<strong>엔티티 데이터 없음</strong> — 다음 빌드 후 표시됩니다.';
+    return;
+  }
+  if (allRels.length === 0) {
+    if (metaEl) metaEl.innerHTML = '<strong>관계 데이터 없음</strong> — 다음 빌드(LLM 관계 추출)에서 생성됩니다.';
+    return;
+  }
+  // 필터 적용
+  const relsFiltered = state.graphTypeFilter
+    ? allRels.filter(r => r.type === state.graphTypeFilter)
+    : allRels;
+  // 그래프에 포함될 엔티티만 (관계가 있는 엔티티)
+  const usedIds = new Set();
+  for (const r of relsFiltered) { usedIds.add(r.source); usedIds.add(r.target); }
+  const nodes = [];
+  for (const id of usedIds) {
+    if (!ents[id]) continue;
+    const e = ents[id];
+    nodes.push({
+      id,
+      name: e.name,
+      type: e.type,
+      mentions: e.total_mentions || 1,
+      avgScore: e.avg_score || 0,
+    });
+  }
+  const links = relsFiltered
+    .filter(r => ents[r.source] && ents[r.target])
+    .map(r => ({ source: r.source, target: r.target, type: r.type, weight: r.weight || 1 }));
+
+  if (metaEl) {
+    metaEl.innerHTML = `노드 <strong>${nodes.length}</strong> · 관계 <strong>${links.length}</strong>` +
+      (state.relations.generated_at ? ` · 생성 ${state.relations.generated_at.slice(0, 16)}` : '');
+  }
+
+  // SVG 초기화
+  const svgSel = d3.select(svg);
+  const g = svgSel.select('#graph-g');
+  g.selectAll('*').remove();
+
+  const width = svg.clientWidth || 900;
+  const height = 640;
+
+  // 줌·팬 적용
+  svgSel.call(d3.zoom().scaleExtent([0.3, 4]).on('zoom', (event) => {
+    g.attr('transform', event.transform);
+  }));
+
+  // 시뮬레이션
+  const sim = d3.forceSimulation(nodes)
+    .force('link', d3.forceLink(links).id(d => d.id).distance(110).strength(0.5))
+    .force('charge', d3.forceManyBody().strength(-220))
+    .force('center', d3.forceCenter(width / 2, height / 2))
+    .force('collide', d3.forceCollide().radius(d => 14 + Math.sqrt(d.mentions || 1) * 3));
+
+  // 링크
+  const link = g.append('g').attr('class', 'graph-links')
+    .selectAll('line').data(links).enter().append('line')
+    .attr('stroke', d => RELATION_TYPE_COLOR[d.type] || '#999')
+    .attr('stroke-opacity', 0.6)
+    .attr('stroke-width', d => Math.max(1, Math.min(4, Math.sqrt(d.weight))));
+
+  // 노드 그룹
+  const node = g.append('g').attr('class', 'graph-nodes')
+    .selectAll('g.graph-node').data(nodes).enter().append('g')
+    .attr('class', 'graph-node')
+    .style('cursor', 'pointer')
+    .call(d3.drag()
+      .on('start', (event, d) => {
+        if (!event.active) sim.alphaTarget(0.3).restart();
+        d.fx = d.x; d.fy = d.y;
+      })
+      .on('drag', (event, d) => { d.fx = event.x; d.fy = event.y; })
+      .on('end', (event, d) => {
+        if (!event.active) sim.alphaTarget(0);
+        d.fx = null; d.fy = null;
+      })
+    )
+    .on('click', (event, d) => {
+      // 엔티티 상세로 이동
+      state.view = 'entities';
+      state.selectedEntityId = d.id;
+      // nav-item active 토글
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      const navEnt = document.querySelector('.nav-item[data-view="entities"]');
+      if (navEnt) navEnt.classList.add('active');
+      renderContent();
+    });
+
+  node.append('circle')
+    .attr('r', d => 8 + Math.sqrt(d.mentions || 1) * 2.4)
+    .attr('fill', d => ENTITY_TYPE_COLOR[d.type] || '#888')
+    .attr('stroke', '#fff')
+    .attr('stroke-width', 1.5);
+
+  node.append('text')
+    .attr('dy', d => -(11 + Math.sqrt(d.mentions || 1) * 2.4))
+    .attr('text-anchor', 'middle')
+    .attr('font-size', 11)
+    .attr('fill', '#333')
+    .text(d => d.name);
+
+  node.append('title')
+    .text(d => `${d.name} [${ENTITY_TYPE_LABEL[d.type] || d.type}]\n언급 ${d.mentions}건 · 평균 ${d.avgScore}`);
+
+  sim.on('tick', () => {
+    link
+      .attr('x1', d => d.source.x).attr('y1', d => d.source.y)
+      .attr('x2', d => d.target.x).attr('y2', d => d.target.y);
+    node.attr('transform', d => `translate(${d.x},${d.y})`);
+  });
 }
 
 function escapeHtml(text) {

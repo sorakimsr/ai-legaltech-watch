@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AI & Legaltech Watch</title>
-  <link rel="stylesheet" href="styles.css?v=20260526-v44" />
+  <link rel="stylesheet" href="styles.css?v=20260526-v45" />
 </head>
 <body>
   <div class="app">
@@ -45,6 +45,11 @@
         <a href="#" class="nav-item" data-view="entities">
           <span class="nav-icon">🏷️</span>
           <span class="nav-label">엔티티</span>
+        </a>
+        <!-- Phase 3: 지식그래프 (D3 force-directed) -->
+        <a href="#" class="nav-item" data-view="graph">
+          <span class="nav-icon">🕸️</span>
+          <span class="nav-label">지식그래프</span>
         </a>
 
         <!-- 소스 현황 (expandable) -->
@@ -238,6 +243,9 @@
           <div id="entities-list-wrap"></div>
           <div id="entity-detail-wrap" class="hidden"></div>
         </div>
+
+        <!-- Phase 3: 지식그래프 view (D3 force-directed) -->
+        <div id="graph-view" class="graph-view hidden"></div>
       </div>
     </main>
   </div>
@@ -315,6 +323,8 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-  <script src="app.js?v=20260526-v44"></script>
+  <!-- Phase 3: D3 v7 (force-directed knowledge graph) -->
+  <script src="https://cdn.jsdelivr.net/npm/d3@7.8.5/dist/d3.min.js"></script>
+  <script src="app.js?v=20260526-v45"></script>
 </body>
 </html>
