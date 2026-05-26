@@ -1052,27 +1052,40 @@ function renderSourcesStatus() {
     if (it.source && !itemBySource[it.source]) itemBySource[it.source] = it;
   }
 
+  // v3.6: items 기반 소스별 카운트 — 발행일이 기간 내인 unique URL을 첫 수집 소스(item.source)에 1회 카운트
+  //   각 URL은 한 소스에만 속하므로 표 합산 = 헤더 unique URL 수와 정확히 일치
+  const itemsBySourceMap = {};
+  for (const it of (state.data.items || [])) {
+    if (!it.date || !it.source) continue;
+    const d = new Date(it.date);
+    if (isNaN(d)) continue;
+    const k = kstDateStr(d);
+    if (!periodDayKeys.includes(k)) continue;
+    if (!itemsBySourceMap[it.source]) itemsBySourceMap[it.source] = 0;
+    itemsBySourceMap[it.source] += 1;
+  }
+
   // 소스별로 row 계산
   const enriched = sources.map(s => {
     const hist = history[s.name] || {};
+    // 마지막 활성일은 전체 기간으로 따로 한 번 더 봄 (선택 기간이 짧을 때 의미 없을까봐)
+    let everLastActive = null;
     let periodFetched = 0;
-    let periodNew = 0;
     let lastActiveDate = null;
     for (const k of periodDayKeys) {
       const entry = hist[k];
       if (entry) {
         const f = entry.fetched || 0;
         periodFetched += f;
-        periodNew += entry.new || 0;
         if (f > 0 && (!lastActiveDate || k > lastActiveDate)) lastActiveDate = k;
       }
     }
-    // 마지막 활성일은 전체 기간으로 따로 한 번 더 봄 (선택 기간이 짧을 때 의미 없을까봐)
-    let everLastActive = null;
     for (const k of Object.keys(hist)) {
       if ((hist[k]?.fetched || 0) > 0 && (!everLastActive || k > everLastActive)) everLastActive = k;
     }
     const stype = itemBySource[s.name]?.source_type || '-';
+    // v3.6: periodNew는 items 기반 unique URL 카운트
+    const periodNew = itemsBySourceMap[s.name] || 0;
     return {
       ...s,
       source_type: stype,
@@ -1128,7 +1141,7 @@ function renderSourcesStatus() {
   root.innerHTML = `
     <div class="sources-table-wrap">
       <h3>소스 현황 — ${escapeHtml(periodLabel)} (총 ${enriched.length}개 · 활성 ${byStatus.active || 0}개 · 신규 수집 ${periodTotalUnique}건)</h3>
-      <p class="sources-table-note">※ 헤더의 "신규 수집"은 중복 제거된 unique URL 수 (상단 카드와 동일). 표 컬럼 "신규"는 소스별 누적 (같은 URL이 N개 소스에서 잡히면 N회) — 합산 ${periodTotalBySource}건.</p>
+      <p class="sources-table-note">※ "신규" = 발행일 기간 내 unique URL을 첫 수집 소스에 1회 카운트. 표 합산 = 헤더 신규 수집 수와 일치 (${periodTotalUnique}건).</p>
       <div class="sources-table-scroll">
         <table class="src-table">
           <thead>
