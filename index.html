@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AI & Legaltech Watch</title>
-  <link rel="stylesheet" href="styles.css?v=20260526-v43" />
+  <link rel="stylesheet" href="styles.css?v=20260526-v44" />
 </head>
 <body>
   <div class="app">
@@ -40,6 +40,11 @@
         <a href="#" class="nav-item" data-view="analyses">
           <span class="nav-icon">🤖</span>
           <span class="nav-label">AI 분석 결과</span>
+        </a>
+        <!-- Phase 2b: 엔티티 (회사·로펌·정책·기술) -->
+        <a href="#" class="nav-item" data-view="entities">
+          <span class="nav-icon">🏷️</span>
+          <span class="nav-label">엔티티</span>
         </a>
 
         <!-- 소스 현황 (expandable) -->
@@ -227,6 +232,12 @@
             </div>
           </div>
         </div>
+
+        <!-- Phase 2b: 엔티티 view -->
+        <div id="entities-view" class="entities-view hidden">
+          <div id="entities-list-wrap"></div>
+          <div id="entity-detail-wrap" class="hidden"></div>
+        </div>
       </div>
     </main>
   </div>
@@ -304,6 +315,6 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-  <script src="app.js?v=20260526-v43"></script>
+  <script src="app.js?v=20260526-v44"></script>
 </body>
 </html>

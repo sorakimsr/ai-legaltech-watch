@@ -85,6 +85,9 @@ const state = {
   savedTab: 'insights',
   // v2.7.5: AI 분석 결과 history (localStorage)
   analyses: [],  // [{id, timestamp, backend, model, prompt, items: [{title,url,source,date}], result}]
+  // Phase 2b: 엔티티 데이터 (data/entities.json fetch)
+  entities: null,           // {entities: {id: {...}}, generated_at, total_entities}
+  selectedEntityId: null,   // 상세 화면용
 };
 
 const ANALYSES_STORAGE_KEY = 'daibfy_analyses_v1';
@@ -197,6 +200,7 @@ const VIEW_META = {
   sources:   { title: '소스 현황', hint: '활성·유휴·오류 + 7일 추이' },
   saved:     { title: '저장한 항목', hint: '북마크한 시사점·뉴스 카드' },
   analyses:  { title: 'AI 분석 결과', hint: '이전에 실행한 AI 분석 세션 기록' },
+  entities:  { title: '엔티티', hint: 'AI 회사·로펌·정부 부처·정책·기술 등 추적 — 클릭하면 관련 article·시사점·논문' },
 };
 
 async function init() {
@@ -473,6 +477,7 @@ function renderContent() {
   const stratView = document.getElementById('strategy-view');
   const sourcesView = document.getElementById('sources-view');
   const papersView = document.getElementById('papers-view');
+  const entitiesView = document.getElementById('entities-view');
   const controlsRow = document.querySelector('.controls-row');
   const filterLabel = document.querySelector('.filter-label');
   const statRow = document.getElementById('stat-row');
@@ -484,6 +489,7 @@ function renderContent() {
   stratView.classList.add('hidden');
   sourcesView.classList.add('hidden');
   if (papersView) papersView.classList.add('hidden');
+  if (entitiesView) entitiesView.classList.add('hidden');
   controlsRow.style.display = 'flex';
   if (filterLabel) filterLabel.style.display = 'block';
   // 기본 — v2.7: stat-row는 소스 현황 view에만 표시 (다른 view에서는 숨김)
@@ -523,6 +529,16 @@ function renderContent() {
     if (filterLabel) filterLabel.style.display = 'none';
     if (categoryBar) categoryBar.style.display = 'none';
     renderPapersView();
+    return;
+  }
+
+  // Phase 2b: 엔티티 view
+  if (state.view === 'entities') {
+    if (entitiesView) entitiesView.classList.remove('hidden');
+    controlsRow.style.display = 'none';
+    if (filterLabel) filterLabel.style.display = 'none';
+    if (categoryBar) categoryBar.style.display = 'none';
+    renderEntitiesView();
     return;
   }
 
@@ -2300,6 +2316,191 @@ function isNewToday(item) {
     return todayKey === fsKey;
   } catch (e) { return false; }
 }
+// ========================= Phase 2b: 엔티티 뷰 =========================
+
+const ENTITY_TYPE_LABEL = {
+  ai_company: 'AI 회사',
+  legaltech_company: '리걸테크',
+  korean_law_firm: '한국 로펌',
+  global_law_firm: '글로벌 로펌',
+  korean_finance: '한국 금융',
+  korean_manufacturing: '한국 제조',
+  kr_government: '정부 부처',
+  policy: '정책·법안',
+  tech: '기술',
+  ai_product: 'AI 제품',
+  benchmark: '벤치마크',
+};
+
+const ENTITY_TYPE_ORDER = [
+  'ai_company', 'legaltech_company', 'korean_law_firm', 'global_law_firm',
+  'korean_finance', 'korean_manufacturing', 'kr_government', 'policy',
+  'ai_product', 'benchmark', 'tech',
+];
+
+async function loadEntities() {
+  if (state.entities) return state.entities;
+  try {
+    const r = await fetch('data/entities.json?t=' + Date.now());
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    state.entities = await r.json();
+    return state.entities;
+  } catch (e) {
+    console.error('[entities] load failed:', e);
+    state.entities = { entities: {}, total_entities: 0, error: String(e) };
+    return state.entities;
+  }
+}
+
+function renderEntitiesView() {
+  const wrap = document.getElementById('entities-view');
+  const listEl = document.getElementById('entities-list-wrap');
+  const detailEl = document.getElementById('entity-detail-wrap');
+  if (!wrap || !listEl) return;
+
+  // 상세 화면 모드
+  if (state.selectedEntityId) {
+    if (listEl) listEl.classList.add('hidden');
+    if (detailEl) detailEl.classList.remove('hidden');
+    renderEntityDetail();
+    return;
+  }
+  if (listEl) listEl.classList.remove('hidden');
+  if (detailEl) detailEl.classList.add('hidden');
+
+  listEl.innerHTML = '<div class="loading">엔티티 로딩 중...</div>';
+  loadEntities().then(data => {
+    const ents = data.entities || {};
+    const entries = Object.values(ents);
+    if (entries.length === 0) {
+      listEl.innerHTML = `
+        <div class="empty-state">
+          <p><strong>엔티티 데이터 없음</strong></p>
+          <p>다음 빌드에서 자동 생성됩니다 (KST 18시 또는 수동 빌드).</p>
+          ${data.error ? `<p style="color:#999">에러: ${escapeHtml(data.error)}</p>` : ''}
+        </div>`;
+      return;
+    }
+    // type별 그룹화
+    const byType = {};
+    for (const e of entries) {
+      const t = e.type || 'other';
+      if (!byType[t]) byType[t] = [];
+      byType[t].push(e);
+    }
+    for (const t of Object.keys(byType)) {
+      byType[t].sort((a, b) => b.total_mentions - a.total_mentions);
+    }
+
+    let html = '';
+    html += `<div class="entities-summary">총 <strong>${entries.length}</strong>개 엔티티 활성 · ${data.generated_at ? '생성: ' + (data.generated_at.slice(0, 16)) : ''}</div>`;
+    for (const t of ENTITY_TYPE_ORDER) {
+      if (!byType[t] || byType[t].length === 0) continue;
+      const label = ENTITY_TYPE_LABEL[t] || t;
+      html += `<div class="entity-type-section">`;
+      html += `  <h3 class="entity-type-title">${label} <span class="entity-type-count">${byType[t].length}</span></h3>`;
+      html += `  <div class="entity-grid">`;
+      for (const e of byType[t]) {
+        html += `
+          <div class="entity-card" data-entity-id="${escapeHtml(e.id)}">
+            <div class="entity-name">${escapeHtml(e.name)}</div>
+            <div class="entity-meta">
+              <span class="entity-mentions">언급 <strong>${e.total_mentions}</strong></span>
+              <span class="entity-avgscore">평균 ${e.avg_score}</span>
+            </div>
+            <div class="entity-foot">
+              ${e.mentioned_trends && e.mentioned_trends.length > 0 ? `<span class="entity-pill">시사점 ${e.mentioned_trends.length}</span>` : ''}
+              ${e.mentioned_papers && e.mentioned_papers.length > 0 ? `<span class="entity-pill">논문 ${e.mentioned_papers.length}</span>` : ''}
+            </div>
+          </div>`;
+      }
+      html += `  </div>`;
+      html += `</div>`;
+    }
+    listEl.innerHTML = html;
+
+    // 카드 클릭 → 상세 화면
+    listEl.querySelectorAll('.entity-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const eid = card.getAttribute('data-entity-id');
+        if (eid) {
+          state.selectedEntityId = eid;
+          renderEntitiesView();
+        }
+      });
+    });
+  });
+}
+
+function renderEntityDetail() {
+  const detailEl = document.getElementById('entity-detail-wrap');
+  if (!detailEl) return;
+  const ents = (state.entities && state.entities.entities) || {};
+  const e = ents[state.selectedEntityId];
+  if (!e) {
+    detailEl.innerHTML = '<div class="empty-state">엔티티를 찾을 수 없습니다.</div>';
+    return;
+  }
+  const typeLabel = ENTITY_TYPE_LABEL[e.type] || e.type;
+  let html = `<div class="entity-detail">`;
+  html += `<button class="entity-back-btn" id="entity-back">← 목록</button>`;
+  html += `<div class="entity-detail-head">
+    <h2>${escapeHtml(e.name)}</h2>
+    <div class="entity-detail-meta">
+      <span class="entity-type-badge">${escapeHtml(typeLabel)}</span>
+      <span>언급 <strong>${e.total_mentions}</strong>건</span>
+      <span>평균 score <strong>${e.avg_score}</strong></span>
+      ${e.first_seen ? `<span>최초 ${e.first_seen}</span>` : ''}
+      ${e.last_seen ? `<span>최근 ${e.last_seen}</span>` : ''}
+    </div>
+  </div>`;
+
+  // 관련 시사점
+  if (e.mentioned_trends && e.mentioned_trends.length > 0) {
+    html += `<div class="entity-section">
+      <h3>📌 관련 시사점 (${e.mentioned_trends.length})</h3>
+      <ul class="entity-list">`;
+    for (const t of e.mentioned_trends.slice(0, 15)) {
+      html += `<li><span class="entity-list-meta">${escapeHtml(t.period)} · ${escapeHtml(t.key)}</span> — ${escapeHtml(t.tag || t.title || '')}</li>`;
+    }
+    html += `</ul></div>`;
+  }
+  // 관련 논문 흐름
+  if (e.mentioned_papers && e.mentioned_papers.length > 0) {
+    html += `<div class="entity-section">
+      <h3>📑 관련 논문 흐름 (${e.mentioned_papers.length})</h3>
+      <ul class="entity-list">`;
+    for (const p of e.mentioned_papers.slice(0, 10)) {
+      html += `<li><span class="entity-list-meta">${escapeHtml(p.period)} · ${escapeHtml(p.key)}</span> — ${p.paper_count}편 분석</li>`;
+    }
+    html += `</ul></div>`;
+  }
+  // 관련 article (최근 30개)
+  if (e.mentioned_articles && e.mentioned_articles.length > 0) {
+    html += `<div class="entity-section">
+      <h3>📰 관련 article (${e.mentioned_articles.length}건, 최근순)</h3>
+      <ul class="entity-list entity-articles">`;
+    for (const a of e.mentioned_articles) {
+      html += `<li>
+        <span class="entity-list-meta">${escapeHtml(a.date || '')} · ${escapeHtml(a.source || '')} · ${a.score || 0}점</span>
+        <br/><a href="${escapeHtml(a.url)}" target="_blank" rel="noopener">${escapeHtml(a.title || '')}</a>
+      </li>`;
+    }
+    html += `</ul></div>`;
+  }
+  html += `</div>`;
+  detailEl.innerHTML = html;
+
+  // 목록으로 돌아가기
+  const backBtn = document.getElementById('entity-back');
+  if (backBtn) {
+    backBtn.addEventListener('click', () => {
+      state.selectedEntityId = null;
+      renderEntitiesView();
+    });
+  }
+}
+
 function escapeHtml(text) {
   return String(text == null ? '' : text).replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
 }
