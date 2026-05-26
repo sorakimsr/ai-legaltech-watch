@@ -377,6 +377,25 @@ BLACKLIST_KEYWORDS = [
     "예능 출연", "토크쇼 출연", "예능 깜짝", "예능 복귀",
     "방송 출연", "TV 출연", "예능감",
     "아이돌", "걸그룹", "보이그룹",
+    # v3.19: 드라마·연예 (안방극장·캐릭터 몰입도 PR)
+    "안방극장", "안방 극장",
+    "매력 캐릭터", "캐릭터 몰입도", "몰입도 up",
+    "드라마 출연", "드라마 캐스팅", "드라마 주연",
+    "주연 발탁", "광고 모델 발탁", "광고모델 발탁",
+    "광고 모델로", "광고모델로", "전속모델", "전속 모델",
+    "신규 광고", "광고 캠페인",
+    # v3.19: 산학협력·MOU 일반 PR (AI 무관 인재 양성)
+    "맞손", "인재 양성 맞손", "양성 맞손",
+    "디지털 마케팅 인재", "마케팅 인재 양성",
+    "ai 인재 양성 협약", "인재 양성 협약",
+    "산학협력 mou", "업무협약 체결", "업무협약 mou",
+    "기관 mou", "공동 인재 양성",
+    # v3.19: 지자체·교육청 AI 연수·교육 PR (AI 무관 행사)
+    "ai 활용 연수", "ai 연수 진행", "활용 연수 진행",
+    "교육청 ai 연수", "도서관 ai 활용", "도서관 관계자",
+    "학교도서관 관계자", "학교 도서관 연수",
+    "교사 ai 연수", "관계자 대상", "교원 대상 ai",
+    "ai 교육 사업", "ai 교육 운영 사업",
     # v3.5.1: 유통·패션업계 (AI 무관)
     "쿠팡 무신사", "자사몰로 반격", "고객 탈환",
     "패션업계 반격", "패션 자사몰", "마트 반격",
@@ -783,63 +802,199 @@ def detect_score_buckets(title: str, summary: str) -> dict:
     return buckets
 
 
+# v4.0: "행동 시그널" 키워드 그룹 — 대형로펌 경영전략팀이 f/u할 가치 신호
+#
+# 페르소나: 대형로펌 경영전략팀이 AI 관련 검토·행동이 필요한 사항을 찾는 도구.
+# 행동 가치 = "이 기사를 보고 나서 우리 로펌·고객사에 무엇을 검토·변경해야 하는가" 시그널.
+#
+# 4축 시그널 매트릭스:
+#  - DECISION   (의사결정·전략·도입·거버넌스): 도입·채택·재설계·통제·감사·검토·평가
+#  - REGULATORY (규제·정책·법규): AI 기본법·EU AI Act·금감원·컴플라이언스·가이드라인
+#  - MARKET     (시장구조·M&A·진출): 인수·합병·투자·진출·거점·신사업·경쟁
+#  - LEGAL      (법률·로펌·소송·계약): 변호사·로펌·소송·계약·판결·합의·자문
+#
+# 단순 "AI" 언급으로는 절대 시그널 hit 안 되도록 — 모두 의미 페어로 설계.
+
+DECISION_SIGNALS = [
+    # 의사결정·도입 동사
+    "도입", "채택", "도입 결정", "도입 검토", "선정", "결정",
+    "재설계", "재구축", "재정비", "전면 개편", "구축", "운영체계",
+    # 거버넌스·통제·감사
+    "거버넌스", "통제 체계", "내부통제", "내부 통제", "위험 관리",
+    "리스크 관리", "감사", "감사 체계", "감사 시스템",
+    # 검토·평가
+    "검토", "재검토", "평가", "평가 체계", "검증", "벤치마크",
+    # 책임·역할
+    "책임 경계", "책임 귀속", "책임 할당", "역할 정의",
+    "accountability", "governance", "compliance",
+    # 행동 결정 패턴
+    "전략 수립", "전략 재설계", "정책 마련", "기준 설정",
+    "프레임워크", "체크리스트", "kpi 재설계", "지표 재정의",
+]
+
+REGULATORY_SIGNALS = [
+    "ai 기본법", "ai act", "eu ai act", "ai 가이드라인", "ai 규제",
+    "ai 거버넌스 법", "디지털 주권", "데이터 주권", "sovereign ai",
+    "금감원", "금융위", "금융감독원", "공정위", "방통위",
+    "개인정보보호위원회", "개인정보보호법", "개인정보위", "pipa",
+    "망분리", "국외 이전", "데이터 이전 제한", "주권 클라우드",
+    "컴플라이언스", "규제 준수", "심의", "인허가", "감독",
+    "ai 윤리", "윤리 기준", "ai 모델 설명", "설명 가능성",
+    "model card", "system card",
+    "fda 승인", "regulatory approval",
+    # v4.0: 한국 정부 부처 (정책 시그널)
+    "산업부", "산업통상자원부", "과기정통부", "과학기술정보통신부",
+    "중기부", "중소벤처기업부", "기재부", "기획재정부",
+    "정책 지원", "전폭 지원", "정책 협력", "범정부",
+]
+
+MARKET_SIGNALS = [
+    # M&A·투자
+    "인수", "합병", "m&a", "인수합병", "지분 인수", "지분 매각",
+    "투자 유치", "투자 단행", "투자 라운드", "시리즈 a", "시리즈 b",
+    "시리즈 c", "시드 투자", "기업가치", "valuation",
+    # 시장 진출·거점
+    "한국 진출", "아시아 진출", "거점 확장", "거점 신설",
+    "오피스 개설", "한국 법인", "지사 설립",
+    "신사업", "신규 사업", "사업 확장",
+    # 경쟁 구도
+    "경쟁사", "경쟁 구도", "시장 점유율", "지배력",
+    "ipo", "상장", "기업공개", "공모",
+]
+
+LEGAL_SIGNALS = [
+    # 로펌·변호사
+    "법무법인", "로펌", "변호사", "법무팀", "사내 변호사", "법무실",
+    "광장", "김앤장", "태평양", "세종", "율촌", "지평", "화우",
+    "harvey", "legora", "ironclad", "everlaw", "bhsn", "robin ai",
+    # 소송·계약·판결
+    "소송", "판결", "법원", "법원 판단", "기각", "각하",
+    "계약", "계약서", "계약 검토", "약관",
+    "자문", "법률 자문", "법무 자문",
+    # 법률 AI 도입·사례
+    "법률 ai", "리걸테크", "legal ai", "ai 변호사",
+    "ai 계약 검토", "ai 법률 검색",
+]
+
+# 행동 가치 없음 (강력한 NEGATIVE 시그널)
+NEGATIVE_SIGNALS = [
+    # 마케팅·프로모션
+    "스탬프", "프로모션", "쿠폰", "이벤트", "선착순",
+    "구독하면", "구독 시", "추가 제공", "사은품",
+    "거래액 증가", "거래액 ↑", "매출 증가",
+    # 광고 모델·연예
+    "광고 모델", "광고모델", "전속모델", "전속 모델", "광고 캠페인",
+    "발탁", "안방극장", "드라마 출연", "캐릭터 몰입도",
+    "예능 출연", "토크쇼", "아이돌", "걸그룹", "보이그룹",
+    "스포츠는 장비빨",
+    # 단순 PR·MOU·체험 행사
+    "맞손", "인재 양성 맞손", "체험 부스", "체험부스",
+    "위탁운영 시작", "위탁운영 계약", "한국예선", "교두보",
+    "선포식", "기념식", "현판식", "발족식",
+    # 임원·총수 동정
+    "회장 인사", "총수 회동", "임원 인사 이모저모",
+    "내 책임", "탱크데이",
+    # 일상 시세·증시
+    "주가 폭락", "주가 급등", "52주 신저가", "52주 신고가",
+    "코스피 강세", "코스닥 강세", "닛케이",
+    # 라이프스타일·여행
+    "맛집", "여행지 추천", "관광 명소", "캠핑", "낚시", "등산",
+]
+
+
+def count_signal_hits(text: str, signals: list) -> int:
+    """텍스트에서 시그널 키워드 hit 개수 (중복 제외)"""
+    return sum(1 for s in signals if s.lower() in text)
+
+
 def score_item(title: str, summary: str, date, categories: list) -> int:
-    """가중치 기반 중요도 (v2.8.2)
+    """v4.0: 행동 시그널 기반 중요도 — 대형로펌 경영전략팀 페르소나.
 
-    버킷별 최대 보너스:
-      LAW(로펌)  : +40  (weight 0.40)
-      GLOBAL     : +25  (weight 0.25)
-      POLICY     : +25  (weight 0.25)
-      PROMO      : +10  (weight 0.10)
+    설계 원칙:
+      1) 단순 "AI" 언급으로는 통과 못함 (의미 페어 강제)
+      2) base 30 → 행동 시그널 없으면 자동 cut-off 미만
+      3) DECISION/REGULATORY/MARKET/LEGAL 4축 시그널 매트릭스 (각 최대 +25)
+      4) NEGATIVE 시그널은 강력한 -30
+      5) AI 단순 언급 (1~2회) + 시그널 0 → score 20 hard cap
 
-    PROMO 헤드라인 매칭 시 → 40점 이하로 강제 캡 (홍보 weight 0.1 정책)
+    점수 구간 가이드 (cut-off 35):
+      0~34   = drop (광고/PR/연예/일상)
+      35~49  = 약한 시그널 (참고)
+      50~69  = 의미 있는 시그널 (검토)
+      70~89  = 명확한 행동 가치 (f/u 필요)
+      90+    = 핵심 검토 사항 (즉시 보고)
     """
-    # v2.8.2: base 40→50 + 카테고리 보너스 상향 (자본·논문 복원)
-    score = 50.0  # v2.9: float로 미세 분포 허용
+    score = 30.0  # v4.0: base 50 → 30 (시그널 없으면 자동 cut-off)
     text = (title + " " + summary).lower()
+    title_lower = title.lower()
 
-    buckets = detect_score_buckets(title, summary)
+    # === v4.0 행동 시그널 매트릭스 (각 축 최대 +25) ===
+    decision_hits = count_signal_hits(text, DECISION_SIGNALS)
+    regulatory_hits = count_signal_hits(text, REGULATORY_SIGNALS)
+    market_hits = count_signal_hits(text, MARKET_SIGNALS)
+    legal_hits = count_signal_hits(text, LEGAL_SIGNALS)
 
-    # 가중치 보너스 (이제 fine-grained 단위로 누적되어 다양한 점수 분포)
-    score += buckets["law"]    * 40
-    score += buckets["global"] * 25
-    score += buckets["policy"] * 25
-    score += buckets["promo"]  * 10
+    # hits → strength (1 - 0.78^n): 1→0.22, 2→0.39, 3→0.53, 4→0.63, 5→0.71, 6→0.78
+    def strength(n: int) -> float:
+        return round(1.0 - 0.78 ** n, 3) if n > 0 else 0.0
 
-    # v2.8.2: 카테고리 보너스 상향 — papers·funding·legaltech 정상 컨텐츠 점수 복원
+    decision_s = strength(decision_hits)
+    regulatory_s = strength(regulatory_hits)
+    market_s = strength(market_hits)
+    legal_s = strength(legal_hits)
+
+    # 가중치 (사용자 페르소나: 대형로펌 경영전략팀)
+    score += decision_s   * 25  # 의사결정 시그널 가장 중요
+    score += regulatory_s * 25  # 규제 시그널 (로펌 본업)
+    score += market_s     * 20  # 시장구조
+    score += legal_s      * 22  # 법률·로펌
+
+    total_signal = decision_s + regulatory_s + market_s + legal_s
+
+    # === v4.0 NEGATIVE 시그널 — 행동 가치 명백히 없음 ===
+    negative_hits = count_signal_hits(text, NEGATIVE_SIGNALS)
+    if negative_hits >= 1:
+        # 시그널이 매우 강하지 않으면 강력 감점 (cut-off 미만)
+        if total_signal < 1.0:
+            score = min(score, 18)  # 자동 drop 구간
+        else:
+            score -= 30  # 강한 시그널 있어도 NEGATIVE는 강등
+
+    # === v4.0 AI 단순 언급 자동 강등 ===
+    # "AI"가 본문에 1~2회뿐이고 행동 시그널 없으면 단순 언급 — drop
+    ai_mentions = (text.count(" ai ") + text.count("ai ") +
+                   text.count(" ai") + text.count("인공지능"))
+    if ai_mentions <= 2 and total_signal < 0.3:
+        score = min(score, 22)
+
+    # 시그널 0개 — 행동 가치 없음
+    if total_signal < 0.1:
+        score = min(score, 25)
+
+    # === 카테고리 보너스 (정상 컨텐츠 보호) ===
     if "legaltech" in categories:
-        score += 10
+        score += 12  # 리걸테크는 본질적으로 우리 관심
     if "papers" in categories:
-        score += 10
+        score += 8   # 학술 논문
     if "funding" in categories:
-        score += 8
+        score += 6   # 자본 흐름
 
-    # v2.9: "행동 가치" 시그널 — 로펌·시장·정책 어느 것도 매칭 안 되면 감점
-    # (대형로펌 경영전략팀이 검토할 가치가 낮은 기사 자동 강등)
-    action_signal = buckets["law"] + buckets["global"] + buckets["policy"]
-    if action_signal < 0.2:
-        score -= 15  # 무관 컨텐츠 base 50 → 35 미만으로
-    elif action_signal < 0.5:
-        score -= 5   # 약한 시그널 base 가볍게 감점
-
-    # v3.2: 본문 깊이 보너스 — 연속 함수로 미세 분포 (정수 결과지만 분포가 더 다양해짐)
-    # 80자=0점 / 200자=+2 / 400자=+4 / 700자=+5.5 ... 점진적
+    # === 본문 깊이 보너스 ===
     summary_len = len(summary or "")
     if summary_len >= 80:
-        # log scale: max +6 around 1000+ chars
         import math as _math
         score += min(6.0, _math.log2(summary_len / 40.0) * 1.2)
     else:
-        score -= 3   # 너무 짧으면 감점
+        score -= 3
 
-    # v3.2: title 길이 보너스 — 짧고 명확한 제목 vs 긴 SEO 제목
+    # === 제목 길이 ===
     title_len = len((title or "").strip())
     if 20 <= title_len <= 80:
-        score += 1  # 적당한 길이
+        score += 1
     elif title_len > 120:
-        score -= 1  # 너무 긴 SEO 제목
+        score -= 1
 
-    # 시간 가중치
+    # === 시간 가중치 (신선도) ===
     if date:
         now = datetime.now(timezone.utc)
         if isinstance(date, str):
@@ -855,13 +1010,11 @@ def score_item(title: str, summary: str, date, categories: list) -> int:
             elif delta_h < 168:
                 score += 2
 
-    # v2.7.6: PROMO 헤드라인 hard cap — 본문에 우연히 POLICY 키워드가 섞여도 dampening 유지
-    # 헤드라인이 [AI 클로즈업]/TIPS 선정/~기업 선언 같은 홍보성이면 본질이 광고이므로
-    # POLICY/LAW가 본문에 부수적으로 매칭돼도 강제 cap 40 (홍보 weight 0.1 정책 반영).
-    if buckets["promo"] > 0:
-        score = min(score, 40)
+    # === PROMO 패턴 hard cap (옛 로직 유지) ===
+    buckets = detect_score_buckets(title, summary)
+    if buckets["promo"] > 0 and total_signal < 0.5:
+        score = min(score, 25)  # PROMO 단독은 강제 강등
 
-    # v3.2: 정수 round 대신 fine-grained 정수 (1점 단위, 음수 방지)
     return max(0, min(150, int(round(score))))
 
 

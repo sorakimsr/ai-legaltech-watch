@@ -172,6 +172,11 @@ def fetch_source(source_def):
             categories = categorize(title, summary, default_cats, source_type)
             score = score_item(title, summary, dt, categories)
 
+            # v4.0: score cut-off 35 — 행동 가치 시그널 없는 article 자동 drop
+            # (BLACKLIST 일일이 추가하는 대신 score 시스템이 자동 거름망 역할)
+            if score < 35:
+                continue
+
             # 발행일 처리 — 못 파싱하면 None (오늘로 fallback 안 함 — 시사점 분석 오염 방지)
             date_iso = dt.isoformat() if dt else None
             date_unknown = dt is None
@@ -254,6 +259,12 @@ def load_previous_items():
                 rescored += 1
                 if len(rescored_examples) < 5 and new_score < old_score:
                     rescored_examples.append(f"{old_score}→{new_score} {it.get('title', '')[:55]}")
+            # v4.0: cut-off 35 미만이면 prev_map에서도 drop (행동 가치 없는 옛 article 자동 정화)
+            if new_score < 35:
+                dropped += 1
+                if len(dropped_examples) < 5:
+                    dropped_examples.append(f"[score<35] {it.get('title', '')[:55]}")
+                continue
             it["score"] = new_score
             out[url] = it
         if dropped:
