@@ -261,6 +261,11 @@ def is_relevant(title: str, summary: str, source_type: str = "rss") -> bool:
         if pat in text:
             return False
 
+    # 0-b. v6.6: PR pattern 'block' (title prefix가 명백한 PR 시리즈) — 즉시 차단
+    pr_verdict, _ = classify_pr_pattern(title or "", summary or "")
+    if pr_verdict == 'block':
+        return False
+
     # v3.0: AI 정책 시그널 존재 여부 사전 계산 (정치 인물명 차단 우회용)
     has_policy_guard = any(g in text for g in POLICY_GUARD_SIGNALS)
 
@@ -784,6 +789,11 @@ def count_signal_hits(text: str, signals: list) -> int:
     return sum(1 for s in signals if s.lower() in text)
 
 
+# v6.6: PR pattern detector — title regex + 조건부 AI 핵심 우회.
+#       score_item과 is_relevant에서 호출.
+from pr_patterns import classify_pr_pattern  # noqa: E402
+
+
 def score_item(title: str, summary: str, date, categories: list) -> int:
     """v4.3: AI 관련성 게이트 + 행동 시그널 기반 중요도 — 대형로펌 경영전략팀 페르소나.
 
@@ -805,6 +815,15 @@ def score_item(title: str, summary: str, date, categories: list) -> int:
       90+    = 핵심 검토 사항 (즉시 보고)
     """
     score = 30.0
+
+    # v6.6: PR pattern detector — 가장 먼저 실행.
+    #   title prefix가 PR 시리즈로 명백한 경우 즉시 처리.
+    #   조건부 prefix는 AI 핵심 키워드 카운트로 우회 판정.
+    pr_verdict, pr_cap = classify_pr_pattern(title or "", summary or "")
+    if pr_verdict == 'block':
+        return 0  # BLACKLIST drop (cut-off 자동 미만)
+    # 'cap'은 모든 가산 후 최종 단계에서 적용 (아래 끝 부분 참조)
+
     # v4.5: 한국어 따옴표·특수문자 정규화 후 매칭 (e.g. "포럼' 개최" → "포럼 개최")
     text = _normalize_text_for_match((title or "") + " " + (summary or ""))
     title_lower = _normalize_text_for_match(title or "")
@@ -947,6 +966,12 @@ def score_item(title: str, summary: str, date, categories: list) -> int:
             score = min(score, 28)
         else:
             score = min(score, 45)  # 강한 시그널이라도 final cap 45
+
+    # === v6.6: PR pattern detector final cap ===
+    # title prefix가 PR 시리즈(NEGATIVE/조건부)로 분류된 경우 최종 cap 적용.
+    # (block은 위에서 이미 score 0 처리됨.)
+    if pr_verdict == 'cap' and pr_cap is not None:
+        score = min(score, pr_cap)
 
     return max(0, min(150, int(round(score))))
 
