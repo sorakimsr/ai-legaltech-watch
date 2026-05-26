@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ============================================================
+       Security headers (meta-equiv) — v3.18 보안 강화 (2026-05-26)
+       GitHub Pages는 HTTP 응답 헤더 커스터마이즈가 불가능하므로
+       브라우저가 인식 가능한 보안 정책은 meta 태그로 적용한다.
+       Cloudflare 앞단에서 추가 헤더(X-Frame-Options, HSTS 등)
+       강제 적용은 별도 Transform Rules로 가능.
+       ============================================================ -->
+  <!-- CSP: 외부 스크립트는 jsdelivr CDN의 Chart.js/D3만 허용,
+       AI 분석 호출(connect-src)은 Cloudflare Worker 단일 도메인만 허용 -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://daibfy-ai-proxy.sora-kim-sr.workers.dev; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests" />
+  <!-- Referrer 정책: cross-origin 요청 시 path 미포함 (사용자 활동 path가 외부 사이트에 노출되지 않음) -->
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <!-- 색상 스킴(브라우저 UI) 다크모드 자동 적응 -->
+  <meta name="color-scheme" content="light dark" />
+
+  <title>AI & Legaltech Watch</title>
+  <link rel="stylesheet" href="styles.css?v=20260526-v48" />
+</head>
+<body>
+  <div class="app">
+    <!-- 좌측 사이드바: 관점·뷰 -->
+    <aside class="sidebar">
+      <div class="brand">
+        <span class="brand-icon">📡</span>
+        <span class="brand-name">AI Watch</span>
+      </div>
+
+      <div class="nav-section">
+        <!-- v3.11: 시사점이 첫 페이지 (active) — Daily/Weekly/Monthly는 페이지 내부 탭 -->
+        <a href="#" class="nav-item active" data-view="strategy" data-period="daily">
+          <span class="nav-icon">🎯</span>
+          <span class="nav-label">시사점</span>
+        </a>
+
+        <!-- v2.7.1: 중요도 TOP / 오늘 추가됨 / 최신순을 "뉴스 피드" 하나로 통합 (정렬·기간은 페이지 내 dropdown) -->
+        <a href="#" class="nav-item" data-view="latest">
+          <span class="nav-icon">📰</span>
+          <span class="nav-label">뉴스 피드</span>
+        </a>
+        <a href="#" class="nav-item" data-view="papers">
+          <span class="nav-icon">📑</span>
+          <span class="nav-label">AI 논문 흐름</span>
+        </a>
+        <!-- v2.7: 저장한 항목 (북마크) -->
+        <a href="#" class="nav-item" data-view="saved">
+          <span class="nav-icon">★</span>
+          <span class="nav-label">저장한 항목</span>
+        </a>
+        <!-- v2.7.5: AI 분석 결과 history -->
+        <a href="#" class="nav-item" data-view="analyses">
+          <span class="nav-icon">🤖</span>
+          <span class="nav-label">AI 분석 결과</span>
+        </a>
+        <!-- Phase 2b: 엔티티 (회사·로펌·정책·기술) -->
+        <a href="#" class="nav-item" data-view="entities">
+          <span class="nav-icon">🏷️</span>
+          <span class="nav-label">엔티티</span>
+        </a>
+        <!-- Phase 3: 지식그래프 (D3 force-directed) -->
+        <a href="#" class="nav-item" data-view="graph">
+          <span class="nav-icon">🕸️</span>
+          <span class="nav-label">지식그래프</span>
+        </a>
+
+        <!-- 소스 현황 (expandable) -->
+        <div class="nav-group" data-group="sources">
+          <a href="#" class="nav-item nav-parent" data-view="sources" data-tab="status">
+            <span class="nav-icon">🔗</span>
+            <span class="nav-label">소스 현황</span>
+            <span class="nav-toggle">▾</span>
+          </a>
+          <div class="nav-children" data-children-of="sources">
+            <a href="#" class="nav-sub active" data-view="sources" data-tab="status">
+              <span class="nav-sub-bullet">·</span> 현재 상태
+            </a>
+            <a href="#" class="nav-sub" data-view="sources" data-tab="trend">
+              <span class="nav-sub-bullet">·</span> 7일 추이
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <div id="last-build-info">© 2026 AI Watch</div>
+      </div>
+    </aside>
+
+    <!-- 메인 영역 -->
+    <main class="main">
+      <header class="topbar">
+        <div class="topbar-title">
+          <h1 id="topbar-title">AI & Legaltech Watch</h1>
+          <span class="view-hint" id="view-hint">최근 30일, 점수+날짜 정렬</span>
+        </div>
+        <div class="topbar-meta" id="topbar-meta">
+          <span class="status-dot"></span>
+          <span id="last-updated-text">갱신 정보 로딩 중...</span>
+        </div>
+      </header>
+
+      <div class="content">
+        <div class="stat-row" id="stat-row"></div>
+
+        <!-- 다중 선택 액션 바 (선택된 항목 있을 때만 표시) -->
+        <div class="select-bar hidden" id="select-bar">
+          <div class="select-info">
+            <span id="selected-count">0개 선택</span>
+            <button class="link-btn" id="btn-clear-selection">선택 해제</button>
+          </div>
+          <button class="btn btn-primary" id="btn-ai-analyze">🤖 AI 분석</button>
+        </div>
+
+        <!-- 카테고리 필터 = 주제 (소스 현황 view에서는 우측에 기간 dropdown inline) -->
+        <div class="filter-label">주제별 필터</div>
+        <div class="category-bar-row">
+          <div class="category-bar" id="category-bar"></div>
+          <div class="category-bar-aside hidden" id="category-bar-aside">
+            <label class="sources-control-label">기간</label>
+            <select id="sources-period">
+              <option value="today">오늘</option>
+              <option value="7days" selected>최근 7일</option>
+              <option value="30days">최근 30일</option>
+              <option value="all">전체 누적</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="controls-row">
+          <div class="search-wrap">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="search-input" placeholder="키워드 검색 (제목, 출처, 요약, 시사점)" />
+            <button class="search-action hidden" id="btn-select-search-results" title="현재 검색 결과 전체 선택">검색결과 전체 선택</button>
+          </div>
+          <!-- v2.7.1: 정렬 기준 dropdown (뉴스 피드 통합 후) -->
+          <div class="control-group">
+            <span class="control-label">정렬</span>
+            <select id="sort-filter">
+              <option value="latest">최신순</option>
+              <option value="score" selected>중요도</option>
+              <option value="today">오늘 추가</option>
+            </select>
+          </div>
+          <div class="control-group">
+            <span class="control-label">기간</span>
+            <select id="date-filter">
+              <option value="all">전체 기간</option>
+              <option value="today" selected>오늘</option>
+              <option value="3days">최근 3일</option>
+              <option value="week">최근 1주일</option>
+              <option value="month">최근 1개월</option>
+            </select>
+          </div>
+          <div class="control-group">
+            <span class="control-label">언어</span>
+            <select id="lang-filter">
+              <option value="all">전체</option>
+              <option value="ko">한국어</option>
+              <option value="en">영문</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="news-grid" id="news-grid"></div>
+
+        <div id="strategy-view" class="strategy-view hidden">
+          <!-- period 선택 컨트롤 -->
+          <div id="strategy-controls" class="strategy-controls">
+            <div class="strategy-period-tabs">
+              <button class="period-tab active" data-period="daily">Daily</button>
+              <button class="period-tab" data-period="weekly">Weekly</button>
+              <button class="period-tab" data-period="monthly">Monthly</button>
+            </div>
+            <select id="strategy-period-select"></select>
+          </div>
+          <div id="strategy-cards"></div>
+        </div>
+
+        <!-- 논문 흐름 분석 뷰 -->
+        <div id="papers-view" class="papers-view hidden">
+          <!-- v2.8.5: 탭 + 논문 카운트 + dropdown 한 행 통합 (시사점 페이지와 동일 layout) -->
+          <div id="papers-controls" class="strategy-controls">
+            <div class="strategy-period-tabs">
+              <button class="period-tab active" data-papers-period="daily">Daily</button>
+              <button class="period-tab" data-papers-period="weekly">Weekly</button>
+              <button class="period-tab" data-papers-period="monthly">Monthly</button>
+            </div>
+            <div id="papers-meta-inline" class="papers-meta-inline"></div>
+            <select id="papers-period-select"></select>
+          </div>
+
+          <!-- 빈 papers-meta는 backward-compat 위해 유지 (script가 참조함) -->
+          <div id="papers-meta" class="papers-meta hidden"></div>
+
+          <div class="papers-section papers-narrative-section">
+            <h3>🔥 최근 흐름 — 시사점</h3>
+            <div id="papers-narrative" class="papers-narrative"></div>
+          </div>
+
+          <div class="papers-section papers-actionable-section">
+            <h3>💡 실무 시사점</h3>
+            <ol id="papers-actionable" class="papers-actionable"></ol>
+          </div>
+
+          <div class="papers-grid">
+            <div class="papers-section">
+              <h3>📈 부상 주제</h3>
+              <div id="papers-hot-topics"></div>
+            </div>
+            <div class="papers-section">
+              <h3>⚙️ 핵심 기법</h3>
+              <div id="papers-techniques"></div>
+            </div>
+          </div>
+
+          <div class="papers-grid">
+            <div class="papers-section">
+              <h3>🏛 주요 기관</h3>
+              <div id="papers-institutions"></div>
+            </div>
+            <div class="papers-section">
+              <h3>🔑 키워드 빈도</h3>
+              <div id="papers-keywords"></div>
+            </div>
+          </div>
+
+          <div class="papers-section">
+            <h3>📚 분석 대상 논문 (중요도순)</h3>
+            <div id="papers-list" class="papers-list"></div>
+          </div>
+        </div>
+
+        <div id="sources-view" class="sources-view hidden">
+          <div id="sources-tab-status">
+            <div id="sources-table"></div>
+          </div>
+          <div id="sources-tab-trend" class="hidden">
+            <div class="chart-wrap">
+              <div class="chart-head">
+                <h3 id="trend-chart-title">최근 7일 소스별 수집 추이</h3>
+                <div class="trend-view-tabs">
+                  <button class="trend-view-tab active" data-trend-view="source">소스별</button>
+                  <button class="trend-view-tab" data-trend-view="category">컨텐츠 태그별</button>
+                </div>
+              </div>
+              <div class="chart-canvas-wrap"><canvas id="trend-chart"></canvas></div>
+              <div id="trend-legend" class="trend-legend"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phase 2b: 엔티티 view -->
+        <div id="entities-view" class="entities-view hidden">
+          <div id="entities-list-wrap"></div>
+          <div id="entity-detail-wrap" class="hidden"></div>
+        </div>
+
+        <!-- Phase 3: 지식그래프 view (D3 force-directed) -->
+        <div id="graph-view" class="graph-view hidden"></div>
+      </div>
+    </main>
+  </div>
+
+  <!-- AI 분석 모달 -->
+  <div id="analyze-modal" class="modal hidden">
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-panel">
+      <div class="modal-head">
+        <h2>🤖 AI 분석</h2>
+        <button class="modal-close" data-close>×</button>
+      </div>
+      <div class="modal-body">
+        <!-- 선택 항목 미리보기 -->
+        <div class="analyze-preview">
+          <div class="analyze-preview-head">
+            <span id="analyze-count">0개 항목</span>
+            <button class="link-btn" id="btn-toggle-preview">목록 ▾</button>
+          </div>
+          <ul class="analyze-preview-list hidden" id="analyze-preview-list"></ul>
+        </div>
+
+        <!-- 백엔드 + 모델 선택 -->
+        <div class="analyze-row">
+          <label class="analyze-label">분석 엔진</label>
+          <div class="backend-tabs">
+            <button class="backend-tab active" data-backend="openai">OpenAI</button>
+            <button class="backend-tab" data-backend="claude">Claude (Anthropic)</button>
+          </div>
+        </div>
+        <div class="analyze-row">
+          <label class="analyze-label">모델</label>
+          <select id="model-select" class="prompt-preset"></select>
+          <small id="model-hint" class="model-hint"></small>
+        </div>
+
+        <!-- 프롬프트 -->
+        <div class="analyze-row">
+          <label class="analyze-label">분석 요청</label>
+          <select id="prompt-preset" class="prompt-preset">
+            <option value="summary">핵심 요약 (3~5포인트)</option>
+            <option value="insights">시사점</option>
+            <option value="trends">반복되는 패턴/트렌드</option>
+            <option value="competitive">경쟁 구도·플레이어 비교</option>
+            <option value="opportunity">한국 시장 진출 기회</option>
+            <option value="custom">직접 입력</option>
+          </select>
+          <textarea id="prompt-input" class="prompt-input" rows="4" placeholder="원하는 분석 요청을 적어주세요"></textarea>
+        </div>
+
+        <!-- 본인 API 키 옵션 (rate limit 해제) -->
+        <details class="analyze-row analyze-keys">
+          <summary>본인 API 키 사용 (한도 제한 해제) — 선택</summary>
+          <div class="analyze-key-input">
+            <input type="password" id="user-api-key" placeholder="sk-... 또는 sk-ant-..." />
+            <small>입력한 키는 본인 브라우저에만 저장됩니다 (localStorage)</small>
+          </div>
+        </details>
+
+        <!-- 결과 영역 -->
+        <div id="analyze-result-wrap" class="analyze-result-wrap hidden">
+          <div class="analyze-result-head">
+            <span class="analyze-result-label">결과</span>
+            <button class="link-btn" id="btn-copy-result">📋 복사</button>
+          </div>
+          <div id="analyze-result" class="analyze-result"></div>
+          <div id="analyze-meta" class="analyze-meta"></div>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn btn-secondary" data-close>닫기</button>
+        <button class="btn btn-primary" id="btn-run-analyze">분석 실행</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       외부 CDN 스크립트 — SRI(Subresource Integrity) 적용
+       CDN(jsdelivr)이 변조되거나 MITM이 응답을 가로채도
+       해시가 일치하지 않으면 브라우저가 실행을 거부한다.
+       해시는 https://cdn.jsdelivr.net의 실제 파일을
+       sha384로 계산한 결과 (2026-05-26 기준).
+       ============================================================ -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"
+          integrity="sha384-e6nUZLBkQ86NJ6TVVKAeSaK8jWa3NhkYWZFomE39AvDbQWeie9PlQqM3pmYW5d1g"
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer"></script>
+  <!-- Phase 3: D3 v7 (force-directed knowledge graph) -->
+  <script src="https://cdn.jsdelivr.net/npm/d3@7.8.5/dist/d3.min.js"
+          integrity="sha384-su5kReKyYlIFrI62mbQRKXHzFobMa7BHp1cK6julLPbnYcCW9NIZKJiTODjLPeDh"
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer"></script>
+  <script src="app.js?v=20260526-v48"></script>
+</body>
+</html>
