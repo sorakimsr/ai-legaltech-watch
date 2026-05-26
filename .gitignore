@@ -1,11 +1,18 @@
 __pycache__/
 *.pyc
 .DS_Store
+**/.DS_Store
 .venv/
 .env
 node_modules/
+
+# v6.0: wrangler 로컬 상태 (cache·tmp) — commit 대상 아님
+cloudflare-worker/.wrangler/
 
 # 중간 단계 파일 (GitHub Actions가 매번 생성)
 data/raw_news.json
 data/deduped_news.json
 data/enriched_news.json
+
+# v6.0: 사용자 로컬 북마크 export (회귀 분석용, 개인 데이터)
+data/_local_bookmarks.json

@@ -542,6 +542,18 @@ def main():
     with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
         json.dump(payload, f, ensure_ascii=False, indent=2)
 
+    # v6.0 (P2-1): data/version.json — 작은 cache-buster 파일.
+    #   브라우저는 이 파일만 no-cache로 가져오고, 큰 news.json 등은 ?v=<build>로 캐시 활용.
+    version_path = os.path.join(os.path.dirname(OUTPUT_PATH), "version.json")
+    try:
+        with open(version_path, "w", encoding="utf-8") as vf:
+            json.dump({
+                "build": datetime.now(KST).strftime("%Y%m%d%H%M%S"),
+                "last_updated": datetime.now(KST).isoformat(),
+            }, vf, ensure_ascii=False)
+    except Exception as exc:
+        print(f"  [version.json] write failed: {exc}", flush=True)
+
     print(f"[done] daily={len(daily_cards)} cards, "
           f"weekly_buckets={len(history['weekly'])}, "
           f"monthly_buckets={len(history['monthly'])}", flush=True)

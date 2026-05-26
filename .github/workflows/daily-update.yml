@@ -171,6 +171,42 @@ jobs:
         run: python scripts/relation_extractor.py
         continue-on-error: true
 
+      # v6.0 (P3-6): 빌드 통계 → GitHub Actions summary 노출 + 위험 신호 감지.
+      #   enriched/strategy가 0이면 ::warning:: 출력 → Actions 알림에서 즉시 확인.
+      - name: "Build stats summary"
+        if: always() && github.event.inputs.deploy_only != 'true'
+        run: |
+          python - <<'PY'
+          import json, os
+          try:
+              with open('data/news.json') as f:
+                  d = json.load(f)
+              items = d.get('items', [])
+              total = len(items)
+              enriched = sum(1 for it in items if it.get('llm_enriched'))
+              strategy = len(d.get('strategy', []))
+              build_count = d.get('build_count', '?')
+              ratio = round(100 * enriched / max(total, 1), 1)
+              status = '✅' if enriched > 0 and strategy > 0 else '⚠️'
+              summary = (
+                  f"{status} **Build #{build_count} stats**\n\n"
+                  f"| Metric | Value |\n"
+                  f"|---|---|\n"
+                  f"| Total items | {total} |\n"
+                  f"| Enriched | {enriched} ({ratio}%) |\n"
+                  f"| Strategy cards | {strategy} |\n"
+              )
+              gh_summary = os.environ.get('GITHUB_STEP_SUMMARY')
+              if gh_summary:
+                  with open(gh_summary, 'a') as sf:
+                      sf.write(summary + '\n')
+              print(summary)
+              if enriched == 0 or strategy == 0:
+                  print('::warning::Enrichment 또는 strategy 생성 실패 의심 — Actions 알림 확인')
+          except Exception as exc:
+              print(f'[build-stats] skipped: {exc}')
+          PY
+
       # ===== 5단계: Obsidian Vault로 마크다운 export =====
       - name: "Step 5 — Clone vault repo"
         if: github.event.inputs.deploy_only != 'true' && env.VAULT_PAT != ''
