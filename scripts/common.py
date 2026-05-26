@@ -415,14 +415,25 @@ def truncate(text: str, max_len: int = 280) -> str:
     return text[:max_len].rsplit(" ", 1)[0] + "…"
 
 
-def parse_date_safe(date_str: str):
-    """다양한 형식의 날짜를 datetime으로 변환. 실패 시 None."""
+_KST = timezone(timedelta(hours=9))
+
+
+def parse_date_safe(date_str: str, default_tz=None):
+    """다양한 형식의 날짜를 datetime으로 변환. 실패 시 None.
+
+    v6.9 (2026-05-27): timezone 없는 datetime의 default tz를 호출자가 명시 가능.
+        default_tz=None 또는 timezone.utc → UTC 가정 (기존 동작, 영문 매체용)
+        default_tz=_KST 또는 timezone(timedelta(hours=9)) → KST 가정 (한국 매체용)
+
+    한국 매체 RSS의 pubDate는 거의 항상 KST이지만 timezone offset이 없음.
+    예: AI타임스 RSS '2026-05-26 18:58:52' (실제로는 KST). UTC로 가정하면 9시간 어긋남.
+    """
     if not date_str:
         return None
     try:
         dt = dateparser.parse(date_str)
         if dt.tzinfo is None:
-            dt = dt.replace(tzinfo=timezone.utc)
+            dt = dt.replace(tzinfo=default_tz or timezone.utc)
         return dt
     except Exception:
         return None

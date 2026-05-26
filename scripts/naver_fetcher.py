@@ -185,11 +185,13 @@ def fetch_naver_query(query: str, default_cats: list, display: int = 20):
         desc = truncate(clean_text(entry.get("description", "")), 400)
         pub_str = entry.get("pubDate", "")
         try:
+            # v6.9: Naver Search API는 한국 매체 검색 결과 → pubDate는 KST 가정.
+            #       timezone offset 없으면 KST로 해석해야 9시간 어긋남 방지.
             dt = dateparser.parse(pub_str)
             if dt.tzinfo is None:
-                dt = dt.replace(tzinfo=timezone.utc)
+                dt = dt.replace(tzinfo=KST)
         except Exception:
-            dt = datetime.now(timezone.utc)
+            dt = datetime.now(KST)
 
         if not title or not link:
             continue

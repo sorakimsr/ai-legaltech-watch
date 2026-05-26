@@ -172,6 +172,12 @@ def fetch_source(source_def):
                     "arxiv_id": arxiv_id,
                 }
 
+            # v6.9: 한국 매체(lang=='ko')의 RSS pubDate는 거의 항상 KST이지만 timezone offset 없음.
+            #       parse_date_safe의 default_tz를 KST로 지정해야 9시간 어긋남 방지.
+            #       영문 매체는 UTC default (기존 동작).
+            KST = timezone(timedelta(hours=9))
+            default_tz = KST if lang == "ko" else timezone.utc
+
             # v2.7: arxiv는 updated(최신 revision) 우선 사용 — v2 revision 같은 실제 컨텐츠 수정일 잡기 위해
             if source_type == "arxiv":
                 date_str = (
@@ -179,22 +185,22 @@ def fetch_source(source_def):
                     or getattr(e, "published", None)
                     or getattr(e, "pubDate", None)
                 )
-                dt = parse_date_safe(date_str)
+                dt = parse_date_safe(date_str, default_tz=default_tz)
                 if not dt and hasattr(e, "updated_parsed") and e.updated_parsed:
-                    dt = datetime(*e.updated_parsed[:6], tzinfo=timezone.utc)
+                    dt = datetime(*e.updated_parsed[:6], tzinfo=default_tz)
                 if not dt and hasattr(e, "published_parsed") and e.published_parsed:
-                    dt = datetime(*e.published_parsed[:6], tzinfo=timezone.utc)
+                    dt = datetime(*e.published_parsed[:6], tzinfo=default_tz)
             else:
                 date_str = (
                     getattr(e, "published", None)
                     or getattr(e, "updated", None)
                     or getattr(e, "pubDate", None)
                 )
-                dt = parse_date_safe(date_str)
+                dt = parse_date_safe(date_str, default_tz=default_tz)
                 if not dt and hasattr(e, "published_parsed") and e.published_parsed:
-                    dt = datetime(*e.published_parsed[:6], tzinfo=timezone.utc)
+                    dt = datetime(*e.published_parsed[:6], tzinfo=default_tz)
                 if not dt and hasattr(e, "updated_parsed") and e.updated_parsed:
-                    dt = datetime(*e.updated_parsed[:6], tzinfo=timezone.utc)
+                    dt = datetime(*e.updated_parsed[:6], tzinfo=default_tz)
 
             if not title or not link:
                 continue
