@@ -85,6 +85,16 @@ CATEGORY_KEYWORDS = {
         "openai", "anthropic", "claude ", "gpt-", "chatgpt", "gemini",
         "deepmind", "meta ai", "llama", "mistral", "xai", "grok",
         "nvidia ai", "microsoft ai", "perplexity",
+        # v3.8: AI 엔지니어링·인프라 새 영역
+        "오픈소스 ai", "open source ai", "오픈소스 llm", "open weight", "오픈웨이트",
+        "ai 오케스트레이션", "ai orchestration", "오케스트레이터", "orchestrator",
+        "에이전트 오케스트레이션", "agent orchestration",
+        "멀티 에이전트", "multi-agent",
+        "프롬프트 엔지니어링", "prompt engineering",
+        "컨텍스트 엔지니어링", "context engineering",
+        "하네스 엔지니어링", "harness engineering",
+        "클론 엔지니어링", "clone engineering",
+        "fde", "forward deployed engineer", "포워드 디플로이드",
     ],
     # v3.0: AI 거버넌스·리스크 — 사내 거버넌스 (정부 규제와 구분)
     "governance": [
@@ -648,6 +658,16 @@ GLOBAL_MARKET_KEYWORDS = [
     "agent sprawl", "에이전트 스프롤",
     "agent governance crisis", "agent proliferation",
     "ai agent management",
+    # v3.8: AI 엔지니어링 새 직무·실무 영역 (시장 인재 흐름)
+    "ai orchestration", "ai 오케스트레이션", "orchestrator",
+    "에이전트 오케스트레이션", "agent orchestration",
+    "prompt engineering", "프롬프트 엔지니어링",
+    "context engineering", "컨텍스트 엔지니어링",
+    "harness engineering", "하네스 엔지니어링",
+    "clone engineering", "클론 엔지니어링",
+    "forward deployed engineer", "포워드 디플로이드", "fde role",
+    "오픈소스 ai", "open source ai", "open weight", "오픈웨이트",
+    "오픈소스 llm", "open source llm",
 ]
 
 POLICY_KEYWORDS = [

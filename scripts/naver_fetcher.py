@@ -81,6 +81,27 @@ NAVER_QUERIES = [
     ("\"AI 스타트업\" 투자", ["funding", "domestic"], 15),
     ("\"AI 투자 유치\"", ["funding", "domestic"], 10),
     ("\"AI 인수\" OR \"AI 합병\"", ["funding", "domestic"], 10),
+
+    # === v3.8: 오픈소스 AI ===
+    ("\"오픈소스 AI\" OR \"open source AI\"", ["ai-industry", "domestic"], 15),
+    ("\"오픈소스 LLM\" OR \"open source LLM\"", ["ai-industry", "domestic"], 10),
+    ("\"open weight\" OR \"오픈웨이트\"", ["ai-industry", "domestic"], 10),
+
+    # === v3.8: AI 오케스트레이션·에이전트 인프라 ===
+    ("\"AI 오케스트레이션\" OR \"AI orchestration\"", ["ai-industry", "domestic"], 15),
+    ("\"오케스트레이터\" OR orchestrator", ["ai-industry", "domestic"], 10),
+    ("\"에이전트 오케스트레이션\" OR \"agent orchestration\"", ["ai-industry", "domestic"], 10),
+    ("\"멀티 에이전트\" OR \"multi-agent\"", ["ai-industry", "domestic"], 10),
+
+    # === v3.8: AI 엔지니어링 새 직무·실무 영역 ===
+    ("\"프롬프트 엔지니어링\" OR \"prompt engineering\"", ["ai-industry", "domestic"], 15),
+    ("\"컨텍스트 엔지니어링\" OR \"context engineering\"", ["ai-industry", "domestic"], 10),
+    ("\"하네스 엔지니어링\" OR \"harness engineering\"", ["ai-industry", "domestic"], 10),
+    ("\"클론 엔지니어링\" OR \"clone engineering\"", ["ai-industry", "domestic"], 10),
+
+    # === v3.8: FDE (Forward Deployed Engineer) — 글로벌 AI 회사 신규 직무 ===
+    ("FDE OR \"forward deployed engineer\"", ["adoption", "domestic"], 10),
+    ("\"포워드 디플로이드\"", ["adoption", "domestic"], 5),
 ]
 
 
