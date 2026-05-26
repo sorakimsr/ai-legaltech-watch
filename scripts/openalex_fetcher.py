@@ -243,7 +243,8 @@ def fetch_papers(queries=None, per_query_limit: int = 25, days_back: int = 30):
 
             default_cats = ["papers"]
             categories = categorize(title, summary, default_cats, "openalex")
-            score = score_item(title, summary, dt, categories)
+            # v6.10 (Phase 3): source 전달 — arxiv.org URL이면 BOOKMARK_BONUS_SOURCES 매칭
+            score = score_item(title, summary, dt, categories, source=f"OpenAlex {paper_url}")
             # citation 부스트
             if cite_n >= 100:
                 score += 12

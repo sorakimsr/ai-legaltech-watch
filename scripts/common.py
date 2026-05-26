@@ -814,6 +814,92 @@ NEGATIVE_SIGNALS = [
 ]
 
 
+# ============================================================================
+# v6.10 (Phase 3, 2026-05-27): BOOKMARK LEARNING BONUS
+# ============================================================================
+# 사용자(대형로펌 경영전략팀)가 daibfy.com에서 ⭐ 북마크한 기사·시사점 카드
+# 30+35건의 통계 분석 기반. ground truth signal — 매뉴얼 분석 결과 [[daibfy-content-value-signal]].
+#
+# 구성:
+#   1) BOOKMARK_BONUS_ENTITIES — 북마크에서 반복 등장한 핵심 회사·기관·인물
+#   2) BOOKMARK_BONUS_KEYWORDS — 북마크 카드 title/body에서 반복 등장한 시장 구조 키워드
+#   3) BOOKMARK_BONUS_SOURCES  — 직접 ⭐ 비율이 평균 이상인 매체
+#
+# score_item에 합산: 매칭 시 +2~+4점, 항목 전체 합 최대 +12점 cap.
+# PR cap에는 적용 안 함 (cap 우회 방지).
+
+# 핵심 회사·기관·인물 (매칭 시 +3점, 단어 단위)
+BOOKMARK_BONUS_ENTITIES = {
+    # 글로벌 리걸테크 / AI 플랫폼 (CEO 직접 관심)
+    "harvey": 4, "legora": 4, "evenup": 4, "spotdraft": 3,
+    "anthropic": 3, "openai": 3, "cloudflare": 3, "cerebras": 3,
+    "ammune": 4, "icertis": 4, "informatica": 3, "snowflake": 3,
+    # 국내 대형 로펌 (광장은 NEGATIVE에서 행사로 cap되지만 본질적으로 관심 대상)
+    "광장": 3, "율촌": 4, "세종": 4, "김앤장": 4,
+    # 국내 금융권 AI 거버넌스 선도 사례
+    "KB금융": 3, "기업은행": 3, "수출입은행": 3, "신한": 2,
+    # 공공·산업 AI 도입 선도 기관
+    "한국부동산원": 3, "그리드원": 3,
+    "산업부": 2, "금융위": 3, "금감원": 3, "법제처": 3,
+    "LG에너지솔루션": 2, "한국 AI 교육진흥협회": 3,
+    # 한국 리걸테크
+    "엘박스": 4, "BHSN": 3, "아이율": 3,
+    # 학계·연구
+    "자블리": 3, "한국부동산원": 2, "DeepMind": 2,
+}
+
+# 시장 구조·전환 키워드 (매칭 시 +2점)
+BOOKMARK_BONUS_KEYWORDS = {
+    # 거버넌스 핵심
+    "에이전트 스프롤": 3, "agent sprawl": 3, "섀도우 AI": 3, "shadow ai": 3,
+    "에이전트 거버넌스": 3, "AI 거버넌스": 2, "거버넌스 공백": 3,
+    "거버넌스 의무화": 3, "런타임 거버넌스": 3, "거버넌스 통행증": 3,
+    # 책임·신뢰
+    "책임 공백": 3, "책임 경계": 3, "책임 귀속": 2,
+    "accountability": 2, "감사 추적": 2, "흐름 가시성": 2,
+    # 시장 구조 재편
+    "법률 AI": 2, "리걸테크": 2, "사내 변호사": 2, "contract intelligence": 3,
+    "pre-litigation": 3, "도구 판매에서": 3, "업무 수탁": 3,
+    "시간 기반 과금": 3, "성과 기반 과금": 3, "billable hour": 3,
+    "가격 모델": 2, "비즈니스 모델 충돌": 3,
+    # 평가·벤치마크
+    "벤치마크": 2, "LAB": 2, "legal agent benchmark": 3,
+    "평가 프레임워크": 2, "구성 타당성": 2,
+    # 인지·역량
+    "탈숙련": 3, "deskilling": 3, "brainrot": 3,
+    "인지 능력 저하": 2, "역량 잠식": 2,
+    # 멀티에이전트·인프라
+    "멀티에이전트": 2, "다중 에이전트": 2, "오케스트레이션": 2,
+    "interaction topology": 3, "에이전트 간 상호작용": 2,
+    "sLLM": 2, "온프레미스": 2, "소버린 AI": 2, "sovereign ai": 2,
+    # XAI·설명 가능성
+    "XAI": 3, "설명 가능": 2, "explainable ai": 3,
+    # AI 규제·법
+    "AI 기본법": 2, "AI Act": 2, "EU AI Act": 2,
+    "고위험 AI": 2, "고위험 분류": 2,
+    "워터마크": 2, "메타데이터 표시": 2,
+    # 가치 시그널 (insight marker)
+    "선택이 아닌": 2, "통행증": 3, "사실상 표준": 2,
+    "새 통행증": 3, "조달 자격": 2, "입찰 자격": 2,
+    "역설": 2, "구조적 변화": 2, "구조적 전환": 2,
+}
+
+# 사용자가 직접 ⭐ 비율이 높은 매체 (매칭 시 +2점)
+BOOKMARK_BONUS_SOURCES = {
+    # 영문 리걸 (직접 북마크 다수)
+    "legalcheek": 3, "lawnext": 3, "legalfutures": 3, "artificiallawyer": 3,
+    # 영문 일반
+    "lawsites": 3,
+    # 국내 IT/AI 전문
+    "aitimes.com": 2, "ddaily.co.kr": 2, "zdnet.co.kr": 2,
+    "etnews.com": 2, "fntimes.com": 2,
+    # 국내 경제지 (수준 있는 AI 보도)
+    "sedaily.com": 2, "fnnews.com": 2, "hankyung.com": 2,
+    # 학술
+    "arxiv.org": 2,
+}
+
+
 def _normalize_text_for_match(text: str) -> str:
     """v4.5: 한국어/영어 따옴표·이상한 공백을 정규화해 키워드 매칭 신뢰도 향상.
     예: "AI 법정책포럼' 개최" 의 ' 때문에 "포럼 개최" 매칭 실패 → normalize 후 매칭 성공.
@@ -845,12 +931,17 @@ def count_signal_hits(text: str, signals: list) -> int:
 from pr_patterns import classify_pr_pattern  # noqa: E402
 
 
-def score_item(title: str, summary: str, date, categories: list, persona_score: int = None) -> int:
+def score_item(title: str, summary: str, date, categories: list, persona_score: int = None, source: str = "") -> int:
     """v4.3: AI 관련성 게이트 + 행동 시그널 기반 중요도 — 대형로펌 경영전략팀 페르소나.
 
     v6.8 (Phase 2): persona_score (0~10, LLM 평가) 가산형 보정.
         final = keyword_score + persona_score × 3 (max +30)
         persona_score=None이면 가산 없음 (enrich 안 받은 항목 또는 LLM 응답 누락).
+
+    v6.10 (Phase 3, 2026-05-27): BOOKMARK_LEARNING 가산.
+        BOOKMARK_BONUS_ENTITIES / _KEYWORDS / _SOURCES 매칭 점수 합산 (max +12).
+        사용자가 ⭐ 북마크한 30+35건의 통계 기반 — ground truth value signal.
+        PR cap 위반 항목엔 적용 안 함 (cap 우회 방지).
 
     설계 원칙:
       1) **AI 관련성 게이트** (v4.3): 4축 시그널은 모두 AI 컨텍스트 안에서만 의미.
@@ -1039,6 +1130,33 @@ def score_item(title: str, summary: str, date, categories: list, persona_score: 
                 score += ps * 3
         except (ValueError, TypeError):
             pass
+
+    # === v6.10 (Phase 3): BOOKMARK_LEARNING 가산 ===
+    # 사용자가 ⭐ 북마크한 30+35건 통계 분석 기반 — ground truth value signal.
+    # 매칭: ENTITIES (회사·기관) + KEYWORDS (시장 구조) + SOURCES (선호 매체).
+    # max +12 cap. PR cap 위반 항목엔 적용 안 함.
+    if pr_verdict != 'cap':
+        bookmark_bonus = 0
+        # text는 이미 normalize됨 (line ~883). source는 lowercase.
+        src_lower = (source or "").lower()
+        # 1) entities (text에 회사·기관명 매칭 — case-insensitive substring)
+        text_lc = text  # 이미 lower
+        for ent_kw, weight in BOOKMARK_BONUS_ENTITIES.items():
+            if ent_kw.lower() in text_lc:
+                bookmark_bonus += weight
+        # 2) keywords (시장 구조 키워드)
+        for kw, weight in BOOKMARK_BONUS_KEYWORDS.items():
+            if kw.lower() in text_lc:
+                bookmark_bonus += weight
+        # 3) sources (선호 매체 도메인)
+        if src_lower:
+            for src_token, weight in BOOKMARK_BONUS_SOURCES.items():
+                if src_token in src_lower:
+                    bookmark_bonus += weight
+                    break  # source는 1개 매체만 매칭 (중복 방지)
+        # cap +12
+        bookmark_bonus = min(bookmark_bonus, 12)
+        score += bookmark_bonus
 
     return max(0, min(150, int(round(score))))
 

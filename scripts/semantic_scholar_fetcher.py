@@ -168,7 +168,9 @@ def fetch_papers(queries=None, per_query_limit: int = 12, days_back: int = 30):
 
             default_cats = ["papers"]
             categories = categorize(title, summary, default_cats, "semantic_scholar")
-            score = score_item(title, summary, dt, categories)
+            # v6.10 (Phase 3): source 전달
+            paper_url = item.get("openAccessPdf", {}).get("url") or item.get("url", "")
+            score = score_item(title, summary, dt, categories, source=f"SemanticScholar {paper_url}")
             # citation 보너스
             if cite_n >= 50:
                 score += 8

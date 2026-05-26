@@ -201,10 +201,10 @@ def fetch_naver_query(query: str, default_cats: list, display: int = 20):
             continue
 
         cats = categorize(title, desc, default_cats, "naver")
-        score = score_item(title, desc, dt, cats)
-
         # 출처 추출: link 도메인에서
         source_name = _extract_naver_source(link)
+        # v6.10 (Phase 3): source(매체명+URL) → BOOKMARK_BONUS_SOURCES 매칭
+        score = score_item(title, desc, dt, cats, source=f"{source_name} {link}")
 
         items.append({
             "title": title,

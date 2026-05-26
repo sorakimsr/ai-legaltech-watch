@@ -44,6 +44,8 @@ REFRESH_RECENT_DAYS = int(os.environ.get("ENRICH_REFRESH_DAYS", "0"))
 
 # v6.8 (Phase 2): persona_score — 대형로펌 대표 페르소나 가치 평가 (0~10).
 #                 enrich 프롬프트에 필드 추가해 추가 LLM 호출 없이 함께 받음.
+# v6.10 (Phase 3): 사용자(대형로펌 경영전략팀)가 직접 ⭐ 북마크한 시사점 카드 35건
+#                 + 직접 ⭐ 기사 30건 통계 분석 기반의 "CEO가 선호한 패턴" 주입.
 _PERSONA_SCORE_RULES = """
 [페르소나 가치 평가]
 이 article을 **대형로펌 경영전략팀 대표** 페르소나로 평가:
@@ -58,7 +60,47 @@ _PERSONA_SCORE_RULES = """
 평가 시 우선:
 - 행동 가치 (즉시·중기 검토할 사항인가) > 정보 가치
 - 한국 시장·로펌 영향 > 글로벌 일반론
-- 구체 사실 (회사명·금액·정책명) > 추상 트렌드"""
+- 구체 사실 (회사명·금액·정책명) > 추상 트렌드
+
+[v6.10 — CEO가 선호한 시사점 패턴 (북마크 ground truth 기반)]
+다음은 사용자가 실제로 ⭐ 북마크한 시사점 카드의 공통 패턴이다.
+유사한 결을 가진 기사는 persona_score를 +1~+2 끌어올려 평가하라.
+
+A) Title 스타일 예시 (실제 북마크된 카드 제목):
+  - "AI 거버넌스, 선택이 아닌 생존 조건으로 전환 중"
+  - "정부 가이드라인 1년째 공백, 법률 AI는 이미 시장을 점령 중"
+  - "Harvey·Legora·EvenUp이 그리는 법률 AI 3분할 지형"
+  - "에이전트 스프롤이 만드는 '보이지 않는 부채'"
+  - "AI 데이터 거버넌스, 규제 준수 비용이 아닌 시장 진입 자격증이 됐다"
+  - "에이전트 안전성은 모델 정렬이 아닌 상호작용 구조가 결정한다"
+  - "시간 기반 과금이 무너지는 자리에 무엇을 채울 것인가"
+  → 공통: 시장 구조 전환을 "X가 아니라 Y" 형태로 한 문장에 압축. 결론·방향성 명시.
+
+B) Body 인사이트 마커 패턴 (강조해야 할 구절):
+  - "X가 아니라 Y로 전환되고 있다는 신호"
+  - "선택이 아닌 [생존 조건/통행증/요건]"
+  - "단순 도구 판매가 아니라 운영 수탁"
+  - "AI 도입 속도가 통제 속도를 이미 초과했다"
+  - "벤치마크 점수가 실무 성능을 보장하지 않는다"
+  - "에이전트 간 상호작용 구조가 안전성을 결정한다"
+  - "이 흐름이 가속되면 ... 격차가 벌어질 가능성이 크다"
+
+C) 등장 시 우선 평가 키워드 (+1):
+  에이전트 스프롤 / 거버넌스 공백 / 책임 공백·경계 / 시간 기반 과금 /
+  Contract Intelligence / Pre-Litigation / 탈숙련(deskilling) / Brainrot /
+  벤치마크 신뢰성 / 데이터 거버넌스 통행증 / interaction topology / sLLM·온프레미스
+
+D) 등장 시 우선 평가 인물·기업·기관 (+1):
+  Harvey, Legora, EvenUp, Anthropic, OpenAI, Cloudflare, Cerebras, Ammune.ai,
+  Icertis, SpotDraft, KB금융 31개 통제 항목, 기업은행 IBK GenAI,
+  한국부동산원 sLLM 다중 에이전트, 그리드원, 율촌 아이율, 세종(Harvey 도입),
+  법무법인 광장 Tech&AI팀, 산업부 AI 혁신 자문단, 자블리 XAI, 엘박스 IPO
+
+E) 자동 -2 (북마크 0건 — 사용자가 명시적으로 안 본 패턴):
+  단순 행사·MOU·체험 부스·인재 양성 본격화 / 매거진 호 preview /
+  지자체 시찰·총수 회동 / 매출 증가·주가 변동 단신 /
+  AI 무관 정치·연예 / 회사 AI 도입 본격화 단발 보도
+"""
 
 # v2.8: 의미론적 강조로 전환 — 고유명사가 아니라 의사결정·영향력 구절에만 **굵게**
 _HIGHLIGHT_RULES = """- **굵게(`**...**`)는 "의미론적으로 의사결정에 직결되는 구절"에만 적용** (사용자 정책):
@@ -350,6 +392,8 @@ def enrich_item(item: dict) -> dict:
                 item.get("date"),
                 item.get("categories", []),
                 persona_score=item.get("persona_score"),
+                # v6.10 (Phase 3): source 전달 → BOOKMARK_BONUS_SOURCES 매칭
+                source=f"{item.get('source', '')} {item.get('url', '')}",
             )
             item["score"] = new_score
         except Exception:

@@ -210,7 +210,8 @@ def fetch_source(source_def):
                 continue
 
             categories = categorize(title, summary, default_cats, source_type)
-            score = score_item(title, summary, dt, categories)
+            # v6.10 (Phase 3): source(매체명+URL)도 함께 넘겨 BOOKMARK_BONUS_SOURCES 매칭에 사용
+            score = score_item(title, summary, dt, categories, source=f"{name} {link}")
 
             # v4.0: score cut-off 35 — 행동 가치 시그널 없는 article 자동 drop
             # (BLACKLIST 일일이 추가하는 대신 score 시스템이 자동 거름망 역할)
@@ -300,6 +301,8 @@ def load_previous_items():
                 it.get("date", ""),
                 it.get("categories", []),
                 persona_score=it.get("persona_score"),
+                # v6.10 (Phase 3): source(매체명+URL) → BOOKMARK_BONUS_SOURCES 매칭
+                source=f"{it.get('source', '')} {it.get('url', '')}",
             )
             if abs(new_score - old_score) >= 5:
                 rescored += 1
@@ -587,7 +590,8 @@ def main():
                     dt_obj = datetime.fromisoformat(m.get("date", "").replace("Z", "+00:00"))
                 except Exception:
                     pass
-                m["score"] = score_item(m.get("title", ""), m.get("summary", ""), dt_obj, cats)
+                m["score"] = score_item(m.get("title", ""), m.get("summary", ""), dt_obj, cats,
+                                        source=f"{m.get('source', '')} {m.get('url', '')}")  # v6.10
                 all_new_items.insert(0, m)  # prepend (최우선 fetch)
                 manual_count += 1
             if manual_count:
