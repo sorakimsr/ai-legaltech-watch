@@ -1893,106 +1893,137 @@ mark {
   .content { padding: 16px; }
 }
 
-/* ========================= Phase 2b: 엔티티 페이지 ========================= */
+/* ========================= Phase 2b: 엔티티 페이지 (v5.0: 폰트 ~50% 상향) ========================= */
 .entities-view { padding: 0; }
-.entities-summary { color: #888; font-size: 13px; padding: 8px 0 16px; }
-.entity-type-section { margin-bottom: 28px; }
-.entity-type-title { font-size: 15px; color: #444; margin: 12px 0 10px; display: flex; align-items: center; gap: 8px; }
-.entity-type-count { font-size: 12px; color: #999; background: #f0f0f0; padding: 2px 8px; border-radius: 10px; }
-.entity-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+.entities-summary {
+  color: #4b5563; font-size: 18px; padding: 10px 0 20px;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+}
+.entity-type-section { margin-bottom: 36px; }
+.entity-type-title { font-size: 22px; color: #1f2937; margin: 14px 0 14px; display: flex; align-items: center; gap: 10px; font-weight: 600; }
+.entity-type-count { font-size: 16px; color: #555; background: #f0f0f0; padding: 4px 12px; border-radius: 12px; font-weight: 500; }
+.entity-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
 .entity-card {
   background: #fff; border: 1px solid #e5e7eb; border-radius: 10px;
-  padding: 14px 16px; cursor: pointer; transition: all 0.15s;
+  padding: 18px 20px; cursor: pointer; transition: all 0.15s;
 }
 .entity-card:hover { border-color: #3b82f6; box-shadow: 0 2px 8px rgba(59,130,246,0.12); transform: translateY(-1px); }
-.entity-name { font-size: 14px; font-weight: 600; color: #1f2937; margin-bottom: 8px; }
-.entity-meta { display: flex; gap: 10px; font-size: 12px; color: #6b7280; margin-bottom: 6px; }
-.entity-mentions strong { color: #1f2937; }
+.entity-name { font-size: 18px; font-weight: 600; color: #1f2937; margin-bottom: 10px; }
+.entity-meta { display: flex; gap: 14px; font-size: 16px; color: #4b5563; margin-bottom: 8px; }
+.entity-mentions strong { color: #1f2937; font-weight: 600; }
 .entity-avgscore { color: #6b7280; }
-.entity-foot { display: flex; gap: 6px; flex-wrap: wrap; }
+.entity-foot { display: flex; gap: 8px; flex-wrap: wrap; }
 .entity-pill {
-  font-size: 11px; background: #eef2ff; color: #4f46e5;
-  padding: 2px 8px; border-radius: 8px;
+  font-size: 14px; background: #eef2ff; color: #4f46e5;
+  padding: 4px 10px; border-radius: 8px; font-weight: 500;
 }
 /* 상세 */
 .entity-back-btn {
   background: none; border: none; color: #3b82f6; cursor: pointer;
-  font-size: 13px; padding: 6px 0; margin-bottom: 12px;
+  font-size: 17px; padding: 8px 0; margin-bottom: 14px; font-weight: 500;
 }
 .entity-back-btn:hover { text-decoration: underline; }
-.entity-detail-head h2 { margin: 0 0 10px; font-size: 22px; color: #1f2937; }
-.entity-detail-meta { display: flex; gap: 14px; color: #6b7280; font-size: 13px; flex-wrap: wrap; margin-bottom: 22px; }
-.entity-type-badge { background: #eef2ff; color: #4f46e5; padding: 2px 10px; border-radius: 6px; }
-.entity-section { margin-bottom: 24px; }
-.entity-section h3 { font-size: 14px; color: #374151; margin: 0 0 10px; padding-bottom: 6px; border-bottom: 1px solid #e5e7eb; }
+.entity-detail-head h2 { margin: 0 0 14px; font-size: 30px; color: #1f2937; font-weight: 700; }
+.entity-detail-meta { display: flex; gap: 18px; color: #4b5563; font-size: 17px; flex-wrap: wrap; margin-bottom: 26px; align-items: center; }
+.entity-detail-meta strong { color: #1f2937; font-weight: 600; }
+.entity-type-badge { background: #eef2ff; color: #4f46e5; padding: 4px 14px; border-radius: 6px; font-weight: 500; font-size: 15px; }
+.entity-section { margin-bottom: 32px; }
+.entity-section h3 { font-size: 20px; color: #1f2937; margin: 0 0 14px; padding-bottom: 8px; border-bottom: 1px solid #e5e7eb; font-weight: 600; }
 .entity-list { list-style: none; padding: 0; margin: 0; }
-.entity-list li { padding: 8px 0; border-bottom: 1px solid #f3f4f6; font-size: 13px; color: #374151; }
+.entity-list li { padding: 12px 0; border-bottom: 1px solid #f3f4f6; font-size: 16px; color: #374151; line-height: 1.5; }
 .entity-list li:last-child { border-bottom: none; }
-.entity-list-meta { font-size: 11px; color: #9ca3af; }
-.entity-articles a { color: #2563eb; text-decoration: none; }
+.entity-list-meta { font-size: 14px; color: #6b7280; }
+.entity-articles a { color: #2563eb; text-decoration: none; font-size: 16px; }
 .entity-articles a:hover { text-decoration: underline; }
-.empty-state { text-align: center; padding: 60px 20px; color: #9ca3af; }
+.empty-state { text-align: center; padding: 60px 20px; color: #9ca3af; font-size: 16px; }
 
-/* ========================= Phase 3: 관련 엔티티 + 지식그래프 ========================= */
+/* v5.0: 시사점·논문 흐름 클릭 가능한 행 */
+.entity-link-row { cursor: pointer; padding: 12px 14px !important; border-radius: 8px; transition: background 0.15s; display: flex; flex-direction: column; gap: 4px; border-bottom: 1px solid #f3f4f6 !important; }
+.entity-link-row:hover { background: #f3f4f6; }
+.entity-link-row .entity-link-text { color: #1f2937; font-weight: 500; }
+.entity-link-row .entity-list-meta { color: #6b7280; font-size: 14px; font-weight: 500; }
+
+/* v5.0: 논문 토글 (entities-summary 우측) */
+.entity-toggle { display: inline-flex; align-items: center; gap: 8px; font-size: 15px; color: #374151; cursor: pointer; user-select: none; }
+.entity-toggle input[type="checkbox"] { width: 16px; height: 16px; cursor: pointer; accent-color: #4f46e5; }
+
+/* ========================= Phase 3 / v5.0: 관련 엔티티 + 지식그래프 (폰트 50% 상향) ========================= */
 
 /* 엔티티 상세 — 관련 엔티티 섹션 */
-.entity-relations-section { background: #fafbfc; padding: 14px 18px; border-radius: 10px; border: 1px solid #e5e7eb; }
+.entity-relations-section { background: #fafbfc; padding: 18px 22px; border-radius: 12px; border: 1px solid #e5e7eb; margin-bottom: 32px; }
+.entity-relations-head { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; margin-bottom: 14px; }
+.entity-relations-head h3 { margin: 0; border-bottom: none; padding-bottom: 0; font-size: 20px; }
 .entity-relations-loading,
 .entity-relations-empty {
-  font-size: 11px; color: #9ca3af; font-weight: normal; margin-left: 8px;
+  font-size: 14px; color: #9ca3af; font-weight: normal; margin-left: 8px;
 }
-.entity-relations-hint { font-size: 12px; color: #9ca3af; margin: 6px 0 0; }
+.entity-relations-hint { font-size: 14px; color: #9ca3af; margin: 6px 0 0; }
 .entity-relations-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 10px;
-  margin-top: 8px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 14px;
+  margin-top: 12px;
 }
 .entity-relation-card {
-  background: #fff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 10px 12px;
+  background: #fff; border: 1px solid #e5e7eb; border-radius: 10px; padding: 14px 16px;
   cursor: pointer; transition: all 0.15s;
 }
 .entity-relation-card:hover {
-  border-color: #3b82f6; box-shadow: 0 2px 8px rgba(59, 130, 246, 0.08);
+  border-color: #3b82f6; box-shadow: 0 2px 10px rgba(59, 130, 246, 0.1);
   transform: translateY(-1px);
 }
-.entity-relation-head { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
-.entity-relation-arrow { color: #9ca3af; font-size: 13px; }
-.entity-relation-name { font-weight: 600; color: #1f2937; font-size: 13px; }
-.entity-relation-type {
-  display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 6px;
+.entity-relation-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
+.entity-relation-name { font-weight: 600; color: #1f2937; font-size: 17px; }
+.entity-relation-other-type {
+  font-size: 12px; color: #6b7280; background: #f3f4f6; padding: 2px 8px; border-radius: 6px;
+}
+/* v5.0: 관계 타입 칩 (여러 개 한 카드에) */
+.entity-relation-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+.entity-relation-chip {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 13px; padding: 4px 10px; border-radius: 6px;
   font-weight: 500;
 }
+.entity-relation-chip .chip-arrow { font-size: 12px; opacity: 0.8; }
 .entity-relation-evidence {
-  font-size: 11px; color: #6b7280; margin-top: 6px; font-style: italic;
-  line-height: 1.4;
-  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  font-size: 14px; color: #4b5563; margin-top: 8px;
+  line-height: 1.55; padding: 8px 10px; background: #f9fafb; border-radius: 6px;
+  border-left: 3px solid #d1d5db;
+}
+.entity-relation-evidence .evidence-type-marker {
+  font-size: 11px; font-weight: 600; margin-right: 6px; text-transform: uppercase; letter-spacing: 0.3px;
 }
 
 /* 지식그래프 view */
-.graph-view { padding: 12px 4px; }
+.graph-view { padding: 14px 4px; }
 .graph-controls {
-  display: flex; gap: 6px; flex-wrap: wrap; align-items: center;
-  margin-bottom: 10px;
+  display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+  margin-bottom: 12px;
 }
-.graph-controls-label { font-size: 12px; color: #6b7280; margin-right: 4px; }
+.graph-controls-label { font-size: 15px; color: #4b5563; margin-right: 4px; font-weight: 500; }
 .graph-filter-btn {
-  font-size: 12px; padding: 4px 10px; border-radius: 6px;
+  font-size: 14px; padding: 6px 14px; border-radius: 6px;
   border: 1px solid #d1d5db; background: #fff; color: #374151;
-  cursor: pointer; transition: all 0.15s;
+  cursor: pointer; transition: all 0.15s; font-weight: 500;
 }
 .graph-filter-btn:hover { background: #f3f4f6; }
 .graph-filter-btn.active {
   background: #1f2937; color: #fff; border-color: #1f2937;
 }
-.graph-meta { font-size: 12px; color: #6b7280; margin-bottom: 8px; padding: 0 4px; }
+/* v5.0: 그래프 옵션 행 (논문 포함 / 고립 노드 토글) */
+.graph-options {
+  display: flex; gap: 18px; flex-wrap: wrap; align-items: center;
+  margin-bottom: 10px; padding: 6px 4px;
+}
+.graph-meta { font-size: 15px; color: #4b5563; margin-bottom: 10px; padding: 0 4px; }
+.graph-meta strong { color: #1f2937; font-weight: 600; }
 .graph-container {
   background: #fff; border: 1px solid #e5e7eb; border-radius: 10px;
   overflow: hidden; position: relative;
 }
 .graph-container svg { display: block; cursor: grab; }
 .graph-container svg:active { cursor: grabbing; }
-.graph-tip { font-size: 11px; color: #9ca3af; text-align: center; margin-top: 8px; }
+.graph-tip { font-size: 14px; color: #6b7280; text-align: center; margin-top: 10px; }
 .graph-links line { transition: stroke-opacity 0.15s; }
 .graph-node:hover circle { stroke: #1f2937; stroke-width: 2.5; }
 .graph-node text { pointer-events: none; user-select: none; }

@@ -90,8 +90,11 @@ const state = {
   selectedEntityId: null,   // 상세 화면용
   // Phase 3: LLM 관계 데이터 (data/relations.json fetch)
   relations: null,                // {relations: [...], generated_at, total_relations}
-  relationsByEntity: null,        // {entityId: [{otherId, type, dir, evidence, weight}, ...]}
+  relationsByEntity: null,        // {entityId: [{otherId, type, dir, evidence, weight, source_type}, ...]}
   graphTypeFilter: null,          // 그래프 뷰 필터: null | relation type (e.g. 'competes_with')
+  // v5.0: 엔티티/그래프 옵션
+  entityIncludePapers: true,      // 엔티티 카운트·노드 크기 계산 시 논문 흐름 포함
+  graphShowIsolated: false,       // 지식그래프에서 관계 없는 엔티티도 표시
 };
 
 const ANALYSES_STORAGE_KEY = 'daibfy_analyses_v1';
@@ -2381,16 +2384,33 @@ async function loadRelations() {
     console.warn('[relations] load failed (다음 빌드에서 생성됨):', e);
     state.relations = { relations: [], total_relations: 0, error: String(e) };
   }
-  // 엔티티별 인덱스 (양방향)
+  // 엔티티별 인덱스 (양방향) — v5.0: source_type, trend_period/key 보존
   const idx = {};
   for (const r of (state.relations.relations || [])) {
     if (!idx[r.source]) idx[r.source] = [];
     if (!idx[r.target]) idx[r.target] = [];
-    idx[r.source].push({ otherId: r.target, type: r.type, dir: 'out', evidence: r.evidence, weight: r.weight, trend_tag: r.trend_tag });
-    idx[r.target].push({ otherId: r.source, type: r.type, dir: 'in', evidence: r.evidence, weight: r.weight, trend_tag: r.trend_tag });
+    const base = {
+      type: r.type, evidence: r.evidence, weight: r.weight,
+      source_type: r.source_type || 'trend',
+      trend_tag: r.trend_tag, trend_period: r.trend_period, trend_key: r.trend_key,
+    };
+    idx[r.source].push({ otherId: r.target, dir: 'out', ...base });
+    idx[r.target].push({ otherId: r.source, dir: 'in', ...base });
   }
   state.relationsByEntity = idx;
   return state.relations;
+}
+
+// v5.0: 대칭 관계 타입 (방향 무관)
+const SYMMETRIC_RELATION_TYPES = new Set(['competes_with', 'partners_with', 'mentions']);
+
+// v5.0: 엔티티별 mention 카운트 (논문 토글 적용)
+function entityEffectiveMentions(e) {
+  if (!e) return 0;
+  const articles = (e.mentioned_articles || []).length;
+  const trends = (e.mentioned_trends || []).length;
+  const papers = (e.mentioned_papers || []).length;
+  return state.entityIncludePapers ? (articles + trends + papers) : (articles + trends);
 }
 
 // Phase 3: 관계 타입 라벨 (한국어)
@@ -2459,7 +2479,7 @@ function renderEntitiesView() {
         </div>`;
       return;
     }
-    // type별 그룹화
+    // type별 그룹화 (논문 포함/제외 토글 반영)
     const byType = {};
     for (const e of entries) {
       const t = e.type || 'other';
@@ -2467,11 +2487,17 @@ function renderEntitiesView() {
       byType[t].push(e);
     }
     for (const t of Object.keys(byType)) {
-      byType[t].sort((a, b) => b.total_mentions - a.total_mentions);
+      byType[t].sort((a, b) => entityEffectiveMentions(b) - entityEffectiveMentions(a));
     }
 
     let html = '';
-    html += `<div class="entities-summary">총 <strong>${entries.length}</strong>개 엔티티 활성 · ${data.generated_at ? '생성: ' + (data.generated_at.slice(0, 16)) : ''}</div>`;
+    html += `<div class="entities-summary">
+      <span>총 <strong>${entries.length}</strong>개 엔티티 활성 · ${data.generated_at ? '생성 ' + (data.generated_at.slice(0, 16)) : ''}</span>
+      <label class="entity-toggle">
+        <input type="checkbox" id="entities-toggle-papers" ${state.entityIncludePapers ? 'checked' : ''}/>
+        <span>논문 흐름 포함</span>
+      </label>
+    </div>`;
     for (const t of ENTITY_TYPE_ORDER) {
       if (!byType[t] || byType[t].length === 0) continue;
       const label = ENTITY_TYPE_LABEL[t] || t;
@@ -2479,16 +2505,17 @@ function renderEntitiesView() {
       html += `  <h3 class="entity-type-title">${label} <span class="entity-type-count">${byType[t].length}</span></h3>`;
       html += `  <div class="entity-grid">`;
       for (const e of byType[t]) {
+        const effMentions = entityEffectiveMentions(e);
         html += `
           <div class="entity-card" data-entity-id="${escapeHtml(e.id)}">
             <div class="entity-name">${escapeHtml(e.name)}</div>
             <div class="entity-meta">
-              <span class="entity-mentions">언급 <strong>${e.total_mentions}</strong></span>
+              <span class="entity-mentions">언급 <strong>${effMentions}</strong></span>
               <span class="entity-avgscore">평균 ${e.avg_score}</span>
             </div>
             <div class="entity-foot">
               ${e.mentioned_trends && e.mentioned_trends.length > 0 ? `<span class="entity-pill">시사점 ${e.mentioned_trends.length}</span>` : ''}
-              ${e.mentioned_papers && e.mentioned_papers.length > 0 ? `<span class="entity-pill">논문 ${e.mentioned_papers.length}</span>` : ''}
+              ${state.entityIncludePapers && e.mentioned_papers && e.mentioned_papers.length > 0 ? `<span class="entity-pill">논문 ${e.mentioned_papers.length}</span>` : ''}
             </div>
           </div>`;
       }
@@ -2507,6 +2534,14 @@ function renderEntitiesView() {
         }
       });
     });
+    // 논문 토글 핸들러
+    const togEl = document.getElementById('entities-toggle-papers');
+    if (togEl) {
+      togEl.addEventListener('change', (ev) => {
+        state.entityIncludePapers = ev.target.checked;
+        renderEntitiesView();
+      });
+    }
   });
 }
 
@@ -2538,27 +2573,35 @@ function renderEntityDetail() {
     <h3>🔗 관련 엔티티 <span class="entity-relations-loading">로딩 중...</span></h3>
   </div>`;
 
-  // 관련 시사점
+  // v5.0: 관련 시사점 — 클릭 시 해당 시사점 페이지로 이동
   if (e.mentioned_trends && e.mentioned_trends.length > 0) {
     html += `<div class="entity-section">
       <h3>📌 관련 시사점 (${e.mentioned_trends.length})</h3>
-      <ul class="entity-list">`;
+      <ul class="entity-list entity-trends-list">`;
     for (const t of e.mentioned_trends.slice(0, 15)) {
-      html += `<li><span class="entity-list-meta">${escapeHtml(t.period)} · ${escapeHtml(t.key)}</span> — ${escapeHtml(t.tag || t.title || '')}</li>`;
+      const periodLabel = ({ daily: '일간', weekly: '주간', monthly: '월간' })[t.period] || t.period;
+      html += `<li class="entity-link-row" data-nav-type="trend" data-period="${escapeHtml(t.period||'')}" data-key="${escapeHtml(t.key||'')}">
+        <span class="entity-list-meta">${escapeHtml(periodLabel)} · ${escapeHtml(t.key)}</span>
+        <span class="entity-link-text">${escapeHtml(t.tag || t.title || '')}</span>
+      </li>`;
     }
     html += `</ul></div>`;
   }
-  // 관련 논문 흐름
+  // v5.0: 관련 논문 흐름 — 클릭 시 논문 흐름 페이지로 이동
   if (e.mentioned_papers && e.mentioned_papers.length > 0) {
     html += `<div class="entity-section">
       <h3>📑 관련 논문 흐름 (${e.mentioned_papers.length})</h3>
-      <ul class="entity-list">`;
+      <ul class="entity-list entity-papers-list">`;
     for (const p of e.mentioned_papers.slice(0, 10)) {
-      html += `<li><span class="entity-list-meta">${escapeHtml(p.period)} · ${escapeHtml(p.key)}</span> — ${p.paper_count}편 분석</li>`;
+      const periodLabel = ({ daily: '일간', weekly: '주간', monthly: '월간' })[p.period] || p.period;
+      html += `<li class="entity-link-row" data-nav-type="paper" data-period="${escapeHtml(p.period||'')}" data-key="${escapeHtml(p.key||'')}">
+        <span class="entity-list-meta">${escapeHtml(periodLabel)} · ${escapeHtml(p.key)}</span>
+        <span class="entity-link-text">${p.paper_count}편 분석</span>
+      </li>`;
     }
     html += `</ul></div>`;
   }
-  // 관련 article (최근 30개)
+  // 관련 article (최근순, 전체)
   if (e.mentioned_articles && e.mentioned_articles.length > 0) {
     html += `<div class="entity-section">
       <h3>📰 관련 article (${e.mentioned_articles.length}건, 최근순)</h3>
@@ -2583,58 +2626,128 @@ function renderEntityDetail() {
     });
   }
 
-  // Phase 3: 관련 엔티티 비동기 로드 (relations.json)
+  // 시사점/논문 행 클릭 → 해당 페이지로 navigate
+  detailEl.querySelectorAll('.entity-link-row').forEach(row => {
+    row.addEventListener('click', () => {
+      const navType = row.getAttribute('data-nav-type');
+      const period = row.getAttribute('data-period');
+      const key = row.getAttribute('data-key');
+      if (navType === 'trend') {
+        state.view = 'strategy';
+        state.strategyPeriod = period;
+        state.strategyKey = key;
+      } else if (navType === 'paper') {
+        state.view = 'papers';
+        state.papersPeriod = period;
+        state.papersKey = key;
+      }
+      // 사이드바 nav active 토글
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      const navEl = document.querySelector(`.nav-item[data-view="${state.view}"]`);
+      if (navEl) navEl.classList.add('active');
+      renderContent();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+
+  // v5.0: 관련 엔티티 — otherId 기준으로 묶고 (대칭 type은 방향 합치기), 같은 엔티티의 모든 관계 타입을 한 카드에 칩으로 표시
   loadRelations().then(() => {
     const placeholder = document.getElementById('entity-relations-placeholder');
     if (!placeholder) return;
-    const rels = (state.relationsByEntity && state.relationsByEntity[state.selectedEntityId]) || [];
-    // 같은 (other, type) 묶기 → weight 합계
-    const grouped = {};
-    for (const r of rels) {
-      const k = r.otherId + '|' + r.type + '|' + r.dir;
-      if (!grouped[k]) grouped[k] = { ...r, count: 0 };
-      grouped[k].count += 1;
-      grouped[k].weight = (grouped[k].weight || 0) + (r.weight || 1);
+    let rels = (state.relationsByEntity && state.relationsByEntity[state.selectedEntityId]) || [];
+    // 논문 토글 적용 — source_type='paper' 제외 옵션
+    if (!state.entityIncludePapers) {
+      rels = rels.filter(r => (r.source_type || 'trend') !== 'paper');
     }
-    const items = Object.values(grouped).sort((a, b) => b.weight - a.weight);
+    // otherId로 그룹 (한 엔티티 = 한 카드)
+    const byOther = {};
+    for (const r of rels) {
+      if (!byOther[r.otherId]) byOther[r.otherId] = { otherId: r.otherId, byType: {}, totalWeight: 0, evidences: [] };
+      const g = byOther[r.otherId];
+      // 같은 type은 대칭이면 방향 무관 1건, 비대칭이면 방향 구분
+      const isSym = SYMMETRIC_RELATION_TYPES.has(r.type);
+      const tk = isSym ? r.type : (r.type + '|' + r.dir);
+      if (!g.byType[tk]) g.byType[tk] = { type: r.type, dir: isSym ? 'sym' : r.dir, count: 0, weight: 0 };
+      g.byType[tk].count += 1;
+      g.byType[tk].weight += r.weight || 1;
+      g.totalWeight += r.weight || 1;
+      if (r.evidence) g.evidences.push({ type: r.type, dir: r.dir, evidence: r.evidence });
+    }
+    const items = Object.values(byOther).sort((a, b) => b.totalWeight - a.totalWeight);
     if (items.length === 0) {
       placeholder.innerHTML = `<h3>🔗 관련 엔티티 <span class="entity-relations-empty">아직 추출된 관계 없음</span></h3>
-        <p class="entity-relations-hint">다음 빌드(KST 18시)에서 LLM이 시사점 카드로부터 관계를 추출합니다.</p>`;
+        <p class="entity-relations-hint">다음 빌드에서 LLM이 시사점 카드로부터 관계를 추출합니다.</p>`;
       return;
     }
-    let h = `<h3>🔗 관련 엔티티 (${items.length})</h3>
-      <div class="entity-relations-grid">`;
-    for (const r of items.slice(0, 30)) {
-      const other = ents[r.otherId];
-      const otherName = other ? other.name : r.otherId;
-      const typeLabel = RELATION_TYPE_LABEL[r.type] || r.type;
-      const arrow = r.dir === 'out' ? '→' : '←';
-      const color = RELATION_TYPE_COLOR[r.type] || '#999';
-      h += `<div class="entity-relation-card" data-other-id="${escapeHtml(r.otherId)}">
+    let h = `<div class="entity-relations-head">
+      <h3>🔗 관련 엔티티 (${items.length})</h3>
+      <label class="entity-toggle">
+        <input type="checkbox" id="entity-toggle-papers" ${state.entityIncludePapers ? 'checked' : ''}/>
+        <span>논문 흐름 포함</span>
+      </label>
+    </div>
+    <div class="entity-relations-grid">`;
+    for (const g of items.slice(0, 40)) {
+      const other = ents[g.otherId];
+      const otherName = other ? other.name : g.otherId;
+      const otherTypeLabel = other ? (ENTITY_TYPE_LABEL[other.type] || other.type) : '';
+      // 관계 타입 칩들 — weight 내림차순
+      const typeChips = Object.values(g.byType).sort((a, b) => b.weight - a.weight);
+      // 대표 evidence — 가장 weight 큰 type의 evidence를 첫 번째로
+      const primaryEv = g.evidences.length > 0 ? g.evidences[0] : null;
+      let chipsHtml = '';
+      for (const tc of typeChips) {
+        const color = RELATION_TYPE_COLOR[tc.type] || '#999';
+        const typeLabel = RELATION_TYPE_LABEL[tc.type] || tc.type;
+        const dirArrow = tc.dir === 'out' ? '→' : (tc.dir === 'in' ? '←' : '↔');
+        chipsHtml += `<span class="entity-relation-chip" style="background:${color}22;color:${color};border:0.5px solid ${color}44;">
+          <span class="chip-arrow">${dirArrow}</span> ${escapeHtml(typeLabel)}${tc.count > 1 ? ` ${tc.count}` : ''}
+        </span>`;
+      }
+      // evidence 묶음 (최대 2개, 서로 다른 type)
+      const seenEvTypes = new Set();
+      let evHtml = '';
+      for (const ev of g.evidences) {
+        if (seenEvTypes.has(ev.type)) continue;
+        seenEvTypes.add(ev.type);
+        const tColor = RELATION_TYPE_COLOR[ev.type] || '#999';
+        evHtml += `<div class="entity-relation-evidence">
+          <span class="evidence-type-marker" style="color:${tColor};">${RELATION_TYPE_LABEL[ev.type] || ev.type}</span>
+          <span>"${escapeHtml(ev.evidence)}"</span>
+        </div>`;
+        if (seenEvTypes.size >= 2) break;
+      }
+      h += `<div class="entity-relation-card" data-other-id="${escapeHtml(g.otherId)}">
         <div class="entity-relation-head">
-          <span class="entity-relation-arrow">${arrow}</span>
           <span class="entity-relation-name">${escapeHtml(otherName)}</span>
+          ${otherTypeLabel ? `<span class="entity-relation-other-type">${escapeHtml(otherTypeLabel)}</span>` : ''}
         </div>
-        <div class="entity-relation-type" style="background:${color}22;color:${color}">
-          ${escapeHtml(typeLabel)}${r.count > 1 ? ` · ${r.count}건` : ''}
-        </div>
-        ${r.evidence ? `<div class="entity-relation-evidence">"${escapeHtml(r.evidence)}"</div>` : ''}
+        <div class="entity-relation-chips">${chipsHtml}</div>
+        ${evHtml}
       </div>`;
     }
     h += `</div>`;
     placeholder.innerHTML = h;
-    // 관련 엔티티 카드 클릭 → 해당 엔티티 상세로
+
+    // 관련 엔티티 카드 클릭 → 해당 엔티티 상세
     placeholder.querySelectorAll('.entity-relation-card').forEach(card => {
       card.addEventListener('click', () => {
         const oid = card.getAttribute('data-other-id');
         if (oid && ents[oid]) {
           state.selectedEntityId = oid;
           renderEntityDetail();
-          const detailEl = document.getElementById('entity-detail-wrap');
-          if (detailEl) detailEl.scrollTop = 0;
+          window.scrollTo({ top: 0, behavior: 'smooth' });
         }
       });
     });
+    // 논문 토글 핸들러
+    const toggleEl = document.getElementById('entity-toggle-papers');
+    if (toggleEl) {
+      toggleEl.addEventListener('change', (ev) => {
+        state.entityIncludePapers = ev.target.checked;
+        renderEntityDetail();
+      });
+    }
   });
 }
 
@@ -2653,9 +2766,20 @@ function renderGraphView() {
       controlsHtml += `<button class="graph-filter-btn" data-type="${t}" style="border-color:${color}33;color:${color}">${RELATION_TYPE_LABEL[t]}</button>`;
     }
     controlsHtml += '</div>';
+    // v5.0: 옵션 토글 (논문 포함 / 고립 노드 표시)
+    controlsHtml += `<div class="graph-options">
+      <label class="entity-toggle">
+        <input type="checkbox" id="graph-toggle-papers" ${state.entityIncludePapers ? 'checked' : ''}/>
+        <span>논문 흐름 포함</span>
+      </label>
+      <label class="entity-toggle">
+        <input type="checkbox" id="graph-toggle-isolated" ${state.graphShowIsolated ? 'checked' : ''}/>
+        <span>관계 없는 엔티티도 표시</span>
+      </label>
+    </div>`;
     controlsHtml += '<div class="graph-meta" id="graph-meta">로딩 중...</div>';
     controlsHtml += '<div class="graph-container"><svg id="graph-svg" width="100%" height="640"><g id="graph-g"></g></svg></div>';
-    controlsHtml += '<div class="graph-tip">노드를 끌어 위치 조정 · 노드 클릭 시 엔티티 상세로 이동</div>';
+    controlsHtml += '<div class="graph-tip">노드를 끌어 위치 조정 · 마우스 휠로 줌 · 노드 클릭 시 엔티티 상세로 이동</div>';
     wrap.innerHTML = controlsHtml;
     // 필터 버튼 핸들러
     wrap.querySelectorAll('.graph-filter-btn').forEach(btn => {
@@ -2666,6 +2790,11 @@ function renderGraphView() {
         renderGraphSvg();
       });
     });
+    // 옵션 토글 핸들러
+    const tp = document.getElementById('graph-toggle-papers');
+    const ti = document.getElementById('graph-toggle-isolated');
+    if (tp) tp.addEventListener('change', (ev) => { state.entityIncludePapers = ev.target.checked; renderGraphSvg(); });
+    if (ti) ti.addEventListener('change', (ev) => { state.graphShowIsolated = ev.target.checked; renderGraphSvg(); });
   }
   // 데이터 로드
   Promise.all([loadEntities(), loadRelations()]).then(() => {
@@ -2688,17 +2817,21 @@ function renderGraphSvg() {
     if (metaEl) metaEl.innerHTML = '<strong>엔티티 데이터 없음</strong> — 다음 빌드 후 표시됩니다.';
     return;
   }
-  if (allRels.length === 0) {
-    if (metaEl) metaEl.innerHTML = '<strong>관계 데이터 없음</strong> — 다음 빌드(LLM 관계 추출)에서 생성됩니다.';
-    return;
-  }
-  // 필터 적용
-  const relsFiltered = state.graphTypeFilter
-    ? allRels.filter(r => r.type === state.graphTypeFilter)
-    : allRels;
-  // 그래프에 포함될 엔티티만 (관계가 있는 엔티티)
+  // v5.0: 필터 — 관계 타입 + 논문 source 제외
+  let relsFiltered = allRels;
+  if (state.graphTypeFilter) relsFiltered = relsFiltered.filter(r => r.type === state.graphTypeFilter);
+  if (!state.entityIncludePapers) relsFiltered = relsFiltered.filter(r => (r.source_type || 'trend') !== 'paper');
+
+  // 노드 선택: 기본은 관계 있는 엔티티만, 토글 시 모든 엔티티 (단, 어느 시사점/article에라도 등장한 엔티티만)
   const usedIds = new Set();
   for (const r of relsFiltered) { usedIds.add(r.source); usedIds.add(r.target); }
+  if (state.graphShowIsolated) {
+    for (const id of Object.keys(ents)) {
+      const e = ents[id];
+      const mentions = entityEffectiveMentions(e);
+      if (mentions > 0) usedIds.add(id);
+    }
+  }
   const nodes = [];
   for (const id of usedIds) {
     if (!ents[id]) continue;
@@ -2707,13 +2840,21 @@ function renderGraphSvg() {
       id,
       name: e.name,
       type: e.type,
-      mentions: e.total_mentions || 1,
+      mentions: entityEffectiveMentions(e) || 1,
       avgScore: e.avg_score || 0,
     });
   }
   const links = relsFiltered
     .filter(r => ents[r.source] && ents[r.target])
     .map(r => ({ source: r.source, target: r.target, type: r.type, weight: r.weight || 1 }));
+
+  if (nodes.length === 0) {
+    if (metaEl) metaEl.innerHTML = '<strong>표시할 노드가 없습니다</strong> — 필터를 조정하거나 다음 빌드를 기다리세요.';
+    // SVG 초기화
+    const svgSelEmpty = d3.select(svg);
+    svgSelEmpty.select('#graph-g').selectAll('*').remove();
+    return;
+  }
 
   if (metaEl) {
     metaEl.innerHTML = `노드 <strong>${nodes.length}</strong> · 관계 <strong>${links.length}</strong>` +
@@ -2775,16 +2916,21 @@ function renderGraphSvg() {
     });
 
   node.append('circle')
-    .attr('r', d => 8 + Math.sqrt(d.mentions || 1) * 2.4)
+    .attr('r', d => 10 + Math.sqrt(d.mentions || 1) * 2.8)
     .attr('fill', d => ENTITY_TYPE_COLOR[d.type] || '#888')
     .attr('stroke', '#fff')
-    .attr('stroke-width', 1.5);
+    .attr('stroke-width', 1.8);
 
+  // v5.0: SVG 노드 라벨 폰트 11 → 16 (50% 상향)
   node.append('text')
-    .attr('dy', d => -(11 + Math.sqrt(d.mentions || 1) * 2.4))
+    .attr('dy', d => -(15 + Math.sqrt(d.mentions || 1) * 2.8))
     .attr('text-anchor', 'middle')
-    .attr('font-size', 11)
-    .attr('fill', '#333')
+    .attr('font-size', 16)
+    .attr('font-weight', 500)
+    .attr('fill', '#1f2937')
+    .attr('stroke', '#fff')
+    .attr('stroke-width', 3)
+    .attr('paint-order', 'stroke fill')
     .text(d => d.name);
 
   node.append('title')
