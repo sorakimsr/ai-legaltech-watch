@@ -325,6 +325,7 @@ def generate_cards(items: list, period: str, ref_date: date, all_items: list) ->
                     if 0 <= i < len(sorted_items):
                         ref = sorted_items[i]
                         cited.append({
+                            "num": int(idx),  # v4.9: 본문 (N번) 매칭용 1-index
                             "title": ref.get("title", "")[:140],
                             "url": ref.get("url", ""),
                             "source": ref.get("source", ""),
