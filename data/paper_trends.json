@@ -1,22 +1,23 @@
 {
-  "analyzed_at": "2026-05-26T08:58:14.310188+09:00",
+  "analyzed_at": "2026-05-26T09:37:29.106007+09:00",
   "llm_backend": "anthropic",
   "period": "weekly",
   "period_label": "최근 7일",
   "days_window": 7,
-  "paper_count": 177,
-  "narrative": "AI 논문 흐름의 핵심은 '에이전트 시스템이 실험실을 벗어나 실제 운영 환경에 진입하면서 드러나는 구조적 균열'이다. 가장 두드러진 흐름은 다중 에이전트(Multi-Agent) 시스템의 조정 문제가 기술 과제를 넘어 거버넌스 과제로 격상되고 있다는 점이다. Foundation Protocol 논문은 **단일 LLM 선택은 이미 낡은 질문이고, 에이전트 간 신뢰·조정 계층이 새 병목**이라고 명시한다. Redrawing the AI Map 논문은 AI 오케스트레이터가 조직 간 정보시스템 통합을 가속화하지만, **책임 경계가 명확히 설계된 아키텍처를 선택**하지 않으면 의사결정·승인·책임 할당이 공중에 뜨는 구조적 공백이 생긴다고 경고한다. CHRONOS 논문은 시간 변화에 따라 진화하는 데이터 마켓플레이스에서 에이전트 간 비조정이 프라이버시 예산 낭비와 가격 오류로 이어지는 연쇄 실패를 구체적으로 보여준다. 에이전트를 '도입'하는 것과 '운영'하는 것은 전혀 다른 역량 요구사항이라는 점이 논문군 전체에서 반복적으로 확인된다. 한국 전략·기획 실무자에게 이 흐름은 두 가지 실질적 함의를 갖는다. 첫째, 에이전트 도입 비용 산정 방식을 바꿔야 한다. Energy per Successful Goal 논문은 **기존 API 호출 단위 비용 측정이 다단계 에이전트 오케스트레이션 환경에서는 무의미**하며, '성공한 목표당 에너지'라는 새 단위로 KPI를 재설계해야 한다고 제안한다. 재시도·실패 복구·도구 호출이 포함된 실제 워크플로우에서는 단순 토큰 비용이 전체 운영비의 일부에 불과하기 때문이다. 둘째, RAG 기반 시스템의 운영 품질 관리가 필요하다. Query-Adaptive Semantic Chunking 논문은 고정 크기 청킹이 의미론적 맥락을 무시해 검색 정확도를 떨어뜨린다고 지적하며, **RAG 파이프라인을 한 번 구축하고 방치하는 운영 방식은 재검토가 필요한 시점**임을 시사한다. AAIA-RAG-LEGAL처럼 법률·규제 문서를 다루는 도메인에서는 이 문제가 컴플라이언스 리스크로 직결된다. 산업 적용 측면에서는 AI 컴플라이언스 자동화 수요가 구체화되고 있다. Ontological Knowledge Blocks 논문은 현재 산업의 문서 중심·수동 감시 방식을 실행 가능한 코드 형태의 컴플라이언스로 전환하는 프레임워크를 제안하며, 이는 **국내 금융·공공 분야의 내부통제 자동화 수요와 직결**된다. 그러나 한국 기업 환경에서는 **개인정보보호법상 국외 데이터 이전 제한, 금융위·금감원의 AI 모델 설명 요구, 공공기관의 망분리 정책이 클라우드 기반 멀티에이전트 도입의 현실적 장벽으로 작용**한다. HARNESS-LM이 보여주듯 소형 언어모델(SLM)의 성능이 빠르게 향상되고 있어 **온프레미스(on-premise) 또는 폐쇄망 요구가 도입 속도를 제한하는 현실적 제약으로 작동**하는 환경에서도 선택지가 넓어지고 있다는 점은 긍정적 신호다. 다만 Inferential Privacy Leakage 논문이 익명화된 대화 로그에서도 추론을 통한 개인정보 유출이 발생함을 실증한 만큼, 내부 데이터를 활용한 에이전트 시스템 설계 시 데이터 거버넌스 검토를 선행해야 한다.",
+  "paper_count": 180,
+  "narrative": "한 줄 요약 AI 시스템의 무게중심이 '모델 성능'에서 '에이전트 간 조정·책임·비용 구조'로 이동하고 있으며, 한국 기업은 이 전환을 기술 문제가 아닌 경영 설계 문제로 받아들여야 한다. 1) 무엇이 부상하고 있는가 논문군에서 가장 두드러진 흐름은 세 가지다. 첫째, 다중 에이전트 조정 계층의 부상이다. Foundation Protocol 논문은 **단일 LLM 선택은 이미 낡은 질문이고, 에이전트 간 신뢰·조정 계층이 새 병목**임을 명시했다. 개별 모델 성능이 아무리 높아도 에이전트들이 서로 충돌하거나 책임 소재가 불분명하면 시스템 전체가 실패한다는 것이다. Redrawing the AI Map 논문도 AI 오케스트레이터가 조직 간 정보시스템 통합을 가속화하지만, 의사결정·승인·책임 할당이 필요한 업무는 반드시 통합 구조를 유지해야 한다고 강조한다. 둘째, 에이전트 비용 측정 기준의 재정의다. Energy per Successful Goal 논문은 **기존 API 호출 단위 비용 측정이 다단계 에이전트 오케스트레이션 환경에서는 무의미**하다고 지적하며, '성공한 목표당 에너지'라는 새 단위를 제안한다. 재시도·실패 복구·도구 호출까지 포함한 실제 비용을 측정해야 ROI 계산이 가능하다는 논리다. 셋째, AI 평가 신뢰성 위기다. 논문 1, 4, 8번은 벤치마크 점수가 실제 업무 수행 능력을 반영하지 못한다는 점을 각각 다른 각도에서 지적한다. 높은 벤치마크 성능이 실제 현장 투입 가능성을 보장하지 않는다는 경고다. 2) 한국 실무자에게 이 흐름이 무슨 의미인가 전략·기획 담당자 입장에서 가장 즉각적인 함의는 AI 도입 KPI 재설계다. 지금까지 많은 기업이 '모델 정확도' 또는 'API 호출 비용'을 기준으로 AI 투자를 평가했지만, **성공한 목표당 비용으로 KPI를 재설계해야** 다단계 에이전트 워크플로우의 실제 효율을 측정할 수 있다. 또한 AAIA-RAG-LEGAL처럼 법률·규제 분야에서 RAG 기반 환각 방지 프레임워크가 등장하고 있는데, 이는 **RAG 파이프라인을 한 번 구축하고 방치하는 운영 방식은 재검토가 필요한 시점**임을 시사한다. 문서 업데이트 주기, 청킹 전략, 검색 품질 모니터링을 지속적으로 관리하는 체계가 필요하다. 아울러 Ontological Knowledge Blocks 논문이 제안하는 실행 가능한 컴플라이언스 자동화는 **국내 금융·공공 분야의 내부통제 자동화 수요와 직결**되는 방향이다. 3) 산업 적용 흐름 법률·금융·의료 분야가 가장 먼저 영향을 받을 것으로 보인다. 법률은 RAG 기반 판례 검색과 계약서 검토 자동화, 금융은 내부통제 컴플라이언스 자동화, 의료는 감별 진단 지원 시스템(MedExpMem)과 정신건강 인프라 대체 문제(논문 2번)가 이미 현실화되고 있다. 다만 한국 기업 환경에서는 **개인정보보호법상 국외 데이터 이전 제한, 금융위·금감원의 AI 모델 설명 요구, 공공기관의 망분리 정책이 클라우드 기반 멀티에이전트 도입의 현실적 장벽으로 작용**한다. 특히 대화 로그의 익명화 후에도 추론적 개인정보 유출이 가능하다는 논문 60번의 발견은 국내 개인정보 규제 환경에서 심각하게 받아들여야 할 리스크다. **온프레미스(on-premise) 또는 폐쇄망 요구가 도입 속도를 제한하는 현실적 제약으로 작동**하는 상황에서, 멀티에이전트 아키텍처 설계 단계부터 **책임 경계가 명확히 설계된 아키텍처를 선택**하는 것이 규제 대응과 운영 안정성 모두를 확보하는 경로다.",
   "hot_topics": [
     {
-      "topic": "다중 에이전트 조정 및 책임 설계 (Multi-Agent Coordination & Accountability)",
-      "description": "여러 AI 에이전트가 협력할 때 누가 무엇을 결정하고 책임지는지를 아키텍처 수준에서 설계해야 한다는 논의가 급부상 중.",
-      "paper_count": 5,
+      "topic": "다중 에이전트 조정·책임 구조 (Multi-Agent Coordination & Accountability)",
+      "description": "개별 AI 모델 성능보다 에이전트 간 신뢰 형성, 역할 분담, 책임 경계 설계가 시스템 성패를 결정하는 새로운 병목으로 부상.",
+      "paper_count": 6,
       "paper_indices": [
         23,
-        70,
-        69,
+        72,
+        6,
+        14,
         35,
-        62
+        63
       ],
       "papers": [
         {
@@ -32,10 +33,16 @@
           "date": "2026-05-25"
         },
         {
-          "title": "CHRONOS: Temporally-Aware Multi-Agent Coordination for Evolving Data Marketplaces",
-          "url": "https://arxiv.org/abs/2605.23887",
+          "title": "Safety, Liveness, and Fairness in Quantitative Argumentation Dialogues",
+          "url": "https://arxiv.org/abs/2605.23578",
           "source": "arXiv cs.MA (Multi-Agent)",
           "date": "2026-05-25"
+        },
+        {
+          "title": "GT-HarmBench: Benchmarking AI Safety Risks Through the Lens of Game Theory",
+          "url": "https://arxiv.org/abs/2602.12316v2",
+          "source": "arXiv cs.MA (Multi-Agent)",
+          "date": "2026-05-22"
         },
         {
           "title": "Computable Fairness: Boltzmann-Softmax Control for AI Resource Allocation",
@@ -52,44 +59,15 @@
       ]
     },
     {
-      "topic": "에이전트 AI 운영 비용 및 효율성 측정 (Agentic AI Operational Cost Metrics)",
-      "description": "단순 토큰·API 호출 비용이 아닌 목표 달성 단위로 에이전트 시스템의 실제 비용을 측정해야 한다는 새로운 기준이 제시되고 있음.",
-      "paper_count": 3,
-      "paper_indices": [
-        25,
-        32,
-        19
-      ],
-      "papers": [
-        {
-          "title": "Energy per Successful Goal: Goal-Level Energy Accounting for Agentic AI Systems",
-          "url": "https://arxiv.org/abs/2605.22883",
-          "source": "arXiv cs.AI",
-          "date": "2026-05-25"
-        },
-        {
-          "title": "Parallel Context Compaction for Long-Horizon LLM Agent Serving",
-          "url": "https://arxiv.org/abs/2605.23296",
-          "source": "arXiv cs.AI",
-          "date": "2026-05-25"
-        },
-        {
-          "title": "DART: Semantic Recoverability for Structured Tool Agents",
-          "url": "https://arxiv.org/abs/2605.23311",
-          "source": "arXiv cs.AI",
-          "date": "2026-05-25"
-        }
-      ]
-    },
-    {
       "topic": "AI 평가 신뢰성 위기 (AI Benchmark Reliability Crisis)",
-      "description": "벤치마크 점수가 실제 업무 성능을 반영하지 못한다는 비판이 코딩·연구·의료 등 지식 작업 전반으로 확산되고 있음.",
-      "paper_count": 4,
+      "description": "벤치마크 점수가 실제 업무 수행 능력을 반영하지 못한다는 구조적 문제가 여러 분야에서 동시에 제기되고 있어, 도입 의사결정 기준 자체를 재검토해야 하는 상황.",
+      "paper_count": 5,
       "paper_indices": [
         1,
         4,
         8,
-        13
+        13,
+        74
       ],
       "papers": [
         {
@@ -115,18 +93,121 @@
           "url": "https://arxiv.org/abs/2605.23715v1",
           "source": "arXiv cs.CL",
           "date": "2026-05-22"
+        },
+        {
+          "title": "Certification from Examples is Hard for Circuits and Transformers under Minimal Overparametrization",
+          "url": "https://arxiv.org/abs/2605.22964",
+          "source": "arXiv cs.LG",
+          "date": "2026-05-25"
         }
       ]
     },
     {
-      "topic": "RAG 시스템 품질 고도화 (RAG Pipeline Quality Improvement)",
-      "description": "검색증강생성 시스템의 청킹·검색·할루시네이션 제어 품질이 실제 서비스 신뢰도를 결정하는 핵심 변수로 부각되고 있음.",
+      "topic": "에이전트 AI 비용·에너지 효율 재정의 (Agentic AI Cost Accounting)",
+      "description": "단일 모델 호출 단위가 아닌 '목표 달성 단위'로 비용을 측정해야 다단계 에이전트 워크플로우의 실제 ROI를 파악할 수 있다는 새로운 기준 제시.",
+      "paper_count": 3,
+      "paper_indices": [
+        25,
+        32,
+        34
+      ],
+      "papers": [
+        {
+          "title": "Energy per Successful Goal: Goal-Level Energy Accounting for Agentic AI Systems",
+          "url": "https://arxiv.org/abs/2605.22883",
+          "source": "arXiv cs.AI",
+          "date": "2026-05-25"
+        },
+        {
+          "title": "Parallel Context Compaction for Long-Horizon LLM Agent Serving",
+          "url": "https://arxiv.org/abs/2605.23296",
+          "source": "arXiv cs.AI",
+          "date": "2026-05-25"
+        },
+        {
+          "title": "Latent Cache Flow: Model-to-Model Communication Without Text",
+          "url": "https://arxiv.org/abs/2605.22863",
+          "source": "arXiv cs.LG",
+          "date": "2026-05-25"
+        }
+      ]
+    },
+    {
+      "topic": "AI 거버넌스·컴플라이언스 자동화 (AI Governance & Automated Compliance)",
+      "description": "규제 준수를 문서 기반 수동 감시에서 실행 가능한 코드 형태의 자동 검증으로 전환하려는 시도가 법률·의료·금융 분야에서 구체화되고 있음.",
       "paper_count": 4,
       "paper_indices": [
         11,
-        71,
+        78,
+        63,
+        64
+      ],
+      "papers": [
+        {
+          "title": "AAIA-RAG-LEGAL AI Governance for Italian Law",
+          "url": "https://doi.org/10.5281/zenodo.20329734",
+          "source": "OpenAlex",
+          "date": "2026-05-21"
+        },
+        {
+          "title": "Ontological Knowledge Blocks: Executable Compliance and Profile-Based Validation for Trustworthy AI Systems",
+          "url": "https://arxiv.org/abs/2605.23297",
+          "source": "arXiv cs.AI",
+          "date": "2026-05-25"
+        },
+        {
+          "title": "Incentive-Aware AI Safety via Strategic Resource Allocation: A Stackelberg Security Games Perspective",
+          "url": "https://doi.org/10.65109/jujh9710",
+          "source": "OpenAlex",
+          "date": "2026-05-24"
+        },
+        {
+          "title": "Interactionless Inverse Reinforcement Learning: A Data-Centric Framework for Durable Alignment",
+          "url": "https://arxiv.org/pdf/2602.14844",
+          "source": "OpenAlex",
+          "date": "2026-05-24"
+        }
+      ]
+    },
+    {
+      "topic": "대화형 AI의 프라이버시·편향 리스크 (Conversational AI Privacy & Bias Risks)",
+      "description": "익명화 후에도 추론적 개인정보 유출이 가능하고, 종교·문화적 편향이 일관되게 나타난다는 실증 연구가 기업 AI 정책 재검토를 요구하고 있음.",
+      "paper_count": 3,
+      "paper_indices": [
+        60,
+        80,
+        59
+      ],
+      "papers": [
+        {
+          "title": "Inferential Privacy Leakage in Anonymized Conversational AI Logs",
+          "url": "https://arxiv.org/abs/2605.23820",
+          "source": "arXiv cs.CY (Computers & Society)",
+          "date": "2026-05-25"
+        },
+        {
+          "title": "When AI Takes Sides on Questions of Faith: Persistent Asymmetries in AI-Mediated Faith Guidance",
+          "url": "https://arxiv.org/abs/2605.22975",
+          "source": "arXiv cs.CL",
+          "date": "2026-05-25"
+        },
+        {
+          "title": "Unjust Enrichment as a Remedy for AI's Unauthorised Use of Protected Data",
+          "url": "https://arxiv.org/abs/2605.23503",
+          "source": "arXiv cs.CY (Computers & Society)",
+          "date": "2026-05-25"
+        }
+      ]
+    },
+    {
+      "topic": "RAG 시스템 고도화 (Retrieval-Augmented Generation Optimization)",
+      "description": "고정 청킹 방식의 한계를 넘어 쿼리 적응형 동적 청킹, 환각 방지 검증, 그래프 기반 근거 추적 등으로 RAG 품질 관리가 정교해지고 있음.",
+      "paper_count": 4,
+      "paper_indices": [
+        11,
+        73,
         41,
-        54
+        29
       ],
       "papers": [
         {
@@ -148,69 +229,9 @@
           "date": "2026-05-25"
         },
         {
-          "title": "Vector Retrieval with Similarity and Diversity: How Hard Is It?",
-          "url": "https://arxiv.org/abs/2407.04573",
-          "source": "arXiv cs.IR",
-          "date": "2026-05-25"
-        }
-      ]
-    },
-    {
-      "topic": "AI 컴플라이언스 자동화 (AI Compliance Automation)",
-      "description": "규제 준수를 문서가 아닌 실행 가능한 코드로 자동 검증하는 프레임워크가 등장하며 금융·공공 분야 내부통제와 직결되는 흐름.",
-      "paper_count": 3,
-      "paper_indices": [
-        76,
-        11,
-        62
-      ],
-      "papers": [
-        {
-          "title": "Ontological Knowledge Blocks: Executable Compliance and Profile-Based Validation for Trustworthy AI Systems",
-          "url": "https://arxiv.org/abs/2605.23297",
+          "title": "SciAtlas: A Large-Scale Knowledge Graph for Automated Scientific Research",
+          "url": "https://arxiv.org/abs/2605.22878",
           "source": "arXiv cs.AI",
-          "date": "2026-05-25"
-        },
-        {
-          "title": "AAIA-RAG-LEGAL AI Governance for Italian Law",
-          "url": "https://doi.org/10.5281/zenodo.20329734",
-          "source": "OpenAlex",
-          "date": "2026-05-21"
-        },
-        {
-          "title": "Incentive-Aware AI Safety via Strategic Resource Allocation: A Stackelberg Security Games Perspective",
-          "url": "https://doi.org/10.65109/jujh9710",
-          "source": "OpenAlex",
-          "date": "2026-05-24"
-        }
-      ]
-    },
-    {
-      "topic": "대화형 AI의 프라이버시·법적 리스크 (Conversational AI Privacy & Legal Risk)",
-      "description": "익명화 후에도 추론을 통한 개인정보 유출이 가능하며, AI 학습 데이터의 무단 이용에 대한 법적 구제 논의가 구체화되고 있음.",
-      "paper_count": 3,
-      "paper_indices": [
-        60,
-        59,
-        42
-      ],
-      "papers": [
-        {
-          "title": "Inferential Privacy Leakage in Anonymized Conversational AI Logs",
-          "url": "https://arxiv.org/abs/2605.23820",
-          "source": "arXiv cs.CY (Computers & Society)",
-          "date": "2026-05-25"
-        },
-        {
-          "title": "Unjust Enrichment as a Remedy for AI's Unauthorised Use of Protected Data",
-          "url": "https://arxiv.org/abs/2605.23503",
-          "source": "arXiv cs.CY (Computers & Society)",
-          "date": "2026-05-25"
-        },
-        {
-          "title": "Memorization Dynamics of Fill-in-the-Middle Pretraining",
-          "url": "https://arxiv.org/abs/2605.22981",
-          "source": "arXiv cs.CL",
           "date": "2026-05-25"
         }
       ]
@@ -218,11 +239,11 @@
   ],
   "key_techniques": [
     {
-      "technique": "쿼리 적응형 의미 청킹 (Query-Adaptive Semantic Chunking)",
-      "description": "RAG 시스템에서 고정 크기 대신 사용자 쿼리에 맞춰 동적으로 문서를 분할해 검색 정확도를 높이는 기법 — 사내 지식베이스 기반 챗봇의 답변 품질을 직접 개선할 수 있음.",
+      "technique": "쿼리 적응형 동적 청킹 (Query-Adaptive Semantic Chunking)",
+      "description": "사용자 질문에 따라 문서 분할 방식을 실시간으로 조정해 RAG 검색 정확도를 높이는 기법으로, 고정 청킹 방식으로 운영 중인 사내 RAG 시스템의 품질 개선에 직접 적용 가능.",
       "paper_count": 1,
       "paper_indices": [
-        71
+        73
       ],
       "papers": [
         {
@@ -234,24 +255,8 @@
       ]
     },
     {
-      "technique": "소형 언어모델 3단계 학습 (SLM Three-Phase Training, HARNESS-LM)",
-      "description": "Qwen3-Embedding 같은 소형 모델을 고처리량·저지연 환경에 맞게 단계적으로 학습시키는 방식 — 온프레미스 배포 제약이 있는 국내 금융·공공 환경에서 실용적 대안이 됨.",
-      "paper_count": 1,
-      "paper_indices": [
-        10
-      ],
-      "papers": [
-        {
-          "title": "HARNESS-LM: A Three-Phase Training Recipe for Harnessing SLMs in Sponsored Search Retrieval",
-          "url": "https://arxiv.org/abs/2605.23572v1",
-          "source": "arXiv cs.IR",
-          "date": "2026-05-22"
-        }
-      ]
-    },
-    {
-      "technique": "복합 AI 시스템 기여도 분석 (Zero-Cost Component Attribution, BOHM)",
-      "description": "여러 AI 모듈로 구성된 시스템에서 어떤 컴포넌트가 성과에 얼마나 기여했는지를 추가 비용 없이 측정하는 방법 — 에이전트 파이프라인 최적화 의사결정에 근거를 제공함.",
+      "technique": "컴포넌트 기여도 귀인 분석 (Hierarchical Attribution for Compound AI, BOHM)",
+      "description": "복합 AI 시스템에서 어느 모듈이 성과에 얼마나 기여했는지를 외부 API나 블랙박스 모듈에도 비용 없이 측정할 수 있어, 멀티에이전트 시스템의 성능 책임 소재 파악에 활용 가능.",
       "paper_count": 1,
       "paper_indices": [
         5
@@ -266,11 +271,11 @@
       ]
     },
     {
-      "technique": "온톨로지 기반 실행형 컴플라이언스 (Ontological Knowledge Blocks)",
-      "description": "규제 요건을 코드로 변환해 AI 시스템의 준수 여부를 자동 검증하는 프레임워크 — 수동 감사 의존도를 낮추고 내부통제 자동화를 가능하게 함.",
+      "technique": "온톨로지 기반 실행형 컴플라이언스 (Ontological Knowledge Blocks for Executable Compliance)",
+      "description": "규제 요건을 실행 가능한 코드로 변환해 AI 시스템의 준법 여부를 자동 검증하는 방식으로, 수동 감사 비용을 줄이고 금융·공공 분야 내부통제 자동화에 적합.",
       "paper_count": 1,
       "paper_indices": [
-        76
+        78
       ],
       "papers": [
         {
@@ -282,28 +287,58 @@
       ]
     },
     {
-      "technique": "에이전트 의미론적 복구 (Semantic Recoverability, DART)",
-      "description": "에이전트가 실행 중 실패했을 때 전체 재실행 없이 체크포인트에서 의미론적 일관성을 유지하며 복구하는 기법 — 장시간 자동화 워크플로우의 안정성을 높이는 데 필수적.",
-      "paper_count": 1,
+      "technique": "목표 달성 단위 에너지·비용 회계 (Goal-Level Energy Accounting)",
+      "description": "API 호출 횟수가 아닌 사용자 목표 달성 건당 실제 비용을 측정하는 프레임워크로, 에이전트 AI 도입 ROI 산정 방식을 근본적으로 바꿔야 하는 근거를 제공.",
+      "paper_count": 2,
       "paper_indices": [
-        19
+        25,
+        32
       ],
       "papers": [
         {
-          "title": "DART: Semantic Recoverability for Structured Tool Agents",
-          "url": "https://arxiv.org/abs/2605.23311",
+          "title": "Energy per Successful Goal: Goal-Level Energy Accounting for Agentic AI Systems",
+          "url": "https://arxiv.org/abs/2605.22883",
           "source": "arXiv cs.AI",
+          "date": "2026-05-25"
+        },
+        {
+          "title": "Parallel Context Compaction for Long-Horizon LLM Agent Serving",
+          "url": "https://arxiv.org/abs/2605.23296",
+          "source": "arXiv cs.AI",
+          "date": "2026-05-25"
+        }
+      ]
+    },
+    {
+      "technique": "불확실성 전파 추적 (Semantic Uncertainty Propagation Tracking)",
+      "description": "에이전트 초기 단계의 오류나 불확실성이 이후 출력에 연쇄적으로 증폭되는 경로를 추적해, 다단계 자동화 워크플로우에서 오류 발생 지점을 조기에 식별하는 데 활용 가능.",
+      "paper_count": 2,
+      "paper_indices": [
+        26,
+        21
+      ],
+      "papers": [
+        {
+          "title": "HawkesLLM: Semantic Uncertainty Propagation in Agentic Text Simulation",
+          "url": "https://arxiv.org/abs/2605.23043",
+          "source": "arXiv cs.CL",
+          "date": "2026-05-25"
+        },
+        {
+          "title": "Reading Calibrated Uncertainty from Language Model Trajectories",
+          "url": "https://arxiv.org/abs/2605.22864",
+          "source": "arXiv cs.LG",
           "date": "2026-05-25"
         }
       ]
     }
   ],
   "actionable_insights": [
-    "사내 에이전트 또는 RAG 시스템의 성과 측정 지표를 API 호출 횟수·토큰 비용에서 '목표 달성 건당 총비용(재시도·실패 포함)'으로 전환하는 KPI 재설계를 검토하라. Energy per Successful Goal 논문이 제시한 이 단위는 에이전트 도입 ROI를 경영진에게 설명할 때도 훨씬 설득력 있는 프레임이 된다.",
-    "현재 운영 중인 RAG 기반 챗봇이나 문서 검색 시스템의 청킹 방식을 점검하라. 고정 크기 청킹을 사용하고 있다면 Query-Adaptive Semantic Chunking 방식으로의 전환이 검색 정확도를 실질적으로 개선할 수 있으며, 특히 법률·계약·규정 문서처럼 맥락이 중요한 도메인에서 효과가 크다.",
-    "다중 에이전트 시스템 도입을 검토 중이라면, 기술 스펙 선정 이전에 '에이전트 간 책임 경계 설계'를 별도 아키텍처 의사결정 항목으로 분리하라. Redrawing the AI Map과 Foundation Protocol 논문이 공통적으로 지적하듯, 조정 메커니즘 없이 에이전트를 연결하면 장애 발생 시 책임 소재가 불명확해지고 컴플라이언스 감사에서 취약점이 된다.",
-    "AI 도입 성과를 벤치마크 점수로 평가하는 관행을 재검토하라. Design and Report Benchmarks for Knowledge Work 논문은 코딩·연구·의료 등 지식 작업에서 높은 벤치마크 성능이 실제 업무 수행 능력을 신뢰할 수 있게 반영하지 못한다고 명시한다. 사내 실제 업무 시나리오 기반의 자체 평가 기준을 병행 운영하는 것이 더 신뢰할 수 있는 도입 판단 근거가 된다.",
-    "임직원이 AI 도구와 나눈 대화 로그의 보관·익명화 정책을 점검하라. Inferential Privacy Leakage 논문은 익명화 후에도 대화 패턴 분석을 통해 개인정보가 추론될 수 있음을 실증했다. 개인정보보호법 적용을 받는 국내 기업은 대화 로그의 수집 목적·보존 기간·접근 권한을 명문화하고, AI 서비스 공급사의 데이터 처리 방침을 계약 수준에서 확인해야 한다."
+    "멀티에이전트 AI 시스템 도입을 검토할 때 모델 벤치마크 점수보다 '실제 업무 목표 달성률'과 '목표당 총비용(재시도·실패 복구 포함)'을 평가 기준으로 삼아야 하며, **성공한 목표당 비용으로 KPI를 재설계해야** 에이전트 워크플로우의 실제 ROI를 측정할 수 있다.",
+    "사내 RAG 시스템을 구축한 기업이라면 문서 청킹 방식, 인덱스 업데이트 주기, 환각 발생 모니터링 체계를 점검해야 하며, **RAG 파이프라인을 한 번 구축하고 방치하는 운영 방식은 재검토가 필요한 시점**이다—쿼리 적응형 청킹과 근거 추적 기법이 품질 개선의 실질적 수단으로 부상하고 있다.",
+    "대화형 AI 서비스를 운영하거나 도입 중인 기업은 익명화된 대화 로그에서도 추론적 개인정보 유출이 가능하다는 실증 결과를 근거로, **데이터 보존 정책과 로그 관리 기준을 개인정보보호법 관점에서 재점검**해야 한다.",
+    "AI 오케스트레이터가 여러 부서 시스템을 연결하는 구조를 설계할 때, 의사결정·승인·책임 할당이 필요한 업무 경계를 사전에 명확히 정의해야 하며, **책임 경계가 명확히 설계된 아키텍처를 선택**하지 않으면 장애 발생 시 책임 소재가 불분명해지는 운영 리스크가 현실화된다.",
+    "금융·공공·의료 분야에서 AI 컴플라이언스 자동화를 추진할 경우, **한국 기업 환경에서는 개인정보보호법상 국외 데이터 이전 제한, 금융위·금감원의 AI 모델 설명 요구, 공공기관의 망분리 정책이 클라우드 기반 멀티에이전트 도입의 현실적 장벽으로 작용**하므로, 온톨로지 기반 실행형 컴플라이언스 프레임워크를 온프레미스 환경에서 구현하는 방안을 병행 검토해야 한다."
   ],
   "top_institutions": [
     {
@@ -312,7 +347,7 @@
     },
     {
       "name": "MIT",
-      "count": 21
+      "count": 22
     },
     {
       "name": "FAIR",
@@ -357,15 +392,15 @@
       "count": 11
     },
     {
+      "keyword": "generative",
+      "count": 11
+    },
+    {
       "keyword": "knowledge",
       "count": 10
     },
     {
       "keyword": "multi agent",
-      "count": 10
-    },
-    {
-      "keyword": "generative",
       "count": 10
     },
     {
@@ -377,15 +412,15 @@
       "count": 10
     },
     {
+      "keyword": "framework",
+      "count": 10
+    },
+    {
       "keyword": "retrieval",
       "count": 9
     },
     {
       "keyword": "agentic",
-      "count": 9
-    },
-    {
-      "keyword": "framework",
       "count": 9
     },
     {
