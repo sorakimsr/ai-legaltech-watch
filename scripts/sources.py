@@ -294,6 +294,25 @@ SOURCES = [
     ("Google News: 헤럴드경제 AI (KR)", _gnews('site:heraldcorp.com (AI OR "인공지능" OR "리걸테크")'), "google_news", ["ai-industry", "domestic"], "ko"),
     ("Google News: 더벨 AI (KR)", _gnews('site:thebell.co.kr (AI OR "인공지능" OR "리걸테크")'), "google_news", ["ai-industry", "domestic"], "ko"),
     ("Google News: 머니투데이 보조 (KR)", _gnews('site:mt.co.kr (AI OR "인공지능" OR "리걸테크" OR "법무법인") -광고 -이벤트'), "google_news", ["ai-industry", "domestic"], "ko"),
+
+    # ====================================================================
+    # v6.14 (2026-05-27): 한국경제 Law&Biz 전용 + 종합지 (사용자 요청)
+    # ====================================================================
+    # 한국경제 Law&Biz — 직접 RSS 미제공 (404 확인). Google News inurl:lawbiz 우회.
+    # 한국경제는 일반 'hankyung.com/feed/it' RSS는 이미 sources.py에 등록되어 있으나
+    # Law&Biz 섹션(로펌·변호사·법조)이 별도 카테고리라 site:로 명시적 추가 필요.
+    ("Google News: 한국경제 Law&Biz (KR)", _gnews('inurl:hankyung.com/lawbiz OR (site:hankyung.com (로펌 OR 변호사 OR 법조 OR 리걸테크))'), "google_news", ["legaltech", "domestic"], "ko"),
+    ("Google News: 한국경제 베스트로이어 (KR)", _gnews('site:hankyung.com ("베스트로이어" OR "Best Lawyer" OR "로펌 뉴스")'), "google_news", ["legaltech", "domestic"], "ko"),
+
+    # 종합지 (조선·중앙·동아·한겨레·경향) — RSS 있는 것은 직접, 나머지는 site: 우회
+    # 조선일보 IT-Science: RSS 작동 확인 (chosun.com arc outboundfeeds)
+    ("조선일보 IT", "https://www.chosun.com/arc/outboundfeeds/rss/category/it-science/?outputType=xml", "korean", ["ai-industry", "domestic"], "ko"),
+    # 종합지 site: 우회 — AI/리걸테크 키워드 한정
+    ("Google News: 조선일보 AI (KR)", _gnews('site:chosun.com (AI OR "인공지능" OR "리걸테크" OR "법무법인")'), "google_news", ["ai-industry", "domestic"], "ko"),
+    ("Google News: 중앙일보 AI (KR)", _gnews('site:joongang.co.kr (AI OR "인공지능" OR "리걸테크" OR "법무법인")'), "google_news", ["ai-industry", "domestic"], "ko"),
+    ("Google News: 동아일보 AI (KR)", _gnews('site:donga.com (AI OR "인공지능" OR "리걸테크" OR "법무법인")'), "google_news", ["ai-industry", "domestic"], "ko"),
+    ("Google News: 한겨레 AI (KR)", _gnews('site:hani.co.kr (AI OR "인공지능" OR "리걸테크" OR "법무법인")'), "google_news", ["ai-industry", "domestic"], "ko"),
+    ("Google News: 경향신문 AI (KR)", _gnews('site:khan.co.kr (AI OR "인공지능" OR "리걸테크" OR "법무법인")'), "google_news", ["ai-industry", "domestic"], "ko"),
 ]
 
 

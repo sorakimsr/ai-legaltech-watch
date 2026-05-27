@@ -108,7 +108,11 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           ANTHROPIC_MODEL: "claude-haiku-4-5-20251001"
           ENRICH_TOP_N: "500"
-          ENRICH_MAX_PER_RUN: "500"
+          ENRICH_MAX_PER_RUN: "800"            # v6.14: 500→800 (소스 증가 대응)
+          # v6.14: 한국어 insight 임계값 70→35 (cut-off와 동일). 사용자 정책:
+          #   "최대한 많은 데이터 + 모든 항목에 시사점 반영".
+          #   기존 70은 한국어 기사 대부분 누락. cut-off (35) 통과한 모든 항목에 insight 생성.
+          INSIGHT_THRESHOLD_KO: "35"
           ENRICH_REFRESH_DAYS: ${{ github.event.inputs.refresh_recent_days || '0' }}
         run: python scripts/enrich_with_llm.py
         continue-on-error: true
