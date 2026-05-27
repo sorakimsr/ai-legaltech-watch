@@ -69,7 +69,8 @@ def _arxiv_fetch_with_retry(url: str, max_retries: int = 3):
     from urllib.request import Request, urlopen
     from urllib.error import HTTPError
 
-    headers = {"User-Agent": "Mozilla/5.0 (compatible; AI-Legaltech-Watch/3.4)"}
+    # v6.13: 일반 Chrome UA로 통일 (Cloudflare/CDN 봇 차단 방지)
+    headers = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"}
     # v3.4: arXiv 429가 retry 후에도 fail하는 케이스가 잦음 — backoff 더 길게
     delays = [10, 30, 90]  # 1차 10초, 2차 30초, 3차 90초
 
@@ -121,8 +122,12 @@ def fetch_source(source_def):
                 print(f"    -> arxiv api fetch error: {exc}", flush=True)
                 return [], "error"
         else:
+            # v6.13: User-Agent를 일반 Chrome UA로 변경.
+            #   기존 "compatible; AI-Legaltech-Watch/2.7"이 Cloudflare 봇 차단에 걸려
+            #   byline.network 등 일부 한국 매체 RSS가 403으로 실패했음 → 일반 UA로 회복.
             feed = feedparser.parse(url, request_headers={
-                "User-Agent": "Mozilla/5.0 (compatible; AI-Legaltech-Watch/2.7)"
+                "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+                "Accept": "application/rss+xml, application/xml, text/xml, */*;q=0.8",
             })
         if feed.bozo and feed.bozo_exception and not feed.entries:
             print(f"    -> error: {feed.bozo_exception}", flush=True)

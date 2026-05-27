@@ -260,6 +260,40 @@ SOURCES = [
     ("Google News: MMLU GPQA HumanEval (EN)", _gnews('"MMLU" OR "GPQA" OR "HumanEval"', "en", "US"), "google_news", ["ai-industry"], "en"),
     ("Google News: SWE-bench ARC-AGI (EN)", _gnews('"SWE bench" OR "SWEbench" OR "ARC AGI" OR "ARCAGI" OR "LiveBench"', "en", "US"), "google_news", ["ai-industry"], "en"),
     ("Google News: Chatbot Arena LMSYS (EN)", _gnews('"Chatbot Arena" OR "LMSYS" OR "AI leaderboard"', "en", "US"), "google_news", ["ai-industry"], "en"),
+
+    # ====================================================================
+    # v6.13 (2026-05-27): 키워드 확장 — Microsoft/Copilot/Gemini Workspace 등 (사용자 요청)
+    # ====================================================================
+    # 한국어 — Microsoft/Copilot 전용 (지금까지 한국어 검색에서 누락)
+    ("Google News: Microsoft Copilot (KR)", _gnews('"마이크로소프트" OR "Microsoft" OR "Copilot" OR "코파일럿" OR "MS 코파일럿"'), "google_news", ["ai-industry", "domestic"], "ko"),
+    ("Google News: GitHub Copilot 코딩 (KR)", _gnews('"GitHub Copilot" OR "깃허브 코파일럿" OR "AI 코딩" OR "AI 코드"'), "google_news", ["ai-industry", "domestic"], "ko"),
+    ("Google News: Microsoft Azure AI (KR)", _gnews('"Azure AI" OR "Azure OpenAI" OR "MS Azure"'), "google_news", ["ai-industry", "domestic"], "ko"),
+    # 한국어 — Gemini Workspace / Claude for Work / Perplexity Enterprise (보강)
+    ("Google News: Gemini Workspace (KR)", _gnews('"Gemini for Workspace" OR "Gemini Enterprise" OR "Google Workspace AI"'), "google_news", ["ai-industry", "domestic"], "ko"),
+    ("Google News: Claude for Work (KR)", _gnews('"Claude for Enterprise" OR "Claude for Work" OR "Claude Team"'), "google_news", ["ai-industry", "domestic"], "ko"),
+    ("Google News: Perplexity Enterprise (KR)", _gnews('"Perplexity Enterprise" OR "퍼플렉시티 엔터프라이즈"'), "google_news", ["ai-industry", "domestic"], "ko"),
+    # 한국어 — AI 에이전트 사이버 보안·MCP·코딩 도우미 (수요 큰 키워드)
+    ("Google News: MCP Model Context Protocol (KR)", _gnews('"Model Context Protocol" OR "MCP 서버" OR "MCP 클라이언트"'), "google_news", ["ai-industry", "domestic"], "ko"),
+    ("Google News: AI 보안 레드팀 (KR)", _gnews('"AI 레드팀" OR "AI red team" OR "AI 보안 위협" OR "Shadow AI" OR "섀도우 AI"'), "google_news", ["ai-industry", "policy", "domestic"], "ko"),
+    ("Google News: AI 에이전트 자동화 (KR)", _gnews('"AI 자동화" OR "에이전트 워크플로우" OR "agent workflow"'), "google_news", ["ai-industry", "domestic"], "ko"),
+
+    # ====================================================================
+    # v6.13: 머니투데이 RSS — 직접 RSS 작동 확인됨 (rss.mt.co.kr/mt_news.xml)
+    # 나머지 매체는 RSS 미제공 또는 봇 차단 → Google News site: 우회로
+    # ====================================================================
+    ("머니투데이", "https://rss.mt.co.kr/mt_news.xml", "korean", ["ai-industry", "domestic"], "ko"),
+
+    # v6.13: 검색 의존 한국 매체 → 매체별 Google News 우회 추가
+    #   (네이버 검색이 모든 기사를 다 잡아주지 못하므로 site:domain 검색을 보조로)
+    ("Google News: 디지털데일리 AI (KR)", _gnews('site:ddaily.co.kr (AI OR "인공지능" OR "리걸테크" OR "거버넌스")'), "google_news", ["ai-industry", "domestic"], "ko"),
+    ("Google News: 이데일리 AI (KR)", _gnews('site:edaily.co.kr (AI OR "인공지능" OR "리걸테크")'), "google_news", ["ai-industry", "domestic"], "ko"),
+    ("Google News: 서울경제 AI (KR)", _gnews('site:sedaily.com (AI OR "인공지능" OR "리걸테크" OR "법무법인")'), "google_news", ["ai-industry", "domestic"], "ko"),
+    ("Google News: 파이낸셜뉴스 AI (KR)", _gnews('site:fnnews.com (AI OR "인공지능" OR "리걸테크")'), "google_news", ["ai-industry", "domestic"], "ko"),
+    ("Google News: 뉴시스 AI (KR)", _gnews('site:newsis.com (AI OR "인공지능" OR "리걸테크")'), "google_news", ["ai-industry", "domestic"], "ko"),
+    ("Google News: 뉴스1 AI (KR)", _gnews('site:news1.kr (AI OR "인공지능" OR "리걸테크")'), "google_news", ["ai-industry", "domestic"], "ko"),
+    ("Google News: 헤럴드경제 AI (KR)", _gnews('site:heraldcorp.com (AI OR "인공지능" OR "리걸테크")'), "google_news", ["ai-industry", "domestic"], "ko"),
+    ("Google News: 더벨 AI (KR)", _gnews('site:thebell.co.kr (AI OR "인공지능" OR "리걸테크")'), "google_news", ["ai-industry", "domestic"], "ko"),
+    ("Google News: 머니투데이 보조 (KR)", _gnews('site:mt.co.kr (AI OR "인공지능" OR "리걸테크" OR "법무법인") -광고 -이벤트'), "google_news", ["ai-industry", "domestic"], "ko"),
 ]
 
 
