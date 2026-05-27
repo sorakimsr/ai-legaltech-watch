@@ -230,36 +230,58 @@ jobs:
             echo "No vault changes to push."
           fi
 
-      # ===== Git Commit (메인 repo) — v2.7.3: race condition 방어 =====
-      # 빌드 도중 remote가 앞서가더라도 pull --rebase 후 재시도
+      # ===== Git Commit (메인 repo) — v6.15.4: robust race-condition 처리 =====
+      # 빌드 결과를 임시 stash → remote 최신으로 reset → data/ 만 다시 적용 → commit + push.
+      # 이 방식은 git rebase/merge 충돌 자체를 피한다 (data/ 파일은 항상 우리 빌드 결과가 최신).
       - name: Commit updated data
         if: github.event.inputs.deploy_only != 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          # pull 기본 전략을 rebase로 명시 (git 2.27+ 호환)
+          git config pull.rebase true
+
+          # 변경 사항 없으면 종료
           git add data/
           if git diff --staged --quiet; then
             echo "No changes to commit."
             exit 0
           fi
-          git commit -m "chore: daily update $(date -u +'%Y-%m-%d %H:%M UTC')"
+          COMMIT_MSG="chore: daily update $(date -u +'%Y-%m-%d %H:%M UTC')"
+          git commit -m "$COMMIT_MSG"
+          OUR_COMMIT=$(git rev-parse HEAD)
+          echo "Our commit: $OUR_COMMIT"
 
-          # 최대 5회 재시도 — remote가 앞서갔으면 rebase 후 재푸시
-          for attempt in 1 2 3 4 5; do
-            if git push; then
+          # 최대 6회 재시도. 매 시도마다:
+          #   1) 단순 push 시도
+          #   2) 실패 시 → fetch + reset + checkout (data/ 만 우리 결과로 덮어쓰기) + 재 commit
+          for attempt in 1 2 3 4 5 6; do
+            if git push origin HEAD:main 2>/tmp/push_err; then
               echo "✅ Push succeeded on attempt $attempt"
               exit 0
             fi
-            echo "⚠️ Push rejected (attempt $attempt). Pulling latest with rebase..."
-            git pull --rebase origin main || {
-              # 충돌 발생 — data 폴더만 빌드 결과로 강제 유지
-              echo "Rebase conflict detected, taking 'ours' for data/ only"
-              git rebase --abort || true
-              git pull --strategy-option=ours origin main || true
-            }
-            sleep 2
+            echo "⚠️ Push attempt $attempt failed:"
+            cat /tmp/push_err
+            echo "→ Reconciling: fetch + reset + checkout data/ from our commit"
+
+            # remote 최신 상태 가져오기
+            git fetch origin main
+            # remote main으로 hard reset (working tree 깨끗)
+            git reset --hard origin/main
+            # 우리 commit의 data/ 변경분만 다시 적용 (이게 핵심 — 충돌 없이 강제 ours)
+            git checkout "$OUR_COMMIT" -- data/
+            git add data/
+            if git diff --staged --quiet; then
+              echo "  data/ unchanged after reconcile — remote already has our changes?"
+              echo "  exiting success (idempotent)"
+              exit 0
+            fi
+            # 새 commit (메시지에 attempt 번호 표시)
+            git commit -m "$COMMIT_MSG [retry $attempt]"
+            OUR_COMMIT=$(git rev-parse HEAD)
+            sleep $((attempt * 2))  # exponential-ish backoff
           done
-          echo "❌ All push attempts failed"
+          echo "❌ All 6 push attempts failed"
           exit 1
 
       # ===== GitHub Pages 배포 =====
