@@ -52,7 +52,10 @@ jobs:
     runs-on: ubuntu-latest
     # v3.0: enrich 500건 + strategy(daily/weekly/monthly) + papers + deploy 합치면 30분 부족.
     # 빌드 #17이 [428/483] enrich 중에 cancelled됨. 90분으로 상향.
-    timeout-minutes: 90
+    # v6.15.1 (2026-05-27): refresh_recent_days=14 + 800 enrich cap에서 빌드 3건 연속
+    # 90분 timeout 도달로 cancelled. 90→180으로 안전 마진 확보. 동시에
+    # ENRICH_MAX_PER_RUN을 800→400으로 축소하여 통상 빌드 60-90분 수렴 (아래 env 참조).
+    timeout-minutes: 180
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -108,7 +111,7 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           ANTHROPIC_MODEL: "claude-haiku-4-5-20251001"
           ENRICH_TOP_N: "500"
-          ENRICH_MAX_PER_RUN: "800"            # v6.14: 500→800 (소스 증가 대응)
+          ENRICH_MAX_PER_RUN: "400"            # v6.15.1: 800→400 (timeout 안전. 못 다한 backlog는 cron 6h마다 캐시 hit으로 자동 이어 처리)
           # v6.14: 한국어 insight 임계값 70→35 (cut-off와 동일). 사용자 정책:
           #   "최대한 많은 데이터 + 모든 항목에 시사점 반영".
           #   기존 70은 한국어 기사 대부분 누락. cut-off (35) 통과한 모든 항목에 insight 생성.
