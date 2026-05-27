@@ -53,8 +53,10 @@ OUTPUT_PATH = os.path.join(ROOT_DIR, "data", "entities.json")
 ENTITY_CATALOG = [
     # ─── AI 회사 (글로벌 빅테크 + Foundation Model) ───
     ("openai", "OpenAI", "ai_company", ["openai", "오픈ai", "오픈에이아이", "샘 알트만", "sam altman"]),
-    ("anthropic", "Anthropic", "ai_company", ["anthropic", "claude", "클로드", "다리오 아모데이", "dario amodei"]),
-    ("google_ai", "Google AI", "ai_company", ["google deepmind", "google ai", "gemini", "제미니", "구글 ai", "deepmind"]),
+    # v5.0: claude alias 제거 — 별도 ai_product 노드 'claude'로 분리
+    ("anthropic", "Anthropic", "ai_company", ["anthropic", "앤트로픽", "다리오 아모데이", "dario amodei"]),
+    # v5.0: Gemini는 별도 ai_product 노드로 분리 (Google AI는 회사 단위 유지)
+    ("google_ai", "Google AI", "ai_company", ["google deepmind", "google ai", "구글 ai", "deepmind", "alphabet ai"]),
     ("meta_ai", "Meta AI", "ai_company", ["meta ai", "meta llama", "llama", "라마", "fair", "메타 ai"]),
     ("microsoft_ai", "Microsoft AI", "ai_company", ["microsoft ai", "copilot", "코파일럿", "microsoft copilot"]),
     ("nvidia", "NVIDIA", "ai_company", ["nvidia", "엔비디아", "젠슨 황", "jensen huang"]),
@@ -108,6 +110,14 @@ ENTITY_CATALOG = [
     ("lg_ensol", "LG에너지솔루션", "korean_manufacturing", ["lg에너지솔루션", "lg엔솔", "lg energy solution"]),
     ("samsung_sdi", "삼성SDI", "korean_manufacturing", ["삼성sdi", "samsung sdi"]),
     ("sk_innovation", "SK이노베이션", "korean_manufacturing", ["sk이노베이션", "sk on", "sk온"]),
+    # v5.0: 한국 IT·전자 대기업
+    ("samsung_electronics", "삼성전자", "korean_manufacturing", ["삼성전자", "samsung electronics", "samsung dx", "삼성 dx부문", "삼성 mx"]),
+    ("lg_electronics", "LG전자", "korean_manufacturing", ["lg전자", "lg electronics"]),
+    ("lg_chem", "LG화학", "korean_manufacturing", ["lg화학", "lg chem"]),
+    ("sk_hynix", "SK하이닉스", "korean_manufacturing", ["sk하이닉스", "sk hynix"]),
+    ("naver", "네이버", "korean_manufacturing", ["네이버", "naver", "naver cloud", "네이버 클라우드", "하이퍼클로바", "hyperclova"]),
+    ("kakao", "카카오", "korean_manufacturing", ["카카오", "kakao", "kakao brain", "카카오브레인"]),
+    ("krafton", "크래프톤", "korean_manufacturing", ["크래프톤", "krafton"]),
 
     # ─── 정부 부처 / 규제 기관 ───
     ("ministry_industry", "산업통상자원부", "kr_government", ["산업부", "산업통상자원부"]),
@@ -134,17 +144,82 @@ ENTITY_CATALOG = [
     ("codex_for_legal", "Codex for Legal (OpenAI)", "ai_product", ["codex for legal", "openai codex legal"]),
     ("claude_for_legal", "Claude for Legal (Anthropic)", "ai_product", ["claude for legal"]),
     ("chatgpt", "ChatGPT", "ai_product", ["chatgpt", "챗gpt"]),
-    ("claude", "Claude (Anthropic)", "ai_product", ["claude opus", "claude sonnet", "claude haiku", "claude 3", "claude 4"]),
+    # v5.0: Claude를 회사 alias가 아닌 별도 제품 노드로
+    ("claude", "Claude (Anthropic)", "ai_product", ["claude", "클로드", "claude opus", "claude sonnet", "claude haiku", "claude 3", "claude 4"]),
     ("mythos", "Claude Mythos", "ai_product", ["mythos", "claude mythos"]),
     ("gemma", "Gemma (Google)", "ai_product", ["gemma"]),
+    # v5.0: Gemini 별도 ai_product 노드 (지식그래프에서 별도 노드로 표시)
+    ("gemini", "Gemini (Google)", "ai_product", ["gemini", "제미니", "gemini pro", "gemini ultra", "gemini 2", "gemini nano"]),
+    ("llama", "Llama (Meta)", "ai_product", ["llama", "라마", "llama 3", "llama 4"]),
+    ("copilot", "Copilot (Microsoft)", "ai_product", ["copilot", "코파일럿", "github copilot", "m365 copilot"]),
+    # v5.0: 한국 AI 제품
+    ("hyperclova", "HyperCLOVA X (Naver)", "ai_product", ["하이퍼클로바", "hyperclova", "clova x", "클로바 x"]),
+    ("kanana", "Kanana (Kakao)", "ai_product", ["kanana", "카나나"]),
 
-    # ─── 벤치마크 ───
+    # ─── v5.2: 학술 기관 (논문 NER 강화용) ───
+    ("stanford", "Stanford University", "academic_inst", ["stanford", "스탠퍼드", "stanford ai lab", "stanford hai"]),
+    ("mit_csail", "MIT (CSAIL)", "academic_inst", ["mit csail", "mit ai", "mit lcs", "massachusetts institute of technology"]),
+    ("cmu", "Carnegie Mellon University", "academic_inst", ["carnegie mellon", "cmu", "cmu ai", "lti cmu"]),
+    ("berkeley", "UC Berkeley", "academic_inst", ["uc berkeley", "berkeley ai", "bair", "berkeley artificial intelligence"]),
+    ("oxford_ai", "Oxford University", "academic_inst", ["oxford university", "university of oxford", "oxford ai"]),
+    ("cambridge_ai", "Cambridge University", "academic_inst", ["cambridge university", "university of cambridge"]),
+    ("eth_zurich", "ETH Zürich", "academic_inst", ["eth zurich", "eth zürich", "eth ai"]),
+    ("tsinghua", "Tsinghua University", "academic_inst", ["tsinghua", "tsinghua university", "칭화대"]),
+    ("peking_uni", "Peking University", "academic_inst", ["peking university", "pku", "베이징대"]),
+    ("nanyang_ntu", "NTU Singapore", "academic_inst", ["nanyang technological university", "ntu singapore"]),
+    ("nus", "NUS Singapore", "academic_inst", ["national university of singapore", "nus"]),
+    ("kaist", "KAIST", "academic_inst", ["kaist", "한국과학기술원"]),
+    ("snu", "Seoul National University", "academic_inst", ["seoul national university", "서울대학교", "서울대"]),
+    ("postech", "POSTECH", "academic_inst", ["postech", "포스텍", "포항공대"]),
+    ("yonsei", "Yonsei University", "academic_inst", ["yonsei university", "연세대학교", "연세대"]),
+    ("korea_uni", "Korea University", "academic_inst", ["korea university", "고려대학교", "고려대"]),
+    # ─── v5.2: 산업 연구소 (별도 노드 — google_ai/meta_ai에서 분리) ───
+    ("deepmind", "Google DeepMind", "academic_inst", ["google deepmind", "deepmind research"]),
+    ("meta_fair", "Meta FAIR", "academic_inst", ["meta fair", "fair labs", "facebook ai research"]),
+    ("ms_research", "Microsoft Research", "academic_inst", ["microsoft research", "msr"]),
+    ("apple_ml", "Apple ML Research", "academic_inst", ["apple ml", "apple machine learning research"]),
+    ("nvidia_research", "NVIDIA Research", "academic_inst", ["nvidia research"]),
+    ("ibm_research", "IBM Research", "academic_inst", ["ibm research"]),
+    ("allen_ai", "Allen AI (AI2)", "academic_inst", ["allen institute for ai", "allen ai", "ai2"]),
+    ("hf_research", "Hugging Face", "academic_inst", ["hugging face", "huggingface"]),
+    ("salesforce_ai", "Salesforce AI Research", "academic_inst", ["salesforce ai", "salesforce research"]),
+    # ─── v5.2: arXiv Subjects 태그 ───
+    ("arxiv_cs_ai", "cs.AI (Artificial Intelligence)", "tech", ["cs.ai"]),
+    ("arxiv_cs_cl", "cs.CL (Computation and Language)", "tech", ["cs.cl"]),
+    ("arxiv_cs_lg", "cs.LG (Machine Learning)", "tech", ["cs.lg"]),
+    ("arxiv_cs_cv", "cs.CV (Computer Vision)", "tech", ["cs.cv"]),
+    ("arxiv_cs_ne", "cs.NE (Neural and Evolutionary Computing)", "tech", ["cs.ne"]),
+    ("arxiv_cs_ro", "cs.RO (Robotics)", "tech", ["cs.ro"]),
+    ("arxiv_cs_cr", "cs.CR (Cryptography and Security)", "tech", ["cs.cr"]),
+    ("arxiv_cs_ir", "cs.IR (Information Retrieval)", "tech", ["cs.ir"]),
+    ("arxiv_cs_ma", "cs.MA (Multiagent Systems)", "tech", ["cs.ma"]),
+    ("arxiv_cs_se", "cs.SE (Software Engineering)", "tech", ["cs.se"]),
+    ("arxiv_stat_ml", "stat.ML (Machine Learning - Statistics)", "tech", ["stat.ml"]),
+    # ─── v5.2: 핵심 기법·아키텍처 ───
+    ("moe", "MoE (Mixture of Experts)", "tech", ["mixture of experts", "moe architecture", "sparse moe"]),
+    ("cot", "Chain-of-Thought", "tech", ["chain of thought", "chain-of-thought", "cot reasoning"]),
+    ("tot", "Tree of Thoughts", "tech", ["tree of thoughts", "tree-of-thought", "tot prompting"]),
+    ("react_prompt", "ReAct (Reasoning + Acting)", "tech", ["react prompting", "react agent", "reasoning and acting"]),
+    ("reflexion", "Reflexion", "tech", ["reflexion agent", "self-reflection"]),
+    ("rlhf", "RLHF", "tech", ["rlhf", "reinforcement learning from human feedback"]),
+    ("dpo", "DPO (Direct Preference Optimization)", "tech", ["direct preference optimization", "dpo training"]),
+    ("constitutional_ai", "Constitutional AI", "tech", ["constitutional ai", "rlaif", "constitution-based"]),
+    ("foundation_model", "Foundation Model", "tech", ["foundation model", "foundation models", "기반 모델"]),
+    # ─── 벤치마크 (v5.2: 논문 NER 보강) ───
     ("mmlu", "MMLU", "benchmark", ["mmlu"]),
+    ("mmlu_pro", "MMLU-Pro", "benchmark", ["mmlu-pro", "mmlu pro"]),
     ("humaneval", "HumanEval", "benchmark", ["humaneval"]),
+    ("mbpp", "MBPP", "benchmark", ["mbpp"]),
     ("gpqa", "GPQA", "benchmark", ["gpqa"]),
+    ("gsm8k", "GSM8K", "benchmark", ["gsm8k", "gsm-8k"]),
+    ("math_bench", "MATH Benchmark", "benchmark", ["math benchmark", "math dataset"]),
     ("swe_bench", "SWE-bench", "benchmark", ["swe-bench", "swe bench", "swebench"]),
     ("arc_agi", "ARC-AGI", "benchmark", ["arc-agi", "arc agi", "arcagi"]),
+    ("bigbench", "BIG-bench", "benchmark", ["big-bench", "big bench", "bbh", "big-bench hard"]),
+    ("agentbench", "AgentBench", "benchmark", ["agentbench"]),
+    ("webarena", "WebArena", "benchmark", ["webarena", "web arena"]),
     ("chatbot_arena", "Chatbot Arena (LMSYS)", "benchmark", ["chatbot arena", "lmsys"]),
+    ("livecodebench", "LiveCodeBench", "benchmark", ["livecodebench", "live code bench"]),
 
     # ─── M.AX·정책 이니셔티브 ───
     ("max_policy", "M.AX 정책 (산업부)", "policy", ["m.ax", "m·ax", "max 정책"]),
@@ -181,18 +256,36 @@ def _empty_entity_record(eid: str, name: str, etype: str, aliases: list) -> dict
     }
 
 
-def extract_from_articles(items: list, records: dict):
-    """각 article의 title+summary에서 엔티티 매칭 → records 누적."""
+def extract_from_articles(items: list, records: dict, auto_counter=None):
+    """v5.1: article의 title + summary + summary_ko + LLM-extracted entities 모두 활용.
+    v5.2: 논문은 abstract 전체 + arxiv_tags(Subjects) + authors도 추가.
+    catalog 매칭은 기존 alias 방식, 추가로 LLM이 추출한 entity 이름을 auto_counter에 누적.
+    """
     for it in items:
-        text = _make_alias_text((it.get("title") or "") + " " + (it.get("summary") or ""))
+        # v5.1: summary_ko도 매칭 텍스트에 포함 (한국어 본문)
+        text_parts = [it.get("title") or "", it.get("summary") or "", it.get("summary_ko") or ""]
+        # v5.1: LLM이 추출한 entity 이름들도 매칭 텍스트에 추가
+        llm_entities = it.get("entities") or []
+        if isinstance(llm_entities, list):
+            text_parts.extend([str(e) for e in llm_entities if isinstance(e, str)])
+        # v5.2: 논문 메타 (arxiv_tags, authors)도 매칭 텍스트에 포함
+        paper_meta = it.get("paper_meta") or {}
+        if isinstance(paper_meta, dict):
+            text_parts.extend(paper_meta.get("arxiv_tags") or [])
+            text_parts.extend(paper_meta.get("authors") or [])
+            if paper_meta.get("primary_category"):
+                text_parts.append(paper_meta["primary_category"])
+        text = _make_alias_text(" ".join(text_parts))
         if not text:
             continue
         url = it.get("url", "")
         date = (it.get("date") or "")[:10]
         score = it.get("score", 0) or 0
 
+        matched_eids = set()
         for eid, rec in records.items():
             if _entity_matches(rec["aliases"], text):
+                matched_eids.add(eid)
                 rec["mentioned_articles"].append({
                     "url": url,
                     "title": (it.get("title") or "")[:120],
@@ -207,15 +300,51 @@ def extract_from_articles(items: list, records: dict):
                 if not rec["last_seen"] or (date and date > rec["last_seen"]):
                     rec["last_seen"] = date
 
+        # v5.1: LLM이 추출한 entity 중 catalog에 매칭 안 된 것 → auto_entities 후보
+        if auto_counter is not None and isinstance(llm_entities, list):
+            for ent_name in llm_entities:
+                if not isinstance(ent_name, str): continue
+                ent_name = ent_name.strip()
+                if len(ent_name) < 2 or len(ent_name) > 60: continue
+                low = ent_name.lower()
+                # catalog의 어느 alias에든 정확/부분 매칭되면 자동 후보에서 제외
+                catalog_hit = False
+                for eid in matched_eids:
+                    for al in records[eid]["aliases"]:
+                        if low == al.lower() or low in al.lower() or al.lower() in low:
+                            catalog_hit = True; break
+                    if catalog_hit: break
+                if catalog_hit: continue
+                key = low
+                if key not in auto_counter:
+                    auto_counter[key] = {"name": ent_name, "count": 0, "score_sum": 0, "sample_titles": []}
+                auto_counter[key]["count"] += 1
+                auto_counter[key]["score_sum"] += score
+                if len(auto_counter[key]["sample_titles"]) < 3:
+                    auto_counter[key]["sample_titles"].append((it.get("title") or "")[:80])
+
 
 def extract_from_strategy(strategy_history: dict, records: dict):
-    """시사점 trend 카드 (daily/weekly/monthly)에서 엔티티 매칭."""
+    """시사점 trend 카드 (daily/weekly/monthly)에서 엔티티 매칭.
+
+    v6.15.2 hotfix: strategy_history entry가 v6.15부터 dict({summary, cards, _summary_addons}).
+                    옛 list 포맷도 지원.
+    """
     if not isinstance(strategy_history, dict):
         return
     for period in ("daily", "weekly", "monthly"):
         period_data = strategy_history.get(period) or {}
-        for key, cards in period_data.items():
-            if not isinstance(cards, list):
+        for key, entry in period_data.items():
+            # v6.15.2: entry가 dict({summary, cards, ...}) 또는 list(옛 포맷) 모두 지원
+            if isinstance(entry, list):
+                cards = entry
+            elif isinstance(entry, dict):
+                cards = entry.get("cards", [])
+                if not isinstance(cards, list):
+                    cards = []
+            else:
+                continue
+            if not cards:
                 continue
             for card in cards:
                 if not isinstance(card, dict):
@@ -303,8 +432,11 @@ def main():
     for eid, name, etype, aliases in ENTITY_CATALOG:
         records[eid] = _empty_entity_record(eid, name, etype, aliases)
 
+    # v5.1: catalog에 없는 LLM-추출 엔티티 후보 누적
+    auto_counter = {}
+
     # 3. 매칭 수행
-    extract_from_articles(items, records)
+    extract_from_articles(items, records, auto_counter=auto_counter)
     extract_from_strategy(strategy_history, records)
     extract_from_papers(paper_trends_history, records)
 
@@ -341,11 +473,29 @@ def main():
     for rec in top10:
         print(f"    {rec['name']:<35} ({rec['type']:<20}) mentions={rec['total_mentions']:>4} avg_score={rec['avg_score']}")
 
+    # v5.1: auto_entities 정리 — 2회 이상 등장한 후보만 (노이즈 컷)
+    auto_filtered = []
+    for key, info in auto_counter.items():
+        if info["count"] < 2:
+            continue
+        avg = round(info["score_sum"] / info["count"], 1)
+        auto_filtered.append({
+            "name": info["name"],
+            "count": info["count"],
+            "avg_score": avg,
+            "sample_titles": info["sample_titles"],
+        })
+    auto_filtered.sort(key=lambda x: (-x["count"], -x["avg_score"]))
+    print(f"  auto entities (catalog에 없지만 LLM이 추출, ≥2회): {len(auto_filtered)}", flush=True)
+    for x in auto_filtered[:15]:
+        print(f"    {x['count']:>3}회  avg={x['avg_score']:>5}  {x['name']}")
+
     # 8. 저장
     payload = {
         "generated_at": datetime.now(KST).isoformat(),
         "total_entities": len(active),
         "entities": active,
+        "auto_entities": auto_filtered,  # v5.1: catalog 승격 후보 (사용자 검토용)
     }
     os.makedirs(os.path.dirname(OUTPUT_PATH), exist_ok=True)
     with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
