@@ -615,7 +615,28 @@ function applyViewFilter(items) {
   return arr;
 }
 
+// v6.15.8: sidebar active class를 현재 state.view에 동기화.
+//   원인: HTML default가 nav-item active (시사점). init()이 state.view를 URL에서
+//   복원하지만 sidebar class는 안 건드림 → deep URL 진입(/papers, /graph 등) 시
+//   화면과 sidebar가 어긋남. renderContent 시작에서 매번 sync.
+function syncSidebarActive() {
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.querySelectorAll('.nav-sub').forEach(n => n.classList.remove('active'));
+  if (state.view === 'sources') {
+    // sources view: parent nav-item + nav-sub 둘 다 active
+    const parent = document.querySelector('.nav-item[data-view="sources"]');
+    if (parent) parent.classList.add('active');
+    const subTab = state.sourcesTab === 'trend' ? 'trend' : 'status';
+    const sub = document.querySelector(`.nav-sub[data-tab="${subTab}"]`);
+    if (sub) sub.classList.add('active');
+  } else {
+    const navEl = document.querySelector(`.nav-item[data-view="${state.view}"]`);
+    if (navEl) navEl.classList.add('active');
+  }
+}
+
 function renderContent() {
+  syncSidebarActive();  // v6.15.8: view 전환 시마다 sidebar 자동 동기화
   const newsGrid = document.getElementById('news-grid');
   const stratView = document.getElementById('strategy-view');
   const sourcesView = document.getElementById('sources-view');
