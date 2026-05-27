@@ -747,10 +747,15 @@ function renderSavedView(root) {
     });
 
   // v6.11: 빈 상태에서도 import만큼은 가능하게 (PC 변경·복구 시나리오)
+  // v6.12: 다운로드 버튼도 disabled로 노출 (UX 일관성 — 사용자가 두 버튼 항상 같이 보길 기대)
   if (savedItems.length === 0 && savedStrategies.length === 0) {
     root.innerHTML = `
       <div class="saved-toolbar">
+        <div class="saved-toolbar-info">총 0건 저장됨</div>
         <div class="saved-toolbar-spacer"></div>
+        <button class="saved-toolbar-btn" id="bookmark-export-btn" disabled title="저장된 북마크가 없어 다운로드할 수 없습니다">
+          📥 다운로드
+        </button>
         <label class="saved-toolbar-btn" title="이전에 다운로드한 JSON으로 북마크 복원">
           📤 가져오기
           <input type="file" id="bookmark-import-input" accept="application/json,.json" hidden />
@@ -896,7 +901,7 @@ function renderSavedView(root) {
 function wireBookmarkToolbar(root) {
   // === Export ===
   const exportBtn = root.querySelector('#bookmark-export-btn');
-  if (exportBtn) {
+  if (exportBtn && !exportBtn.disabled) {
     exportBtn.addEventListener('click', () => {
       try {
         // localStorage 직접 읽기 (state.saved와 일관성 보장)
@@ -1203,7 +1208,10 @@ function renderCard(item) {
       <div class="card-bottom">
         <button class="bookmark-btn card-bookmark ${itemSaved ? 'is-saved' : ''}" data-bookmark-item="${escapeHtml(item.url)}" title="${itemSaved ? '저장 해제' : '저장하기'}">${itemSaved ? '★' : '☆'}</button>
         <span class="card-source"><span class="card-source-icon">${escapeHtml(sourceInitial)}</span>${escapeHtml(item.source || '')}</span>
-        <div class="card-actions"><a class="icon-btn" href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer" title="원문">↗</a></div>
+        <div class="card-actions">
+          <button class="icon-btn card-share" data-share-url="${escapeHtml(item.url)}" title="원문 URL 복사" type="button">⎘</button>
+          <a class="icon-btn" href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer" title="원문">↗</a>
+        </div>
       </div>
     </article>
   `;
@@ -1620,6 +1628,65 @@ function renderSourceTrend() {
 // ========================= 이벤트 =========================
 
 function bindEvents() {
+  // v6.12: 뉴스 카드 공유 버튼 — 원문 URL 클립보드 복사 (event delegation)
+  document.addEventListener('click', (e) => {
+    const shareBtn = e.target.closest('[data-share-url]');
+    if (shareBtn) {
+      e.preventDefault();
+      e.stopPropagation();
+      const url = shareBtn.dataset.shareUrl;
+      const showFeedback = (msg, isError = false) => {
+        // 토스트 대신 버튼 라벨을 잠깐 바꾸기 (가벼운 피드백)
+        const orig = shareBtn.textContent;
+        const origTitle = shareBtn.title;
+        shareBtn.textContent = isError ? '✕' : '✓';
+        shareBtn.title = msg;
+        shareBtn.classList.add(isError ? 'is-share-error' : 'is-share-ok');
+        setTimeout(() => {
+          shareBtn.textContent = orig;
+          shareBtn.title = origTitle;
+          shareBtn.classList.remove('is-share-ok', 'is-share-error');
+        }, 1500);
+      };
+      // navigator.clipboard 우선, 실패 시 fallback (구형 브라우저 또는 HTTP 환경)
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url)
+          .then(() => showFeedback('복사됨'))
+          .catch(() => {
+            // 폴백 시도
+            try {
+              const ta = document.createElement('textarea');
+              ta.value = url;
+              ta.style.position = 'fixed';
+              ta.style.opacity = '0';
+              document.body.appendChild(ta);
+              ta.select();
+              document.execCommand('copy');
+              document.body.removeChild(ta);
+              showFeedback('복사됨');
+            } catch (err) {
+              showFeedback('복사 실패', true);
+            }
+          });
+      } else {
+        try {
+          const ta = document.createElement('textarea');
+          ta.value = url;
+          ta.style.position = 'fixed';
+          ta.style.opacity = '0';
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          document.body.removeChild(ta);
+          showFeedback('복사됨');
+        } catch (err) {
+          showFeedback('복사 실패', true);
+        }
+      }
+      return;
+    }
+  });
+
   // v2.7: 북마크 버튼 (event delegation — 카드 동적 생성이므로)
   document.addEventListener('click', (e) => {
     const itemBtn = e.target.closest('[data-bookmark-item]');

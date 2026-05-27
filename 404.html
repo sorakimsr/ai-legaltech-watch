@@ -185,14 +185,17 @@
           <!-- 빈 papers-meta는 backward-compat 위해 유지 (script가 참조함) -->
           <div id="papers-meta" class="papers-meta hidden"></div>
 
-          <div class="papers-section papers-narrative-section">
-            <h3>🔥 최근 흐름 — 시사점</h3>
-            <div id="papers-narrative" class="papers-narrative"></div>
-          </div>
+          <!-- v6.12: 최근 흐름 + 실무 시사점을 2열 wrapper로 묶음 (>= 1280px 2열) -->
+          <div class="papers-trend-grid">
+            <div class="papers-section papers-narrative-section">
+              <h3>🔥 최근 흐름 — 시사점</h3>
+              <div id="papers-narrative" class="papers-narrative"></div>
+            </div>
 
-          <div class="papers-section papers-actionable-section">
-            <h3>💡 실무 시사점</h3>
-            <ol id="papers-actionable" class="papers-actionable"></ol>
+            <div class="papers-section papers-actionable-section">
+              <h3>💡 실무 시사점</h3>
+              <ol id="papers-actionable" class="papers-actionable"></ol>
+            </div>
           </div>
 
           <div class="papers-grid">

@@ -838,6 +838,19 @@ input, select { font-family: inherit; outline: none; }
 .saved-toolbar-btn:active {
   background: #e5e7eb;
 }
+/* v6.12: disabled 상태 (빈 북마크 시 다운로드 비활성화) */
+.saved-toolbar-btn:disabled,
+.saved-toolbar-btn[disabled] {
+  opacity: 0.45;
+  cursor: not-allowed;
+  background: #f9fafb;
+  border-color: #e5e7eb;
+}
+.saved-toolbar-btn:disabled:hover,
+.saved-toolbar-btn[disabled]:hover {
+  background: #f9fafb;
+  border-color: #e5e7eb;
+}
 .saved-tab {
   background: transparent;
   border: none;
@@ -977,9 +990,9 @@ input, select { font-family: inherit; outline: none; }
 .card-title a:hover { color: #2563eb; text-decoration: underline; }
 
 .card-summary {
-  font-size: 13px;
+  font-size: 15px;  /* v6.12: 13→15 (+2px) — 뉴스 카드 본문 가독성 강화 */
   color: #4b5563;
-  line-height: 1.6;
+  line-height: 1.65;
 }
 .card-summary.has-ko {
   color: #1f2937;
@@ -1048,9 +1061,9 @@ input, select { font-family: inherit; outline: none; }
   border-left: 3px solid #2563eb;
   padding: 10px 14px;
   border-radius: 0 8px 8px 0;
-  font-size: 12.5px;
+  font-size: 14.5px;  /* v6.12: 12.5→14.5 (+2px) — 뉴스 카드 시사점 가독성 강화 */
   color: #334155;
-  line-height: 1.6;
+  line-height: 1.65;
 }
 .card-insight .insight-label {
   display: block;
@@ -1132,6 +1145,23 @@ input, select { font-family: inherit; outline: none; }
   font-size: 14px;
 }
 .icon-btn:hover { background: #f3f4f6; color: #0f172a; }
+/* v6.12: 공유 버튼 (button 태그도 .icon-btn 호환되도록 기본 button reset) */
+button.icon-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+}
+button.icon-btn.card-share { font-size: 14px; line-height: 1; }
+/* 공유 버튼 클릭 피드백 — 1.5초 동안 표시 */
+.icon-btn.is-share-ok {
+  background: #ecfdf5 !important;
+  color: #16a34a !important;
+}
+.icon-btn.is-share-error {
+  background: #fef2f2 !important;
+  color: #dc2626 !important;
+}
 
 /* v2.7.3: ai-badge 제거 — 모든 카드에 시사점이 들어가므로 더 이상 차별 표시 불필요 */
 .ai-badge {
@@ -1150,12 +1180,28 @@ input, select { font-family: inherit; outline: none; }
 
 /* ===== Strategy View ===== */
 .strategy-view { width: 100%; }
+
+/* v6.12: 시사점 trend 카드 목록 — 큰 화면 2열, 노트북 1열 */
+#strategy-cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+/* 1280px 이상 (외부 모니터·데스크탑) → 2열 */
+@media (min-width: 1280px) {
+  #strategy-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+/* 1700px 이상 (4K·울트라와이드)에서는 카드 가로폭이 너무 커지므로 max-width로 보호 */
+@media (min-width: 1700px) {
+  #strategy-cards { max-width: 1600px; }
+}
+
 .strategy-card {
   background: #fff;
   border: 1px solid #e5e7eb;
   border-radius: 12px;
   padding: 26px 28px;
-  margin-bottom: 16px;
+  margin-bottom: 0;  /* v6.12: grid gap이 대신 처리. margin 제거 */
 }
 /* v2.7: TAG/TITLE은 카드 상단 풀폭, BODY/ACTION만 좌우 2단 — BODY 시작 행과 ACTION 시작 행 정렬 */
 .strategy-card-head {
@@ -1232,6 +1278,7 @@ input, select { font-family: inherit; outline: none; }
 @media (max-width: 900px) {
   .strategy-card-grid { grid-template-columns: 1fr; gap: 14px; }
 }
+/* v6.12: 카드 2열일 때도 카드 내부 body+action 2단 그대로 유지 (사용자 정책) */
 .strategy-body {
   min-width: 0;
   margin: 0;
@@ -1246,25 +1293,25 @@ input, select { font-family: inherit; outline: none; }
   text-transform: none;
 }
 .strategy-card h3 {
-  font-size: 20px;
+  font-size: 21px;  /* v6.12: 20→21 */
   font-weight: 700;
   margin-bottom: 14px;
   letter-spacing: -0.01em;
-  line-height: 1.35;
+  line-height: 1.4;  /* v6.12: 1.35→1.4 — 더 여유 있게 */
 }
 .strategy-card p {
-  font-size: 14px;
+  font-size: 15.5px;  /* v6.12: 14→15.5 — 본문 가독성 강화 */
   color: #4b5563;
-  line-height: 1.65;
+  line-height: 1.7;   /* v6.12: 1.65→1.7 — 더 여유 있게 */
   margin-bottom: 0;
 }
 .strategy-action {
   background: #0f172a;
   color: #f1f5f9;
-  padding: 16px 20px;
+  padding: 18px 22px;  /* v6.12: 16/20→18/22 */
   border-radius: 9px;
-  font-size: 13px;
-  line-height: 1.65;
+  font-size: 14px;  /* v6.12: 13→14 */
+  line-height: 1.7;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -1273,13 +1320,13 @@ input, select { font-family: inherit; outline: none; }
 .strategy-action .action-label {
   display: block;
   color: #93c5fd;
-  font-size: 10px;
+  font-size: 11px;  /* v6.12: 10→11 */
   font-weight: 700;
   letter-spacing: 0.06em;
 }
 .strategy-action .action-body {
-  font-size: 13.5px;
-  line-height: 1.65;
+  font-size: 15px;  /* v6.12: 13.5→15 */
+  line-height: 1.7;
   white-space: pre-line;
 }
 
@@ -1516,8 +1563,8 @@ mark {
   letter-spacing: -0.01em;
 }
 .papers-narrative {
-  font-size: 13.5px;
-  line-height: 1.75;
+  font-size: 15px;  /* v6.12: 13.5→15 — 본문 가독성 강화 */
+  line-height: 1.8;  /* v6.12: 1.75→1.8 */
   color: #1f2937;
   /* v2.8.6: 본문 weight 명시 (mark 외에는 절대 굵게 X) */
   font-weight: 400;
@@ -1577,6 +1624,18 @@ mark {
 }
 @media (max-width: 900px) { .papers-grid { grid-template-columns: 1fr; } }
 .papers-grid .papers-section { margin-bottom: 0; }
+
+/* v6.12: 논문 페이지 — '🔥 최근 흐름' + '💡 실무 시사점' 2열 (큰 화면) */
+.papers-trend-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+@media (min-width: 1280px) {
+  .papers-trend-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
+}
+.papers-trend-grid .papers-section { margin-bottom: 0; }
 
 .topic-item {
   padding: 10px 12px;
@@ -1710,10 +1769,10 @@ mark {
   border: none;
   border-radius: 0;
   margin-bottom: 6px;
-  font-size: 13.5px;
+  font-size: 15px;  /* v6.12: 13.5→15 */
   color: #1f2937;
   font-weight: 400;
-  line-height: 1.75;
+  line-height: 1.8;  /* v6.12: 1.75→1.8 */
 }
 .papers-actionable li::before {
   content: counter(actionable-counter) ")";
