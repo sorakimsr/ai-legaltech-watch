@@ -439,10 +439,50 @@ def generate_cards(items: list, period: str, ref_date: date, all_items: list):
             "citations": cited,
         })
 
+    # v6.15.9: LLM이 dict 응답 안 하고 list로 응답한 경우 summary 누락 → 별도 LLM 호출로 보강
+    if cards and not summary_text:
+        print(f"  {period}: summary 누락 — cards 기반 별도 LLM 호출 (보강)", flush=True)
+        summary_text = _generate_summary_from_cards(cards, period_label)
+
     print(f"  {period}: {len(cards)} cards generated (avg citations: {sum(len(c['citations']) for c in cards) / max(1, len(cards)):.1f})", flush=True)
     if summary_text:
         print(f"    summary: {summary_text[:80]}...", flush=True)
     return summary_text, cards
+
+
+# v6.15.9: cards만 받아 summary 별도 생성 (LLM이 옛 list 포맷으로 응답한 케이스 회복용)
+def _generate_summary_from_cards(cards, period_label):
+    """카드 목록(tag/title/body)을 입력으로 2~3문장 종합 요약 LLM 호출.
+    실패 시 빈 문자열 반환 (호출자가 fallback 처리).
+    """
+    if not cards:
+        return ""
+    # 카드 핵심 정보만 압축 — 상위 10개 + tag/title + body 첫 80자
+    card_blob = "\n".join(
+        f"- {c.get('tag', '')[:40]}: {c.get('title', '')[:60]} ({(c.get('body', '') or '')[:80]}...)"
+        for c in cards[:12]
+    )
+    prompt = f"""다음은 {period_label}의 시사점 카드 {len(cards)}개 요약입니다. 이 카드들을 관통하는 메타 줄거리를 2~3문장(150~220자)으로 압축해주세요.
+
+[카드 목록]
+{card_blob}
+
+[응답 형식]
+JSON 객체. 다른 텍스트 절대 금지:
+{{"summary": "여기에 한 문단"}}
+
+규칙:
+- 한국어, 2~3문장, 150~220자
+- '이런 큰 흐름들이 동시에 일어나고 있으며 가장 결정적인 한 가지는 X다' 같은 구조
+- 시점/기한 표현 절대 금지 ('지금 당장', '이번 주' 등)
+"""
+    try:
+        result = call_llm_json(prompt, max_tokens=600, temperature=0.4)
+        if isinstance(result, dict):
+            return str(result.get("summary", "")).strip()
+    except Exception as exc:
+        print(f"    [warn] summary fallback LLM 실패: {exc}", flush=True)
+    return ""
 
 
 # v6.15-B: 누적·증분 카드 생성 — 신규 기사만으로 추가 카드 생성

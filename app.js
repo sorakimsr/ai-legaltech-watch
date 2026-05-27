@@ -1305,14 +1305,34 @@ function renderStrategy() {
 
   // v6.15-D: 기간 박스 바로 밑의 종합 요약 영역 렌더
   // v6.15.6: label은 본문에 inline 흡수, 단락 흐름으로 가로 줄바꿈 자연스럽게.
+  // v6.15.9: backend summary가 비어있을 때 cards tag로 자동 fallback (LLM 응답이
+  //          dict 대신 list로 와서 summary 누락된 케이스 즉시 회복).
   const summaryRoot = document.getElementById('strategy-summary-inline');
   if (summaryRoot) {
-    if (summaryText || summaryAddons.length > 0) {
+    // fallback: summary 비어있지만 cards 있으면 tag 합성 요약 생성
+    let effectiveSummary = summaryText;
+    let isFallback = false;
+    if (!effectiveSummary && cards.length > 0) {
+      const tags = cards.slice(0, 5)
+        .map(c => (c.tag || '').replace(/^TREND\s*\d+\s*[·\-]\s*/i, '').trim())
+        .filter(Boolean);
+      if (tags.length > 0) {
+        const periodLabel = period === 'daily' ? '오늘' : period === 'weekly' ? '이번 주' : '이번 달';
+        effectiveSummary = `${periodLabel} ${cards.length}개 trend가 부상. 주요 흐름은 <strong>${tags.map(t => escapeHtml(t)).join(' / ')}</strong>이다. (자동 요약 — 다음 빌드에서 LLM 종합으로 대체)`;
+        isFallback = true;
+      }
+    }
+
+    if (effectiveSummary || summaryAddons.length > 0) {
       const addonHtml = summaryAddons.length > 0
         ? `<div class="strategy-summary-addons">${summaryAddons.map(a => `<span class="strategy-summary-addon">+ ${escapeHtml(a)}</span>`).join('')}</div>`
         : '';
-      const mainHtml = summaryText
-        ? `<p class="strategy-summary-main"><strong class="strategy-summary-label">📌 종합</strong> ${escapeHtmlWithMark(summaryText)}</p>`
+      // fallback인 경우 escapeHtml 거치지 않고 그대로 (이미 <strong> 포함된 합성 HTML)
+      const renderedSummary = isFallback
+        ? effectiveSummary  // 이미 안전한 HTML (cards tag는 위에서 escapeHtml됨)
+        : escapeHtmlWithMark(effectiveSummary);
+      const mainHtml = effectiveSummary
+        ? `<p class="strategy-summary-main${isFallback ? ' strategy-summary-fallback' : ''}"><strong class="strategy-summary-label">📌 종합</strong> ${renderedSummary}</p>`
         : '';
       summaryRoot.innerHTML = mainHtml + addonHtml;
       summaryRoot.classList.remove('hidden');

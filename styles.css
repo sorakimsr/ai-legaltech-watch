@@ -1426,6 +1426,13 @@ mark {
 .strategy-summary-main {
   margin: 0;
 }
+/* v6.15.9: backend summary 누락 시 cards로 합성된 fallback (옅은 회색) */
+.strategy-summary-main.strategy-summary-fallback {
+  color: #6b7280;
+}
+.strategy-summary-main.strategy-summary-fallback strong:not(.strategy-summary-label) {
+  color: #374151;
+}
 /* 라벨을 본문 inline에 흡수 — 단락 첫 단어처럼 흐름에 포함 */
 .strategy-summary-label {
   font-weight: 700;
