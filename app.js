@@ -3096,7 +3096,7 @@ function renderGraphView() {
     </div>`;
     controlsHtml += '<div class="graph-meta" id="graph-meta">로딩 중...</div>';
     controlsHtml += '<div class="graph-container"><svg id="graph-svg" width="100%" height="640"><g id="graph-g"></g></svg></div>';
-    controlsHtml += '<div class="graph-tip">노드를 끌어 위치 조정 · 마우스 휠로 줌 · 노드 클릭 시 엔티티 상세로 이동</div>';
+    controlsHtml += '<div class="graph-tip">노드 드래그 → 위치 고정 (테두리 진해짐) · 더블클릭 → 고정 해제 · 휠 줌 · 한 번 클릭 → 엔티티 상세 · 선 굵기 = 관계 강도</div>';
     wrap.innerHTML = controlsHtml;
     // 필터 버튼 핸들러
     wrap.querySelectorAll('.graph-filter-btn').forEach(btn => {
@@ -3198,12 +3198,21 @@ function renderGraphSvg() {
     .force('center', d3.forceCenter(width / 2, height / 2))
     .force('collide', d3.forceCollide().radius(d => 14 + Math.sqrt(d.mentions || 1) * 3));
 
-  // 링크
+  // v6.15.5: 관계 강도(weight, 1.0~6.5)를 선 굵기 + 투명도로 강조 표현
+  // 기존: sqrt(weight) capped 4 → weight 6.5도 2.55px (차이 미미)
+  // 변경: linear-ish 1.5~8px + opacity 0.4~0.9
   const link = g.append('g').attr('class', 'graph-links')
     .selectAll('line').data(links).enter().append('line')
     .attr('stroke', d => RELATION_TYPE_COLOR[d.type] || '#999')
-    .attr('stroke-opacity', 0.6)
-    .attr('stroke-width', d => Math.max(1, Math.min(4, Math.sqrt(d.weight))));
+    .attr('stroke-opacity', d => {
+      const w = d.weight || 1;
+      return Math.min(0.92, 0.4 + (w - 1) * 0.12);  // weight 1→0.40, 3→0.64, 5→0.88, 6.5→0.92
+    })
+    .attr('stroke-width', d => {
+      const w = d.weight || 1;
+      return Math.max(1.5, Math.min(8, 1.5 + Math.sqrt(Math.max(0, w - 1)) * 2.8));
+      // weight 1→1.5, 2→4.3, 3→5.5, 5→7.1, 6.5→8 (cap)
+    });
 
   // 노드 그룹
   const node = g.append('g').attr('class', 'graph-nodes')
@@ -3218,9 +3227,24 @@ function renderGraphSvg() {
       .on('drag', (event, d) => { d.fx = event.x; d.fy = event.y; })
       .on('end', (event, d) => {
         if (!event.active) sim.alphaTarget(0);
-        d.fx = null; d.fy = null;
+        // v6.15.5: 드래그 후 fx/fy 유지 → 노드 위치 고정 (사용자 요청).
+        // 시뮬레이션이 다시 끌어당기지 않음. 더블클릭 시 해제 (아래 dblclick 핸들러).
+        // 고정된 노드는 시각적으로 약간 다른 stroke로 표시 (UX 힌트).
+        d.fixed = true;
+        d3.select(event.sourceEvent.target.parentNode).select('circle')
+          .attr('stroke', '#0f172a').attr('stroke-width', 2.5);
       })
     )
+    .on('dblclick', (event, d) => {
+      // v6.15.5: 더블클릭 시 위치 고정 해제 (시뮬레이션 복귀)
+      d.fx = null; d.fy = null;
+      d.fixed = false;
+      d3.select(event.currentTarget).select('circle')
+        .attr('stroke', '#fff').attr('stroke-width', 1.8);
+      sim.alphaTarget(0.3).restart();
+      setTimeout(() => sim.alphaTarget(0), 500);
+      event.stopPropagation();
+    })
     .on('click', (event, d) => {
       // 엔티티 상세로 이동
       state.view = 'entities';
