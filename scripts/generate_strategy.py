@@ -50,19 +50,23 @@ PROMPT_TEMPLATE = """당신은 한국의 시니어 전략 컨설턴트입니다.
 [뉴스 목록]
 {news_blob}
 
-위 흐름을 종합하여 **{period_label} 전략·기획 시사점 카드 5~7개**를 작성하세요.
+위 흐름을 종합하여 **{period_label} 전략·기획 시사점 카드**를 작성하세요.
+v6.15: 카드 개수는 **데이터의 다양성과 풍부함에 비례하여 자율 판단**하세요. 의미 있는 trend가 풍부하면 많이, 빈약하면 적게. 억지로 채우지 말고 의미 있는 흐름이 있는 만큼만. (참고: 데이터 N={n}개 기준 통상 6~15개 범위지만 절대 제한 아님)
 
-[응답 형식 — JSON 배열만]
-[
-  {{
-    "tag": "TREND 01 · [한 줄 주제]",
-    "title": "[20~35자 헤드라인]",
-    "body": "[4~5문장, 250~450자. (1) 어떤 흐름이 관찰되는가 (구체 회사명·제품명·금액·날짜) (2) 왜 이게 한국 실무자에게 의미가 있는가 (3) 표면적 해석이 아닌 그 아래 깔린 시장 구조·역학 (4) 이 흐름이 향후 어디로 갈 가능성이 큰가. 일반론·교과서적 표현 금지. 한 줄 짜리 단정형 절대 금지.]",
-    "action": "[2~3문장, 150~280자. 명사형 종결 금지(예: '~수립.', '~검토.' X). 동사형·서술형으로 '~한다', '~하자', '~해보면 좋다' 식으로 구체 동작을 적는다. (1) 첫 단계로 무엇을 한다 (2) 그 다음 무엇을 검증하거나 만든다 (3) 어떤 지표·기준으로 성공·실패를 판단한다 — 이 셋 중 최소 둘을 포함. **시점 표현 절대 금지(지금 당장 / 즉시 / 이번 주 안에 / 이번 달 내 / 빠른 시일 내 / 우선 / 곧 등 일체 사용 금지)**.]",
-    "sources": [번호1, 번호2, ...]
-  }},
-  ...
-]
+[응답 형식 — JSON 객체]
+{{
+  "summary": "{period_label} 핵심 흐름을 2~3문장(150~220자)으로 압축. 카드들 전체를 관통하는 메타 줄거리 — '이런 큰 흐름들이 동시에 일어나고 있으며 가장 결정적인 한 가지는 X다' 같은 구조. 사용자가 시사점 페이지 상단 박스에서 이 한 문단만 읽어도 오늘의 가장 중요한 통찰을 잡을 수 있게.",
+  "cards": [
+    {{
+      "tag": "TREND 01 · [한 줄 주제]",
+      "title": "[20~35자 헤드라인]",
+      "body": "[4~5문장, 250~450자. (1) 어떤 흐름이 관찰되는가 (구체 회사명·제품명·금액·날짜) (2) 왜 이게 한국 실무자에게 의미가 있는가 (3) 표면적 해석이 아닌 그 아래 깔린 시장 구조·역학 (4) 이 흐름이 향후 어디로 갈 가능성이 큰가. 일반론·교과서적 표현 금지. 한 줄 짜리 단정형 절대 금지.]",
+      "action": "[2~3문장, 150~280자. 명사형 종결 금지(예: '~수립.', '~검토.' X). 동사형·서술형으로 '~한다', '~하자', '~해보면 좋다' 식으로 구체 동작을 적는다. (1) 첫 단계로 무엇을 한다 (2) 그 다음 무엇을 검증하거나 만든다 (3) 어떤 지표·기준으로 성공·실패를 판단한다 — 이 셋 중 최소 둘을 포함. **시점 표현 절대 금지(지금 당장 / 즉시 / 이번 주 안에 / 이번 달 내 / 빠른 시일 내 / 우선 / 곧 등 일체 사용 금지)**.]",
+      "sources": [번호1, 번호2, ...]
+    }},
+    ...
+  ]
+}}
 
 규칙:
 - 모든 텍스트는 한국어 (영문 용어는 괄호 병기)
@@ -93,11 +97,55 @@ PROMPT_TEMPLATE = """당신은 한국의 시니어 전략 컨설턴트입니다.
 
   분량: 시사점 카드 1개(body+action)에 위 같은 의미 구절 3~6개 강조 (촘촘하게). 한 문장 1~2개.
   ★ 동일 기준이 daily / weekly / monthly 모두 적용됨.
-- 5~7개 사이
+
+- **카드 정렬 — 중요도 순 (v6.15)**: cards 배열의 **1번 카드가 가장 의사결정 영향력이 큰 것, 마지막 카드가 상대적으로 덜 중요한 것**. 다음 기준으로 우선순위:
+    (1) 한국 대형로펌 경영전략팀에 미치는 직접적 영향 (즉시 검토·대응 필요성)
+    (2) 시장 구조 변화의 결정성 (한 번 굳어지면 되돌리기 어려운 흐름)
+    (3) 구체 사실(회사명·금액·정책명) 명확성 — 추상 트렌드보다 구체 사례 우선
+    (4) 향후 12개월 내 후속 의사결정 트리거 여부
+  cards 배열 순서가 곧 사용자 노출 순서. LLM은 의식적으로 1번이 가장 묵직한 카드, 끝번호로 갈수록 보조 카드가 되도록 배치하라.
+
 - **`sources`는 trend의 핵심 근거가 되는 실제 뉴스 인덱스만 (위 목록의 1부터 시작 번호). 카드 당 3~5개 필수**. body에 인용한 회사·사건·금액·날짜가 실제로 등장하는 인덱스만 포함. 본문과 직접 관련 없는 인덱스는 절대 넣지 말 것.
 - **body 첫 문장에 sources의 인덱스 번호를 명시 권장** (예: "오늘 KB금융(16, 29번), 기업은행(22번) ..."). 이는 향후 검증 가능하도록 하는 사용자 요구사항.
 - 한 카드의 sources 인덱스들은 모두 같은 주제/이슈/회사군을 다뤄야 함. 약하게라도 매칭이 어색하면 차라리 sources를 3개로 줄여라 (5개를 억지로 채우지 말 것).
-- JSON 배열 외 다른 텍스트 절대 금지
+- JSON 객체 외 다른 텍스트 절대 금지 (응답은 반드시 {{"summary": "...", "cards": [...]}}  형식)
+"""
+
+
+# v6.15-B (누적·증분): 같은 날 두 번째 이후 빌드에서 신규 기사만으로 추가 카드 생성
+PROMPT_TEMPLATE_INCREMENTAL = """당신은 한국의 시니어 전략 컨설턴트입니다. 독자는 전략·기획과 AI 업무를 동시에 수행하는 한국 실무자입니다.
+
+오늘 오전 기준으로 이미 생성된 시사점 카드 {existing_n}개가 있습니다.
+이번 빌드에서 새로 수집된 기사 {n}개가 추가로 들어왔습니다. **기존 카드가 다루지 않은 새로운 흐름**이 발견되면, **신규 기사만 근거로 한 추가 카드 1~3개**를 생성하세요.
+
+[기존 카드 요지 (중복 방지용 — 같은 주제 또 만들지 말 것)]
+{existing_summary}
+
+[신규 기사 목록]
+{news_blob}
+
+[응답 형식 — JSON 객체]
+{{
+  "summary_addition": "신규 기사로 인해 오늘 핵심 흐름에 추가로 인지할 변화가 있다면 1~2문장. 의미 있는 변화 없으면 빈 문자열.",
+  "cards": [
+    {{
+      "tag": "TREND XX · [신규 주제 — 기존 카드와 중복 금지]",
+      "title": "[20~35자 헤드라인]",
+      "body": "[4~5문장, 250~450자. 신규 기사의 회사·사건·날짜·금액을 근거로]",
+      "action": "[2~3문장, 150~280자, 동사형·서술형]",
+      "sources": [신규 기사 인덱스]
+    }}
+  ]
+}}
+
+규칙:
+- **신규 기사가 기존 카드와 다른 새로운 흐름을 명확히 보여주는 경우에만 추가 카드 생성**. 단순히 같은 흐름의 추가 사례라면 카드 0개로 답해도 무방 ({{"summary_addition": "", "cards": []}})
+- 시점/기한 표현 절대 금지 (이번 주 안에, 즉시, 우선 등)
+- body 4~5문장, action 2~3문장 동사형·서술형
+- 굵게 강조는 인과·판단·시사 구절에만 (회사명·금액·기법명 강조 X)
+- 카드 tag의 TREND 번호는 기존 카드 다음부터 (예: 기존 7개면 TREND 08부터)
+- sources는 신규 기사 인덱스(1부터)만 사용, 카드당 3~5개 필수
+- 응답은 반드시 위 JSON 객체 형식. 다른 텍스트 금지.
 """
 
 PERIOD_FOCUS = {
@@ -265,10 +313,15 @@ def filter_items_by_period(items: list, period: str, ref_date: date) -> tuple:
     return items, ""
 
 
-def generate_cards(items: list, period: str, ref_date: date, all_items: list) -> list:
-    """LLM으로 카드 생성. items가 period에 해당하는 필터된 항목."""
+def generate_cards(items: list, period: str, ref_date: date, all_items: list):
+    """LLM으로 카드 생성. items가 period에 해당하는 필터된 항목.
+
+    v6.15: 반환 형식 변경 — (summary_text, cards_list) tuple.
+        LLM 응답이 {"summary": "...", "cards": [...]} 객체.
+        cards 개수 가이드 제거 (LLM 자율).
+    """
     if not items:
-        return []
+        return "", []
 
     # 점수 상위 N개
     top_n_map = {"daily": TOP_DAILY, "weekly": TOP_WEEKLY, "monthly": TOP_MONTHLY}
@@ -298,15 +351,25 @@ def generate_cards(items: list, period: str, ref_date: date, all_items: list) ->
         period_focus=PERIOD_FOCUS.get(period, ""),
     )
 
-    # v2.7 추가: weekly/monthly는 50~80 items 컨텍스트라 응답도 김 → 8000으로 더 상향
-    # (5000에서 잘려 ```json까지만 와서 JSON 파싱 실패하는 케이스 방지)
-    result = call_llm_json(prompt, max_tokens=8000, temperature=0.4)
-    if not isinstance(result, list):
-        print(f"  [warn] {period}: LLM did not return a list", flush=True)
-        return []
+    # v6.15: 카드 개수 자율 + summary 필드 → 응답 더 길어질 수 있음. max_tokens 8000→12000.
+    result = call_llm_json(prompt, max_tokens=12000, temperature=0.4)
+
+    # v6.15: 응답은 {"summary": "...", "cards": [...]} 객체. 단 backward-compat:
+    # LLM이 옛 형식(배열)으로 응답하면 summary="" 로 폴백.
+    if isinstance(result, list):
+        summary_text = ""
+        cards_raw = result
+    elif isinstance(result, dict):
+        summary_text = str(result.get("summary", "")).strip()
+        cards_raw = result.get("cards") or []
+        if not isinstance(cards_raw, list):
+            cards_raw = []
+    else:
+        print(f"  [warn] {period}: LLM did not return list or dict", flush=True)
+        return "", []
 
     cards = []
-    for c in result:
+    for c in cards_raw:
         if not isinstance(c, dict):
             continue
         if not all(k in c for k in ("tag", "title", "body", "action")):
@@ -377,7 +440,96 @@ def generate_cards(items: list, period: str, ref_date: date, all_items: list) ->
         })
 
     print(f"  {period}: {len(cards)} cards generated (avg citations: {sum(len(c['citations']) for c in cards) / max(1, len(cards)):.1f})", flush=True)
-    return cards
+    if summary_text:
+        print(f"    summary: {summary_text[:80]}...", flush=True)
+    return summary_text, cards
+
+
+# v6.15-B: 누적·증분 카드 생성 — 신규 기사만으로 추가 카드 생성
+def generate_incremental_cards(new_items: list, existing_cards: list, period: str, ref_date: date):
+    """기존 카드 목록을 입력으로 받아, 신규 기사만으로 추가 카드 생성.
+
+    Returns: (summary_addition_text, additional_cards_list)
+    """
+    if not new_items:
+        return "", []
+    if not existing_cards:
+        # 기존 카드 0개면 일반 generate_cards 흐름이어야 함 — 빈 응답
+        return "", []
+
+    # 신규 기사 점수 상위 N개 (정상 generate_cards 절반)
+    top_n_map = {"daily": TOP_DAILY // 2, "weekly": TOP_WEEKLY // 2, "monthly": TOP_MONTHLY // 2}
+    top_n = max(10, top_n_map.get(period, 15))
+    sorted_new = sorted(new_items, key=lambda x: x.get("score", 0), reverse=True)[:top_n]
+
+    news_lines = []
+    for i, it in enumerate(sorted_new, 1):
+        summary = it.get("summary_ko") or it.get("summary", "")[:200]
+        news_lines.append(
+            f"{i}. [{it.get('source', '?')}, {it.get('date', '')[:10]}] "
+            f"{it.get('title', '')[:120]}\n   요약: {summary[:200]}"
+        )
+    news_blob = "\n".join(news_lines)
+
+    # 기존 카드 요지 (tag + title만)
+    existing_summary = "\n".join(
+        f"  - {c.get('tag', '')}: {c.get('title', '')}" for c in existing_cards
+    )
+
+    prompt = PROMPT_TEMPLATE_INCREMENTAL.format(
+        existing_n=len(existing_cards),
+        existing_summary=existing_summary,
+        n=len(sorted_new),
+        news_blob=news_blob,
+    )
+
+    result = call_llm_json(prompt, max_tokens=6000, temperature=0.4)
+    if not isinstance(result, dict):
+        print(f"  [warn] {period} incremental: LLM did not return dict", flush=True)
+        return "", []
+
+    summary_addition = str(result.get("summary_addition", "")).strip()
+    cards_raw = result.get("cards") or []
+    if not isinstance(cards_raw, list):
+        return summary_addition, []
+
+    additional_cards = []
+    for c in cards_raw:
+        if not isinstance(c, dict):
+            continue
+        if not all(k in c for k in ("tag", "title", "body", "action")):
+            continue
+        # citation 매핑 (sources는 신규 기사 인덱스)
+        cited = []
+        raw_sources = c.get("sources") or []
+        if isinstance(raw_sources, list):
+            for idx in raw_sources[:5]:
+                try:
+                    i = int(idx) - 1
+                    if 0 <= i < len(sorted_new):
+                        ref = sorted_new[i]
+                        cited.append({
+                            "num": int(idx),
+                            "title": ref.get("title", "")[:140],
+                            "url": ref.get("url", ""),
+                            "source": ref.get("source", ""),
+                            "date": ref.get("date", "")[:10],
+                        })
+                except (ValueError, TypeError):
+                    continue
+
+        action_text = _strip_timing_phrases(str(c["action"]).strip())
+        additional_cards.append({
+            "tag": str(c["tag"]).strip(),
+            "title": str(c["title"]).strip(),
+            "body": str(c["body"]).strip(),
+            "action": action_text,
+            "citations": cited,
+            "_incremental": True,  # 증분 카드 표시 (UI에서 'NEW' 배지 가능)
+        })
+
+    print(f"  {period} incremental: +{len(additional_cards)} new cards", flush=True)
+    return summary_addition, additional_cards
 
 
 def load_history() -> dict:
@@ -447,20 +599,76 @@ def main():
     week_key = kst_iso_year_week(today)
     month_key = kst_month_str(today)
 
+    # v3.2: 강제 재생성 옵션 — 프롬프트 정책 변경 후 weekly/monthly도 새 음영 적용
+    force_refresh = os.environ.get("STRATEGY_FORCE_REFRESH", "0") == "1"
+
+    # v6.15-B: 누적·증분 정책
+    # history["daily"][today_iso]가 list면 옛 포맷, dict({summary, cards})면 신규 포맷.
+    def _normalize_bucket(entry):
+        """history entry를 {"summary": str, "cards": list, "_summary_addons": list} 표준 dict로 정규화."""
+        if isinstance(entry, list):
+            return {"summary": "", "cards": entry, "_summary_addons": []}
+        if isinstance(entry, dict):
+            return {
+                "summary": str(entry.get("summary", "")),
+                "cards": entry.get("cards", []) if isinstance(entry.get("cards"), list) else [],
+                "_summary_addons": entry.get("_summary_addons", []) if isinstance(entry.get("_summary_addons"), list) else [],
+            }
+        return {"summary": "", "cards": [], "_summary_addons": []}
+
+    # 기존 daily entry 정규화 (없으면 빈 dict)
+    existing_daily = _normalize_bucket(history["daily"].get(today_iso))
+    existing_daily_cards = existing_daily["cards"]
+    daily_summary_text = existing_daily["summary"]
+    daily_summary_addons = list(existing_daily["_summary_addons"])
+
     # === Daily ===
-    # v6.7 (2026-05-27): 사용자 요청 — daily는 ref_date 당일 발행 기사만 사용.
-    #   기존 fallback (< 10건이면 최근 3일로 확장) 제거.
-    #   당일 자료 부족 시 카드 수 줄어들거나 없음 — 의도된 동작.
-    #   과거 유사 기사는 dedupe의 related_count로 이미 카드 내 표시됨.
-    daily_cards = []
+    # v6.15-B 누적·증분 정책:
+    #   기존 카드 0개  → 전체 생성 (오전 첫 빌드)
+    #   기존 카드 있음 → 신규 기사(기존 citation URL에 없는 것)만으로 추가 카드 1~3개 생성
+    #                    (force_refresh=true는 전체 재생성으로 회귀, 옵션 의도와 호환)
     if backend != "none":
-        daily_items, _ = filter_items_by_period(items, "daily", today)
-        if len(daily_items) >= 3:  # 최소 3건은 있어야 trend 도출 가능
-            daily_cards = generate_cards(daily_items, "daily", today, items)
+        daily_items_all, _ = filter_items_by_period(items, "daily", today)
+
+        if not existing_daily_cards or force_refresh:
+            # 전체 생성 (오전 첫 빌드 OR force_refresh)
+            if len(daily_items_all) >= 3:
+                summary_text, cards_full = generate_cards(daily_items_all, "daily", today, items)
+                if cards_full:
+                    existing_daily_cards = cards_full
+                    daily_summary_text = summary_text
+                    daily_summary_addons = []  # full refresh 시 addon 초기화
+            else:
+                print(f"  [daily] 당일({today_iso}) 발행 기사 {len(daily_items_all)}건 — trend 생성 skip", flush=True)
         else:
-            print(f"  [daily] 당일({today_iso}) 발행 기사 {len(daily_items)}건 — trend 생성 skip", flush=True)
-    if not daily_cards:
-        # 폴백 카드도 citations 누락 시 점수 상위 3개를 자동 첨부 (citation 강제)
+            # 누적·증분: 기존 카드 보존 + 신규 기사로 추가 카드
+            existing_urls = set()
+            for c in existing_daily_cards:
+                for cit in c.get("citations", []):
+                    if cit.get("url"):
+                        existing_urls.add(cit["url"])
+
+            new_items_only = [
+                it for it in daily_items_all
+                if it.get("url") and it["url"] not in existing_urls
+            ]
+            print(f"  [daily 누적] 기존 {len(existing_daily_cards)}개 카드, 신규 기사 {len(new_items_only)}건 (기존 citation 제외)", flush=True)
+
+            if len(new_items_only) >= 5:
+                add_summary, add_cards = generate_incremental_cards(
+                    new_items_only, existing_daily_cards, "daily", today
+                )
+                if add_cards:
+                    existing_daily_cards = existing_daily_cards + add_cards
+                    print(f"  [daily 누적] +{len(add_cards)} cards appended → 총 {len(existing_daily_cards)}", flush=True)
+                if add_summary:
+                    daily_summary_addons.append(add_summary)
+                    print(f"  [daily 누적] summary addon: {add_summary[:80]}", flush=True)
+            else:
+                print(f"  [daily 누적] 신규 기사 < 5건 → 추가 카드 skip", flush=True)
+
+    # 폴백: 그래도 카드 0이면 점수 상위 3개로 fallback 카드 채움
+    if not existing_daily_cards:
         sorted_top = sorted(items, key=lambda x: x.get("score", 0), reverse=True)[:3]
         default_cites = [{
             "title": r.get("title", "")[:140],
@@ -474,52 +682,83 @@ def main():
             if not c.get("citations"):
                 c["citations"] = default_cites
             fixed.append(c)
-        daily_cards = fixed
-    history["daily"][today_iso] = daily_cards
+        existing_daily_cards = fixed
 
-    # v3.2: 강제 재생성 옵션 — 프롬프트 정책 변경 후 weekly/monthly도 새 음영 적용
-    force_refresh = os.environ.get("STRATEGY_FORCE_REFRESH", "0") == "1"
+    history["daily"][today_iso] = {
+        "summary": daily_summary_text,
+        "cards": existing_daily_cards,
+        "_summary_addons": daily_summary_addons,
+    }
+    daily_cards = existing_daily_cards  # 호환성 — 아래 news.json payload에서 사용
 
     # === Weekly === (월요일 또는 이번 주 weekly 없을 때, 또는 force_refresh)
     is_monday = today.weekday() == 0
-    weekly_missing = week_key not in history["weekly"]
+    existing_weekly = _normalize_bucket(history["weekly"].get(week_key))
+    weekly_missing = not existing_weekly["cards"]
     if backend != "none" and (is_monday or weekly_missing or force_refresh):
         weekly_items, _ = filter_items_by_period(items, "weekly", today)
         if len(weekly_items) >= 20:
             print(f"  weekly: regenerating ({'force' if force_refresh else 'missing' if weekly_missing else 'monday'})", flush=True)
-            weekly_cards = generate_cards(weekly_items, "weekly", today, items)
-            if weekly_cards:
-                history["weekly"][week_key] = weekly_cards
+            wk_summary, weekly_cards_new = generate_cards(weekly_items, "weekly", today, items)
+            if weekly_cards_new:
+                history["weekly"][week_key] = {
+                    "summary": wk_summary,
+                    "cards": weekly_cards_new,
+                    "_summary_addons": [],
+                }
 
     # === Monthly === (매월 1일 또는 이번 달 monthly 없을 때, 또는 force_refresh)
     is_month_start = today.day == 1
-    monthly_missing = month_key not in history["monthly"]
+    existing_monthly = _normalize_bucket(history["monthly"].get(month_key))
+    monthly_missing = not existing_monthly["cards"]
     if backend != "none" and (is_month_start or monthly_missing or force_refresh):
         monthly_items, _ = filter_items_by_period(items, "monthly", today)
         if len(monthly_items) >= 30:
             print(f"  monthly: regenerating ({'force' if force_refresh else 'missing' if monthly_missing else 'month-start'})", flush=True)
-            monthly_cards = generate_cards(monthly_items, "monthly", today, items)
-            if monthly_cards:
-                history["monthly"][month_key] = monthly_cards
+            mo_summary, monthly_cards_new = generate_cards(monthly_items, "monthly", today, items)
+            if monthly_cards_new:
+                history["monthly"][month_key] = {
+                    "summary": mo_summary,
+                    "cards": monthly_cards_new,
+                    "_summary_addons": [],
+                }
 
     # 히스토리 정리
     prune_history(history)
 
     # v3.12: 캐시된 시사점 카드에도 매 빌드마다 후처리 재적용 (음영 정책 변경 시 즉시 반영)
-    print("[v3.12] re-applying card post-processing to all history entries", flush=True)
+    # v6.15: history entry가 dict({summary, cards}) 또는 list(옛 포맷) 둘 다 지원
+    print("[v3.12 + v6.15] re-applying card post-processing to all history entries", flush=True)
     for period_name in ("daily", "weekly", "monthly"):
-        for k, cards in list(history.get(period_name, {}).items()):
-            if isinstance(cards, list):
-                history[period_name][k] = [_postprocess_card(c) for c in cards]
-    # daily_cards reference 갱신 (위 루프에서 history 덮어썼으므로)
+        for k, entry in list(history.get(period_name, {}).items()):
+            if isinstance(entry, list):
+                # 옛 포맷 → dict 정규화
+                history[period_name][k] = {
+                    "summary": "",
+                    "cards": [_postprocess_card(c) for c in entry],
+                    "_summary_addons": [],
+                }
+            elif isinstance(entry, dict) and isinstance(entry.get("cards"), list):
+                entry["cards"] = [_postprocess_card(c) for c in entry["cards"]]
+                history[period_name][k] = entry
+    # daily_cards reference 갱신 (위 후처리 후 history에서 다시 추출)
     if today_iso in history.get("daily", {}):
-        daily_cards = history["daily"][today_iso]
+        today_entry = history["daily"][today_iso]
+        if isinstance(today_entry, dict):
+            daily_cards = today_entry.get("cards", [])
+            daily_summary_final = today_entry.get("summary", "")
+        else:
+            daily_cards = today_entry if isinstance(today_entry, list) else []
+            daily_summary_final = ""
+    else:
+        daily_summary_final = daily_summary_text
 
     # 저장
     with open(HISTORY_PATH, "w", encoding="utf-8") as f:
         json.dump(history, f, ensure_ascii=False, indent=2)
 
     # news.json (오늘자 daily를 strategy 필드로 + history 메타)
+    # v6.15: strategy_summary 필드 추가 (오늘자 daily의 종합 요약)
     payload = {
         "last_updated": datetime.now(KST).isoformat(),
         "build_count": (data.get("build_count", 0) or 0) + 1,
@@ -527,6 +766,7 @@ def main():
         "sources": data.get("sources", []),
         "items": items,
         "strategy": daily_cards,  # 호환성: 오늘자 daily
+        "strategy_summary": daily_summary_final,  # v6.15: 오늘 종합 요약 (기간 박스 inline 표시용)
         "strategy_periods": {
             "today_daily": today_iso,
             "current_week": week_key,

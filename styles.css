@@ -1408,6 +1408,52 @@ mark {
   border-radius: 10px;
   flex-wrap: wrap;
 }
+
+/* v6.15-D: 기간 박스 row 바로 밑 inline 종합 요약 (flex-basis 100%로 새 줄) */
+.strategy-summary-inline {
+  flex-basis: 100%;       /* strategy-controls flex-wrap의 다음 줄로 떨어짐 */
+  margin-top: 4px;
+  padding-top: 10px;
+  border-top: 1px solid #f3f4f6;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 14px;
+  line-height: 1.65;
+  color: #374151;
+}
+.strategy-summary-inline.hidden { display: none; }
+.strategy-summary-label {
+  flex-shrink: 0;
+  font-weight: 700;
+  color: #2563eb;
+  font-size: 13px;
+  padding-top: 1px;
+}
+.strategy-summary-text {
+  flex: 1;
+  min-width: 0;
+}
+.strategy-summary-text strong { font-weight: 700; }
+.strategy-summary-text mark {
+  background: linear-gradient(180deg, transparent 55%, rgba(254, 240, 138, 0.6) 55%);
+  font-weight: 700;
+  color: inherit;
+}
+/* 증분 누적 summary addon (오후/저녁 빌드에서 추가된 한 줄 메모) */
+.strategy-summary-addons {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px dashed #f3f4f6;
+}
+.strategy-summary-addon {
+  font-size: 13px;
+  color: #6b7280;
+  line-height: 1.55;
+}
 .strategy-period-tabs {
   display: flex;
   background: #f3f4f6;

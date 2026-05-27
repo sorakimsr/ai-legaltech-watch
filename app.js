@@ -1263,12 +1263,42 @@ function renderStrategy() {
   // 카드 렌더
   const root = document.getElementById('strategy-cards');
   let cards = [];
+  let summaryText = '';
+  let summaryAddons = [];
   if (currentKey && state.history && state.history[period]) {
-    cards = state.history[period][currentKey] || [];
+    // v6.15: entry가 dict({summary, cards, _summary_addons}) 또는 list(옛 포맷) 모두 지원
+    const entry = state.history[period][currentKey];
+    if (Array.isArray(entry)) {
+      cards = entry;
+    } else if (entry && typeof entry === 'object') {
+      cards = Array.isArray(entry.cards) ? entry.cards : [];
+      summaryText = entry.summary || '';
+      if (Array.isArray(entry._summary_addons)) summaryAddons = entry._summary_addons;
+    }
   }
   // history에 아무것도 없으면 news.json의 strategy로 fallback (daily)
   if (cards.length === 0 && period === 'daily') {
     cards = state.data.strategy || [];
+    summaryText = summaryText || state.data.strategy_summary || '';
+  }
+
+  // v6.15-D: 기간 박스 바로 밑의 종합 요약 영역 렌더
+  const summaryRoot = document.getElementById('strategy-summary-inline');
+  if (summaryRoot) {
+    if (summaryText || summaryAddons.length > 0) {
+      const addonHtml = summaryAddons.length > 0
+        ? `<div class="strategy-summary-addons">${summaryAddons.map(a => `<span class="strategy-summary-addon">+ ${escapeHtml(a)}</span>`).join('')}</div>`
+        : '';
+      summaryRoot.innerHTML = `
+        <div class="strategy-summary-label">📌 종합</div>
+        <div class="strategy-summary-text">${escapeHtmlWithMark(summaryText || '')}</div>
+        ${addonHtml}
+      `;
+      summaryRoot.classList.remove('hidden');
+    } else {
+      summaryRoot.innerHTML = '';
+      summaryRoot.classList.add('hidden');
+    }
   }
 
   if (cards.length === 0) {

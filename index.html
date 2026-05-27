@@ -119,13 +119,8 @@
           </div>
         </div>
 
+        <!-- v6.15: 정렬·기간·언어 좌측 + 검색창 우측 (사용자 요청 순서) -->
         <div class="controls-row">
-          <div class="search-wrap">
-            <span class="search-icon">🔍</span>
-            <input type="text" id="search-input" placeholder="키워드 검색 (제목, 출처, 요약, 시사점)" />
-            <button class="search-action hidden" id="btn-select-search-results" title="현재 검색 결과 전체 선택">검색결과 전체 선택</button>
-          </div>
-          <!-- v2.7.1: 정렬 기준 dropdown (뉴스 피드 통합 후) -->
           <div class="control-group">
             <span class="control-label">정렬</span>
             <select id="sort-filter">
@@ -152,12 +147,17 @@
               <option value="en">영문</option>
             </select>
           </div>
+          <div class="search-wrap">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="search-input" placeholder="키워드 검색 (제목, 출처, 요약, 시사점)" />
+            <button class="search-action hidden" id="btn-select-search-results" title="현재 검색 결과 전체 선택">검색결과 전체 선택</button>
+          </div>
         </div>
 
         <div class="news-grid" id="news-grid"></div>
 
         <div id="strategy-view" class="strategy-view hidden">
-          <!-- period 선택 컨트롤 -->
+          <!-- period 선택 컨트롤 + v6.15 종합 요약 (기간 박스 바로 밑 inline) -->
           <div id="strategy-controls" class="strategy-controls">
             <div class="strategy-period-tabs">
               <button class="period-tab active" data-period="daily">Daily</button>
@@ -165,6 +165,8 @@
               <button class="period-tab" data-period="monthly">Monthly</button>
             </div>
             <select id="strategy-period-select"></select>
+            <!-- v6.15-D: 기간 박스 row 바로 밑에 2-3줄 종합 요약 (inline) -->
+            <div id="strategy-summary-inline" class="strategy-summary-inline"></div>
           </div>
           <div id="strategy-cards"></div>
         </div>
