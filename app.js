@@ -1283,17 +1283,17 @@ function renderStrategy() {
   }
 
   // v6.15-D: 기간 박스 바로 밑의 종합 요약 영역 렌더
+  // v6.15.6: label은 본문에 inline 흡수, 단락 흐름으로 가로 줄바꿈 자연스럽게.
   const summaryRoot = document.getElementById('strategy-summary-inline');
   if (summaryRoot) {
     if (summaryText || summaryAddons.length > 0) {
       const addonHtml = summaryAddons.length > 0
         ? `<div class="strategy-summary-addons">${summaryAddons.map(a => `<span class="strategy-summary-addon">+ ${escapeHtml(a)}</span>`).join('')}</div>`
         : '';
-      summaryRoot.innerHTML = `
-        <div class="strategy-summary-label">📌 종합</div>
-        <div class="strategy-summary-text">${escapeHtmlWithMark(summaryText || '')}</div>
-        ${addonHtml}
-      `;
+      const mainHtml = summaryText
+        ? `<p class="strategy-summary-main"><strong class="strategy-summary-label">📌 종합</strong> ${escapeHtmlWithMark(summaryText)}</p>`
+        : '';
+      summaryRoot.innerHTML = mainHtml + addonHtml;
       summaryRoot.classList.remove('hidden');
     } else {
       summaryRoot.innerHTML = '';

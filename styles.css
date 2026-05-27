@@ -1409,50 +1409,49 @@ mark {
   flex-wrap: wrap;
 }
 
-/* v6.15-D: 기간 박스 row 바로 밑 inline 종합 요약 (flex-basis 100%로 새 줄) */
+/* v6.15-D + v6.15.6: 기간 박스 row 바로 밑 inline 종합 요약
+   v6.15.6 수정 — 기존 flex row 구조가 label/text/addons를 가로 분배하면서
+   본문이 좁은 컬럼으로 압축되는 문제. 단락 흐름(block flow)으로 재설계. */
 .strategy-summary-inline {
   flex-basis: 100%;       /* strategy-controls flex-wrap의 다음 줄로 떨어짐 */
   margin-top: 4px;
   padding-top: 10px;
   border-top: 1px solid #f3f4f6;
-  display: flex;
-  gap: 10px;
-  align-items: flex-start;
   font-size: 14px;
-  line-height: 1.65;
+  line-height: 1.7;
   color: #374151;
 }
 .strategy-summary-inline.hidden { display: none; }
+/* 본문 단락 — 가로 풀폭, 자연 줄바꿈 */
+.strategy-summary-main {
+  margin: 0;
+}
+/* 라벨을 본문 inline에 흡수 — 단락 첫 단어처럼 흐름에 포함 */
 .strategy-summary-label {
-  flex-shrink: 0;
   font-weight: 700;
   color: #2563eb;
-  font-size: 13px;
-  padding-top: 1px;
+  margin-right: 6px;
+  white-space: nowrap;  /* "📌 종합" 자체는 줄 끊김 방지 */
 }
-.strategy-summary-text {
-  flex: 1;
-  min-width: 0;
-}
-.strategy-summary-text strong { font-weight: 700; }
-.strategy-summary-text mark {
+.strategy-summary-main strong { font-weight: 700; }
+.strategy-summary-main mark {
   background: linear-gradient(180deg, transparent 55%, rgba(254, 240, 138, 0.6) 55%);
   font-weight: 700;
   color: inherit;
 }
-/* 증분 누적 summary addon (오후/저녁 빌드에서 추가된 한 줄 메모) */
+/* 증분 누적 summary addon (오후/저녁 빌드에서 추가된 한 줄 메모) — 본문 아래 별도 영역 */
 .strategy-summary-addons {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed #f3f4f6;
   display: flex;
   flex-direction: column;
   gap: 4px;
-  margin-top: 6px;
-  padding-top: 6px;
-  border-top: 1px dashed #f3f4f6;
 }
 .strategy-summary-addon {
   font-size: 13px;
   color: #6b7280;
-  line-height: 1.55;
+  line-height: 1.6;
 }
 .strategy-period-tabs {
   display: flex;
