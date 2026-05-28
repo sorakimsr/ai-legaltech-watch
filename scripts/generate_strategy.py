@@ -368,6 +368,36 @@ def generate_cards(items: list, period: str, ref_date: date, all_items: list):
 
     sorted_items = sorted(items, key=lambda x: x.get("score", 0), reverse=True)[:top_n]
 
+    # v6.15.29 (2026-05-29): 사용자 명시 어젠다 강제 포함 (안전망)
+    # 사용자 지적 — 판결문 공개·공정위 AI·개인정보 특례 기사가 score 부족으로
+    # Top N 못 들어가 LLM 카드 후보 풀에서 누락. enrich prompt 강화 + 이 강제 포함의
+    # 2중 보호로 어젠다 회복 보장.
+    #
+    # SUPER_BOOST 매칭 기사를 score 무관 후보 풀에 강제 추가 (최대 +10건).
+    # LLM이 코버리지 의무 룰로 카드화 결정.
+    try:
+        from common import _has_super_boost
+        existing_urls = {it.get("url") for it in sorted_items}
+        agenda_extras = []
+        for it in items:
+            url = it.get("url")
+            if not url or url in existing_urls:
+                continue
+            text_for_check = (str(it.get("title", "")) + " " +
+                              str(it.get("summary_ko", "") or it.get("summary", ""))).lower()
+            if _has_super_boost(text_for_check):
+                agenda_extras.append(it)
+                if len(agenda_extras) >= 10:
+                    break
+        if agenda_extras:
+            print(f"  [{period} 어젠다 강제 포함] +{len(agenda_extras)}건 (Top {top_n} 외 SUPER_BOOST 매칭)",
+                  flush=True)
+            for ex in agenda_extras[:3]:
+                print(f"    · [{ex.get('score', 0):>3}] {ex.get('title', '')[:60]}", flush=True)
+            sorted_items.extend(agenda_extras)
+    except Exception as exc:
+        print(f"  [warn] 어젠다 강제 포함 실패: {exc}", flush=True)
+
     news_lines = []
     for i, it in enumerate(sorted_items, 1):
         summary = it.get("summary_ko") or it.get("summary", "")[:200]
