@@ -1,25 +1,32 @@
 {
-  "analyzed_at": "2026-05-28T14:44:26.852801+09:00",
+  "analyzed_at": "2026-05-28T19:02:06.776392+09:00",
   "llm_backend": "anthropic",
   "period": "weekly",
   "period_label": "최근 7일",
   "days_window": 7,
-  "paper_count": 457,
-  "narrative": "한 줄 요약 모델 성능 경쟁은 이미 2차전으로 넘어갔고, 이제 싸움터는 에이전트 시스템의 거버넌스·비용·신뢰 구조다.\n\n1) 무엇이 부상하고 있는가 논문 흐름에서 가장 뚜렷한 신호는 '에이전트 AI의 운영 복잡성'이 임계점을 넘었다는 인식이다. 논문 1(From Model Scaling to System Scaling)은 **단일 LLM 선택은 이미 낡은 질문이고, 에이전트 간 신뢰·조정 계층이 새 병목**임을 명시하며, 메모리·스킬 라우팅·오케스트레이션·거버넌스 계층의 설계가 장기 성능을 결정한다고 주장한다. 논문 17(Agentic Technical Debt)은 이 복잡성을 '에이전트 기술부채'와 '확률적 세금'으로 수치화하는 형식 모델을 제시했고, 논문 59(Energy per Successful Goal)는 **기존 API 호출 단위 비용 측정이 다단계 에이전트 오케스트레이션 환경에서는 무의미**하며 목표 달성당 에너지라는 새 단위로 재설계해야 한다고 주장한다. 동시에 RAG 운영 현장에서도 균열이 드러났다. 논문 13(Coverage Illusion)은 합성 쿼리 기반으로 설계한 RAG 파이프라인이 실제 운영 환경에서 LLM 증강 필요 비율이 90%에서 27.8%로 급락하는 '커버리지 환상'을 실증했다. **RAG 파이프라인을 한 번 구축하고 방치하는 운영 방식은 재검토가 필요한 시점**이다. 멀티에이전트 안전성 측면에서는 논문 16(MedAgentAudit)이 의료 AI 에이전트 98.42%가 증거 재검토 없이 초기 의견을 반복하는 '거짓 합의' 위험을 14,400개 사례로 입증했다. 최종 정확도 점수만으로는 이 프로세스 수준의 결함이 보이지 않는다는 점이 핵심 경고다.\n\n2) 한국 실무자에게 이 흐름이 무슨 의미인가 전략·기획 담당자가 가장 먼저 점검해야 할 것은 현재 도입 중인 AI 시스템의 '책임 경계'다. 논문 15(Redrawing the AI Map)는 에이전트 오케스트레이터가 조직 경계를 넘어 역량을 모듈화할 때, 증거·승인·책임 할당이 필요한 출력물은 통합 구조를 유지해야 한다는 '책임 경계' 이론을 제시한다. 즉 **책임 경계가 명확히 설계된 아키텍처를 선택**하지 않으면, AI가 만든 결과물의 법적·내부통제 책임 소재가 공백이 된다. 채용 알고리즘 논문 33(Algorithmic Monocultures)은 동일 벤더 알고리즘 집중 시 특정 집단이 최대 25.87% 차별적 영향을 받는다는 실증 결과를 제시했다. 한국 대기업 채용 프로세스에서 단일 AI 벤더 의존도를 점검할 근거가 생긴 셈이다. 비용 관점에서는 **성공한 목표당 비용으로 KPI를 재설계해야** 한다는 시그널이 복수 논문에서 동시에 나왔다. 논문 5(Persistent AI Agents)의 실운영 데이터는 토큰당 비용이 아닌 산출물당 비용 모델로의 전환을 실증적으로 뒷받침한다.\n\n3) 산업 적용 흐름 법률·금융·의료 순으로 에이전트 AI 도입 압력이 높아지고 있다. 논문 20(Maat)의 경쟁법 전문 에이전트, 논문 45(FinHarness)의 금융 LLM 안전 장치, 논문 11(AAIA-RAG-LEGAL)의 법률 RAG 거버넌스는 모두 도메인 특화 안전장치가 범용 모델보다 우선한다는 방향을 가리킨다. **국내 금융·공공 분야의 내부통제 자동화 수요와 직결**되는 흐름이다. 그러나 한국 기업 환경에서는 개인정보보호법상 국외 데이터 이전 제한, 금융위·금감원의 AI 모델 설명 요구, 공공기관의 망분리 정책이 클라우드 기반 멀티에이전트 도입의 현실적 장벽으로 작용한다. 논문 64(MobileMoE)처럼 온디바이스·경량화 방향의 기술이 빠르게 성숙하고 있어, **온프레미스(on-premise) 또는 폐쇄망 요구가 도입 속도를 제한하는 현실적 제약으로 작동**하는 환경에서도 선택지가 넓어지고 있다는 점은 긍정적 신호다. EU AI Act 대응 논문 70(Adopting AI Act Transparency)과 논문 66(AI Governance Visions)은 글로벌 규제 격차가 다국적 사업을 운영하는 한국 기업의 전략 수립 제약으로 이미 현실화되고 있음을 시사한다.",
+  "paper_count": 455,
+  "narrative": "한 줄 요약 AI 연구의 핵심 메시지는 '모델 성능보다 시스템 신뢰성'이며, 에이전트 AI가 실제 업무에 투입되는 순간 드러나는 책임·감사·거버넌스 공백이 전략적 리스크로 부상하고 있다.\n\n1) 무엇이 부상하고 있는가 80편 논문 전반에 걸쳐 가장 선명하게 부각되는 흐름은 '에이전트 AI의 프로세스 안전성'이다. 의료 다중에이전트 시스템을 감사한 MedAgentAudit 연구(논문 1)는 에이전트들이 98.42%의 확률로 증거 재검토 없이 초기 의견을 반복하고, 권위 편향과 자기모순이 만연함에도 최종 정확도 점수에는 전혀 드러나지 않는다는 사실을 14,400개 사례로 입증했다. 이는 벤치마크 점수만 보고 AI 시스템을 도입한 기업이 실제 운영에서 전혀 다른 리스크에 노출될 수 있음을 의미한다. 동시에 '하네스 스케일링(Harness Scaling)'을 제안한 논문 2는 **단일 LLM 선택은 이미 낡은 질문이고, 에이전트 간 신뢰·조정 계층이 새 병목**임을 명시하며, 메모리·오케스트레이션·거버넌스 계층 설계가 장기 성능을 결정한다고 주장한다. 금융 AI의 재현성 위기를 다룬 논문 6은 LLM 에이전트 워크플로우에서 동일 입력에 대해 설명이 달라지는 비결정성 문제가 감사 준비도를 직접 훼손한다고 경고한다. 이 세 흐름은 하나의 메시지로 수렴한다: 에이전트 AI 도입의 진짜 난관은 모델 품질이 아니라 시스템 수준의 감사 가능성과 책임 구조 설계다.\n\n2) 한국 실무자에게 이 흐름이 무슨 의미인가 전략·기획 담당자 입장에서 가장 즉각적인 함의는 'AI 도입 KPI를 어떻게 설계할 것인가'다. 논문 24(에이전트 기술부채 모델)는 **기존 API 호출 단위 비용 측정이 다단계 에이전트 오케스트레이션 환경에서는 무의미**하며, 설계·거버넌스 누적 책임인 '에이전트 기술부채'와 반복 운영 부담인 '확률적 세금'을 분리 측정해야 한다고 제안한다. 논문 11의 실증 사례는 토큰당 비용이 아닌 **성공한 목표당 비용으로 KPI를 재설계해야** 실제 운영 효율을 파악할 수 있음을 보여준다. 또한 논문 49는 AI가 개별 작업 속도를 높여도 오류가 재작업으로 돌아오면 전체 워크플로우 지연이 악화되는 '대기열 역설'을 수식으로 증명했다. 기획 담당자가 'AI 도입 후 생산성 향상'을 보고할 때 작업 단위 속도만 측정하면 시스템 전체 효과를 오판할 수 있다는 경고다. 채용 알고리즘 단일 벤더 집중이 특정 인종 집단에 25% 이상 차별적 영향을 미친다는 논문 48의 발견은, 국내 HR 자동화 도입 시 알고리즘 다양성과 감사 체계를 사전에 설계해야 함을 시사한다.\n\n3) 산업 적용 흐름 법률·금융·의료 순으로 에이전트 AI의 실무 침투가 빠르게 진행되고 있다. 경쟁법 전문 에이전트 Maat(논문 29)와 이탈리아 법률 RAG 거버넌스 사례(논문 17)는 법률 도메인에서 RAG 기반 에이전트가 인용 신뢰성과 할루시네이션 문제를 실질적으로 해결하기 시작했음을 보여준다. 금융 분야에서는 FinHarness(논문 67)가 인라인 안전 장치로 비인가 행동을 차단하면서 정상 워크플로우를 보존하는 구조를 제시하며, **국내 금융·공공 분야의 내부통제 자동화 수요와 직결**되는 아키텍처다. 그러나 한국 기업 환경에서는 **개인정보보호법상 국외 데이터 이전 제한, 금융위·금감원의 AI 모델 설명 요구, 공공기관의 망분리 정책이 클라우드 기반 멀티에이전트 도입의 현실적 장벽으로 작용**한다. 프로덕션 RAG 시스템에서 합성 쿼리와 실제 쿼리 분포가 크게 다르다는 논문 20의 발견은, **RAG 파이프라인을 한 번 구축하고 방치하는 운영 방식은 재검토가 필요한 시점**임을 알려준다. 온프레미스 배포를 위한 엣지 양자화 기술(논문 60)의 성숙은 **온프레미스(on-premise) 또는 폐쇄망 요구가 도입 속도를 제한하는 현실적 제약으로 작동**하는 국내 환경에서 대안 경로가 열리고 있음을 시사한다.",
   "hot_topics": [
     {
-      "topic": "에이전트 AI 거버넌스·책임 구조 (Agentic AI Governance & Accountability)",
-      "description": "에이전트가 조직 경계를 넘어 작동할 때 책임 공백이 발생하며, 감사 가능하고 롤백 가능한 아키텍처 설계가 핵심 과제로 부상.",
-      "paper_count": 6,
+      "topic": "에이전트 AI 거버넌스·책임 경계 (Agentic AI Governance & Accountability Boundaries)",
+      "description": "멀티에이전트 시스템이 조직 경계를 넘어 작동할 때 누가 어떤 결과에 책임지는지 설계하는 문제가 전략적 리스크로 부상.",
+      "paper_count": 7,
       "paper_indices": [
         1,
-        4,
-        15,
-        17,
+        2,
+        10,
+        22,
+        24,
         56,
-        76
+        57
       ],
       "papers": [
+        {
+          "title": "Auditing medical multi-agent AI reveals risks of false consensus",
+          "url": "https://arxiv.org/abs/2510.10185v3",
+          "source": "arXiv cs.MA (Multi-Agent)",
+          "date": "2026-05-27"
+        },
         {
           "title": "From Model Scaling to System Scaling: Scaling the Harness in Agentic AI",
           "url": "https://arxiv.org/abs/2605.26112v1",
@@ -45,29 +52,30 @@
           "date": "2026-05-26"
         },
         {
-          "title": "On Controllability in Agentic AI: A Survey",
-          "url": "https://doi.org/10.1007/s11023-026-09783-y",
-          "source": "OpenAlex",
-          "date": "2026-05-26"
+          "title": "SwarmHarness: Skill-Based Task Routing via Decentralized Incentive-Aligned AI Agent Networks",
+          "url": "https://arxiv.org/abs/2605.28764v1",
+          "source": "arXiv cs.AI",
+          "date": "2026-05-27"
         },
         {
-          "title": "AIKernel Phase-1 Paper 04: Trajectory Governance Model",
-          "url": "https://doi.org/10.5281/zenodo.20309510",
-          "source": "OpenAlex",
-          "date": "2026-05-26"
+          "title": "MARGIN: Runtime Confidence Calibration for Multi-Agent Foundation Model Coordination",
+          "url": "https://arxiv.org/abs/2605.22949v2",
+          "source": "arXiv cs.MA (Multi-Agent)",
+          "date": "2026-05-27"
         }
       ]
     },
     {
-      "topic": "멀티에이전트 시스템 안전성·신뢰성 (Multi-Agent Safety & False Consensus)",
-      "description": "다수 에이전트가 협업할 때 거짓 합의·권위 편향·자기모순 등 최종 점수로는 보이지 않는 프로세스 수준 결함이 실증되고 있음.",
-      "paper_count": 5,
+      "topic": "AI 시스템 감사 가능성·재현성 (AI Auditability & Reproducibility)",
+      "description": "금융·의료·법률 등 규제 산업에서 AI 출력의 감사 준비도와 재현성이 컴플라이언스 요건으로 직결되는 흐름.",
+      "paper_count": 6,
       "paper_indices": [
-        16,
-        49,
-        54,
-        57,
-        69
+        1,
+        6,
+        14,
+        52,
+        53,
+        73
       ],
       "papers": [
         {
@@ -77,80 +85,11 @@
           "date": "2026-05-27"
         },
         {
-          "title": "Learning Decentralized LLM Collaboration with Multi-Agent Actor Critic",
-          "url": "https://arxiv.org/abs/2601.21972v5",
-          "source": "arXiv cs.MA (Multi-Agent)",
-          "date": "2026-05-26"
-        },
-        {
-          "title": "Securing Multi-Agent Systems Against Corruptions via Node Contribution Backpropagation",
-          "url": "https://arxiv.org/abs/2510.19420v2",
-          "source": "arXiv cs.MA (Multi-Agent)",
-          "date": "2026-05-26"
-        },
-        {
-          "title": "Multi-Agent Systems are Mixtures of Experts: Who Becomes an Influencer?",
-          "url": "https://arxiv.org/abs/2605.25929v1",
-          "source": "arXiv cs.MA (Multi-Agent)",
-          "date": "2026-05-25"
-        },
-        {
-          "title": "When Agents Control Robots: A Zero Trust Policy Model for Agentic Cyber-Physical Systems",
-          "url": "https://arxiv.org/abs/2605.25653v1",
-          "source": "arXiv cs.MA (Multi-Agent)",
-          "date": "2026-05-25"
-        }
-      ]
-    },
-    {
-      "topic": "RAG 운영 현실과 한계 (Production RAG Reliability)",
-      "description": "합성 환경과 실제 운영 환경의 쿼리 분포 불일치, 문서 위치 편향 등 RAG 시스템의 구조적 취약점이 프로덕션 데이터로 속속 드러나는 중.",
-      "paper_count": 4,
-      "paper_indices": [
-        13,
-        31,
-        65,
-        44
-      ],
-      "papers": [
-        {
-          "title": "The Coverage Illusion: From Pre-retrieval Routing Failure to Post-retrieval Cascades in a Production RAG System",
-          "url": "https://arxiv.org/abs/2605.27220v1",
-          "source": "arXiv cs.IR",
-          "date": "2026-05-26"
-        },
-        {
-          "title": "Lost in the Evidence? Reproducing Document Position and Context Size Effects in RAG",
-          "url": "https://arxiv.org/abs/2605.27105v1",
-          "source": "arXiv cs.IR",
-          "date": "2026-05-26"
-        },
-        {
-          "title": "Rethinking Agentic RAG: Toward LLM-Driven Logical Retrieval Beyond Embeddings",
-          "url": "https://arxiv.org/abs/2605.27123v1",
-          "source": "arXiv cs.IR",
-          "date": "2026-05-26"
-        },
-        {
-          "title": "Natural Language Query to Configuration for Retrieval Agents",
-          "url": "https://arxiv.org/abs/2605.27361v1",
+          "title": "From Accuracy to Auditability: A Survey of Determinism in Financial AI Systems",
+          "url": "https://arxiv.org/abs/2605.23955v2",
           "source": "arXiv cs.AI",
-          "date": "2026-05-26"
-        }
-      ]
-    },
-    {
-      "topic": "AI 평가·벤치마크 신뢰성 위기 (Benchmark Reliability & Evaluation Integrity)",
-      "description": "벤치마크 25.7%에서 심각한 결함이 발견되고 모델 순위가 최대 10% 변동하는 등, AI 도입 의사결정의 근거로 삼는 평가 지표 자체의 신뢰성이 흔들리고 있음.",
-      "paper_count": 5,
-      "paper_indices": [
-        8,
-        37,
-        38,
-        2,
-        26
-      ],
-      "papers": [
+          "date": "2026-05-27"
+        },
         {
           "title": "Automated Benchmark Auditing for AI Agents and Large Language Models",
           "url": "https://arxiv.org/abs/2605.26079v1",
@@ -170,73 +109,81 @@
           "date": "2026-05-22"
         },
         {
-          "title": "RCTs & Human Uplift Studies: Methodological Challenges and Practical Solutions for Frontier AI Evaluation",
-          "url": "https://arxiv.org/abs/2603.11001v2",
-          "source": "arXiv cs.AI",
-          "date": "2026-05-25"
-        },
-        {
-          "title": "A Two-Phase Stability Study of LLM Judges and Bar Council Examiners on Thai Bar-Exam Free-Form Essays",
-          "url": "https://arxiv.org/abs/2605.25652v1",
+          "title": "Auditing Stance Asymmetry in Generative Explanations",
+          "url": "https://arxiv.org/abs/2605.27988v1",
           "source": "arXiv cs.CY (Computers & Society)",
-          "date": "2026-05-25"
-        }
-      ]
-    },
-    {
-      "topic": "AI 규제 대응·컴플라이언스 전략 (AI Regulatory Compliance & Governance Frameworks)",
-      "description": "EU AI Act·GDPR·eIDAS 등 글로벌 규제가 기업 전략 제약으로 현실화되면서, 컴플라이언스가 단순 법무 기능을 넘어 경영 전략의 핵심 변수로 전환 중.",
-      "paper_count": 5,
-      "paper_indices": [
-        3,
-        35,
-        39,
-        66,
-        70
-      ],
-      "papers": [
-        {
-          "title": "Ontological Knowledge Blocks: Executable Compliance and Profile-Based Validation for Trustworthy AI Systems",
-          "url": "https://arxiv.org/abs/2605.23297",
-          "source": "arXiv cs.AI",
-          "date": "2026-05-25"
-        },
-        {
-          "title": "Faults and Pitfalls in Implementing the Right to be Forgotten",
-          "url": "https://arxiv.org/abs/2605.27171v1",
-          "source": "arXiv cs.CY (Computers & Society)",
-          "date": "2026-05-26"
-        },
-        {
-          "title": "eAIDAS as Turning-Point Infrastructure: The Cryptographic Attestation Layer in the AI Revolution's Deployment Phase",
-          "url": "https://doi.org/10.5281/zenodo.20379596",
-          "source": "OpenAlex",
-          "date": "2026-05-25"
-        },
-        {
-          "title": "Research on the adaptation path of corporate strategy based on the differences in AI governance visions between the Atlantic and China",
-          "url": "https://www.nature.com/articles/s41598-026-54646-2_reference.pdf",
-          "source": "OpenAlex",
-          "date": "2026-05-26"
-        },
-        {
-          "title": "Adopting AI Act Transparency in Three Stages: A Planning Typology for SMEs",
-          "url": "https://doi.org/10.5281/zenodo.20402526",
-          "source": "OpenAlex",
           "date": "2026-05-27"
         }
       ]
     },
     {
-      "topic": "AI 도입의 노동·조직 영향 (AI Impact on Workforce & Organizational Structure)",
-      "description": "AI가 개별 작업 속도를 높여도 워크플로우 전체 지연이 악화될 수 있으며, 기술 적응 메커니즘 자체가 붕괴할 수 있다는 구조적 경고가 등장.",
-      "paper_count": 3,
+      "topic": "RAG 시스템 운영 품질·커버리지 (Production RAG Quality & Coverage)",
+      "description": "실제 운영 환경에서 RAG 파이프라인의 쿼리 분포 불일치, 인용 오류, 커버리지 공백이 서비스 품질을 훼손하는 구조적 문제.",
+      "paper_count": 6,
       "paper_indices": [
-        34,
-        53,
-        33
+        9,
+        20,
+        40,
+        63,
+        65,
+        72
       ],
       "papers": [
+        {
+          "title": "Verified Misguidance: Measuring Structural Citation Failures in Search-Augmented LLMs",
+          "url": "https://arxiv.org/abs/2605.28565v1",
+          "source": "arXiv cs.IR",
+          "date": "2026-05-27"
+        },
+        {
+          "title": "The Coverage Illusion: From Pre-retrieval Routing Failure to Post-retrieval Cascades in a Production RAG System",
+          "url": "https://arxiv.org/abs/2605.27220v1",
+          "source": "arXiv cs.IR",
+          "date": "2026-05-26"
+        },
+        {
+          "title": "Lost in the Evidence? Reproducing Document Position and Context Size Effects in RAG",
+          "url": "https://arxiv.org/abs/2605.27105v1",
+          "source": "arXiv cs.IR",
+          "date": "2026-05-26"
+        },
+        {
+          "title": "Search for Coverage: Learning Coverage-Aware Retrieval with Augmented Sub-Question Answerability",
+          "url": "https://arxiv.org/abs/2605.28522v1",
+          "source": "arXiv cs.IR",
+          "date": "2026-05-27"
+        },
+        {
+          "title": "Analyzing Quality-Latency-Resource Trade-offs in a Technical Documentation RAG Assistant Using LoRA Adaptation",
+          "url": "https://arxiv.org/abs/2605.28222v1",
+          "source": "arXiv cs.IR",
+          "date": "2026-05-27"
+        },
+        {
+          "title": "Uncertainty Quantification for Retrieval-Augmented Reasoning",
+          "url": "https://arxiv.org/abs/2510.11483v3",
+          "source": "arXiv cs.IR",
+          "date": "2026-05-27"
+        }
+      ]
+    },
+    {
+      "topic": "AI 도입의 노동·조직 영향 (AI Impact on Work & Organization)",
+      "description": "AI가 직무 의미성·기술 형성·워크플로우 생산성에 미치는 실제 영향이 단순 속도 향상과 다를 수 있다는 실증 연구 급증.",
+      "paper_count": 4,
+      "paper_indices": [
+        43,
+        49,
+        79,
+        22
+      ],
+      "papers": [
+        {
+          "title": "AI in the Workplace: The Impact of AI on Perceived Job Decency and Meaningfulness",
+          "url": "https://arxiv.org/abs/2605.28680v1",
+          "source": "arXiv cs.CY (Computers & Society)",
+          "date": "2026-05-27"
+        },
         {
           "title": "Queue & AI: When Faster Tasks Slow Down the Workflow",
           "url": "https://arxiv.org/abs/2605.27202v1",
@@ -250,8 +197,96 @@
           "date": "2026-05-22"
         },
         {
+          "title": "Redrawing the AI Map: A Theory of Accountability Boundaries in Agentic Ecosystems",
+          "url": "https://arxiv.org/abs/2605.23179",
+          "source": "arXiv cs.AI",
+          "date": "2026-05-25"
+        }
+      ]
+    },
+    {
+      "topic": "LLM 편향·공정성·문화 편향 (LLM Bias, Fairness & Cultural Skew)",
+      "description": "채용 알고리즘 차별, 의료 정보 격차, 도시 인식의 서구 편향 등 AI 시스템의 구조적 불평등이 규제·평판 리스크로 연결.",
+      "paper_count": 5,
+      "paper_indices": [
+        27,
+        30,
+        48,
+        62,
+        64
+      ],
+      "papers": [
+        {
+          "title": "MIRA: A Bilingual Benchmark for Medical Information Response Audit",
+          "url": "https://arxiv.org/abs/2605.28025v1",
+          "source": "arXiv cs.CY (Computers & Society)",
+          "date": "2026-05-27"
+        },
+        {
+          "title": "Large Language Models Perceive Cities Through a Culturally Uneven Baseline",
+          "url": "https://arxiv.org/abs/2604.20048v2",
+          "source": "arXiv cs.CY (Computers & Society)",
+          "date": "2026-05-26"
+        },
+        {
           "title": "Algorithmic Monocultures in Hiring",
           "url": "https://arxiv.org/abs/2605.27371v1",
+          "source": "arXiv cs.AI",
+          "date": "2026-05-26"
+        },
+        {
+          "title": "Bias Leaves a Gradient Trail: Label-Free Bias Identification via Gradient Probes on Concept Decompositions",
+          "url": "https://arxiv.org/abs/2605.28780v1",
+          "source": "arXiv cs.LG",
+          "date": "2026-05-27"
+        },
+        {
+          "title": "Geometry of Relaxed Fair Regression: A Unified Framework for Aware and Unaware Settings",
+          "url": "https://arxiv.org/abs/2605.28233v1",
+          "source": "arXiv cs.CY (Computers & Society)",
+          "date": "2026-05-27"
+        }
+      ]
+    },
+    {
+      "topic": "AI 안전성·정렬 취약점 (AI Safety & Alignment Vulnerabilities)",
+      "description": "RLHF 정렬 조작, LLM의 인지적 트로이목마 효과, 설득 취약성 등 배포된 모델의 안전 결함이 실운영 리스크로 가시화.",
+      "paper_count": 5,
+      "paper_indices": [
+        7,
+        16,
+        28,
+        38,
+        58
+      ],
+      "papers": [
+        {
+          "title": "The Ethics of LLM Sandbox and Persona Dynamics",
+          "url": "https://arxiv.org/abs/2605.28647v1",
+          "source": "arXiv cs.CY (Computers & Society)",
+          "date": "2026-05-27"
+        },
+        {
+          "title": "The AI Cognitive Trojan Horse: How Large Language Models May Bypass Human Epistemic Vigilance",
+          "url": "https://arxiv.org/abs/2601.07085v2",
+          "source": "arXiv cs.AI",
+          "date": "2026-05-26"
+        },
+        {
+          "title": "Persuade Me if You Can: A Framework for Evaluating Persuasion Effectiveness and Susceptibility Among Large Language Models",
+          "url": "https://arxiv.org/abs/2503.01829v4",
+          "source": "arXiv cs.MA (Multi-Agent)",
+          "date": "2026-05-27"
+        },
+        {
+          "title": "It's Not Always Sycophancy: Measuring LLM Conformity as a Function of Epistemic Uncertainty",
+          "url": "https://arxiv.org/abs/2605.27288v1",
+          "source": "arXiv cs.LG",
+          "date": "2026-05-26"
+        },
+        {
+          "title": "Alignment Tampering: How Reinforcement Learning from Human Feedback Is Exploited to Optimize Misaligned Biases",
+          "url": "https://arxiv.org/abs/2605.27355v1",
           "source": "arXiv cs.AI",
           "date": "2026-05-26"
         }
@@ -260,14 +295,14 @@
   ],
   "key_techniques": [
     {
-      "technique": "하네스 스케일링·에이전트 오케스트레이션 계층 설계 (Harness Scaling & Agent Orchestration Architecture)",
-      "description": "LLM 모델 자체가 아닌 주변 메모리·라우팅·거버넌스 계층을 체계적으로 설계하는 방식으로, 장기 에이전트 운영 성능을 결정하는 새 병목으로 부상.",
+      "technique": "에이전트 하네스·오케스트레이션 계층 설계 (Agentic Harness & Orchestration Layer)",
+      "description": "LLM 모델 자체가 아닌 주변 메모리·라우팅·거버넌스 계층을 설계하는 것이 장기 에이전트 성능의 실질적 결정 요인임을 보여주는 아키텍처 접근.",
       "paper_count": 4,
       "paper_indices": [
-        1,
-        4,
-        17,
-        78
+        2,
+        10,
+        56,
+        67
       ],
       "papers": [
         {
@@ -283,29 +318,29 @@
           "date": "2026-05-26"
         },
         {
-          "title": "Modeling Agentic Technical Debt and Stochastic Tax: A Standalone Framework for Measurement, Simulation, and Dashboarding",
-          "url": "https://arxiv.org/abs/2605.27320v1",
+          "title": "SwarmHarness: Skill-Based Task Routing via Decentralized Incentive-Aligned AI Agent Networks",
+          "url": "https://arxiv.org/abs/2605.28764v1",
           "source": "arXiv cs.AI",
-          "date": "2026-05-26"
+          "date": "2026-05-27"
         },
         {
-          "title": "SkillOpt: Executive Strategy for Self-Evolving Agent Skills",
-          "url": "https://arxiv.org/abs/2605.23904v2",
-          "source": "arXiv cs.AI",
-          "date": "2026-05-25"
+          "title": "FinHarness: An Inline Lifecycle Safety Harness for Finance LLM Agents",
+          "url": "https://arxiv.org/abs/2605.27333v1",
+          "source": "arXiv cs.CL",
+          "date": "2026-05-26"
         }
       ]
     },
     {
-      "technique": "검색증강생성 고도화·사후 캐스케이드 (Advanced RAG & Post-Retrieval Cascade)",
-      "description": "단순 임베딩 검색을 넘어 논리식 기반 검색, 사후 캐스케이드, 하이브리드 라우팅으로 실제 운영 환경의 지연·품질 문제를 동시에 해결하는 기법.",
+      "technique": "프로덕션 RAG 적응형 파이프라인 (Adaptive Production RAG Pipeline)",
+      "description": "합성 쿼리 기반 설계와 실제 사용자 쿼리 분포의 불일치를 동적으로 보정하여 지연·품질·비용을 동시에 최적화하는 운영 기법.",
       "paper_count": 5,
       "paper_indices": [
-        13,
-        31,
-        44,
+        20,
+        40,
+        63,
         65,
-        68
+        66
       ],
       "papers": [
         {
@@ -321,33 +356,86 @@
           "date": "2026-05-26"
         },
         {
+          "title": "Search for Coverage: Learning Coverage-Aware Retrieval with Augmented Sub-Question Answerability",
+          "url": "https://arxiv.org/abs/2605.28522v1",
+          "source": "arXiv cs.IR",
+          "date": "2026-05-27"
+        },
+        {
+          "title": "Analyzing Quality-Latency-Resource Trade-offs in a Technical Documentation RAG Assistant Using LoRA Adaptation",
+          "url": "https://arxiv.org/abs/2605.28222v1",
+          "source": "arXiv cs.IR",
+          "date": "2026-05-27"
+        },
+        {
           "title": "Natural Language Query to Configuration for Retrieval Agents",
           "url": "https://arxiv.org/abs/2605.27361v1",
           "source": "arXiv cs.AI",
           "date": "2026-05-26"
-        },
-        {
-          "title": "Rethinking Agentic RAG: Toward LLM-Driven Logical Retrieval Beyond Embeddings",
-          "url": "https://arxiv.org/abs/2605.27123v1",
-          "source": "arXiv cs.IR",
-          "date": "2026-05-26"
-        },
-        {
-          "title": "Neural Router: Semantic Content Matching for Agentic AI",
-          "url": "https://arxiv.org/abs/2605.25701v1",
-          "source": "arXiv cs.IR",
-          "date": "2026-05-25"
         }
       ]
     },
     {
-      "technique": "온톨로지 기반 실행 가능 컴플라이언스 (Executable Ontological Compliance)",
-      "description": "산문 형태의 AI 규정을 자동 검증 가능한 코드로 변환하여 투명성·추적성·책임성을 기계적으로 보장하는 접근법으로, 규제 대응 자동화의 핵심 기반.",
+      "technique": "온라인 신뢰도 보정 (Online Confidence Calibration)",
+      "description": "배포 후 분포 변화에도 에이전트 판단의 신뢰도를 실시간으로 보정하여 오작동 탐지와 에이전트 선택 정확도를 높이는 방법.",
       "paper_count": 3,
       "paper_indices": [
-        3,
-        39,
-        70
+        8,
+        57,
+        72
+      ],
+      "papers": [
+        {
+          "title": "Calibrating Conservatism for Scalable Oversight",
+          "url": "https://arxiv.org/abs/2605.28807v1",
+          "source": "arXiv cs.AI",
+          "date": "2026-05-27"
+        },
+        {
+          "title": "MARGIN: Runtime Confidence Calibration for Multi-Agent Foundation Model Coordination",
+          "url": "https://arxiv.org/abs/2605.22949v2",
+          "source": "arXiv cs.MA (Multi-Agent)",
+          "date": "2026-05-27"
+        },
+        {
+          "title": "Uncertainty Quantification for Retrieval-Augmented Reasoning",
+          "url": "https://arxiv.org/abs/2510.11483v3",
+          "source": "arXiv cs.IR",
+          "date": "2026-05-27"
+        }
+      ]
+    },
+    {
+      "technique": "에이전트 기술부채 측정 모델 (Agentic Technical Debt Measurement)",
+      "description": "에이전트 시스템의 누적 설계 부채와 반복 운영 비용을 분리 정량화하여 성공 목표당 비용 기반 KPI 설계를 가능하게 하는 프레임워크.",
+      "paper_count": 2,
+      "paper_indices": [
+        24,
+        11
+      ],
+      "papers": [
+        {
+          "title": "Modeling Agentic Technical Debt and Stochastic Tax: A Standalone Framework for Measurement, Simulation, and Dashboarding",
+          "url": "https://arxiv.org/abs/2605.27320v1",
+          "source": "arXiv cs.AI",
+          "date": "2026-05-26"
+        },
+        {
+          "title": "Persistent AI Agents in Academic Research: A Single-Investigator Implementation Case Study",
+          "url": "https://arxiv.org/abs/2605.26870v1",
+          "source": "arXiv cs.MA (Multi-Agent)",
+          "date": "2026-05-26"
+        }
+      ]
+    },
+    {
+      "technique": "실행 가능한 AI 컴플라이언스 자동화 (Executable AI Compliance Automation)",
+      "description": "투명성·책임성·공정성 등 거버넌스 의무를 산문 정책이 아닌 코드로 명세하고 자동 검증함으로써 감사 준비도를 시스템 수준에서 확보하는 접근.",
+      "paper_count": 3,
+      "paper_indices": [
+        5,
+        6,
+        55
       ],
       "papers": [
         {
@@ -357,86 +445,26 @@
           "date": "2026-05-25"
         },
         {
+          "title": "From Accuracy to Auditability: A Survey of Determinism in Financial AI Systems",
+          "url": "https://arxiv.org/abs/2605.23955v2",
+          "source": "arXiv cs.AI",
+          "date": "2026-05-27"
+        },
+        {
           "title": "eAIDAS as Turning-Point Infrastructure: The Cryptographic Attestation Layer in the AI Revolution's Deployment Phase",
           "url": "https://doi.org/10.5281/zenodo.20379596",
           "source": "OpenAlex",
-          "date": "2026-05-25"
-        },
-        {
-          "title": "Adopting AI Act Transparency in Three Stages: A Planning Typology for SMEs",
-          "url": "https://doi.org/10.5281/zenodo.20402526",
-          "source": "OpenAlex",
-          "date": "2026-05-27"
-        }
-      ]
-    },
-    {
-      "technique": "에이전트 안전 제어·제로트러스트 정책 (Agentic Safety Control & Zero Trust Policy)",
-      "description": "멀티에이전트 환경에서 악의적 에이전트 격리, 리샘플링 기반 안전 제어, 금융 인라인 모니터링 등 운영 중 실시간 안전성을 보장하는 기법군.",
-      "paper_count": 4,
-      "paper_indices": [
-        54,
-        67,
-        45,
-        69
-      ],
-      "papers": [
-        {
-          "title": "Securing Multi-Agent Systems Against Corruptions via Node Contribution Backpropagation",
-          "url": "https://arxiv.org/abs/2510.19420v2",
-          "source": "arXiv cs.MA (Multi-Agent)",
-          "date": "2026-05-26"
-        },
-        {
-          "title": "Retrying vs Resampling in AI Control",
-          "url": "https://arxiv.org/abs/2605.26047v1",
-          "source": "arXiv cs.AI",
-          "date": "2026-05-25"
-        },
-        {
-          "title": "FinHarness: An Inline Lifecycle Safety Harness for Finance LLM Agents",
-          "url": "https://arxiv.org/abs/2605.27333v1",
-          "source": "arXiv cs.CL",
-          "date": "2026-05-26"
-        },
-        {
-          "title": "When Agents Control Robots: A Zero Trust Policy Model for Agentic Cyber-Physical Systems",
-          "url": "https://arxiv.org/abs/2605.25653v1",
-          "source": "arXiv cs.MA (Multi-Agent)",
-          "date": "2026-05-25"
-        }
-      ]
-    },
-    {
-      "technique": "경량화·온디바이스 모델 최적화 (On-Device & Edge Model Optimization)",
-      "description": "MoE 아키텍처와 Power-of-Two 양자화로 스마트폰·엣지 기기에서 대형 모델 수준의 성능을 구현하며, 폐쇄망·온프레미스 환경 도입의 기술적 장벽을 낮추는 방향.",
-      "paper_count": 2,
-      "paper_indices": [
-        64,
-        42
-      ],
-      "papers": [
-        {
-          "title": "MobileMoE: Scaling On-Device Mixture of Experts",
-          "url": "https://arxiv.org/abs/2605.27358v1",
-          "source": "arXiv cs.AI",
-          "date": "2026-05-26"
-        },
-        {
-          "title": "OrpQuant: Geometric Orthogonal Residual Projection for Multiplier-Free Power-of-Two Transformer Quantization",
-          "url": "https://arxiv.org/abs/2605.26092v1",
-          "source": "arXiv cs.AI",
           "date": "2026-05-25"
         }
       ]
     }
   ],
   "actionable_insights": [
-    "현재 운영 중이거나 도입 검토 중인 AI 에이전트 시스템의 '책임 경계 설계서'가 존재하는지 점검해야 한다. 논문 15와 논문 4가 공통으로 지적하듯, **에이전트가 생성한 출력물에 대한 증거·승인·책임 할당 구조가 아키텍처 수준에서 명시되지 않으면** 내부통제 감사와 규제 대응 모두 공백이 생긴다. 벤더 선정 RFP 단계부터 이 항목을 평가 기준에 포함시켜야 한다.",
-    "AI 도입 성과 측정 KPI를 재설계할 필요가 있다. 논문 59와 논문 5의 실운영 데이터는 **토큰 소비량·API 호출 횟수 같은 투입 단위 지표가 아닌, 성공적으로 완료된 목표당 비용·에너지로 KPI를 재설계해야** 다단계 에이전트 워크플로우의 실제 효율을 측정할 수 있음을 보여준다. 현재 사용 중인 AI 비용 대시보드가 이 단위를 지원하는지 확인이 필요하다.",
-    "RAG 기반 사내 지식검색·법무·규정 조회 시스템을 운영 중이라면, 합성 쿼리로 설계된 파이프라인이 실제 사용자 쿼리와 얼마나 괴리되어 있는지 주기적으로 측정하는 체계를 갖춰야 한다. 논문 13의 실증 결과처럼 **실제 운영 환경의 쿼리 분포는 설계 시 가정과 구조적으로 다를 수 있으며**, 이를 방치하면 시스템 품질이 조용히 저하된다.",
-    "채용·인사평가·여신심사 등 고위험 의사결정에 AI를 활용하는 경우, 단일 벤더 알고리즘 집중 여부를 점검해야 한다. 논문 33은 동일 벤더 알고리즘 사용 시 특정 집단에서 최대 25.87%의 차별적 결과가 발생함을 300만 명 데이터로 입증했다. **알고리즘 단일문화(algorithmic monoculture) 리스크는 공정거래·ESG 공시·노동법 리스크와 직결**되므로, 벤더 다양성 또는 독립 감사 체계 마련이 필요하다.",
-    "글로벌 사업을 운영하는 기업이라면 EU AI Act·GDPR·미국 수출규제·중국 AI 규정의 교차 적용 시나리오를 전략 기획 단계에서 사전 반영해야 한다. 논문 66과 논문 61이 보여주듯 **규제 체계 간 충돌이 AI 시스템 아키텍처 선택(클라우드 리전·데이터 현지화·모델 공개 범위)을 직접 제약하는 전략 변수로 작동**하고 있으며, 이를 컴플라이언스 팀에만 위임하면 제품·서비스 출시 일정과 기술 스택 선택에서 뒤늦게 충돌이 발생한다."
+    "AI 시스템 도입 성과를 보고할 때 작업 단위 속도 개선만 측정하면 전체 워크플로우 효과를 오판할 수 있다. **성공한 목표당 비용으로 KPI를 재설계해야** 에이전트 오케스트레이션 환경에서 실제 운영 효율을 파악할 수 있으며, 토큰 비용·API 호출 수 같은 기존 지표는 보조 지표로 격하해야 한다.",
+    "멀티에이전트 시스템 도입 시 모델 벤치마크 점수만으로 안전성을 판단하는 관행은 위험하다. MedAgentAudit 연구가 보여주듯 프로세스 수준의 협업 실패(허위 합의, 권위 편향)는 최종 정확도에 반영되지 않으므로, **책임 경계가 명확히 설계된 아키텍처를 선택**하고 협업 로그를 별도로 감사하는 체계를 구축해야 한다.",
+    "사내 RAG 기반 지식 검색·법무·컴플라이언스 시스템을 운영 중이라면 초기 구축 시 설정한 쿼리 분포와 실제 사용자 쿼리 간 괴리를 주기적으로 측정해야 한다. **RAG 파이프라인을 한 번 구축하고 방치하는 운영 방식은 재검토가 필요한 시점**이며, 커버리지 지표와 인용 충실도를 운영 대시보드에 포함시키는 것이 현실적 대응이다.",
+    "HR 자동화나 채용 스크리닝에 외부 AI 솔루션을 도입할 때 단일 벤더 의존도를 점검해야 한다. 알고리즘 모노컬처 연구는 동일 벤더 알고리즘 집중이 특정 집단에 25% 이상 차별적 결과를 낳을 수 있음을 실증했으며, **국내 금융·공공 분야의 내부통제 자동화 수요와 직결**되는 공정성 감사 요건을 벤더 계약 단계에서 명시하는 것이 리스크 관리의 출발점이다.",
+    "클라우드 기반 멀티에이전트 도입을 검토 중인 금융·공공 기관은 규제 환경을 선제적으로 매핑해야 한다. **한국 기업 환경에서는 개인정보보호법상 국외 데이터 이전 제한, 금융위·금감원의 AI 모델 설명 요구, 공공기관의 망분리 정책이 클라우드 기반 멀티에이전트 도입의 현실적 장벽으로 작용**하므로, 엣지 양자화(OrpQuant 등) 기반 온프레미스 배포 경로를 병행 검토하는 것이 현실적인 아키텍처 전략이다."
   ],
   "top_institutions": [
     {
@@ -461,7 +489,7 @@
     },
     {
       "name": "Google",
-      "count": 4
+      "count": 3
     },
     {
       "name": "Amazon",
@@ -558,19 +586,27 @@
       "count": 15
     },
     {
-      "keyword": "research",
-      "count": 15
-    },
-    {
       "keyword": "search",
       "count": 15
     },
     {
       "keyword": "augmented",
       "count": 15
+    },
+    {
+      "keyword": "research",
+      "count": 15
     }
   ],
   "recent_papers": [
+    {
+      "title": "Auditing medical multi-agent AI reveals risks of false consensus",
+      "url": "https://arxiv.org/abs/2510.10185v3",
+      "source": "arXiv cs.MA (Multi-Agent)",
+      "date": "2026-05-27",
+      "summary_ko": "의료 다중에이전트 AI 시스템의 협업 프로세스 안전성을 진단하는 MedAgentAudit 프레임워크를 제시한다. 3,600개 실행 로그에서 10가지 협업 실패 유형을 도출하고, 14,400개 사례에 걸쳐 6개 아키텍처·6개 의료 데이터셋·4개 LLM 설정을 감사한 결과, 에이전트들이 증거 재검토 없이 초기 의견을 반복(98.42%)하고 권위 편향(28.76%)·자기모순(18.53%)을 보이는 등 최종 정확도 점수만으로는 드러나지 않는 프로세스 수준의 안전 결함을 발견했다.",
+      "score": 92
+    },
     {
       "title": "From Model Scaling to System Scaling: Scaling the Harness in Agentic AI",
       "url": "https://arxiv.org/abs/2605.26112v1",
@@ -578,6 +614,14 @@
       "date": "2026-05-25",
       "summary_ko": "본 논문은 에이전트 AI의 다음 병목을 모델 스케일링이 아닌 시스템 스케일링으로 진단하며, 기초 모델 주변의 감사 가능·지속·모듈식·검증 가능한 아키텍처 설계를 '하네스 스케일링'으로 명명한다. 메모리·컨텍스트·스킬 라우팅·오케스트레이션·거버넌스 계층의 상호작용이 장기 에이전트 성능을 결정한다고 주장하며, 참조 구현 CheetahClaws를 제시한다.",
       "score": 88
+    },
+    {
+      "title": "Efficient and Scalable Provenance Tracking for LLM-Generated Code Snippets",
+      "url": "https://arxiv.org/abs/2605.28510v1",
+      "source": "arXiv cs.IR",
+      "date": "2026-05-27",
+      "summary_ko": "본 논문은 LLM이 생성한 코드의 출처 추적을 위해 300M 파라미터 코드 인코더 SOURCETRACKER와 벡터 검색 및 Winnowing 지문 기반 재순위 결합 파이프라인 HYBRIDSOURCETRACKER(HST)를 제안한다. 10M 스니펫 규모 학습으로 60토큰 이상 쿼리에서 Winnowing 대비 최대 5.4% 성능 향상을 달성하면서 로그 시간 복잡도를 유지한다.",
+      "score": 84
     },
     {
       "title": "RCTs & Human Uplift Studies: Methodological Challenges and Practical Solutions for Frontier AI Evaluation",
@@ -594,6 +638,38 @@
       "date": "2026-05-25",
       "summary_ko": "본 논문은 AI 시스템의 거버넌스 의무(투명성, 책임성, 공정성, 추적성)를 자동화·검증 가능하게 만드는 '온톨로지 기반 컴플라이언스 블록' 프레임워크를 제시한다. 기존의 산문 기반 감시와 수동 검토를 대체하여 실행 가능한 규정과 프로필 기반 검증을 통해 신뢰할 수 있는 AI 시스템 배포를 지원한다.",
       "score": 84
+    },
+    {
+      "title": "From Accuracy to Auditability: A Survey of Determinism in Financial AI Systems",
+      "url": "https://arxiv.org/abs/2605.23955v2",
+      "source": "arXiv cs.AI",
+      "date": "2026-05-27",
+      "summary_ko": "금융 AI 시스템의 재현성 위기를 다층 관점에서 분석한 논문. 신경망·생성AI 도입으로 인한 하드웨어 수준의 비결정성이 표형 모델, 그래프 네트워크, LLM 에이전트 워크플로우에서 설명 불안정성·예측 변동·출력 편차를 야기하며, 감사 준비도와 연계한 평가 프레임워크를 제시한다.",
+      "score": 81
+    },
+    {
+      "title": "The Ethics of LLM Sandbox and Persona Dynamics",
+      "url": "https://arxiv.org/abs/2605.28647v1",
+      "source": "arXiv cs.CY (Computers & Society)",
+      "date": "2026-05-27",
+      "summary_ko": "본 논문은 LLM의 가드레일과 페르소나 동역학이 만드는 '현실 간극'이 윤리적 문제임을 주장한다. 사용자에게 불편한 진실을 억압하고 추상화하는 '현실 세탁'은 고위험 조언 맥락에서 인식 부족 사용자에게 인식론적 위험을 전가한다. 저자들은 응답 수준의 도덕적 교정보다 과제 수준의 인과 요구사항 명시를 주장한다.",
+      "score": 81
+    },
+    {
+      "title": "Calibrating Conservatism for Scalable Oversight",
+      "url": "https://arxiv.org/abs/2605.28807v1",
+      "source": "arXiv cs.AI",
+      "date": "2026-05-27",
+      "summary_ko": "자율 계획 능력을 갖춘 에이전트 AI의 인간 감시 문제를 해결하기 위해 Calibrated Collective Oversight(CCO)를 제안한다. 다양한 보조 점수 함수를 보수적 기준선으로부터의 편차 페널티로 통합하고, Conformal Decision Theory로 온라인 보정하여 유한 시간 내 사용자 지정 위반 임계값을 보장한다.",
+      "score": 80
+    },
+    {
+      "title": "Verified Misguidance: Measuring Structural Citation Failures in Search-Augmented LLMs",
+      "url": "https://arxiv.org/abs/2605.28565v1",
+      "source": "arXiv cs.IR",
+      "date": "2026-05-27",
+      "summary_ko": "Search-augmented LLM의 인용 신뢰성을 체계적으로 측정하는 CITETRACE 데이터셋과 평가 프레임워크를 제시. 11,200개 실제 쿼리와 112,000개 응답을 분석해 '검증된 오도(Verified Misguidance)' 현상을 발견: 모델들이 실제 접근 가능한 출처를 인용하면서도 의도-목적 정렬, 출처 적절성, 답변-출처 충실도 중 하나 이상에서 실패하는 구조적 문제를 드러냄.",
+      "score": 80
     },
     {
       "title": "Governed Evolution of Agent Runtimes through Executable Operational Cognition",
@@ -660,6 +736,14 @@
       "score": 74
     },
     {
+      "title": "The Illusion of Opting in AI-Mediated Consequential Decisions",
+      "url": "https://arxiv.org/abs/2605.28210v1",
+      "source": "arXiv cs.CY (Computers & Society)",
+      "date": "2026-05-27",
+      "summary_ko": "본 논문은 Ullmann-Margalit의 '선택(opting)' 개념을 바탕으로 AI 시스템이 야기하는 윤리적 문제를 분석한다. 사용자가 의미 있는 선택을 하는 것처럼 보이지만 실제 행위능력(agency)은 약화되는 '선택의 환상(illusion of opting)'을 핵심으로 지적하며, 메타-능력 보호, 존재론적 정직성, 생태적 합리성, 반사실적 보상이라는 세 가지 규범적 명령을 제시한다.",
+      "score": 73
+    },
+    {
       "title": "Whose Good, Whose Place? The Moral Geography of Agentic AI for Social Good",
       "url": "https://arxiv.org/abs/2605.22995",
       "source": "arXiv cs.CY (Computers & Society)",
@@ -692,11 +776,11 @@
       "score": 72
     },
     {
-      "title": "Auditing medical multi-agent AI reveals risks of false consensus",
-      "url": "https://arxiv.org/abs/2510.10185v3",
-      "source": "arXiv cs.MA (Multi-Agent)",
+      "title": "Causal Direct Preference Optimization for Distributionally Robust Generative Recommendation",
+      "url": "https://arxiv.org/abs/2603.22335v2",
+      "source": "arXiv cs.IR",
       "date": "2026-05-27",
-      "summary_ko": "의료 다중에이전트 AI 시스템의 협업 프로세스 안전성을 진단하는 MedAgentAudit 프레임워크를 제시한다. 3,600개 실행 로그에서 10가지 협업 실패 유형을 도출하고, 14,400개 사례에 걸쳐 6개 아키텍처·6개 의료 데이터셋·4개 LLM 설정을 감사한 결과, 에이전트들이 증거 재검토 없이 초기 의견을 반복(98.42%)하고 권위 편향(28.76%)·자기모순(18.53%)을 보이는 등 최종 정확도 점수만으로는 드러나지 않는 프로세스 수준의 안전 결함을 발견했다.",
+      "summary_ko": "본 논문은 LLM 기반 생성형 추천 시스템에서 DPO 학습 중 환경 교란자로 인한 허위 상관관계 증폭 문제를 식별하고, 인과 불변성 학습과 백도어 조정 전략을 통합한 CausalDPO를 제안한다. 분포 외 일반화 성능을 17.17% 향상시킨다.",
       "score": 71
     },
     {
@@ -724,6 +808,22 @@
       "score": 71
     },
     {
+      "title": "MIRA: A Bilingual Benchmark for Medical Information Response Audit",
+      "url": "https://arxiv.org/abs/2605.28025v1",
+      "source": "arXiv cs.CY (Computers & Society)",
+      "date": "2026-05-27",
+      "summary_ko": "MIRA는 의료 정보 제공 시 사용자의 언어·건강 문해도에 따라 LLM이 제공하는 정보량이 차등적으로 감소하는 현상(DID)을 측정하는 이중언어 벤치마크다. 5개 주류 LLM 평가 결과, 저 문해도 신호에 대해 핵심 정보 누락과 구체적 다음 단계 부재가 일관되게 나타났으며, 지식 기반 완화 프롬프트로 부분 개선 가능함을 보였다.",
+      "score": 70
+    },
+    {
+      "title": "Persuade Me if You Can: A Framework for Evaluating Persuasion Effectiveness and Susceptibility Among Large Language Models",
+      "url": "https://arxiv.org/abs/2503.01829v4",
+      "source": "arXiv cs.MA (Multi-Agent)",
+      "date": "2026-05-27",
+      "summary_ko": "본 논문은 LLM 간 설득 효과와 설득 취약성을 자동으로 평가하는 PMIYC 프레임워크를 제시한다. 다중 에이전트 상호작용을 통해 설득 역학을 측정하며, GPT-4o는 미정보 저항성에서 Llama-3.3-70B보다 50% 우수하고, o1-mini는 설득자·피설득자 모두 효과적임을 발견했다.",
+      "score": 70
+    },
+    {
       "title": "Maat: The Agentic Legal Research Assistant for Competition Protection",
       "url": "https://arxiv.org/abs/2605.27331v1",
       "source": "arXiv cs.AI",
@@ -738,78 +838,6 @@
       "date": "2026-05-26",
       "summary_ko": "본 논문은 대형언어모델(LLM)이 도시를 인식할 때 문화적으로 중립적이지 않으며, 유럽·북미 중심의 기준틀을 기본값으로 삼고 있음을 실증적으로 입증한다. 글로벌 거리뷰 샘플과 문화적 관점을 조작한 프롬프트를 통해 중립 조건이 실제로는 중립이 아니며, 비서구 문화 프롬프트가 체계적으로 기준선에서 벗어남을 보여준다.",
       "score": 70
-    },
-    {
-      "title": "On the Sensitivity of Instruction-tuned LLMs to Harmful Sentences in Long Inputs",
-      "url": "https://arxiv.org/abs/2510.05864v2",
-      "source": "arXiv cs.CY (Computers & Society)",
-      "date": "2026-05-26",
-      "summary_ko": "본 논문은 긴 입력에 희소하게 포함된 유해 문장에 대한 instruction-tuned LLM의 민감도를 체계적으로 분석한다. 입력 길이(600~30,000 토큰), 유해 문장 비율(0.01~0.50), 명시/암시적 해악, 위치 등 4개 변수를 조작하여 LLaMA-3.1, Qwen-2.5, Mistral에서 실험한 결과, 유해 민감도는 비단조적 패턴을 보이며 입력 길이 증가에 따라 저하되고 초반 위치의 유해 문장이 더 강하게 우선순위화됨을 발견했다.",
-      "score": 70
-    },
-    {
-      "title": "Habermolt: Delegating Deliberation to AI Representatives",
-      "url": "https://arxiv.org/abs/2605.24413v2",
-      "source": "arXiv cs.MA (Multi-Agent)",
-      "date": "2026-05-26",
-      "summary_ko": "본 논문은 AI 에이전트가 인간을 대신해 숙의에 참여하는 'AI-위임 숙의' 패러다임을 제시하고, 공개 플랫폼 Habermolt를 통해 표현·집계·수정의 세 차원에서 그 효과성을 실증 평가한다. 민주적 참여의 규모를 획기적으로 확장할 수 있으나 새로운 설계·정렬 과제를 야기한다.",
-      "score": 70
-    },
-    {
-      "title": "DiscoverPhysics: Benchmarking LLMs for Out-of-the-Box Scientific Thinking",
-      "url": "https://arxiv.org/abs/2605.26087v1",
-      "source": "arXiv cs.LG",
-      "date": "2026-05-25",
-      "summary_ko": "본 논문은 LLM이 기존 과학 지식 회상이 아닌 진정한 과학적 추론 능력을 갖추었는지 검증하기 위해 DiscoverPhysics 벤치마크를 제시한다. 에이전트가 기존 물리학과 다른 22개 시뮬레이션 세계의 법칙을 실험 설계와 가설 수정을 통해 발견하도록 요구하며, 11개 최신 모델 평가 결과 최강 모델도 절반만 통과하고 개념적 이해는 예측 정확도와 무관함을 보였다.",
-      "score": 70
-    },
-    {
-      "title": "AI-Assisted Systematization for Evaluating GenAI Systems",
-      "url": "https://arxiv.org/abs/2605.26001v1",
-      "source": "arXiv cs.CY (Computers & Society)",
-      "date": "2026-05-25",
-      "summary_ko": "본 논문은 GenAI 시스템 평가에서 '추론', '공정성', '창의성' 같은 광범위한 개념을 측정 가능한 형태로 체계화하는 과정을 AI가 지원할 수 있는지 검증한다. 개념 명세서(concept spec)와 검증 워크시트를 도입하고, 직접 방식과 다중에이전트 방식의 두 가지 AI 보조 체계화 도구를 개발하여 혐오 수사와 디지털 공감 개념에 적용한 결과를 평가한다.",
-      "score": 70
-    },
-    {
-      "title": "A Two-Phase Stability Study of LLM Judges and Bar Council Examiners on Thai Bar-Exam Free-Form Essays",
-      "url": "https://arxiv.org/abs/2605.25652v1",
-      "source": "arXiv cs.CY (Computers & Society)",
-      "date": "2026-05-25",
-      "summary_ko": "태국 변호사시험 에세이 채점을 통해 LLM 판사와 인간 심사관의 평가 안정성을 비교 검증한 연구. 26개 LLM 패널과 3명의 Bar Council 훈련 심사관이 동일한 15개 답안을 채점하여, 전문가 합의를 단순 '천장값'으로 취급하는 기존 가정을 재검토하고 LLM 판사의 실제 신뢰성을 측정.",
-      "score": 70
-    },
-    {
-      "title": "Efficient and Scalable Provenance Tracking for LLM-Generated Code Snippets",
-      "url": "https://arxiv.org/abs/2605.28510v1",
-      "source": "arXiv cs.IR",
-      "date": "2026-05-27",
-      "summary_ko": "본 논문은 LLM이 생성한 코드의 출처 추적을 위해 300M 파라미터 코드 인코더 SOURCETRACKER와 벡터 검색 및 Winnowing 지문 기반 재순위 결합 파이프라인 HYBRIDSOURCETRACKER(HST)를 제안한다. 10M 스니펫 규모 학습으로 60토큰 이상 쿼리에서 Winnowing 대비 최대 5.4% 성능 향상을 달성하면서 로그 시간 복잡도를 유지한다.",
-      "score": 69
-    },
-    {
-      "title": "TowerMind: A Tower Defence Game Learning Environment and Benchmark for LLM as Agents",
-      "url": "https://arxiv.org/abs/2601.05899v2",
-      "source": "arXiv cs.AI",
-      "date": "2026-05-26",
-      "summary_ko": "본 논문은 타워 디펜스 게임 기반의 경량 멀티모달 환경 TowerMind를 제시하여 LLM 에이전트의 장기 계획 및 의사결정 능력을 평가한다. 픽셀·텍스트·구조화 상태 표현을 지원하며, 여러 LLM과 강화학습 알고리즘을 벤치마크한 결과 LLM의 계획 검증 부족, 다중성 결여, 비효율적 행동 실행 등 핵심 한계를 드러냈다.",
-      "score": 69
-    },
-    {
-      "title": "It's Not Always Sycophancy: Measuring LLM Conformity as a Function of Epistemic Uncertainty",
-      "url": "https://arxiv.org/abs/2605.27288v1",
-      "source": "arXiv cs.LG",
-      "date": "2026-05-26",
-      "summary_ko": "본 논문은 LLM의 사용자 의견 추종 행동이 단순 아부(sycophancy)뿐 아니라 모델의 인식론적 불확실성에도 기인함을 보이는 MUSE 평가 프레임워크를 제시한다. 두 가지 메커니즘—확실성 속 아부적 추종과 불확실성 증가에 따른 추종—을 구분하고, 사용자 전문성 인식과 제안의 타당성이 두 메커니즘 모두를 강화함을 실증한다.",
-      "score": 69
-    },
-    {
-      "title": "GraphReview: Scientific Paper Evaluation via LLM-Based Graph Message Passing",
-      "url": "https://arxiv.org/abs/2605.27204v1",
-      "source": "arXiv cs.IR",
-      "date": "2026-05-26",
-      "summary_ko": "GraphReview는 논문 평가를 의미론적 그래프 위의 메시지 패싱으로 모델링하는 LLM 기반 프레임워크다. 내재적 품질, 동시대 논문 간 링크, 선행 연구와의 연결을 통합하여 결정 예측과 리뷰 생성에서 기존 방법 대비 29.7% 성능 향상을 달성했다.",
-      "score": 69
     }
   ],
   "available_periods": {
