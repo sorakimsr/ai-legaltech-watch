@@ -218,9 +218,13 @@ def fetch_source(source_def):
             # v6.10 (Phase 3): source(매체명+URL)도 함께 넘겨 BOOKMARK_BONUS_SOURCES 매칭에 사용
             score = score_item(title, summary, dt, categories, source=f"{name} {link}")
 
-            # v4.0: score cut-off 35 — 행동 가치 시그널 없는 article 자동 drop
-            # (BLACKLIST 일일이 추가하는 대신 score 시스템이 자동 거름망 역할)
-            if score < 35:
+            # v6.15.23 (Plan C 선행, 2026-05-28): enrich gate 완화 35 → 20
+            # 의도: keyword score만으로 cut-off 결정하면 LLM 평가 가치 있는 기사
+            #       (섀도우 AI·KB금융 보안·AI 비서 해킹 등)이 enrich 전에 drop됨.
+            #       LLM이 진짜 dominant gate 역할을 하도록 keyword cut-off 20으로 완화.
+            #       borderline 기사(20~34)는 enrich 받아 LLM persona_score로 재평가됨.
+            # v4.0 (원래): score cut-off 35 — 행동 가치 시그널 없는 article 자동 drop
+            if score < 20:
                 continue
 
             # 발행일 처리 — 못 파싱하면 None (오늘로 fallback 안 함 — 시사점 분석 오염 방지)
@@ -313,16 +317,21 @@ def load_previous_items():
                 rescored += 1
                 if len(rescored_examples) < 5 and new_score < old_score:
                     rescored_examples.append(f"{old_score}→{new_score} {it.get('title', '')[:55]}")
-            # v4.0: cut-off 35 미만이면 prev_map에서도 drop (행동 가치 없는 옛 article 자동 정화)
-            if new_score < 35:
+            # v6.15.23 (Plan C 선행, 2026-05-28): prev_map cut-off도 35 → 20 완화
+            # 이미 enrich 받아 persona_score 있는 항목은 score_item에서 ps×8 boost 받아
+            # 자연스럽게 35+ 도달. enrich 안 받은 항목도 borderline(20~34)이면 보존되어
+            # 다음 enrich 빌드에서 평가 받을 기회. noise(0~19)는 여전히 drop.
+            # v4.0 (원래): cut-off 35 미만이면 prev_map에서도 drop
+            if new_score < 20:
                 dropped += 1
                 if len(dropped_examples) < 5:
-                    dropped_examples.append(f"[score<35] {it.get('title', '')[:55]}")
+                    dropped_examples.append(f"[score<20] {it.get('title', '')[:55]}")
                 continue
             it["score"] = new_score
             out[url] = it
         if dropped:
-            print(f"  [prune] dropped {dropped} previously-stored items (new BLACKLIST)", flush=True)
+            # v6.15.23: 로그 메시지 정확화 — "BLACKLIST"는 부정확. is_relevant 룰 또는 cut-off prune.
+            print(f"  [prune] dropped {dropped} previously-stored items (is_relevant / cut-off 20)", flush=True)
             for ex in dropped_examples:
                 print(f"    - {ex}", flush=True)
         if rescored:
