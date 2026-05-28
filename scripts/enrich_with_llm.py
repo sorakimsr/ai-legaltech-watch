@@ -360,6 +360,27 @@ JSON만 응답하세요. 다른 텍스트 없이.
 """
 
 
+def _is_agenda_item(item: dict) -> bool:
+    """v6.15.33 (P1-4): 사용자 6 어젠다 매칭 여부.
+
+    True면 keyword score가 INSIGHT_THRESHOLD_KO 미만이어도 insight를 생성한다.
+    배경(감사 P1-4): ko insight 게이트가 'enrich 전 keyword score ≥ 임계'인데,
+      정작 가치 판단(persona_score)은 enrich에서 나옴. SUPER_BOOST 키워드가 본문
+      표현과 어긋나는 어젠다 기사는 시사점을 받기도 전에 게이트에서 탈락 → 순환 의존.
+    해결: 어젠다(SUPER_BOOST·핵심법령·legaltech/policy/gov_policy 카테고리)면
+      keyword score와 무관하게 insight 생성.
+    """
+    try:
+        from common import _has_super_boost, _has_core_law_mention
+        text = ((item.get("title") or "") + " " + (item.get("summary") or "")).lower()
+        if _has_super_boost(text) or _has_core_law_mention(text):
+            return True
+    except Exception:
+        pass
+    cats = set(item.get("categories") or [])
+    return bool(cats & {"legaltech", "policy", "gov_policy"})
+
+
 def _apply_primary_category(item: dict, pc) -> None:
     """v6.15.32: LLM이 부여한 primary_category를 item.categories에 병합.
 
@@ -501,7 +522,8 @@ def enrich_item(item: dict) -> dict:
             item["llm_enriched"] = True
 
     elif lang == "ko":
-        if score >= INSIGHT_THRESHOLD_KO:
+        # v6.15.33 (P1-4): keyword score 임계 OR 어젠다 매칭이면 insight 생성.
+        if score >= INSIGHT_THRESHOLD_KO or _is_agenda_item(item):
             prompt = PROMPT_KO_INSIGHT_ONLY.format(
                 title=title, source=source, date=date,
                 summary=summary, categories=categories,
@@ -570,8 +592,8 @@ def needs_enrich(item: dict) -> bool:
             return True
         return False
     elif lang == "ko":
-        # 한국어: 점수 높으면 insight + entities 필요, 낮으면 entities만 필요. + primary_category.
-        if score >= INSIGHT_THRESHOLD_KO:
+        # 한국어: 점수 높음 OR 어젠다(P1-4) → insight + entities 필요, 그 외 entities만. + primary_category.
+        if score >= INSIGHT_THRESHOLD_KO or _is_agenda_item(item):
             if not item.get("insight_ko") or not has_entities:
                 return True
         else:

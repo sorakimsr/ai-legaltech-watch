@@ -1409,6 +1409,15 @@ def score_item(title: str, summary: str, date, categories: list, persona_score: 
     #   (ai_mentions ≥ 1 OR legaltech/policy/governance 카테고리 보유)
     # 시행령·시행규칙 매칭 별도 처리(_is_ai_basic_law·_is_conditional_law에 포함됨).
     # 두 조건 동시 충족 시(예: AI 기본법 + 개인정보보호법 동시 등장) 최대 +18로 cap.
+    # === v6.15.33 (P1-3): 어젠다 보호 floor + persona cap 불변식 ===
+    # 문제(감사 P1-3): 법령 floor 78이 적용된 뒤에도 persona-aware cap(ps_cap=30+ps×10)이
+    #   SUPER_BOOST만 보호(max(ps_cap,70))하고 법령 floor는 보호하지 않아, persona_score가
+    #   낮으면(ps≤4) 법령 floor 78이 70으로 깎였음 — 어젠다 보호 floor가 cap에 무력화.
+    # 해결: inline floor는 그대로 두되(ps_score 없는 항목 동작 불변), 적용된 floor를
+    #   agenda_floor에 기록 → persona cap이 agenda_floor 아래로 깎지 못하게 한다.
+    #   ── 단일 불변식: "어젠다 보호 floor(법령78·SUPER_BOOST70·핵심도메인35)는
+    #      persona cap보다 항상 우선" ──
+    agenda_floor = 0.0
     law_bonus = 0
     text_lower_for_law = text  # 이미 lower + normalize됨
     if _is_ai_basic_law(text_lower_for_law):
@@ -1422,10 +1431,10 @@ def score_item(title: str, summary: str, date, categories: list, persona_score: 
     if law_bonus > 0:
         law_bonus = min(law_bonus, 18)  # 동시 충족도 18로 cap
         score += law_bonus
-        # v6.15.21: 핵심 법령 매칭 항목 floor 78 — monthly TOP 80 cut(76) 통과 보장
-        # (AI 기본법 단독 매칭이 SUPER_BOOST에 안 잡혀도 monthly 시사점 진입)
+        # 핵심 법령 floor 78 (monthly TOP 80 cut 통과 보장). agenda_floor에 기록 → cap보다 우선.
         if score < 78:
             score = 78
+        agenda_floor = max(agenda_floor, 78)
 
     # === v6.15.21 SUPER_BOOST: 사용자 명시 8개 어젠다 보호 ===
     # 판결문 공개·공정위 AI 실태조사·개인정보 처리 특례 등은 후보 풀 진입 보장.
@@ -1436,7 +1445,8 @@ def score_item(title: str, summary: str, date, categories: list, persona_score: 
     if _has_super_boost(text):
         score += 18
         if score < 70:
-            score = 70  # daily TOP 30/weekly TOP 50 진입 가능, monthly TOP 80은 borderline
+            score = 70
+        agenda_floor = max(agenda_floor, 70)  # 어젠다 진입 보장 (cap보다 우선)
 
     # === v6.15.19/.21: 핵심 도메인 카테고리 score floor (cut-off 통과 보장) ===
     # 사용자 정책: "기존에 걸러지던 AI 일반 소식도 스크롤로 확인할 수 있도록".
@@ -1448,10 +1458,12 @@ def score_item(title: str, summary: str, date, categories: list, persona_score: 
     if any(c in floor_cats for c in categories):
         if score < 35:
             score = 35  # cut-off 통과 보장 (점수 차등으로 자연스럽게 하단 노출)
+        agenda_floor = max(agenda_floor, 35)
     elif _is_conditional_law(text) and ai_mentions >= 1:
         # AI 관련 정보통신망법·개인정보보호법은 짧은 본문이어도 cut-off 통과
         if score < 35:
             score = 35
+        agenda_floor = max(agenda_floor, 35)
 
     # === v6.10 (Phase 3): BOOKMARK_LEARNING 가산 ===
     # 사용자가 ⭐ 북마크한 30+35건 통계 분석 기반 — ground truth value signal.
@@ -1502,9 +1514,10 @@ def score_item(title: str, summary: str, date, categories: list, persona_score: 
             ps = int(persona_score)
             if 0 <= ps <= 10:
                 ps_cap = 30 + ps * 10  # ps=7: 100, ps=8: 110, ps=9: 120
-                # SUPER_BOOST floor와 충돌 시 floor 우선 (어젠다 보호)
-                if _has_super_boost(text):
-                    ps_cap = max(ps_cap, 70)
+                # ── 불변식: 어젠다 보호 floor는 persona cap보다 항상 우선 ──
+                #   (법령 78·SUPER_BOOST 70·핵심도메인 35 모두 cap에 의해 깎이지 않음)
+                #   기존엔 SUPER_BOOST(70)만 보호 → 법령 floor 78이 ps≤4에서 70으로 깎이던 버그.
+                ps_cap = max(ps_cap, agenda_floor)
                 score = min(score, ps_cap)
         except (ValueError, TypeError):
             pass
