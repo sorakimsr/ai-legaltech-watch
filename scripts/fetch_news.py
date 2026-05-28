@@ -105,15 +105,144 @@ def _arxiv_fetch_with_retry(url: str, max_retries: int = 3):
     return None  # unreachable
 
 
+# v6.15.31: 공개 RSS가 없는 회사 공식 채널을 위한 sitemap 기반 증분 스크래퍼.
+#   동작: sitemap.xml의 <loc>+<lastmod> → 최근 SCRAPE_RECENT_DAYS일치 글만 식별 →
+#   해당 페이지의 og:title/og:description만 가져와 RSS entry처럼 변환.
+#   HTML 클래스명에 의존하지 않고 sitemap·OpenGraph 표준만 사용 → 레이아웃 변경에 강함.
+_CHROME_UA = ("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
+              "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
+SCRAPE_RECENT_DAYS = 4   # FETCH_DAYS(2)보다 약간 넉넉 — lastmod lag/lead 방어. 최종 일자 필터는 메인 루프가 수행.
+SCRAPE_MAX_PAGES = 12    # 최근 글 페이지 fetch 상한 (빌드당 회사별 보통 0~3건)
+
+
+def _http_get(url: str, timeout: int = 15) -> str:
+    from urllib.request import Request, urlopen
+    req = Request(url, headers={
+        "User-Agent": _CHROME_UA,
+        "Accept": "text/html,application/xhtml+xml,application/xml,*/*;q=0.8",
+    })
+    with urlopen(req, timeout=timeout) as resp:
+        return resp.read().decode("utf-8", errors="replace")
+
+
+def _parse_sitemap(xml: str, path_filter: str):
+    """<url><loc>+<lastmod> 추출. path_filter가 loc에 포함된 것만. -> [(loc, datetime|None)]"""
+    import html as ihtml
+    out = []
+    for m in re.finditer(r"<url>(.*?)</url>", xml, re.S):
+        blk = m.group(1)
+        loc = re.search(r"<loc>([^<]+)</loc>", blk)
+        if not loc or path_filter not in loc.group(1):
+            continue
+        url = ihtml.unescape(loc.group(1).strip()).rstrip("/")
+        dt = None
+        lm = re.search(r"<lastmod>([^<]+)</lastmod>", blk)
+        if lm:
+            try:
+                dt = datetime.fromisoformat(lm.group(1).strip().replace("Z", "+00:00"))
+            except (ValueError, TypeError):
+                dt = None
+        out.append((url, dt))
+    return out
+
+
+def _scrape_og(url: str):
+    """페이지에서 og:title / og:description (없으면 <title>) 추출. -> (title|None, desc|None)"""
+    import html as ihtml
+    try:
+        h = _http_get(url, timeout=12)
+    except Exception:
+        return None, None
+
+    def meta(prop):
+        pat1 = (r'<meta[^>]+(?:property|name)=["\']' + re.escape(prop)
+                + r'["\'][^>]+content=["\']([^"\']+)["\']')
+        pat2 = (r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+(?:property|name)=["\']'
+                + re.escape(prop) + r'["\']')
+        mm = re.search(pat1, h, re.I) or re.search(pat2, h, re.I)
+        return ihtml.unescape(mm.group(1)).strip() if mm else None
+
+    title = meta("og:title")
+    if not title:
+        mt = re.search(r"<title>([^<]+)</title>", h, re.I)
+        title = ihtml.unescape(mt.group(1)).strip() if mt else None
+    desc = meta("og:description") or meta("description")
+    if desc:
+        desc = desc[:400]
+    return title, desc
+
+
+def _scrape_sitemap_entries(spec: str):
+    """source_def.url = "SITEMAP_URL|PATH_FILTER" → RSS entry 유사 객체 리스트 반환.
+
+    각 entry는 feedparser entry처럼 .title/.link/.summary/.published/.published_parsed 보유 →
+    fetch_source의 기존 처리 루프를 그대로 통과.
+    """
+    from types import SimpleNamespace
+    if "|" in spec:
+        sm_url, path_filter = spec.split("|", 1)
+    else:
+        sm_url, path_filter = spec, "/"
+
+    try:
+        xml = _http_get(sm_url, timeout=20)
+    except Exception as exc:
+        print(f"    -> scrape sitemap fetch error: {exc}", flush=True)
+        return []
+
+    pairs = _parse_sitemap(xml, path_filter)
+    # sitemap index(하위 sitemap 중첩) 대응
+    if not pairs and "<sitemapindex" in xml:
+        for sub in re.findall(r"<loc>([^<]+)</loc>", xml):
+            if any(k in sub.lower() for k in ("news", "blog", "post", "sitemap")):
+                try:
+                    pairs += _parse_sitemap(_http_get(sub, timeout=20), path_filter)
+                except Exception:
+                    pass
+
+    now = datetime.now(timezone.utc)
+    recent = []
+    for loc, dt in pairs:
+        if dt is None:
+            continue
+        if dt.tzinfo is None:
+            dt = dt.replace(tzinfo=timezone.utc)
+        if (now - dt).days > SCRAPE_RECENT_DAYS:
+            continue
+        recent.append((loc, dt))
+    recent.sort(key=lambda r: r[1], reverse=True)
+    recent = recent[:SCRAPE_MAX_PAGES]
+
+    entries = []
+    for loc, dt in recent:
+        title, desc = _scrape_og(loc)
+        if not title:
+            continue
+        entries.append(SimpleNamespace(
+            title=title,
+            link=loc,
+            summary=desc or "",
+            published=dt.isoformat(),
+            published_parsed=dt.utctimetuple(),
+        ))
+    print(f"    -> scrape: {len(entries)}건 (최근 {SCRAPE_RECENT_DAYS}일, 후보 {len(pairs)})", flush=True)
+    return entries
+
+
 def fetch_source(source_def):
     name, url, source_type, default_cats, lang = source_def
     items = []
     try:
         print(f"  [fetch] {name}", flush=True)
+        # v6.15.24: arXiv는 6개 카테고리 통합 query라 결과 많음 → 별도 cap 적용
+        cap = MAX_PER_ARXIV_SOURCE if source_type == "arxiv" else MAX_PER_SOURCE
         # v2.7: arXiv API는 응답이 무거워서 전역 8초 timeout으로는 잘림 →
         # urllib로 별도 호출 (25s timeout) 후 raw text를 feedparser에 전달
         # v3.0: HTTP 429 대응 retry 로직 추가
-        if source_type == "arxiv" and "api/query" in url:
+        if source_type == "scrape":
+            # v6.15.31: 공개 RSS 없는 회사 공식 채널 — sitemap 기반 증분 스크래핑.
+            entries = _scrape_sitemap_entries(url)
+        elif source_type == "arxiv" and "api/query" in url:
             try:
                 body = _arxiv_fetch_with_retry(url, max_retries=3)
                 if not body:
@@ -123,6 +252,7 @@ def fetch_source(source_def):
             except Exception as exc:
                 print(f"    -> arxiv api fetch error: {exc}", flush=True)
                 return [], "error"
+            entries = feed.entries[:cap]
         else:
             # v6.13: User-Agent를 일반 Chrome UA로 변경.
             #   기존 "compatible; AI-Legaltech-Watch/2.7"이 Cloudflare 봇 차단에 걸려
@@ -131,13 +261,10 @@ def fetch_source(source_def):
                 "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
                 "Accept": "application/rss+xml, application/xml, text/xml, */*;q=0.8",
             })
-        if feed.bozo and feed.bozo_exception and not feed.entries:
-            print(f"    -> error: {feed.bozo_exception}", flush=True)
-            return [], "error"
-
-        # v6.15.24: arXiv는 6개 카테고리 통합 query라 결과 많음 → 별도 cap 적용
-        cap = MAX_PER_ARXIV_SOURCE if source_type == "arxiv" else MAX_PER_SOURCE
-        entries = feed.entries[:cap]
+            if feed.bozo and feed.bozo_exception and not feed.entries:
+                print(f"    -> error: {feed.bozo_exception}", flush=True)
+                return [], "error"
+            entries = feed.entries[:cap]
         for e in entries:
             title = clean_text(getattr(e, "title", "") or "")
             link = normalize_url(getattr(e, "link", "") or "")

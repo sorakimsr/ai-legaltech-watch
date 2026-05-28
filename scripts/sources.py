@@ -37,13 +37,30 @@ SOURCES = [
     ("Perplexity Blog", "https://news.google.com/rss/search?q=site%3Aperplexity.ai+OR+%22Perplexity%22+(launches+OR+announces+OR+blog)&hl=en&gl=US&ceid=US:en", "google_news", ["ai-industry", "product"], "en"),
 
     # ====================================================================
+    # v6.15.31 (2026-05-29): 회사 공식 발표 직접 스크래핑 (sitemap 기반)
+    # 배경: Anthropic·Cohere·Stability는 공개 RSS feed가 없어(404/빈응답) 지금까지
+    #   google_news site: 우회에만 의존 → Google indexing 12-24h 지연으로
+    #   Opus 4.8 같은 발표가 발표 후 수 시간 누락됨 (빌드 #67 실측 0건).
+    # 해결: sitemap.xml의 <loc>+<lastmod>로 최근 글만 식별 → 해당 페이지의
+    #   og:title/og:description만 가져오는 증분 스크래핑. HTML 클래스명에
+    #   의존하지 않아(sitemap+og 표준만 사용) 레이아웃 변경에 강함.
+    # url 포맷: "SITEMAP_URL|PATH_FILTER"  (fetch_news._scrape_sitemap_entries가 파싱)
+    # ※ Mistral(sitemap 없음)·Meta(400)·xAI(Cloudflare 403)는 스크래핑 불가 →
+    #   기존 google_news 우회 유지.
+    # ====================================================================
+    ("Anthropic Newsroom (scrape)", "https://www.anthropic.com/sitemap.xml|/news/", "scrape", ["ai-industry", "product"], "en"),
+    ("Cohere Blog (scrape)", "https://cohere.com/sitemap.xml|/blog/", "scrape", ["ai-industry", "product"], "en"),
+    ("Stability AI (scrape)", "https://stability.ai/sitemap.xml|/news", "scrape", ["ai-industry", "product"], "en"),
+
+    # ====================================================================
     # AI 뉴스 매체 (영문)
     # ====================================================================
     ("MIT Technology Review AI", "https://www.technologyreview.com/topic/artificial-intelligence/feed", "rss", ["ai-industry"], "en"),
     ("TechCrunch AI", "https://techcrunch.com/category/artificial-intelligence/feed/", "rss", ["ai-industry"], "en"),
-    ("VentureBeat AI", "https://venturebeat.com/category/ai/feed/", "rss", ["ai-industry"], "en"),
-    # v2.7: 실패 RSS는 Google News site: 쿼리로 일괄 우회
-    ("The Verge AI", "https://news.google.com/rss/search?q=site%3Atheverge.com+(AI+OR+%22artificial+intelligence%22)&hl=en&gl=US&ceid=US:en", "google_news", ["ai-industry"], "en"),
+    # v6.15.31: 기존 .../category/ai/feed/ 는 308 Permanent Redirect로 죽어 있었음 → 슬래시 제거 URL로 교체(200 확인)
+    ("VentureBeat AI", "https://venturebeat.com/category/ai/feed", "rss", ["ai-industry"], "en"),
+    # v6.15.31: The Verge AI 전용 직접 RSS 확인(200, fresh) → google_news 우회에서 직접 RSS로 승격
+    ("The Verge AI", "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml", "rss", ["ai-industry"], "en"),
     ("Wired AI", "https://www.wired.com/feed/tag/ai/latest/rss", "rss", ["ai-industry"], "en"),
     ("Ars Technica AI", "https://feeds.arstechnica.com/arstechnica/technology-lab", "rss", ["ai-industry"], "en"),
     ("Axios AI", "https://api.axios.com/feed/", "rss", ["ai-industry"], "en"),
@@ -56,6 +73,15 @@ SOURCES = [
     ("AI Snake Oil", "https://www.aisnakeoil.com/feed", "blog", ["ai-industry", "policy"], "en"),
     ("Marginal Revolution AI", "https://news.google.com/rss/search?q=site%3Amarginalrevolution.com+AI&hl=en&gl=US&ceid=US:en", "google_news", ["ai-industry"], "en"),
     ("Last Week in AI", "https://lastweekin.ai/feed", "blog", ["ai-industry"], "en"),
+
+    # v6.15.31 (2026-05-29): 실시간성 강화 — 영문 테크 매체 직접 RSS 추가 (모두 200 + 최근 발행 확인)
+    #   MacRumors는 빌드 시점 최상단이 "Anthropic Launches Claude Opus 4.8" — 회사 발표 실시간 포착 입증.
+    #   The Register는 전체 헤드라인 atom(보안·HW 포함 광범위)이라 score/BLACKLIST가 2차 필터.
+    ("MacRumors", "https://www.macrumors.com/macrumors.xml", "rss", ["ai-industry"], "en"),
+    ("9to5Mac", "https://9to5mac.com/feed/", "rss", ["ai-industry"], "en"),
+    ("Techmeme", "https://www.techmeme.com/feed.xml", "rss", ["ai-industry"], "en"),
+    ("ZDNet AI (EN)", "https://www.zdnet.com/topic/artificial-intelligence/rss.xml", "rss", ["ai-industry"], "en"),
+    ("The Register", "https://www.theregister.com/headlines.atom", "rss", ["ai-industry"], "en"),
 
     # ====================================================================
     # 리걸테크 (영문)
@@ -144,6 +170,13 @@ SOURCES = [
     ("더밀크", "https://news.google.com/rss/search?q=site%3Athemiilk.com+OR+%22%EB%8D%94%EB%B0%80%ED%81%AC%22&hl=ko&gl=KR&ceid=KR:ko", "google_news", ["ai-industry", "domestic"], "ko"),
     ("매일경제 IT", "https://www.mk.co.kr/rss/30000023/", "korean", ["domestic"], "ko"),
     ("한국경제 IT", "https://www.hankyung.com/feed/it", "korean", ["domestic"], "ko"),
+
+    # v6.15.31 (2026-05-29): 국내 IT 매체 직접 RSS 추가 (모두 200 + 최근 발행 확인)
+    #   인공지능신문(aitimes.kr) — 기존 'AI타임스'(aitimes.com)와 다른 매체.
+    #   테크42·블로터 — IT 전문 매체라 전체 RSS도 AI/스타트업 비중 높음.
+    ("인공지능신문", "https://www.aitimes.kr/rss/allArticle.xml", "korean", ["ai-industry"], "ko"),
+    ("테크42", "https://www.tech42.co.kr/feed/", "korean", ["ai-industry"], "ko"),
+    ("블로터", "https://www.bloter.net/rss/allArticle.xml", "korean", ["ai-industry"], "ko"),
 
     # ====================================================================
     # Google News RSS — 키워드 기반 (v2.7: 특수문자(·, &, -, vs) 제거 + 개별 회사명 분리)
@@ -332,8 +365,8 @@ SOURCES = [
     # [B] 한국 매체 site: 우회 추가 (RSS 미제공)
     # 글로벌이코노믹 — 한국 IT/반도체/AI 보도 (Qwen·DeepSeek 동향 보도 활발)
     ("Google News: 글로벌이코노믹 AI (KR)", _gnews('site:g-enews.com (AI OR "인공지능" OR "Qwen" OR "DeepSeek" OR "리걸테크")'), "google_news", ["ai-industry", "domestic"], "ko"),
-    # 동아일보 IT 섹션 — it.donga.com은 별도 호스트라 v6.14 site:donga.com에 안 잡힘
-    ("Google News: 동아일보 IT (KR)", _gnews('site:it.donga.com OR (site:donga.com (AI OR "인공지능"))'), "google_news", ["ai-industry", "domestic"], "ko"),
+    # v6.15.31: 동아일보 IT(it.donga.com) 직접 RSS 확인(200, fresh, n=100) → google_news 우회에서 직접 RSS로 승격
+    ("동아일보 IT", "https://it.donga.com/feeds/rss/", "korean", ["ai-industry"], "ko"),
     # 아이뉴스24
     ("Google News: 아이뉴스24 (KR)", _gnews('site:inews24.com (AI OR "인공지능" OR "리걸테크")'), "google_news", ["ai-industry", "domestic"], "ko"),
     # 디지털타임스 IT (기존 게 있긴 한데 보강)
