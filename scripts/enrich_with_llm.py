@@ -205,6 +205,36 @@ _NER_RULES = """
    - 본문에 명확히 언급되지 않은 관계는 빼라. false positive보다 missing이 낫다.
    - 최대 6개 triple."""
 
+# v6.15.32 (2026-05-29): primary_category — LLM 의미 기반 1차 분류.
+#   배경: 키워드 categorize는 한국어 도입·구축 표현을 못 잡아 815건 중 207건(25%)이
+#   'ai-industry'(기타)에만 남았음. 키워드 확장은 "AI 시대의 HR"(칼럼) 같은 오탐을
+#   만들어 해법이 아님이 실측됨(의미 판단 필요). 이미 모든 기사를 읽는 enrich(Haiku)에
+#   분류 1필드를 추가 → 추가 비용 거의 0, 키워드보다 정밀.
+#   결과는 _apply_primary_category가 item.categories에 병합(구체 분류 시 ai-industry 제거)
+#   → 프런트엔드는 categories를 그대로 쓰므로 프런트 변경 없이 '기타' 버킷이 줄어듦.
+ALLOWED_PRIMARY_CATS = {
+    "legaltech", "gov_policy", "policy", "governance", "adoption",
+    "funding", "models", "coding", "infra", "product", "market", "ai-industry",
+}
+
+_PRIMARY_CATEGORY_RULES = """
+[주(主) 카테고리 분류 — primary_category]
+이 기사의 성격을 가장 잘 나타내는 카테고리 1개를 아래 12개 영문 키 중에서 정확히 골라라:
+- legaltech   = 리걸테크·법률 AI 서비스/회사/도구, 변호사·법무팀 AI
+- gov_policy  = 한국 중앙정부·사법부·국회의 AI 관련 정책·법안·판결·가이드라인
+- policy      = 그 외 AI 규제·거버넌스 정책 (해외 포함, EU AI Act 등)
+- governance  = 기업 내부 AI 거버넌스·리스크·안전성·윤리·감사
+- adoption    = 특정 기업·기관이 AI를 실제로 도입·구축·적용한 사례 (도입사례)
+- funding     = 투자 유치·M&A·기업가치·IPO
+- models      = 모델 출시·비교·벤치마크·가격·오픈웨이트
+- coding      = AI 코딩 도구 (Copilot·Cursor·Claude Code 등)
+- infra       = AI 칩·인프라·데이터센터·GPU·sLLM
+- product     = 신제품·기능 출시 (위에 안 맞는 일반 제품)
+- market      = 시장 구도·경쟁·벤더 종속·자체 구축 등 구조 분석
+- ai-industry = 위 어디에도 명확히 맞지 않는 일반 AI 산업 소식 (최후 fallback)
+※ 칼럼·오피니언·일반 전망은 소재가 위 분류에 명확히 닿지 않으면 ai-industry.
+※ 반드시 위 12개 중 하나의 영문 키로만 답하라."""
+
 PROMPT_EN_FULL = """다음 영문 뉴스를 한국 전략·기획·AI 업무 담당자 관점에서 분석해주세요.
 
 [뉴스]
@@ -214,7 +244,7 @@ PROMPT_EN_FULL = """다음 영문 뉴스를 한국 전략·기획·AI 업무 담
 카테고리: {categories}
 
 규칙:
-""" + _HIGHLIGHT_RULES + _NER_RULES + _PERSONA_SCORE_RULES + """
+""" + _HIGHLIGHT_RULES + _NER_RULES + _PRIMARY_CATEGORY_RULES + _PERSONA_SCORE_RULES + """
 - '시사점:' 같은 접두어 없이 본문만.
 - 시점 표현(지금 당장 / 이번 주 안에 / 이번 달 내 / 즉시 등) 사용 금지.
 
@@ -223,6 +253,7 @@ JSON만 응답하세요. 다른 텍스트 없이.
 {{
   "summary_ko": "2~3문장. 핵심 사실 중심. 80~150자. 단정 어조 지양.",
   "insight_ko": "1~2문장. 본인 업무에 적용할 액션 가능한 시사점. 60~120자.",
+  "primary_category": "legaltech|gov_policy|policy|governance|adoption|funding|models|coding|infra|product|market|ai-industry 중 정확히 하나",
   "entities": ["회사·기관·제품·정책명 리스트 (최대 12개)"],
   "relations": [
     {{"src": "엔티티A", "tgt": "엔티티B", "type": "competes_with|partners_with|acquires|invests_in|regulates|adopts|launches|implements|mentions", "evidence": "본문 80~150자 컨텍스트"}}
@@ -241,13 +272,14 @@ PROMPT_KO_INSIGHT_ONLY = """다음 한국어 뉴스에 대한 전략·기획·AI
 카테고리: {categories}
 
 규칙:
-""" + _HIGHLIGHT_RULES + _NER_RULES + _PERSONA_SCORE_RULES + """
+""" + _HIGHLIGHT_RULES + _NER_RULES + _PRIMARY_CATEGORY_RULES + _PERSONA_SCORE_RULES + """
 - 시점 표현(지금 당장 / 이번 주 안에 / 이번 달 내 / 즉시 등) 사용 금지.
 
 JSON만 응답하세요. 다른 텍스트 없이.
 
 {{
   "insight_ko": "1~2문장. 본인 업무에 적용할 액션 가능한 시사점. 60~120자.",
+  "primary_category": "legaltech|gov_policy|policy|governance|adoption|funding|models|coding|infra|product|market|ai-industry 중 정확히 하나",
   "entities": ["회사·기관·제품·정책명 리스트 (최대 12개)"],
   "relations": [
     {{"src": "엔티티A", "tgt": "엔티티B", "type": "competes_with|partners_with|acquires|invests_in|regulates|adopts|launches|implements|mentions", "evidence": "본문 80~150자 컨텍스트"}}
@@ -305,7 +337,7 @@ JSON만 응답하세요. 다른 텍스트 없이.
 """
 
 # v5.1: 낮은 점수 한국어 article (insight 가치 낮지만 NER은 필요)
-PROMPT_KO_NER_ONLY = """다음 한국어 뉴스에서 등장 엔티티와 엔티티 간 관계만 추출해주세요. 시사점·요약은 작성하지 마세요.
+PROMPT_KO_NER_ONLY = """다음 한국어 뉴스에서 주 카테고리 분류와 등장 엔티티·관계를 추출해주세요. 시사점·요약은 작성하지 마세요.
 
 [뉴스]
 제목: {title}
@@ -314,17 +346,50 @@ PROMPT_KO_NER_ONLY = """다음 한국어 뉴스에서 등장 엔티티와 엔티
 카테고리: {categories}
 
 규칙:
-""" + _NER_RULES + """
+""" + _NER_RULES + _PRIMARY_CATEGORY_RULES + """
 
 JSON만 응답하세요. 다른 텍스트 없이.
 
 {{
+  "primary_category": "legaltech|gov_policy|policy|governance|adoption|funding|models|coding|infra|product|market|ai-industry 중 정확히 하나",
   "entities": ["회사·기관·제품·정책명 리스트 (최대 12개)"],
   "relations": [
     {{"src": "엔티티A", "tgt": "엔티티B", "type": "competes_with|partners_with|acquires|invests_in|regulates|adopts|launches|implements|mentions", "evidence": "본문 80~150자"}}
   ]
 }}
 """
+
+
+def _apply_primary_category(item: dict, pc) -> None:
+    """v6.15.32: LLM이 부여한 primary_category를 item.categories에 병합.
+
+    - 허용 enum이 아니면 무시.
+    - 구체 분류(ai-industry 외)면 fallback 'ai-industry'를 categories에서 제거 → '기타' 버킷 탈출.
+    - papers(소스 기반) 등 기존 카테고리는 보존, 우선순위 정렬 후 최대 3개.
+    - item['primary_category']에도 보관 → 캐시로 다음 빌드에 재병합(LLM 재호출 불필요).
+    """
+    if not isinstance(pc, str):
+        return
+    pc = pc.strip()
+    if pc not in ALLOWED_PRIMARY_CATS:
+        return
+    item["primary_category"] = pc
+    cats = list(item.get("categories") or [])
+    if pc not in cats:
+        cats.append(pc)
+    if pc != "ai-industry" and "ai-industry" in cats:
+        cats.remove("ai-industry")
+    try:
+        from common import CATEGORY_PRIORITY
+        cats = sorted(set(cats), key=lambda c: CATEGORY_PRIORITY.get(c, 99))[:3]
+    except Exception:
+        # 우선순위 import 실패 시에도 중복 제거 + 순서 보존
+        seen = []
+        for c in cats:
+            if c not in seen:
+                seen.append(c)
+        cats = seen[:3]
+    item["categories"] = cats
 
 
 def _absorb_ner_fields(item: dict, result: dict) -> None:
@@ -373,6 +438,8 @@ def _absorb_ner_fields(item: dict, result: dict) -> None:
         pr_clean = pr.strip()
         if pr_clean:
             item["persona_reason"] = pr_clean[:200]
+    # v6.15.32: LLM 의미 기반 주 카테고리 병합 (모든 enrich 경로 공통)
+    _apply_primary_category(item, result.get("primary_category"))
 
 
 def enrich_item(item: dict) -> dict:
@@ -489,22 +556,29 @@ def needs_enrich(item: dict) -> bool:
     score = item.get("score", 0)
 
     has_entities = "entities" in item  # v5.1: NER 결과 보유 여부
+    # v6.15.32: primary_category 백필 — 논문(PAPER 프롬프트엔 미포함)은 제외.
+    is_paper = (item.get("source_type") == "arxiv") or ("papers" in (item.get("categories") or []))
+    needs_primary = (not is_paper) and ("primary_category" not in item)
 
     if lang == "en":
-        # 영문은 summary_ko + insight_ko + entities 모두 필요
+        # 영문은 summary_ko + insight_ko + entities + primary_category 모두 필요
         if not item.get("summary_ko") or not item.get("insight_ko"):
             return True
         if not has_entities:
             return True
+        if needs_primary:
+            return True
         return False
     elif lang == "ko":
-        # 한국어: 점수 높으면 insight + entities 필요, 낮으면 entities만 필요
+        # 한국어: 점수 높으면 insight + entities 필요, 낮으면 entities만 필요. + primary_category.
         if score >= INSIGHT_THRESHOLD_KO:
             if not item.get("insight_ko") or not has_entities:
                 return True
         else:
             if not has_entities:
                 return True
+        if needs_primary:
+            return True
         return False
     return False
 
@@ -544,6 +618,7 @@ def main():
                             "insight_ko": it.get("insight_ko"),
                             "entities": it.get("entities"),
                             "relations": it.get("relations"),
+                            "primary_category": it.get("primary_category"),  # v6.15.32
                             "llm_enriched": it.get("llm_enriched"),
                             "ner_only": it.get("ner_only"),
                         }
@@ -591,6 +666,10 @@ def main():
                 it["entities"] = cache["entities"]
             if cache.get("relations") is not None:
                 it["relations"] = cache["relations"]
+            # v6.15.32: primary_category 복원 → 새로 categorize된 categories에 재병합
+            #   (dedupe가 매 빌드 키워드 categories를 새로 만들므로 LLM 분류를 재적용해야 유지됨)
+            if cache.get("primary_category"):
+                _apply_primary_category(it, cache["primary_category"])
             if cache.get("llm_enriched"):
                 it["llm_enriched"] = True
                 cached_count += 1
