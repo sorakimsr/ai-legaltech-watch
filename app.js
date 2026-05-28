@@ -288,17 +288,19 @@ function syncUrl(replace = false) {
 
 const CATEGORIES = [
   { id: 'all', label: '전체' },
-  { id: 'ai-industry', label: 'AI 산업' },
   { id: 'legaltech', label: '리걸테크' },
   { id: 'papers', label: 'AI 논문' },
+  { id: 'models', label: '모델·벤치마크' },           // v6.15.17: DeepSeek/Qwen/Gemma/가격·release
+  { id: 'coding', label: 'AI 코딩' },                  // v6.15.17: Cursor/Copilot/Windsurf
+  { id: 'infra', label: 'AI 인프라' },                 // v6.15.17: Groq/Cerebras/GPU/sLLM
   { id: 'product', label: '제품·기능' },
   { id: 'funding', label: '투자·M&A' },
   { id: 'adoption', label: '도입사례' },
-  // v2.8.3: '국내' 카테고리 제거 — 언어 필터(ko/en)로 대체
   { id: 'governance', label: 'AI 거버넌스·리스크' },  // v3.0: 사내 거버넌스·리스크·평가
   { id: 'gov_policy', label: '정부 동향' },           // v6.7: 중앙정부 부처 AI 정책
   { id: 'policy', label: '정책·규제' },
   { id: 'market', label: '시장·경쟁' },               // v3.0: 시장 구조·벤더 종속·모트
+  { id: 'ai-industry', label: 'AI 산업 (기타)' },     // fallback
 ];
 
 const VIEW_META = {

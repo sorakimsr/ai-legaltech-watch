@@ -357,6 +357,20 @@ SOURCES = [
     # 사용자가 "AI 효과 본 한국 기업 75%, 진짜 강자는 2%" 같은 인사이트
     # 기사를 핵심 가치로 인식.
     ("AI매터스", "https://aimatters.co.kr/feed/", "korean", ["ai-industry", "domestic"], "ko"),
+
+    # ====================================================================
+    # v6.15.16 (2026-05-28): DeepSeek 한국어 + AI 모델 가격 인하 키워드
+    # ====================================================================
+    # 진단: 사이트 데이터에 'DeepSeek' 검색 결과 단 3건, 가격 인하 보도 0건.
+    #   딥시크 API 가격 영구 인하 같은 모델 비즈니스 핵심 이벤트가 누락됨.
+    # 원인: 한국어 'DeepSeek/딥시크' 전용 검색이 없었음 (영문 'Google News:
+    #   DeepSeek (EN)'만 있어서 한국 매체 보도가 누락).
+    ("Google News: DeepSeek 딥시크 (KR)", _gnews('"DeepSeek" OR "딥시크" OR "DeepSeek V3" OR "DeepSeek R1" OR "DeepSeek-V"'), "google_news", ["ai-industry", "domestic"], "ko"),
+    # AI 모델 가격/요금 정책 — 인하·인상·무료화 등 비즈니스 이벤트
+    ("Google News: AI 모델 가격 인하 (KR)", _gnews('("AI" OR "LLM" OR "API") (가격 OR 요금) (인하 OR 인상 OR "무료화" OR "price cut")'), "google_news", ["ai-industry", "domestic"], "ko"),
+    ("Google News: AI Model Pricing (EN)", _gnews('("AI model" OR "LLM" OR "API") ("price cut" OR "price reduc" OR "pricing change" OR "permanent price")', "en", "US"), "google_news", ["ai-industry"], "en"),
+    # 보너스 — Frontier model release/announcement (Qwen·DeepSeek·Mistral 등 신모델 + 가격)
+    ("Google News: Frontier LLM Release (EN)", _gnews('("DeepSeek" OR "Qwen" OR "Mistral" OR "Llama" OR "Gemini" OR "Claude") (release OR announces OR launches OR "price" OR "open weight")', "en", "US"), "google_news", ["ai-industry"], "en"),
 ]
 
 

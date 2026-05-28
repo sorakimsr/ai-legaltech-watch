@@ -150,7 +150,6 @@ CATEGORY_KEYWORDS = {
         "deepmind", "meta ai", "llama", "mistral", "xai", "grok",
         "nvidia ai", "microsoft ai", "perplexity",
         # v3.8: AI 엔지니어링·인프라 새 영역
-        "오픈소스 ai", "open source ai", "오픈소스 llm", "open weight", "오픈웨이트",
         "ai 오케스트레이션", "ai orchestration", "오케스트레이터", "orchestrator",
         "에이전트 오케스트레이션", "agent orchestration",
         "멀티 에이전트", "multi-agent",
@@ -159,11 +158,60 @@ CATEGORY_KEYWORDS = {
         "하네스 엔지니어링", "harness engineering",
         "클론 엔지니어링", "clone engineering",
         "fde", "forward deployed engineer", "포워드 디플로이드",
-        # v3.9-A: AI 코딩 툴·vibe coding·MCP
-        "claude code", "클로드 코드", "cursor", "windsurf", "github copilot",
-        "vibe coding", "바이브 코딩",
         "mcp", "model context protocol", "모델 컨텍스트 프로토콜",
-        "ai 코딩", "ai coding", "ai code generation", "ai coding assistant",
+    ],
+    # v6.15.17: 신규 카테고리 3개 — AI 단독 통과 기사들의 세분화 (사용자 요청 "태그 더 넓게")
+    # models: 모델 release/비교/벤치마크/가격/오픈웨이트/미디어 생성 — 모델 비즈니스 핵심
+    "models": [
+        # 신흥 모델 회사·제품 (텍스트 LLM)
+        "deepseek", "딥시크", "qwen", "큐원", "gemma", "젬마",
+        "claude opus", "claude sonnet", "claude haiku",
+        "gpt-4", "gpt-5", "o1", "o3",
+        "llama 3", "llama 4", "mistral large", "command r", "codestral",
+        "xai", "grok", "그록",
+        # 이미지·영상·음악 생성 모델
+        "midjourney", "미드저니",
+        "dall-e", "dalle", "달이",
+        "sora", "openai sora",
+        "veo", "google veo",
+        "runway",  # 영상 생성
+        "ideogram", "pika",
+        "suno", "udio",  # 음악 생성
+        "stable diffusion", "스테이블 디퓨전",
+        # release·비교·벤치마크
+        "모델 출시", "모델 공개", "모델 release", "신모델",
+        "모델 비교", "벤치마크", "ai 벤치마크", "llm 벤치마크",
+        "mmlu", "gpqa", "humaneval", "swe-bench", "swe bench", "arc-agi", "arc agi",
+        "livebench", "chatbot arena", "lmsys", "ai 리더보드",
+        # 가격·요금
+        "ai 가격", "ai api 가격", "모델 가격", "api 가격", "토큰 가격", "token price",
+        "가격 인하", "가격 인상", "price cut", "permanent price",
+        # 오픈소스·오픈웨이트
+        "open weight", "오픈웨이트", "오픈소스 llm", "open source llm",
+        "오픈소스 ai", "open source ai", "open-source model",
+    ],
+    # coding: AI 코딩 도구 (개발자가 가장 자주 보는 sub-domain)
+    "coding": [
+        "github copilot", "깃허브 코파일럿", "copilot",
+        "cursor ai", "cursor 코드", "cursor editor",
+        "windsurf", "codeium", "phind",
+        "claude code", "클로드 코드",
+        "ai 코딩", "ai coding", "ai code generation",
+        "ai coding assistant", "코딩 ai 어시스턴트",
+        "vibe coding", "바이브 코딩",
+        "codex",  # OpenAI Codex
+        "ai 페어 프로그래밍", "ai pair programming",
+    ],
+    # infra: AI 칩·인프라 (Groq/Cerebras/GPU/sLLM/온프레미스)
+    "infra": [
+        "groq", "cerebras", "ai 칩", "ai accelerator",
+        "ai 인프라", "ai infrastructure",
+        "gpu 클러스터", "ai gpu", "h100", "h200", "b100", "b200", "blackwell",
+        "tpu", "google tpu",
+        "sllm", "slm", "소형 언어모델", "small language model",
+        "온프레미스 ai", "on-prem ai", "on-premise ai",
+        "edge ai", "엣지 ai",
+        "ai data center", "ai 데이터센터", "ai cloud",
     ],
     # v3.0: AI 거버넌스·리스크 — 사내 거버넌스 (정부 규제와 구분)
     "governance": [
@@ -205,9 +253,12 @@ CATEGORY_PRIORITY = {
     "adoption": 5,
     "governance": 6,  # v3.0: 사내 거버넌스 (정부 정책보다 실무 가까움)
     "policy": 7,      # 광범위한 정책·규제 (해외 + 추상)
-    "market": 8,      # v3.0: 시장·경쟁 구도
-    "product": 9,
-    "ai-industry": 10,
+    "models": 8,      # v6.15.17: 모델 release/가격/벤치마크 (사용자 핵심 관심)
+    "market": 9,      # v3.0: 시장·경쟁 구도
+    "coding": 10,     # v6.15.17: AI 코딩 도구
+    "infra": 11,      # v6.15.17: AI 칩·인프라
+    "product": 12,
+    "ai-industry": 13,  # fallback — 위 분류 안 되는 일반 AI 산업
 }
 
 # v6.0 (P3-7): module-level pre-compile → lazy lru_cache 함수로 변경.
@@ -241,10 +292,32 @@ STRONG_KEYWORDS = [
     "perplexity", "hugging face", "stability ai",
     "scale ai", "databricks ai", "cohere",
     "huggingface",
+    # v6.15.17: 신흥 모델·제품 추가 (사용자 지적 — DeepSeek/Qwen 등 다수 누락으로 한국 매체 보도 80%+ REJECT됐던 문제)
+    "deepseek", "딥시크",
+    "qwen", "큐원",
+    "gemma", "젬마",
+    "codex",          # OpenAI Codex
+    "copilot", "코파일럿", "github copilot",
+    "cursor ai", "cursor 코드",
+    "windsurf",
+    "codeium", "phind",
+    "sora",           # OpenAI Sora 영상
+    "veo",            # Google Veo 영상
+    "midjourney", "미드저니",
+    "dall-e", "dalle", "달이",
+    "suno", "udio",   # 음악 생성
+    "runway",         # 영상 생성
+    "ideogram",
+    "pika",
+    "moshi",          # 음성 AI
+    "groq", "cerebras",  # AI 칩
+    "xai", "grok", "그록",
+    "meta ai", "메타 ai",
+    "ai 모델", "ai api", "llm api",  # 일반 모델/API 표현
     # AI 도메인 명확
     "생성형 ai", "생성ai", "인공지능", "ai 에이전트", "agentic ai",
     "multi-agent", "autonomous agent",
-    "llm",
+    "llm", "slm", "sllm",
     "transformer model", "diffusion model",
     # 리걸테크 회사·제품 (단독으로 확실)
     "harvey", "legora", "mike oss", "mike legal",
@@ -260,6 +333,10 @@ STRONG_KEYWORDS = [
     "eu ai act", "ai 기본법", "ai기본법",
     "ai 규제", "ai규제", "ai governance", "ai 거버넌스",
     "ai standards", "ai 표준",
+    # v6.15.17: 비즈니스 이벤트 (AI 맥락 명확) — 가격 인하·release·벤치마크
+    "ai 가격", "ai api 가격", "모델 가격",
+    "open weight", "오픈웨이트",
+    "open source llm", "오픈소스 llm", "오픈소스 ai",
 ]
 
 # AI 시그널 (도메인 시그널과 조합되어야 통과)
@@ -340,6 +417,26 @@ def is_relevant(title: str, summary: str, source_type: str = "rss") -> bool:
     has_ai = any(kw in text for kw in AI_SIGNALS)
     has_legal = any(kw in text for kw in RELEVANCE_LEGAL_SIGNALS)
     if has_ai and has_legal:
+        return True
+
+    # v6.15.17: AI 시그널 강한 단독 통과 (한국 매체 + Google News의 순수 AI 기사 보호)
+    #   기존엔 AI+LEGAL 페어 강제로 신흥 모델 가격 인하·벤치마크·release 등
+    #   순수 AI 기사가 모두 REJECT됐던 문제 해결.
+    #   2가지 조건 중 하나 충족 시 통과:
+    #     (a) AI 시그널 종류 2+ (예: "ai" + "model" 같이 다른 키워드 결합)
+    #     (b) AI 핵심 단어 등장 횟수 2+ ("ai", "인공지능", "llm", "gpt" 누적)
+    #   noise는 score_item이 2차 cut-off (score < 35 drop)로 잡음.
+    ai_kind_count = sum(1 for kw in AI_SIGNALS if kw in text)
+    if ai_kind_count >= 2:
+        return True
+    # AI 등장 횟수 — substring count (대부분 한국 매체가 AI를 본문에 여러 번 언급)
+    ai_text_count = (
+        text.count(" ai ") + text.count("ai ") + text.count(" ai") +
+        text.count("ai.") + text.count("ai,") + text.count("ai)") +
+        text.count("인공지능") +
+        text.count("llm") + text.count("gpt") + text.count("챗gpt")
+    )
+    if ai_text_count >= 2:
         return True
 
     return False
@@ -471,6 +568,18 @@ def categorize(title: str, summary: str, default_cats: list, source_type: str = 
         # blog source에서는 실제 논문 관련 키워드가 있을 때만 papers 유지
         if not any(pat.search(text) for pat in COMPILED_KEYWORDS["papers"]):
             cats.discard("papers")
+
+    # v6.15.17: AI + LEGAL 페어 자동 → legaltech 카테고리 강제 부여
+    #   기존 categorize의 legaltech 키워드(harvey/legora/리걸테크 등)에 안 잡혀도,
+    #   본문에 AI 시그널 + 법률 도메인 시그널 페어 있으면 legaltech 인정.
+    #   효과: score_item의 legaltech +12 보너스 + 핵심 도메인 NEGATIVE cap 완화
+    #   (v6.15.13) 자동 적용. "AI 변호사", "법무팀 ChatGPT 도입" 같은 기사 보호.
+    if "legaltech" not in cats:
+        text_lower = text.lower()
+        has_ai_kw = any(kw in text_lower for kw in AI_SIGNALS)
+        has_legal_kw = any(kw in text_lower for kw in RELEVANCE_LEGAL_SIGNALS)
+        if has_ai_kw and has_legal_kw:
+            cats.add("legaltech")
 
     # 우선순위 순으로 정렬, 최대 3개
     sorted_cats = sorted(cats, key=lambda c: CATEGORY_PRIORITY.get(c, 99))
@@ -723,12 +832,21 @@ SCORE_LEGAL_SIGNALS = [
     "법률 ai", "리걸테크", "legal ai", "ai 변호사",
     "ai 계약 검토", "ai 법률 검색",
     # v6.15.12 추가: 사용자 핵심 도메인 — 판결문 공개·법조계 정책 논쟁
-    #   "AI시대 판결문 두고 법조계 고심" 같은 기사가 score 18로 cap되던 문제 해결.
     "판결문", "판결문 공개", "판례 공개", "법조계", "법조 고심",
     "공개 확대", "상업활용", "데이터 활용", "데이터셋 공개",
     "지식재산권", "특허청", "kipo", "inta", "ip 업계",
-    # 일반 IP/법조 트렌드 키워드
     "법조계 논쟁", "법조계 우려", "공익적 활용", "민간 활용",
+    # v6.15.19 추가: 사용자 명시 — AI×법조 교차 페어 키워드 강화
+    # "AI 활용을 위한 판결문 공개, 로펌 AI 도입 및 활용 현황, 변호사 AI 활용 등
+    #  법조계 전반이 AI와 교차되는 지점 → 가중치 高"
+    "로펌 ai 도입", "로펌 ai 활용", "로펌 ai", "biglaw ai",
+    "변호사 ai 활용", "변호사 ai", "ai 변호사 활용",
+    "법무 ai 도입", "법무팀 ai", "법무 ai 활용", "사내 법무 ai",
+    "판결문 ai", "판결문 데이터 활용", "판결문 학습", "판결문 데이터",
+    "법조 ai", "법조계 ai", "법원 ai",
+    "법률 데이터", "법률 데이터셋", "법률 코퍼스",
+    "ai for lawyers", "legal ai adoption", "law firm ai adoption",
+    "contract ai", "contract intelligence", "ai contract review",
 ]
 
 # 행동 가치 없음 (강력한 NEGATIVE 시그널)
@@ -989,9 +1107,12 @@ def score_item(title: str, summary: str, date, categories: list, persona_score: 
                    text.count(" ai") + text.count("인공지능") +
                    text.count("llm") + text.count("gpt") +
                    text.count("머신러닝") + text.count("딥러닝"))
-    # AI 무관 article 자동 drop (papers/legaltech 카테고리는 AI 도메인 내재라 보호)
+    # AI 무관 article 자동 drop (papers/legaltech/models/coding/infra 카테고리는 AI 도메인 내재라 보호)
+    # v6.15.17: 신규 카테고리 (models/coding/infra)도 AI 도메인 내재라 게이트 면제.
+    #   예: "Midjourney v8 출시" — AI 단어 없어도 models 카테고리 부여되면 보호.
     if ai_mentions == 0:
-        if "papers" not in categories and "legaltech" not in categories:
+        ai_intrinsic_cats = {"papers", "legaltech", "models", "coding", "infra"}
+        if not any(c in ai_intrinsic_cats for c in categories):
             return 0  # AI 키워드 0회 → score 0 (cut-off 자동 drop)
     # 시그널 multiplier: AI 컨텍스트 강도에 따라
     if ai_mentions >= 3:
@@ -1000,8 +1121,10 @@ def score_item(title: str, summary: str, date, categories: list, persona_score: 
         signal_multiplier = 0.7  # 약한 AI 컨텍스트도 의미 있게 인정 (1~2회)
     else:
         signal_multiplier = 0.5  # papers/legaltech 카테고리 보호받는 경우
-    # papers/legaltech는 AI/리걸테크 도메인 자체라 multiplier 보강
-    if "papers" in categories or "legaltech" in categories:
+    # papers/legaltech/models/coding/infra는 AI/리걸테크 도메인 자체라 multiplier 보강
+    # v6.15.17: 신규 카테고리도 핵심 도메인이라 0.85 보강 적용
+    core_ai_cats = {"papers", "legaltech", "models", "coding", "infra"}
+    if any(c in core_ai_cats for c in categories):
         signal_multiplier = max(signal_multiplier, 0.85)
     # v6.15.13: 한국 매체 title-only RSS 보호 — LEGAL/REGULATORY signal 2+이면
     # 사용자 핵심 도메인으로 인식 → multiplier 보강 (categorize가 못 잡은 경우 대비)
@@ -1083,12 +1206,21 @@ def score_item(title: str, summary: str, date, categories: list, persona_score: 
         score = min(score, 33)  # 참고 구간 아래로 강등 (cut-off 35 미만)
 
     # === 카테고리 보너스 (정상 컨텐츠 보호) ===
+    # v6.15.19: legaltech 가중치 12→16 인상. 사용자 정책 — AI×법조 교차 (판결문 공개,
+    #   로펌 AI 도입, 변호사 AI 활용 등 법조 전반)는 상단 노출. 단순 ai-industry보다 우선.
     if "legaltech" in categories:
-        score += 12  # 리걸테크는 본질적으로 우리 관심
+        score += 16  # 리걸테크 + AI×법조 교차 — 사용자 핵심 도메인, 상단 노출 보장
     if "papers" in categories:
         score += 8   # 학술 논문
     if "funding" in categories:
         score += 6   # 자본 흐름
+    # v6.15.17: 신규 카테고리 보너스 — AI 모델 비즈니스·개발자 도구·인프라
+    if "models" in categories:
+        score += 10  # 모델 release/벤치마크/가격 — 사용자 핵심 관심 (legaltech 다음 우선순위)
+    if "coding" in categories:
+        score += 7   # AI 코딩 도구 (Cursor/Copilot)
+    if "infra" in categories:
+        score += 7   # AI 칩·인프라 (Groq/Cerebras)
 
     # === 본문 깊이 보너스 ===
     summary_len = len(summary or "")
@@ -1164,6 +1296,16 @@ def score_item(title: str, summary: str, date, categories: list, persona_score: 
                 score += ps * 3
         except (ValueError, TypeError):
             pass
+
+    # === v6.15.19: 핵심 도메인 카테고리 score floor (cut-off 통과 보장) ===
+    # 사용자 정책: "기존에 걸러지던 AI 일반 소식도 스크롤로 확인할 수 있도록".
+    # 신규 카테고리(models/coding/infra)와 papers/legaltech는 본질적으로 사용자
+    # 관심 도메인이므로 borderline score(29-33)여도 cut-off 35 통과 보장 → 하단
+    # 노출. noise는 카테고리 안 잡혀 floor 미적용 → 기존 drop 정책 유지.
+    floor_cats = {"papers", "legaltech", "models", "coding", "infra"}
+    if any(c in floor_cats for c in categories):
+        if score < 35:
+            score = 35  # cut-off 통과 보장 (점수 차등으로 자연스럽게 하단 노출)
 
     # === v6.10 (Phase 3): BOOKMARK_LEARNING 가산 ===
     # 사용자가 ⭐ 북마크한 30+35건 통계 분석 기반 — ground truth value signal.
