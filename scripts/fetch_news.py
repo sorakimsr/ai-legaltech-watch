@@ -44,6 +44,8 @@ KST = timezone(timedelta(hours=9))
 
 MAX_AGE_DAYS = 30
 MAX_PER_SOURCE = 20
+# v6.15.24: arXiv 카테고리 통합으로 단일 source가 6개 카테고리 결과를 담음 → cap 별도 상향
+MAX_PER_ARXIV_SOURCE = 150
 SOURCE_HISTORY_RETAIN_DAYS = 30
 
 # v2.7.5: fetch 단계에서 최근 N일(KST) 항목만 수집. 누적은 merge에서 30일 유지.
@@ -133,7 +135,9 @@ def fetch_source(source_def):
             print(f"    -> error: {feed.bozo_exception}", flush=True)
             return [], "error"
 
-        entries = feed.entries[:MAX_PER_SOURCE]
+        # v6.15.24: arXiv는 6개 카테고리 통합 query라 결과 많음 → 별도 cap 적용
+        cap = MAX_PER_ARXIV_SOURCE if source_type == "arxiv" else MAX_PER_SOURCE
+        entries = feed.entries[:cap]
         for e in entries:
             title = clean_text(getattr(e, "title", "") or "")
             link = normalize_url(getattr(e, "link", "") or "")

@@ -112,13 +112,14 @@ SOURCES = [
     # AI 논문 (arXiv API) — papers 카테고리는 여기에서만 부여
     # v2.7: 기존 /rss/ 는 announce-date만 줘서 실제 발행/수정일을 못 잡음 →
     # /api/query 로 교체 (각 entry에 published[v1 제출일] + updated[최신 revision] 정확히 제공)
-    # ====================================================================
-    ("arXiv cs.AI", "https://export.arxiv.org/api/query?search_query=cat:cs.AI&max_results=30&sortBy=lastUpdatedDate&sortOrder=descending", "arxiv", ["papers"], "en"),
-    ("arXiv cs.CL", "https://export.arxiv.org/api/query?search_query=cat:cs.CL&max_results=30&sortBy=lastUpdatedDate&sortOrder=descending", "arxiv", ["papers"], "en"),
-    ("arXiv cs.LG", "https://export.arxiv.org/api/query?search_query=cat:cs.LG&max_results=30&sortBy=lastUpdatedDate&sortOrder=descending", "arxiv", ["papers"], "en"),
-    ("arXiv cs.IR", "https://export.arxiv.org/api/query?search_query=cat:cs.IR&max_results=30&sortBy=lastUpdatedDate&sortOrder=descending", "arxiv", ["papers"], "en"),
-    ("arXiv cs.MA (Multi-Agent)", "https://export.arxiv.org/api/query?search_query=cat:cs.MA&max_results=30&sortBy=lastUpdatedDate&sortOrder=descending", "arxiv", ["papers"], "en"),
-    ("arXiv cs.CY (Computers & Society)", "https://export.arxiv.org/api/query?search_query=cat:cs.CY&max_results=30&sortBy=lastUpdatedDate&sortOrder=descending", "arxiv", ["papers", "policy"], "en"),
+    # v6.15.24 (2026-05-28): 6개 카테고리 query 통합 → 1번 호출.
+    #   기존: 6개 entry × 8초 sleep ≈ 50초 + 429 만나면 90초 backoff 누적.
+    #   변경: 단일 OR query (max_results=200) → arXiv 429 사실상 차단.
+    #   cs.CY의 default ["papers","policy"] 손실은 categorize가 본문 키워드로 자동 보완.
+    #   각 entry의 arxiv_primary_category(cs.AI/cs.LG 등)는 그대로 유지됨 (UI/분류 영향 X).
+    ("arXiv AI/CL/LG/IR/MA/CY",
+     "https://export.arxiv.org/api/query?search_query=cat:cs.AI+OR+cat:cs.CL+OR+cat:cs.LG+OR+cat:cs.IR+OR+cat:cs.MA+OR+cat:cs.CY&max_results=200&sortBy=lastUpdatedDate&sortOrder=descending",
+     "arxiv", ["papers"], "en"),
     # Papers With Code RSS 미제공 → Semantic Scholar가 동등 커버. 보조로 Google News 우회.
     ("Papers With Code", "https://news.google.com/rss/search?q=site%3Apaperswithcode.com+OR+%22paperswithcode%22+AI&hl=en&gl=US&ceid=US:en", "google_news", ["papers"], "en"),
 
