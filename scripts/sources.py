@@ -349,6 +349,14 @@ SOURCES = [
     ("Google News: GitHub AI 오픈소스 (EN)", _gnews('"github.com" ("released" OR "open source" OR "awesome list") (AI OR LLM OR "machine learning")', "en", "US"), "google_news", ["ai-industry"], "en"),
     ("Google News: Hugging Face 신모델 (EN)", _gnews('"Hugging Face" (model OR release OR launched OR trending OR Spaces)', "en", "US"), "google_news", ["ai-industry"], "en"),
     ("Google News: GitHub Trending AI (EN)", _gnews('"trending on GitHub" OR "GitHub trending" (AI OR LLM)', "en", "US"), "google_news", ["ai-industry"], "en"),
+
+    # ====================================================================
+    # v6.15.15 (2026-05-28): AI매터스 RSS 추가 (사용자 요청)
+    # ====================================================================
+    # AI매터스 — 한국 AI 전문 매체. WordPress 표준 RSS 작동 확인.
+    # 사용자가 "AI 효과 본 한국 기업 75%, 진짜 강자는 2%" 같은 인사이트
+    # 기사를 핵심 가치로 인식.
+    ("AI매터스", "https://aimatters.co.kr/feed/", "korean", ["ai-industry", "domestic"], "ko"),
 ]
 
 
