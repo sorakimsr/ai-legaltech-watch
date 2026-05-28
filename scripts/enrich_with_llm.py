@@ -379,7 +379,10 @@ def enrich_item(item: dict) -> dict:
             arxiv_id=arxiv_id, authors=authors_str, arxiv_tags=tags_str,
             summary=summary,
         )
-        result = call_llm_json(prompt, max_tokens=1400, temperature=0.3)
+        # v6.15.25 (2026-05-28): max_tokens 상향 — v6.15.22 페르소나 prompt 강화로
+        # 응답에 persona_reason + 6 어젠다 매칭 reasoning 추가됨. entity 리스트도
+        # 길어질 수 있어 1400→2200으로 넉넉히 잘림 방지.
+        result = call_llm_json(prompt, max_tokens=2200, temperature=0.3)
         if isinstance(result, dict):
             if "summary_ko" in result:
                 item["summary_ko"] = result["summary_ko"].strip()
@@ -394,7 +397,8 @@ def enrich_item(item: dict) -> dict:
             title=title, source=source, date=date,
             summary=summary, categories=categories,
         )
-        result = call_llm_json(prompt, max_tokens=900, temperature=0.3)
+        # v6.15.25: 900 → 1500 (persona_reason + entity 잘림 방지)
+        result = call_llm_json(prompt, max_tokens=1500, temperature=0.3)
         if isinstance(result, dict):
             if "summary_ko" in result:
                 item["summary_ko"] = result["summary_ko"].strip()
@@ -409,7 +413,8 @@ def enrich_item(item: dict) -> dict:
                 title=title, source=source, date=date,
                 summary=summary, categories=categories,
             )
-            result = call_llm_json(prompt, max_tokens=700, temperature=0.3)
+            # v6.15.25: 700 → 1200 (persona_reason + 한국 매체 긴 entity 리스트 대비)
+            result = call_llm_json(prompt, max_tokens=1200, temperature=0.3)
             if isinstance(result, dict):
                 if "insight_ko" in result:
                     item["insight_ko"] = result["insight_ko"].strip()
@@ -421,7 +426,8 @@ def enrich_item(item: dict) -> dict:
                 title=title, source=source, date=date,
                 summary=summary, categories=categories,
             )
-            result = call_llm_json(prompt, max_tokens=500, temperature=0.2)
+            # v6.15.25: 500 → 800 (NER 리스트만이라 작은 폭 상향)
+            result = call_llm_json(prompt, max_tokens=800, temperature=0.2)
             if isinstance(result, dict):
                 _absorb_ner_fields(item, result)
                 item["ner_only"] = True  # insight 없이 NER만 처리됐음 표시
