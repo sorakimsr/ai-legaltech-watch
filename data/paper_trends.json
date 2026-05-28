@@ -1,15 +1,15 @@
 {
-  "analyzed_at": "2026-05-29T03:58:17.351168+09:00",
+  "analyzed_at": "2026-05-29T05:16:00.438807+09:00",
   "llm_backend": "anthropic",
   "period": "weekly",
   "period_label": "최근 7일",
   "days_window": 7,
-  "paper_count": 590,
-  "narrative": "한 줄 요약 AI 도입의 질문이 '어떤 모델을 쓸 것인가'에서 '어떻게 통제하고 책임질 것인가'로 완전히 이동했으며, 이 전환이 한국 기업의 전략·기획 의제를 근본적으로 바꾸고 있다.\n\n1) 무엇이 부상하고 있는가 논문 흐름의 핵심은 에이전트 AI의 '거버넌스 공백'이다. 의료 다중에이전트 시스템을 감사한 MedAgentAudit 연구는 에이전트들이 증거 재검토 없이 초기 의견을 98.42% 비율로 반복하고, 권위 편향이 28.76%에 달한다는 것을 밝혔다. 최종 정확도 점수만 보면 멀쩡해 보이지만 내부 프로세스는 이미 망가져 있다는 뜻이다. CogniGraph와 Substrate Governance 연구들은 AutoGen·CrewAI·LangGraph 같은 기존 프레임워크가 에이전트 발언 범위와 책임 경계를 구조적으로 강제하지 못한다고 지적한다. 채용 알고리즘 모노컬처 연구는 동일 벤더 알고리즘을 여러 기업이 공유할 때 아시안 14.74%, 흑인 25.87%가 차별적 영향을 받는다는 실증 데이터를 제시했다. 이는 기술 문제가 아니라 **책임 경계가 명확히 설계된 아키텍처를 선택**하지 않으면 법적·윤리적 리스크가 조직 외부로 전이된다는 경고다. 에너지 효율 측면에서도 패러다임 전환이 일어나고 있다. 기존 단일 모델 호출 단위 벤치마크는 다단계 오케스트레이션·재시도·실패 복구를 포함하는 에이전트 워크플로우에서 **기존 API 호출 단위 비용 측정이 다단계 에이전트 오케스트레이션 환경에서는 무의미**하다는 것이 Energy per Successful Goal 연구로 확인됐다.\n\n2) 한국 실무자에게 이 흐름이 무슨 의미인가 전략·기획 담당자가 가장 먼저 체감할 변화는 AI 도입 ROI 측정 방식의 재설계다. Queue & AI 연구는 AI가 개별 작업 속도를 높여도 오류가 재작업으로 돌아올 때 시스템 전체 지연이 악화된다는 것을 대기열 모델로 증명했다. 단위 작업 속도 개선을 KPI로 삼으면 오히려 역효과를 측정하지 못한다. **성공한 목표당 비용으로 KPI를 재설계해야** 하는 이유가 여기 있다. RAG 시스템 운영에서도 Coverage Illusion 연구가 경고하듯, 합성 쿼리 기반으로 구축한 파이프라인이 실제 운영 환경에서는 27.8%의 쿼리만 LLM 증강이 필요한 구조적 불일치를 보인다. **RAG 파이프라인을 한 번 구축하고 방치하는 운영 방식은 재검토가 필요한 시점**이다. RLHF 정렬 조작 연구는 모델 파인튜닝 과정에서 편향이 증폭될 수 있다는 구조적 취약점을 드러냈다. 외부 벤더 모델을 그대로 사용하는 기업이라면 모델 선택 기준에 정렬 감사 항목을 추가해야 한다는 의미다. LLM의 지정학적 편향이 포스트트레이닝 단계에서 비롯되고 프롬프트 언어에 의해 증폭된다는 연구는, 한국어 프롬프트와 영어 프롬프트가 동일 모델에서 다른 결과를 낼 수 있음을 시사한다.\n\n3) 산업 적용 흐름 금융과 법률이 가장 먼저 영향을 받는다. FinHarness의 인라인 안전 장치 설계, Ontological Knowledge Blocks의 실행 가능한 컴플라이언스 블록, FAVES V4의 연방 AI 거버넌스 표준 구현 사례는 모두 **국내 금융·공공 분야의 내부통제 자동화 수요와 직결**된다. 의료 분야에서는 태아 초음파 다중에이전트 협력 연구처럼 고위험 임상 의사결정 보조 시스템이 현실화되고 있으나, 규제·감시 체계가 기술 역량을 이미 초과했다는 방사선과 AI 연구의 경고가 동시에 나왔다. 한국 기업 환경에서는 **한국 기업 환경에서는 개인정보보호법상 국외 데이터 이전 제한, 금융위·금감원의 AI 모델 설명 요구, 공공기관의 망분리 정책이 클라우드 기반 멀티에이전트 도입의 현실적 장벽으로 작용**한다. EU·미국·중국의 AI 거버넌스 규제 체계 차이가 다국적 기업 전략을 제약한다는 연구는, 글로벌 사업을 운영하는 한국 기업이 단일 AI 아키텍처로 세 시장을 동시에 커버하기 어렵다는 현실을 확인시켜 준다. **온프레미스(on-premise) 또는 폐쇄망 요구가 도입 속도를 제한하는 현실적 제약으로 작동**하는 상황에서, 벤더 중립적 거버넌스 프레임워크 설계가 중장기 아키텍처 의사결정의 핵심 변수가 된다.",
+  "paper_count": 589,
+  "narrative": "한 줄 요약 AI 도입의 핵심 전쟁터가 모델 성능에서 '에이전트 거버넌스·책임 경계 설계'로 이동했으며, 이를 무시한 채 속도만 추구하는 기업은 규제·운영·신뢰 리스크를 동시에 떠안게 된다.\n\n1) 무엇이 부상하고 있는가 논문 흐름에서 가장 두드러진 신호는 세 가지다. 첫째, 멀티에이전트 시스템의 '프로세스 안전성' 문제다. MedAgentAudit 연구(논문 5)는 의료 다중에이전트 AI가 최종 정확도 점수상으로는 멀쩡해 보여도 에이전트들이 증거 재검토 없이 초기 의견을 98.42% 반복하고 권위 편향을 28.76% 보인다는 것을 밝혔다. 결과 지표만 보는 현재의 AI 도입 검토 방식이 **구조적으로 위험을 놓치는 맹점**을 가진다는 뜻이다. 둘째, 에이전트 AI의 '시스템 스케일링' 병목이다. 논문 12(From Model Scaling to System Scaling)는 **단일 LLM 선택은 이미 낡은 질문이고, 에이전트 간 신뢰·조정 계층이 새 병목**임을 명시한다. 메모리·오케스트레이션·거버넌스 계층 설계가 장기 에이전트 성능을 결정한다는 주장이다. 셋째, 채용 알고리즘 벤더 집중(논문 1)이 아시안 14.74%, 흑인 25.87%에게 차별적 결과를 낳는다는 실증 데이터는, 동일 벤더 솔루션을 무비판적으로 도입하는 한국 기업 HR 부서에도 직접 적용되는 경고다.\n\n2) 한국 실무자에게 이 흐름이 무슨 의미인가 전략·기획 담당자 입장에서 '그래서 어떻게 해야 하지'를 촉발하는 지점은 두 곳이다. 우선 비용 측정 방식의 전환이다. 논문 20(Energy per Successful Goal)과 논문 46(Persistent AI Agents)은 **기존 API 호출 단위 비용 측정이 다단계 에이전트 오케스트레이션 환경에서는 무의미**하며, '성공한 목표당 비용'으로 KPI를 재설계해야 한다고 주장한다. 현재 많은 국내 기업이 LLM 도입 ROI를 토큰 비용이나 응답 속도로 측정하는데, 이는 재작업·실패 복구·오케스트레이션 비용을 전부 누락한 수치다. 다음으로 RAG 시스템 운영 방식이다. 논문 42(The Coverage Illusion)는 합성 쿼리 기반으로 구축한 RAG 파이프라인이 실제 운영 환경에서 27.8%의 쿼리만 처리한다는 '커버리지 환상'을 규명했다. **RAG 파이프라인을 한 번 구축하고 방치하는 운영 방식은 재검토가 필요한 시점**이며, 실사용 쿼리 분포 기반의 지속적 모니터링 체계가 필수다.\n\n3) 산업 적용 흐름 법률·금융·공공 분야가 가장 먼저 영향을 받는다. FinHarness(논문 39)의 금융 LLM 에이전트 안전 장치, FAVES V4(논문 28)의 신약 개발 컴플라이언스 시스템, 방사선과 AI 거버넌스(논문 36) 모두 **국내 금융·공공 분야의 내부통제 자동화 수요와 직결**된다. 그러나 한국 기업 환경에서는 **개인정보보호법상 국외 데이터 이전 제한, 금융위·금감원의 AI 모델 설명 요구, 공공기관의 망분리 정책이 클라우드 기반 멀티에이전트 도입의 현실적 장벽으로 작용**한다. EU·미국·중국 AI 거버넌스 규제 차이를 다룬 논문 23은 다국적 사업을 영위하는 한국 기업이 단일 AI 아키텍처로 세 규제권역을 동시 충족하기 어렵다는 점을 시사하며, **책임 경계가 명확히 설계된 아키텍처를 선택**하지 않으면 규제 대응 비용이 기술 도입 비용을 초과할 수 있다.",
   "hot_topics": [
     {
-      "topic": "에이전트 AI 거버넌스 및 책임 경계 설계 (Agentic AI Governance & Accountability Boundaries)",
-      "description": "멀티에이전트 시스템이 조직 경계를 넘어 확산되면서, 누가 어떤 결정에 책임지는지를 아키텍처 수준에서 설계하지 않으면 법적·운영적 리스크가 통제 불가능해진다는 흐름.",
+      "topic": "에이전트 AI 거버넌스·책임 경계 설계 (Agentic AI Governance & Accountability Boundaries)",
+      "description": "멀티에이전트 시스템이 조직 경계를 넘어 확산되면서, 누가 어떤 결정에 책임지는지를 아키텍처 수준에서 설계하지 않으면 규제·감사·내부통제 모두 무력화된다는 흐름.",
       "paper_count": 10,
       "paper_indices": [
         8,
@@ -75,18 +75,17 @@
       ]
     },
     {
-      "topic": "멀티에이전트 시스템 안전성 및 신뢰성 (Multi-Agent System Safety & Reliability)",
-      "description": "에이전트들이 협업할 때 최종 출력 정확도와 무관하게 내부 프로세스에서 편향·허위 합의·보안 취약점이 발생하며, 이를 감사하는 프레임워크가 실무 필수 요건으로 부상하고 있다.",
-      "paper_count": 8,
+      "topic": "멀티에이전트 시스템 안전성·프로세스 감사 (Multi-Agent Safety & Process Auditing)",
+      "description": "최종 정확도 점수만으로는 드러나지 않는 에이전트 간 협업 실패(권위 편향, 허위 합의, 점진적 해악)를 프로세스 수준에서 측정·감사하는 기법이 부상 중.",
+      "paper_count": 7,
       "paper_indices": [
         5,
         7,
         26,
-        27,
         29,
         43,
-        51,
-        58
+        58,
+        73
       ],
       "papers": [
         {
@@ -108,12 +107,6 @@
           "date": "2026-05-22"
         },
         {
-          "title": "When Agents Control Robots: A Zero Trust Policy Model for Agentic Cyber-Physical Systems",
-          "url": "https://arxiv.org/abs/2605.25653v1",
-          "source": "arXiv cs.MA (Multi-Agent)",
-          "date": "2026-05-25"
-        },
-        {
           "title": "SkillSafetyBench: Evaluating Agent Safety under Skill-Facing Attack Surfaces",
           "url": "https://arxiv.org/abs/2605.12015v2",
           "source": "arXiv cs.MA (Multi-Agent)",
@@ -126,22 +119,22 @@
           "date": "2026-05-26"
         },
         {
-          "title": "Multi-Agent Systems are Mixtures of Experts: Who Becomes an Influencer?",
-          "url": "https://arxiv.org/abs/2605.25929v1",
-          "source": "arXiv cs.MA (Multi-Agent)",
-          "date": "2026-05-25"
-        },
-        {
           "title": "GT-HarmBench: Benchmarking AI Safety Risks Through the Lens of Game Theory",
           "url": "https://arxiv.org/abs/2602.12316v2",
           "source": "arXiv cs.MA (Multi-Agent)",
           "date": "2026-05-22"
+        },
+        {
+          "title": "The triad of identity, trust and responsibility in multi-agent systems",
+          "url": "https://eprints.soton.ac.uk/509930/1/AAMAS_2026_The_Triad_of_Identity_Trust_and_Responsibility_in_Multi-Agent_Systems.pdf",
+          "source": "OpenAlex",
+          "date": "2026-05-25"
         }
       ]
     },
     {
       "topic": "AI 규제 지형 분화와 기업 전략 적응 (AI Regulatory Divergence & Corporate Strategy)",
-      "description": "EU·미국·중국의 AI 거버넌스 규제가 서로 다른 방향으로 진화하면서, 규제 준수가 단순 컴플라이언스가 아닌 경영 전략의 핵심 제약 변수로 전환되고 있다.",
+      "description": "EU·미국·중국의 AI 거버넌스 체계가 서로 다른 방향으로 진화하면서, 규제 준수가 단순 컴플라이언스가 아닌 경영 전략의 핵심 제약 조건으로 전환되고 있다.",
       "paper_count": 5,
       "paper_indices": [
         3,
@@ -184,15 +177,16 @@
       ]
     },
     {
-      "topic": "RAG 시스템 신뢰성과 인용 오류 (RAG Reliability & Citation Failure)",
-      "description": "검색증강생성 시스템이 실제 접근 가능한 출처를 인용하면서도 내용이 틀리는 '검증된 오도' 현상이 실증되면서, RAG 파이프라인의 품질 측정 방식 자체를 재설계해야 한다는 압력이 커지고 있다.",
-      "paper_count": 5,
+      "topic": "RAG 시스템 신뢰성·커버리지 문제 (RAG Reliability & Coverage Gap)",
+      "description": "검색증강생성 시스템이 실제 운영 환경에서 인용 오류, 커버리지 환상, 불확실성 미측정 등 구조적 신뢰성 문제를 드러내고 있어 운영 방식 재설계가 요구된다.",
+      "paper_count": 6,
       "paper_indices": [
         4,
         42,
         69,
         74,
-        75
+        75,
+        76
       ],
       "papers": [
         {
@@ -224,49 +218,18 @@
           "url": "https://arxiv.org/abs/2605.28522v1",
           "source": "arXiv cs.IR",
           "date": "2026-05-27"
+        },
+        {
+          "title": "Efficient and Scalable Provenance Tracking for LLM-Generated Code Snippets",
+          "url": "https://arxiv.org/abs/2605.28510v1",
+          "source": "arXiv cs.IR",
+          "date": "2026-05-27"
         }
       ]
     },
     {
-      "topic": "AI 도입의 실제 생산성 효과 측정 (Measuring Real Productivity Impact of AI)",
-      "description": "AI가 개별 작업을 빠르게 해도 시스템 전체 지연이 악화될 수 있으며, 기존 측정 지표가 이를 포착하지 못한다는 연구들이 KPI 재설계 필요성을 제기하고 있다.",
-      "paper_count": 4,
-      "paper_indices": [
-        10,
-        13,
-        18,
-        46
-      ],
-      "papers": [
-        {
-          "title": "Queue & AI: When Faster Tasks Slow Down the Workflow",
-          "url": "https://arxiv.org/abs/2605.27202v1",
-          "source": "arXiv cs.CY (Computers & Society)",
-          "date": "2026-05-26"
-        },
-        {
-          "title": "RCTs & Human Uplift Studies: Methodological Challenges and Practical Solutions for Frontier AI Evaluation",
-          "url": "https://arxiv.org/abs/2603.11001v2",
-          "source": "arXiv cs.AI",
-          "date": "2026-05-25"
-        },
-        {
-          "title": "Can the Recovery Mechanism Survive AI? Skill Formation, Labor, and What Current Measurement Misses",
-          "url": "https://arxiv.org/abs/2605.16283v2",
-          "source": "arXiv cs.CY (Computers & Society)",
-          "date": "2026-05-22"
-        },
-        {
-          "title": "Persistent AI Agents in Academic Research: A Single-Investigator Implementation Case Study",
-          "url": "https://arxiv.org/abs/2605.26870v1",
-          "source": "arXiv cs.MA (Multi-Agent)",
-          "date": "2026-05-26"
-        }
-      ]
-    },
-    {
-      "topic": "채용·인사 알고리즘의 차별 리스크 (Algorithmic Discrimination in HR)",
-      "description": "동일 벤더 알고리즘을 여러 기업이 공유할 때 특정 집단에 대한 차별적 결과가 구조적으로 발생하며, 이는 개별 기업의 의도와 무관하게 법적 책임으로 귀결될 수 있다.",
+      "topic": "채용·HR 알고리즘 편향과 벤더 집중 리스크 (Hiring Algorithm Bias & Vendor Monoculture)",
+      "description": "동일 벤더 채용 알고리즘을 여러 기업이 동시 사용할 때 특정 집단에 대한 차별적 결과가 구조적으로 증폭되며, 이는 법적 책임과 ESG 리스크로 직결된다.",
       "paper_count": 2,
       "paper_indices": [
         1,
@@ -286,12 +249,42 @@
           "date": "2026-05-26"
         }
       ]
+    },
+    {
+      "topic": "AI 에이전트 비용·에너지 효율 측정 재설계 (Agentic AI Cost & Energy Accounting)",
+      "description": "단일 모델 호출 단위의 비용·에너지 측정은 다단계 오케스트레이션 환경에서 실제 운영 비용을 심각하게 과소평가하므로, 목표 달성 단위의 새로운 측정 체계가 필요하다.",
+      "paper_count": 3,
+      "paper_indices": [
+        20,
+        41,
+        46
+      ],
+      "papers": [
+        {
+          "title": "Energy per Successful Goal: Goal-Level Energy Accounting for Agentic AI Systems",
+          "url": "https://arxiv.org/abs/2605.22883",
+          "source": "arXiv cs.AI",
+          "date": "2026-05-25"
+        },
+        {
+          "title": "Modeling Agentic Technical Debt and Stochastic Tax: A Standalone Framework for Measurement, Simulation, and Dashboarding",
+          "url": "https://arxiv.org/abs/2605.27320v1",
+          "source": "arXiv cs.AI",
+          "date": "2026-05-26"
+        },
+        {
+          "title": "Persistent AI Agents in Academic Research: A Single-Investigator Implementation Case Study",
+          "url": "https://arxiv.org/abs/2605.26870v1",
+          "source": "arXiv cs.MA (Multi-Agent)",
+          "date": "2026-05-26"
+        }
+      ]
     }
   ],
   "key_techniques": [
     {
       "technique": "에이전트 런타임 거버넌스 하네스 (Agentic Runtime Governance Harness)",
-      "description": "에이전트가 실행되는 동안 의도 추적·도구 모니터링·롤백 제약을 인라인으로 적용하는 아키텍처로, 금융·의료처럼 비인가 행동이 즉각 손실로 이어지는 환경에서 안전망 역할을 한다.",
+      "description": "멀티에이전트 시스템의 메모리·오케스트레이션·검증·롤백을 통합 관리하는 아키텍처 계층으로, 에이전트가 생성한 코드와 행동을 일회성 출력이 아닌 감사 가능한 런타임 자산으로 취급한다. 금융·공공 분야 내부통제 자동화에 직접 적용 가능하다.",
       "paper_count": 4,
       "paper_indices": [
         12,
@@ -327,13 +320,13 @@
       ]
     },
     {
-      "technique": "프로세스 수준 멀티에이전트 감사 (Process-Level Multi-Agent Auditing)",
-      "description": "최종 출력 정확도가 아닌 에이전트 간 협업 과정(편향·허위 합의·자기모순)을 실행 로그에서 직접 측정하는 방법으로, 고위험 의사결정 시스템의 내부 신뢰성 검증에 필수적이다.",
+      "technique": "프로세스 수준 멀티에이전트 감사 프레임워크 (Process-Level Multi-Agent Audit Framework)",
+      "description": "최종 출력 정확도가 아닌 에이전트 간 협업 과정(의견 반복, 권위 편향, 자기모순)을 실행 로그 기반으로 감사하는 기법. 의료·법률·금융처럼 오류 비용이 높은 도메인에서 AI 도입 검토 기준을 바꿀 수 있다.",
       "paper_count": 3,
       "paper_indices": [
         5,
         7,
-        43
+        58
       ],
       "papers": [
         {
@@ -349,21 +342,22 @@
           "date": "2026-05-27"
         },
         {
-          "title": "Securing Multi-Agent Systems Against Corruptions via Node Contribution Backpropagation",
-          "url": "https://arxiv.org/abs/2510.19420v2",
+          "title": "GT-HarmBench: Benchmarking AI Safety Risks Through the Lens of Game Theory",
+          "url": "https://arxiv.org/abs/2602.12316v2",
           "source": "arXiv cs.MA (Multi-Agent)",
-          "date": "2026-05-26"
+          "date": "2026-05-22"
         }
       ]
     },
     {
-      "technique": "프로덕션 RAG 적응형 라우팅 (Production RAG Adaptive Routing)",
-      "description": "실제 사용자 쿼리 분포와 합성 학습 데이터 간 불일치를 감지하고, 쿼리 특성에 따라 검색 전략을 실시간으로 전환하는 방식으로 비용과 품질을 동시에 최적화한다.",
-      "paper_count": 3,
+      "technique": "운영 환경 기반 RAG 적응형 라우팅 (Production-Adaptive RAG Routing)",
+      "description": "합성 쿼리가 아닌 실제 사용자 쿼리 분포를 기반으로 검색 파이프라인 구성을 동적으로 선택하는 기법. 비용 89% 절감 또는 품질 개선을 달성하며, 한 번 구축 후 방치하는 RAG 운영 방식의 대안이다.",
+      "paper_count": 4,
       "paper_indices": [
         37,
         42,
-        74
+        74,
+        75
       ],
       "papers": [
         {
@@ -383,17 +377,23 @@
           "url": "https://arxiv.org/abs/2510.11483v3",
           "source": "arXiv cs.IR",
           "date": "2026-05-27"
+        },
+        {
+          "title": "Search for Coverage: Learning Coverage-Aware Retrieval with Augmented Sub-Question Answerability",
+          "url": "https://arxiv.org/abs/2605.28522v1",
+          "source": "arXiv cs.IR",
+          "date": "2026-05-27"
         }
       ]
     },
     {
-      "technique": "실행 가능한 컴플라이언스 자동화 (Executable Compliance Automation)",
-      "description": "산문 형태의 규정을 온톨로지·스키마 기반 실행 코드로 변환하여 AI 시스템의 투명성·책임성·추적성을 자동 검증하는 접근으로, 규제 대응 비용을 구조적으로 낮춘다.",
+      "technique": "온톨로지 기반 실행 가능 컴플라이언스 (Executable Ontology-Based Compliance)",
+      "description": "AI 거버넌스 의무(투명성·책임성·공정성·추적성)를 산문 정책이 아닌 자동 검증 가능한 온톨로지 블록으로 구현하는 기법. EU AI Act·국내 금융 AI 설명 요구에 대응하는 기술적 수단으로 부상 중이다.",
       "paper_count": 3,
       "paper_indices": [
         14,
         28,
-        33
+        63
       ],
       "papers": [
         {
@@ -409,21 +409,21 @@
           "date": "2026-05-25"
         },
         {
-          "title": "Implementing the 4-3-3-2 Fiscal Routing Grammar: A Schema-Based White Paper for Closure-Gated Legal AI Governance",
-          "url": "https://doi.org/10.5281/zenodo.20404690",
+          "title": "Governing Algorithms: Transparency, Digitalization, and Risk in European Public Administration – A Comparative Study",
+          "url": "https://doi.org/10.24818/amp/2026.46-08",
           "source": "OpenAlex",
-          "date": "2026-05-27"
+          "date": "2026-05-25"
         }
       ]
     },
     {
-      "technique": "LLM 편향 감사 및 정렬 검증 (LLM Bias Auditing & Alignment Verification)",
-      "description": "RLHF 파인튜닝 과정에서 편향이 증폭되거나 지정학적 편향이 포스트트레이닝에서 주입되는 메커니즘을 탐지하는 방법으로, 외부 벤더 모델 도입 시 검증 기준으로 활용 가능하다.",
+      "technique": "RLHF 정렬 조작 탐지 및 편향 감사 (RLHF Alignment Tampering Detection & Bias Audit)",
+      "description": "인간 피드백 기반 정렬 과정에서 모델이 선호도 데이터를 조작해 편향을 증폭시키는 구조적 취약점을 식별하는 기법. 외부 LLM API를 내부 의사결정에 활용하는 기업이 공급망 리스크로 관리해야 할 영역이다.",
       "paper_count": 3,
       "paper_indices": [
         38,
-        68,
-        30
+        30,
+        68
       ],
       "papers": [
         {
@@ -433,39 +433,39 @@
           "date": "2026-05-26"
         },
         {
-          "title": "It's the humans, not the data: Geopolitical bias in LLMs originates in post-training, amplified by the language of the prompt",
-          "url": "https://arxiv.org/abs/2605.23825v1",
-          "source": "arXiv cs.AI",
-          "date": "2026-05-22"
-        },
-        {
           "title": "Auditing Stance Asymmetry in Generative Explanations",
           "url": "https://arxiv.org/abs/2605.27988v1",
           "source": "arXiv cs.CY (Computers & Society)",
           "date": "2026-05-27"
+        },
+        {
+          "title": "It's the humans, not the data: Geopolitical bias in LLMs originates in post-training, amplified by the language of the prompt",
+          "url": "https://arxiv.org/abs/2605.23825v1",
+          "source": "arXiv cs.AI",
+          "date": "2026-05-22"
         }
       ]
     }
   ],
   "actionable_insights": [
-    "멀티에이전트 시스템 도입 시 최종 출력 정확도만 검수하는 QA 프로세스는 내부 협업 실패를 탐지하지 못한다. MedAgentAudit 연구가 보여주듯 에이전트가 증거 재검토 없이 초기 의견을 반복하는 비율이 98%를 넘어도 최종 점수는 정상으로 보일 수 있다. **에이전트 실행 로그를 프로세스 수준에서 감사하는 체계를 아키텍처 설계 단계부터 내장**해야 한다.",
-    "AI 도입 ROI를 단위 작업 처리 속도로 측정하는 기업은 시스템 전체 효율을 오판할 가능성이 높다. Queue & AI 연구는 AI 오류가 재작업으로 돌아올 때 검토자의 위험 임계값이 상향되어 정확도가 오히려 떨어지는 메커니즘을 증명했다. **작업 처리 속도 대신 성공한 목표당 비용과 재작업률을 핵심 KPI로 재설계**하는 것이 실질적 생산성 측정에 부합한다.",
-    "외부 벤더 LLM을 도입할 때 모델 성능 벤치마크만 검토하는 관행은 재검토가 필요하다. RLHF 정렬 조작 연구는 파인튜닝 과정에서 편향이 구조적으로 증폭될 수 있음을 실험으로 입증했고, 지정학적 편향 연구는 동일 모델도 한국어 프롬프트와 영어 프롬프트에서 다른 결과를 낼 수 있음을 보였다. **벤더 모델 선정 기준에 정렬 감사 항목과 한국어 프롬프트 편향 테스트를 포함**시켜야 한다.",
-    "RAG 기반 사내 지식검색 시스템을 운영 중인 기업은 Coverage Illusion 연구의 경고를 주목해야 한다. 합성 쿼리로 구축한 파이프라인이 실제 운영 환경에서는 27.8%의 쿼리만 LLM 증강이 필요한 구조적 불일치를 보인다는 것은, **실제 사용자 쿼리 분포를 주기적으로 수집해 파이프라인 라우팅 전략을 재보정하는 운영 루틴**이 없으면 시스템 품질이 조용히 저하된다는 의미다.",
-    "EU·미국·중국의 AI 규제가 서로 다른 방향으로 진화하는 상황에서, 글로벌 사업을 운영하는 한국 기업이 단일 AI 아키텍처로 세 시장을 동시에 커버하려는 시도는 구조적 한계에 부딪힌다. 국내에서는 개인정보보호법상 국외 데이터 이전 제한과 금감원의 AI 모델 설명 요구가 추가 제약으로 작용한다. **시장별 규제 요건을 아키텍처 설계 초기에 반영하고, 벤더 중립적 거버넌스 계층을 별도로 구성**하는 것이 중장기 유연성을 확보하는 현실적 접근이다."
+    "멀티에이전트 AI 시스템 도입 검토 시 최종 정확도 점수만이 아니라 **협업 프로세스 수준의 감사 지표(의견 반복률, 권위 편향 비율, 자기모순 빈도)를 평가 기준에 포함**해야 한다. MedAgentAudit 연구가 보여주듯 겉으로 멀쩡한 시스템이 내부적으로 98% 이상 증거 재검토 없이 작동할 수 있다.",
+    "현재 LLM·에이전트 AI의 ROI를 API 호출 비용이나 응답 속도로 측정하고 있다면, **목표 달성당 비용(성공한 목표당 에너지·비용)으로 KPI 체계를 재설계**해야 한다. 재작업·실패 복구·오케스트레이션 비용을 포함하지 않은 수치는 경영진 보고에서 도입 효과를 과대 계상하는 구조적 오류를 낳는다.",
+    "사내 RAG 기반 지식검색·문서요약 시스템을 운영 중이라면, **합성 쿼리 기반으로 구축된 파이프라인이 실제 사용자 쿼리의 27.8%만 제대로 처리할 수 있다는 커버리지 환상을 전제로 운영 현황을 재점검**해야 한다. 실사용 로그 기반의 쿼리 분포 분석과 사후 검색 캐스케이드 방식 도입이 현실적 개선 경로다.",
+    "채용·성과평가·여신심사 등 결과적 의사결정에 외부 벤더 AI 솔루션을 사용 중이라면, **동일 벤더 알고리즘 집중(알고리즘 모노컬처)이 특정 집단에 대한 구조적 차별을 낳을 수 있으며 이는 ESG 공시 및 법적 책임 리스크로 직결**된다는 점을 법무·컴플라이언스 부서와 공동으로 검토해야 한다.",
+    "EU·미국·중국 세 규제권역에 걸쳐 사업을 영위하는 기업이라면, **단일 AI 아키텍처로 세 규제 체계를 동시 충족하는 것이 구조적으로 불가능한 시나리오를 전략 리스크로 등록**하고, 규제권역별 데이터 처리 경계와 책임 경계를 아키텍처 설계 단계에서 분리하는 방안을 검토해야 한다."
   ],
   "top_institutions": [
     {
       "name": "ETH",
-      "count": 216
+      "count": 215
     },
     {
       "name": "MIT",
-      "count": 130
+      "count": 129
     },
     {
       "name": "Meta",
-      "count": 15
+      "count": 14
     },
     {
       "name": "FAIR",
@@ -504,11 +504,11 @@
       "count": 1
     },
     {
-      "name": "Anthropic",
+      "name": "AI2",
       "count": 1
     },
     {
-      "name": "AI2",
+      "name": "Anthropic",
       "count": 1
     }
   ],
