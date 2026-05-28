@@ -1003,6 +1003,8 @@ def score_item(title: str, summary: str, date, categories: list, persona_score: 
     # papers/legaltech는 AI/리걸테크 도메인 자체라 multiplier 보강
     if "papers" in categories or "legaltech" in categories:
         signal_multiplier = max(signal_multiplier, 0.85)
+    # v6.15.13: 한국 매체 title-only RSS 보호 — LEGAL/REGULATORY signal 2+이면
+    # 사용자 핵심 도메인으로 인식 → multiplier 보강 (categorize가 못 잡은 경우 대비)
 
     # === v4.0 행동 시그널 매트릭스 (각 축 최대 +25) ===
     decision_hits = count_signal_hits(text, DECISION_SIGNALS)
@@ -1040,17 +1042,31 @@ def score_item(title: str, summary: str, date, categories: list, persona_score: 
 
     # === v4.5 NEGATIVE 시그널 — 강화된 단계적 감점 ===
     # 의도: 명백한 광고/연예/PR은 drop. 경쟁사 행사는 살리되 절대 상단 X (45점 cap).
+    # v6.15.13: 사용자 핵심 도메인 카테고리(legaltech/papers/funding)는 NEGATIVE cap 완화.
+    #   "AI시대 판결문 두고 법조계 고심" 본문에 "축사" 한 단어가 들어 있다는 이유로
+    #   score 32까지 떨어지던 false-positive 해결. legaltech 도메인은 본문에
+    #   부수적 PR 표현이 들어가도 핵심 가치는 보존되어야 함.
     negative_hits = count_signal_hits(text, NEGATIVE_SIGNALS)
+    is_core_domain = ("legaltech" in categories or "papers" in categories
+                       or "funding" in categories)
     if negative_hits >= 1:
-        if total_signal < 0.5:
-            score = min(score, 18)  # 시그널 거의 없음 + NEGATIVE → drop
-        elif total_signal < 1.0:
-            score = min(score, 28)  # 약한 시그널 + NEGATIVE → drop 근처
+        if is_core_domain:
+            # 핵심 도메인은 NEGATIVE cap 약화 — drop 안 시키되 상단 cap만 적용
+            if total_signal < 0.5:
+                score = min(score, 38)  # 18 → 38 (cut-off 35 약간 위)
+            elif total_signal < 1.0:
+                score = min(score, 50)  # 28 → 50
+            else:
+                score = min(score, 65)  # 45 → 65 (강한 시그널 + 핵심 도메인)
         else:
-            # 강한 시그널 있는 NEGATIVE (광장 AI 법정책포럼 같은 경쟁 로펌 행사)
-            # → 살아남되 45점 hard cap (참고 구간, 상단 노출 절대 X)
-            score -= 25
-            score = min(score, 45)
+            # 일반 항목 — 기존 빡빡한 cap 유지
+            if total_signal < 0.5:
+                score = min(score, 18)
+            elif total_signal < 1.0:
+                score = min(score, 28)
+            else:
+                score -= 25
+                score = min(score, 45)
 
     # === v4.0 AI 단순 언급 자동 강등 (v4.3: ai_mentions 위에서 이미 계산됨) ===
     if ai_mentions <= 2 and total_signal < 0.3:
@@ -1114,13 +1130,22 @@ def score_item(title: str, summary: str, date, categories: list, persona_score: 
     # 의도: 위 v4.5 NEGATIVE cap (line ~877) 이후에 카테고리 보너스(legaltech +12, funding +6),
     #       recency 보너스(+10), 본문 깊이 보너스(+6) 등이 더해져 cap을 우회하는 버그 해결.
     #       모든 가산 후 다시 NEGATIVE cap 적용 → 후순위 강등이 실효성 있게 동작.
+    # v6.15.13: 핵심 도메인 카테고리는 final cap도 약화 (위 위쪽 cap과 일관)
     if negative_hits >= 1:
-        if total_signal < 0.5:
-            score = min(score, 18)
-        elif total_signal < 1.0:
-            score = min(score, 28)
+        if is_core_domain:
+            if total_signal < 0.5:
+                score = min(score, 38)
+            elif total_signal < 1.0:
+                score = min(score, 50)
+            else:
+                score = min(score, 65)
         else:
-            score = min(score, 45)  # 강한 시그널이라도 final cap 45
+            if total_signal < 0.5:
+                score = min(score, 18)
+            elif total_signal < 1.0:
+                score = min(score, 28)
+            else:
+                score = min(score, 45)
 
     # === v6.6: PR pattern detector final cap ===
     # title prefix가 PR 시리즈(NEGATIVE/조건부)로 분류된 경우 최종 cap 적용.
