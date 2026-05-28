@@ -1309,21 +1309,18 @@ def score_item(title: str, summary: str, date, categories: list, persona_score: 
         score = min(score, 33)  # 참고 구간 아래로 강등 (cut-off 35 미만)
 
     # === 카테고리 보너스 (정상 컨텐츠 보호) ===
-    # v6.15.19: legaltech 가중치 12→16 인상. 사용자 정책 — AI×법조 교차 (판결문 공개,
-    #   로펌 AI 도입, 변호사 AI 활용 등 법조 전반)는 상단 노출. 단순 ai-industry보다 우선.
-    if "legaltech" in categories:
-        score += 16  # 리걸테크 + AI×법조 교차 — 사용자 핵심 도메인, 상단 노출 보장
-    if "papers" in categories:
-        score += 8   # 학술 논문
-    if "funding" in categories:
-        score += 6   # 자본 흐름
-    # v6.15.17: 신규 카테고리 보너스 — AI 모델 비즈니스·개발자 도구·인프라
-    if "models" in categories:
-        score += 10  # 모델 release/벤치마크/가격 — 사용자 핵심 관심 (legaltech 다음 우선순위)
-    if "coding" in categories:
-        score += 7   # AI 코딩 도구 (Cursor/Copilot)
-    if "infra" in categories:
-        score += 7   # AI 칩·인프라 (Groq/Cerebras)
+    # v6.15.19: legaltech 가중치 12→16 인상. 사용자 정책 — AI×법조 교차는 상단 노출.
+    # v6.15.27 (2026-05-29): 합산 cap +16 — 한 기사가 받는 카테고리 보너스 총합 cap.
+    #   기존엔 legaltech(+16) + papers(+8) + funding(+6) + models(+10)... 모두 합산되어
+    #   PR 기사도 cap 150 도달. 합산 cap +16으로 변별력 회복 — 가장 큰 단일 카테고리만 인정.
+    cat_bonus = 0
+    if "legaltech" in categories: cat_bonus += 16
+    if "papers" in categories:    cat_bonus += 8
+    if "funding" in categories:   cat_bonus += 6
+    if "models" in categories:    cat_bonus += 10
+    if "coding" in categories:    cat_bonus += 7
+    if "infra" in categories:     cat_bonus += 7
+    score += min(cat_bonus, 16)  # 합산 cap +16
 
     # === 본문 깊이 보너스 ===
     summary_len = len(summary or "")
@@ -1430,18 +1427,16 @@ def score_item(title: str, summary: str, date, categories: list, persona_score: 
         if score < 78:
             score = 78
 
-    # === v6.15.21 SUPER_BOOST: 사용자 명시 8개 어젠다 강력 보호 ===
-    # 판결문 공개·공정위 AI 실태조사·개인정보 처리 특례 등은 짧은 본문이어도
-    # daily/weekly/monthly 시사점 카드 후보 풀에 무조건 진입.
-    #
-    # 실제 시사점 cut-off (2026-05-28 daibfy.com 측정):
-    #   daily TOP 30 cut: 81 / weekly TOP 50 cut: 79 / monthly TOP 80 cut: 76
-    # SUPER_BOOST 매칭 항목은 위 cut 모두 통과 보장 — score floor 85.
-    # (LLM은 후보 풀 안에서 prompt 우선순위 룰로 1-3번 카드 배치)
+    # === v6.15.21 SUPER_BOOST: 사용자 명시 8개 어젠다 보호 ===
+    # 판결문 공개·공정위 AI 실태조사·개인정보 처리 특례 등은 후보 풀 진입 보장.
+    # v6.15.27 (2026-05-29): floor 85 → 70 약화. 사용자 지적 — PR 기사도 SUPER_BOOST
+    #   floor에 걸려 상단 차지. floor는 진입 보장 역할만, 상단 정렬은 LLM persona에 맡김.
+    #   floor 70 = monthly TOP 80 cut(76) 직전 — 진입은 못 하지만 borderline.
+    #   진짜 보호 필요한 어젠다는 LLM이 persona=8+로 평가해서 score +64+로 상단 진입.
     if _has_super_boost(text):
         score += 18
-        if score < 85:
-            score = 85  # daily/weekly/monthly TOP N 모두 진입 보장
+        if score < 70:
+            score = 70  # daily TOP 30/weekly TOP 50 진입 가능, monthly TOP 80은 borderline
 
     # === v6.15.19/.21: 핵심 도메인 카테고리 score floor (cut-off 통과 보장) ===
     # 사용자 정책: "기존에 걸러지던 AI 일반 소식도 스크롤로 확인할 수 있도록".
@@ -1485,7 +1480,37 @@ def score_item(title: str, summary: str, date, categories: list, persona_score: 
         bookmark_bonus = min(bookmark_bonus, 12)
         score += bookmark_bonus
 
-    return max(0, min(150, int(round(score))))
+    # === v6.15.27 (2026-05-29): persona-aware dynamic cap ===
+    # 사용자 지적: PR 기사(ps=7)도 cap 120 도달 — base 30 + persona×8 56 + 카테고리 16
+    # + recency 10 + 본문 깊이 6 = 118로 이미 cap 근처. 카테고리·recency 등이 누적되어
+    # persona 차이가 묻혀버림.
+    #
+    # 근본 해결: persona-aware dynamic cap.
+    #   ps에 따라 score의 절대 상한이 달라짐 → persona가 진짜 dominant gate.
+    #   ps=0 → cap 30 (drop 구간)
+    #   ps=5 → cap 80
+    #   ps=7 → cap 100  ← PR 기사 (절대 100 못 넘음)
+    #   ps=8 → cap 110
+    #   ps=9 → cap 120  ← 분석 기사 (cap 도달 가능)
+    #   ps=10 → cap 130 → 절대 cap 120으로 최종 clamp
+    #
+    # 적용 조건: persona_score 있음 + PR cap 안 걸린 항목 + SUPER_BOOST floor 70 우회
+    #   - SUPER_BOOST floor 70은 그대로 작동 (어젠다 보호용)
+    #   - ps_cap이 70 미만이면 (ps≤3) SUPER_BOOST floor가 우선 적용되어 70 유지
+    if persona_score is not None and pr_verdict != 'cap':
+        try:
+            ps = int(persona_score)
+            if 0 <= ps <= 10:
+                ps_cap = 30 + ps * 10  # ps=7: 100, ps=8: 110, ps=9: 120
+                # SUPER_BOOST floor와 충돌 시 floor 우선 (어젠다 보호)
+                if _has_super_boost(text):
+                    ps_cap = max(ps_cap, 70)
+                score = min(score, ps_cap)
+        except (ValueError, TypeError):
+            pass
+
+    # v6.15.27: 절대 cap 120 (persona 10도 안 넘어감)
+    return max(0, min(120, int(round(score))))
 
 
 def normalize_url(url: str) -> str:

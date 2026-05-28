@@ -66,6 +66,8 @@ const state = {
   search: '',
   // v3.11: 뉴스 피드 디폴트 기간 = 오늘 (사용자 정책)
   dateFilter: 'today',
+  // v6.15.26 (2026-05-29): 특정 일자 필터 — dateFilter='specific'일 때 사용 (YYYY-MM-DD)
+  specificDate: '',
   langFilter: 'all',
   // v2.7.1: 정렬 기준 (뉴스 피드 통합 후) — latest | score | today
   // v3.11: 디폴트 = 중요도 (사용자 정책)
@@ -588,20 +590,34 @@ function renderCategoryBar() {
   });
 }
 
+// v6.15.27 (2026-05-29): persona_score 우선 정렬 — 사용자 정책
+//   기존: score(0~120)만으로 정렬 → cap 도달 기사들 변별 못 함
+//   변경: persona_score(0~10) > score(보조) > date(타이) 순.
+//   LLM 가치 평가가 dominant. ps 없는 기사는 -1로 정렬 (하단으로).
+function _sortByImportance(a, b) {
+  const psA = a.persona_score != null ? a.persona_score : -1;
+  const psB = b.persona_score != null ? b.persona_score : -1;
+  if (psB !== psA) return psB - psA;  // persona 높은 순
+  const scA = a.score || 0;
+  const scB = b.score || 0;
+  if (scB !== scA) return scB - scA;  // 동률이면 score
+  return new Date(b.date) - new Date(a.date);  // 그래도 동률이면 최신
+}
+
 function applyViewFilter(items) {
   let arr = items.slice();
   // v2.7.1: latest/top/today 통합 → state.sortBy로 분기
   if (state.view === 'latest') {
     switch (state.sortBy) {
       case 'score':
-        // v2.8.6: 정렬은 cap 없이 — 사용자가 "정렬인데 필터처럼 동작"이라 지적
-        arr.sort((a, b) => (b.score || 0) - (a.score || 0));
+        // v6.15.27: persona_score 우선 + score 보조
+        arr.sort(_sortByImportance);
         break;
       case 'today': {
         const now = new Date();
         const start = new Date(now.getFullYear(), now.getMonth(), now.getDate());
         arr = arr.filter(i => new Date(i.first_seen || i.date) >= start);
-        arr.sort((a, b) => (b.score || 0) - (a.score || 0));
+        arr.sort(_sortByImportance);
         break;
       }
       case 'latest':
@@ -611,7 +627,7 @@ function applyViewFilter(items) {
     }
   } else if (state.view === 'saved') {
     arr = arr.filter(i => isSaved('items', i.url));
-    arr.sort((a, b) => (b.score || 0) - (a.score || 0));
+    arr.sort(_sortByImportance);
   }
   // 'top'/'today' 구 view 이름은 백워드 호환을 위해 latest+sortBy로 매핑
   return arr;
@@ -1131,7 +1147,22 @@ function applyNonCategoryFilters(items) {
   if (state.langFilter !== 'all') {
     arr = arr.filter(i => i.lang === state.langFilter);
   }
-  if (state.dateFilter !== 'all') {
+  if (state.dateFilter === 'specific') {
+    // v6.15.26 (2026-05-29): 특정 일자 필터 — 사용자 정책
+    //   specificDate가 비어있으면 필터 작동 X (사용자 정책: '특정 일자' 선택 시 일자도 선택해야 작동)
+    if (state.specificDate) {
+      // YYYY-MM-DD 형식. KST 기준 해당 일자 0~24시 범위 매칭.
+      arr = arr.filter(i => {
+        if (!i.date) return false;
+        const itemDate = new Date(i.date);
+        // KST(+9) 변환 후 YYYY-MM-DD 추출
+        const kstDate = new Date(itemDate.getTime() + 9 * 60 * 60 * 1000);
+        const itemDateStr = kstDate.toISOString().slice(0, 10);
+        return itemDateStr === state.specificDate;
+      });
+    }
+    // specificDate 미선택 시 필터 미적용 (전체 표시) — 사용자가 일자 선택해야 작동
+  } else if (state.dateFilter !== 'all') {
     const cutoff = computeDateCutoff(state.dateFilter);
     arr = arr.filter(i => new Date(i.date) >= cutoff);
   }
@@ -1889,8 +1920,26 @@ function bindEvents() {
   });
   document.getElementById('date-filter').addEventListener('change', e => {
     state.dateFilter = e.target.value;
+    // v6.15.26: 특정 일자 외 옵션 선택 시 specificDate 초기화 (input은 그대로 두지만 필터 적용 X)
+    if (state.dateFilter !== 'specific') {
+      // specificDate 값 자체는 사용자가 다시 선택할 수 있게 보존
+    }
     renderContent();
   });
+  // v6.15.26 (2026-05-29): 특정 일자 input — 양방향 동기화
+  const specificDateInput = document.getElementById('specific-date-filter');
+  if (specificDateInput) {
+    specificDateInput.addEventListener('change', e => {
+      state.specificDate = e.target.value;  // YYYY-MM-DD
+      // 사용자 정책: 일자 input에서 날짜 선택 시 기간 필터를 'specific'으로 자동 변경
+      if (state.specificDate) {
+        state.dateFilter = 'specific';
+        const dateSelect = document.getElementById('date-filter');
+        if (dateSelect) dateSelect.value = 'specific';
+      }
+      renderContent();
+    });
+  }
   document.getElementById('lang-filter').addEventListener('change', e => {
     state.langFilter = e.target.value;
     renderContent();
