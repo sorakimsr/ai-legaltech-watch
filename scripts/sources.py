@@ -313,6 +313,42 @@ SOURCES = [
     ("Google News: 동아일보 AI (KR)", _gnews('site:donga.com (AI OR "인공지능" OR "리걸테크" OR "법무법인")'), "google_news", ["ai-industry", "domestic"], "ko"),
     ("Google News: 한겨레 AI (KR)", _gnews('site:hani.co.kr (AI OR "인공지능" OR "리걸테크" OR "법무법인")'), "google_news", ["ai-industry", "domestic"], "ko"),
     ("Google News: 경향신문 AI (KR)", _gnews('site:khan.co.kr (AI OR "인공지능" OR "리걸테크" OR "법무법인")'), "google_news", ["ai-industry", "domestic"], "ko"),
+
+    # ====================================================================
+    # v6.15.14 (2026-05-28): 사용자 요청 매체·키워드 대폭 확장
+    # ====================================================================
+    # [A] 직접 RSS 작동 확인된 신규 매체
+    # GeekNews 한국 — HN 한국판. AI/오픈소스/개발자 news 풍부. (302 → feedburner)
+    ("GeekNews (한국)", "http://feeds.feedburner.com/geeknews-feed", "korean", ["ai-industry", "domestic"], "ko"),
+    # Hacker News — 영문 개발자 1차 source. 신기술·오픈소스 발표가 최초로 노출
+    ("Hacker News (frontpage)", "https://hnrss.org/frontpage?count=30", "rss", ["ai-industry"], "en"),
+    ("Hacker News (AI/ML)", "https://hnrss.org/newest?q=AI+OR+LLM+OR+%22machine+learning%22&count=30", "rss", ["ai-industry"], "en"),
+    # 404 Media — AI·디지털 권력 비판적 보도 매체 (전 Vice/Motherboard 기자 창립)
+    ("404 Media", "https://www.404media.co/rss/", "rss", ["ai-industry", "policy"], "en"),
+    # Platformer — Casey Newton의 빅테크 산업 비평
+    ("Platformer (Casey Newton)", "https://www.platformer.news/rss/", "rss", ["ai-industry"], "en"),
+
+    # [B] 한국 매체 site: 우회 추가 (RSS 미제공)
+    # 글로벌이코노믹 — 한국 IT/반도체/AI 보도 (Qwen·DeepSeek 동향 보도 활발)
+    ("Google News: 글로벌이코노믹 AI (KR)", _gnews('site:g-enews.com (AI OR "인공지능" OR "Qwen" OR "DeepSeek" OR "리걸테크")'), "google_news", ["ai-industry", "domestic"], "ko"),
+    # 동아일보 IT 섹션 — it.donga.com은 별도 호스트라 v6.14 site:donga.com에 안 잡힘
+    ("Google News: 동아일보 IT (KR)", _gnews('site:it.donga.com OR (site:donga.com (AI OR "인공지능"))'), "google_news", ["ai-industry", "domestic"], "ko"),
+    # 아이뉴스24
+    ("Google News: 아이뉴스24 (KR)", _gnews('site:inews24.com (AI OR "인공지능" OR "리걸테크")'), "google_news", ["ai-industry", "domestic"], "ko"),
+    # 디지털타임스 IT (기존 게 있긴 한데 보강)
+    ("Google News: 디지털타임스 IT (KR)", _gnews('site:dt.co.kr (AI OR "인공지능" OR "법률 AI")'), "google_news", ["ai-industry", "domestic"], "ko"),
+    # The Register AI — RSS는 막혔지만 site: 우회로 잡힘
+    ("Google News: The Register AI (EN)", _gnews('site:theregister.com (AI OR LLM OR "machine learning")', "en", "US"), "google_news", ["ai-industry"], "en"),
+
+    # [C] 키워드 — 디지털 주권·소버린 AI·오픈소스 LLM·Qwen
+    ("Google News: 디지털·데이터 주권 (KR)", _gnews('"디지털 주권" OR "데이터 주권" OR "지식 주권" OR "소버린 AI" OR "sovereign AI"'), "google_news", ["policy", "domestic"], "ko"),
+    ("Google News: 오픈소스 LLM 한국 (KR)", _gnews('"오픈소스 AI" OR "오픈소스 LLM" OR "한국어 LLM" OR "K-LLM" OR "오픈웨이트"'), "google_news", ["ai-industry", "domestic"], "ko"),
+    ("Google News: Qwen 알리바바 (KR)", _gnews('"Qwen" OR "큐원" OR "알리바바 AI" OR "Qwen3"'), "google_news", ["ai-industry", "domestic"], "ko"),
+
+    # [D] GitHub·오픈소스 신규 release — 정식 RSS 없어 Google News 우회 + HN 보조
+    ("Google News: GitHub AI 오픈소스 (EN)", _gnews('"github.com" ("released" OR "open source" OR "awesome list") (AI OR LLM OR "machine learning")', "en", "US"), "google_news", ["ai-industry"], "en"),
+    ("Google News: Hugging Face 신모델 (EN)", _gnews('"Hugging Face" (model OR release OR launched OR trending OR Spaces)', "en", "US"), "google_news", ["ai-industry"], "en"),
+    ("Google News: GitHub Trending AI (EN)", _gnews('"trending on GitHub" OR "GitHub trending" (AI OR LLM)', "en", "US"), "google_news", ["ai-industry"], "en"),
 ]
 
 
