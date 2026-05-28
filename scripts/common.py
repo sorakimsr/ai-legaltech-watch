@@ -581,9 +581,111 @@ def categorize(title: str, summary: str, default_cats: list, source_type: str = 
         if has_ai_kw and has_legal_kw:
             cats.add("legaltech")
 
+    # v6.15.21: 핵심 법령은 policy 태그 무조건 부여 (사용자 정책 — 2026-05-28)
+    #   AI 기본법·정보통신망법·개인정보보호법 + 관련 시행령·시행규칙 본문 등장 시
+    #   본문 기타 시그널 부족해도 policy 카테고리 강제 부여 → 사용자 핵심 어젠다 보호.
+    #   가중치는 score_item에서 별도 부여 (정보통신망법·개인정보보호법은 AI 조건부).
+    text_for_law = text.lower()
+    if _has_core_law_mention(text_for_law):
+        cats.add("policy")
+
+    # v6.15.21 SUPER_BOOST: 사용자 명시 8개 어젠다 매칭 시 legaltech 강제 부여
+    #   (판결문 공개·공정위 AI·개인정보 특례 등 prompt 단계에서 누락되던 어젠다 보호)
+    if _has_super_boost(text_for_law):
+        cats.add("legaltech")
+
     # 우선순위 순으로 정렬, 최대 3개
     sorted_cats = sorted(cats, key=lambda c: CATEGORY_PRIORITY.get(c, 99))
     return sorted_cats[:3]
+
+
+# ============================================================================
+# v6.15.21 (2026-05-28): 핵심 법령 검출 — 사용자 정책
+#   판결문 공개·AI 규제·개인정보 어젠다가 prompt 단계에서 누락되던 문제 보완.
+#   AI 기본법 → 무조건 가중치.
+#   정보통신망법·개인정보보호법 → AI 관련일 때만 가중치.
+#   "관련 시행령·시행규칙"도 별도 매칭.
+# ============================================================================
+
+# 카테고리 부여용 — 본문에 등장하면 policy 강제
+CORE_LAW_PATTERNS = [
+    # AI 기본법 (한국)
+    "ai 기본법", "ai기본법", "인공지능 기본법", "인공지능기본법",
+    "ai 산업 진흥 및 신뢰", "인공지능 산업 진흥",
+    # 정보통신망법
+    "정보통신망법", "정보통신망 이용촉진", "정보통신망 이용 촉진",
+    # 개인정보보호법
+    "개인정보보호법", "개인정보 보호법", "개인정보보호 법",
+    # 시행령·시행규칙 (법명과 함께 등장할 때만 의미 있음 → score_item에서 같이 검증)
+    "ai 기본법 시행령", "ai 기본법 시행규칙",
+    "정보통신망법 시행령", "정보통신망법 시행규칙",
+    "개인정보보호법 시행령", "개인정보보호법 시행규칙",
+    "개인정보 보호법 시행령", "개인정보 보호법 시행규칙",
+]
+
+# 가중치 종류 — score_item에서 사용
+AI_BASIC_LAW_PATTERNS = [
+    "ai 기본법", "ai기본법", "인공지능 기본법", "인공지능기본법",
+    "ai 산업 진흥 및 신뢰", "인공지능 산업 진흥",
+]
+
+CONDITIONAL_LAW_PATTERNS = [
+    # 정보통신망법 + 개인정보보호법 — AI 관련일 때만 가중치
+    "정보통신망법", "정보통신망 이용촉진", "정보통신망 이용 촉진",
+    "개인정보보호법", "개인정보 보호법", "개인정보보호 법",
+]
+
+
+def _has_core_law_mention(text_lower: str) -> bool:
+    """본문에 AI 기본법·정보통신망법·개인정보보호법 또는 시행령·시행규칙 등장 여부."""
+    return any(pat in text_lower for pat in CORE_LAW_PATTERNS)
+
+
+def _is_ai_basic_law(text_lower: str) -> bool:
+    """AI 기본법 (시행령·시행규칙 포함) 등장 여부."""
+    if any(pat in text_lower for pat in AI_BASIC_LAW_PATTERNS):
+        return True
+    # 시행령·시행규칙: AI 기본법 시행령 같은 결합 표현
+    for pat in AI_BASIC_LAW_PATTERNS:
+        if f"{pat} 시행" in text_lower:
+            return True
+    return False
+
+
+def _is_conditional_law(text_lower: str) -> bool:
+    """정보통신망법·개인정보보호법 (시행령·시행규칙 포함) 등장 여부."""
+    return any(pat in text_lower for pat in CONDITIONAL_LAW_PATTERNS)
+
+
+# ============================================================================
+# v6.15.21 — SUPER_BOOST: 사용자 명시 핵심 어젠다 강력 보호 (2026-05-28)
+#   사용자가 사라졌다고 지적한 8개 어젠다를 absolute priority로 보호.
+#   매칭 시:
+#     1) AI gate 면제 (AI 시그널 없어도 score 0 안 됨)
+#     2) legaltech 카테고리 자동 부여 (+16 가중치, score floor 35)
+#     3) +18 absolute boost
+#   효과: 짧은 본문/AI 시그널 없어도 borderline 안 떨어지고 상위 진입.
+# ============================================================================
+
+SUPER_BOOST_KEYWORDS = [
+    # ① 판결문 공개·데이터 인프라
+    "판결문 공개", "판결문 데이터", "판결문 데이터셋",
+    "비실명화", "익명화 판결", "법인명 실명 공개", "법인 실명 공개",
+    "사법정책연구원", "판결문 공개제도",
+    # ② AI 서비스 규제·개인정보
+    "공정위 ai", "공정거래위 ai", "ai 서비스 시장 실태", "ai 시장 실태조사",
+    "ai 개인정보 처리 특례", "개인정보 처리 특례", "ai 개발 개인정보 특례",
+    "개인정보 ai 특례", "ai 학습 개인정보",
+    "ai 기본법", "ai기본법", "인공지능 기본법",
+    # 법령 교차 적용
+    "ai 기본법 개인정보보호법", "ai 기본법 정보통신망법",
+    "개인정보보호법 ai 기본법", "정보통신망법 ai 기본법",
+]
+
+
+def _has_super_boost(text_lower: str) -> bool:
+    """사용자 명시 핵심 어젠다 매칭 여부."""
+    return any(kw in text_lower for kw in SUPER_BOOST_KEYWORDS)
 
 
 # ============================================================================
@@ -1112,7 +1214,8 @@ def score_item(title: str, summary: str, date, categories: list, persona_score: 
     #   예: "Midjourney v8 출시" — AI 단어 없어도 models 카테고리 부여되면 보호.
     if ai_mentions == 0:
         ai_intrinsic_cats = {"papers", "legaltech", "models", "coding", "infra"}
-        if not any(c in ai_intrinsic_cats for c in categories):
+        # v6.15.21: SUPER_BOOST 매칭은 AI gate 면제 (사용자 명시 어젠다 보호)
+        if not any(c in ai_intrinsic_cats for c in categories) and not _has_super_boost(text):
             return 0  # AI 키워드 0회 → score 0 (cut-off 자동 drop)
     # 시그널 multiplier: AI 컨텍스트 강도에 따라
     if ai_mentions >= 3:
@@ -1285,27 +1388,75 @@ def score_item(title: str, summary: str, date, categories: list, persona_score: 
     if pr_verdict == 'cap' and pr_cap is not None:
         score = min(score, pr_cap)
 
-    # === v6.8 (Phase 2): persona_score 가산형 보정 ===
-    # LLM(Haiku) 페르소나 평가 — 대형로펌 대표 관점 (0~10).
-    # 가산형: keyword_score 그대로 + persona_score×3 boost (max +30).
+    # === v6.8 → v6.15.22 (Phase A): persona_score dominant 재설계 ===
+    # 사용자 지적(2026-05-28): "이렇게 강제 조정하면 끝도 없지 않겠어? 애초에 중요도
+    # 산정 기준 자체를 보완해야 되는 거 아니야?"
+    # 본질: keyword hit 기반 score는 표현 다양성·의미 매칭에 약함. LLM 페르소나 평가가
+    # 사용자 가치 판단을 더 정확히 표현하므로, persona_score 비중을 압도적으로 올림.
+    #
+    # 변경: persona_score × 3 (max +30) → × 8 (max +80)
+    # 의미: LLM이 10점 부여 시 +80점 → score의 dominant 결정 요소가 됨
+    #       (기존 keyword 점수 30~60점은 보조 시그널로 강등)
     # 단 PR cap 위반 항목엔 적용 안 함 (cap 우회 방지).
     if persona_score is not None and pr_verdict != 'cap':
         try:
             ps = int(persona_score)
             if 0 <= ps <= 10:
-                score += ps * 3
+                score += ps * 8
         except (ValueError, TypeError):
             pass
 
-    # === v6.15.19: 핵심 도메인 카테고리 score floor (cut-off 통과 보장) ===
+    # === v6.15.21: 핵심 법령 가중치 (사용자 정책 — 2026-05-28) ===
+    # AI 기본법 → 무조건 +12 (AI 도메인 자체이므로 조건 없이 가중치)
+    # 정보통신망법·개인정보보호법 → AI 관련일 때만 +12
+    #   (ai_mentions ≥ 1 OR legaltech/policy/governance 카테고리 보유)
+    # 시행령·시행규칙 매칭 별도 처리(_is_ai_basic_law·_is_conditional_law에 포함됨).
+    # 두 조건 동시 충족 시(예: AI 기본법 + 개인정보보호법 동시 등장) 최대 +18로 cap.
+    law_bonus = 0
+    text_lower_for_law = text  # 이미 lower + normalize됨
+    if _is_ai_basic_law(text_lower_for_law):
+        law_bonus += 12
+    if _is_conditional_law(text_lower_for_law):
+        # AI 관련 조건: ai_mentions ≥ 1 또는 AI 도메인 카테고리 보유
+        ai_related_cats = {"legaltech", "policy", "governance", "gov_policy",
+                           "papers", "models", "coding", "infra"}
+        if ai_mentions >= 1 or any(c in ai_related_cats for c in categories):
+            law_bonus += 12
+    if law_bonus > 0:
+        law_bonus = min(law_bonus, 18)  # 동시 충족도 18로 cap
+        score += law_bonus
+        # v6.15.21: 핵심 법령 매칭 항목 floor 78 — monthly TOP 80 cut(76) 통과 보장
+        # (AI 기본법 단독 매칭이 SUPER_BOOST에 안 잡혀도 monthly 시사점 진입)
+        if score < 78:
+            score = 78
+
+    # === v6.15.21 SUPER_BOOST: 사용자 명시 8개 어젠다 강력 보호 ===
+    # 판결문 공개·공정위 AI 실태조사·개인정보 처리 특례 등은 짧은 본문이어도
+    # daily/weekly/monthly 시사점 카드 후보 풀에 무조건 진입.
+    #
+    # 실제 시사점 cut-off (2026-05-28 daibfy.com 측정):
+    #   daily TOP 30 cut: 81 / weekly TOP 50 cut: 79 / monthly TOP 80 cut: 76
+    # SUPER_BOOST 매칭 항목은 위 cut 모두 통과 보장 — score floor 85.
+    # (LLM은 후보 풀 안에서 prompt 우선순위 룰로 1-3번 카드 배치)
+    if _has_super_boost(text):
+        score += 18
+        if score < 85:
+            score = 85  # daily/weekly/monthly TOP N 모두 진입 보장
+
+    # === v6.15.19/.21: 핵심 도메인 카테고리 score floor (cut-off 통과 보장) ===
     # 사용자 정책: "기존에 걸러지던 AI 일반 소식도 스크롤로 확인할 수 있도록".
     # 신규 카테고리(models/coding/infra)와 papers/legaltech는 본질적으로 사용자
     # 관심 도메인이므로 borderline score(29-33)여도 cut-off 35 통과 보장 → 하단
     # 노출. noise는 카테고리 안 잡혀 floor 미적용 → 기존 drop 정책 유지.
+    # v6.15.21: AI + 정보통신망법/개인정보보호법 매칭은 짧은 본문이어도 floor 35 적용.
     floor_cats = {"papers", "legaltech", "models", "coding", "infra"}
     if any(c in floor_cats for c in categories):
         if score < 35:
             score = 35  # cut-off 통과 보장 (점수 차등으로 자연스럽게 하단 노출)
+    elif _is_conditional_law(text) and ai_mentions >= 1:
+        # AI 관련 정보통신망법·개인정보보호법은 짧은 본문이어도 cut-off 통과
+        if score < 35:
+            score = 35
 
     # === v6.10 (Phase 3): BOOKMARK_LEARNING 가산 ===
     # 사용자가 ⭐ 북마크한 30+35건 통계 분석 기반 — ground truth value signal.
