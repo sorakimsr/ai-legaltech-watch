@@ -835,6 +835,40 @@ def main():
                     existing_daily_cards = cards_full
                     daily_summary_text = summary_text
                     daily_summary_addons = []  # full refresh 시 addon 초기화
+                else:
+                    # v6.15.30 (2026-05-29): LLM 빈 결과 시 비상 카드 생성.
+                    # 사용자 정책 — "현재까지 수집된 데이터로 시사점을 작성" (5/28 카드 복제는 절대 X).
+                    # 데이터는 충분(>=3건)인데 LLM이 빈 결과 → score 상위 5건의 raw 카드로 임시 시사점.
+                    # 다음 빌드에서 LLM 정상 응답 시 새 카드로 교체됨 (force_refresh=false 누적 정책).
+                    sorted_top = sorted(daily_items_all, key=lambda x: x.get("score", 0), reverse=True)[:5]
+                    emergency_cards = []
+                    for i, it in enumerate(sorted_top, 1):
+                        body = (it.get("summary_ko") or it.get("summary", ""))[:350]
+                        if not body:
+                            body = f"({it.get('source', '?')} {it.get('date', '')[:10]}) {it.get('title', '')[:200]}"
+                        emergency_cards.append({
+                            "tag": f"TREND {i:02d} · [임시 카드 — LLM 재시도 대기]",
+                            "title": it.get("title", "")[:120],
+                            "body": body,
+                            "action": "구체 동향은 다음 빌드의 LLM 분석 결과로 갱신됩니다. 본 카드는 데이터 수집 시점의 상위 기사 요약입니다.",
+                            "citations": [{
+                                "title": it.get("title", "")[:140],
+                                "url": it.get("url", ""),
+                                "source": it.get("source", ""),
+                                "date": it.get("date", "")[:10],
+                            }],
+                            "_emergency": True,  # UI에서 'IMPORTANT' 배지 가능
+                        })
+                    if emergency_cards:
+                        emergency_cards = _reorder_cards_by_importance(emergency_cards)
+                        existing_daily_cards = emergency_cards
+                        daily_summary_text = (
+                            f"⚠ LLM 응답이 비어 임시 카드 {len(emergency_cards)}건으로 생성. "
+                            "다음 빌드에서 정상 시사점으로 갱신됩니다."
+                        )
+                        daily_summary_addons = []
+                        print(f"  [daily 비상] LLM 빈 결과 → score 상위 {len(emergency_cards)}건 임시 카드 (5/28 복제 X)",
+                              flush=True)
             else:
                 print(f"  [daily] 당일({today_iso}) 발행 기사 {len(daily_items_all)}건 — trend 생성 skip", flush=True)
         else:
