@@ -28,9 +28,11 @@ Phase 2a — 엔티티 휴리스틱 추출 (LLM 없이).
 
 import json
 import os
+import re
 import sys
 from datetime import datetime, timezone, timedelta
 from collections import defaultdict
+from functools import lru_cache
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from common import _normalize_text_for_match  # type: ignore
@@ -231,11 +233,24 @@ def _make_alias_text(text: str) -> str:
     return _normalize_text_for_match(text or "")
 
 
+@lru_cache(maxsize=4096)
+def _alias_pattern(alias_lower: str):
+    """v6.15.34 (P2-5): alias 매칭 정규식 — ASCII 단어 내부 오탐 차단.
+
+    배경(감사 P2-5): 기존 substring 매칭은 짧은 ASCII alias가 더 큰 단어에 무차별 매칭됐다.
+      "fair"→"fairness"(meta_ai 오탐 10건), "rag"→"leveraging"(rag 오탐 18건), "nus"→"bonus".
+    교정: alias 앞뒤가 ASCII 알파벳(a-z)이면 매칭 차단하는 lookaround.
+      - 한국어 조사 결합("Copilot을", "오픈ai를")은 그대로 매칭 (조사는 a-z가 아님).
+      - 숫자·구두점·한글 인접도 매칭 유지 ("llama3", "claude-3", "claude의").
+      - 한글 포함 alias는 lookaround가 a-z만 보므로 사실상 substring과 동일(동작 불변).
+    """
+    return re.compile(r'(?<![a-z])' + re.escape(alias_lower) + r'(?![a-z])')
+
+
 def _entity_matches(entity_aliases: list, normalized_text: str) -> bool:
-    """엔티티 alias 중 하나라도 텍스트에 포함되면 True."""
+    """엔티티 alias 중 하나라도 텍스트에 (ASCII 단어경계 고려하여) 포함되면 True."""
     for alias in entity_aliases:
-        a = alias.lower()
-        if a in normalized_text:
+        if _alias_pattern(alias.lower()).search(normalized_text):
             return True
     return False
 
