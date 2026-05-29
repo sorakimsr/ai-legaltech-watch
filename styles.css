@@ -725,6 +725,29 @@ input, select { font-family: inherit; outline: none; }
   gap: 14px;
 }
 
+/* v6.15.37 (P3-8): 뉴스 피드 점진 렌더 '더 보기' 버튼 */
+.load-more-wrap {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  padding: 8px 0 4px;
+}
+.load-more-btn {
+  padding: 10px 28px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #2563eb;
+  background: #fff;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background .15s, border-color .15s;
+}
+.load-more-btn:hover {
+  background: #f1f5f9;
+  border-color: #2563eb;
+}
+
 /* v2.7.5: AI 분석 결과 history page */
 .analyses-list {
   display: flex;

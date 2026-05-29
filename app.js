@@ -72,6 +72,8 @@ const state = {
   // v2.7.1: 정렬 기준 (뉴스 피드 통합 후) — latest | score | today
   // v3.11: 디폴트 = 중요도 (사용자 정책)
   sortBy: 'score',
+  // v6.15.37 (P3-8): 뉴스 피드 점진 렌더 — 현재 표시 개수. 필터/정렬/검색 변경 시 초기화.
+  newsLimit: 60,
   // chart instance
   trendChart: null,
   // 다중 선택 — 뉴스 카드(URL 기반) + 시사점 trend 카드(cardKey 기반)
@@ -758,18 +760,43 @@ function renderContent() {
     return;
   }
 
+  // v6.15.37 (P3-8): 필터/정렬/검색/뷰 전환 시 점진 렌더 한도 초기화 후 렌더.
+  //   기존엔 filtered 전체를 1회 innerHTML로 그려 '전체 기간'(수백 건) 선택 시
+  //   메인스레드가 길게 블로킹됐음. 초기 NEWS_PAGE_SIZE만 그리고 '더 보기'로 확장.
+  state.newsLimit = NEWS_PAGE_SIZE;
+  renderNewsCards();
+}
+
+const NEWS_PAGE_SIZE = 60;
+
+function renderNewsCards() {
+  const newsGrid = document.getElementById('news-grid');
+  if (!newsGrid) return;
   const filtered = filterItems();
   if (filtered.length === 0) {
     newsGrid.innerHTML = `<div class="empty-state"><div class="empty-icon">📭</div><div class="empty-title">조건에 맞는 항목이 없습니다</div></div>`;
     return;
   }
-  newsGrid.innerHTML = filtered.map(renderCard).join('');
+  const limit = Math.min(state.newsLimit, filtered.length);
+  const remaining = filtered.length - limit;
+  let html = filtered.slice(0, limit).map(renderCard).join('');
+  if (remaining > 0) {
+    html += `<div class="load-more-wrap"><button id="load-more-btn" class="load-more-btn">더 보기 · 남은 ${remaining}개</button></div>`;
+  }
+  newsGrid.innerHTML = html;
   newsGrid.querySelectorAll('.related-badge').forEach(b => {
     b.addEventListener('click', e => {
       const detail = e.currentTarget.closest('.news-card').querySelector('.related-detail');
       if (detail) detail.classList.toggle('open');
     });
   });
+  const moreBtn = document.getElementById('load-more-btn');
+  if (moreBtn) {
+    moreBtn.addEventListener('click', () => {
+      state.newsLimit += NEWS_PAGE_SIZE;
+      renderNewsCards();
+    });
+  }
 }
 
 function renderSavedView(root) {
