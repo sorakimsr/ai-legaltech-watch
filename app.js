@@ -99,6 +99,9 @@ const state = {
   // v5.0: 엔티티/그래프 옵션
   entityIncludePapers: true,      // 엔티티 카운트·노드 크기 계산 시 논문 흐름 포함
   graphShowIsolated: false,       // 지식그래프에서 관계 없는 엔티티도 표시
+  // v6.15.38 (P3-10): 가독성 — 기본은 연결도 상위 핵심 엔티티만(헤어볼 완화), 토글로 전체.
+  graphCoreOnly: true,            // true=연결도 상위 graphTopN개만, false=전체 노드
+  graphTopN: 28,                  // 핵심 모드에서 표시할 상위 노드 수
 };
 
 const ANALYSES_STORAGE_KEY = 'daibfy_analyses_v1';
@@ -3205,6 +3208,10 @@ function renderGraphView() {
     // v5.0: 옵션 토글 (논문 포함 / 고립 노드 표시)
     controlsHtml += `<div class="graph-options">
       <label class="entity-toggle">
+        <input type="checkbox" id="graph-toggle-core" ${state.graphCoreOnly ? 'checked' : ''}/>
+        <span>핵심 엔티티만 (연결 많은 상위 ${state.graphTopN}개)</span>
+      </label>
+      <label class="entity-toggle">
         <input type="checkbox" id="graph-toggle-papers" ${state.entityIncludePapers ? 'checked' : ''}/>
         <span>논문 흐름 포함</span>
       </label>
@@ -3227,8 +3234,10 @@ function renderGraphView() {
       });
     });
     // 옵션 토글 핸들러
+    const tc = document.getElementById('graph-toggle-core');
     const tp = document.getElementById('graph-toggle-papers');
     const ti = document.getElementById('graph-toggle-isolated');
+    if (tc) tc.addEventListener('change', (ev) => { state.graphCoreOnly = ev.target.checked; renderGraphSvg(); });
     if (tp) tp.addEventListener('change', (ev) => { state.entityIncludePapers = ev.target.checked; renderGraphSvg(); });
     if (ti) ti.addEventListener('change', (ev) => { state.graphShowIsolated = ev.target.checked; renderGraphSvg(); });
   }
@@ -3268,7 +3277,7 @@ function renderGraphSvg() {
       if (mentions > 0) usedIds.add(id);
     }
   }
-  const nodes = [];
+  let nodes = [];
   for (const id of usedIds) {
     if (!ents[id]) continue;
     const e = ents[id];
@@ -3280,9 +3289,21 @@ function renderGraphSvg() {
       avgScore: e.avg_score || 0,
     });
   }
-  const links = relsFiltered
+  let links = relsFiltered
     .filter(r => ents[r.source] && ents[r.target])
     .map(r => ({ source: r.source, target: r.target, type: r.type, weight: r.weight || 1 }));
+
+  // v6.15.38 (P3-10): 헤어볼 완화 — 핵심 모드면 연결도(degree) 상위 graphTopN개 노드와
+  //   그 노드들 사이의 링크만 표시. 전체 보기는 토글 해제로 우회.
+  const totalNodeCount = nodes.length;
+  if (state.graphCoreOnly && nodes.length > state.graphTopN) {
+    const deg = {};
+    for (const l of links) { deg[l.source] = (deg[l.source] || 0) + 1; deg[l.target] = (deg[l.target] || 0) + 1; }
+    const ranked = nodes.slice().sort((a, b) => (deg[b.id] || 0) - (deg[a.id] || 0) || ((b.mentions || 0) - (a.mentions || 0)));
+    const keep = new Set(ranked.slice(0, state.graphTopN).map(n => n.id));
+    nodes = nodes.filter(n => keep.has(n.id));
+    links = links.filter(l => keep.has(l.source) && keep.has(l.target));
+  }
 
   if (nodes.length === 0) {
     if (metaEl) metaEl.innerHTML = '<strong>표시할 노드가 없습니다</strong> — 필터를 조정하거나 다음 빌드를 기다리세요.';
@@ -3293,7 +3314,9 @@ function renderGraphSvg() {
   }
 
   if (metaEl) {
-    metaEl.innerHTML = `노드 <strong>${nodes.length}</strong> · 관계 <strong>${links.length}</strong>` +
+    metaEl.innerHTML = `노드 <strong>${nodes.length}</strong>` +
+      (state.graphCoreOnly && totalNodeCount > nodes.length ? ` <span style="color:#94a3b8">(핵심 · 전체 ${totalNodeCount}개)</span>` : '') +
+      ` · 관계 <strong>${links.length}</strong>` +
       (state.relations.generated_at ? ` · 생성 ${state.relations.generated_at.slice(0, 16)}` : '');
   }
 
