@@ -2127,8 +2127,10 @@ mark {
   }
   .sidebar-toggle { display: flex; }
   .sidebar-overlay.open { display: block; }
-  /* 햄버거 버튼 자리 확보 */
-  .topbar { padding-left: 52px; }
+  /* v6.15.40: 햄버거(top:10, 40px)와 topbar 제목 정렬.
+     모바일에서 우측 메타가 2줄로 늘면 align-items:center가 제목을 아래로 내려
+     햄버거와 어긋남 → 상단 정렬 + 좌측 여백(60px)으로 첫 줄에 맞춤. */
+  .topbar { align-items: flex-start; padding-left: 60px; }
   .content { padding: 16px; }
 }
 
