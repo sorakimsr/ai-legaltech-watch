@@ -33,6 +33,18 @@ KST = timezone(timedelta(hours=9))
 # 유사도 임계값 (v2.7 — 낮춤: 0.55 → 0.42, 대신 brand/proper-noun 보너스로 보강)
 SIMILARITY_THRESHOLD = 0.42
 
+# v6.15.36 (P2-7): 2단계 병합 판정 임계 — 회사명 게이트와 내용 유사도 분리.
+#   문제(감사 P2-7): 기존엔 first_token(+0.30)·proper_noun(+0.20)·요약 회사명쌍이
+#   "내용 유사도와 무관하게" 임계를 넘겨, 같은 회사를 다룬 *다른 사건* 기사가 병합됐다.
+#   특히 요약에 회사명 2개만 겹치면 제목 유사도가 낮아도 강제 병합(과병합).
+#   해결: 회사명 일치(first_token/proper_noun)는 '필요조건 게이트'로만 쓰고,
+#   실제 병합은 내용 유사도(base)가 일정 floor를 넘을 때만 허용.
+#     · 내용만으로 충분히 같은 기사  → base >= STRONG_CONTENT_SIM (anchor 불필요)
+#     · 회사명 게이트 통과 + 충분한 내용 → base >= ANCHORED_CONTENT_SIM
+#     · 회사명만 겹치고 내용 빈약       → 병합 안 함 (과병합 차단)
+STRONG_CONTENT_SIM = 0.50    # 내용 유사도만으로 동일 기사로 인정하는 상한 (anchor 불필요)
+ANCHORED_CONTENT_SIM = 0.25  # 회사명 게이트 통과 시 요구되는 최소 내용 유사도
+
 # 영문 stopwords
 STOPWORDS = set("""
 a an the and or but of for to with in on at by from as is are was were
@@ -154,43 +166,56 @@ def first_meaningful_token(title: str) -> str:
     return head_lower
 
 
-def title_similarity(a: str, b: str) -> float:
-    """두 제목의 유사도 (0~1).
+def content_similarity(a: str, b: str) -> float:
+    """두 제목의 순수 내용 유사도 (0~1) — 회사명/고유명사 보너스 없음.
 
-    v2.7: 양쪽에 같은 고유명사(회사·정책 키워드)가 있으면 +0.2씩 보너스.
-    v3.9: 양쪽 제목 첫 토큰(회사명)이 같으면 강력 보너스 (+0.3).
-    Legora aOS 출시 같이 매체별 표현이 달라도 같은 사건으로 묶이도록.
+    v6.15.36 (P2-7): 기존 title_similarity의 base(jaccard/SequenceMatcher) 부분만 분리.
+    회사명 일치 보너스(+0.30·+0.20)는 merge_anchor 게이트로 옮겨, 내용과 분리 평가한다.
     """
     if not a or not b:
         return 0.0
-
     a_tokens = tokenize(a)
     b_tokens = tokenize(b)
     if not a_tokens or not b_tokens:
         return 0.0
-
     jaccard = len(a_tokens & b_tokens) / max(1, len(a_tokens | b_tokens))
-
-    # 영문이면 SequenceMatcher 보강
     is_english_a = all(ord(c) < 128 for c in a)
     is_english_b = all(ord(c) < 128 for c in b)
     if is_english_a and is_english_b:
         seq_ratio = SequenceMatcher(None, a.lower(), b.lower()).ratio()
-        base = max(jaccard, seq_ratio * 0.6 + jaccard * 0.4)
-    else:
-        base = jaccard
+        return max(jaccard, seq_ratio * 0.6 + jaccard * 0.4)
+    return jaccard
 
-    # 고유명사·키워드 보너스
+
+def merge_anchor(a: str, b: str) -> bool:
+    """v6.15.36 (P2-7): 두 제목이 '같은 사건'을 가리킬 수 있는 회사명/고유명사 앵커 공유 여부.
+
+    필요조건 게이트로만 사용 — 이게 True여도 내용 유사도(content_similarity)가
+    ANCHORED_CONTENT_SIM 이상이어야 실제 병합. 회사명만 겹치는 다른 사건은 병합 안 됨.
+    """
+    # 제목 첫 토큰(회사·기관명) 동일
+    head_a = first_meaningful_token(a)
+    head_b = first_meaningful_token(b)
+    if head_a and head_b and head_a == head_b:
+        return True
+    # 제목에 같은 고유명사·키워드 1개 이상 동시 등장
+    return proper_noun_overlap(a, b) >= 1
+
+
+def title_similarity(a: str, b: str) -> float:
+    """[deprecated v6.15.36] 하위호환용 — 내용 유사도 + 회사명 보너스(옛 단일 점수).
+    group_items는 더 이상 사용하지 않음(2단계 판정으로 대체). 외부 호출 대비 보존.
+    """
+    base = content_similarity(a, b)
+    if not base and not (tokenize(a) and tokenize(b)):
+        return 0.0
     pn_overlap = proper_noun_overlap(a, b)
     if pn_overlap >= 1:
         base = min(1.0, base + 0.20 * pn_overlap)
-
-    # v3.9: 첫 토큰(회사명) 동일 시 강력 보너스
     head_a = first_meaningful_token(a)
     head_b = first_meaningful_token(b)
     if head_a and head_b and head_a == head_b:
         base = min(1.0, base + 0.30)
-
     return base
 
 
@@ -252,44 +277,43 @@ def group_items(items):
             if abs((d_i - d_j).total_seconds()) > 7 * 86400:
                 continue
 
-            sim = title_similarity(items[i]["title"], items[j]["title"])
+            # === v6.15.36 (P2-7): 2단계 병합 판정 — 회사명 게이트 + 내용 유사도 분리 ===
+            base = content_similarity(items[i]["title"], items[j]["title"])  # 순수 내용 (회사명 보너스 없음)
+            anchor = merge_anchor(items[i]["title"], items[j]["title"])       # 회사명/고유명사 게이트(제목)
 
-            # v2.7: 같은 매체 + 같은 날짜에 핵심 명사가 충분히 겹치면 강한 신호
             same_source = items[i].get("source") == items[j].get("source")
             same_day = items[i].get("date", "")[:10] == items[j].get("date", "")[:10]
+
+            # 같은 매체 + 같은 날 + 의미 토큰 3+ 공유 = 강한 내용 신호 (content 기반 별도 트리거)
+            strong_same_source = False
             if same_source and same_day:
                 a_toks = tokenize(items[i]["title"])
                 b_toks = tokenize(items[j]["title"])
                 shared = a_toks & b_toks
-                # 너무 일반적인 토큰(ai, 정부, 한국 등)은 제외하고 의미있는 명사만 카운트
                 GENERIC = {"ai", "ml", "한국", "정부", "기업", "발표", "기술", "서비스", "시장"}
                 meaningful = [t for t in shared if t not in GENERIC]
-                # 의미 토큰 3개 이상 공유 OR 의미 토큰 2개 + 일반 토큰 2개 이상이면 강한 신호
                 if len(meaningful) >= 3 or (len(meaningful) >= 2 and len(shared) >= 4):
-                    sim = max(sim, SIMILARITY_THRESHOLD + 0.05)
+                    strong_same_source = True
 
-            # v4.6: title 매칭 약한 경우 summary에서 PROPER_NOUN 페어 보너스
-            # LG엔솔 M.AX 케이스 — 회사명이 title 없고 매체별 다른 사건 키워드 강조
-            if sim < SIMILARITY_THRESHOLD and same_day:
+            # 요약에만 회사명이 겹치는 경우(제목엔 없음) → anchor 게이트만 열어줌(강제 병합 X).
+            #   기존 v4.6은 proper_pairs>=2면 임계를 강제 통과시켜 '같은 회사 다른 사건'을 과병합했음.
+            #   이제 anchor일 뿐, 병합은 내용 floor(ANCHORED_CONTENT_SIM)를 넘어야만 성립.
+            if same_day and not anchor:
                 a_full = (items[i].get("title", "") + " " + items[i].get("summary", "")).lower()
                 b_full = (items[j].get("title", "") + " " + items[j].get("summary", "")).lower()
-                # PROPER_NOUN_BOOST_KEYS 안에서 양쪽 본문 모두 등장하는 키워드 카운트
-                proper_pairs = sum(1 for kw in PROPER_NOUN_BOOST_KEYS if kw in a_full and kw in b_full)
-                if proper_pairs >= 2:
-                    # 2개 이상의 핵심 회사·키워드가 양쪽 본문에 동시 등장 → 같은 사건
-                    sim = max(sim, SIMILARITY_THRESHOLD + 0.05)
-                elif proper_pairs >= 1:
-                    # 1개라도 강한 신호 (회사명이 본문에 있음)
-                    a_title_toks = tokenize(items[i].get("title", ""))
-                    b_title_toks = tokenize(items[j].get("title", ""))
-                    title_shared = a_title_toks & b_title_toks
-                    GENERIC2 = {"ai", "ml", "한국", "정부", "기업", "발표", "기술", "서비스", "시장", "로", "산업"}
-                    title_meaningful = [t for t in title_shared if t not in GENERIC2]
-                    # title도 의미 토큰 2개 이상 공유하면 같은 사건
-                    if len(title_meaningful) >= 2:
-                        sim = max(sim, SIMILARITY_THRESHOLD + 0.03)
+                if sum(1 for kw in PROPER_NOUN_BOOST_KEYS if kw in a_full and kw in b_full) >= 1:
+                    anchor = True
 
-            if sim >= SIMILARITY_THRESHOLD:
+            # ── 2단계 판정 ──
+            #   ① 내용만으로 동일 기사로 볼 만큼 강함 (anchor 불필요)
+            #   ② 회사명 게이트 통과 + 내용 floor 이상
+            #   ③ 같은 매체+같은날 의미 토큰 3+ (content 강신호)
+            merge = (
+                base >= STRONG_CONTENT_SIM
+                or (anchor and base >= ANCHORED_CONTENT_SIM)
+                or strong_same_source
+            )
+            if merge:
                 union(i, j)
 
     # 그룹 모으기
