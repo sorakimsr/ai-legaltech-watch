@@ -75,18 +75,13 @@ PREFIX_CONDITIONAL_LAWFIRM = [
 # ============================================================================
 # AI 핵심 키워드 — 3+ 매칭 시 conditional prefix 통과 (3차·4차 우회 조건)
 # ============================================================================
-AI_CORE_KEYWORDS = [
-    # AI 회사·제품 (강한 시그널)
-    'openai', 'anthropic', 'claude opus', 'claude sonnet', 'claude haiku',
-    'chatgpt', 'gpt-4', 'gpt-5', 'gpt-6',
-    'deepmind', 'gemini', 'llama', 'mistral', 'perplexity',
-    'hugging face', 'huggingface', 'stability ai',
-    'cohere', 'scale ai',
-    # 리걸테크 회사·제품
-    'harvey', 'legora', 'mike oss', 'mike legal',
-    'hebbia', 'ironclad', 'spellbook', 'robin ai',
-    'evenup', 'deepjudge',
-    'bhsn', 'lboxai', '엘박스', '인텔리콘', '로앤컴퍼니', '로앤굿',
+# v6.15.35 (P2-5): 회사·제품·리걸테크 이름은 catalog.py(SSOT)에서 import.
+#   신규 회사 추가 시 catalog만 갱신하면 pr_patterns·dedupe 등에 함께 전파.
+#   ※ 한국 로펌명(KOREAN_LAW_FIRMS)은 'AI 핵심 시그널'이 아니므로 여기엔 넣지 않음(의도 보존).
+#   _PR_DOMAIN은 PR 우회 판정용 도메인·정책 키워드(비회사)만 로컬 보유.
+from catalog import AI_COMPANIES, AI_PRODUCTS, LEGALTECH_COMPANIES
+
+_PR_DOMAIN = [
     # AI 도메인 명시 키워드
     '리걸테크', 'legaltech', 'legal tech',
     'legal ai', '법률 ai', '법무 ai', '변호사 ai',
@@ -99,6 +94,10 @@ AI_CORE_KEYWORDS = [
     'ai 기본법', 'ai기본법', 'eu ai act', 'ai act',
     'ai 거버넌스', 'ai governance',
 ]
+
+AI_CORE_KEYWORDS = list(dict.fromkeys(
+    AI_COMPANIES + AI_PRODUCTS + LEGALTECH_COMPANIES + _PR_DOMAIN
+))
 
 
 # ============================================================================

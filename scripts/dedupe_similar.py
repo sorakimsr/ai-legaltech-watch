@@ -46,20 +46,12 @@ unveils unveiled reveals revealed release released
 KO_PARTICLES = ("로", "은", "는", "이", "가", "의", "을", "를", "에", "에서", "도", "와", "과", "랑")
 
 # 양쪽 제목·요약에 동시 등장 시 동일 사건 확률 매우 높은 고유명사·키워드
-PROPER_NOUN_BOOST_KEYS = [
-    # AI 회사
-    "openai", "anthropic", "claude", "chatgpt", "gemini",
-    "perplexity", "mistral", "meta", "microsoft", "nvidia",
-    "mythos", "gemma", "deepseek", "qwen",
-    # 리걸테크
-    "harvey", "legora", "ironclad", "spellbook", "robin ai",
-    "mike legal", "mike oss", "everlaw", "casetext",
-    # v3.18: 한국 7대 로펌 (이름이 짧아 dedupe 시 누락되기 쉬움)
-    "광장", "김앤장", "태평양", "세종", "율촌", "지평", "화우",
-    "법무법인 광장", "법무법인 김앤장", "법무법인 태평양",
-    "법무법인 세종", "법무법인 율촌", "법무법인 지평", "법무법인 화우",
-    # 한국 리걸테크
-    "bhsn", "로앤컴퍼니", "로앤굿", "케이스노트",
+# v6.15.35 (P2-5): 회사·제품·로펌 이름은 catalog.py(SSOT)에서 import.
+#   신규 회사 추가 시 catalog만 갱신하면 dedupe·pr_patterns 등에 함께 전파.
+#   아래 _DEDUPE_LOCAL은 dedupe 고유(제조사·정부기관·이벤트·정책 키워드)만 보유.
+from catalog import AI_COMPANIES, AI_PRODUCTS, LEGALTECH_COMPANIES, KOREAN_LAW_FIRMS
+
+_DEDUPE_LOCAL = [
     # v3.19: 한국 금융·제조 대기업 (제목 후반에 등장하는 케이스 그룹화)
     "kb금융", "kb금융그룹", "신한금융", "하나금융", "우리금융",
     "lg에너지솔루션", "lg엔솔", "lg에너지", "lg화학",
@@ -74,6 +66,10 @@ PROPER_NOUN_BOOST_KEYS = [
     "ai 법정책포럼", "법정책포럼",
     "나홀로 소송", "소송장",
 ]
+
+PROPER_NOUN_BOOST_KEYS = list(dict.fromkeys(
+    AI_COMPANIES + AI_PRODUCTS + LEGALTECH_COMPANIES + KOREAN_LAW_FIRMS + _DEDUPE_LOCAL
+))
 
 
 # v3.18: 3자 미만이지만 식별성 강한 회사명 화이트리스트
