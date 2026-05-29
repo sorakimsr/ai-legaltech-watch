@@ -2133,13 +2133,20 @@ mark {
   /* v6.15.41: 제목/힌트 세로 스택 — 힌트는 한 줄(nowrap)로 제목과 좌측 정렬 */
   .topbar-title { flex-direction: column; align-items: flex-start; gap: 2px; }
   .view-hint { white-space: nowrap; }
-  .content { padding: 16px; }
-  /* v6.15.41: 기간 탭 + 일자 필터를 한 줄에, meta/요약은 아래 줄(전체 폭) */
-  .strategy-controls { flex-wrap: wrap; row-gap: 10px; }
+  /* v6.15.43: 모바일에선 우측 '최근 갱신' 메타 숨김 (3줄 줄바꿈·잘림 정리, 사용자 요청) */
+  .topbar-meta { display: none; }
+  .content { padding: 16px; overflow-x: hidden; }  /* 가로 스크롤/넘침 방지 */
+  /* v6.15.43: 기간 탭 + 일자 필터를 한 줄에 (탭 축소로 폭 확보), meta/요약은 아래 줄 */
+  .strategy-controls { flex-wrap: wrap; gap: 8px; row-gap: 10px; padding: 10px 12px; }
   .strategy-period-tabs { order: 1; }
-  #papers-period-select, #strategy-period-select { order: 2; margin-left: auto; }
-  .papers-meta-inline { order: 3; flex-basis: 100%; margin-right: 0; }
+  .period-tab { padding: 6px 11px; font-size: 12px; }
+  #papers-period-select, #strategy-period-select { order: 2; padding: 6px 10px; font-size: 12px; }
+  .papers-meta-inline { order: 3; flex-basis: 100%; margin: 0; }
   #strategy-summary-inline { order: 3; flex-basis: 100%; }
+  /* v6.15.43: 엔티티/지식그래프 가로 넘침 정리 */
+  .entity-grid { grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr)); }
+  .graph-view, .graph-container { overflow-x: hidden; max-width: 100%; }
+  #graph-svg { max-width: 100%; }
 }
 
 /* ========================= Phase 2b: 엔티티 페이지 (v5.0: 폰트 ~50% 상향) ========================= */
