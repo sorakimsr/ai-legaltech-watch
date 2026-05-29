@@ -229,6 +229,30 @@ SOURCES = [
     ("Google News: AI M&A (EN)", _gnews('"AI acquisition" OR "AI merger" OR "AI startup acquired"', "en", "US"), "google_news", ["funding"], "en"),
     ("Google News: Legal AI Big Law (EN)", _gnews('"Big Law" AI OR "Magic Circle" AI OR "AmLaw" AI', "en", "US"), "google_news", ["legaltech"], "en"),
 
+    # ====================================================================
+    # v6.15.35 (2026-05-29): 글로벌 로펌 AI 경쟁 인텔리전스 (사용자 요청)
+    #   배경: 경영전략팀은 글로벌 펌이 AI로 무엇을 하는지 면밀히 추적해야 함.
+    #   기존 "Big Law/Magic Circle/AmLaw" 단일 OR 쿼리는 변별력이 약하고 FT 등 핵심
+    #   비즈니스 매체가 빠져 있었음. FT(페이월) + 개별 펌 전용 쿼리 + 법조 매체 보강.
+    #   검증(2026-05-29): FT·Kirkland 쿼리가 "Kirkland & Ellis $500mn AI" 기사 포착,
+    #   Freshfields(Anthropic 제휴)·DLA Piper(Harvey 도입)도 정확히 잡힘.
+    # ====================================================================
+    # [A] 직접 RSS — The Lawyer (영국 법조 비즈니스 매체, RSS 작동 확인 n=100 fresh)
+    ("The Lawyer", "https://www.thelawyer.com/feed/", "rss", ["legaltech"], "en"),
+    # [B] FT 법조/테크 (페이월 — 제목 시그널 확보용 site: 우회)
+    ("Google News: FT Legal AI (EN)", _gnews('site:ft.com (law OR "law firm" OR legal OR lawyers) AI', "en", "US"), "google_news", ["legaltech"], "en"),
+    # [C] 개별 글로벌 펌 전용 쿼리 (한국 리걸테크사처럼 펌별 분리)
+    ("Google News: Kirkland AI (EN)", _gnews('"Kirkland" ("Ellis" OR "law firm") (AI OR Harvey OR Copilot OR "legal tech")', "en", "US"), "google_news", ["legaltech"], "en"),
+    ("Google News: Latham AI (EN)", _gnews('"Latham" ("Watkins" OR "law firm") (AI OR Harvey OR Copilot OR "legal tech")', "en", "US"), "google_news", ["legaltech"], "en"),
+    ("Google News: A&O Shearman AI (EN)", _gnews('"A&O Shearman" OR ("Allen & Overy" (AI OR Harvey OR "legal tech"))', "en", "US"), "google_news", ["legaltech"], "en"),
+    ("Google News: Clifford Chance AI (EN)", _gnews('"Clifford Chance" (AI OR Harvey OR Copilot OR "legal tech")', "en", "US"), "google_news", ["legaltech"], "en"),
+    ("Google News: Freshfields AI (EN)", _gnews('"Freshfields" (AI OR Harvey OR Copilot OR "legal tech")', "en", "US"), "google_news", ["legaltech"], "en"),
+    ("Google News: DLA Piper AI (EN)", _gnews('"DLA Piper" (AI OR Harvey OR Copilot OR "legal tech")', "en", "US"), "google_news", ["legaltech"], "en"),
+    ("Google News: Linklaters AI (EN)", _gnews('"Linklaters" (AI OR Harvey OR Copilot OR "legal tech")', "en", "US"), "google_news", ["legaltech"], "en"),
+    ("Google News: Baker McKenzie AI (EN)", _gnews('"Baker McKenzie" (AI OR Harvey OR Copilot OR "legal tech")', "en", "US"), "google_news", ["legaltech"], "en"),
+    # [D] Law360 (페이월 — site: 우회)
+    ("Google News: Law360 Legal AI (EN)", _gnews('site:law360.com (AI OR "artificial intelligence" OR "legal tech")', "en", "US"), "google_news", ["legaltech"], "en"),
+
     # === 한국어(+영문 OR) — 리걸테크 핵심 ===
     # v2.7: 한국 매체의 영어 기사도 잡히도록 영문 키워드를 OR로 같이 포함
     ("Google News: 리걸테크 (KR)", _gnews('리걸테크 OR legaltech OR "legal tech"'), "google_news", ["legaltech", "domestic"], "ko"),
