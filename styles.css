@@ -2127,11 +2127,19 @@ mark {
   }
   .sidebar-toggle { display: flex; }
   .sidebar-overlay.open { display: block; }
-  /* v6.15.40: 햄버거(top:10, 40px)와 topbar 제목 정렬.
-     모바일에서 우측 메타가 2줄로 늘면 align-items:center가 제목을 아래로 내려
-     햄버거와 어긋남 → 상단 정렬 + 좌측 여백(60px)으로 첫 줄에 맞춤. */
-  .topbar { align-items: flex-start; padding-left: 60px; }
+  /* v6.15.40: 햄버거(top:10, 40px)와 topbar 제목 정렬. 상단 정렬 + 좌측 여백.
+     v6.15.41: 제목 약간 더 우측(66px), 메타는 제목 첫 줄과 수평(flex-start) */
+  .topbar { align-items: flex-start; padding-left: 66px; }
+  /* v6.15.41: 제목/힌트 세로 스택 — 힌트는 한 줄(nowrap)로 제목과 좌측 정렬 */
+  .topbar-title { flex-direction: column; align-items: flex-start; gap: 2px; }
+  .view-hint { white-space: nowrap; }
   .content { padding: 16px; }
+  /* v6.15.41: 기간 탭 + 일자 필터를 한 줄에, meta/요약은 아래 줄(전체 폭) */
+  .strategy-controls { flex-wrap: wrap; row-gap: 10px; }
+  .strategy-period-tabs { order: 1; }
+  #papers-period-select, #strategy-period-select { order: 2; margin-left: auto; }
+  .papers-meta-inline { order: 3; flex-basis: 100%; margin-right: 0; }
+  #strategy-summary-inline { order: 3; flex-basis: 100%; }
 }
 
 /* ========================= Phase 2b: 엔티티 페이지 (v5.0: 폰트 ~50% 상향) ========================= */

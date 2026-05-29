@@ -411,7 +411,7 @@ function renderTopbar() {
   const last = state.data.last_updated;
   const el = document.getElementById('last-updated-text');
   if (last) {
-    el.textContent = `최근 갱신: ${formatKoreanDate(new Date(last))} · 매일 KST 06:00 자동`;
+    el.textContent = `최근 갱신: ${formatKoreanDate(new Date(last))}`;
   }
   const buildInfo = document.getElementById('last-build-info');
   if (state.data.build_count) {
