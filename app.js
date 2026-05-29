@@ -2030,6 +2030,52 @@ function bindEvents() {
     el.addEventListener('click', closeAnalyzeModal);
   });
 
+  // v6.15.39 (P3-9): 모바일 사이드바 드로어 토글 + 접근성
+  const sidebar = document.getElementById('sidebar');
+  const sidebarToggle = document.getElementById('sidebar-toggle');
+  const sidebarOverlay = document.getElementById('sidebar-overlay');
+  function openSidebar() {
+    if (!sidebar) return;
+    sidebar.classList.add('open');
+    if (sidebarOverlay) { sidebarOverlay.classList.add('open'); sidebarOverlay.hidden = false; }
+    if (sidebarToggle) sidebarToggle.setAttribute('aria-expanded', 'true');
+  }
+  function closeSidebar() {
+    if (!sidebar) return;
+    sidebar.classList.remove('open');
+    if (sidebarOverlay) { sidebarOverlay.classList.remove('open'); sidebarOverlay.hidden = true; }
+    if (sidebarToggle) sidebarToggle.setAttribute('aria-expanded', 'false');
+  }
+  if (sidebarToggle) sidebarToggle.addEventListener('click', () => {
+    sidebar && sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
+  });
+  if (sidebarOverlay) sidebarOverlay.addEventListener('click', closeSidebar);
+  // 네비 항목 클릭 시 모바일 드로어 자동 닫기
+  if (sidebar) sidebar.querySelectorAll('.nav-item, .nav-sub').forEach(a => {
+    a.addEventListener('click', () => { if (window.innerWidth <= 768) closeSidebar(); });
+  });
+
+  // v6.15.39 (P3-9): Esc — 모달 우선 닫기, 없으면 사이드바 드로어 닫기
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    const modal = document.getElementById('analyze-modal');
+    if (modal && !modal.classList.contains('hidden')) { closeAnalyzeModal(); return; }
+    if (sidebar && sidebar.classList.contains('open')) closeSidebar();
+  });
+
+  // v6.15.39 (P3-9): 모달 포커스 트랩 (Tab 순환) — 열려 있을 때만
+  const analyzeModalEl = document.getElementById('analyze-modal');
+  if (analyzeModalEl) analyzeModalEl.addEventListener('keydown', (e) => {
+    if (e.key !== 'Tab' || analyzeModalEl.classList.contains('hidden')) return;
+    const list = Array.from(analyzeModalEl.querySelectorAll(
+      'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), summary, [tabindex]:not([tabindex="-1"])'
+    )).filter(el => el.offsetParent !== null);
+    if (list.length === 0) return;
+    const first = list[0], last = list[list.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  });
+
   // 모달 — 백엔드 탭
   document.querySelectorAll('.backend-tab').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -2497,7 +2543,11 @@ function openAnalyzeModal() {
     return;
   }
   const modal = document.getElementById('analyze-modal');
+  state._lastFocus = document.activeElement;  // v6.15.39 (P3-9): 닫을 때 포커스 복원용
   modal.classList.remove('hidden');
+  // v6.15.39: 다이얼로그 진입 — 닫기 버튼에 포커스
+  const _cb = modal.querySelector('.modal-close');
+  if (_cb) _cb.focus();
 
   // v3.0: 뉴스 + trend(+근거) 펼친 전체 items
   const items = buildAnalysisItems();
@@ -2549,6 +2599,11 @@ function updateModelHint() {
 
 function closeAnalyzeModal() {
   document.getElementById('analyze-modal').classList.add('hidden');
+  // v6.15.39 (P3-9): 모달 열기 전 포커스로 복원 (접근성)
+  if (state._lastFocus && typeof state._lastFocus.focus === 'function') {
+    try { state._lastFocus.focus(); } catch (e) {}
+    state._lastFocus = null;
+  }
 }
 
 function applyPromptPreset() {

@@ -13,8 +13,11 @@
 </head>
 <body>
   <div class="app">
+    <!-- v6.15.39 (P3-9): 모바일(≤768px) 햄버거 + 오버레이 (데스크톱에선 CSS로 숨김) -->
+    <button class="sidebar-toggle" id="sidebar-toggle" aria-label="메뉴 열기" aria-expanded="false" aria-controls="sidebar">☰</button>
+    <div class="sidebar-overlay" id="sidebar-overlay" hidden></div>
     <!-- 좌측 사이드바: 관점·뷰 -->
-    <aside class="sidebar">
+    <aside class="sidebar" id="sidebar">
       <div class="brand">
         <span class="brand-icon">📡</span>
         <span class="brand-name">AI Watch</span>
@@ -266,10 +269,10 @@
   <!-- AI 분석 모달 -->
   <div id="analyze-modal" class="modal hidden">
     <div class="modal-backdrop" data-close></div>
-    <div class="modal-panel">
+    <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="analyze-modal-title">
       <div class="modal-head">
-        <h2>🤖 AI 분석</h2>
-        <button class="modal-close" data-close>×</button>
+        <h2 id="analyze-modal-title">🤖 AI 분석</h2>
+        <button class="modal-close" data-close aria-label="닫기">×</button>
       </div>
       <div class="modal-body">
         <!-- 선택 항목 미리보기 -->

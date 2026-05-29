@@ -16,6 +16,32 @@ input, select { font-family: inherit; outline: none; }
 /* ===== Layout ===== */
 .app { display: flex; min-height: 100vh; }
 
+/* v6.15.39 (P3-9): 모바일 햄버거 + 오버레이 (데스크톱 기본 숨김) */
+.sidebar-toggle {
+  display: none;
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 65;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: #0f172a;
+  color: #f1f5f9;
+  font-size: 20px;
+  line-height: 1;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+}
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 55;
+}
+
 /* ===== Sidebar ===== */
 .sidebar {
   width: 240px;
@@ -721,7 +747,8 @@ input, select { font-family: inherit; outline: none; }
 /* ===== News Grid ===== */
 .news-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  /* v6.15.39 (P3-9): min(360px,100%)로 좁은 화면(<360px)에서 카드 가로 넘침 방지 */
+  grid-template-columns: repeat(auto-fill, minmax(min(360px, 100%), 1fr));
   gap: 14px;
 }
 
@@ -2083,10 +2110,25 @@ mark {
   .content { padding: 20px; }
 }
 @media (max-width: 768px) {
-  .sidebar { width: 70px; }
-  .nav-item span:not(.nav-icon) { display: none; }
-  .nav-section-title { display: none; }
-  .brand-name { display: none; }
+  /* v6.15.39 (P3-9): 70px 아이콘바 → 햄버거로 여닫는 오프캔버스 드로어 (라벨 유지) */
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 240px;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    z-index: 60;
+  }
+  .sidebar.open {
+    transform: translateX(0);
+    box-shadow: 2px 0 16px rgba(0,0,0,0.3);
+  }
+  .sidebar-toggle { display: flex; }
+  .sidebar-overlay.open { display: block; }
+  /* 햄버거 버튼 자리 확보 */
+  .topbar { padding-left: 52px; }
   .content { padding: 16px; }
 }
 
