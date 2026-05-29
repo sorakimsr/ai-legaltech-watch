@@ -35,6 +35,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      # v6.15.42: 404.html은 SPA deep URL(/papers·/graph 등) 폴백 — 항상 index.html과 동일해야 함.
+      #   index.html만 고치고 404.html을 안 맞추면 deep URL이 옛 화면으로 떨어지던 버그 방지.
+      - name: Sync 404.html (SPA fallback = index.html)
+        run: cp index.html 404.html
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact

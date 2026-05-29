@@ -1,16 +1,19 @@
 name: Daily News Update
 
-# v6.9 (2026-05-27): 자정 직후 빌드 회피 — KST 01/07/13/19로 변경.
-#   기존 KST 24/06/12/18 → 자정 직후 빌드 시 새 날짜 기사가 0건이라 daily report 빈 카드.
-#   1시간 늦춘 KST 01/07/13/19로 자정 직후 발행분도 일부 수집.
-#   UTC 16/22/04/10 = KST 01/07/13/19 (매일 4회).
+# v6.15.27 (2026-05-29): cron skip 안정성 보강.
+#   사용자 지적: 5/29 01:17 KST schedule이 아예 트리거 안 됨.
+#   원인: UTC 16:17 = EST 11:17 AM (high-load peak) → GitHub Actions가 schedule drop.
+#   해결:
+#     ① 4회 → 8회로 늘림 (skip 보험, public repo라 GitHub Actions cost 무관)
+#     ② 37분 offset (정시·30분 회피)
+#     ③ concurrency 설정 — 진행 중 빌드 끝까지, 새 trigger는 큐 대기
+#   v6.15.11 (4회 + 17분 offset)에서 변경. v6.9 (정시 cron)에서도 변경.
 on:
   schedule:
-    # v6.15.11 (2026-05-28): 정각(0분) cron이 GitHub Actions high-load 시간대로
-    #   분류되어 7일간 2건만 실행됨 (공식 docs: "high load times include the start
-    #   of every hour"). 17분 offset으로 회피.
-    # UTC 4:17 / 10:17 / 16:17 / 22:17 = KST 13:17 / 19:17 / 01:17 / 07:17
-    - cron: "17 4,10,16,22 * * *"
+    # 8회 / 3시간 간격 / 37분 offset
+    # UTC 00:37 / 03:37 / 06:37 / 09:37 / 12:37 / 15:37 / 18:37 / 21:37
+    # KST 09:37 / 12:37 / 15:37 / 18:37 / 21:37 / 00:37 / 03:37 / 06:37
+    - cron: "37 0,3,6,9,12,15,18,21 * * *"
   workflow_dispatch:  # 수동 실행 가능
     inputs:
       skip_fetch:
@@ -47,8 +50,12 @@ permissions:
   pages: write
   id-token: write
 
+# v6.15.27 (2026-05-29): concurrency group 명확화 + schedule 보호.
+#   기존 'pages' group은 모호 — GitHub Pages reserved group과 혼동.
+#   'daily-update'로 명확화. cancel-in-progress=false 유지 → schedule이
+#   dispatch 진행 중일 때 자동 cancel되지 않고 큐 대기.
 concurrency:
-  group: "pages"
+  group: "daily-update"
   cancel-in-progress: false
 
 jobs:
@@ -289,6 +296,10 @@ jobs:
           exit 1
 
       # ===== GitHub Pages 배포 =====
+      # v6.15.42: 404.html(SPA deep URL 폴백)을 항상 index.html과 동기화 — cron 빌드가
+      #   stale 404.html로 deep URL 화면을 되돌리지 않게.
+      - name: Sync 404.html (SPA fallback = index.html)
+        run: cp index.html 404.html
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
