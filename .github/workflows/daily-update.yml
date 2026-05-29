@@ -81,7 +81,7 @@ jobs:
       # 중간 단계 JSON (raw/deduped/enriched) 을 캐시로 보존
       # → LLM enrich 결과를 매 빌드마다 재사용 (비용 절약)
       - name: Cache intermediate data
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             data/raw_news.json
