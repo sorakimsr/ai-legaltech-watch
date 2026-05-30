@@ -29,7 +29,8 @@ SOURCES = [
     ("Google DeepMind", "https://deepmind.google/blog/rss.xml", "rss", ["ai-industry"], "en"),
     ("Google Research", "https://research.google/blog/rss/", "rss", ["ai-industry"], "en"),
     ("Meta AI Blog", "https://news.google.com/rss/search?q=site%3Aai.meta.com%2Fblog&hl=en&gl=US&ceid=US:en", "google_news", ["ai-industry", "product"], "en"),
-    ("Microsoft AI Blog", "https://blogs.microsoft.com/ai/feed/", "rss", ["ai-industry", "product"], "en"),
+    # v6.15.45: 기존 blogs.microsoft.com/ai/feed는 최신글 1270일 전(사실상 정지) → google_news 우회로 교체
+    ("Microsoft AI Blog", _gnews('site:blogs.microsoft.com (AI OR Copilot OR "artificial intelligence")', "en", "US"), "google_news", ["ai-industry", "product"], "en"),
     ("NVIDIA Blog", "https://blogs.nvidia.com/feed/", "rss", ["ai-industry"], "en"),
     ("Hugging Face Blog", "https://huggingface.co/blog/feed.xml", "rss", ["ai-industry"], "en"),
     ("Mistral AI Blog", "https://news.google.com/rss/search?q=site%3Amistral.ai+(news+OR+launches+OR+announces+OR+release)&hl=en&gl=US&ceid=US:en", "google_news", ["ai-industry", "product"], "en"),
@@ -237,8 +238,10 @@ SOURCES = [
     #   검증(2026-05-29): FT·Kirkland 쿼리가 "Kirkland & Ellis $500mn AI" 기사 포착,
     #   Freshfields(Anthropic 제휴)·DLA Piper(Harvey 도입)도 정확히 잡힘.
     # ====================================================================
-    # [A] 직접 RSS — The Lawyer (영국 법조 비즈니스 매체, RSS 작동 확인 n=100 fresh)
-    ("The Lawyer", "https://www.thelawyer.com/feed/", "rss", ["legaltech"], "en"),
+    # [A] The Lawyer (영국 법조 비즈니스 매체)
+    #   v6.15.45: 직접 RSS는 로컬에선 200이나 GitHub Actions IP를 Cloudflare가 차단(Error) →
+    #   google_news site: 우회로 변경(안정).
+    ("The Lawyer", _gnews('site:thelawyer.com (AI OR "legal tech" OR legaltech OR "law firm")', "en", "US"), "google_news", ["legaltech"], "en"),
     # [B] FT 법조/테크 (페이월 — 제목 시그널 확보용 site: 우회)
     ("Google News: FT Legal AI (EN)", _gnews('site:ft.com (law OR "law firm" OR legal OR lawyers) AI', "en", "US"), "google_news", ["legaltech"], "en"),
     # [C] 개별 글로벌 펌 전용 쿼리 (한국 리걸테크사처럼 펌별 분리)
