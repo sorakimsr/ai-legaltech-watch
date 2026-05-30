@@ -253,6 +253,30 @@ SOURCES = [
     # [D] Law360 (페이월 — site: 우회)
     ("Google News: Law360 Legal AI (EN)", _gnews('site:law360.com (AI OR "artificial intelligence" OR "legal tech")', "en", "US"), "google_news", ["legaltech"], "en"),
 
+    # ====================================================================
+    # v6.15.44 (2026-05-30): BigLaw 자체 AI 플랫폼·실무전용 AI·AI 거버넌스/컴플라이언스
+    #   사용자 요청(2026-05-30): Kirkland $500M AI 플랫폼, Fried Frank FundAssist,
+    #   Relativity+Claude Compliance, Harvey 계약검토 가이드, Norm Law, Quinn Emanuel 등
+    #   "자체구축 vs 외부라이선스 / AI 사용활동 감사 / KM·출처표시" 흐름 포착.
+    #   검증(2026-05-30): 각 쿼리에서 해당 기사 실측 확인.
+    # ====================================================================
+    # [A] 직접 RSS — 법률 AI 전문 뉴스레터(Substack)
+    ("The Intake (Legal AI)", "https://theintake0.substack.com/feed", "rss", ["legaltech"], "en"),
+    ("Pierre Martin (Legal AI)", "https://pierremartinai.substack.com/feed", "rss", ["legaltech"], "en"),
+    # [A-2] Harvey 공식 블로그 직접 스크래핑 (sitemap 기반 — google_news 아님).
+    #   검증(2026-05-30): sitemap.xml 326개 /blog/ + lastmod → 'Choosing Legal AI for
+    #   Contract Review', 'Claude Opus 4.8 Now Live in Harvey' 등 직접 포착.
+    #   ※ Relativity(403 차단)·Fried Frank(sitemap 구조상 불가)는 스크래핑 불가 → google_news 유지.
+    ("Harvey Blog (scrape)", "https://www.harvey.ai/sitemap.xml|/blog/", "scrape", ["legaltech", "product"], "en"),
+    # [B] 개별 글로벌 펌(추가) — Fried Frank·Quinn Emanuel
+    ("Google News: Fried Frank AI (EN)", _gnews('"Fried Frank" (AI OR FundAssist OR "legal tech" OR Legora OR Harvey)', "en", "US"), "google_news", ["legaltech"], "en"),
+    ("Google News: Quinn Emanuel AI (EN)", _gnews('"Quinn Emanuel" (AI OR "legal tech" OR Harvey)', "en", "US"), "google_news", ["legaltech"], "en"),
+    # [C] 리걸테크사(추가) — Relativity(eDiscovery+AI 컴플라이언스)·Norm Law
+    ("Google News: Relativity Legal AI (EN)", _gnews('"Relativity" (Claude OR "legal AI" OR ediscovery OR RelativityOne OR compliance)', "en", "US"), "google_news", ["legaltech"], "en"),
+    ("Google News: Norm Law (EN)", _gnews('"Norm Law" OR "Norm AI" OR "norm.ai" legal', "en", "US"), "google_news", ["legaltech"], "en"),
+    # [D] AI 거버넌스·컴플라이언스(법무) — AI 사용활동 감사·출처표시·디스커버리
+    ("Google News: Legal AI Governance/Compliance (EN)", _gnews('("legal AI" OR legaltech OR "law firm") (compliance OR audit OR governance OR "source citation" OR discovery OR provenance)', "en", "US"), "google_news", ["legaltech"], "en"),
+
     # === 한국어(+영문 OR) — 리걸테크 핵심 ===
     # v2.7: 한국 매체의 영어 기사도 잡히도록 영문 키워드를 OR로 같이 포함
     ("Google News: 리걸테크 (KR)", _gnews('리걸테크 OR legaltech OR "legal tech"'), "google_news", ["legaltech", "domestic"], "ko"),
