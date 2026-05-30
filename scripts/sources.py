@@ -229,6 +229,9 @@ SOURCES = [
     ("Google News: Multimodal Voice AI (EN)", _gnews('"multimodal AI" OR "voice AI" OR "video generation AI" OR "Sora"', "en", "US"), "google_news", ["ai-industry"], "en"),
     ("Google News: AI M&A (EN)", _gnews('"AI acquisition" OR "AI merger" OR "AI startup acquired"', "en", "US"), "google_news", ["funding"], "en"),
     ("Google News: Legal AI Big Law (EN)", _gnews('"Big Law" AI OR "Magic Circle" AI OR "AmLaw" AI', "en", "US"), "google_news", ["legaltech"], "en"),
+    # v6.15.45 (2026-05-30, 사용자 요청): biglaw / big law / biglaw ai / big law ai 변형 명시 포함.
+    #   (기존 '"Big Law" AI' phrase는 한 단어 'biglaw'를 놓침)
+    ("Google News: BigLaw AI variants (EN)", _gnews('("biglaw" OR "big law" OR "biglaw ai" OR "big law ai" OR "Am Law" OR "AmLaw") (AI OR Harvey OR Legora OR "legal tech" OR "generative AI" OR adoption)', "en", "US"), "google_news", ["legaltech"], "en"),
 
     # ====================================================================
     # v6.15.35 (2026-05-29): 글로벌 로펌 AI 경쟁 인텔리전스 (사용자 요청)
