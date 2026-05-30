@@ -1549,7 +1549,37 @@
           ]
         },
         {
-          "tag": "TREND 10 · AI 에이전트 최종 승인 권한",
+          "tag": "TREND 10 · AI 에이전트 사이버보안 리스크",
+          "title": "AI 에이전트 자율 실행 환경, 법무·금융 데이터 보안의 새 취약점으로 부상",
+          "body": "JD Supra는 2026년 5월 30일 AI가 자동 실행되는 환경에서 데이터 손실·무단 접근 리스크가 법무팀의 중대 거버넌스 과제로 부상하고 있다고 경고했다. CertiK CEO 역시 같은 날 AI 에이전트의 무분별한 도입이 대규모 보안 재앙을 초래할 수 있다고 지적했다. 경향신문 보도에 따르면 전문 지식 없는 일반인도 토큰(자본)만 있으면 AI 에이전트를 활용한 대규모 해킹이 가능한 환경이 현실화되고 있다. **에이전트가 사람의 개입 없이 연속 작업을 수행할수록, 단일 침해 지점이 전체 워크플로우로 확산되는 경로가 기존 보안 모델로는 포착되지 않는다는 점**이 핵심 위협이다. 법조·금융 영역처럼 기밀 데이터가 집중된 환경에서는 에이전트 실행 로그 보존과 접근 권한 최소화 설계가 선결 과제로 떠오르고 있다.",
+          "action": "법무팀 내 AI 에이전트 도입 시 실행 권한 범위와 데이터 접근 경계를 사전에 명문화하고, 에이전트 작업 로그를 독립 저장소에 보존하는 아키텍처를 거버넌스 정책에 반영한다. **기존 망분리·보안 정책이 에이전트 자율 실행 시나리오를 커버하는지 점검하고, 커버하지 못하는 갭을 식별하여 보완 기준을 수립한다**.",
+          "citations": [
+            {
+              "num": 3,
+              "title": "When AI Executes - and Everything Disappears: A Cybersecurity Wake-Up Call - JD Supra",
+              "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE5tbDVQamp3RnktUXdfdHdNVnRicVZWc0JIS3AwclBXUHAzSFZfU2ZXOTJwMlF1ay1IblpkYjM2YlJLajlBakxXZUloeXdVY0VuSTdrYzNva1M4RzJ4bGhJZkJQek1DNWtFZnE4WmQwcEg0eDUwS3VpZ3dMSXAwMDg?oc=5",
+              "source": "JD Supra AI Legal",
+              "date": "2026-05-30"
+            },
+            {
+              "num": 10,
+              "title": "[D-BIZ 글로벌 기술·보안] CertiK CEO “AI 에이전트 무분별한 도입, 대규모 보안 재앙 초래할 수 있어” - 데일리비즈온",
+              "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTE55OFVVNEdLMVpMZmRSU2hpbjhrbklaNnROdjZrcXd5YVQwVVl0aGVPYUFMNDl6c1dBU21ldXVfYlltaHZ3UXcxRG1PUG5qb3gyaUdxUXpUckRMMV9oZG85YkR0bmpMRkFpdkNSUQ?oc=5",
+              "source": "Google News: 생성형 AI 에이전트 (KR)",
+              "date": "2026-05-30"
+            },
+            {
+              "num": 11,
+              "title": "AI 슈퍼 해커의 역습…‘사이버 실버 돔’으로 막는다",
+              "url": "https://www.khan.co.kr/article/202605300900001",
+              "source": "경향신문",
+              "date": "2026-05-30"
+            }
+          ],
+          "_incremental": true
+        },
+        {
+          "tag": "TREND 11 · AI 에이전트 최종 승인 권한",
           "title": "AI 에이전트 시대, '최종 승인 권한은 사람이 가져야' — 법적 책임 귀속 설계의 핵심 원칙",
           "body": "11번 기사에서 렛저(Ledger)가 AI 에이전트의 '최종 서명자(ultimate signer)' 역할을 하는 보안 인프라를 구축하며, 크립토 결제 기업 문페이와의 실제 적용 사례를 공개했다. **AI 에이전트가 자율적으로 행동을 실행하는 환경에서 '최종 승인 권한을 사람이 보유한다'는 원칙은 단순한 보안 설계가 아니라 법적 책임 귀속의 구조적 전제 조건**이며, 이 원칙이 설계 단계에서 누락되면 에이전트의 행위로 인한 손해 발생 시 책임 주체가 불명확해지는 법적 공백이 생긴다. 로펌이 AI 에이전트를 내부 업무(계약 초안 작성, 판례 검색, 기한 관리 등)에 도입할 때도 동일한 원칙이 적용되며, **에이전트가 외부 시스템에 접근하거나 문서를 제출하는 행위에 대해 변호사의 명시적 승인 단계를 아키텍처에 내장하지 않으면 변호사법상 업무 책임 범위가 불명확해질 수 있다**. 20번 기사의 'AI 에이전트 권한 피로(permission fatigue)' 실험도 같은 맥락으로, 승인 요청이 너무 많아지면 실질적 검토 없이 통과시키는 행동 패턴이 발생해 '사람이 최종 승인'이라는 원칙이 형식화될 위험이 있다.",
           "action": "로펌 내 AI 에이전트 도입 시 '변호사 명시적 승인 필수 행위 목록'(외부 문서 제출, 의뢰인 커뮤니케이션 발송, 기한 확정 등)을 정의하고, 해당 행위에 대해 에이전트가 자율 실행하지 못하도록 아키텍처 수준에서 차단하는 설계 원칙을 수립한다. **도입 후 3개월 시점에 승인 요청 건수 대비 실질 검토율(승인 소요 시간 1분 이상 비율)을 측정해 권한 피로 발생 여부를 진단하고, 피로도가 높은 구간은 승인 단계를 재설계한다**.",
@@ -1576,9 +1606,71 @@
               "date": "2026-05-30"
             }
           ]
+        },
+        {
+          "tag": "TREND 12 · 이사회 AI 거버넌스 책임",
+          "title": "AI 거버넌스, 실무 운영 문제에서 이사회 수준의 법적 책임 의제로 격상",
+          "body": "JD Supra는 2026년 5월 30일 이사회 수준의 AI 거버넌스가 기업 의사결정의 필수 요소로 부상하고 있으며, 법률 리스크 관리와 규제 대응이 이사진의 핵심 책임으로 재정의되고 있다고 분석했다. 같은 날 소비자금융 분야 AI 거버넌스를 다룬 RegFi 에피소드 94에서도 규제 준수·책임 경계·투명성 확보가 금융 서비스 AI 도입의 3대 요건으로 제시됐다. **이는 AI 거버넌스가 IT·법무 실무팀의 운영 문제를 넘어, 이사회가 직접 책임을 부담해야 하는 경영 의제로 격상되고 있음을 의미한다.** 한국 금융위원회도 6월 1일 고성능 AI 대응을 위한 민간 기술 자문단 운영을 예고하며 규제 당국 차원의 거버넌스 정비 신호를 보내고 있다. 법무팀은 이사회 보고 체계 안에 AI 리스크 항목을 구조화하는 역할을 맡게 될 가능성이 높아졌다.",
+          "action": "이사회 또는 감사위원회 보고 체계에 AI 리스크 현황·사고 대응 절차·규제 준수 상태를 정기 보고 항목으로 편입하는 내부 프로세스를 설계한다. **법무팀은 AI 거버넌스 정책 문서를 이사회 결의 수준으로 격상시키고, 책임 귀속 기준과 위반 시 보고 경로를 명확히 문서화한다**.",
+          "citations": [
+            {
+              "num": 4,
+              "title": "AI in the Boardroom: What Directors Need to Know Now - JD Supra",
+              "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxPN3hPVmlzWGowNkFuaGgtdjR3czlaUGF0d1hleVY0RXM5WEtjUWtPdklMU1lZZ1puV2VXeXJOYklxR1FZMWlLV1VuVWhPODJLdlA2YTBOLXU3bkNyYWZBNW10QkVDX0NYSHo2VnZtaE0xTnpDM1R1WmNNYmJ5M1lxR010RlAwaVhHaXc?oc=5",
+              "source": "JD Supra AI Legal",
+              "date": "2026-05-30"
+            },
+            {
+              "num": 8,
+              "title": "RegFi Episode 94: AI Governance in Consumer Finance - JD Supra",
+              "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxQTEdHZUZtcGxINUw4d0h3TzJNTGx1RU1CSkJKVU1JenZ2SGROclJQcVBOZDFvSmZNWnhjYjBfRUFlNXg4QU1OWlRuRmlPcEhkanJxNV8xVWRKcl9mb2RRTktJaC1Dd3NoeGg1dUVkOGN3VldNRkV6WTJFNWhhYUJIdktB?oc=5",
+              "source": "JD Supra AI Legal",
+              "date": "2026-05-30"
+            },
+            {
+              "num": 2,
+              "title": "[다음주 한국은행 및 금융위·금감원 일정]",
+              "url": "https://news.einfomax.co.kr/news/articleView.html?idxno=4417560",
+              "source": "Naver / news",
+              "date": "2026-05-30"
+            }
+          ],
+          "_incremental": true
+        },
+        {
+          "tag": "TREND 13 · AI 서비스 과금 단위 재편",
+          "title": "토큰 기반 과금에서 업무 성과 단위로 — AI 서비스 가격 구조의 패러다임 전환",
+          "body": "세일즈포스는 토큰 수 대신 AI 에이전트가 처리한 업무량을 평가하는 '에이전트 작업 단위(AWU)' 개념을 도입하며 AI 서비스 성과 측정 기준 재편을 주도하고 있다. 반면 딥시크는 2026년 5월 30일 기준 기존 대비 75% 인하된 가격으로 재출시하며 토큰 단가 경쟁을 심화시키고 있어, **과금 구조를 둘러싼 빅테크와 저비용 모델 간의 전략적 분기가 뚜렷해지고 있다.** 검찰 AI 토큰 소진 문제(기존 TREND 05)가 보여주듯, 토큰 기반 과금은 실제 업무 가치와 비용 간 괴리를 낳는 구조적 한계를 내포한다. AWU 방식은 법무·기획 부서가 AI 도입 ROI를 산정하는 방식 자체를 바꿀 수 있으며, **비용 통제 단위가 '사용량'에서 '해결된 업무 건수'로 이동하면 계약·예산 설계 논리도 전면 재검토가 필요하다.**",
+          "action": "AI 서비스 계약 또는 내부 예산 편성 시 토큰 소비량 외에 AWU 등 업무 성과 단위 기반 과금 모델을 비교 검토하고, 실제 업무 유형별 비용 효율을 측정하는 파일럿 기준을 마련한다. **딥시크 등 저비용 모델의 보안·컴플라이언스 적합성을 별도로 평가하여, 비용 절감과 데이터 보호 요건을 동시에 충족하는 모델 선택 기준을 내부 정책으로 수립한다**.",
+          "citations": [
+            {
+              "num": 15,
+              "title": "빅테크, AI 사용량 줄 세우기 폐기…‘토큰맥싱’ 역풍",
+              "url": "https://www.sedaily.com/article/20049939?ref=naver",
+              "source": "서울경제",
+              "date": "2026-05-30"
+            },
+            {
+              "num": 14,
+              "title": "'가성비' 딥시크, 75% 싸진 가격으로 '컴백'…중국 최첨단 AI 가 몰려온다",
+              "url": "https://www.mt.co.kr/tech/2026/05/30/2026052916405176878",
+              "source": "Naver / mt",
+              "date": "2026-05-30"
+            },
+            {
+              "num": 5,
+              "title": "같은 AI 인데 왜 달랐나…15일 실험서 드러난 ' 에이전트 사회'의 충격",
+              "url": "https://www.digitaltoday.co.kr/news/articleView.html?idxno=670602",
+              "source": "Naver / digitaltoday",
+              "date": "2026-05-30"
+            }
+          ],
+          "_incremental": true
         }
       ],
-      "_summary_addons": []
+      "_summary_addons": [
+        "신규 기사에서는 AI 에이전트 자율 운영 환경의 사이버보안 리스크, 이사회 수준의 AI 거버넌스 책임 재정의, AI 서비스 과금 단위의 패러다임 전환이라는 세 가지 흐름이 기존 카드와 구별되는 새로운 의제로 부상하고 있다."
+      ]
     }
   },
   "weekly": {
