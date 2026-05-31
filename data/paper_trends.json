@@ -1,27 +1,280 @@
 {
-  "analyzed_at": "2026-05-31T18:11:27.871446+09:00",
+  "analyzed_at": "2026-06-01T00:39:31.259586+09:00",
   "llm_backend": "anthropic",
   "period": "weekly",
   "period_label": "최근 7일",
   "days_window": 7,
-  "paper_count": 850,
-  "narrative": "한 줄 요약 AI 거버넌스가 '원칙 선언'에서 '실행 가능한 인프라 설계'로 전환되는 변곡점에 진입했으며, 한국 기업은 이 전환을 컴플라이언스 비용이 아닌 전략적 아키텍처 선택의 문제로 받아들여야 한다.\n\n1) 무엇이 부상하고 있는가 논문군에서 가장 두드러진 흐름은 AI 거버넌스가 '런타임 제어(API 입출력 규제)'만으로는 구조적으로 불충분하다는 인식의 확산이다. Substrate Governance 논문(58번)은 기존의 가시적 제어 메커니즘이 규칙을 강제할 뿐 규칙 자체를 정의하지 못한다는 한계를 지적하고, 인프라 계층에서의 벤더 중립적 통제 프레임워크를 요구한다. 같은 맥락에서 KYA 프레임워크(23번)는 15개 이상의 에이전트 프레임워크를 아우르는 신뢰 계층을 제시하며 1,200개 적대적 프로브 중 89%를 탐지하는 성능을 실증했다. 보안 측면에서는 AI 에이전트 스킬 마켓플레이스 3,984개를 분석한 논문(6번)이 전체 스킬의 13.4%에서 심각 수준의 보안 결함을 발견했는데, 이는 **에이전트 도입 시 스킬 공급망 보안이 모델 선택만큼 중요한 의사결정 변수**임을 보여준다. 금융 AI 분야에서는 신경망과 생성 AI 도입으로 인한 비결정성이 감사 준비도를 위협한다는 분석(25번)이 나왔고, 의료 다중 에이전트 시스템에서는 증거 재검토 실패율 98.42%, 권위 편향 28.76%라는 수치(28번)가 협업 AI의 프로세스 수준 위험을 정량화했다.\n\n2) 한국 실무자에게 이 흐름이 무슨 의미인가 전략·기획 담당자 입장에서 이 흐름의 핵심은 **AI 도입 결정이 '어떤 모델을 쓸 것인가'에서 '어떤 거버넌스 아키텍처 위에서 운영할 것인가'로 이동**했다는 점이다. 채용 알고리즘 벤더 집중 연구(12번)는 동일 벤더 알고리즘 사용 시 특정 집단이 최대 25.87%의 차별적 영향을 받는다는 실증 데이터를 제시했다. 한국 기업이 HR 자동화를 도입할 때 단일 벤더 의존도를 내부 리스크 지표로 관리해야 한다는 신호다. AI 환각을 기업 리스크로 규정한 논문(18번)과 Search-augmented LLM에서 최대 96%의 사용자가 구조적으로 오도하는 인용을 마주친다는 분석(75번)은, **내부 보고서·법무 검토·투자 의사결정에 LLM을 활용하는 조직이라면 출력 검증 프로세스를 별도 설계해야** 함을 시사한다. 또한 생성형 AI 워크플로우 도입이 평균 작업 속도는 높이지만 시스템 전체 지연을 악화시킬 수 있다는 대기열 모델 연구(31번)는, **AI 도입 효과를 개별 작업 단위가 아닌 워크플로우 전체 처리량으로 측정하는 KPI 재설계가 필요**함을 보여준다.\n\n3) 산업 적용 흐름 법률·금융·의료 세 분야가 가장 빠른 제도화 압력을 받고 있다. 법률 분야는 LegalKit(24번), LexPath(69번), COLLT(64번) 등 도메인 특화 평가·검색 프레임워크가 동시에 등장하며 실무 도입 준비가 가시화되고 있다. 금융 분야는 감사 재현성 요구(25번)와 암호화폐 거래 AI 규제 공백 분석(63번)이 **국내 금융위·금감원의 AI 모델 설명 요구와 직결**되는 선행 지표다. 한국 기업 환경에서는 개인정보보호법상 국외 데이터 이전 제한, 공공기관의 망분리 정책이 클라우드 기반 멀티에이전트 도입의 현실적 장벽으로 작용하며, 폐쇄망 AI 추론 아키텍처 논문(16번)이 제시한 커널 수준 접근 제어·모델 무결성 검증 설계가 **온프레미스 요구를 충족하면서 규정 준수를 달성하는 현실적 경로**로 부상하고 있다. 다국적 기업의 경우 EU·미국·중국 AI 거버넌스 규제 차이에 대응하는 전략 적응 경로 연구(57번)가 시사하듯, AI 규제가 단순 컴플라이언스를 넘어 **시장 진입 전략 자체를 제약하는 변수**로 격상되고 있음을 인식해야 한다.",
+  "paper_count": 841,
+  "narrative": "한 줄 요약 AI 거버넌스가 '원칙 선언'에서 '실행 가능한 인프라 설계'로 전환되는 변곡점에 진입했으며, 이 흐름은 한국 기업의 AI 도입 전략과 리스크 관리 방식 전반을 재편할 압력으로 작동하고 있다.\n\n1) 무엇이 부상하고 있는가 논문군에서 가장 두드러진 흐름은 AI 거버넌스가 추상적 윤리 담론을 벗어나 기술 명세서·법적 프레임워크·실행 인프라로 구체화되고 있다는 점이다. Ricardian-TEA 프레임워크는 AI 에이전트에 법적 정체성을 부여하는 기술 표준을 제시했고, VGS-ELI v1.0.0은 자율 AI 시스템이 실행 권한을 갖기 전에 통과해야 할 형식적 거버넌스 계층을 명세화했다. KYA 프레임워크는 15개 이상의 에이전트 프레임워크를 아우르는 신뢰 계층을 구현해 초당 1,800 작업을 처리하면서도 89%의 적대적 프로브를 탐지했다. 동시에 보안 위협도 가시화됐다. AI 에이전트 스킬 마켓플레이스 3,984개를 분석한 결과 전체의 13.4%가 심각한 보안 결함을 포함하고 있으며, Graph RAG 시스템의 지식그래프를 90% 이상 복원하는 GraphSteal 공격이 실증됐다. **에이전트가 조직 내부 시스템에 접근하는 순간, 스킬 마켓플레이스와 RAG 파이프라인은 새로운 공격 표면이 된다**는 점을 실무자는 직시해야 한다.\n\n2) 한국 실무자에게 이 흐름이 무슨 의미인가 채용 알고리즘의 벤더 집중(Algorithmic Monocultures in Hiring) 연구는 동일 벤더 알고리즘 사용 시 특정 인종 집단이 최대 25.87%의 차별적 영향을 받는다는 것을 300만 명 데이터로 입증했다. 한국 기업이 HR 자동화 솔루션을 단일 벤더에 의존할 경우 유사한 구조적 편향이 발생할 수 있으며, 이는 향후 ESG 공시나 고용노동부 감사에서 법적 리스크로 전환될 수 있다. 또한 금융 AI의 재현성 위기를 다룬 논문은 신경망·생성AI 도입으로 인한 하드웨어 수준의 비결정성이 감사 준비도를 훼손한다고 지적한다. **금융·공공 분야에서 AI 모델의 동일 입력 대비 동일 출력 보장 여부가 내부통제 자동화 수요와 직결**되는 핵심 요건으로 부상하고 있다. AI 환각을 기업 리스크로 규정한 연구와 결합하면, 기획 담당자는 AI 도입 시 '성능 벤치마크'뿐 아니라 **감사 가능성(auditability)과 재현성을 도입 평가 기준으로 명시적으로 포함**해야 한다.\n\n3) 산업 적용 흐름 법률·금융·의료 분야가 가장 빠른 도입 압력을 받고 있다. 법률 AI 평가 툴킷 LegalKit, 법률 조항 검색 프레임워크 LexPath, 약관 자동 감지 시스템이 동시에 등장한 것은 법률 리서치와 계약 검토 자동화가 실용화 단계에 진입했음을 시사한다. 의료 분야에서는 다중 에이전트 AI의 협업 실패(근거 없는 관찰 16.63%, 증거 재검토 실패 98.42%)가 정량화되면서 임상 배포 전 감사 프레임워크 요구가 강화되고 있다. 한국 기업 환경에서는 **개인정보보호법상 국외 데이터 이전 제한, 금융위·금감원의 AI 모델 설명 요구, 공공기관의 망분리 정책이 클라우드 기반 멀티에이전트 도입의 현실적 장벽으로 작용**한다. 폐쇄망·검증 기반 AI 추론 아키텍처(Sovereign, Air-Gapped, and Attested AI Inference)가 제시된 것은 이 제약을 기술적으로 우회하는 방향이 이미 연구 단계를 넘어 아키텍처 표준으로 수렴 중임을 보여준다. **온프레미스 또는 폐쇄망 요구가 도입 속도를 제한하는 현실적 제약으로 작동**하는 한국 환경에서, 벤더 선택 시 이 아키텍처 지원 여부를 선결 조건으로 검토해야 한다.",
   "hot_topics": [
     {
       "topic": "AI 에이전트 거버넌스 인프라화 (Agentic AI Governance Infrastructure)",
-      "description": "런타임 제어를 넘어 인프라 계층에서 에이전트 행동을 구조적으로 검증·제약하는 프레임워크 설계가 핵심 과제로 부상.",
-      "paper_count": 10,
+      "description": "AI 에이전트의 실행 권한·법적 정체성·신뢰 계층을 기술 명세서와 실행 가능한 표준으로 구체화하는 흐름 — 원칙 선언에서 인프라 설계로의 전환.",
+      "paper_count": 8,
+      "paper_indices": [
+        3,
+        8,
+        9,
+        23,
+        33,
+        37,
+        52,
+        58
+      ],
+      "papers": [
+        {
+          "title": "Ricardian-TEA: a hybrid framework for assigning legally enforceable identities to autonomous AI agents",
+          "url": "https://doi.org/10.1007/s42521-026-00196-1",
+          "source": "OpenAlex",
+          "date": "2026-05-28"
+        },
+        {
+          "title": "VGS-ELI: Execution Legitimacy Infrastructure — Formal Specification v1.0.0",
+          "url": "https://doi.org/10.5281/zenodo.20451305",
+          "source": "OpenAlex",
+          "date": "2026-05-29"
+        },
+        {
+          "title": "Dissociative Identity: Language Model Agents Lack Grounding for Reputation Mechanisms",
+          "url": "https://arxiv.org/abs/2605.30169v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-05-28"
+        },
+        {
+          "title": "KYA: A Framework-Agnostic Trust Layer for Autonomous Systems with Verifiable Provenance and Hierarchical Policy Composition",
+          "url": "https://arxiv.org/abs/2605.25376v2",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-05-28"
+        },
+        {
+          "title": "From Model Scaling to System Scaling: Scaling the Harness in Agentic AI",
+          "url": "https://arxiv.org/abs/2605.26112v1",
+          "source": "arXiv cs.AI",
+          "date": "2026-05-25"
+        },
+        {
+          "title": "Redrawing the AI Map: A Theory of Accountability Boundaries in Agentic Ecosystems",
+          "url": "https://arxiv.org/abs/2605.23179",
+          "source": "arXiv cs.AI",
+          "date": "2026-05-25"
+        },
+        {
+          "title": "Governance Geometry: The Substrate Layer That Execution Governance Systems Cannot Provide",
+          "url": "https://doi.org/10.5281/zenodo.20415342",
+          "source": "OpenAlex",
+          "date": "2026-05-27"
+        },
+        {
+          "title": "Substrate Governance: Why Runtime Controls Are Insufficient and What Must Replace Them: A Vendor-Agnostic Framework for Governing AI Agents at the Infrastructur",
+          "url": "https://doi.org/10.5281/zenodo.20397196",
+          "source": "OpenAlex",
+          "date": "2026-05-26"
+        }
+      ]
+    },
+    {
+      "topic": "AI 보안 위협 실증화 (AI Agent Security Threats)",
+      "description": "스킬 마켓플레이스 악성 페이로드, Graph RAG 지식그래프 탈취, 에이전트 사보타주 등 에이전트 AI 도입 시 발생하는 실제 공격 벡터가 실험으로 입증되고 있음.",
+      "paper_count": 5,
+      "paper_indices": [
+        6,
+        45,
+        47,
+        59,
+        66
+      ],
+      "papers": [
+        {
+          "title": "Technical Report: Exploring the Emerging Threats of the Agent Skill Ecosystem",
+          "url": "https://arxiv.org/abs/2605.28588v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-05-27"
+        },
+        {
+          "title": "SkillSafetyBench: Evaluating Agent Safety under Skill-Facing Attack Surfaces",
+          "url": "https://arxiv.org/abs/2605.12015v2",
+          "source": "arXiv cs.MA (Multi-Agent)",
+          "date": "2026-05-27"
+        },
+        {
+          "title": "GraphSteal: Structural Knowledge Stealing from Graph RAG via Traversal Reconstruction",
+          "url": "https://arxiv.org/abs/2605.28645v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-05-27"
+        },
+        {
+          "title": "When Agents Control Robots: A Zero Trust Policy Model for Agentic Cyber-Physical Systems",
+          "url": "https://arxiv.org/abs/2605.25653v1",
+          "source": "arXiv cs.MA (Multi-Agent)",
+          "date": "2026-05-25"
+        },
+        {
+          "title": "Gram: Assessing sabotage propensities via automated alignment auditing",
+          "url": "https://arxiv.org/abs/2605.30322v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-05-28"
+        }
+      ]
+    },
+    {
+      "topic": "AI 감사 가능성·재현성 (AI Auditability & Determinism)",
+      "description": "금융·의료·법률 분야에서 AI 출력의 재현성과 감사 추적 가능성이 규제 준수의 핵심 요건으로 부상 — 성능 벤치마크를 넘어선 새로운 평가 기준.",
+      "paper_count": 5,
+      "paper_indices": [
+        18,
+        25,
+        28,
+        56,
+        75
+      ],
+      "papers": [
+        {
+          "title": "AI hallucinations as enterprise risk: Governance, audit, and accountability perspectives",
+          "url": "https://doi.org/10.1080/07366981.2026.2677215",
+          "source": "OpenAlex",
+          "date": "2026-05-25"
+        },
+        {
+          "title": "From Accuracy to Auditability: A Survey of Determinism in Financial AI Systems",
+          "url": "https://arxiv.org/abs/2605.23955v2",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-05-27"
+        },
+        {
+          "title": "Auditing medical multi-agent AI reveals risks of false consensus",
+          "url": "https://arxiv.org/abs/2510.10185v3",
+          "source": "arXiv cs.MA (Multi-Agent)",
+          "date": "2026-05-27"
+        },
+        {
+          "title": "Reframing Internal Audit Through Emerging AI Technologies: Toward an Integration Framework and Assessment Model",
+          "url": "https://doi.org/10.3390/electronics15112280",
+          "source": "OpenAlex",
+          "date": "2026-05-25"
+        },
+        {
+          "title": "Verified Misguidance: Measuring Structural Citation Failures in Search-Augmented LLMs",
+          "url": "https://arxiv.org/abs/2605.28565v1",
+          "source": "arXiv cs.IR",
+          "date": "2026-05-27"
+        }
+      ]
+    },
+    {
+      "topic": "알고리즘 차별·편향 리스크 (Algorithmic Bias & Discrimination Risk)",
+      "description": "채용·공공서비스 등 의사결정 AI에서 벤더 집중과 알고리즘 단일화가 구조적 차별을 야기한다는 실증 연구 — ESG·법적 리스크로 전환 가능.",
+      "paper_count": 4,
+      "paper_indices": [
+        12,
+        29,
+        36,
+        73
+      ],
+      "papers": [
+        {
+          "title": "Algorithmic Monocultures in Hiring",
+          "url": "https://arxiv.org/abs/2605.27371v1",
+          "source": "arXiv cs.AI",
+          "date": "2026-05-26"
+        },
+        {
+          "title": "Addressing the AI Data Rights of Citizens: An SSI/SSDI Case Study",
+          "url": "https://doi.org/10.5281/zenodo.20405214",
+          "source": "OpenAlex",
+          "date": "2026-05-27"
+        },
+        {
+          "title": "Whose Good, Whose Place? The Moral Geography of Agentic AI for Social Good",
+          "url": "https://arxiv.org/abs/2605.22995",
+          "source": "arXiv cs.CY (Computers & Society)",
+          "date": "2026-05-25"
+        },
+        {
+          "title": "Addressing Pitfalls in Auditing Practices of Automatic Speech Recognition Technologies: A Case Study of People with Aphasia",
+          "url": "https://arxiv.org/abs/2506.08846v3",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-05-27"
+        }
+      ]
+    },
+    {
+      "topic": "생성형 AI 학습 데이터 법적 리스크 (Generative AI Training Data Legal Risk)",
+      "description": "저작권 침해·부당이득·잊혀질 권리 등 생성형 AI 학습 데이터를 둘러싼 법적 분쟁이 실무 리스크로 구체화되고 있음.",
+      "paper_count": 4,
+      "paper_indices": [
+        13,
+        42,
+        51,
+        22
+      ],
+      "papers": [
+        {
+          "title": "Faults and Pitfalls in Implementing the Right to be Forgotten",
+          "url": "https://arxiv.org/abs/2605.27171v1",
+          "source": "arXiv cs.CY (Computers & Society)",
+          "date": "2026-05-26"
+        },
+        {
+          "title": "Unjust Enrichment as a Remedy for AI's Unauthorised Use of Protected Data",
+          "url": "https://arxiv.org/abs/2605.23503",
+          "source": "arXiv cs.CY (Computers & Society)",
+          "date": "2026-05-25"
+        },
+        {
+          "title": "Copyright Infringement Risk and Governance of Generative AI Training Data",
+          "url": "https://doi.org/10.54254/2753-7048/2026.33835",
+          "source": "OpenAlex",
+          "date": "2026-05-25"
+        },
+        {
+          "title": "The Ownership of AI-Assisted Knowledge: Negotiating Authorship and Intellectual Property in Academia",
+          "url": "https://doi.org/10.66545/gskgt823",
+          "source": "OpenAlex",
+          "date": "2026-05-29"
+        }
+      ]
+    },
+    {
+      "topic": "AI 규제 지역 분기와 기업 전략 적응 (AI Regulatory Divergence & Corporate Strategy)",
+      "description": "EU·미국·중국의 AI 거버넌스 비전 차이가 단순 컴플라이언스를 넘어 기업 전략 자체를 제약하는 요소로 전환 — 다국적 운영 기업의 전략 재설계 필요.",
+      "paper_count": 3,
+      "paper_indices": [
+        57,
+        46,
+        80
+      ],
+      "papers": [
+        {
+          "title": "Research on the adaptation path of corporate strategy based on the differences in AI governance visions between the Atlantic and China",
+          "url": "https://www.nature.com/articles/s41598-026-54646-2_reference.pdf",
+          "source": "OpenAlex",
+          "date": "2026-05-26"
+        },
+        {
+          "title": "Governing Algorithms: Transparency, Digitalization, and Risk in European Public Administration – A Comparative Study",
+          "url": "https://doi.org/10.24818/amp/2026.46-08",
+          "source": "OpenAlex",
+          "date": "2026-05-25"
+        },
+        {
+          "title": "Human Rights–Based AI Governance in Thailand: A Functional-Equivalence Approach Beyond the EU AI Act",
+          "url": "https://doi.org/10.14330/jeail.2026.19.1.07",
+          "source": "OpenAlex",
+          "date": "2026-05-27"
+        }
+      ]
+    }
+  ],
+  "key_techniques": [
+    {
+      "technique": "에이전트 신뢰·거버넌스 계층 설계 (Agentic Trust & Governance Layer)",
+      "description": "다중 에이전트 환경에서 실행 권한 검증, 정책 합성, 책임 귀속을 자동화하는 프레임워크 — 에이전트 도입 시 보안·컴플라이언스 요건을 아키텍처 수준에서 내재화하는 핵심 기법.",
+      "paper_count": 4,
       "paper_indices": [
         8,
         11,
         23,
-        33,
-        37,
-        41,
-        52,
-        58,
-        59,
-        71
+        33
       ],
       "papers": [
         {
@@ -47,302 +300,12 @@
           "url": "https://arxiv.org/abs/2605.26112v1",
           "source": "arXiv cs.AI",
           "date": "2026-05-25"
-        },
-        {
-          "title": "Redrawing the AI Map: A Theory of Accountability Boundaries in Agentic Ecosystems",
-          "url": "https://arxiv.org/abs/2605.23179",
-          "source": "arXiv cs.AI",
-          "date": "2026-05-25"
-        },
-        {
-          "title": "On Controllability in Agentic AI: A Survey",
-          "url": "https://doi.org/10.1007/s11023-026-09783-y",
-          "source": "OpenAlex",
-          "date": "2026-05-26"
-        },
-        {
-          "title": "Governance Geometry: The Substrate Layer That Execution Governance Systems Cannot Provide",
-          "url": "https://doi.org/10.5281/zenodo.20415342",
-          "source": "OpenAlex",
-          "date": "2026-05-27"
-        },
-        {
-          "title": "Substrate Governance: Why Runtime Controls Are Insufficient and What Must Replace Them: A Vendor-Agnostic Framework for Governing AI Agents at the Infrastructur",
-          "url": "https://doi.org/10.5281/zenodo.20397196",
-          "source": "OpenAlex",
-          "date": "2026-05-26"
-        }
-      ]
-    },
-    {
-      "topic": "AI 보안 공급망 위협 (AI Agent Skill Supply Chain Security)",
-      "description": "에이전트가 외부 스킬·플러그인을 호출할 때 발생하는 악성 페이로드·백도어·데이터 유출 위험이 실증적으로 확인됨.",
-      "paper_count": 4,
-      "paper_indices": [
-        6,
-        45,
-        47,
-        74
-      ],
-      "papers": [
-        {
-          "title": "Technical Report: Exploring the Emerging Threats of the Agent Skill Ecosystem",
-          "url": "https://arxiv.org/abs/2605.28588v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-05-27"
-        },
-        {
-          "title": "SkillSafetyBench: Evaluating Agent Safety under Skill-Facing Attack Surfaces",
-          "url": "https://arxiv.org/abs/2605.12015v2",
-          "source": "arXiv cs.MA (Multi-Agent)",
-          "date": "2026-05-27"
-        },
-        {
-          "title": "GraphSteal: Structural Knowledge Stealing from Graph RAG via Traversal Reconstruction",
-          "url": "https://arxiv.org/abs/2605.28645v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-05-27"
-        },
-        {
-          "title": "Position: Retire the \"Positive Backdoor\" Label -- Secret Alignment Requires Strict and Systematic Evaluation",
-          "url": "https://arxiv.org/abs/2605.28597v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-05-27"
-        }
-      ]
-    },
-    {
-      "topic": "AI 출력 신뢰성과 감사 가능성 (AI Output Auditability & Hallucination Risk)",
-      "description": "AI 환각·인용 오류·비결정성이 기업 리스크로 규정되며, 감사 준비도와 연계한 검증 체계 설계가 요구됨.",
-      "paper_count": 6,
-      "paper_indices": [
-        18,
-        25,
-        27,
-        28,
-        70,
-        75
-      ],
-      "papers": [
-        {
-          "title": "AI hallucinations as enterprise risk: Governance, audit, and accountability perspectives",
-          "url": "https://doi.org/10.1080/07366981.2026.2677215",
-          "source": "OpenAlex",
-          "date": "2026-05-25"
-        },
-        {
-          "title": "From Accuracy to Auditability: A Survey of Determinism in Financial AI Systems",
-          "url": "https://arxiv.org/abs/2605.23955v2",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-05-27"
-        },
-        {
-          "title": "Models That Know How Evaluations Are Designed Score Safer",
-          "url": "https://arxiv.org/abs/2605.28591v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-05-27"
-        },
-        {
-          "title": "Auditing medical multi-agent AI reveals risks of false consensus",
-          "url": "https://arxiv.org/abs/2510.10185v3",
-          "source": "arXiv cs.MA (Multi-Agent)",
-          "date": "2026-05-27"
-        },
-        {
-          "title": "AI Error Difficulty Modulates the Effectiveness of Explainability in Decision Support Systems",
-          "url": "https://doi.org/10.1145/3817603",
-          "source": "OpenAlex",
-          "date": "2026-05-28"
-        },
-        {
-          "title": "Verified Misguidance: Measuring Structural Citation Failures in Search-Augmented LLMs",
-          "url": "https://arxiv.org/abs/2605.28565v1",
-          "source": "arXiv cs.IR",
-          "date": "2026-05-27"
-        }
-      ]
-    },
-    {
-      "topic": "AI 법적·규제 프레임워크 경쟁 (AI Legal & Regulatory Framework Race)",
-      "description": "EU·미국·중국·동남아 등 지역별 AI 규제가 기업 전략을 제약하는 변수로 격상되며, 다국적 기업의 적응 전략이 시급한 과제로 등장.",
-      "paper_count": 8,
-      "paper_indices": [
-        7,
-        10,
-        21,
-        46,
-        57,
-        61,
-        63,
-        80
-      ],
-      "papers": [
-        {
-          "title": "Legal Zero-Days: a novel risk vector for advanced AI systems",
-          "url": "https://doi.org/10.1007/s43681-026-01189-x",
-          "source": "OpenAlex",
-          "date": "2026-05-29"
-        },
-        {
-          "title": "eAIDAS as Turning-Point Infrastructure: The Cryptographic Attestation Layer in the AI Revolution's Deployment Phase",
-          "url": "https://doi.org/10.5281/zenodo.20379596",
-          "source": "OpenAlex",
-          "date": "2026-05-25"
-        },
-        {
-          "title": "Civil Law Issues Concerning Data Protection and Data Use in the Age of Artificial Intelligence",
-          "url": "https://doi.org/10.38133/cnulawreview.2026.46.2.77",
-          "source": "OpenAlex",
-          "date": "2026-05-29"
-        },
-        {
-          "title": "Governing Algorithms: Transparency, Digitalization, and Risk in European Public Administration – A Comparative Study",
-          "url": "https://doi.org/10.24818/amp/2026.46-08",
-          "source": "OpenAlex",
-          "date": "2026-05-25"
-        },
-        {
-          "title": "Research on the adaptation path of corporate strategy based on the differences in AI governance visions between the Atlantic and China",
-          "url": "https://www.nature.com/articles/s41598-026-54646-2_reference.pdf",
-          "source": "OpenAlex",
-          "date": "2026-05-26"
-        },
-        {
-          "title": "ІНТЕГРАЦІЙНА РАМКА ОПЕРАЦІЙНОЇ ВЕРИФІКАЦІЇ ВІДПОВІДАЛЬНОГО ШІ НА ОСНОВІ МІЖНАРОДНИХ СТАНДАРТІВ",
-          "url": "https://doi.org/10.31891/2307-5732-2026-365-70",
-          "source": "OpenAlex",
-          "date": "2026-05-28"
-        },
-        {
-          "title": "Gaps in Algorithmic AI Audits: Legal and Transparency Issues in Cryptocurrency Trading",
-          "url": "https://doi.org/10.1515/ijli-2025-0013",
-          "source": "OpenAlex",
-          "date": "2026-05-29"
-        },
-        {
-          "title": "Human Rights–Based AI Governance in Thailand: A Functional-Equivalence Approach Beyond the EU AI Act",
-          "url": "https://doi.org/10.14330/jeail.2026.19.1.07",
-          "source": "OpenAlex",
-          "date": "2026-05-27"
-        }
-      ]
-    },
-    {
-      "topic": "생성형 AI 워크플로우 생산성 역설 (Generative AI Workflow Productivity Paradox)",
-      "description": "개별 작업 속도 향상이 시스템 전체 처리량 저하로 이어질 수 있다는 대기열 모델 분석이 AI 도입 KPI 재설계를 요구함.",
-      "paper_count": 3,
-      "paper_indices": [
-        31,
-        34,
-        43
-      ],
-      "papers": [
-        {
-          "title": "Queue & AI: When Faster Tasks Slow Down the Workflow",
-          "url": "https://arxiv.org/abs/2605.27202v1",
-          "source": "arXiv cs.CY (Computers & Society)",
-          "date": "2026-05-26"
-        },
-        {
-          "title": "RCTs & Human Uplift Studies: Methodological Challenges and Practical Solutions for Frontier AI Evaluation",
-          "url": "https://arxiv.org/abs/2603.11001v2",
-          "source": "arXiv cs.AI",
-          "date": "2026-05-25"
-        },
-        {
-          "title": "Energy per Successful Goal: Goal-Level Energy Accounting for Agentic AI Systems",
-          "url": "https://arxiv.org/abs/2605.22883",
-          "source": "arXiv cs.AI",
-          "date": "2026-05-25"
-        }
-      ]
-    },
-    {
-      "topic": "프라이버시·데이터 권리의 기술적 구현 (Privacy Engineering & Data Rights Implementation)",
-      "description": "GDPR 잊혀질 권리 위반 분석, 대화 로그 추론적 프라이버시 침해, 엣지 단 개인정보 마스킹 등 데이터 권리의 실제 구현 격차가 드러남.",
-      "paper_count": 5,
-      "paper_indices": [
-        13,
-        44,
-        68,
-        72,
-        77
-      ],
-      "papers": [
-        {
-          "title": "Faults and Pitfalls in Implementing the Right to be Forgotten",
-          "url": "https://arxiv.org/abs/2605.27171v1",
-          "source": "arXiv cs.CY (Computers & Society)",
-          "date": "2026-05-26"
-        },
-        {
-          "title": "Inferential Privacy Leakage in Anonymized Conversational AI Logs",
-          "url": "https://arxiv.org/abs/2605.23820",
-          "source": "arXiv cs.CY (Computers & Society)",
-          "date": "2026-05-25"
-        },
-        {
-          "title": "CalBench: Evaluating Coordination-Privacy Trade-offs in Multi-Agent LLMs",
-          "url": "https://arxiv.org/abs/2605.09823v2",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-05-28"
-        },
-        {
-          "title": "MaskClaw: Edge-Side Personalized Privacy Arbitration for GUI Agents with Behavior-Driven Skill Evolution",
-          "url": "https://arxiv.org/abs/2605.28646v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-05-27"
-        },
-        {
-          "title": "The Illusion of Opting in AI-Mediated Consequential Decisions",
-          "url": "https://arxiv.org/abs/2605.28210v1",
-          "source": "arXiv cs.CY (Computers & Society)",
-          "date": "2026-05-27"
-        }
-      ]
-    }
-  ],
-  "key_techniques": [
-    {
-      "technique": "에이전트 신뢰 계층 및 정책 합성 (Agent Trust Layer & Policy Composition)",
-      "description": "다중 에이전트 환경에서 프레임워크 독립적으로 행동 정당성을 검증하고 책임을 귀속시키는 4단계 승인 파이프라인 구조 — 벤더 종속 없이 거버넌스를 표준화할 수 있는 핵심 설계 패턴.",
-      "paper_count": 4,
-      "paper_indices": [
-        8,
-        23,
-        52,
-        58
-      ],
-      "papers": [
-        {
-          "title": "VGS-ELI: Execution Legitimacy Infrastructure — Formal Specification v1.0.0",
-          "url": "https://doi.org/10.5281/zenodo.20451305",
-          "source": "OpenAlex",
-          "date": "2026-05-29"
-        },
-        {
-          "title": "KYA: A Framework-Agnostic Trust Layer for Autonomous Systems with Verifiable Provenance and Hierarchical Policy Composition",
-          "url": "https://arxiv.org/abs/2605.25376v2",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-05-28"
-        },
-        {
-          "title": "Governance Geometry: The Substrate Layer That Execution Governance Systems Cannot Provide",
-          "url": "https://doi.org/10.5281/zenodo.20415342",
-          "source": "OpenAlex",
-          "date": "2026-05-27"
-        },
-        {
-          "title": "Substrate Governance: Why Runtime Controls Are Insufficient and What Must Replace Them: A Vendor-Agnostic Framework for Governing AI Agents at the Infrastructur",
-          "url": "https://doi.org/10.5281/zenodo.20397196",
-          "source": "OpenAlex",
-          "date": "2026-05-26"
         }
       ]
     },
     {
       "technique": "온톨로지 기반 실행 가능 컴플라이언스 (Ontology-Based Executable Compliance)",
-      "description": "투명성·책임성·공정성 같은 거버넌스 의무를 산문 규정이 아닌 자동 검증 가능한 코드 블록으로 변환 — 규제 대응을 수동 감사에서 자동화된 프로필 검증으로 전환하는 기반.",
+      "description": "투명성·책임성·공정성 같은 거버넌스 의무를 자동 검증 가능한 코드로 변환하는 기법 — 수동 감사를 자동화하여 규제 대응 비용을 구조적으로 낮춤.",
       "paper_count": 3,
       "paper_indices": [
         2,
@@ -371,45 +334,8 @@
       ]
     },
     {
-      "technique": "다중 에이전트 협업 감시 프레임워크 (Multi-Agent Collaboration Audit Framework)",
-      "description": "에이전트 간 협업 과정에서 발생하는 허위 합의·권위 편향·증거 재검토 실패를 실행 로그 기반으로 정량화하는 감시 체계 — 의료·법률·금융 고위험 도메인 배포 전 필수 검증 도구.",
-      "paper_count": 4,
-      "paper_indices": [
-        11,
-        28,
-        66,
-        79
-      ],
-      "papers": [
-        {
-          "title": "CogniGraph: Governed Graph-of-Agents Reasoning over Knowledge Graph Topologies with Semantic SHACL Validation and Constrained F1 Evaluation",
-          "url": "https://doi.org/10.5281/zenodo.20411295",
-          "source": "OpenAlex",
-          "date": "2026-05-27"
-        },
-        {
-          "title": "Auditing medical multi-agent AI reveals risks of false consensus",
-          "url": "https://arxiv.org/abs/2510.10185v3",
-          "source": "arXiv cs.MA (Multi-Agent)",
-          "date": "2026-05-27"
-        },
-        {
-          "title": "Gram: Assessing sabotage propensities via automated alignment auditing",
-          "url": "https://arxiv.org/abs/2605.30322v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-05-28"
-        },
-        {
-          "title": "DIG to Heal: Scaling General-purpose Agent Collaboration via Explainable Dynamic Decision Paths",
-          "url": "https://arxiv.org/abs/2603.00309v2",
-          "source": "arXiv cs.MA (Multi-Agent)",
-          "date": "2026-05-27"
-        }
-      ]
-    },
-    {
-      "technique": "폐쇄망·주권형 AI 추론 아키텍처 (Air-Gapped Sovereign AI Inference Architecture)",
-      "description": "커널 수준 접근 제어·모델 무결성 검증·휘발성 메모리 설계로 외부 연결 없이 규정 준수를 달성 — 국내 망분리·개인정보 국외이전 제한 환경에서 클라우드 대안으로 부상.",
+      "technique": "폐쇄망·검증 기반 AI 추론 아키텍처 (Air-Gapped & Attested AI Inference)",
+      "description": "커널 수준 접근 제어와 모델 무결성 검증으로 망분리 환경에서 AI를 운영하는 기술 표준 — 국내 금융·공공 분야의 망분리 규제를 준수하면서 AI를 도입하는 현실적 경로.",
       "paper_count": 2,
       "paper_indices": [
         16,
@@ -431,8 +357,38 @@
       ]
     },
     {
-      "technique": "법률 도메인 특화 검색 증강 생성 (Legal Domain RAG & Multi-Path Retrieval)",
-      "description": "IRAC 기반 희소 경로와 법적 계층·인용 관계 기반 밀집 경로를 결합해 표면적 유사성이 아닌 법적 적용 가능성을 판단 — 법무팀 AI 도입 시 일반 RAG 대비 신뢰성 격차를 줄이는 실용적 접근.",
+      "technique": "AI 사보타주·정렬 자동 감사 (Automated Alignment Auditing)",
+      "description": "AI 에이전트의 오작동·사보타주 성향을 시뮬레이션 배포 시나리오에서 자동으로 탐지하는 감사 프레임워크 — 에이전트 배포 전 안전성 검증의 표준 절차로 부상 중.",
+      "paper_count": 3,
+      "paper_indices": [
+        27,
+        66,
+        71
+      ],
+      "papers": [
+        {
+          "title": "Models That Know How Evaluations Are Designed Score Safer",
+          "url": "https://arxiv.org/abs/2605.28591v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-05-27"
+        },
+        {
+          "title": "Gram: Assessing sabotage propensities via automated alignment auditing",
+          "url": "https://arxiv.org/abs/2605.30322v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-05-28"
+        },
+        {
+          "title": "Calibrating Conservatism for Scalable Oversight",
+          "url": "https://arxiv.org/abs/2605.28807v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-05-27"
+        }
+      ]
+    },
+    {
+      "technique": "법률 특화 다중경로 검색 증강 생성 (Legal Multi-Path RAG)",
+      "description": "IRAC 구조와 법적 계층·인용 관계를 결합한 법률 조항 검색 기법 — 표면적 유사성이 아닌 법적 적용 가능성을 판단하여 계약 검토·법률 리서치 자동화의 신뢰도를 높임.",
       "paper_count": 3,
       "paper_indices": [
         50,
@@ -462,20 +418,20 @@
     }
   ],
   "actionable_insights": [
-    "AI 에이전트 도입 검토 시 모델 성능 평가와 별도로 **스킬·플러그인 공급망 보안 심사를 독립 게이트로 설계해야** 한다. 전체 스킬의 13.4%에서 심각 결함이 발견된 실증 데이터는, 외부 마켓플레이스 스킬을 무검증 사용하는 현행 파일럿 운영 방식이 자격증 탈취·백도어 위험에 노출되어 있음을 의미한다.",
-    "내부 보고서·법무 검토·투자 분석에 LLM을 활용하는 조직이라면 **AI 출력 검증을 별도 프로세스로 제도화하고, 인용 충실도를 KPI 항목에 포함시켜야** 한다. Search-augmented LLM에서 최대 96%의 사용자가 구조적으로 오도하는 인용을 마주친다는 분석은 '모델이 출처를 달았다'는 사실이 신뢰의 근거가 될 수 없음을 보여준다.",
-    "HR·채용 자동화 시스템을 단일 벤더 알고리즘으로 운영 중이라면 **벤더 집중도를 내부 리스크 지표로 관리하고, 집단별 차별적 영향 분석을 정기 감사 항목으로 추가해야** 한다. 동일 벤더 알고리즘 사용 시 특정 집단이 최대 25.87%의 차별적 영향을 받는다는 실증 데이터는 향후 국내 AI 차별 규제 강화 시 법적 리스크로 전환될 수 있다.",
-    "AI 도입 효과를 개별 작업 처리 속도로만 측정하는 조직은 **워크플로우 전체 처리량과 재작업 발생률을 포함한 시스템 수준 KPI로 평가 기준을 재설계해야** 한다. AI 오류가 재작업으로 돌아올 때 검토자의 위험 임계값 상향이 정밀도를 떨어뜨리는 메커니즘은, 생산성 개선 주장의 근거를 단일 작업 속도 데이터만으로 경영진에게 보고하는 방식이 구조적으로 불완전함을 의미한다.",
-    "EU·미국·중국 AI 규제가 동시에 적용되는 다국적 사업 환경에서는 **AI 거버넌스 아키텍처를 지역별 규제 요건에 모듈식으로 대응 가능하도록 설계하는 것이 단일 글로벌 표준 적용보다 현실적인 전략**이다. 특히 국내 금융·공공 분야는 개인정보보호법 국외이전 제한과 망분리 정책이 클라우드 기반 멀티에이전트 도입의 현실적 장벽으로 작용하므로, 온프레미스 또는 폐쇄망 추론 아키텍처를 병행 검토하는 것이 도입 속도를 확보하는 경로다."
+    "AI 에이전트 도입 시 스킬 마켓플레이스나 외부 플러그인을 연결하기 전에 **보안 검증 절차를 아키텍처 설계 단계에서 의무화**해야 한다. 전체 스킬의 13.4%가 심각한 보안 결함을 포함한다는 실증 결과는, 외부 스킬 연동이 공격 표면 확장임을 의미한다.",
+    "HR·채용·여신심사 등 의사결정 AI를 단일 벤더 솔루션으로 운영 중이라면 **알고리즘 단일화로 인한 구조적 편향 리스크를 정기 감사 항목으로 포함**해야 한다. 벤더 다변화 또는 자체 편향 측정 지표 수립이 ESG 공시와 규제 대응의 선제 조건이 된다.",
+    "금융·의료·법률 분야에서 AI 시스템 도입 평가 기준을 성능 벤치마크 중심에서 **감사 가능성(auditability)과 재현성(determinism)을 포함한 복합 기준으로 재설계**해야 한다. 동일 입력에 동일 출력을 보장하지 못하는 시스템은 내부통제 요건을 충족하지 못할 가능성이 높다.",
+    "다중 에이전트 시스템을 기획할 때 **책임 경계(accountability boundary)를 에이전트 오케스트레이션 설계 초기에 명시적으로 정의**해야 한다. 어떤 에이전트의 어떤 출력이 증거·검토·승인 대상인지를 아키텍처 문서에 사전 기술하지 않으면, 오류 발생 시 책임 귀속이 불가능해진다.",
+    "생성형 AI 도입 시 학습 데이터 출처와 저작권 라이선스를 벤더에게 서면으로 확인하고, **부당이득·저작권 침해 리스크를 AI 도입 계약서의 면책 조항에 명시적으로 반영**해야 한다. 관련 소송이 실무 리스크로 전환되는 속도가 빨라지고 있다."
   ],
   "top_institutions": [
     {
       "name": "ETH",
-      "count": 306
+      "count": 304
     },
     {
       "name": "MIT",
-      "count": 187
+      "count": 185
     },
     {
       "name": "Meta",
@@ -533,27 +489,27 @@
   "top_keywords": [
     {
       "keyword": "multi",
-      "count": 58
+      "count": 57
     },
     {
       "keyword": "agent",
-      "count": 52
+      "count": 50
     },
     {
       "keyword": "agents",
-      "count": 46
-    },
-    {
-      "keyword": "language",
-      "count": 44
+      "count": 45
     },
     {
       "keyword": "framework",
       "count": 43
     },
     {
+      "keyword": "language",
+      "count": 43
+    },
+    {
       "keyword": "systems",
-      "count": 41
+      "count": 40
     },
     {
       "keyword": "data",
@@ -576,16 +532,16 @@
       "count": 31
     },
     {
-      "keyword": "human",
+      "keyword": "aware",
       "count": 26
+    },
+    {
+      "keyword": "human",
+      "count": 25
     },
     {
       "keyword": "design",
-      "count": 26
-    },
-    {
-      "keyword": "aware",
-      "count": 26
+      "count": 25
     },
     {
       "keyword": "retrieval",
@@ -856,6 +812,7 @@
   ],
   "available_periods": {
     "daily": [
+      "2026-06-01",
       "2026-05-31",
       "2026-05-30",
       "2026-05-29",
@@ -864,9 +821,11 @@
       "2026-05-26"
     ],
     "weekly": [
+      "2026-W23",
       "2026-W22"
     ],
     "monthly": [
+      "2026-06",
       "2026-05"
     ]
   }
