@@ -959,6 +959,36 @@ def main():
         }
     daily_cards = existing_daily_cards  # 호환성 — 아래 news.json payload에서 사용
 
+    # v6.15.50 (2026-06-03): 과거 daily self-heal 확장.
+    #   배경: v6.15.47 self-heal은 today만 복구 → 빌드 strategy 단계가 자정을 넘겨 다음 날
+    #   실행되거나(예: #91이 06-03 00:25 실행 → today=06-03, 기사 부족으로 skip) 그날 빌드가
+    #   실패하면 과거 날짜(06-02)가 임시(_emergency) 카드로 영구 고착됨.
+    #   변경: 최근 HEAL_PAST_DAYS일을 점검해 '전부 임시'인 날을 (streaming-fixed) LLM으로 재생성.
+    HEAL_PAST_DAYS = 3
+    if backend != "none":
+        for _back in range(1, HEAL_PAST_DAYS + 1):
+            past = today - timedelta(days=_back)
+            past_iso = past.isoformat()
+            _pcards = _normalize_bucket(history["daily"].get(past_iso))["cards"]
+            if not (_pcards and all(c.get("_emergency") for c in _pcards)):
+                continue
+            past_items, _ = filter_items_by_period(items, "daily", past)
+            if len(past_items) < 3:
+                continue
+            print(f"  [daily backfill] {past_iso} 전부 임시(_emergency) → 재생성 시도 "
+                  f"(후보 {len(past_items)}건)", flush=True)
+            ps_summary, ps_cards = generate_cards(past_items, "daily", past, items)
+            if ps_cards:
+                ps_cards = _reorder_cards_by_importance(ps_cards)
+                history["daily"][past_iso] = {
+                    "summary": ps_summary,
+                    "cards": ps_cards,
+                    "_summary_addons": [],
+                }
+                print(f"  [daily backfill] {past_iso} → {len(ps_cards)} 정상 카드로 교체", flush=True)
+            else:
+                print(f"  [daily backfill] {past_iso} 재생성도 빈 결과 → 임시 카드 유지", flush=True)
+
     # === Weekly === (월요일 또는 이번 주 weekly 없을 때, 또는 force_refresh)
     is_monday = today.weekday() == 0
     existing_weekly = _normalize_bucket(history["weekly"].get(week_key))
