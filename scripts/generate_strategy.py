@@ -56,8 +56,8 @@ v6.15.26 (2026-05-28): 카드 개수 정책 변경 — **{period_label} 기준 {
 핵심 어젠다(아래 ★ 룰 참조)는 빠짐없이 별도 카드로 다룰 것.
 
 [응답 형식 — JSON 객체]
+**★ 출력 순서 필수: 반드시 "cards"를 먼저 끝까지 완성한 뒤, 맨 마지막에 짧은 "summary"를 출력하라. (응답이 길어 토큰 한도에서 잘리더라도 카드가 우선 보존되도록 — summary는 가장 마지막에 한 번만.)**
 {{
-  "summary": "{period_label} 핵심 흐름을 2~3문장(150~220자)으로 압축. 카드들 전체를 관통하는 메타 줄거리 — '이런 큰 흐름들이 동시에 일어나고 있으며 가장 결정적인 한 가지는 X다' 같은 구조. **summary 안에서도 가장 결정적인 1~2개 인사이트 구절을 `**...**`로 강조하라** (예: '**거버넌스 설계 역량이 AI 도입의 실질적 병목**으로 부상'). 시점 표현 금지. **★ 마지막 한 문장은 반드시 '이 흐름들이 한국 법무·로펌·법조계에 시사하는 가장 결정적인 한 가지'를 명시 (예: '판결문 공개 정책 방향이 로펌 AI 인프라 경쟁의 분기점이 될 가능성', 'AI 개발용 개인정보 특례 입법 흐름이 로펌 컴플라이언스 자문 수요를 재편할 변수'). 산업 일반 동향만으로 끝내지 말고 반드시 법무·로펌·법조계 함의로 마무리.**",
   "cards": [
     {{
       "tag": "TREND 01 · [한 줄 주제]",
@@ -67,7 +67,8 @@ v6.15.26 (2026-05-28): 카드 개수 정책 변경 — **{period_label} 기준 {
       "sources": [번호1, 번호2, ...]
     }},
     ...
-  ]
+  ],
+  "summary": "{period_label} 핵심 흐름을 2~3문장(150~220자)으로 압축. 카드들 전체를 관통하는 메타 줄거리 — '이런 큰 흐름들이 동시에 일어나고 있으며 가장 결정적인 한 가지는 X다' 같은 구조. **summary 안에서도 가장 결정적인 1~2개 인사이트 구절을 `**...**`로 강조하라** (예: '**거버넌스 설계 역량이 AI 도입의 실질적 병목**으로 부상'). 시점 표현 금지. **★ 마지막 한 문장은 반드시 '이 흐름들이 한국 법무·로펌·법조계에 시사하는 가장 결정적인 한 가지'를 명시 (예: '판결문 공개 정책 방향이 로펌 AI 인프라 경쟁의 분기점이 될 가능성', 'AI 개발용 개인정보 특례 입법 흐름이 로펌 컴플라이언스 자문 수요를 재편할 변수'). 산업 일반 동향만으로 끝내지 말고 반드시 법무·로펌·법조계 함의로 마무리.**"
 }}
 
 규칙:
@@ -432,7 +433,10 @@ def generate_cards(items: list, period: str, ref_date: date, all_items: list):
     )
 
     # v6.15: 카드 개수 자율 + summary 필드 → 응답 더 길어질 수 있음. max_tokens 8000→12000.
-    result = call_llm_json(prompt, max_tokens=12000, temperature=0.4)
+    # v6.15.47 (2026-06-02): 12000→24000. daily 응답이 12000 토큰에서 잘려 JSON 파싱 실패 →
+    #   카드 0건 → 임시 카드 fallback 재발(2번째). 상한 상향(실제 출력 길 때만 비용 증가) +
+    #   cards-first 프롬프트 + llm_client salvage 보강으로 3중 방어.
+    result = call_llm_json(prompt, max_tokens=24000, temperature=0.4)
 
     # v6.15: 응답은 {"summary": "...", "cards": [...]} 객체. 단 backward-compat:
     # LLM이 옛 형식(배열)으로 응답하면 summary="" 로 폴백.
@@ -816,6 +820,17 @@ def main():
     existing_daily_cards = existing_daily["cards"]
     daily_summary_text = existing_daily["summary"]
     daily_summary_addons = list(existing_daily["_summary_addons"])
+
+    # v6.15.47 (2026-06-02): 기존 daily가 전부 임시(_emergency) 카드면 빈 것으로 간주 → full 재생성.
+    #   배경: 임시 카드는 'LLM 빈 결과' fallback(§generate_cards 비상 경로). 원래 의도는
+    #   "다음 빌드에서 정상 카드로 교체"였으나, 증분(누적) 경로가 기존 카드를 보존해버려
+    #   임시 카드가 계속 남던 문제. → 전부 임시면 비우고 정상 재생성하도록 self-heal.
+    if existing_daily_cards and all(c.get("_emergency") for c in existing_daily_cards):
+        print(f"  [daily] 기존 {len(existing_daily_cards)}개가 전부 임시(_emergency) 카드 "
+              f"→ 비우고 full 재생성 (self-heal)", flush=True)
+        existing_daily_cards = []
+        daily_summary_text = ""
+        daily_summary_addons = []
 
     # === Daily ===
     # v6.15-B 누적·증분 정책:

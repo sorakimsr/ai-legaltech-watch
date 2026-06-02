@@ -170,6 +170,73 @@ def call_llm(prompt: str, max_tokens: int = 800, temperature: float = 0.3) -> st
         return ""
 
 
+def _salvage_truncated(text: str):
+    """잘린(truncated) JSON 회복 — bracket-stack 기반 일반 복구.
+
+    v6.15.47 (2026-06-02): daily 전략 응답이 토큰 한도에서 잘려 파싱 실패 →
+    카드 0건 → 임시 카드 fallback이 반복된 문제의 구조적 방어.
+
+    동작:
+      1) 첫 '{' 또는 '[' 이전의 잡음(예: 닫히지 않은 ```json 펜스)을 버린다.
+      2) 문자열·이스케이프 상태를 추적하며 열린 컨테이너 스택을 유지.
+      3) depth>=1에서 (a) 하위 element가 완전히 닫힌 직후(`}`/`]`), 또는
+         (b) element 구분 콤마 위치를 'safe cut point'로 기록.
+      4) 마지막 safe point까지 자르고 열린 컨테이너를 역순으로 닫아 파싱.
+
+    효과: cards-first 응답이 summary 도중 또는 카드 배열 중간에 잘려도
+    이미 완성된 카드들을 회복(0건+임시카드 대신 'N건' graceful degrade).
+    회복 실패 시 None.
+    """
+    if not text:
+        return None
+    starts = [p for p in (text.find("{"), text.find("[")) if p != -1]
+    if not starts:
+        return None
+    text = text[min(starts):]
+
+    stack = []          # 열린 컨테이너: '{' 또는 '['
+    in_string = False
+    escape = False
+    safe_len = -1       # 이 길이까지 보존하면 닫아서 유효
+    safe_stack = None   # 그 시점의 열린 컨테이너 스냅샷
+
+    for i, c in enumerate(text):
+        if escape:
+            escape = False
+            continue
+        if c == "\\":
+            escape = True
+            continue
+        if in_string:
+            if c == '"':
+                in_string = False
+            continue
+        if c == '"':
+            in_string = True
+            continue
+        if c in "{[":
+            stack.append(c)
+        elif c in "}]":
+            if stack:
+                stack.pop()
+            if stack:  # 아직 상위 컨테이너 안 — element 하나 완성된 직후
+                safe_len = i + 1
+                safe_stack = list(stack)
+        elif c == "," and stack:
+            # element 구분 콤마 — 콤마 직전까지 보존하면 유효
+            safe_len = i
+            safe_stack = list(stack)
+
+    if safe_len <= 0 or not safe_stack:
+        return None
+    prefix = text[:safe_len].rstrip().rstrip(",")
+    closers = "".join("]" if b == "[" else "}" for b in reversed(safe_stack))
+    try:
+        return json.loads(prefix + closers)
+    except json.JSONDecodeError:
+        return None
+
+
 def call_llm_json(prompt: str, max_tokens: int = 800, temperature: float = 0.2):
     """LLM 응답을 JSON(dict or list)으로 파싱.
 
@@ -249,6 +316,67 @@ def call_llm_json(prompt: str, max_tokens: int = 800, temperature: float = 0.2):
                 return result
             except json.JSONDecodeError:
                 pass
+
+    # 5) v6.15.25 (2026-05-28): max_tokens 한도로 잘린 JSON object 복구
+    #    enrich 응답은 대부분 object {"summary_ko": ..., "entities": [...]} 형태.
+    #    entities/relations 리스트 중간에 잘리면 마지막 `}` 없어 파싱 실패.
+    #    → top-level에서 마지막 완전한 key-value pair까지 잘라 `}`로 닫음.
+    #    효과: summary_ko·insight_ko 등 이미 받은 필드는 살림 (entities 일부 잘려도 OK).
+    if first_obj != -1:
+        depth = 0
+        in_string = False
+        escape = False
+        last_top_level_comma = -1
+        last_value_end = -1  # 마지막으로 top-level value가 완전히 끝난 위치
+        for i in range(first_obj, len(candidate)):
+            c = candidate[i]
+            if escape:
+                escape = False
+                continue
+            if c == "\\":
+                escape = True
+                continue
+            if c == '"':
+                in_string = not in_string
+                # top-level에서 문자열이 닫혔으면 value 끝일 수도 (보수적)
+                if not in_string and depth == 1:
+                    last_value_end = i
+                continue
+            if in_string:
+                continue
+            if c == "{" or c == "[":
+                depth += 1
+            elif c == "}" or c == "]":
+                depth -= 1
+                if depth == 1:
+                    last_value_end = i  # top-level value (array/object) 완료
+            elif c == "," and depth == 1:
+                last_top_level_comma = i
+
+        # last_top_level_comma까지 잘라서 닫기 시도
+        # (마지막 완전한 필드까지 살리고 그 뒤 잘린 부분 버림)
+        if last_top_level_comma > first_obj:
+            salvaged = candidate[first_obj:last_top_level_comma] + "\n}"
+            try:
+                result = json.loads(salvaged)
+                fields = list(result.keys()) if isinstance(result, dict) else []
+                print(f"  [llm-json] truncated object salvaged (fields: {fields})", file=sys.stderr)
+                return result
+            except json.JSONDecodeError:
+                pass
+
+    # 6) v6.15.47: 일반 bracket-stack 기반 truncation 회복 (마지막 방어선)
+    #    cards-first 응답이 summary 도중/카드 배열 중간에 잘린 경우 완성 카드 회복.
+    salvaged = _salvage_truncated(candidate)
+    if salvaged is not None:
+        if isinstance(salvaged, dict) and isinstance(salvaged.get("cards"), list):
+            n = len(salvaged["cards"])
+        elif isinstance(salvaged, list):
+            n = len(salvaged)
+        else:
+            n = len(salvaged) if hasattr(salvaged, "__len__") else 1
+        print(f"  [llm-json] bracket-repair salvaged ({n} items)", file=sys.stderr)
+        return salvaged
 
     print(f"  [llm-json] parse failed. raw[:300]: {response[:300]}", file=sys.stderr)
     return {}
