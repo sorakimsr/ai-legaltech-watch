@@ -42,9 +42,12 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        # v6.15.48: upload-pages-artifact v3→v5 (Dependabot #9). v5 기본값이 dotfile 제외라
+        #   include-hidden-files: true로 .well-known/security.txt(RFC 9116) 유지.
+        uses: actions/upload-pages-artifact@v5
         with:
           path: "."
+          include-hidden-files: "true"
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

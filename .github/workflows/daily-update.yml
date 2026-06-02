@@ -10,10 +10,15 @@ name: Daily News Update
 #   v6.15.11 (4회 + 17분 offset)에서 변경. v6.9 (정시 cron)에서도 변경.
 on:
   schedule:
-    # 8회 / 3시간 간격 / 37분 offset
-    # UTC 00:37 / 03:37 / 06:37 / 09:37 / 12:37 / 15:37 / 18:37 / 21:37
-    # KST 09:37 / 12:37 / 15:37 / 18:37 / 21:37 / 00:37 / 03:37 / 06:37
-    - cron: "37 0,3,6,9,12,15,18,21 * * *"
+    # v6.15.46 (2026-05-30): 8회 → 4회 축소 (사용자 요청).
+    #   이유: 빌드가 1시간+ 헤비 작업이고 Claude API 비용이 하루 $50 넘게 발생 →
+    #         8회는 과함. 6시간 간격 4회로 비용 절감.
+    #   ※ GitHub schedule은 부하 시 종종 누락됨 → 4회 중 일부가 빠질 수 있음.
+    #     확실한 정시 실행이 필요하면 외부 cron(cron-job.org)으로 workflow_dispatch 호출
+    #     (단, GitHub cron과 동시 사용하면 중복 실행/비용 2배 — 둘 중 하나만 쓸 것).
+    # 6시간 간격 / 37분 offset. UTC 03:37 / 09:37 / 15:37 / 21:37
+    # KST 12:37 / 18:37 / 00:37 / 06:37
+    - cron: "37 3,9,15,21 * * *"
   workflow_dispatch:  # 수동 실행 가능
     inputs:
       skip_fetch:
@@ -304,9 +309,13 @@ jobs:
         uses: actions/configure-pages@v5
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        # v6.15.48: upload-pages-artifact v3→v5 (Dependabot #9). v5는 기본적으로
+        #   dotfile(.well-known 등)을 아티팩트에서 제외 → include-hidden-files: true로
+        #   .well-known/security.txt(RFC 9116) 유지. (.DS_Store는 repo 미커밋이라 무관)
+        uses: actions/upload-pages-artifact@v5
         with:
           path: "."
+          include-hidden-files: "true"
 
       - name: Deploy to GitHub Pages
         id: deployment
