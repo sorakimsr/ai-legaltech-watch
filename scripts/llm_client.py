@@ -77,20 +77,28 @@ def call_claude_cli(prompt: str, max_tokens: int = 800) -> str:
 
 
 def call_anthropic_sdk(prompt: str, max_tokens: int = 800, temperature: float = 0.3) -> str:
-    """Anthropic SDK 직접 호출"""
+    """Anthropic SDK 직접 호출 (스트리밍).
+
+    v6.15.49 (2026-06-02): 비스트리밍 messages.create()는 max_tokens가 커서
+    요청이 10분을 넘길 수 있으면 "Streaming is required for operations that may take
+    longer than 10 minutes" 예외를 던진다(#90 daily 전략 실패의 진짜 원인 — v6.15.47에서
+    max_tokens 12000→24000으로 올리며 이 임계선을 넘김). 스트리밍으로 토큰을 누적 수신하면
+    10분 제한이 사라져 큰 max_tokens도 안전하고, 응답 잘림도 발생하지 않는다.
+    작은 호출(enrich Haiku 등)에도 무해 — 동일 API로 짧게 끝남.
+    """
     try:
         import anthropic
         client = anthropic.Anthropic()
-        msg = client.messages.create(
+        parts = []
+        with client.messages.stream(
             model=os.environ.get("ANTHROPIC_MODEL", "claude-sonnet-4-6"),
             max_tokens=max_tokens,
             temperature=temperature,
-            messages=[{"role": "user", "content": prompt}]
-        )
-        # content 는 블록 리스트
-        if msg.content and len(msg.content) > 0:
-            return msg.content[0].text.strip()
-        return ""
+            messages=[{"role": "user", "content": prompt}],
+        ) as stream:
+            for text in stream.text_stream:
+                parts.append(text)
+        return "".join(parts).strip()
     except Exception as exc:
         print(f"  [anthropic] exception: {exc}", file=sys.stderr)
         return ""
