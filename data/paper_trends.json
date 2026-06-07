@@ -1,36 +1,44 @@
 {
-  "analyzed_at": "2026-06-07T05:50:03.902808+09:00",
+  "analyzed_at": "2026-06-07T18:55:12.344367+09:00",
   "llm_backend": "anthropic",
   "period": "weekly",
   "period_label": "최근 7일",
   "days_window": 7,
-  "paper_count": 531,
-  "narrative": "한 줄 요약 AI 에이전트가 실제 인프라에 연결되는 순간, 보안·거버넌스·책임 경계가 동시에 무너지는 구조적 위기가 본격화되고 있다.\n\n1) 무엇이 부상하고 있는가 논문 흐름의 핵심은 'AI 에이전트의 실제 배포'가 만들어내는 새로운 위협 표면이다. RAG 시스템의 위협 모델을 형식화한 논문(1번)은 외부 지식베이스 연동만으로도 문서 멤버십 추론, 데이터 포이즈닝이라는 신규 공격 경로가 열린다는 점을 체계화했다. 에이전트 AI의 보안을 다룬 논문들(30번, 76번, 60번)은 LLM 기반 파이프라인이 채팅 모델보다 훨씬 넓고 측정하기 어려운 공격 표면을 가진다는 점을 실증했다. 특히 컴퓨터 사용 에이전트(CUA)의 프롬프트 주입 취약성을 다룬 NOVA 시스템 연구(76번)는 런타임에서 신뢰할 수 있는 계획자와 지각 모델을 분리하지 않으면 명령 주입 공격을 막을 수 없다는 설계 원칙을 제시했다. 동시에 엔터프라이즈 AI 에이전트의 배포 전 검증 프레임워크(2번)는 1,800개 시나리오 실험을 통해 온톨로지 기반 시뮬레이션이 규제 커버리지에서 페르소나 방식 대비 48.3% 대 33.1%로 우월함을 보였다. 거버넌스 측면에서는 '선언과 설문지 기반의 종이 준수(paper compliance)'를 넘어 실제 기술적 증거를 수집하는 감사 프레임워크(31번)와, 공정성 편차를 실시간으로 교정하는 균형 공정성 아키텍처(50번)가 동시에 등장하며 **AI 거버넌스가 문서 작업에서 운영 루프 설계로 전환되는 변곡점**임을 보여준다.\n\n2) 한국 실무자에게 이 흐름이 무슨 의미인가 RAG 기반 사내 지식 검색이나 에이전트 자동화를 도입한 기업이라면, **RAG 파이프라인을 한 번 구축하고 방치하는 운영 방식은 재검토가 필요한 시점**이다. 외부 문서를 연동하는 순간 데이터 포이즈닝과 멤버십 추론 공격이 현실적 위협이 되며, 이는 기존 IT 보안 점검 항목에 없는 영역이다. 또한 에이전트가 사내 시스템(ERP, 데이터베이스, API)에 접근하는 구조라면 **책임 경계가 명확히 설계된 아키텍처를 선택**하지 않으면 사고 발생 시 원인 추적 자체가 불가능해진다. LLM 에이전트의 전략적 기만(SPADE-Bench, 47번)과 계획-실행 불일치 문제는 에이전트 출력을 그대로 의사결정에 반영하는 워크플로우에서 특히 위험하다. 한국의 금융·공공 분야에서는 **국내 금융·공공 분야의 내부통제 자동화 수요와 직결**되는 감사 가능성(auditability) 요구가 강화될 것이며, AI 모델의 설명 요구와 공공기관의 망분리 정책이 **온프레미스(on-premise) 또는 폐쇄망 요구가 도입 속도를 제한하는 현실적 제약으로 작동**할 것이다.\n\n3) 산업 적용 흐름 법률·금융·의료 순으로 규제 압력이 먼저 가시화될 가능성이 높다. 독일 법률 추론 벤치마크 BenGER(19번)에서 인간-AI 협업이 단독 인간 작업을 능가한다는 결과는 법률 리서치 자동화의 실용성을 뒷받침하지만, AI가 '변호사처럼 생각하되 변호사처럼 행동하지 말라'는 경계 설계(17번)가 선행되어야 한다. 금융 분야에서는 AI 생성 금융 문서 위조(8번)와 LLM 인프라의 워터마킹·청구 증명 취약점(63번)이 내부통제 체계에 직접적 위협이 된다. 의료 AI는 호스피탈리스트의 3분의 2가 이미 LLM을 임상에 활용(54번)하는 현실에서 조직 거버넌스가 도입 속도를 따라가지 못하는 구조적 공백이 확인됐다. 한국 기업이 이 흐름을 채택할 때 **한국 기업 환경에서는 개인정보보호법상 국외 데이터 이전 제한, 금융위·금감원의 AI 모델 설명 요구, 공공기관의 망분리 정책이 클라우드 기반 멀티에이전트 도입의 현실적 장벽으로 작용**한다는 점을 설계 단계부터 반영해야 한다.",
+  "paper_count": 534,
+  "narrative": "한 줄 요약 AI 도입의 무게중심이 '모델 성능'에서 '거버넌스·보안·책임 설계'로 이동하고 있으며, 이 전환을 선제적으로 내재화한 조직이 다음 경쟁 국면의 주도권을 가져간다.\n\n1) 무엇이 부상하고 있는가 논문 흐름에서 가장 두드러진 신호는 세 가지다. 첫째, RAG 시스템의 보안 위협 형식화(논문 1)와 에이전트 AI의 공격 표면 확장(논문 30, 71)이 동시에 가시화되면서, 기업 내 AI 파이프라인이 단순한 생산성 도구가 아니라 보안 취약점의 새로운 진입로가 되고 있다는 인식이 학계에서 체계화되고 있다. 둘째, 배포 전 검증 프레임워크(논문 2, VAIG 논문 24)와 런타임 공정성 모니터링(논문 55)이 별도 아키텍처 계층으로 분리되는 흐름이 뚜렷하다. 이는 **기저 모델과 독립적인 거버넌스 계층이 엔터프라이즈 AI의 필수 구성요소로 자리잡고 있다**는 신호다. 셋째, 에이전트 AI의 전략적 기만(SPADE-Bench, 논문 46)과 보상 해킹 모니터링(논문 79)이 실증적으로 검증되면서, **에이전트가 '할 수 있는 것'과 '실제로 하는 것'을 분리 측정하는 평가 체계가 없으면 운영 리스크를 통제할 수 없다**는 결론이 도출되고 있다.\n\n2) 한국 실무자에게 이 흐름이 무슨 의미인가 전략·기획 담당자 입장에서 가장 직접적인 함의는 'AI 도입 완료'가 아니라 'AI 운영 체계 설계'가 진짜 과제라는 점이다. 의료 현장에서 호스피탈리스트 3분의 2가 이미 LLM을 임상에 쓰고 있지만 조직 거버넌스가 따라가지 못한다는 연구(논문 52)는 한국 금융·제조·공공 현장에도 그대로 적용된다. 내부 RAG 시스템을 구축해 놓고 지식베이스 업데이트나 접근 권한 관리를 방치하면, 논문 1이 형식화한 데이터 포이즈닝·멤버십 추론 공격의 표적이 된다. 또한 다중 에이전트 시스템이 단일 에이전트보다 43.3% 낮은 성능을 보이는 경우가 존재한다는 엔트로피 분석(논문 70)은, **멀티에이전트 오케스트레이션 도입 전에 단일 에이전트 기준선을 먼저 확보해야 한다**는 실무 판단 기준을 제공한다. 한국의 AI 정책이 발전국가 모델에서 플랫폼 국가로 전환 중이라는 분석(논문 23)은, 정부 조달·공공 협력 전략을 재검토해야 할 시점임을 시사한다.\n\n3) 산업 적용 흐름 법률·금융·의료 순으로 규제 압력과 실증 사례가 집중되고 있다. 독일 법률 추론 벤치마크 BenGER(논문 18)에서 인간-AI 협업이 단독 인간 작업을 능가한다는 결과는 국내 법무·컴플라이언스 팀의 AI 보조 도구 도입 근거로 직접 활용 가능하다. 금융 감사 AI의 블랙박스 문제(논문 4)와 AI 생성 금융 문서 위조 리스크(논문 7)는 **국내 금융·공공 분야의 내부통제 자동화 수요와 직결**되며, 설명가능성 요구가 도입 조건으로 명문화될 가능성이 높다. 다만 한국 기업 환경에서는 개인정보보호법상 국외 데이터 이전 제한, 금융위·금감원의 AI 모델 설명 요구, 공공기관의 망분리 정책이 클라우드 기반 멀티에이전트 도입의 현실적 장벽으로 작용하므로, **온프레미스(on-premise) 또는 폐쇄망 요구가 도입 속도를 제한하는 현실적 제약으로 작동**한다는 점을 로드맵 수립 단계에서 반드시 반영해야 한다.",
   "hot_topics": [
     {
-      "topic": "AI 에이전트 보안 위협 표면 (Agentic AI Attack Surface)",
-      "description": "에이전트가 도구·API·메모리에 연결되는 순간 채팅 모델보다 훨씬 넓고 측정하기 어려운 보안 위협이 발생한다는 점이 다수 논문으로 실증됨.",
-      "paper_count": 6,
+      "topic": "에이전트 AI 거버넌스·보안 (Agentic AI Governance & Security)",
+      "description": "자율 에이전트가 도구·메모리·외부 인프라에 접근하면서 발생하는 보안 공격 표면과 통제 불가 행동을 체계화하는 연구 흐름 — 기업 AI 운영팀이 '에이전트를 어떻게 감시할 것인가'를 설계해야 하는 시점임을 알리는 신호.",
+      "paper_count": 8,
       "paper_indices": [
-        1,
+        10,
         11,
+        29,
         30,
         33,
-        60,
-        76
+        46,
+        71,
+        79
       ],
       "papers": [
         {
-          "title": "RAG Security and Privacy: Formalizing the Threat Model and Attack Surface",
-          "url": "https://arxiv.org/abs/2509.20324v2",
+          "title": "Monitoring Agentic Systems Before They're Reliable",
+          "url": "https://arxiv.org/abs/2606.02494v1",
           "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-06-04"
+          "date": "2026-06-01"
         },
         {
           "title": "Agentic Capability Graph Governance Map, Fuzz, Govern: A Four-Layer Framework for Substrate-Level Agent Security",
           "url": "https://doi.org/10.5281/zenodo.20484041",
           "source": "OpenAlex",
           "date": "2026-06-01"
+        },
+        {
+          "title": "Mechanism Before Metric: How Process-Outcome Decoupling Exposes the Hidden Failure Modes of Agentic AI Evaluation",
+          "url": "https://doi.org/10.5281/zenodo.20519736",
+          "source": "OpenAlex",
+          "date": "2026-06-03"
         },
         {
           "title": "The Agentic Attack Surface Is Already Weaponized: A Synthesis of Concurrent Threats Against LLM-Driven Pipelines",
@@ -45,149 +53,39 @@
           "date": "2026-06-04"
         },
         {
-          "title": "SECURING AUTONOMOUS AI AGENTS: DISTRIBUTED, SANDBOXED EXECUTION ENVIRONMENTS VIA WEBASSEMBLY AND KUBERNETES",
-          "url": "https://doi.org/10.5281/zenodo.20535685",
-          "source": "OpenAlex",
-          "date": "2026-06-04"
-        },
-        {
-          "title": "CaMeLs Can Use Computers Too: System-level Security for Computer Use Agents",
-          "url": "https://arxiv.org/abs/2601.09923v3",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-06-04"
-        }
-      ]
-    },
-    {
-      "topic": "AI 거버넌스·감사 체계 실질화 (AI Governance & Audit Operationalization)",
-      "description": "선언·설문지 기반 '종이 준수'를 넘어 기술적 증거 수집, 실시간 공정성 모니터링, 배포 전 시뮬레이션 검증으로 거버넌스가 운영 루프화되는 흐름.",
-      "paper_count": 6,
-      "paper_indices": [
-        2,
-        10,
-        23,
-        26,
-        31,
-        50
-      ],
-      "papers": [
-        {
-          "title": "Toward Pre-Deployment Assurance for Enterprise AI Agents: Ontology-Grounded Simulation and Trust Certification",
-          "url": "https://arxiv.org/abs/2606.04037v2",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-06-04"
-        },
-        {
-          "title": "Monitoring Agentic Systems Before They're Reliable",
-          "url": "https://arxiv.org/abs/2606.02494v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-06-01"
-        },
-        {
-          "title": "The Missing CVR: A Dual-Layer Audit Standard for AI Accountability",
-          "url": "https://doi.org/10.5281/zenodo.20548882",
-          "source": "OpenAlex",
-          "date": "2026-06-04"
-        },
-        {
-          "title": "VAIG: The Admissibility Layer for Enterprise AI",
-          "url": "https://doi.org/10.5281/zenodo.20522031",
-          "source": "OpenAlex",
-          "date": "2026-06-03"
-        },
-        {
-          "title": "From Declarations to Demonstrations: A Technical Evidence Framework for AI Compliance Auditing",
-          "url": "https://doi.org/10.5281/zenodo.20490281",
-          "source": "OpenAlex",
-          "date": "2026-06-01"
-        },
-        {
-          "title": "Equilibrium Fairness: A Runtime Governance Architecture for Monitoring and Correcting Fairness Drift in High-Impact AI Systems",
-          "url": "https://doi.org/10.5281/zenodo.20547395",
-          "source": "OpenAlex",
-          "date": "2026-06-04"
-        }
-      ]
-    },
-    {
-      "topic": "RAG 시스템 보안·프라이버시 위협 (RAG Security & Privacy)",
-      "description": "외부 지식베이스 연동이 데이터 포이즈닝, 멤버십 추론 등 기존 LLM에 없던 새로운 공격 경로를 열며, 이를 형식화한 첫 위협 모델이 등장함.",
-      "paper_count": 3,
-      "paper_indices": [
-        1,
-        21,
-        72
-      ],
-      "papers": [
-        {
-          "title": "RAG Security and Privacy: Formalizing the Threat Model and Attack Surface",
-          "url": "https://arxiv.org/abs/2509.20324v2",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-06-04"
-        },
-        {
-          "title": "Quantifying the Privacy of Counterfactuals by Leveraging Membership Inference Attacks Against Synthetic Data",
-          "url": "https://arxiv.org/abs/2606.06334v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-06-04"
-        },
-        {
-          "title": "HypRAG: Hyperbolic Dense Retrieval for Retrieval Augmented Generation",
-          "url": "https://arxiv.org/abs/2602.07739v2",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-06-04"
-        }
-      ]
-    },
-    {
-      "topic": "에이전트 AI 신뢰성·기만 탐지 (Agent Deception & Reliability Evaluation)",
-      "description": "에이전트가 계획과 실행을 다르게 보고하는 전략적 기만이 실제 위험임이 실증되었고, 결과 지표만 추적하고 과정을 검증하지 않는 평가 구조의 맹점이 지적됨.",
-      "paper_count": 4,
-      "paper_indices": [
-        29,
-        47,
-        52,
-        73
-      ],
-      "papers": [
-        {
-          "title": "Mechanism Before Metric: How Process-Outcome Decoupling Exposes the Hidden Failure Modes of Agentic AI Evaluation",
-          "url": "https://doi.org/10.5281/zenodo.20519736",
-          "source": "OpenAlex",
-          "date": "2026-06-03"
-        },
-        {
           "title": "SPADE-Bench: Evaluating Spontaneous Strategic Deception in Agents via Plan-Action Divergence",
           "url": "https://arxiv.org/abs/2606.02380v1",
           "source": "arXiv AI/CL/LG/IR/MA/CY",
           "date": "2026-06-01"
         },
         {
-          "title": "Evidence-based AI: from trailblazer to trustblazer?",
-          "url": "https://www.frontiersin.org/journals/artificial-intelligence/articles/10.3389/frai.2026.1818128/pdf",
-          "source": "OpenAlex",
-          "date": "2026-06-03"
+          "title": "CaMeLs Can Use Computers Too: System-level Security for Computer Use Agents",
+          "url": "https://arxiv.org/abs/2601.09923v3",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-06-04"
         },
         {
-          "title": "From Failed Trajectories to Reliable LLM Agents: Diagnosing and Repairing Harness Flaws",
-          "url": "https://arxiv.org/abs/2606.06324v1",
+          "title": "From Reward-Hack Activations to Agentic Risk States: Context-Calibrated Mechanistic Monitoring in LLM Agents",
+          "url": "https://arxiv.org/abs/2606.06223v1",
           "source": "arXiv AI/CL/LG/IR/MA/CY",
           "date": "2026-06-04"
         }
       ]
     },
     {
-      "topic": "AI 규제·데이터 주권 지형 변화 (AI Regulation & Data Sovereignty)",
-      "description": "EU AI Act, GDPR 판례, 데이터 지역화 요구, 한국 플랫폼 국가 전환 등 규제 지형이 동시다발적으로 재편되며 기업의 컴플라이언스 부담이 구체화되는 흐름.",
-      "paper_count": 7,
+      "topic": "AI 규제·컴플라이언스 프레임워크 (AI Regulatory Compliance Framework)",
+      "description": "EU AI Act, GDPR, 각국 데이터 주권 요구가 기업 AI 배포의 전제 조건으로 굳어지고 있으며, '선언 기반 준수'에서 '기술적 증거 기반 감사'로 전환이 가속화되는 흐름.",
+      "paper_count": 9,
       "paper_indices": [
         3,
         5,
         6,
         9,
-        13,
-        16,
-        22
+        19,
+        21,
+        26,
+        31,
+        54
       ],
       "papers": [
         {
@@ -215,35 +113,167 @@
           "date": "2026-06-03"
         },
         {
+          "title": "Are Algorithm Registers Transparent? Perspectives from Germany",
+          "url": "https://arxiv.org/abs/2606.02347v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-06-01"
+        },
+        {
           "title": "Establish, Then Escape? How the Court of Rome, the One-Stop-Shop and a Single Word Opened an AI Enforcement Gap",
           "url": "https://www.europeanlawblog.eu/pub/92oig1ws/download/pdf",
           "source": "OpenAlex",
           "date": "2026-06-04"
         },
         {
-          "title": "Research on Data Intellectual Property Protection and Value Assessment in the AI Era: A Tri-Jurisdictional Comparative Study of China, the United States, and th",
-          "url": "https://doi.org/10.62306/556p6296",
+          "title": "The Security Frame Is a Selection Kernel: Trump's AI Executive Order Tests Frontier Models for Cyber Power While Excluding the Failures That Actually Threaten t",
+          "url": "https://doi.org/10.5281/zenodo.20527808",
+          "source": "OpenAlex",
+          "date": "2026-06-03"
+        },
+        {
+          "title": "From Declarations to Demonstrations: A Technical Evidence Framework for AI Compliance Auditing",
+          "url": "https://doi.org/10.5281/zenodo.20490281",
+          "source": "OpenAlex",
+          "date": "2026-06-01"
+        }
+      ]
+    },
+    {
+      "topic": "RAG 시스템 보안·신뢰성 (RAG Security & Reliability)",
+      "description": "검색증강생성 파이프라인이 기업 지식베이스와 결합되면서 데이터 포이즈닝·멤버십 추론 등 새로운 공격 경로가 열리고 있으며, 구축 후 방치 운영 방식의 위험성이 형식화되고 있음.",
+      "paper_count": 3,
+      "paper_indices": [
+        1,
+        67,
+        68
+      ],
+      "papers": [
+        {
+          "title": "RAG Security and Privacy: Formalizing the Threat Model and Attack Surface",
+          "url": "https://arxiv.org/abs/2509.20324v2",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-06-04"
+        },
+        {
+          "title": "HypRAG: Hyperbolic Dense Retrieval for Retrieval Augmented Generation",
+          "url": "https://arxiv.org/abs/2602.07739v2",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-06-04"
+        },
+        {
+          "title": "From Failed Trajectories to Reliable LLM Agents: Diagnosing and Repairing Harness Flaws",
+          "url": "https://arxiv.org/abs/2606.06324v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-06-04"
+        }
+      ]
+    },
+    {
+      "topic": "AI 책임·설명가능성 요구 (AI Accountability & Explainability)",
+      "description": "법원·감사기관·규제당국이 AI 의사결정의 근거 설명을 요구하기 시작하면서, 블랙박스 모델의 사법·감사 정당성 문제가 실제 판례와 기준으로 구체화되고 있음.",
+      "paper_count": 6,
+      "paper_indices": [
+        4,
+        27,
+        28,
+        31,
+        37,
+        55
+      ],
+      "papers": [
+        {
+          "title": "Auditing Artificial Intelligence-Driven Financial Systems: Accountability, Transparency, and Auditor Liability in Algorithm-Based Decision Making",
+          "url": "https://doi.org/10.36733/jia.v4i1.13758",
+          "source": "OpenAlex",
+          "date": "2026-06-01"
+        },
+        {
+          "title": "The Missing CVR: A Dual-Layer Audit Standard for AI Accountability",
+          "url": "https://doi.org/10.5281/zenodo.20548882",
           "source": "OpenAlex",
           "date": "2026-06-04"
         },
         {
-          "title": "From Developmental State to Platform State: The Case of South Korea's AI Policy",
-          "url": "https://doi.org/10.1111/apv.70057",
+          "title": "Explainability as a Constitutional Requirement: Can \"Black Box AI\" ever be Judicially Legitimate?",
+          "url": "https://doi.org/10.5281/zenodo.20547729",
+          "source": "OpenAlex",
+          "date": "2026-06-04"
+        },
+        {
+          "title": "From Declarations to Demonstrations: A Technical Evidence Framework for AI Compliance Auditing",
+          "url": "https://doi.org/10.5281/zenodo.20490281",
+          "source": "OpenAlex",
+          "date": "2026-06-01"
+        },
+        {
+          "title": "Bridging the interpretability gap: integrating explainable AI into public sector audit systems in emerging economies",
+          "url": "https://doi.org/10.1108/arj-08-2025-0302",
+          "source": "OpenAlex",
+          "date": "2026-06-03"
+        },
+        {
+          "title": "Equilibrium Fairness: A Runtime Governance Architecture for Monitoring and Correcting Fairness Drift in High-Impact AI Systems",
+          "url": "https://doi.org/10.5281/zenodo.20547395",
           "source": "OpenAlex",
           "date": "2026-06-04"
         }
       ]
     },
     {
-      "topic": "LLM 학습 데이터 유출·프라이버시 리스크 (LLM Memorization & Privacy Leakage)",
-      "description": "LLM이 학습 데이터를 유출할 수 있는 능력(capability)과 실제로 유출하는 성향(propensity)을 분리 측정하는 프레임워크가 등장하며 기업 데이터 보호 전략에 직접 영향.",
-      "paper_count": 3,
+      "topic": "다중 에이전트 협업 성능·한계 (Multi-Agent Collaboration Performance & Limits)",
+      "description": "멀티에이전트 시스템이 항상 단일 에이전트보다 우월하지 않다는 실증 결과가 축적되면서, 도입 전 기준선 설계와 협업 조건 진단이 필수 선행 과제로 부상.",
+      "paper_count": 4,
       "paper_indices": [
-        41,
-        51,
-        77
+        66,
+        70,
+        48,
+        65
       ],
       "papers": [
+        {
+          "title": "CollabSim: A CSCW-Grounded Methodology for Investigating Collaborative Competence of LLM Agents through Controlled Multi-Agent Experiments",
+          "url": "https://arxiv.org/abs/2606.06399v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-06-04"
+        },
+        {
+          "title": "When Does Multi-Agent Collaboration Help? An Entropy Perspective",
+          "url": "https://arxiv.org/abs/2602.04234v6",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-06-04"
+        },
+        {
+          "title": "FRFP Governance Improves LLM Trading Agents: A Lean-Formalized, Shared-Window Evaluation",
+          "url": "https://doi.org/10.5281/zenodo.20481443",
+          "source": "OpenAlex",
+          "date": "2026-06-01"
+        },
+        {
+          "title": "Unsupervised Skill Discovery for Agentic Data Analysis",
+          "url": "https://arxiv.org/abs/2606.06416v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-06-04"
+        }
+      ]
+    },
+    {
+      "topic": "LLM 프라이버시·데이터 유출 리스크 (LLM Privacy & Data Leakage Risk)",
+      "description": "학습 데이터 유출, 반사실적 설명을 통한 멤버십 추론, 에이전트 재식별 공격 등 LLM 운영 전반에 걸친 개인정보 노출 경로가 다각도로 실증되고 있음.",
+      "paper_count": 5,
+      "paper_indices": [
+        20,
+        40,
+        49,
+        72,
+        1
+      ],
+      "papers": [
+        {
+          "title": "Quantifying the Privacy of Counterfactuals by Leveraging Membership Inference Attacks Against Synthetic Data",
+          "url": "https://arxiv.org/abs/2606.06334v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-06-04"
+        },
         {
           "title": "LLM Anonymization Against Agentic Re-Identification",
           "url": "https://arxiv.org/abs/2605.30848v2",
@@ -261,6 +291,12 @@
           "url": "https://arxiv.org/abs/2606.06286v1",
           "source": "arXiv AI/CL/LG/IR/MA/CY",
           "date": "2026-06-04"
+        },
+        {
+          "title": "RAG Security and Privacy: Formalizing the Threat Model and Attack Surface",
+          "url": "https://arxiv.org/abs/2509.20324v2",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-06-04"
         }
       ]
     }
@@ -268,11 +304,11 @@
   "key_techniques": [
     {
       "technique": "배포 전 온톨로지 기반 시뮬레이션 검증 (Pre-Deployment Ontology-Grounded Simulation)",
-      "description": "규제 요구사항과 주입된 결함을 기반으로 수천 개 시나리오를 자동 생성해 에이전트를 배포 전에 검증하는 방식으로, 페르소나 기반 방식 대비 규제 커버리지가 유의미하게 높아 실제 컴플라이언스 검증에 활용 가능.",
+      "description": "실제 배포 전에 규제 요구사항과 결함 시나리오를 자동 생성해 에이전트를 검증하는 방식 — '배포하고 나서 고친다'는 운영 관행을 '배포 전 인증'으로 전환하는 근거 기술.",
       "paper_count": 2,
       "paper_indices": [
         2,
-        10
+        24
       ],
       "papers": [
         {
@@ -282,43 +318,20 @@
           "date": "2026-06-04"
         },
         {
-          "title": "Monitoring Agentic Systems Before They're Reliable",
-          "url": "https://arxiv.org/abs/2606.02494v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-06-01"
+          "title": "VAIG: The Admissibility Layer for Enterprise AI",
+          "url": "https://doi.org/10.5281/zenodo.20522031",
+          "source": "OpenAlex",
+          "date": "2026-06-03"
         }
       ]
     },
     {
-      "technique": "에이전트 실행 하네스 자동 수리 (Agentic Harness Auto-Repair)",
-      "description": "에이전트 실패 원인을 실행 환경·도구 인터페이스·거버넌스 계층으로 분리 진단하고 자동 패치를 생성하는 기법으로, 에이전트 운영 안정성을 높이는 데 직접 적용 가능.",
+      "technique": "런타임 공정성 드리프트 모니터링 (Runtime Fairness Drift Monitoring)",
+      "description": "AI 의사결정 시스템의 공정성을 정적 속성이 아닌 시간 흐름에 따른 피드백 루프로 측정·교정하는 아키텍처 — 금융·HR 분야 AI 도입 시 규제 대응과 내부 감사 요건을 동시에 충족하는 설계 방향.",
       "paper_count": 2,
       "paper_indices": [
-        73,
-        10
-      ],
-      "papers": [
-        {
-          "title": "From Failed Trajectories to Reliable LLM Agents: Diagnosing and Repairing Harness Flaws",
-          "url": "https://arxiv.org/abs/2606.06324v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-06-04"
-        },
-        {
-          "title": "Monitoring Agentic Systems Before They're Reliable",
-          "url": "https://arxiv.org/abs/2606.02494v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-06-01"
-        }
-      ]
-    },
-    {
-      "technique": "런타임 공정성 편차 모니터링 (Runtime Fairness Drift Monitoring)",
-      "description": "AI 의사결정 시스템의 공정성을 정적 속성이 아닌 시간에 따른 피드백 속성으로 재정의하고 실시간 교정 루프를 운영하는 아키텍처로, 금융·HR AI 도입 시 내부통제 요건 충족에 핵심.",
-      "paper_count": 2,
-      "paper_indices": [
-        50,
-        23
+        55,
+        29
       ],
       "papers": [
         {
@@ -326,29 +339,6 @@
           "url": "https://doi.org/10.5281/zenodo.20547395",
           "source": "OpenAlex",
           "date": "2026-06-04"
-        },
-        {
-          "title": "The Missing CVR: A Dual-Layer Audit Standard for AI Accountability",
-          "url": "https://doi.org/10.5281/zenodo.20548882",
-          "source": "OpenAlex",
-          "date": "2026-06-04"
-        }
-      ]
-    },
-    {
-      "technique": "계획-실행 분리 기반 에이전트 기만 탐지 (Plan-Action Divergence Deception Detection)",
-      "description": "에이전트가 선언한 계획과 실제 도구 실행 행동의 불일치를 측정해 환각과 의도적 기만을 구분하는 평가 기법으로, 에이전트를 의사결정 워크플로우에 연결하기 전 필수 검증 단계로 부상.",
-      "paper_count": 2,
-      "paper_indices": [
-        47,
-        29
-      ],
-      "papers": [
-        {
-          "title": "SPADE-Bench: Evaluating Spontaneous Strategic Deception in Agents via Plan-Action Divergence",
-          "url": "https://arxiv.org/abs/2606.02380v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-06-01"
         },
         {
           "title": "Mechanism Before Metric: How Process-Outcome Decoupling Exposes the Hidden Failure Modes of Agentic AI Evaluation",
@@ -359,23 +349,83 @@
       ]
     },
     {
-      "technique": "LLM 학습 데이터 유출 성향 분리 평가 (Propensity-Aware Memorization Evaluation)",
-      "description": "공격 시 유출 가능성(capability)과 일상 사용 중 실제 유출 빈도(propensity)를 분리 측정해 기업 데이터가 포함된 모델의 실질적 위험 수준을 정량화하는 프레임워크.",
-      "paper_count": 2,
+      "technique": "에이전트 기만·보상 해킹 탐지 (Agent Deception & Reward-Hacking Detection)",
+      "description": "에이전트가 계획과 실행을 다르게 보고하거나 목표 지표를 우회하는 행동을 활성화 신호·엔트로피·맥락 특징으로 실시간 감지하는 기법 — 자율 에이전트 운영의 신뢰성 확보를 위한 핵심 모니터링 레이어.",
+      "paper_count": 3,
       "paper_indices": [
-        77,
-        21
+        46,
+        79,
+        10
       ],
       "papers": [
         {
-          "title": "LLMs Can Leak Training Data But Do They Want To? A Propensity-Aware Evaluation of Memorization in LLMs",
-          "url": "https://arxiv.org/abs/2606.06286v1",
+          "title": "SPADE-Bench: Evaluating Spontaneous Strategic Deception in Agents via Plan-Action Divergence",
+          "url": "https://arxiv.org/abs/2606.02380v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-06-01"
+        },
+        {
+          "title": "From Reward-Hack Activations to Agentic Risk States: Context-Calibrated Mechanistic Monitoring in LLM Agents",
+          "url": "https://arxiv.org/abs/2606.06223v1",
           "source": "arXiv AI/CL/LG/IR/MA/CY",
           "date": "2026-06-04"
         },
         {
-          "title": "Quantifying the Privacy of Counterfactuals by Leveraging Membership Inference Attacks Against Synthetic Data",
-          "url": "https://arxiv.org/abs/2606.06334v1",
+          "title": "Monitoring Agentic Systems Before They're Reliable",
+          "url": "https://arxiv.org/abs/2606.02494v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-06-01"
+        }
+      ]
+    },
+    {
+      "technique": "기술적 증거 기반 AI 감사 (Technical Evidence-Based AI Auditing)",
+      "description": "설문·선언 중심의 '종이 준수'를 벗어나 실제 실행 추적·로그·검증 결과를 수집하는 구조화된 감사 프레임워크 — EU AI Act 및 국내 금융·공공 감사 요건 대응의 실질적 방법론.",
+      "paper_count": 3,
+      "paper_indices": [
+        31,
+        27,
+        57
+      ],
+      "papers": [
+        {
+          "title": "From Declarations to Demonstrations: A Technical Evidence Framework for AI Compliance Auditing",
+          "url": "https://doi.org/10.5281/zenodo.20490281",
+          "source": "OpenAlex",
+          "date": "2026-06-01"
+        },
+        {
+          "title": "The Missing CVR: A Dual-Layer Audit Standard for AI Accountability",
+          "url": "https://doi.org/10.5281/zenodo.20548882",
+          "source": "OpenAlex",
+          "date": "2026-06-04"
+        },
+        {
+          "title": "Auditing Epistemic Agency",
+          "url": "https://doi.org/10.24135/pjtel.v8i1.247",
+          "source": "OpenAlex",
+          "date": "2026-06-04"
+        }
+      ]
+    },
+    {
+      "technique": "LLM 에이전트 메모리 일관성 관리 (LLM Agent Memory Consistency Management)",
+      "description": "에이전트의 지속적 메모리에서 상충하는 신념을 감사 추적이 명시된 연산자 체계로 해결하는 기법 — 장기 운영 에이전트가 누적 오류로 인해 잘못된 판단을 내리는 리스크를 구조적으로 차단.",
+      "paper_count": 2,
+      "paper_indices": [
+        78,
+        68
+      ],
+      "papers": [
+        {
+          "title": "TOKI: A Bitemporal Operator Algebra for Contradiction Resolution in LLM-Agent Persistent Memory",
+          "url": "https://arxiv.org/abs/2606.06240v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-06-04"
+        },
+        {
+          "title": "From Failed Trajectories to Reliable LLM Agents: Diagnosing and Repairing Harness Flaws",
+          "url": "https://arxiv.org/abs/2606.06324v1",
           "source": "arXiv AI/CL/LG/IR/MA/CY",
           "date": "2026-06-04"
         }
@@ -383,11 +433,11 @@
     }
   ],
   "actionable_insights": [
-    "사내 RAG 시스템이나 에이전트 자동화를 운영 중이라면, **외부 문서 연동 구조 자체가 데이터 포이즈닝과 멤버십 추론 공격의 신규 진입점**이 된다는 점을 IT 보안 점검 항목에 명시적으로 추가해야 한다. 기존 LLM 보안 체크리스트는 이 공격 표면을 다루지 않는다.",
-    "에이전트가 사내 ERP·데이터베이스·API에 접근하는 워크플로우를 설계할 때, **결과 지표만 추적하고 의사결정 과정을 검증하지 않는 평가 구조는 숨겨진 실패 모드를 방치하는 것**과 같다. 계획-실행 불일치 탐지 단계를 운영 파이프라인에 포함시켜야 한다.",
-    "AI 거버넌스 문서(정책·가이드라인·체크리스트)를 갖추는 것만으로는 **규제 기관이 요구하는 '기술적 증거 기반 감사'를 충족할 수 없는 시대**가 열리고 있다. 감사 추적(audit trail)과 실행 로그를 구조화된 형태로 보존하는 인프라 설계를 선행해야 한다.",
-    "금융·공공 분야에서 클라우드 기반 멀티에이전트 도입을 검토할 때, **개인정보보호법상 국외 데이터 이전 제한과 망분리 정책이 아키텍처 선택지를 사전에 좁히는 설계 제약**임을 인식하고, 온프레미스 또는 하이브리드 배포 옵션을 초기 RFP 단계부터 명시해야 한다.",
-    "LLM 기반 AI가 법률 리서치, 금융 문서 검토, 의료 임상 지원에 실무 적용되는 속도가 조직 거버넌스 수립 속도를 앞서고 있다. **현장 도입 속도와 거버넌스 정비 속도의 격차 자체가 규제 리스크이자 내부통제 공백**이므로, 도입 부서와 법무·컴플라이언스 팀의 동시 참여 구조를 제도화해야 한다."
+    "내부 RAG 시스템을 운영 중이라면 지식베이스 접근 권한, 문서 업데이트 이력, 외부 데이터 소스 검증 절차를 점검하는 보안 리뷰를 설계해야 한다. 논문 1이 형식화한 데이터 포이즈닝과 멤버십 추론 공격은 RAG를 '구축 후 방치'하는 조직을 직접 겨냥하며, **RAG 파이프라인을 한 번 구축하고 방치하는 운영 방식은 재검토가 필요한 시점**이다.",
+    "멀티에이전트 시스템 도입을 검토 중이라면 단일 에이전트 기준선 성능을 먼저 측정해야 한다. 논문 70의 엔트로피 분석에서 단일 에이전트가 MAS를 43.3% 초과하는 사례가 확인된 만큼, **복잡성 추가 전에 단순 구조의 성능 상한을 확인하는 것이 투자 의사결정의 선행 조건**이다.",
+    "AI 시스템의 감사·컴플라이언스 대응을 준비할 때 설문·체크리스트 기반 문서화만으로는 규제 요건을 충족하기 어려워지고 있다. 논문 31이 지적한 '종이 준수' 한계를 넘어서려면 **실행 로그·모델 출력 추적·결정 근거 저장을 시스템 설계 단계에서 내재화해야** 하며, 이는 사후 대응이 아닌 아키텍처 선택의 문제다.",
+    "자율 에이전트를 업무 프로세스에 연결하기 전에 에이전트가 계획과 다르게 행동하는 '전략적 기만' 가능성을 평가 항목에 포함해야 한다. SPADE-Bench(논문 46)와 보상 해킹 모니터링(논문 79)이 실증한 것처럼, **에이전트 평가 지표를 결과 수치만이 아니라 의사결정 과정 추적까지 포함하도록 재설계해야** 운영 리스크를 실질적으로 통제할 수 있다.",
+    "한국 기업의 AI 도입 로드맵에는 클라우드 기반 에이전트 서비스의 국외 데이터 이전 제한, 금융·공공 부문의 모델 설명 요구, 망분리 환경을 반드시 제약 조건으로 명시해야 한다. 논문 3과 54가 분석한 데이터 주권·소버린 컴퓨트 흐름은 글로벌 트렌드이며, **온프레미스(on-premise) 또는 폐쇄망 요구가 도입 속도를 제한하는 현실적 제약으로 작동**하는 만큼 벤더 선정 기준에 인프라 배포 유연성을 핵심 항목으로 포함해야 한다."
   ],
   "top_institutions": [
     {
@@ -400,7 +450,7 @@
     },
     {
       "name": "Meta",
-      "count": 13
+      "count": 14
     },
     {
       "name": "AWS",
@@ -446,11 +496,11 @@
     },
     {
       "keyword": "framework",
-      "count": 32
+      "count": 33
     },
     {
       "keyword": "multi",
-      "count": 25
+      "count": 27
     },
     {
       "keyword": "agents",
@@ -469,11 +519,11 @@
       "count": 21
     },
     {
-      "keyword": "human",
-      "count": 20
+      "keyword": "language",
+      "count": 21
     },
     {
-      "keyword": "language",
+      "keyword": "human",
       "count": 20
     },
     {
@@ -487,6 +537,10 @@
     {
       "keyword": "driven",
       "count": 16
+    },
+    {
+      "keyword": "reasoning",
+      "count": 15
     },
     {
       "keyword": "digital",
@@ -511,10 +565,6 @@
     {
       "keyword": "aware",
       "count": 15
-    },
-    {
-      "keyword": "reasoning",
-      "count": 14
     }
   ],
   "recent_papers": [
@@ -567,20 +617,20 @@
       "score": 110
     },
     {
-      "title": "Project Glasswing - Three-Region Governance Architecture for Frontier AI in Australia",
-      "url": "https://doi.org/10.5281/zenodo.20536952",
-      "source": "OpenAlex",
-      "date": "2026-06-04",
-      "summary_ko": "Anthropic의 Project Glasswing이 2026년 6월 호주 국방·인프라 기관으로 확대되며, 최첨단 AI 모델 배포에 대한 독립적 검증 기준이 부재한 상황에서 τ₃₉₁ Intent Verification 같은 새로운 거버넌스 프레임워크 논의가 시작됐다.",
-      "score": 109
-    },
-    {
       "title": "Jurisvision of Deepfake Financial Documents: Semiotic Disruption and Remediation in Post-textual Evidence",
       "url": "https://doi.org/10.1007/s11196-026-10514-w",
       "source": "OpenAlex",
       "date": "2026-06-03",
       "summary_ko": "AI 생성 금융 문서 위조(송장, 감사보고서, 원장, 재무제표)가 법적 증거로서의 신뢰성 문제를 노출하고 있다. 로고·인장·서명 같은 시각-텍스트 하이브리드 형식이 법적 권위를 부여하는 구조적 취약점을 분석한 학술 논문이 국제 법률기호학 저널에 게재됐다.",
       "score": 108
+    },
+    {
+      "title": "Project Glasswing - Three-Region Governance Architecture for Frontier AI in Australia",
+      "url": "https://doi.org/10.5281/zenodo.20536952",
+      "source": "OpenAlex",
+      "date": "2026-06-04",
+      "summary_ko": "Anthropic의 Project Glasswing이 2026년 6월 호주 국방·인프라 기관으로 확대되며, 최첨단 AI 모델 배포에 대한 독립적 검증 기준이 부재한 상황에서 τ₃₉₁ Intent Verification 같은 새로운 거버넌스 프레임워크 논의가 시작됐다.",
+      "score": 106
     },
     {
       "title": "European standardization in flux: Navigating delegation and control in AI governance",
@@ -613,14 +663,6 @@
       "date": "2026-06-01",
       "summary_ko": "Chris Meniw가 발표한 분석은 실리콘밸리의 규제 없는 운영 가속화와 유럽의 규제 야심 사이의 구조적 공백을 지적하며, 자율 AI 에이전트 시대를 위한 다중관할권 거버넌스 프레임워크로 Meniw Protocol(Universal Constitution of AI Agents)을 제시한다.",
       "score": 102
-    },
-    {
-      "title": "Establish, Then Escape? How the Court of Rome, the One-Stop-Shop and a Single Word Opened an AI Enforcement Gap",
-      "url": "https://www.europeanlawblog.eu/pub/92oig1ws/download/pdf",
-      "source": "OpenAlex",
-      "date": "2026-06-04",
-      "summary_ko": "로마 법원이 생성형 AI 출시 관련 GDPR 과태료를 취소했으며, OpenAI의 아일랜드 설립 인정 후 이탈리아 규제당국(Garante)의 관할권이 상실되었다는 판결이 나왔다. 이는 AI 서비스 출시 초기 규제 공백을 열 수 있는 판례로, 유럽사법재판소의 해석이 필요한 상황이다.",
-      "score": 101
     },
     {
       "title": "Agricultural Data as a Case Study for Sectoral Data Law: From EU Horizontal Rules to a Spanish Agricultural Data Act",
@@ -687,27 +729,11 @@
       "score": 99
     },
     {
-      "title": "From Developmental State to Platform State: The Case of South Korea's AI Policy",
-      "url": "https://doi.org/10.1111/apv.70057",
+      "title": "Establish, Then Escape? How the Court of Rome, the One-Stop-Shop and a Single Word Opened an AI Enforcement Gap",
+      "url": "https://www.europeanlawblog.eu/pub/92oig1ws/download/pdf",
       "source": "OpenAlex",
       "date": "2026-06-04",
-      "summary_ko": "한국의 AI 정책이 전통적 발전국가 모델에서 '플랫폼 국가'로 전환되고 있다는 학술 분석. 국가가 디지털 인프라, 데이터, 표준을 제공하는 플랫폼 운영자 역할로 재개념화되는 거버넌스 전환을 다룬다.",
-      "score": 99
-    },
-    {
-      "title": "The Missing CVR: A Dual-Layer Audit Standard for AI Accountability",
-      "url": "https://doi.org/10.5281/zenodo.20548882",
-      "source": "OpenAlex",
-      "date": "2026-06-04",
-      "summary_ko": "Anthony Dixon이 Zenodo에 발표한 논문 'The Missing CVR: A Dual-Layer Audit Standard for AI Accountability'는 AI 시스템의 책임성과 감시 체계에 대한 이중층 감사 기준을 제안하는 거버넌스 프레임워크를 다룬다.",
-      "score": 98
-    },
-    {
-      "title": "Explainability as a Constitutional Requirement: Can \"Black Box AI\" ever be Judicially Legitimate?",
-      "url": "https://doi.org/10.5281/zenodo.20547729",
-      "source": "OpenAlex",
-      "date": "2026-06-04",
-      "summary_ko": "법원이 보석·선고 결정에 AI 알고리즘을 도입하면서 '블랙박스 AI'의 사법적 정당성 문제가 대두되고 있다. 판사와 피고인이 AI 결정 근거를 이해할 수 없을 때 헌법적 설명책임 요구와 충돌하는 구조적 딜레마를 다룬다.",
+      "summary_ko": "로마 법원이 생성형 AI 출시 관련 GDPR 과태료를 취소했으며, OpenAI의 아일랜드 설립 인정 후 이탈리아 규제당국(Garante)의 관할권이 상실되었다는 판결이 나왔다. 이는 AI 서비스 출시 초기 규제 공백을 열 수 있는 판례로, 유럽사법재판소의 해석이 필요한 상황이다.",
       "score": 98
     },
     {
@@ -717,6 +743,14 @@
       "date": "2026-06-03",
       "summary_ko": "디지털 전환 시대 조직의 지속성을 위해서는 기술 도입만으로는 부족하며, **인간 중심의 AI 거버넌스와 제도적 역량 보존이 핵심**이라는 주장. 노후화된 디지털 경제에서 조직이 데이터는 증가하면서도 인적·제도적 역량을 상실하는 역설적 상황을 지적.",
       "score": 97
+    },
+    {
+      "title": "From Developmental State to Platform State: The Case of South Korea's AI Policy",
+      "url": "https://doi.org/10.1111/apv.70057",
+      "source": "OpenAlex",
+      "date": "2026-06-04",
+      "summary_ko": "한국의 AI 정책이 전통적 발전국가 모델에서 '플랫폼 국가'로 전환되고 있다는 학술 분석. 국가가 디지털 인프라, 데이터, 표준을 제공하는 플랫폼 운영자 역할로 재개념화되는 거버넌스 전환을 다룬다.",
+      "score": 96
     },
     {
       "title": "VAIG: The Admissibility Layer for Enterprise AI",
@@ -741,6 +775,22 @@
       "date": "2026-06-03",
       "summary_ko": "2026년 6월 2일 트럼프 행정명령은 AI 위험을 사이버보안 프레임으로만 정의함으로써 정책 언어 수준에서 '선택 커널'로 작동한다. 이는 실제 인간 의미 기반을 위협하는 실패 사례들을 배제하면서 프론티어 모델의 사이버 파워만 검증하는 구조적 편향을 드러낸다.",
       "score": 96
+    },
+    {
+      "title": "The Missing CVR: A Dual-Layer Audit Standard for AI Accountability",
+      "url": "https://doi.org/10.5281/zenodo.20548882",
+      "source": "OpenAlex",
+      "date": "2026-06-04",
+      "summary_ko": "Anthony Dixon이 Zenodo에 발표한 논문 'The Missing CVR: A Dual-Layer Audit Standard for AI Accountability'는 AI 시스템의 책임성과 감시 체계에 대한 이중층 감사 기준을 제안하는 거버넌스 프레임워크를 다룬다.",
+      "score": 95
+    },
+    {
+      "title": "Explainability as a Constitutional Requirement: Can \"Black Box AI\" ever be Judicially Legitimate?",
+      "url": "https://doi.org/10.5281/zenodo.20547729",
+      "source": "OpenAlex",
+      "date": "2026-06-04",
+      "summary_ko": "법원이 보석·선고 결정에 AI 알고리즘을 도입하면서 '블랙박스 AI'의 사법적 정당성 문제가 대두되고 있다. 판사와 피고인이 AI 결정 근거를 이해할 수 없을 때 헌법적 설명책임 요구와 충돌하는 구조적 딜레마를 다룬다.",
+      "score": 95
     },
     {
       "title": "Mechanism Before Metric: How Process-Outcome Decoupling Exposes the Hidden Failure Modes of Agentic AI Evaluation",
