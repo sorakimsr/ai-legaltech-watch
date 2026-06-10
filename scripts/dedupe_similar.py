@@ -21,6 +21,7 @@ import sys
 from datetime import datetime, timezone, timedelta
 from difflib import SequenceMatcher
 from collections import defaultdict
+from functools import lru_cache  # v6.15.54: per-title 메모이즈로 dedup 속도 개선 (결과 동일)
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
@@ -104,8 +105,11 @@ def strip_korean_particle(token: str) -> str:
     return token
 
 
+@lru_cache(maxsize=None)
 def tokenize(text: str):
-    """제목을 토큰화 + 한국어 조사 정리"""
+    """제목을 토큰화 + 한국어 조사 정리.
+    v6.15.54: lru_cache 메모이즈 — 같은 제목을 O(쌍) 번 재토큰화하던 것을 제목별 1회로.
+    반환 set은 호출 측에서 절대 변형(mutate)하지 않음(읽기 전용 집합 연산만)."""
     text = text.lower()
     # 한국어/영문/숫자만 남기고 분리
     text = re.sub(r"[^\w가-힣]+", " ", text)
@@ -119,15 +123,23 @@ def tokenize(text: str):
     return normalized
 
 
+@lru_cache(maxsize=None)
+def _proper_nouns_in(text: str) -> frozenset:
+    """text(소문자) 안에 등장하는 PROPER_NOUN_BOOST_KEYS 집합. v6.15.54: per-text 메모이즈."""
+    tl = text.lower()
+    return frozenset(kw for kw in PROPER_NOUN_BOOST_KEYS if kw in tl)
+
+
 def proper_noun_overlap(a: str, b: str) -> int:
-    """양쪽 제목에 같은 고유명사·키워드가 몇 개 동시 등장하는지"""
-    a_l = a.lower()
-    b_l = b.lower()
-    return sum(1 for kw in PROPER_NOUN_BOOST_KEYS if kw in a_l and kw in b_l)
+    """양쪽 제목에 같은 고유명사·키워드가 몇 개 동시 등장하는지.
+    v6.15.54: per-text 집합을 메모이즈해 교집합 크기로 계산 —
+    sum(1 for kw if kw in a_l and kw in b_l) 와 수학적으로 동일."""
+    return len(_proper_nouns_in(a) & _proper_nouns_in(b))
 
 
+@lru_cache(maxsize=None)
 def first_meaningful_token(title: str) -> str:
-    """제목의 첫 의미 토큰(회사명·기관명) 추출.
+    """제목의 첫 의미 토큰(회사명·기관명) 추출. v6.15.54: lru_cache 메모이즈(결과 동일).
     v3.9: '에이블런, AI 챔피언…' 같은 한국 PR 기사가 같은 회사면 그룹되도록.
     v3.18: 다음 케이스를 처리하도록 강화:
       - "[로펌이슈] 광장, ..." → 대괄호 prefix 제거 후 "광장"
@@ -166,6 +178,18 @@ def first_meaningful_token(title: str) -> str:
     return head_lower
 
 
+@lru_cache(maxsize=None)
+def _is_ascii(text: str) -> bool:
+    """제목이 전부 ASCII(영문)인지. v6.15.54: per-title 메모이즈(쌍마다 전체 char 스캔 제거)."""
+    return all(ord(c) < 128 for c in text)
+
+
+@lru_cache(maxsize=None)
+def _lower(text: str) -> str:
+    """소문자화 메모이즈 (SequenceMatcher 입력 재계산 방지)."""
+    return text.lower()
+
+
 def content_similarity(a: str, b: str) -> float:
     """두 제목의 순수 내용 유사도 (0~1) — 회사명/고유명사 보너스 없음.
 
@@ -179,10 +203,10 @@ def content_similarity(a: str, b: str) -> float:
     if not a_tokens or not b_tokens:
         return 0.0
     jaccard = len(a_tokens & b_tokens) / max(1, len(a_tokens | b_tokens))
-    is_english_a = all(ord(c) < 128 for c in a)
-    is_english_b = all(ord(c) < 128 for c in b)
+    is_english_a = _is_ascii(a)   # v6.15.54: 메모이즈 (결과 동일)
+    is_english_b = _is_ascii(b)
     if is_english_a and is_english_b:
-        seq_ratio = SequenceMatcher(None, a.lower(), b.lower()).ratio()
+        seq_ratio = SequenceMatcher(None, _lower(a), _lower(b)).ratio()
         return max(jaccard, seq_ratio * 0.6 + jaccard * 0.4)
     return jaccard
 
@@ -299,9 +323,9 @@ def group_items(items):
             #   기존 v4.6은 proper_pairs>=2면 임계를 강제 통과시켜 '같은 회사 다른 사건'을 과병합했음.
             #   이제 anchor일 뿐, 병합은 내용 floor(ANCHORED_CONTENT_SIM)를 넘어야만 성립.
             if same_day and not anchor:
-                a_full = (items[i].get("title", "") + " " + items[i].get("summary", "")).lower()
-                b_full = (items[j].get("title", "") + " " + items[j].get("summary", "")).lower()
-                if sum(1 for kw in PROPER_NOUN_BOOST_KEYS if kw in a_full and kw in b_full) >= 1:
+                # v6.15.54: 메모이즈된 per-text 고유명사 집합의 교집합 (기존 sum>=1과 동일 결과)
+                if (_proper_nouns_in(items[i].get("title", "") + " " + items[i].get("summary", ""))
+                        & _proper_nouns_in(items[j].get("title", "") + " " + items[j].get("summary", ""))):
                     anchor = True
 
             # ── 2단계 판정 ──
