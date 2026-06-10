@@ -116,6 +116,9 @@ SOURCES = [
     ("Stratechery", "https://stratechery.com/feed/", "rss", ["ai-industry"], "en"),
     ("Latent Space (Swyx)", "https://www.latent.space/feed", "rss", ["ai-industry"], "en"),
     ("Pragmatic Engineer", "https://newsletter.pragmaticengineer.com/feed", "rss", ["ai-industry"], "en"),
+    # v6.15.52: NLP News (Elvis Saravia / DAIR.AI) — 'Top ML Papers of the Week' 등 AI 연구·논문 중심 뉴스레터.
+    #   요청: nlpnews.substack.com 발간물 전체 수집. 커스텀 도메인 nlp.elvissaravia.com/feed 로 리다이렉트(유효 RSS).
+    ("NLP News (Elvis Saravia)", "https://nlp.elvissaravia.com/feed", "rss", ["ai-industry", "papers"], "en"),
     ("The Rundown AI", "https://news.google.com/rss/search?q=%22The+Rundown+AI%22+OR+site%3Atherundown.ai&hl=en&gl=US&ceid=US:en", "google_news", ["ai-industry"], "en"),
     ("Big Technology", "https://news.google.com/rss/search?q=%22Big+Technology%22+(Newsletter+OR+Substack)&hl=en&gl=US&ceid=US:en", "google_news", ["ai-industry"], "en"),
 
