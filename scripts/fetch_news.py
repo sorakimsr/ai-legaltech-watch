@@ -780,6 +780,13 @@ def main():
     active_cnt = sum(1 for s in source_status if s["status"] == "active")
     print(f"[done] {len(merged)} total, +{new_count} new, {active_cnt}/{len(sources)} sources active", flush=True)
 
+    # v6.15.53: idle(0건) 소스 열거 — '죽은 소스' 정리(다음 cleanup)를 위해 정확한 목록을 로그에 남김.
+    idle = [s for s in source_status if s.get("status") != "active"]
+    if idle:
+        print(f"  [idle sources] {len(idle)}개 (0건):", flush=True)
+        for s in sorted(idle, key=lambda x: x.get("name", "")):
+            print(f"    · {s.get('name','?')}  (count={s.get('count',0)}, url={str(s.get('url',''))[:70]})", flush=True)
+
 
 if __name__ == "__main__":
     main()

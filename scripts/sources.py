@@ -51,7 +51,10 @@ SOURCES = [
     # ====================================================================
     ("Anthropic Newsroom (scrape)", "https://www.anthropic.com/sitemap.xml|/news/", "scrape", ["ai-industry", "product"], "en"),
     ("Cohere Blog (scrape)", "https://cohere.com/sitemap.xml|/blog/", "scrape", ["ai-industry", "product"], "en"),
-    ("Stability AI (scrape)", "https://stability.ai/sitemap.xml|/news", "scrape", ["ai-industry", "product"], "en"),
+    # v6.15.53: Stability 스크랩 제거 — stability.ai 사이트맵의 /news-updates URL에 <lastmod>가
+    #   없어(검증 완료) '최근 4일' 날짜 필터가 전부 탈락 → 영구 0건(죽은 소스). Legora(v6.15.45)와
+    #   동일 케이스. google_news "Stability AI"(위 라인)가 커버하므로 손실 없음.
+    # ("Stability AI (scrape)", "https://stability.ai/sitemap.xml|/news", "scrape", ["ai-industry", "product"], "en"),
 
     # ====================================================================
     # AI 뉴스 매체 (영문)
@@ -119,6 +122,17 @@ SOURCES = [
     # v6.15.52: NLP News (Elvis Saravia / DAIR.AI) — 'Top ML Papers of the Week' 등 AI 연구·논문 중심 뉴스레터.
     #   요청: nlpnews.substack.com 발간물 전체 수집. 커스텀 도메인 nlp.elvissaravia.com/feed 로 리다이렉트(유효 RSS).
     ("NLP News (Elvis Saravia)", "https://nlp.elvissaravia.com/feed", "rss", ["ai-industry", "papers"], "en"),
+    # v6.15.53: 사용자 큐레이션 추가 — 고품질 AI/테크 인사이트 Substack (전부 RSS 전체 피드).
+    #   한국 인사이트형(사용자 지정 @hyuni·@hur):
+    ("전종현의 인사이트", "https://hyuni.substack.com/feed", "rss", ["ai-industry"], "ko"),
+    ("Two Cents (허진호)", "https://hur.substack.com/feed", "rss", ["ai-industry"], "ko"),
+    ("Alter Two Cents (허진호)", "https://alter.twocents.xyz/feed", "rss", ["ai-industry"], "ko"),
+    #   글로벌 톱티어(연구·실무·정책):
+    ("Ahead of AI (Raschka)", "https://magazine.sebastianraschka.com/feed", "rss", ["ai-industry", "papers"], "en"),
+    ("One Useful Thing (Mollick)", "https://www.oneusefulthing.org/feed", "rss", ["ai-industry"], "en"),
+    ("Interconnects (Lambert)", "https://www.interconnects.ai/feed", "rss", ["ai-industry", "papers"], "en"),
+    ("Import AI (Jack Clark)", "https://importai.substack.com/feed", "rss", ["ai-industry", "policy"], "en"),
+    ("Last Week in AI", "https://lastweekin.ai/feed", "rss", ["ai-industry"], "en"),
     ("The Rundown AI", "https://news.google.com/rss/search?q=%22The+Rundown+AI%22+OR+site%3Atherundown.ai&hl=en&gl=US&ceid=US:en", "google_news", ["ai-industry"], "en"),
     ("Big Technology", "https://news.google.com/rss/search?q=%22Big+Technology%22+(Newsletter+OR+Substack)&hl=en&gl=US&ceid=US:en", "google_news", ["ai-industry"], "en"),
 
