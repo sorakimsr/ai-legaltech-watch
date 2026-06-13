@@ -140,6 +140,7 @@ SOURCES = [
     ("Interconnects (Lambert)", "https://www.interconnects.ai/feed", "rss", ["ai-industry", "papers"], "en"),
     ("Import AI (Jack Clark)", "https://importai.substack.com/feed", "rss", ["ai-industry", "policy"], "en"),
     ("Last Week in AI", "https://lastweekin.ai/feed", "rss", ["ai-industry"], "en"),
+    ("The AI Break", "https://theaibreak.substack.com/feed", "rss", ["ai-industry"], "en"),  # v6.15.56: 주 3.6회 AI 뉴스 다이제스트(88K+)
     ("The Rundown AI", "https://news.google.com/rss/search?q=%22The+Rundown+AI%22+OR+site%3Atherundown.ai&hl=en&gl=US&ceid=US:en", "google_news", ["ai-industry"], "en"),
     ("Big Technology", "https://news.google.com/rss/search?q=%22Big+Technology%22+(Newsletter+OR+Substack)&hl=en&gl=US&ceid=US:en", "google_news", ["ai-industry"], "en"),
 

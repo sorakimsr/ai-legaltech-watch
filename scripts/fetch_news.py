@@ -780,12 +780,20 @@ def main():
     active_cnt = sum(1 for s in source_status if s["status"] == "active")
     print(f"[done] {len(merged)} total, +{new_count} new, {active_cnt}/{len(sources)} sources active", flush=True)
 
-    # v6.15.53: idle(0건) 소스 열거 — '죽은 소스' 정리(다음 cleanup)를 위해 정확한 목록을 로그에 남김.
-    idle = [s for s in source_status if s.get("status") != "active"]
-    if idle:
-        print(f"  [idle sources] {len(idle)}개 (0건):", flush=True)
-        for s in sorted(idle, key=lambda x: x.get("name", "")):
-            print(f"    · {s.get('name','?')}  (count={s.get('count',0)}, url={str(s.get('url',''))[:70]})", flush=True)
+    # v6.15.56: 소스 상태 분류 — '죽은 소스' 정리(a)를 위해 fetch 실패(error/차단)와
+    #   '발행 없음'(idle)을 구분. error = 죽은 소스 후보(여러 빌드 연속이면 제거 대상),
+    #   idle = 피드 정상이나 최근 발행 없음(저빈도 소스 — 유지). fetch_source가 이미 3-way 반환.
+    errors = [s for s in source_status if s.get("status") == "error"]
+    idles  = [s for s in source_status if s.get("status") == "idle"]
+    print(f"  [source health] active {active_cnt} / idle(미발행) {len(idles)} / error(fetch실패·차단) {len(errors)}", flush=True)
+    if errors:
+        print(f"  [ERROR sources] {len(errors)}개 — fetch 실패/차단(=죽은 소스 후보, 여러 빌드 연속 시 제거):", flush=True)
+        for s in sorted(errors, key=lambda x: x.get("name", "")):
+            print(f"    ✗ {s.get('name','?')}  (url={str(s.get('url',''))[:75]})", flush=True)
+    if idles:
+        print(f"  [idle sources] {len(idles)}개 — 피드 OK·최근 발행 없음(저빈도, 유지):", flush=True)
+        for s in sorted(idles, key=lambda x: x.get("name", "")):
+            print(f"    · {s.get('name','?')}", flush=True)
 
 
 if __name__ == "__main__":
