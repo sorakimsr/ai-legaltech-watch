@@ -51,6 +51,13 @@ SOURCES = [
     # ====================================================================
     ("Anthropic Newsroom (scrape)", "https://www.anthropic.com/sitemap.xml|/news/", "scrape", ["ai-industry", "product"], "en"),
     ("Cohere Blog (scrape)", "https://cohere.com/sitemap.xml|/blog/", "scrape", ["ai-industry", "product"], "en"),
+    # v6.15.55: Dario Amodei(Anthropic CEO) 개인 블로그 — 표준 RSS 없음(Webflow). sitemap 스크랩.
+    #   저빈도·고가치 에세이/포스트(예: 'Policy on the AI Exponential', 'Machines of Loving Grace').
+    #   ※ darioamodei.com 사이트맵 <lastmod> 유무 미검증 — 없으면 영구 0건(Stability類). 다음 idle 로그로 확인.
+    ("Dario Amodei (post, scrape)", "https://darioamodei.com/sitemap.xml|/post/", "scrape", ["ai-industry", "policy"], "en"),
+    ("Dario Amodei (essay, scrape)", "https://darioamodei.com/sitemap.xml|/essay/", "scrape", ["ai-industry", "policy"], "en"),
+    # 백업: 스크랩이 lastmod 부재로 죽을 경우 대비 google_news (Dario 에세이·발언 보도 포착)
+    ("Google News: Dario Amodei (EN)", "https://news.google.com/rss/search?q=%22Dario+Amodei%22+(essay+OR+blog+OR+post+OR+policy+OR+interview)&hl=en&gl=US&ceid=US:en", "google_news", ["ai-industry", "policy"], "en"),
     # v6.15.53: Stability 스크랩 제거 — stability.ai 사이트맵의 /news-updates URL에 <lastmod>가
     #   없어(검증 완료) '최근 4일' 날짜 필터가 전부 탈락 → 영구 0건(죽은 소스). Legora(v6.15.45)와
     #   동일 케이스. google_news "Stability AI"(위 라인)가 커버하므로 손실 없음.
