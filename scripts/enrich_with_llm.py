@@ -478,6 +478,133 @@ def _absorb_ner_fields(item: dict, result: dict) -> None:
     _apply_primary_category(item, result.get("primary_category"))
 
 
+# ── v6.15.59 (2026-06-15): arXiv abstract 역보강 ──────────────────────────
+#   문제: 논문이 HN/Reddit/구글뉴스 등 '제목만 주는' 소스로 들어오면 본문(abstract)이
+#   없어 LLM이 중요도를 평가 못 함(예: SIA 논문 — HN으로만 수집돼 score 54로 묻힘).
+#   해결(option A, 넓은 탐지): 본문 빈약 + 논문성 신호가 있으면 arXiv에서 abstract를
+#   가져와 붙인 뒤 enrich. URL에 arxiv id가 있으면 id로, 없으면 제목 검색(+제목 일치 검증).
+import re as _re_bf
+
+_ARXIV_ID_RE = _re_bf.compile(r"arxiv\.org/(?:abs|pdf)/(\d{4}\.\d{4,5})", _re_bf.I)
+_PAPER_SOURCE_HINTS = (
+    "hacker news", "papers with code", "paperswithcode", "arxiv", "semantic scholar",
+    "hugging face papers", "alphaxiv", "reddit", "the gradient",
+)
+_PAPER_TITLE_KEYS = (
+    "learning", "model", "benchmark", "framework", "neural", "transformer", "agent",
+    "reasoning", "language model", " llm", "diffusion", "self-improv", "fine-tun",
+    "pretrain", "attention", "alignment", "architecture", "embedding", "inference",
+    "dataset", "generative", "multimodal", "evaluation", "fine-tuning",
+)
+
+
+def _summary_is_thin(item: dict) -> bool:
+    s = (item.get("summary") or "").replace(" ", "").replace("\n", "")
+    return len(s) < 180
+
+
+def _looks_like_paper_ref(item: dict) -> bool:
+    """역보강 후보 판정 (넓은 탐지). arxiv 링크 / 논문성 소스 / 논문형 영문 제목."""
+    url = (item.get("url") or "").lower()
+    if _ARXIV_ID_RE.search(url):
+        return True
+    src = (item.get("source") or "").lower()
+    if any(h in src for h in _PAPER_SOURCE_HINTS):
+        return True
+    title = item.get("title") or ""
+    if ":" in title and item.get("lang") == "en":
+        low = " " + title.lower()
+        if any(k in low for k in _PAPER_TITLE_KEYS):
+            return True
+    return False
+
+
+def _title_tokens(t: str):
+    return set(_re_bf.findall(r"[a-z0-9]+", (t or "").lower()))
+
+
+def _fetch_arxiv_abstract(item: dict):
+    """arXiv abstract 조회. URL에 id 있으면 id로, 없으면 제목 검색(+제목 일치 0.6 검증).
+    Returns (abstract, meta) 또는 (None, None)."""
+    import urllib.parse
+    import urllib.request
+
+    url = item.get("url") or ""
+    title = item.get("title") or ""
+    m = _ARXIV_ID_RE.search(url)
+    try:
+        if m:
+            query = f"id_list={m.group(1)}"
+        else:
+            safe = urllib.parse.quote(f'ti:"{title[:200]}"')
+            query = f"search_query={safe}&max_results=1"
+        api = f"http://export.arxiv.org/api/query?{query}"
+        req = urllib.request.Request(api, headers={"User-Agent": "daibfy-backfill/1.0"})
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            xml = resp.read().decode("utf-8", "replace")
+    except Exception as exc:
+        print(f"    [backfill] arxiv fetch error: {exc}", file=sys.stderr)
+        return None, None
+
+    entry = _re_bf.search(r"<entry>(.*?)</entry>", xml, _re_bf.S)
+    if not entry:
+        return None, None
+    blk = entry.group(1)
+
+    def _tag(name):
+        mm = _re_bf.search(rf"<{name}>(.*?)</{name}>", blk, _re_bf.S)
+        return _re_bf.sub(r"\s+", " ", mm.group(1)).strip() if mm else ""
+
+    abstract = _tag("summary")
+    got_title = _tag("title")
+    if not abstract:
+        return None, None
+    # 제목 검색이면 일치 검증 (id 조회는 신뢰) — 오탐(비논문) 차단
+    if not m:
+        a, b = _title_tokens(title), _title_tokens(got_title)
+        if not a or len(a & b) / len(a) < 0.6:
+            return None, None
+    aid = _re_bf.search(r"arxiv\.org/abs/(\d{4}\.\d{4,5})", blk)
+    authors = _re_bf.findall(r"<name>(.*?)</name>", blk)
+    meta = {
+        "arxiv_id": m.group(1) if m else (aid.group(1) if aid else None),
+        "authors": [a.strip() for a in authors][:10],
+        "arxiv_tags": [],
+        "primary_category": None,
+    }
+    return abstract[:1800], meta
+
+
+_BACKFILL_BUDGET = [30]  # 빌드당 arXiv 역보강 호출 상한 (API 예의 + 폭주 방지)
+
+
+def _backfill_paper_abstract(item: dict) -> bool:
+    """제목만 수집된 논문 항목에 arXiv abstract 부착 후 'papers'로 승격."""
+    if item.get("_backfilled"):
+        return False  # 재실행(prev_map 재처리) 시 중복 호출 방지
+    if not _summary_is_thin(item) or not _looks_like_paper_ref(item):
+        return False
+    if _BACKFILL_BUDGET[0] <= 0:
+        return False
+    _BACKFILL_BUDGET[0] -= 1
+    time.sleep(1)  # arXiv API 예의
+    abstract, meta = _fetch_arxiv_abstract(item)
+    if not abstract:
+        return False
+    item["_backfilled"] = True
+    item["summary"] = abstract
+    if meta:
+        pm = item.get("paper_meta") or {}
+        pm.update({k: v for k, v in meta.items() if v})
+        item["paper_meta"] = pm
+    cats = item.get("categories") or []
+    if "papers" not in cats:
+        item["categories"] = ["papers"] + cats
+    print(f"    [backfill] arXiv abstract 부착 → {(item.get('title') or '')[:48]} "
+          f"(arxiv {meta.get('arxiv_id') if meta else '?'})", flush=True)
+    return True
+
+
 def enrich_item(item: dict) -> dict:
     """단일 항목 enrichment.
 
@@ -486,6 +613,9 @@ def enrich_item(item: dict) -> dict:
     - 한국어 + 점수>=threshold: insight + entities + relations
     - 한국어 + 점수<threshold: entities + relations만 (NER lightweight)
     """
+    # v6.15.59: 제목만 수집된 논문이면 arXiv abstract 역보강 (categories·summary 갱신 가능) → 먼저 실행
+    _backfill_paper_abstract(item)
+
     lang = item.get("lang", "en")
     score = item.get("score", 0)
     title = item.get("title", "")
