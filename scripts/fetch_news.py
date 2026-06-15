@@ -53,6 +53,14 @@ SOURCE_HISTORY_RETAIN_DAYS = 30
 # 자정 경계 누락 방지 위해 today + yesterday = 2일 (사용자 정책).
 FETCH_DAYS = 2
 
+# v6.15.57: Hugging Face Papers 트렌딩 소스 파라미터.
+#   HF_PAPERS_TOP_N: 최신 데일리 배치에서 upvote 상위 N개만 (트렌딩 = 핫한 것만, 저신호 노이즈 방지).
+#   HF_PAPERS_MIN_UPVOTES: 최소 추천수 (그 미만은 제외).
+#   HF는 발표 며칠 뒤 featured되는 경우가 많고(트렌딩의 본질), HF 데일리 배치가 today-filter(2일)보다
+#   뒤처질 수 있어 hf_papers는 today-filter에서 면제 (main()에서 처리). 30일 컷오프로 자연 만료.
+HF_PAPERS_TOP_N = 25
+HF_PAPERS_MIN_UPVOTES = 5
+
 
 # 보존할 필드 — 기존 항목과 새 항목 merge 시 이전 enriched 값을 잃지 않게
 PRESERVE_FIELDS = [
@@ -229,11 +237,119 @@ def _scrape_sitemap_entries(spec: str):
     return entries
 
 
+def _fetch_hf_papers(name, url, default_cats, lang):
+    """v6.15.57: Hugging Face Papers (트렌딩) — 커뮤니티 upvote 신호로 '지금 뜨는 논문' 포착.
+
+    배경: arXiv RSS(최근 제출일순)·OpenAlex(학술DB)는 며칠 전 발표된 뒤 커뮤니티에서
+    급부상한 논문(예: SIA — 발표 후 추천 폭증으로 글로벌 1위)을 놓침. HF Papers는
+    데일리 featured + 추천수(upvotes)를 제공하므로 이 트렌딩 신호를 점수·본문에 주입한다.
+
+    설계:
+    - JSON API 전용 파서 (feedparser loop 우회, 항목 직접 생성).
+    - 최신 데일리 배치에서 upvote 상위 N개만 (HF_PAPERS_TOP_N), 최소 추천수 미만 제외.
+    - 점수 floor = 35 + min(upvotes, 50) → 커뮤니티 추천을 직접 ranking 신호로 반영.
+    - 날짜 = submittedOnDailyAt(=HF가 featured한 트렌딩 시점), 없으면 publishedAt.
+    - 본문 앞에 "[HF Papers 트렌딩 · 추천 N표]" 주입 → enrich persona_score + UI 노출.
+    """
+    try:
+        body = _http_get(url, timeout=20)
+    except Exception as exc:
+        print(f"    -> hf_papers fetch error: {exc}", flush=True)
+        return [], "error"
+    if not body:
+        print(f"    -> hf_papers: empty body", flush=True)
+        return [], "error"
+    try:
+        data = json.loads(body)
+    except Exception as exc:
+        print(f"    -> hf_papers: json parse error: {exc}", flush=True)
+        return [], "error"
+    if not isinstance(data, list) or not data:
+        print(f"    -> hf_papers: 0건 (빈 배치)", flush=True)
+        return [], "idle"
+
+    def _up(it):
+        return ((it.get("paper") or {}).get("upvotes", 0)) or 0
+
+    ranked = sorted(data, key=_up, reverse=True)
+    items = []
+    for it in ranked:
+        upvotes = _up(it)
+        if upvotes < HF_PAPERS_MIN_UPVOTES:
+            continue
+        if len(items) >= HF_PAPERS_TOP_N:
+            break
+        p = it.get("paper") or {}
+        pid = (p.get("id") or "").strip()
+        title = clean_text(it.get("title") or p.get("title") or "")
+        if not title or not pid:
+            continue
+        raw_summary = p.get("ai_summary") or it.get("summary") or p.get("summary") or ""
+        summary = truncate(clean_text(raw_summary), 1800)
+        summary = f"[HF Papers 트렌딩 · 커뮤니티 추천 {upvotes}표] {summary}"
+        link = f"https://huggingface.co/papers/{pid}"
+
+        date_str = (
+            it.get("submittedOnDailyAt")
+            or it.get("publishedAt")
+            or p.get("publishedAt")
+        )
+        dt = parse_date_safe(date_str, default_tz=timezone.utc)
+        date_iso = dt.isoformat() if dt else None
+
+        categories = categorize(title, summary, list(default_cats), "hf_papers")
+        if "papers" not in categories:
+            categories = ["papers"] + categories
+
+        base = score_item(title, summary, dt, categories, source=f"{name} {link}")
+        floor = 35 + min(upvotes, 50)  # 커뮤니티 추천 비례 floor (max 85)
+        score = max(base, floor)
+
+        # arxiv id 형식이면 논문 메타 부여 (UI 논문 카드 + dedupe 보조)
+        paper_meta = None
+        if re.match(r"^\d{4}\.\d{4,5}$", pid):
+            authors = [
+                a.get("name") for a in (p.get("authors") or [])
+                if isinstance(a, dict) and a.get("name")
+            ]
+            paper_meta = {
+                "authors": authors[:10],
+                "arxiv_tags": [],
+                "primary_category": None,
+                "arxiv_id": pid,
+            }
+
+        new_item = {
+            "title": title,
+            "url": link,
+            "source": name,
+            "source_type": "hf_papers",
+            "lang": lang,
+            "date": date_iso or datetime.now(timezone.utc).isoformat(),
+            "date_unknown": dt is None,
+            "first_seen": datetime.now(KST).isoformat(),
+            "summary": summary,
+            "categories": categories,
+            "score": score,
+            "hf_upvotes": upvotes,  # 트렌딩 신호 (UI·정렬·디버그용)
+        }
+        if paper_meta:
+            new_item["paper_meta"] = paper_meta
+        items.append(new_item)
+
+    top_up = max((i["hf_upvotes"] for i in items), default=0)
+    print(f"    -> hf_papers: {len(items)}건 (upvote 상위 {HF_PAPERS_TOP_N}, 최고 {top_up}표)", flush=True)
+    return items, ("active" if items else "idle")
+
+
 def fetch_source(source_def):
     name, url, source_type, default_cats, lang = source_def
     items = []
     try:
         print(f"  [fetch] {name}", flush=True)
+        # v6.15.57: HF Papers 트렌딩 — JSON API 전용 파서로 조기 분기 (feedparser loop 우회)
+        if source_type == "hf_papers":
+            return _fetch_hf_papers(name, url, default_cats, lang)
         # v6.15.24: arXiv는 6개 카테고리 통합 query라 결과 많음 → 별도 cap 적용
         cap = MAX_PER_ARXIV_SOURCE if source_type == "arxiv" else MAX_PER_SOURCE
         # v2.7: arXiv API는 응답이 무거워서 전역 8초 timeout으로는 잘림 →
@@ -695,6 +811,11 @@ def main():
         before = len(all_new_items)
         kept = []
         for it in all_new_items:
+            # v6.15.57: HF Papers 트렌딩은 발표일 무관 유지 — featured = '지금 핫함'.
+            #   HF 데일리 배치가 today-filter(2일)보다 뒤처질 수 있어 면제. 30일 컷오프로 만료.
+            if it.get("source_type") == "hf_papers":
+                kept.append(it)
+                continue
             try:
                 dt = dateparser.parse(it.get("date", ""))
                 if dt.tzinfo is None:

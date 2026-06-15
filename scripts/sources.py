@@ -174,6 +174,10 @@ SOURCES = [
      "arxiv", ["papers"], "en"),
     # Papers With Code RSS 미제공 → Semantic Scholar가 동등 커버. 보조로 Google News 우회.
     ("Papers With Code", "https://news.google.com/rss/search?q=site%3Apaperswithcode.com+OR+%22paperswithcode%22+AI&hl=en&gl=US&ceid=US:en", "google_news", ["papers"], "en"),
+    # v6.15.57: Hugging Face Papers (트렌딩) — 커뮤니티 upvote 기반 '지금 뜨는 논문' 포착.
+    #   arXiv RSS(최근 제출)·OpenAlex(학술DB)는 며칠 전 발표 후 upvote가 급등한 핫 논문(예: SIA #1)을 놓침.
+    #   HF Papers는 데일리 featured + 추천수를 제공 → 트렌딩 신호를 점수·본문에 주입. JSON API(hf_papers 타입 전용 파서).
+    ("Hugging Face Papers (트렌딩)", "https://huggingface.co/api/daily_papers", "hf_papers", ["papers", "ai-industry"], "en"),
 
     # ====================================================================
     # 국내 매체 (한국어)

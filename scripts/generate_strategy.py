@@ -845,6 +845,12 @@ def main():
             # 전체 생성 (오전 첫 빌드 OR force_refresh)
             if len(daily_items_all) >= 3:
                 summary_text, cards_full = generate_cards(daily_items_all, "daily", today, items)
+                # v6.15.57: 첫 빌드(오늘 daily 없음)는 self-heal이 없어, 1회 빈 결과가
+                #   그날 전체를 임시카드로 고착시킨다. LLM 계층 재시도(call_anthropic_sdk 3회)에
+                #   더해, daily full-build 경로에서 카드 0건이면 1회 더 재생성 시도 후 비상 처리.
+                if not cards_full:
+                    print(f"  [daily] full-build 카드 0건 → 1회 재생성 재시도 (임시카드 직전 방어)", flush=True)
+                    summary_text, cards_full = generate_cards(daily_items_all, "daily", today, items)
                 if cards_full:
                     # v6.15.21: 풀 빌드 결과에도 중요도 재정렬 적용
                     cards_full = _reorder_cards_by_importance(cards_full)

@@ -77,31 +77,59 @@ def call_claude_cli(prompt: str, max_tokens: int = 800) -> str:
 
 
 def call_anthropic_sdk(prompt: str, max_tokens: int = 800, temperature: float = 0.3) -> str:
-    """Anthropic SDK 직접 호출 (스트리밍).
+    """Anthropic SDK 직접 호출 (스트리밍 + 재시도·백오프).
 
     v6.15.49 (2026-06-02): 비스트리밍 messages.create()는 max_tokens가 커서
     요청이 10분을 넘길 수 있으면 "Streaming is required for operations that may take
     longer than 10 minutes" 예외를 던진다(#90 daily 전략 실패의 진짜 원인 — v6.15.47에서
     max_tokens 12000→24000으로 올리며 이 임계선을 넘김). 스트리밍으로 토큰을 누적 수신하면
     10분 제한이 사라져 큰 max_tokens도 안전하고, 응답 잘림도 발생하지 않는다.
-    작은 호출(enrich Haiku 등)에도 무해 — 동일 API로 짧게 끝남.
+
+    v6.15.57 (2026-06-15): 재시도·백오프 추가 — 구조적 결함 해소.
+      배경: 스트리밍이 일시적 장애(overloaded 529·rate-limit 429·timeout·네트워크 블립)로
+      중간에 끊기면 빈 문자열을 반환했고, 호출자(generate_cards)는 재시도 없이 곧장
+      '임시 카드' fallback으로 빠졌다. 첫 빌드엔 self-heal도 없어 단 1회의 일시 실패가
+      그날 daily 시사점 전체를 임시카드로 고착시켰다(v6.15.47/.49/.50에 이은 같은 영역 반복).
+      → LLM 호출 계층에서 최대 3회 재시도(5s·20s 지수 백오프)하여 일시 장애가
+      비상 경로로 cascade되지 않도록 한다. 빈 응답도 재시도 대상. 에러 유형을 구분 로깅.
     """
+    import time
     try:
         import anthropic
         client = anthropic.Anthropic()
-        parts = []
-        with client.messages.stream(
-            model=os.environ.get("ANTHROPIC_MODEL", "claude-sonnet-4-6"),
-            max_tokens=max_tokens,
-            temperature=temperature,
-            messages=[{"role": "user", "content": prompt}],
-        ) as stream:
-            for text in stream.text_stream:
-                parts.append(text)
-        return "".join(parts).strip()
     except Exception as exc:
-        print(f"  [anthropic] exception: {exc}", file=sys.stderr)
+        # 비-일시적 설정 오류(모듈 없음·키 없음) → 재시도 무의미, 즉시 실패
+        print(f"  [anthropic] setup error (재시도 안 함): {type(exc).__name__}: {str(exc)[:120]}",
+              file=sys.stderr)
         return ""
+    last_err = None
+    for attempt in range(1, 4):  # 최대 3회 (일시적 장애만)
+        try:
+            parts = []
+            with client.messages.stream(
+                model=os.environ.get("ANTHROPIC_MODEL", "claude-sonnet-4-6"),
+                max_tokens=max_tokens,
+                temperature=temperature,
+                messages=[{"role": "user", "content": prompt}],
+            ) as stream:
+                for text in stream.text_stream:
+                    parts.append(text)
+            out = "".join(parts).strip()
+            if out:
+                if attempt > 1:
+                    print(f"  [anthropic] 재시도 {attempt}회차에 성공", file=sys.stderr)
+                return out
+            last_err = "empty response (스트림은 정상 종료했으나 본문 0자)"
+            print(f"  [anthropic] 빈 응답 (attempt {attempt}/3)", file=sys.stderr)
+        except Exception as exc:
+            last_err = exc
+            print(f"  [anthropic] {type(exc).__name__}: {str(exc)[:160]} (attempt {attempt}/3)",
+                  file=sys.stderr)
+        if attempt < 3:
+            time.sleep(5 * (attempt ** 2))  # 5s, 20s 지수 백오프
+    print(f"  [anthropic] 3회 모두 실패 → 빈 결과 반환 (마지막 원인: {str(last_err)[:120]})",
+          file=sys.stderr)
+    return ""
 
 
 def call_openai_sdk(prompt: str, max_tokens: int = 800, temperature: float = 0.3) -> str:
