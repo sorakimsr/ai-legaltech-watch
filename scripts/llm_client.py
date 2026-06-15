@@ -316,6 +316,29 @@ def call_llm_json(prompt: str, max_tokens: int = 800, temperature: float = 0.2):
         except json.JSONDecodeError:
             continue
 
+    # 3.5) v6.15.58 (2026-06-15): json_repair — 깨진 LLM JSON의 포괄 복구.
+    #    여기까지 왔으면 표준 json.loads가 실패한 것. #122 로그로 확인된 실제 실패 모드:
+    #    응답은 비어있지 않으나(```json {"cards":[...) 한국어 본문에 escape 안 된 큰따옴표·
+    #    줄바꿈 등이 섞여 파싱 실패 → 아래 수작업 salvage(4~6)는 문자열 상태 추적이 따옴표
+    #    desync로 깨지거나 cards 없는 부분 dict를 반환 → 0 카드 → 임시카드.
+    #    json_repair를 수작업 salvage보다 '먼저' 두어 우선권 부여(검증: 실패 모드 재현 샘플 3/3 회복).
+    #    valid JSON은 위 2~3에서 이미 빠른 경로로 처리됨(여기 도달 안 함).
+    try:
+        from json_repair import repair_json
+        repaired = repair_json(candidate, return_objects=True)
+        if isinstance(repaired, dict) and repaired.get("cards"):
+            print(f"  [llm-json] json_repair 복구 ({len(repaired['cards'])} cards)", file=sys.stderr)
+            return repaired
+        if isinstance(repaired, list) and repaired:
+            print(f"  [llm-json] json_repair 복구 ({len(repaired)} items, array)", file=sys.stderr)
+            return repaired
+        if isinstance(repaired, dict) and repaired:
+            # cards 키는 없지만 다른 구조(enrich 응답 등) — 유효하면 채택
+            print(f"  [llm-json] json_repair 복구 (dict, keys={list(repaired.keys())[:6]})", file=sys.stderr)
+            return repaired
+    except Exception as exc:
+        print(f"  [llm-json] json_repair 예외: {type(exc).__name__}: {str(exc)[:80]}", file=sys.stderr)
+
     # 4) max_tokens 한도로 잘린 JSON array 복구 시도
     #    (`[ {...}, {...}, {... 까지만 와서 닫힘 `]` 가 없는 경우)
     if first_arr != -1:
@@ -401,7 +424,7 @@ def call_llm_json(prompt: str, max_tokens: int = 800, temperature: float = 0.2):
             except json.JSONDecodeError:
                 pass
 
-    # 6) v6.15.47: 일반 bracket-stack 기반 truncation 회복 (마지막 방어선)
+    # 6) v6.15.47: 일반 bracket-stack 기반 truncation 회복
     #    cards-first 응답이 summary 도중/카드 배열 중간에 잘린 경우 완성 카드 회복.
     salvaged = _salvage_truncated(candidate)
     if salvaged is not None:
@@ -414,5 +437,10 @@ def call_llm_json(prompt: str, max_tokens: int = 800, temperature: float = 0.2):
         print(f"  [llm-json] bracket-repair salvaged ({n} items)", file=sys.stderr)
         return salvaged
 
-    print(f"  [llm-json] parse failed. raw[:300]: {response[:300]}", file=sys.stderr)
+    # 모든 시도 실패 (json_repair 포함) — 진단을 위해 json 에러와 더 긴 raw를 남긴다.
+    try:
+        json.loads(candidate)
+    except Exception as je:
+        print(f"  [llm-json] parse 최종 실패. json error: {str(je)[:120]}", file=sys.stderr)
+    print(f"  [llm-json] raw[:600]: {response[:600]}", file=sys.stderr)
     return {}
