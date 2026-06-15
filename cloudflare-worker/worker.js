@@ -182,7 +182,67 @@ export default {
       }, request, env, 502);
     }
   },
+
+  // ─────────────────────────────────────────────────────────────────────
+  // Cron Trigger — GitHub Actions 빌드를 직접 dispatch (v6.15.58, 2026-06-15)
+  //
+  // 배경: GitHub의 schedule cron이 실행을 자주 누락(하루 절반 가량 드롭)해
+  //   daibfy.com이 갱신 안 되는 문제. 외부 cron 사이트(토큰을 제3자에 저장)는
+  //   피하고, 이미 운영 중인 본 워커에서 Cloudflare Cron Trigger로 직접 트리거한다.
+  //   토큰은 본 워커의 secret(GITHUB_DISPATCH_TOKEN)으로만 존재.
+  //
+  // 필요 설정:
+  //   1) wrangler.toml 의 [triggers] crons = [...]  (아래 파일에 추가됨)
+  //   2) wrangler secret put GITHUB_DISPATCH_TOKEN   (fine-grained PAT, Actions:write)
+  //   선택) [vars] GH_REPO = "sorakimsr/ai-legaltech-watch"  (기본값 내장)
+  //
+  // 무료 플랜은 실패 시 자동 재시도가 없어 핸들러 안에서 직접 1회 재시도한다.
+  async scheduled(event, env, ctx) {
+    ctx.waitUntil(triggerGithubBuild(env, event && event.cron));
+  },
 };
+
+// GitHub Actions workflow_dispatch 호출 (재시도 1회 포함)
+async function triggerGithubBuild(env, cronExpr) {
+  const repo = (env && env.GH_REPO) || "sorakimsr/ai-legaltech-watch";
+  const workflow = (env && env.GH_WORKFLOW) || "daily-update.yml";
+  const ref = (env && env.GH_REF) || "main";
+  const token = env && env.GITHUB_DISPATCH_TOKEN;
+  const url = `https://api.github.com/repos/${repo}/actions/workflows/${workflow}/dispatches`;
+
+  if (!token) {
+    console.log("[cron] GITHUB_DISPATCH_TOKEN 미설정 — dispatch 건너뜀");
+    return;
+  }
+
+  for (let attempt = 1; attempt <= 2; attempt++) {
+    try {
+      const resp = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Accept": "application/vnd.github+json",
+          "Authorization": `Bearer ${token}`,
+          "X-GitHub-Api-Version": "2022-11-28",
+          // GitHub API는 User-Agent 헤더 필수 (없으면 403)
+          "User-Agent": "daibfy-cron-worker",
+        },
+        body: JSON.stringify({ ref }),
+      });
+      // 성공 = 204 No Content
+      if (resp.status === 204) {
+        console.log(`[cron] dispatch OK (cron=${cronExpr || "?"}, attempt ${attempt})`);
+        return;
+      }
+      const text = await resp.text();
+      console.log(`[cron] dispatch 실패 status=${resp.status} body=${text.slice(0, 200)} (attempt ${attempt})`);
+      // 4xx(권한/입력 오류)는 재시도해도 동일 → 즉시 종료
+      if (resp.status >= 400 && resp.status < 500) return;
+    } catch (err) {
+      console.log(`[cron] dispatch 예외: ${String(err).slice(0, 160)} (attempt ${attempt})`);
+    }
+    if (attempt < 2) await new Promise((r) => setTimeout(r, 3000));
+  }
+}
 
 async function callClaude(apiKey, prompt, system, maxTokens, model) {
   model = model || DEFAULT_MODELS.claude;

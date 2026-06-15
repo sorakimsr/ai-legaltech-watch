@@ -19,6 +19,20 @@ id = "aa25ac8adbbe4c739fb287e81a0756d9"
 #   wrangler secret put ANTHROPIC_API_KEY
 #   wrangler secret put OPENAI_API_KEY
 #   wrangler secret put ALLOWED_ORIGINS   (선택)
+#   wrangler secret put GITHUB_DISPATCH_TOKEN   (v6.15.58 — GitHub Actions 빌드 트리거용 PAT)
+
+# ── Cron Trigger (v6.15.58, 2026-06-15) ──
+# GitHub schedule cron 누락 보완 — 워커가 직접 GitHub Actions 빌드를 dispatch.
+# UTC 기준. "0 3,9,15,21 * * *" = KST 06:00 / 12:00 / 18:00 / 00:00 (하루 4회).
+# 핸들러: worker.js 의 scheduled() → triggerGithubBuild().
+[triggers]
+crons = ["0 3,9,15,21 * * *"]
+
+# 빌드 대상 (worker.js 기본값과 동일 — 바꿀 때만 주석 해제)
+# [vars]
+# GH_REPO = "sorakimsr/ai-legaltech-watch"
+# GH_WORKFLOW = "daily-update.yml"
+# GH_REF = "main"
 
 # 커스텀 도메인 (선택)
 # [routes]
