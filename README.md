@@ -11,7 +11,7 @@ KST 기준 하루 3회 글로벌·국내 AI / 리걸테크 / arXiv 논문을 수
 
 매일 80여 개 소스에서 AI·리걸테크 뉴스와 arXiv 논문을 모아, Claude(Sonnet 4.6 / Haiku 4.5)로 한국어 요약·시사점·전략 카드를 생성합니다. 결과는 Daily / Weekly / Monthly 시계열로 정리되고, 시사점마다 근거 출처가 함께 따라옵니다.
 
-대형 로펌 경영전략팀 페르소나에 맞춰, 단순 출시 뉴스보다 **시장 구도·정책 공백·도입 사례·규제** 같은 행동 가치가 높은 신호를 상단에 노출합니다.
+단순 출시 뉴스보다 **시장 구도·정책 공백·도입 사례·규제** 같은 행동 가치가 높은 신호를 상단에 노출합니다.
 
 ## 어떻게 만드나
 
@@ -48,11 +48,6 @@ ai-legaltech-watch/
 
 더 자세한 운영 방법(GitHub Secrets, KV namespace 설정, 수동 재빌드)은 [`SETUP.md`](SETUP.md) 참고.
 
-## 변경 이력
-
-- **v6.0** — 코드 리뷰 일괄 반영: LEGAL_SIGNALS 분리, Worker CORS/KV/키검증 보안 강화, CSP·session-only 키 토글, news.json CDN 캐싱 복구, dedupe O(N²) 완화, `app.util.js`·`blacklist.py` 모듈 분리, 빌드 알림. 자세한 변경 내역은 [`CODE_REVIEW_FIXES_2026-05-26.md`](CODE_REVIEW_FIXES_2026-05-26.md) 참고.
-- **v3~v5** — 4축 시그널 매트릭스(DECISION/REGULATORY/MARKET/LEGAL) + AI 관련성 게이트, BLACKLIST 정교화, 엔티티/지식그래프, 논문 abstract 전체 활용, NER lightweight 패스.
-- **v2.x** — 시사점 시계열(Daily/Weekly/Monthly), 유사 기사 병합, citation 강제, AI 분석 모달, Cloudflare Workers 백엔드.
 
 ## License & Disclaimer
 
