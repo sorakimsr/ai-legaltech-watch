@@ -9,7 +9,11 @@ name: Daily News Update
 #     ③ concurrency 설정 — 진행 중 빌드 끝까지, 새 trigger는 큐 대기
 #   v6.15.11 (4회 + 17분 offset)에서 변경. v6.9 (정시 cron)에서도 변경.
 on:
-  schedule:
+  # v6.15.60 (2026-06-15): GitHub schedule cron 비활성화 — Cloudflare Worker cron으로 일원화.
+  #   배경: 비용 $50/2~3일로 과다. GitHub cron + Cloudflare cron 동시 사용 시 중복 빌드(비용 2배).
+  #   → Cloudflare가 KST 06·18시 하루 2회만 트리거(wrangler.toml). GitHub schedule은 끔.
+  #   수동 실행(workflow_dispatch)은 유지. 되살리려면 아래 schedule/cron 주석 해제.
+  # schedule:
     # v6.15.46 (2026-05-30): 8회 → 4회 축소 (사용자 요청).
     #   이유: 빌드가 1시간+ 헤비 작업이고 Claude API 비용이 하루 $50 넘게 발생 →
     #         8회는 과함. 6시간 간격 4회로 비용 절감.
@@ -18,8 +22,8 @@ on:
     #     (단, GitHub cron과 동시 사용하면 중복 실행/비용 2배 — 둘 중 하나만 쓸 것).
     # 6시간 간격 / 37분 offset. UTC 03:37 / 09:37 / 15:37 / 21:37
     # KST 12:37 / 18:37 / 00:37 / 06:37
-    - cron: "37 3,9,15,21 * * *"
-  workflow_dispatch:  # 수동 실행 가능
+  #   - cron: "37 3,9,15,21 * * *"
+  workflow_dispatch:  # 수동 실행 가능 (Cloudflare Worker cron도 이 경로로 트리거)
     inputs:
       skip_fetch:
         description: "1단계 fetch 건너뛰기 (기존 raw_news.json 재사용 — 빠른 재처리용)"
