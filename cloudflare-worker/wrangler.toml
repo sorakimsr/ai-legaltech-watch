@@ -23,10 +23,12 @@ id = "aa25ac8adbbe4c739fb287e81a0756d9"
 
 # ── Cron Trigger (v6.15.58, 2026-06-15) ──
 # GitHub schedule cron 누락 보완 — 워커가 직접 GitHub Actions 빌드를 dispatch.
-# UTC 기준. "0 3,9,15,21 * * *" = KST 06:00 / 12:00 / 18:00 / 00:00 (하루 4회).
+# UTC 기준. "0 9,21 * * *" = KST 18:00 / 06:00 (하루 2회 — 비용 절감, 2026-06-15).
+#   09 UTC = KST 18:00, 21 UTC = KST 06:00(익일).
 # 핸들러: worker.js 의 scheduled() → triggerGithubBuild().
+# ※ GitHub 스케줄 cron은 비활성화(.github/workflows/daily-update.yml) — 중복 빌드 방지.
 [triggers]
-crons = ["0 3,9,15,21 * * *"]
+crons = ["0 9,21 * * *"]
 
 # 빌드 대상 (worker.js 기본값과 동일 — 바꿀 때만 주석 해제)
 # [vars]
