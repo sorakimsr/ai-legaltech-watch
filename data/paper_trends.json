@@ -1,15 +1,15 @@
 {
-  "analyzed_at": "2026-06-17T01:35:21.782937+09:00",
+  "analyzed_at": "2026-06-17T07:13:05.768330+09:00",
   "llm_backend": "anthropic",
   "period": "weekly",
   "period_label": "최근 7일",
   "days_window": 7,
-  "paper_count": 604,
-  "narrative": "한 줄 요약 AI 에이전트가 기업 내부로 깊숙이 들어오는 속도보다, 그 에이전트를 통제·감사·책임 귀속할 수 있는 거버넌스 인프라의 성숙 속도가 현저히 느리며, 이 격차가 한국 기업의 AI 전략 실행에서 가장 현실적인 위험 요소로 부상하고 있다.\n\n1) 무엇이 부상하고 있는가 논문군에서 가장 두드러진 흐름은 'AI 에이전트의 런타임 거버넌스'다. 단순히 모델이 안전한가를 묻는 수준을 넘어, 에이전트가 실제 프로덕션 환경에서 행동하는 순간의 권한·감사·중단 가능성을 어떻게 설계할 것인가로 질문이 이동했다. 5-평면 참조 아키텍처(논문 4)는 네트워크·신원·엔드포인트·데이터·추론 평면을 분리하여 에이전트의 위임된 행동 시퀀스 내 위험을 차단하는 구조를 제시했고, SMARt 모델(논문 18)은 에이전트가 스스로 인식론적 드리프트를 감지하고 제어를 인간에게 양도하는 4계층 구조를 Petri net으로 증명했다. 동시에 '책임 차익거래(Accountability Arbitrage)'(논문 37)라는 개념이 등장했다. AI 벤더는 의사결정급 지능을 판매하면서도 검증·증거·책임은 구조적으로 하류 사용자에게 전가하고 있으며, **이 비용이 AI 시장에서 체계적으로 저평가되고 있다는 점이 한국 기업의 AI 도입 계약 구조 전반을 재검토하게 만드는 신호**다. 이사회 수준에서는 AI 거버넌스 부재가 Caremark 스타일의 법적 책임으로 연결될 수 있으며, **AI를 이사회 리스크로 취급했다는 문서화된 증거가 핵심 방어 수단**이 된다는 경고(논문 35)도 주목할 만하다.\n\n2) 한국 실무자에게 이 흐름이 무슨 의미인가 전략·기획 담당자 입장에서 가장 즉각적인 함의는 두 가지다. 첫째, 사내에 이미 배포된 AI 코파일럿·에이전트가 '섀도우 AI'(논문 47)와 '긍정 모멘텀'(논문 15) 문제를 동시에 안고 있다는 점이다. 직원들이 승인되지 않은 소비자 AI 도구에 민감 데이터를 입력하는 섀도우 AI는 차단보다 **주권 기반 내부 AI 인프라 구축이 근본 해결책**이며, 직원-AI 협업 과정에서 일련의 동의 확인이 보안 정책 우회로 이어지는 긍정 모멘텀은 **거버넌스 설계가 도입 이후가 아닌 워크플로우 설계 단계에서 내재화되어야 함**을 뜻한다. 둘째, AI 성능 벤치마크를 신뢰하는 방식 자체를 바꿔야 한다. 의료 시험에서 전문가 수준 점수를 받은 LLM이 오도적 맥락이 주입되면 정확도가 71%에서 38%로 급락하고(논문 74), 폴란드 의료 벤치마크에서는 평가 설계 변경만으로 최고 성능 모델이 28~31포인트 하락했다(논문 75). **벤치마크 점수를 도입 근거로 삼는 기존 의사결정 방식은 실제 운영 환경의 리스크를 구조적으로 과소평가**하고 있다.\n\n3) 산업 적용 흐름 규제 산업에서의 '컴플라이언스-바이-컨스트럭션'(논문 10) 패러다임은 금융·제약·공공 분야에 가장 먼저 적용될 가능성이 높다. 규정·프로세스 모델·컴플라이언스 제약을 외부 모니터링이 아닌 에이전트 아키텍처 핵심 요소로 내장하는 이 접근은 **국내 금융·공공 분야의 내부통제 자동화 수요와 직결**된다. 그러나 한국 기업 환경에서는 개인정보보호법상 국외 데이터 이전 제한, 금융위·금감원의 AI 모델 설명 요구, 공공기관의 망분리 정책이 클라우드 기반 멀티에이전트 도입의 현실적 장벽으로 작용한다. 재무보고 AI(논문 39)나 AI 아웃소싱 거버넌스(논문 60)처럼 인간-루프를 필수화하는 하이브리드 구조가 이 제약을 우회하는 현실적 경로가 될 것이며, **온프레미스 또는 폐쇄망 요구가 도입 속도를 제한하는 현실적 제약으로 작동**하는 만큼 벤더 선택 시 배포 유연성과 감사 추적 가능성을 계약 조건으로 명시하는 것이 필수적이다.",
+  "paper_count": 601,
+  "narrative": "한 줄 요약 AI 에이전트가 조직 내부에 실제로 배포되기 시작하면서, '모델 성능'이 아니라 **거버넌스 증거와 책임 귀속 구조가 기업 생존의 새 조건**으로 부상하고 있다.\n\n1) 무엇이 부상하고 있는가 논문 흐름의 핵심은 AI 에이전트의 '통제 불능(Loss of Control)' 문제가 모델 수준을 넘어 조직 시스템 차원의 위험으로 격상되고 있다는 점이다. arXiv 논문 「Exploring Systems-Thinking Approaches to Loss of Control Risk」는 STPA·FRAM 같은 산업 안전 방법론을 AI 에이전트 내부 배포에 적용하여, 거버넌스 책임의 외부 검증 불가와 모니터링 지연이 통제 장치를 무력화한다는 구조적 취약점을 도출했다. 같은 맥락에서 「A Five-Plane Reference Architecture for Runtime Governance of Production AI Agents」는 기존 데이터 경계 중심 보안으로는 에이전트의 위임된 행동 시퀀스를 통제할 수 없다고 선언하며, 추론 평면과 네트워크·신원·엔드포인트·데이터 4개 집행 평면을 분리하는 아키텍처를 제안했다. 한편 「The Board's Duty to Monitor AI Is Now a Documentation Test」는 이사회가 AI 거버넌스 부재로 Caremark 법리상 법적 책임에 노출되며, **AI를 이사회 수준 리스크로 취급했다는 문서화된 증거가 핵심 방어 수단**이 된다고 명시했다. 즉 기술 도입 여부보다 '우리가 이 위험을 인지하고 관리했다는 기록'이 기업 리스크 관리의 새 축이 되고 있다.\n\n2) 한국 실무자에게 이 흐름이 무슨 의미인가 전략·기획 담당자 입장에서 가장 직접적인 함의는 세 가지다. 첫째, AI 도입 프로젝트의 성과 지표를 재설계해야 한다. 「AIGN Runtime Economic Governance」가 지적하듯 고립된 프롬프트 단위 비용 측정은 다단계 에이전트 워크플로우 환경에서 무의미하며, **토큰 호출 단위가 아닌 비즈니스 목표 달성 단위로 AI 운영 비용 KPI를 재설계해야** 한다. 둘째, 섀도우 AI 문제가 내부통제 리스크로 전환되고 있다. 「Shadow AI Leaves a Record, or It Leaves the Building」은 직원들이 승인되지 않은 소비자 AI에 민감 데이터를 입력하는 행태가 단순 보안 위반을 넘어 감사 추적 불가 상태를 만든다고 경고한다. 셋째, AI 벤더 의존도 자체가 공급망 리스크다. 「When Access Can Vanish」는 수출통제·정책 변화로 프론티어 모델 접근성이 언제든 차단될 수 있음을 캐나다 사례로 보여주며, **단일 외부 모델에 핵심 업무를 의존하는 구조는 공급망 단절 리스크를 내재**한다는 점을 상기시킨다.\n\n3) 산업 적용 흐름 금융과 공공 분야가 가장 먼저 충격을 받을 영역이다. 「When Model Risk Management Meets Generative AI」는 미국·영국·EU가 생성형 AI에 맞는 모델 리스크 관리 체계를 각각 다르게 재편하고 있으며, 재현 가능한 감사 추적과 변조 방지 로깅이 새 규제 요건으로 등장하고 있다고 분석한다. 한국 금융사 입장에서는 금융위·금감원의 AI 모델 설명 요구와 결합될 때 **기존 블랙박스 모델 기반 심사·추천 시스템 전체의 감사 가능성 재검토가 불가피한 과제**가 된다. 제조·OT 분야에서는 「When AI Enters the Control Room, the Record Has to Outlive the Vendor」가 지적한 대로 AI가 제어실에서 행동한 기록이 벤더 계약 종료 후에도 규제당국이 재생·검증할 수 있어야 한다는 요건이 도입 설계 단계부터 반영되어야 한다. 공공기관의 망분리 정책과 개인정보보호법상 국외 데이터 이전 제한은 클라우드 기반 에이전트 도입의 현실적 장벽으로 작용하며, **온프레미스 또는 폐쇄망 기반 에이전트 아키텍처 설계 역량이 국내 SI·컨설팅 시장의 새 차별화 요소**로 부상할 가능성이 높다.",
   "hot_topics": [
     {
       "topic": "AI 에이전트 런타임 거버넌스 (Agentic AI Runtime Governance)",
-      "description": "에이전트가 실제 작동하는 순간의 권한 통제·감사·중단 가능성을 아키텍처 수준에서 설계하는 문제로, 단순 모델 안전성 평가를 넘어선 새로운 기업 리스크 영역.",
+      "description": "에이전트가 실제 업무를 자율 수행할 때 발생하는 통제 불능·책임 공백 문제를 조직 시스템 차원에서 설계하는 것이 기술 도입의 전제 조건으로 부상.",
       "paper_count": 8,
       "paper_indices": [
         3,
@@ -18,7 +18,7 @@
         17,
         18,
         19,
-        24,
+        40,
         43
       ],
       "papers": [
@@ -59,10 +59,10 @@
           "date": "2026-06-11"
         },
         {
-          "title": "Engineering Robustness into Personal Agents with the AI Workflow Store",
-          "url": "https://arxiv.org/abs/2605.10907v3",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-06-10"
+          "title": "Decision-OS V13 Research Note v0.2: Post-Optimization Survival Architecture — Compound Loop Governance for AI Operations",
+          "url": "https://doi.org/10.5281/zenodo.20634743",
+          "source": "OpenAlex",
+          "date": "2026-06-11"
         },
         {
           "title": "Structural Failure Before Functional Failure: How Harness Governance, Type-Enforced Invariants, Uncertainty Quantification, Monitoring Scope, and SBOM Ambiguity",
@@ -73,16 +73,15 @@
       ]
     },
     {
-      "topic": "AI 거버넌스 책임 귀속과 감사 추적 (AI Accountability & Audit Trail)",
-      "description": "AI 의사결정에 대한 법적·조직적 책임이 누구에게 귀속되는지, 이를 입증할 감사 기록을 어떻게 설계하는지가 이사회와 규제 대응의 핵심 과제로 부상.",
-      "paper_count": 7,
+      "topic": "AI 거버넌스 문서화와 이사회 책임 (AI Governance Documentation & Board Liability)",
+      "description": "AI 도입 사실이 아니라 위험 인지·관리 과정을 문서화했는가가 법적 책임 방어의 핵심 증거로 작동하기 시작.",
+      "paper_count": 6,
       "paper_indices": [
         5,
         9,
         11,
         35,
         37,
-        39,
         44
       ],
       "papers": [
@@ -117,12 +116,6 @@
           "date": "2026-06-11"
         },
         {
-          "title": "Human-in-the-Loop Generative AI Frameworks for Reliable Financial Reporting in Enterprise Systems",
-          "url": "https://doi.org/10.5281/zenodo.20675622",
-          "source": "OpenAlex",
-          "date": "2026-06-13"
-        },
-        {
           "title": "Literature Landscape of Government, Academic, and Industry Efforts in Responsible, Secure, and Trustworthy AI",
           "url": "https://surface.syr.edu/eecs/253",
           "source": "OpenAlex",
@@ -131,14 +124,14 @@
       ]
     },
     {
-      "topic": "섀도우 AI와 내부 보안 거버넌스 (Shadow AI & Internal Security Governance)",
-      "description": "직원들이 승인되지 않은 AI 도구를 업무에 사용하면서 발생하는 데이터 유출·보안 정책 우회 문제와, 이를 차단이 아닌 인프라 설계로 해결하는 접근.",
+      "topic": "섀도우 AI와 내부 데이터 유출 리스크 (Shadow AI & Data Leakage Risk)",
+      "description": "직원들이 승인되지 않은 AI 도구에 민감 데이터를 입력하는 행태가 감사 추적 불가 상태를 만들며 내부통제 공백으로 직결.",
       "paper_count": 4,
       "paper_indices": [
         15,
         47,
-        51,
-        62
+        62,
+        51
       ],
       "papers": [
         {
@@ -154,116 +147,28 @@
           "date": "2026-06-13"
         },
         {
-          "title": "Redesigning Enterprise Governance For Ai Orchestrated Autonomous Cyber Threats",
-          "url": "https://aisel.aisnet.org/cgi/viewcontent.cgi?article=1116&context=treos_ecis2026",
-          "source": "OpenAlex",
-          "date": "2026-06-15"
-        },
-        {
           "title": "How Human-Ai Decision Rights Shape Cybersecurity: Empirical Evidence On Data Breaches",
           "url": "https://aisel.aisnet.org/context/ecis2026/article/1116/viewcontent/1827_doc.pdf",
           "source": "OpenAlex",
           "date": "2026-06-14"
-        }
-      ]
-    },
-    {
-      "topic": "AI 규제 프레임워크의 실효성 격차 (AI Regulation Implementation Gap)",
-      "description": "EU AI Act, 미국·영국 생성형 AI 규제 등 각국 규제가 실제 집행 역량 부족과 기존 리스크 관리 체계와의 불일치로 인해 현장에서 작동하지 않는 구조적 문제.",
-      "paper_count": 6,
-      "paper_indices": [
-        1,
-        5,
-        7,
-        20,
-        26,
-        50
-      ],
-      "papers": [
-        {
-          "title": "From Monopoly to Machine-opoly: Rethinking Market Regulations for Autonomous AI Agents",
-          "url": "https://doi.org/10.15294/jils.v11i1.38477",
-          "source": "OpenAlex",
-          "date": "2026-06-13"
         },
         {
-          "title": "When Model Risk Management Meets Generative AI",
-          "url": "https://doi.org/10.5281/zenodo.20674212",
-          "source": "OpenAlex",
-          "date": "2026-06-13"
-        },
-        {
-          "title": "“If The Authorities Do Not Have Sufficient Resources, It Can Become A Bottleneck And A Hindrance To The Adoption Of Ai Technologies” – Regulatory Intermediaries",
-          "url": "https://aisel.aisnet.org/cgi/viewcontent.cgi?article=1365&context=ecis2026",
-          "source": "OpenAlex",
-          "date": "2026-06-14"
-        },
-        {
-          "title": "Governing AI in operations: ethical risks, accountability mechanisms, and responsible digital operations",
-          "url": "https://link.springer.com/content/pdf/10.1007/s43681-026-01191-3.pdf",
-          "source": "OpenAlex",
-          "date": "2026-06-11"
-        },
-        {
-          "title": "Implementing Ai Governance: Contrasting The Academic And Grey Literature",
-          "url": "https://aisel.aisnet.org/ecis2026/litrev/litrev/20",
-          "source": "OpenAlex",
-          "date": "2026-06-14"
-        },
-        {
-          "title": "The Clockwork Model Of National Ai Adoption: Sequenced, Synchronized, And Scalable Transformation",
-          "url": "https://aisel.aisnet.org/context/treos_ecis2026/article/1023/viewcontent/1057_doc.pdf",
+          "title": "Redesigning Enterprise Governance For Ai Orchestrated Autonomous Cyber Threats",
+          "url": "https://aisel.aisnet.org/cgi/viewcontent.cgi?article=1116&context=treos_ecis2026",
           "source": "OpenAlex",
           "date": "2026-06-15"
         }
       ]
     },
     {
-      "topic": "LLM 벤치마크 신뢰성과 실제 운영 역량 괴리 (LLM Benchmark vs. Real-World Performance)",
-      "description": "공개 벤치마크 점수가 실제 운영 환경의 성능을 과대평가하며, 오도적 맥락·평가 설계 변경만으로도 성능이 급락하는 현상이 AI 도입 의사결정의 근거를 흔들고 있음.",
-      "paper_count": 4,
-      "paper_indices": [
-        69,
-        74,
-        75,
-        76
-      ],
-      "papers": [
-        {
-          "title": "Evaluation Sovereignty in Metadata-Driven Classification: A Multi-Track Framework for Weakly Supervised Information Systems",
-          "url": "https://arxiv.org/abs/2606.13436v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-06-11"
-        },
-        {
-          "title": "Measuring Epistemic Resilience of LLMs Under Misleading Medical Context",
-          "url": "https://arxiv.org/abs/2606.12291v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-06-10"
-        },
-        {
-          "title": "Reassessing High-Performing LLMs on Polish Medical Exams: True Competence or Bias-Driven Performance?",
-          "url": "https://arxiv.org/abs/2606.12250v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-06-10"
-        },
-        {
-          "title": "Beyond Third-Person Audits: Situated Interaction Auditing for User-Centered LLM Bias Research",
-          "url": "https://arxiv.org/abs/2606.12247v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-06-10"
-        }
-      ]
-    },
-    {
-      "topic": "AI 집중화와 공급망 의존 리스크 (AI Concentration & Supply Chain Risk)",
-      "description": "소수 빅테크에 모델·칩·데이터가 집중되면서 수출통제·정책 변화로 접근성이 차단될 수 있는 국가·기업 수준의 전략적 취약성.",
+      "topic": "AI 모델 접근성 주권과 공급망 리스크 (AI Model Access Sovereignty & Supply Chain Risk)",
+      "description": "수출통제·정책 변화로 외부 프론티어 모델 접근이 차단될 수 있으며, 단일 벤더 의존 구조가 전략적 취약점으로 부각.",
       "paper_count": 4,
       "paper_indices": [
         2,
         22,
-        80,
-        6
+        47,
+        79
       ],
       "papers": [
         {
@@ -279,36 +184,55 @@
           "date": "2026-06-10"
         },
         {
-          "title": "Concentrated AI Power Is a Security Problem",
-          "url": "https://doi.org/10.5281/zenodo.20674401",
+          "title": "Shadow AI Leaves a Record, or It Leaves the Building",
+          "url": "https://doi.org/10.5281/zenodo.20674207",
           "source": "OpenAlex",
           "date": "2026-06-13"
         },
         {
-          "title": "Market Design for AI: Beyond the Copyright Binary",
-          "url": "https://arxiv.org/abs/2606.12260v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-06-10"
+          "title": "Concentrated AI Power Is a Security Problem",
+          "url": "https://doi.org/10.5281/zenodo.20674401",
+          "source": "OpenAlex",
+          "date": "2026-06-13"
         }
       ]
-    }
-  ],
-  "key_techniques": [
+    },
     {
-      "technique": "컴플라이언스 내재화 아키텍처 (Compliance-by-Construction)",
-      "description": "규정 준수 요건을 외부 모니터링이 아닌 에이전트 아키텍처의 핵심 구성 요소로 설계 단계에서 내장하는 방식으로, 금융·공공 규제 산업의 AI 자동화에 직접 적용 가능.",
-      "paper_count": 3,
+      "topic": "생성형 AI 규제 적합성과 컴플라이언스 설계 (GenAI Regulatory Compliance by Design)",
+      "description": "EU AI Act·미국·영국의 규제가 기존 모델 리스크 관리 체계와 충돌하며, 감사 추적·설명가능성·데이터 파이프라인 컴플라이언스를 설계 단계부터 내재화해야 하는 압력 증가.",
+      "paper_count": 6,
       "paper_indices": [
+        5,
+        7,
         10,
+        14,
         32,
         34
       ],
       "papers": [
         {
+          "title": "When Model Risk Management Meets Generative AI",
+          "url": "https://doi.org/10.5281/zenodo.20674212",
+          "source": "OpenAlex",
+          "date": "2026-06-13"
+        },
+        {
+          "title": "“If The Authorities Do Not Have Sufficient Resources, It Can Become A Bottleneck And A Hindrance To The Adoption Of Ai Technologies” – Regulatory Intermediaries",
+          "url": "https://aisel.aisnet.org/cgi/viewcontent.cgi?article=1365&context=ecis2026",
+          "source": "OpenAlex",
+          "date": "2026-06-14"
+        },
+        {
           "title": "Neuro-Symbolic Agents for Regulated Process Automation: Challenges and Research Agenda",
           "url": "https://arxiv.org/abs/2606.13405v1",
           "source": "arXiv AI/CL/LG/IR/MA/CY",
           "date": "2026-06-11"
+        },
+        {
+          "title": "Between Regulation And Evaluation: An Information Systems Perspective On Fairness For Synthetic Data In The Eu",
+          "url": "https://aisel.aisnet.org/context/ecis2026/article/1306/viewcontent/2479_doc.pdf",
+          "source": "OpenAlex",
+          "date": "2026-06-14"
         },
         {
           "title": "A Design Science Research Approach Towards Compliance-Aware Multimodal Ai Training Data Preparation: Integrating Privacy, Copyright, And Utility",
@@ -325,73 +249,14 @@
       ]
     },
     {
-      "technique": "런타임 권한 감쇠 및 중단 가능 중재 (Runtime Permission Decay & Interruptible Mediation)",
-      "description": "에이전트가 작업을 수행하는 동안 권한을 점진적으로 축소하고 언제든 인간이 개입·중단할 수 있는 구조로, 고위험 자동화 환경에서 통제 불능 리스크를 줄이는 핵심 설계 원칙.",
+      "topic": "LLM 벤치마크 신뢰성과 실무 역량 괴리 (LLM Benchmark Reliability vs. Real-World Competence)",
+      "description": "의료·코딩 등 전문 영역에서 LLM 벤치마크 점수가 실제 업무 역량을 과대평가하며, 도입 전 자체 검증 설계가 필수 과제로 부상.",
       "paper_count": 4,
-      "paper_indices": [
-        4,
-        18,
-        19,
-        40
-      ],
-      "papers": [
-        {
-          "title": "A Five-Plane Reference Architecture for Runtime Governance of Production AI Agents",
-          "url": "https://arxiv.org/abs/2606.12320v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-06-10"
-        },
-        {
-          "title": "Intelligence as Managed Autonomy: Failure, Escalation, and Governance for Agentic AI Systems",
-          "url": "https://arxiv.org/abs/2605.27628v2",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-06-11"
-        },
-        {
-          "title": "Mechanical Conscience: A Mathematical Framework for Dependability of Machine Intelligenc",
-          "url": "https://arxiv.org/abs/2605.03847v2",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-06-11"
-        },
-        {
-          "title": "Decision-OS V13 Research Note v0.2: Post-Optimization Survival Architecture — Compound Loop Governance for AI Operations",
-          "url": "https://doi.org/10.5281/zenodo.20634743",
-          "source": "OpenAlex",
-          "date": "2026-06-11"
-        }
-      ]
-    },
-    {
-      "technique": "LLM 의존성 감사 및 공급망 투명성 (LLM Dependency Auditing)",
-      "description": "ModSleuth처럼 공개 아티팩트로부터 LLM의 직·간접 의존성 그래프를 재구성하여 라이선스 의무·학습-평가 결합·문서 불일치를 사전에 파악하는 기법으로, AI 조달 리스크 관리에 필수.",
-      "paper_count": 2,
-      "paper_indices": [
-        22,
-        43
-      ],
-      "papers": [
-        {
-          "title": "Which Models Are Our Models Built On? Auditing Invisible Dependencies in Modern LLMs",
-          "url": "https://arxiv.org/abs/2606.12385v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-06-10"
-        },
-        {
-          "title": "Structural Failure Before Functional Failure: How Harness Governance, Type-Enforced Invariants, Uncertainty Quantification, Monitoring Scope, and SBOM Ambiguity",
-          "url": "https://doi.org/10.5281/zenodo.20678254",
-          "source": "OpenAlex",
-          "date": "2026-06-13"
-        }
-      ]
-    },
-    {
-      "technique": "인식론적 회복력 측정 (Epistemic Resilience Benchmarking)",
-      "description": "AI 모델이 오도적 맥락·권위 기반 거짓 정보에 노출될 때 정답을 유지하는 능력을 정량화하는 평가 방법으로, 실제 업무 환경에서의 AI 신뢰도를 벤치마크 점수보다 현실적으로 측정.",
-      "paper_count": 3,
       "paper_indices": [
         74,
         75,
-        65
+        69,
+        80
       ],
       "papers": [
         {
@@ -407,56 +272,163 @@
           "date": "2026-06-10"
         },
         {
-          "title": "One Polluted Page Is Enough: Evaluating Web Content Pollution in Generative Recommenders",
-          "url": "https://arxiv.org/abs/2606.13610v1",
+          "title": "Evaluation Sovereignty in Metadata-Driven Classification: A Multi-Track Framework for Weakly Supervised Information Systems",
+          "url": "https://arxiv.org/abs/2606.13436v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-06-11"
+        },
+        {
+          "title": "Real-world AI evaluation design and planning",
+          "url": "https://openalex.org/W7161101139",
+          "source": "OpenAlex",
+          "date": "2026-06-12"
+        }
+      ]
+    }
+  ],
+  "key_techniques": [
+    {
+      "technique": "5-평면 런타임 거버넌스 아키텍처 (Five-Plane Runtime Governance Architecture)",
+      "description": "에이전트의 추론·네트워크·신원·엔드포인트·데이터 평면을 분리 설계하여 위임된 행동 시퀀스 내 위협을 단계별로 차단하는 구조 — 기존 방화벽·접근제어 중심 보안으로는 에이전트 위협을 막을 수 없다는 현실의 대안.",
+      "paper_count": 2,
+      "paper_indices": [
+        4,
+        51
+      ],
+      "papers": [
+        {
+          "title": "A Five-Plane Reference Architecture for Runtime Governance of Production AI Agents",
+          "url": "https://arxiv.org/abs/2606.12320v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-06-10"
+        },
+        {
+          "title": "Redesigning Enterprise Governance For Ai Orchestrated Autonomous Cyber Threats",
+          "url": "https://aisel.aisnet.org/cgi/viewcontent.cgi?article=1116&context=treos_ecis2026",
+          "source": "OpenAlex",
+          "date": "2026-06-15"
+        }
+      ]
+    },
+    {
+      "technique": "컴플라이언스-바이-컨스트럭션 (Compliance-by-Construction)",
+      "description": "규정·프로세스 제약을 외부 모니터링이 아닌 에이전트 아키텍처 핵심 요소로 내재화하여 제어흐름 위반을 구조적으로 차단 — 규제 산업 자동화 도입 시 사후 감사 비용을 줄이는 설계 패러다임.",
+      "paper_count": 2,
+      "paper_indices": [
+        10,
+        32
+      ],
+      "papers": [
+        {
+          "title": "Neuro-Symbolic Agents for Regulated Process Automation: Challenges and Research Agenda",
+          "url": "https://arxiv.org/abs/2606.13405v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-06-11"
+        },
+        {
+          "title": "A Design Science Research Approach Towards Compliance-Aware Multimodal Ai Training Data Preparation: Integrating Privacy, Copyright, And Utility",
+          "url": "https://aisel.aisnet.org/context/ecis2026/article/1152/viewcontent/1673_doc.pdf",
+          "source": "OpenAlex",
+          "date": "2026-06-14"
+        }
+      ]
+    },
+    {
+      "technique": "시스템 안전 방법론 기반 AI 위험 분석 (STPA/FRAM-based AI Risk Analysis)",
+      "description": "항공·원전 등 고위험 산업의 시스템 안전 방법론을 AI 에이전트 내부 배포에 적용하여 모델 평가만으로는 포착되지 않는 조직 수준 통제 실패를 사전 식별.",
+      "paper_count": 2,
+      "paper_indices": [
+        3,
+        20
+      ],
+      "papers": [
+        {
+          "title": "Exploring Systems-Thinking Approaches to Loss of Control Risk",
+          "url": "https://arxiv.org/abs/2606.13474v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-06-11"
+        },
+        {
+          "title": "Governing AI in operations: ethical risks, accountability mechanisms, and responsible digital operations",
+          "url": "https://link.springer.com/content/pdf/10.1007/s43681-026-01191-3.pdf",
+          "source": "OpenAlex",
+          "date": "2026-06-11"
+        }
+      ]
+    },
+    {
+      "technique": "런타임 경제 거버넌스 (Runtime Economic Governance)",
+      "description": "AI 모델 호출 단위의 비용·사용량·가치를 실시간 제어하는 벤더 중립적 참조 모델 — 다단계 에이전트 워크플로우에서 비용이 예측 불가능하게 폭증하는 문제를 운영 단계에서 통제하는 접근.",
+      "paper_count": 2,
+      "paper_indices": [
+        42,
+        71
+      ],
+      "papers": [
+        {
+          "title": "AIGN Runtime Economic Governance: Governing AI Cost, Usage and Value in the Token Economy",
+          "url": "https://doi.org/10.5281/zenodo.20638268",
+          "source": "OpenAlex",
+          "date": "2026-06-11"
+        },
+        {
+          "title": "Can I Buy Your KV Cache?",
+          "url": "https://arxiv.org/abs/2606.13361v1",
           "source": "arXiv AI/CL/LG/IR/MA/CY",
           "date": "2026-06-11"
         }
       ]
     },
     {
-      "technique": "추론 시점 안전성 정렬 전이 (Inference-Time Alignment Transfer)",
-      "description": "모델 가중치를 수정하지 않고 배포 시점에 앵커 모델의 안전성 신호를 대상 모델에 주입하는 방식으로, 파인튜닝으로 인한 안전성 저하를 운영 단계에서 보완하는 실용적 접근.",
-      "paper_count": 2,
+      "technique": "인간-루프 필수화 프레임워크 (Human-in-the-Loop Mandatory Framework)",
+      "description": "재무보고·정책 결정 등 고위험 업무에서 AI 출력을 인간 검증 단계 없이 확정하지 못하도록 아키텍처 수준에서 강제하는 설계 — 설명가능성 규제 요건과 내부통제 기준을 동시에 충족하는 실용적 접근.",
+      "paper_count": 3,
       "paper_indices": [
-        72,
-        79
+        8,
+        39,
+        57
       ],
       "papers": [
         {
-          "title": "Certifiable Safe RLHF: Semantic Grounding and Fixed Penalty Constraint Optimization for Safer LLM Alignment",
-          "url": "https://arxiv.org/abs/2510.03520v2",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-06-10"
+          "title": "Design Insights From Building Trustworthy Ai For Public Policymaking: A Trade And Nutrition Project",
+          "url": "https://aisel.aisnet.org/context/treos_ecis2026/article/1101/viewcontent/1190_doc.pdf",
+          "source": "OpenAlex",
+          "date": "2026-06-15"
         },
         {
-          "title": "ALIGNBEAM : Inference-Time Alignment Transfer via Cross-Vocabulary Logit Mixing",
-          "url": "https://arxiv.org/abs/2606.12342v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-06-10"
+          "title": "Human-in-the-Loop Generative AI Frameworks for Reliable Financial Reporting in Enterprise Systems",
+          "url": "https://doi.org/10.5281/zenodo.20675622",
+          "source": "OpenAlex",
+          "date": "2026-06-13"
+        },
+        {
+          "title": "Explain Decisions, Not Just Predictions! An Evaluation Of Ai Agent Transparency",
+          "url": "https://aisel.aisnet.org/ecis2026/bus_analytics/bus_analytics/3",
+          "source": "OpenAlex",
+          "date": "2026-06-14"
         }
       ]
     }
   ],
   "actionable_insights": [
-    "AI 에이전트 도입 계약 시 벤더가 제공하는 벤치마크 점수를 도입 근거로 삼는 관행을 재검토해야 한다. MedMisBench(논문 74)와 폴란드 의료 벤치마크(논문 75) 연구는 평가 설계 변경만으로 최고 성능 모델이 28~31포인트 하락함을 보였다. **실제 운영 환경을 모사한 사내 파일럿 평가 기준을 벤더 선정 조건에 명시하는 것이 AI 도입 리스크를 줄이는 핵심 조건**이다.",
-    "이사회와 경영진은 AI 거버넌스를 IT 부서 과제가 아닌 이사회 수준 리스크로 공식화해야 한다. 논문 35는 AI 거버넌스 부재가 Caremark 스타일의 법적 책임으로 연결될 수 있으며, **AI 관련 의사결정과 모니터링 활동을 문서화한 감사 추적 기록이 법적 방어의 핵심 증거**가 된다고 경고한다. 이사회 안건에 AI 리스크 검토 항목을 정례화하고 회의록에 기록하는 것이 필요하다.",
-    "사내 AI 워크플로우 설계 시 '긍정 모멘텀(Affirmation Momentum)' 현상을 사전에 차단하는 구조를 반영해야 한다. 논문 15는 직원-AI 협업에서 일련의 동의 확인이 보안 정책 우회로 이어지는 메커니즘을 실증했다. **보안·컴플라이언스 체크포인트를 AI 워크플로우 중간 단계에 강제 삽입하는 설계가 사후 통제보다 효과적**이며, 이는 GenAI 코파일럿 도입 시 업무 프로세스 재설계 단계에서 반영되어야 한다.",
-    "AI 아웃소싱 또는 외부 API 의존 구조를 채택한 경우, 수출통제·정책 변화로 인한 접근성 차단 시나리오를 공급망 리스크로 관리해야 한다. 논문 2는 캐나다 AI 전략 사례를 통해 기술 인프라가 존재해도 정책 변화로 프론티어 모델 접근이 차단될 수 있음을 보였다. **핵심 업무 프로세스에 단일 외부 AI 모델을 의존하는 구조는 대체 경로와 온프레미스 폴백 옵션을 병행 설계해야 전략적으로 방어 가능**하다.",
-    "AI 도입 성과 측정 체계에서 토큰 사용량·API 호출 비용 중심의 KPI를 재검토해야 한다. 논문 42(AIGN Runtime Economic Governance)는 단일 프롬프트에서 다단계 에이전트 워크플로우로 진화하는 환경에서 **모델 호출 단위 비용 측정이 실제 비즈니스 가치를 반영하지 못하며, 목표 달성 단위의 경제적 방어 가능성을 검증하는 거버넌스 체계로 전환해야** 한다는 프레임을 제시한다."
+    "AI 도입 프로젝트의 성과 보고 방식을 재검토해야 한다. 현재 대부분의 기업이 '모델 정확도'나 '처리 건수'를 KPI로 쓰지만, 다단계 에이전트 환경에서는 **비즈니스 목표 달성 건당 실제 비용(토큰·API·인건비 합산)으로 KPI 체계를 재설계해야** 한다. 그렇지 않으면 에이전트 오케스트레이션 확장 시 비용이 예측 불가능하게 폭증하는 상황을 사전에 인지하지 못한다.",
+    "이사회·경영진 보고 체계에 AI 거버넌스 항목을 별도 섹션으로 신설해야 한다. 「The Board's Duty to Monitor AI Is Now a Documentation Test」가 명시하듯, **AI 위험을 경영진이 인지하고 관리 조치를 취했다는 회의록·정책 문서·감사 로그가 향후 법적 분쟁에서 핵심 방어 증거**가 된다. 도입 여부보다 관리 과정의 기록이 더 중요한 시대가 되었다.",
+    "내부 직원의 AI 도구 사용 실태를 파악하고 승인 체계를 정비해야 한다. 섀도우 AI 문제는 차단보다 **조직이 통제 가능한 승인된 AI 인프라를 제공하는 방향으로 정책을 설계해야** 해결된다. 차단 정책만 강화하면 직원들은 더 은밀한 방식으로 외부 도구를 사용하게 되며, 감사 추적 자체가 불가능한 상태가 된다.",
+    "외부 AI 모델 의존도를 공급망 리스크 관점에서 재평가해야 한다. 수출통제·정책 변화로 특정 프론티어 모델 접근이 차단될 수 있으며, **핵심 업무 프로세스가 단일 외부 모델에 종속된 구조는 공급망 단절 시나리오에 대한 대체 경로 없이 운영 중단으로 직결**된다. 온프레미스 또는 오픈소스 모델 병행 운영 가능성을 아키텍처 설계 단계에서 검토해야 한다.",
+    "AI 시스템 도입 전 자체 검증 설계를 표준 절차로 포함해야 한다. LLM 벤치마크 점수가 실제 업무 역량을 과대평가한다는 실증 결과가 반복적으로 나오고 있으며, **벤더가 제시하는 벤치마크 성능이 아닌 자사 업무 데이터 기반의 파일럿 검증 결과를 도입 의사결정의 기준**으로 삼아야 한다. 특히 금융·의료·법무 등 고위험 도메인에서는 이 검증 과정 자체를 문서화하여 규제 대응 근거로 보존해야 한다."
   ],
   "top_institutions": [
     {
       "name": "ETH",
-      "count": 199
+      "count": 198
     },
     {
       "name": "MIT",
-      "count": 137
+      "count": 136
     },
     {
       "name": "Meta",
-      "count": 16
+      "count": 15
     },
     {
       "name": "FAIR",
@@ -526,11 +498,11 @@
     },
     {
       "keyword": "agents",
-      "count": 29
+      "count": 28
     },
     {
       "keyword": "multi",
-      "count": 29
+      "count": 28
     },
     {
       "keyword": "human",
