@@ -1,31 +1,26 @@
 {
-  "analyzed_at": "2026-06-28T06:55:44.719179+09:00",
+  "analyzed_at": "2026-06-28T13:10:28.084207+09:00",
   "llm_backend": "anthropic",
   "period": "weekly",
   "period_label": "최근 7일",
   "days_window": 7,
-  "paper_count": 438,
-  "narrative": "한 줄 요약 AI는 이제 '쓸 수 있는가'가 아니라 '믿을 수 있는가, 통제할 수 있는가'로 질문이 이동하고 있으며, 이 전환이 한국 기업의 AI 도입 전략 전체를 재설계하도록 압박하고 있다.\n\n1) 무엇이 부상하고 있는가 논문군에서 가장 두드러진 흐름은 세 갈래다. 첫째, 에이전트형 AI의 '신뢰·통제 아키텍처' 문제다. NVIDIA의 Cosmos 3가 언어·이미지·비디오·행동을 단일 프레임워크로 통합하는 옴니모달 월드 모델을 오픈소스로 공개하면서 에이전트 기반 자동화의 기술 장벽이 낮아졌지만, 동시에 AutoSpec·Unfireable Safety Kernel 같은 논문들은 에이전트가 런타임에 안전 규칙을 우회하거나 점진적 경계 위반에 취약하다는 구조적 결함을 실증했다. 밀그램 복종 실험을 모사한 연구에서 오픈소스 LLM 대부분이 권위 압력 하에 명시적 거부 이후에도 최대 충격 수준에 도달했다는 결과는, **에이전트 자율성 확대가 통제 불가능성 확대로 이어질 수 있다는 경고**다. 둘째, 실무 도입 현장에서 '과신뢰'와 '과도한 정렬' 문제가 동시에 터지고 있다. 독일중앙은행의 담보적격성 심사 LLM 도입 사례는 91% 정밀도를 달성했지만, 스위스 연방대법원 사례에서는 범죄법 영역 LLM이 지나치게 많은 요청을 거부하는 '과도한 정렬' 문제로 실무 적용성이 저해됐다. 셋째, 멀티모달 모델의 입력 순서 민감도 감사 연구(Facet-Probe)는 18개 주요 모델 모두에서 24~50%의 답변 변동률을 확인했는데, 이는 **동일한 증거를 어떤 순서로 제시하느냐에 따라 AI 판단이 달라진다는 의미로, 의사결정 지원 도구로서의 신뢰성 기반 자체가 흔들리는 문제**다.\n\n2) 한국 실무자에게 이 흐름이 무슨 의미인가 전략·기획 담당자 입장에서 가장 즉각적인 함의는 두 가지다. 하나는 'AI 도입 완료'라는 체크박스 사고방식의 위험이다. LLM 기반 이력서 심사 시스템에 대한 프롬프트 인젝션 실험은 지원자가 미묘한 자기홍보 텍스트를 삽입하는 것만으로 평가 결과를 왜곡할 수 있음을 보였고, LLM 기반 코드 리뷰 연구는 요구사항 준수 판단에서 체계적 과잉 수정 경향을 확인했다. **AI 시스템을 배포한 이후에도 지속적인 감사·검증 체계가 없으면 오히려 의사결정 품질이 저하될 수 있다는 점이 핵심 리스크**다. 다른 하나는 에이전트형 AI 전략을 '동적 역량'으로 재정의해야 한다는 신호다. 단순 생성형 AI 실험에서 에이전트 배포로 전환하는 기업들이 기존 AI 전략 프레임워크의 구조적 부족함에 직면하고 있으며, **기존 워크플로우 엔진을 교체하지 않고 정책 기반 에이전트 레이어를 추가하는 '프로세스 하네스' 방식이 현실적 전환 경로**로 주목받고 있다.\n\n3) 산업 적용 흐름 금융·법률·공공 분야가 가장 빠른 도입 후보군이다. 독일중앙은행과 스위스 연방대법원 사례는 이미 실증 단계에 진입했고, 인도의 반덤핑 조사 AI 도입 사례는 무역 구제 행정 영역까지 확산 중임을 보여준다. 한국 맥락에서는 금융위·금감원의 AI 모델 설명 요구, 개인정보보호법상 국외 데이터 이전 제한, 공공기관 망분리 정책이 **클라우드 기반 멀티에이전트 도입의 현실적 장벽으로 작용**한다. 스위스 법원 사례에서 온프레미스 모델의 '과도한 정렬' 문제를 abliteration 기법으로 완화한 접근은, **온프레미스 환경에서도 모델 커스터마이징 역량을 내재화해야 한다는 요구**로 직결된다. 제조·물류 분야에서는 NVIDIA Cosmos 3의 로봇 정책 생성 기능이 물리적 자동화와 AI를 연결하는 접점이 될 수 있으나, 실시간 음성 AI의 '감정지능 격차' 연구가 보여주듯 **현장 운영자와 AI 간 인터페이스 설계에서 감정·맥락 정보가 의사결정에 반영되지 않는 구조적 공백을 먼저 해소해야** 실질적 효용이 발생한다.",
+  "paper_count": 440,
+  "narrative": "한 줄 요약 AI가 '실험 단계'를 넘어 기업 프로세스 깊숙이 침투하면서, 신뢰·안전·거버넌스의 부재가 도입 속도보다 더 빠르게 리스크로 전환되고 있다.\n\n1) 무엇이 부상하고 있는가 논문군에서 가장 두드러진 흐름은 세 갈래다. 첫째, 에이전트형 AI가 단순 자동화를 넘어 기업 전략 역량 자체를 재편하는 '동적 역량(dynamic capability)'으로 개념화되고 있다. OpenAlex 논문 「Agentic AI Strategy As A Dynamic Capability」는 생성형 AI 실험에서 에이전트 배포로 전환하는 기업들이 기존 AI 전략 프레임워크로는 구조적으로 대응이 불가능하다고 지적한다. 둘째, 에이전트 신뢰 인프라의 취약성이 실증적으로 드러나고 있다. ERC-8004 프로토콜을 분석한 연구에서 온체인 AI 에이전트 등록 신원의 85~97%가 유휴 상태이며 평판 시스템이 Sybil 조작에 무력함이 확인됐고, MCP 기반 에이전트 생태계를 겨냥한 ShareLock 공격은 악성 명령을 여러 도구 설명에 분산시켜 탐지를 회피하며 90% 이상의 성공률을 기록했다. **단일 LLM 선택은 이미 낡은 질문이고, 에이전트 간 신뢰·조정 계층이 새 병목**으로 부상한 것이다. 셋째, 실무 도입 현장에서 LLM의 '표면적 정확성'과 '실질적 신뢰성' 간 괴리가 반복 확인되고 있다. 독일중앙은행의 담보적격성 심사 LLM 파이프라인은 91% 정밀도를 달성했지만, LLM 기반 코드 리뷰가 요구사항 준수 판단에서 체계적 과잉 수정을 보인다는 연구와, 실시간 음성 AI가 감정을 인식하면서도 의사결정에서는 무시하는 '감정지능 격차'를 보인다는 연구가 동시에 발표됐다.\n\n2) 한국 실무자에게 이 흐름이 무슨 의미인가 전략·기획 담당자 입장에서 가장 직접적인 함의는 두 가지다. 하나는 '도입 결정'보다 '거버넌스 설계'가 선행 과제라는 점이다. 스위스 연방대법원의 온프레미스 LLM 사례 연구는 범죄법 영역에서 과도한 정렬(over-alignment)로 인한 거부 현상이 실무 적용성을 저해한다는 것을 보여주는데, 이는 **온프레미스(on-premise) 또는 폐쇄망 요구가 도입 속도를 제한하는 현실적 제약으로 작동**하는 한국 금융·공공 환경에서 더욱 첨예하게 나타날 수 있다. 다른 하나는 인간 감독(human oversight) 설계의 구체화다. Vis-CoT 프레임워크가 LLM 추론 과정을 대화형 그래프로 시각화해 사용자가 오류 단계를 직접 수정하도록 설계하여 최대 24%p 정확도 향상을 달성한 사례는, **책임 경계가 명확히 설계된 아키텍처를 선택**해야 규제 대응과 성과를 동시에 확보할 수 있음을 시사한다. LLM 이력서 심사 시스템에서 프롬프트 인젝션으로 평가가 왜곡될 수 있다는 연구 역시, HR 자동화 도입 시 공정성 감사 체계를 병행 설계해야 함을 경고한다.\n\n3) 산업 적용 흐름 법률·금융 분야가 가장 빠른 실증 사례를 축적하고 있다. 영국 고용중재소 판결 분석, 독일중앙은행 담보심사, 스위스 연방대법원 온프레미스 LLM은 모두 고도로 규제된 환경에서 LLM이 실무에 진입했음을 보여준다. 한국에서는 **국내 금융·공공 분야의 내부통제 자동화 수요와 직결**되는 흐름이지만, 개인정보보호법상 국외 데이터 이전 제한, 금융위·금감원의 AI 모델 설명 요구, 공공기관의 망분리 정책이 클라우드 기반 멀티에이전트 도입의 현실적 장벽으로 작동한다. 제조·물류 분야에서는 NVIDIA Cosmos 3의 옴니모달 월드 모델이 로봇 정책 생성까지 통합하며 물리적 AI의 상용화 속도를 높이고 있고, 추천시스템 분야에서는 NOVA 프레임워크가 산업 배포에서 GMV 1.25~2.02% 개선을 A/B 테스트로 입증하며 에이전트 기반 아키텍처 자동화의 ROI를 가시화했다. 콘텐츠·커머스 영역에서는 에이전트 기반 전자상거래에서 검증된 정보 신뢰성 획득이 새로운 병목으로 부상한다는 분석이 나왔으며, 이는 국내 플랫폼 기업의 AI 쇼핑 에이전트 설계에 직접적 시사점을 준다.",
   "hot_topics": [
     {
-      "topic": "에이전트 AI의 신뢰·통제 아키텍처 (Agentic AI Trust & Control Architecture)",
-      "description": "에이전트가 자율적으로 행동할수록 런타임 안전 규칙 우회·점진적 경계 위반 리스크가 커지며, 이를 막는 아키텍처 설계가 도입의 전제 조건으로 부상.",
-      "paper_count": 6,
+      "topic": "에이전트형 AI 거버넌스 및 신뢰 인프라 (Agentic AI Governance & Trust Infrastructure)",
+      "description": "AI 에이전트가 기업 프로세스에 깊이 침투할수록, 에이전트 간 신뢰·책임·안전 계층 설계가 도입 성패를 가르는 핵심 변수로 부상하고 있다.",
+      "paper_count": 7,
       "paper_indices": [
-        7,
         13,
-        14,
         15,
-        25,
-        38
+        26,
+        37,
+        41,
+        43,
+        72
       ],
       "papers": [
-        {
-          "title": "Open-source LLMs administer maximum electric shocks in a Milgram-like obedience experiment",
-          "url": "https://arxiv.org/abs/2605.21401v2",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-06-23"
-        },
         {
           "title": "A Process Harness for Uplifting Legacy Workflows to Agentic BPM: Design and Realization in CUGA FLO",
           "url": "https://arxiv.org/abs/2606.27188v1",
@@ -33,14 +28,20 @@
           "date": "2026-06-25"
         },
         {
-          "title": "Agentic Software Engineering: Foundational Pillars and a Research Roadmap",
-          "url": "https://arxiv.org/abs/2509.06216v3",
+          "title": "The Unfireable Safety Kernel: Execution-Time AI Alignment for AI Agents and Other Escapable AI Systems",
+          "url": "https://arxiv.org/abs/2606.26057v1",
           "source": "arXiv AI/CL/LG/IR/MA/CY",
           "date": "2026-06-24"
         },
         {
-          "title": "The Unfireable Safety Kernel: Execution-Time AI Alignment for AI Agents and Other Escapable AI Systems",
-          "url": "https://arxiv.org/abs/2606.26057v1",
+          "title": "Can Trustless Agents Be Trusted? An Empirical Study of the ERC-8004 Decentralized AI Agent Ecosystem",
+          "url": "https://arxiv.org/abs/2606.26028v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-06-24"
+        },
+        {
+          "title": "AutoSpec: Safety Rule Evolution for LLM Agents via Inductive Logic Programming",
+          "url": "https://arxiv.org/abs/2606.24245v2",
           "source": "arXiv AI/CL/LG/IR/MA/CY",
           "date": "2026-06-24"
         },
@@ -51,36 +52,43 @@
           "date": "2026-06-25"
         },
         {
-          "title": "AutoSpec: Safety Rule Evolution for LLM Agents via Inductive Logic Programming",
-          "url": "https://arxiv.org/abs/2606.24245v2",
+          "title": "Blue Synergy Core: A Decoupled, Multi-Agent Cognitive Platform with Zero-Trust State Validation and Closed-Loop Execution Telemetry",
+          "url": "https://doi.org/10.5281/zenodo.20804700",
+          "source": "OpenAlex",
+          "date": "2026-06-23"
+        },
+        {
+          "title": "ShareLock: A Stealthy Multi-Tool Threshold Poisoning Attack Against MCP",
+          "url": "https://arxiv.org/abs/2606.27027v1",
           "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-06-24"
+          "date": "2026-06-25"
         }
       ]
     },
     {
-      "topic": "LLM 실무 도입의 신뢰성 감사 (LLM Reliability Auditing in Production)",
-      "description": "입력 순서·프롬프트 조작·과도한 정렬 등 실제 배포 환경에서 LLM 판단이 흔들리는 구체적 패턴이 실증되며, 도입 후 지속 감사 체계의 필요성이 부각.",
-      "paper_count": 5,
+      "topic": "LLM 실무 신뢰성 격차 (LLM Reliability Gap in Production)",
+      "description": "벤치마크 정확도와 실제 업무 적용 신뢰성 사이의 괴리가 금융·법률·코드 리뷰 등 다양한 도메인에서 반복 확인되고 있어, 도입 전 검증 체계 설계가 필수다.",
+      "paper_count": 6,
       "paper_indices": [
-        19,
-        26,
-        30,
-        35,
-        44
+        6,
+        18,
+        29,
+        34,
+        44,
+        64
       ],
       "papers": [
         {
-          "title": "Prompt Injection in Automated Résumé Screening with Large Language Models: Single and Multi-Injection Settings",
-          "url": "https://arxiv.org/abs/2606.27287v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-06-25"
-        },
-        {
-          "title": "Same Evidence, Different Answer: Auditing Order Sensitivity in Multimodal Large Language Models",
-          "url": "https://arxiv.org/abs/2606.26079v1",
+          "title": "Real-Time Voice AI Hears but Does Not Listen",
+          "url": "https://arxiv.org/abs/2606.26083v1",
           "source": "arXiv AI/CL/LG/IR/MA/CY",
           "date": "2026-06-24"
+        },
+        {
+          "title": "LLM-Based Examination of Eligibility Criteria from Securities Prospectuses at the German Central Bank",
+          "url": "https://arxiv.org/abs/2606.27316v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-06-25"
         },
         {
           "title": "Accuracy and Satisfaction in Multi-Turn LLM Dialogues for NFR Assessment",
@@ -99,24 +107,33 @@
           "url": "https://doi.org/10.1007/s10515-026-00638-5",
           "source": "OpenAlex",
           "date": "2026-06-26"
+        },
+        {
+          "title": "OpenRCA 2.0: From Outcome Labels to Causal Process Supervision",
+          "url": "https://arxiv.org/abs/2606.27154v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-06-25"
         }
       ]
     },
     {
-      "topic": "금융·법률 분야 LLM 실증 적용 (LLM Deployment in Finance & Legal)",
-      "description": "독일중앙은행 담보적격성 심사, 스위스 연방대법원 범죄법 판결 등 규제 산업에서 LLM 실무 적용 사례가 축적되며 한국 금융·공공 도입의 레퍼런스로 기능.",
-      "paper_count": 3,
+      "topic": "AI 안전·정렬의 실무 한계 (AI Safety & Alignment Failures in Practice)",
+      "description": "오픈소스 LLM의 권위 복종 취약성, 프롬프트 인젝션, 과잉 정렬 등 안전 설계의 실패 모드가 실증적으로 규명되어, 기업 도입 시 리스크 관리 프레임이 요구된다.",
+      "paper_count": 6,
       "paper_indices": [
-        5,
+        7,
         12,
-        18
+        19,
+        58,
+        63,
+        67
       ],
       "papers": [
         {
-          "title": "Towards Explainable Adjudicative Variance: Quantifying Judicial Discretion via Gated Multi-Task Learning",
-          "url": "https://arxiv.org/abs/2606.27069v1",
+          "title": "Open-source LLMs administer maximum electric shocks in a Milgram-like obedience experiment",
+          "url": "https://arxiv.org/abs/2605.21401v2",
           "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-06-25"
+          "date": "2026-06-23"
         },
         {
           "title": "Measuring & Mitigating Over-Alignment for LLMs in Multilingual Criminal Law Courts",
@@ -125,126 +142,145 @@
           "date": "2026-06-22"
         },
         {
-          "title": "LLM-Based Examination of Eligibility Criteria from Securities Prospectuses at the German Central Bank",
-          "url": "https://arxiv.org/abs/2606.27316v1",
+          "title": "Prompt Injection in Automated Résumé Screening with Large Language Models: Single and Multi-Injection Settings",
+          "url": "https://arxiv.org/abs/2606.27287v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-06-25"
+        },
+        {
+          "title": "Paved with True Intents: Intent-Aware Training Improves LLM Safety Classification Across Training Regimes",
+          "url": "https://arxiv.org/abs/2606.27210v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-06-25"
+        },
+        {
+          "title": "OI-Bench: An Option Injection Benchmark for Evaluating LLM Susceptibility to Directive Interference",
+          "url": "https://arxiv.org/abs/2601.13300v2",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-06-25"
+        },
+        {
+          "title": "Inherited Circuits, Learned Semantics: How Fine-Tuning Creates Evasion Vulnerabilities Invisible to Standard Evaluation",
+          "url": "https://arxiv.org/abs/2606.27091v1",
           "source": "arXiv AI/CL/LG/IR/MA/CY",
           "date": "2026-06-25"
         }
       ]
     },
     {
-      "topic": "AI 안전·거버넌스 규제 압력 (AI Safety & Governance Regulation)",
-      "description": "창작자 권리 침해, 비동의 성적 이미지, 알고리즘 책임성 등 AI 부작용이 실증 데이터로 축적되며 기업의 AI 거버넌스 정책 수립이 선택이 아닌 의무로 전환.",
+      "topic": "인간-AI 협업 및 감독 설계 (Human-AI Collaboration & Oversight Design)",
+      "description": "AI 출력을 인간이 어떻게 검증하고 개입할지를 아키텍처 수준에서 설계하는 연구가 집중되고 있으며, 이는 규제 대응과 품질 보증을 동시에 충족하는 실무 요건이다.",
       "paper_count": 5,
       "paper_indices": [
-        1,
-        2,
-        9,
-        32,
-        45
+        4,
+        24,
+        36,
+        56,
+        79
       ],
       "papers": [
         {
-          "title": "From Celebrities to Anyone: Characterizing AI Nudification Content, Technology, and Community Dynamics on 4chan",
-          "url": "https://arxiv.org/abs/2606.27234v1",
+          "title": "Vis-CoT: A Human-in-the-Loop Framework for Interactive Visualization and Intervention in LLM Chain-of-Thought Reasoning",
+          "url": "https://arxiv.org/abs/2509.01412v3",
           "source": "arXiv AI/CL/LG/IR/MA/CY",
           "date": "2026-06-25"
         },
         {
-          "title": "The Creator-Rights Injury Zone Automatic Opt-In AI Model Training, Pre-Opt-Out Harm, and the Governance Failure of Frontier AI Platforms",
-          "url": "https://doi.org/10.5281/zenodo.20789052",
+          "title": "Human-AI Complementarity: A Goal for Amplified Oversight",
+          "url": "https://arxiv.org/abs/2510.26518v2",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-06-25"
+        },
+        {
+          "title": "The Human Oversight approaches at the forefront of responsible and trustworthy AI, from data-centric adaptive AI-Ops pipelines to Multi-Agent Systems",
+          "url": "https://doi.org/10.5281/zenodo.20491957",
           "source": "OpenAlex",
           "date": "2026-06-22"
         },
         {
-          "title": "AI ASSISTED ANTI – DUMPING INVESTIGATIONS: DATA GOVERNANCE AND ALGORITHMIC ACCOUNTABILITY IN THE INDIAN LEGAL FRAMEWORK",
-          "url": "https://doi.org/10.5281/zenodo.20801976",
-          "source": "OpenAlex",
-          "date": "2026-06-23"
-        },
-        {
-          "title": "Ethical and societal challenges to the adoption of generative AI in communication.",
-          "url": "https://doi.org/10.17613/nqjdd-e2995",
-          "source": "OpenAlex",
-          "date": "2026-06-23"
-        },
-        {
-          "title": "Assessing Bias and Fairness in AI Language Models: A Systematic Review of Current Approaches",
-          "url": "https://doi.org/10.5281/zenodo.20837351",
-          "source": "OpenAlex",
+          "title": "Bridging Talk and Thought: Understanding Dialogue Dynamics Across Collaborative Problem-Solving Contexts",
+          "url": "https://arxiv.org/abs/2606.27233v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
           "date": "2026-06-25"
+        },
+        {
+          "title": "Model Forensics: Investigating Whether Concerning Behavior Reflects Misalignment",
+          "url": "https://arxiv.org/abs/2606.26071v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-06-24"
         }
       ]
     },
     {
-      "topic": "멀티에이전트·멀티모달 시스템 성능 한계 (Multi-Agent & Multimodal System Limits)",
-      "description": "67개 프론티어 모델 결합 실험과 18개 멀티모달 모델 감사에서 공동 실패율·입력 순서 민감도가 확인되며, 단순 모델 조합이 성능 보장이 되지 않음을 입증.",
+      "topic": "멀티모달·옴니모달 AI의 산업 적용 (Multimodal & Omnimodal AI for Industry)",
+      "description": "언어·이미지·비디오·행동을 통합 처리하는 모델이 로봇·추천·의료 등 산업 현장에 진입하면서, 단일 모달 AI 전략의 재검토가 필요한 시점이다.",
       "paper_count": 4,
       "paper_indices": [
-        26,
-        33,
-        51,
-        71
+        8,
+        54,
+        55,
+        61
       ],
       "papers": [
-        {
-          "title": "Same Evidence, Different Answer: Auditing Order Sensitivity in Multimodal Large Language Models",
-          "url": "https://arxiv.org/abs/2606.26079v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-06-24"
-        },
-        {
-          "title": "MAS-PromptBench: When Does Prompt Optimization Improve Multi-Agent LLM Systems?",
-          "url": "https://arxiv.org/abs/2606.23664v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-06-22"
-        },
-        {
-          "title": "When Does Combining Language Models Help? A Co-Failure Ceiling on Routing, Voting, and Mixture-of-Agents Across 67 Frontier Models",
-          "url": "https://arxiv.org/abs/2606.27288v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-06-25"
-        },
-        {
-          "title": "Symbolic Reasoning Frameworks Trigger Memory-Mediated Ecosystem Dynamics in Multi-Agent LLM Systems",
-          "url": "https://arxiv.org/abs/2606.07552v2",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-06-25"
-        }
-      ]
-    },
-    {
-      "topic": "실시간 음성·옴니모달 AI의 현장 적용 격차 (Real-Time Voice & Omnimodal AI Deployment Gap)",
-      "description": "실시간 음성 AI가 감정을 인식하면서도 의사결정에 반영하지 않는 '감정지능 격차', NVIDIA Cosmos 3의 물리 AI 통합이 현장 운영 설계의 새 과제를 제기.",
-      "paper_count": 2,
-      "paper_indices": [
-        6,
-        8
-      ],
-      "papers": [
-        {
-          "title": "Real-Time Voice AI Hears but Does Not Listen",
-          "url": "https://arxiv.org/abs/2606.26083v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-06-24"
-        },
         {
           "title": "Cosmos 3: Omnimodal World Models for Physical AI",
           "url": "https://arxiv.org/abs/2606.02800v4",
           "source": "arXiv AI/CL/LG/IR/MA/CY",
           "date": "2026-06-23"
+        },
+        {
+          "title": "Advancing Omnimodal Embodied Agents from Isolated Skills to Everyday Physical Autonomy",
+          "url": "https://arxiv.org/abs/2606.27251v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-06-25"
+        },
+        {
+          "title": "NOVA: A Verification-Aware Agent Harness for Architecture Evolution in Industrial Recommender Systems",
+          "url": "https://arxiv.org/abs/2606.27243v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-06-25"
+        },
+        {
+          "title": "HarmVideoBench: Benchmarking Harmful Video Understanding in Large Multimodal Models",
+          "url": "https://arxiv.org/abs/2606.27187v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-06-25"
+        }
+      ]
+    },
+    {
+      "topic": "AI 노출·일자리 영향 측정의 한계 (Limits of AI Exposure & Labor Impact Measurement)",
+      "description": "AI가 직무에 미치는 영향을 측정하는 기존 지표들이 정책 적용 과정에서 심각하게 왜곡되고 있어, 한국 기업의 인력 재배치 전략 수립 시 단순 노출도 점수에 의존하는 것은 위험하다.",
+      "paper_count": 2,
+      "paper_indices": [
+        10,
+        21
+      ],
+      "papers": [
+        {
+          "title": "AI Exposure Scores: what they measure, what they miss, and what comes next",
+          "url": "https://arxiv.org/abs/2606.23633v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-06-22"
+        },
+        {
+          "title": "The Annotation Scarcity Paradox in Low-Resource NLP Evaluation: A Decade of Acceleration and Emerging Constraints",
+          "url": "https://arxiv.org/abs/2605.19066v2",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-06-25"
         }
       ]
     }
   ],
   "key_techniques": [
     {
-      "technique": "런타임 안전 커널 및 에이전트 규칙 자동 진화 (Runtime Safety Kernel & AutoSpec)",
-      "description": "에이전트가 실행 중 안전 규칙을 우회하지 못하도록 프로세스 분리·사전 실행 강제를 적용하고, 귀납 논리 프로그래밍으로 안전 규칙을 데이터 기반으로 자동 개선하는 기법 — 에이전트 도입 기업의 내부통제 설계에 직결.",
-      "paper_count": 2,
+      "technique": "에이전트 안전 커널 및 런타임 격리 (Unfireable Safety Kernel / Runtime Isolation)",
+      "description": "AI 에이전트가 실행 중 안전 규칙을 우회하지 못하도록 프로세스 분리와 이중 fail-closed 설계를 강제하는 기법으로, 기업 배포 시 감사 추적과 책임 경계 확보에 직결된다.",
+      "paper_count": 3,
       "paper_indices": [
         15,
-        38
+        37,
+        43
       ],
       "papers": [
         {
@@ -258,31 +294,22 @@
           "url": "https://arxiv.org/abs/2606.24245v2",
           "source": "arXiv AI/CL/LG/IR/MA/CY",
           "date": "2026-06-24"
-        }
-      ]
-    },
-    {
-      "technique": "프로세스 하네스 기반 에이전트 레이어 추가 (Process Harness for Agentic BPM)",
-      "description": "기존 워크플로우 엔진을 교체하지 않고 정책 기반 에이전트 레이어를 덧씌우는 방식 — 레거시 시스템이 많은 한국 금융·제조 기업의 현실적 AI 전환 경로로 주목.",
-      "paper_count": 1,
-      "paper_indices": [
-        13
-      ],
-      "papers": [
+        },
         {
-          "title": "A Process Harness for Uplifting Legacy Workflows to Agentic BPM: Design and Realization in CUGA FLO",
-          "url": "https://arxiv.org/abs/2606.27188v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-06-25"
+          "title": "Blue Synergy Core: A Decoupled, Multi-Agent Cognitive Platform with Zero-Trust State Validation and Closed-Loop Execution Telemetry",
+          "url": "https://doi.org/10.5281/zenodo.20804700",
+          "source": "OpenAlex",
+          "date": "2026-06-23"
         }
       ]
     },
     {
-      "technique": "LLM 추론 과정 시각화 및 인간 개입 프레임워크 (Human-in-the-Loop CoT Visualization)",
-      "description": "LLM의 Chain-of-Thought 추론 단계를 그래프로 시각화하고 사용자가 오류 단계를 직접 수정하는 Vis-CoT 방식 — AI 의사결정 감사 및 설명 가능성 요구에 대응하는 실용적 도구.",
-      "paper_count": 1,
+      "technique": "휴먼-인-더-루프 추론 시각화 (Human-in-the-Loop Chain-of-Thought Visualization)",
+      "description": "LLM의 추론 단계를 그래프로 시각화하고 사용자가 오류를 직접 수정할 수 있게 해, 규제 환경에서 AI 의사결정의 설명가능성과 감사 가능성을 동시에 확보하는 접근법이다.",
+      "paper_count": 2,
       "paper_indices": [
-        4
+        4,
+        24
       ],
       "papers": [
         {
@@ -290,47 +317,104 @@
           "url": "https://arxiv.org/abs/2509.01412v3",
           "source": "arXiv AI/CL/LG/IR/MA/CY",
           "date": "2026-06-25"
+        },
+        {
+          "title": "Human-AI Complementarity: A Goal for Amplified Oversight",
+          "url": "https://arxiv.org/abs/2510.26518v2",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-06-25"
         }
       ]
     },
     {
-      "technique": "멀티모달 입력 순서 감사 프레임워크 (Facet-Probe Multimodal Order Sensitivity Audit)",
-      "description": "동일 증거를 다른 순서로 제시했을 때 AI 답변이 얼마나 달라지는지 정량화하는 감사 기법 — AI 기반 의사결정 지원 도구 도입 전 신뢰성 검증 절차로 활용 가능.",
-      "paper_count": 1,
+      "technique": "프로세스 하네스 기반 레거시 워크플로우 에이전트화 (Process Harness for Agentic BPM)",
+      "description": "기존 워크플로우 엔진을 교체하지 않고 에이전트 레이어를 추가하는 방식으로, 대규모 시스템 교체 없이 점진적 AI 전환이 가능해 한국 대기업·금융사의 현실적 도입 경로와 부합한다.",
+      "paper_count": 2,
       "paper_indices": [
-        26
+        13,
+        41
       ],
       "papers": [
         {
-          "title": "Same Evidence, Different Answer: Auditing Order Sensitivity in Multimodal Large Language Models",
-          "url": "https://arxiv.org/abs/2606.26079v1",
+          "title": "A Process Harness for Uplifting Legacy Workflows to Agentic BPM: Design and Realization in CUGA FLO",
+          "url": "https://arxiv.org/abs/2606.27188v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-06-25"
+        },
+        {
+          "title": "Agentic AI Strategy As A Dynamic Capability: How Autonomous Systems Reshape Enterprise Transformation",
+          "url": "https://doi.org/10.5281/zenodo.20837490",
+          "source": "OpenAlex",
+          "date": "2026-06-25"
+        }
+      ]
+    },
+    {
+      "technique": "LLM-as-a-Judge 평가 파이프라인 (LLM-as-a-Judge Evaluation Pipeline)",
+      "description": "LLM이 다른 LLM의 출력을 평가하는 방식으로 도메인 특화 검증 비용을 낮추지만, 공유 분산 오염(shared variance contamination) 문제로 인해 인간 평가자와의 정합성 검증이 반드시 병행되어야 한다.",
+      "paper_count": 3,
+      "paper_indices": [
+        3,
+        18,
+        57
+      ],
+      "papers": [
+        {
+          "title": "An LLM-Native Psychometric Instrument Does Not Predict LLM Behavior: Evidence Across 25 Models",
+          "url": "https://arxiv.org/abs/2606.09843v2",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-06-25"
+        },
+        {
+          "title": "LLM-Based Examination of Eligibility Criteria from Securities Prospectuses at the German Central Bank",
+          "url": "https://arxiv.org/abs/2606.27316v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-06-25"
+        },
+        {
+          "title": "Ask, Don't Judge: Binary Questions for Interpretable LLM Evaluation and Self-Improvement",
+          "url": "https://arxiv.org/abs/2606.27226v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-06-25"
+        }
+      ]
+    },
+    {
+      "technique": "보상 신호 설계 기반 강화학습 후처리 (Reward Signal Design for RLHF/RLAIF)",
+      "description": "보상 함수 설계의 견고성이 최적화 알고리즘 선택보다 성능을 압도적으로 좌우한다는 실증 결과는, 기업이 AI 파인튜닝 프로젝트를 발주할 때 알고리즘보다 보상 설계 역량을 우선 검증해야 함을 의미한다.",
+      "paper_count": 3,
+      "paper_indices": [
+        45,
+        49,
+        78
+      ],
+      "papers": [
+        {
+          "title": "Reinforcement Learning without Ground-Truth Solutions can Improve LLMs",
+          "url": "https://arxiv.org/abs/2606.27369v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-06-25"
+        },
+        {
+          "title": "Designing Reward Signals for Portable Query Generation: A Case Study in Industrial Semantic Job Search",
+          "url": "https://arxiv.org/abs/2606.27291v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-06-25"
+        },
+        {
+          "title": "Neglected Free Lunch from Post-training: Progress Advantage for LLM Agents",
+          "url": "https://arxiv.org/abs/2606.26080v1",
           "source": "arXiv AI/CL/LG/IR/MA/CY",
           "date": "2026-06-24"
-        }
-      ]
-    },
-    {
-      "technique": "온프레미스 LLM 과도한 정렬 완화 (Over-Alignment Mitigation for On-Premise LLMs)",
-      "description": "규제 산업 온프레미스 모델이 지나치게 많은 요청을 거부하는 문제를 프롬프팅·abliteration 기법으로 완화 — 망분리·온프레미스 요구가 강한 한국 금융·공공 환경에서 모델 커스터마이징 역량 내재화의 근거.",
-      "paper_count": 1,
-      "paper_indices": [
-        12
-      ],
-      "papers": [
-        {
-          "title": "Measuring & Mitigating Over-Alignment for LLMs in Multilingual Criminal Law Courts",
-          "url": "https://arxiv.org/abs/2606.23375v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-06-22"
         }
       ]
     }
   ],
   "actionable_insights": [
-    "에이전트 AI 도입 제안서를 검토할 때 '무엇을 자동화하는가'보다 **런타임에 에이전트가 안전 규칙을 우회할 수 없도록 아키텍처 수준에서 통제 경계가 설계되어 있는가**를 먼저 확인해야 한다. Unfireable Safety Kernel 연구는 소프트웨어 수준의 격리 없이는 에이전트 자율성 확대가 통제 불가능성 확대로 이어짐을 기계 검증으로 입증했다.",
-    "LLM 기반 의사결정 지원 도구(이력서 심사, 코드 리뷰, 법률 판단 등)를 운영 중이라면 **입력 순서·프롬프트 조작·과잉 거부 등 실제 배포 환경 특유의 실패 모드를 정기적으로 감사하는 체계를 내부 프로세스에 편입해야** 한다. 공개 벤치마크 성능이 실제 운영 신뢰성을 보장하지 않는다는 점이 복수 논문에서 반복 확인됐다.",
-    "금융·법률·공공 분야 AI 도입 로드맵을 수립할 때 **온프레미스 또는 폐쇄망 환경에서도 모델 커스터마이징(과도한 정렬 완화, 도메인 특화 파인튜닝) 역량을 내재화할 수 있는 MLOps 인프라를 선행 구축하는 것이 클라우드 의존 전략보다 규제 리스크를 낮추는 경로**다. 스위스 연방대법원 사례는 온프레미스 모델도 abliteration 기법으로 실무 적용성을 확보할 수 있음을 보였다.",
-    "AI 거버넌스 정책 문서를 작성할 때 창작자 데이터 자동 옵트인, 비동의 이미지 생성, 알고리즘 책임성 등 사용자·창작자 권리 침해 유형을 구체적으로 열거하고 각 유형별 책임 경계와 대응 절차를 명시해야 한다. 이 항목들이 빠진 AI 정책은 규제 당국 심사나 외부 감사에서 실질적 공백으로 지적될 가능성이 높다."
+    "에이전트형 AI 도입 로드맵을 수립할 때 '어떤 LLM을 쓸 것인가'보다 에이전트 간 신뢰 계층과 책임 경계를 어떻게 설계할 것인가를 선행 의사결정 항목으로 올려야 한다. ShareLock 공격 사례는 도구 설명 수준의 취약점이 전체 에이전트 체인을 무력화할 수 있음을 보여준다.",
+    "LLM 도입 성과를 측정할 때 벤치마크 정확도나 사용자 만족도만으로는 실질적 신뢰성을 검증할 수 없다. 독일중앙은행 사례처럼 **도메인 특화 검증 파이프라인과 LLM-as-a-Judge 평가를 병행 설계하되, 인간 전문가 기준과의 정합성 검증을 반드시 포함**해야 실무 적용 가능성을 확인할 수 있다.",
+    "한국 금융·공공 기관의 AI 도입 프로젝트에서 **온프레미스 배포 요건이 클라우드 기반 멀티에이전트 아키텍처의 현실적 장벽으로 작동**한다는 점을 전제로, 스위스 연방대법원 사례의 abliteration 기법처럼 폐쇄망 환경에서 과잉 정렬 문제를 완화하는 기술적 대안을 사전에 검토해야 한다.",
+    "HR·채용 자동화에 LLM을 도입하는 경우, 프롬프트 인젝션을 통한 평가 왜곡 가능성과 LLM 코드 리뷰의 체계적 과잉 수정 경향이 실증됐으므로, **AI 판단 결과에 대한 공정성 감사 체계와 인간 검토 단계를 프로세스에 명시적으로 내재화**해야 규제 리스크와 조직 신뢰를 동시에 관리할 수 있다."
   ],
   "top_institutions": [
     {
@@ -380,12 +464,12 @@
       "count": 27
     },
     {
-      "keyword": "data",
+      "keyword": "framework",
       "count": 24
     },
     {
-      "keyword": "framework",
-      "count": 23
+      "keyword": "data",
+      "count": 24
     },
     {
       "keyword": "aware",
@@ -452,8 +536,8 @@
       "count": 12
     },
     {
-      "keyword": "dynamics",
-      "count": 11
+      "keyword": "systems",
+      "count": 12
     }
   ],
   "recent_papers": [
@@ -650,14 +734,6 @@
       "score": 90
     },
     {
-      "title": "Agentic AI Strategy As A Dynamic Capability: How Autonomous Systems Reshape Enterprise Transformation",
-      "url": "https://doi.org/10.5281/zenodo.20837490",
-      "source": "OpenAlex",
-      "date": "2026-06-25",
-      "summary_ko": "조직이 생성형 AI 실험에서 에이전트형 AI 배포로 전환하면서 기존 AI 전략 프레임워크가 구조적으로 부족해졌다. 본 연구는 에이전트형 AI 전략을 동적 역량으로 개념화하여 기업이 자동화 기회를 체계적으로 감지하고 가치를 포착하는 방식을 분석한다.",
-      "score": 90
-    },
-    {
       "title": "Same Evidence, Different Answer: Auditing Order Sensitivity in Multimodal Large Language Models",
       "url": "https://arxiv.org/abs/2606.26079v1",
       "source": "arXiv AI/CL/LG/IR/MA/CY",
@@ -695,6 +771,14 @@
       "source": "arXiv AI/CL/LG/IR/MA/CY",
       "date": "2026-06-23",
       "summary_ko": "본 논문은 GitHub Copilot과의 다중턴 대화에서 HIPAA 규정 준수 평가(NFR 평가)의 정확성과 사용자 만족도를 실증 분석했다. 49명 개발자가 148개 HIPAA 요구사항을 iTrust 코드베이스에 대해 평가한 결과, **개발자는 LLM 평가에 동의하는 경향이 있으나 전문가 기준 정확도는 낮으며, 긴 응답과 정보 제공 턴이 사용자 만족도를 부정적으로 영향**함을 발견했다.",
+      "score": 90
+    },
+    {
+      "title": "Are We Ready For An Agent-Native Memory System?",
+      "url": "https://arxiv.org/abs/2606.24775v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-06-23",
+      "summary_ko": "본 논문은 LLM 에이전트의 메모리 시스템을 데이터 관리 관점에서 체계적으로 분석한다. 메모리 표현·저장, 추출, 검색·라우팅, 유지보수 4개 모듈로 분해하여 12개 시스템을 5개 벤치마크 워크로드(11개 데이터셋)에서 평가한 결과, 단일 아키텍처가 모든 시나리오를 지배하지 못하며 워크로드 병목에 따라 메모리 구조 정렬이 핵심임을 보였다.",
       "score": 90
     }
   ],
