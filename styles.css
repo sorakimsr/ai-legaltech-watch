@@ -1368,6 +1368,28 @@ button.icon-btn.card-share { font-size: 14px; line-height: 1; }
   margin-bottom: 12px;
   text-transform: none;
 }
+/* v6.18.0: 트렌드 연속성 배지 — 파이프라인 continuity 메타(전개/재점화) 시각화 */
+.continuity-badge {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  vertical-align: middle;
+  letter-spacing: 0;
+  cursor: help;
+}
+.continuity-badge.is-developing {
+  color: #047857;
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+}
+.continuity-badge.is-reignited {
+  color: #b45309;
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+}
 .strategy-card h3 {
   font-size: 21px;  /* v6.12: 20→21 */
   font-weight: 700;

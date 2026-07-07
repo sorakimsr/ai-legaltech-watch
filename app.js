@@ -186,6 +186,20 @@ function makeStrategyKey(period, dateKey, card) {
   return `${period}|${dateKey || ''}|${(card.tag || card.title || '').slice(0, 80)}`;
 }
 
+// v6.18.0: 트렌드 연속성 배지 — 파이프라인이 카드에 실어주는 continuity 메타데이터
+//   ("developing" 전개 / "reignited" 재점화)를 시각화. prior_ref는 이어받는 기존 카드 제목.
+function continuityBadge(card) {
+  if (!card || !card.continuity) return '';
+  const map = {
+    developing: { cls: 'is-developing', label: '↗ 전개', desc: '이어지는 트렌드' },
+    reignited: { cls: 'is-reignited', label: '⟲ 재점화', desc: '다시 불붙은 트렌드' },
+  };
+  const m = map[card.continuity];
+  if (!m) return '';
+  const tip = m.desc + (card.prior_ref ? ` — 이전 카드: ${card.prior_ref}` : '');
+  return `<span class="continuity-badge ${m.cls}" title="${escapeHtml(tip)}">${m.label}</span>`;
+}
+
 // v6.0 (P2-3): escapeAttr / escapeHtml / escapeHtmlWithMark / formatKoreanDate /
 //              isNewToday / cssEscape / renderMarkdown / unboldProperNouns / UNBOLD_PROPER_NOUNS /
 //              _escapeRegex / PAPERS_NARRATIVE_LABELS 는 app.util.js로 분리되었습니다.
@@ -902,7 +916,7 @@ function renderSavedView(root) {
         <div class="strategy-card${checked ? ' is-selected' : ''}" data-trend-key="${escapeHtml(k)}">
           <div class="strategy-card-head">
             <div>
-              <div class="strat-tag">${escapeHtml(card.tag || 'TREND')} · ${escapeHtml(period)} ${escapeHtml(keyLabel)}</div>
+              <div class="strat-tag">${escapeHtml(card.tag || 'TREND')} · ${escapeHtml(period)} ${escapeHtml(keyLabel)}${continuityBadge(card)}</div>
               <h3>${escapeHtml(card.title || '')}</h3>
             </div>
           </div>
@@ -1438,7 +1452,7 @@ function renderStrategy() {
       <div class="strategy-card${checked ? ' is-selected' : ''}" data-trend-key="${escapeHtml(cardKey)}">
         <div class="strategy-card-head">
           <div>
-            <div class="strat-tag">${escapeHtml(s.tag || 'TREND')}</div>
+            <div class="strat-tag">${escapeHtml(s.tag || 'TREND')}${continuityBadge(s)}</div>
             <h3>${escapeHtml(s.title || '')}</h3>
           </div>
         </div>
