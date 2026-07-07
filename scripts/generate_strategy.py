@@ -79,6 +79,7 @@ v6.15.26 (2026-05-28): 카드 개수 정책 변경 — **{period_label} 기준 {
 - 구체 사실(회사명·금액·날짜·기법명) 근거로. 일반론·교과서적 설명 금지
 - body는 4~5문장으로 풍부하게. 한 줄로 끝내지 말 것. 줄 사이에 흐름이 이어지도록.
 - action은 동사형·서술형 2~3문장. "~를 수립.", "~검토." 같은 명사형 종결 금지. "~한다", "~해보자" 같이 행동을 직접 명령 또는 권유.
+- **action은 한국 대형로펌 경영전략팀 관점 (v6.18.0)**: ① 자문 기회(클라이언트군·자문 상품·세미나) ② 프랙티스 전략(수임 구조·경쟁 로펌 대비 포지셔닝) ③ 로펌 내부 AI 도입 ④ 모니터링(움직일 트리거 조건 명시) — 주제에 맞는 렌즈 하나로. "…를 분류하고 매핑한다", "파일럿을 진행한다", "…를 KPI로 설정한다" 류 범용 컨설팅 템플릿과 "자사 AI 프로젝트"·"사내 …" 같은 일반 기업 관점 표현 금지 (독자는 로펌).
 - **시점/기한 표현 절대 금지**: "지금 당장", "즉시", "이번 주 (안에)", "이번 달 (내)", "빠른 시일 내", "우선", "곧", "단기간 내", "1주일 내", "한 달 안에" 등 시간 한정어 금지. ACTION은 "무엇을 한다"에 집중하고 언제는 빼라.
 - **굵게 강조(`**...**`)는 "의미론적으로 의사결정에 직결되는 구절"에만 적용** (사용자 정책):
 
@@ -448,15 +449,30 @@ def generate_cards(items: list, period: str, ref_date: date, all_items: list):
     # daily에만 우선 적용 (weekly/monthly는 재생성 빈도 낮고 전체 조망이 유리 — 효과 검증 후 확대).
     # 실패 시 아래 레거시 단일 호출로 자동 폴백. STRATEGY_TWO_STAGE=0으로 비활성화 가능.
     result = None
+    recent_ctx = None  # v6.18.0: 연속성 컨텍스트 (daily 2단계 경로에서만 로드)
     if period == "daily" and os.environ.get("STRATEGY_TWO_STAGE", "1") != "0":
         try:
-            from strategy_quality import cluster_topics, write_cluster_cards, load_bookmark_hints
+            from strategy_quality import (cluster_topics, write_cluster_cards,
+                                          load_bookmark_hints, load_recent_daily_context)
             hints = load_bookmark_hints(ROOT_DIR)
             if hints:
                 print(f"  [stage-A] 북마크 ground-truth 힌트 {len(hints)}건 주입", flush=True)
-            clusters = cluster_topics(sorted_items, period_label, hints)
+            # v6.18.0: 최근 7일 카드 히스토리 → 연속성 판단(new/developing/reignited) +
+            #   action 템플릿 반복 방지. '당일 뉴스 해설'을 '추적되는 트렌드'로 전환하는 핵심.
+            recent_ctx = load_recent_daily_context(HISTORY_PATH, ref_date, days=7)
+            if recent_ctx["topics"]:
+                print(f"  [stage-A] 최근 7일 히스토리 {len(recent_ctx['topics'])}개 카드 주입 "
+                      f"(연속성 추적)", flush=True)
+            clusters = cluster_topics(sorted_items, period_label, hints,
+                                      recent_topics=recent_ctx["topics"])
             if clusters:
-                cards_2s = write_cluster_cards(clusters, sorted_items, period_label)
+                n_dev = sum(1 for c in clusters if c.get("continuity") == "developing")
+                n_reig = sum(1 for c in clusters if c.get("continuity") == "reignited")
+                if n_dev or n_reig:
+                    print(f"  [연속성] 전개 {n_dev} · 재점화 {n_reig} · "
+                          f"신규 {len(clusters) - n_dev - n_reig}", flush=True)
+                cards_2s = write_cluster_cards(clusters, sorted_items, period_label,
+                                               recent_actions=recent_ctx["actions"])
                 if cards_2s:
                     result = {"summary": "", "cards": cards_2s}
                     # summary는 아래 기존 보강 경로(_generate_summary_from_cards)가 생성
@@ -542,20 +558,29 @@ def generate_cards(items: list, period: str, ref_date: date, all_items: list):
         action_text = str(c["action"]).strip()
         action_text = _strip_timing_phrases(action_text)
 
-        cards.append({
+        card_out = {
             "tag": str(c["tag"]).strip(),
             "title": str(c["title"]).strip(),
             "body": str(c["body"]).strip(),
             "action": action_text,
             "citations": cited,
-        })
+        }
+        # v6.18.0: 2단계 경로의 연속성 메타데이터 보존 (UI 배지 활용 가능)
+        if c.get("continuity"):
+            card_out["continuity"] = str(c["continuity"])
+            if c.get("prior_ref"):
+                card_out["prior_ref"] = str(c["prior_ref"])[:100]
+        cards.append(card_out)
 
     # ===== v6.17.0: deterministic 검증 게이트 (모든 period 공통, LLM 비용 0) =====
     # 근거 URL 겹침·주제 유사도 기반 중복 카드 drop.
     # "sources 3~5개 필수" 같은 프롬프트 룰이 코드로 강제되지 않던 공백을 메움.
     try:
-        from strategy_quality import validate_cards
+        from strategy_quality import validate_cards, flag_template_actions
         cards, _dropped = validate_cards(cards, priority_fn=_card_priority)
+        # v6.18.0: action 템플릿 반복 감지 (로깅·플래그만 — 프롬프트 negative example과 이중 방어)
+        if recent_ctx:
+            flag_template_actions(cards, recent_actions=recent_ctx["actions"])
     except Exception as exc:
         print(f"  [검증 게이트] 예외 — 검증 skip: {type(exc).__name__}: {exc}", flush=True)
 

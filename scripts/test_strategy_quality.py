@@ -186,3 +186,102 @@ def test_bookmark_hints_from_export(tmp_path):
 
 def test_bookmark_hints_missing_files(tmp_path):
     assert sq.load_bookmark_hints(str(tmp_path)) == []
+
+
+# ---- v6.18.0: 트렌드 연속성 ----
+
+from datetime import date as _date  # noqa: E402
+
+
+def _write_history(tmp_path, daily: dict):
+    p = tmp_path / "strategy_history.json"
+    p.write_text(json.dumps({"daily": daily}, ensure_ascii=False), encoding="utf-8")
+    return str(p)
+
+
+def test_recent_context_loads_topics_and_actions(tmp_path):
+    hp = _write_history(tmp_path, {
+        "2026-07-06": {"summary": "", "cards": [
+            {"tag": "TREND 01 · AI 거버넌스", "title": "거버넌스 제도화", "action": "액션 A"},
+            {"tag": "TREND 02 · 임시", "title": "임시", "action": "x", "_emergency": True},
+        ]},
+        "2026-07-01": [  # 옛 list 포맷도 지원
+            {"tag": "TREND 01 · 판결문", "title": "판결문 공개", "action": "액션 B"},
+        ],
+    })
+    ctx = sq.load_recent_daily_context(hp, _date(2026, 7, 7), days=7)
+    assert len(ctx["topics"]) == 2  # _emergency 제외
+    assert ctx["topics"][0]["date"] == "2026-07-06"
+    assert "액션 A" in ctx["actions"] and "액션 B" in ctx["actions"]
+
+
+def test_recent_context_missing_file(tmp_path):
+    ctx = sq.load_recent_daily_context(str(tmp_path / "none.json"), _date(2026, 7, 7))
+    assert ctx == {"topics": [], "actions": []}
+
+
+def test_cluster_continuity_parsed(monkeypatch):
+    captured = {}
+
+    def fake(prompt, **k):
+        captured["prompt"] = prompt
+        return {"clusters": [
+            {"topic": "거버넌스 전개", "bucket": "legal", "indexes": [1],
+             "continuity": "developing", "prior_ref": "거버넌스 제도화", "reason": "r"},
+            {"topic": "새 흐름", "bucket": "frontier", "indexes": [2],
+             "continuity": "이상한값", "reason": "r"},
+        ]}
+
+    monkeypatch.setattr(sq, "call_llm_json", fake)
+    topics = [{"date": "2026-07-06", "tag": "TREND 01 · AI 거버넌스", "title": "거버넌스 제도화"}]
+    clusters = sq.cluster_topics(_items(3), "오늘", recent_topics=topics)
+    assert "거버넌스 제도화" in captured["prompt"]  # 히스토리 주입 확인
+    assert clusters[0]["continuity"] == "developing"
+    assert clusters[0]["prior_ref"] == "거버넌스 제도화"
+    assert clusters[1]["continuity"] == "new"  # 잘못된 값 → new 정규화
+
+
+def test_write_cards_continuity_metadata_and_negatives(monkeypatch):
+    captured = {"prompts": []}
+
+    def fake(prompt, **k):
+        captured["prompts"].append(prompt)
+        return {"title": "제목", "body": "본문", "action": "새로운 관점의 액션", "sources": [1]}
+
+    monkeypatch.setattr(sq, "call_llm_json", fake)
+    clusters = [{"topic": "전개 주제", "bucket": "legal", "indexes": [1],
+                 "continuity": "developing", "prior_ref": "기존 카드 제목", "reason": "r"}]
+    cards = sq.write_cluster_cards(clusters, _items(2), "오늘",
+                                   recent_actions=["파일럿을 진행하고 KPI로 설정한다"])
+    assert cards[0]["continuity"] == "developing"
+    assert cards[0]["prior_ref"] == "기존 카드 제목"
+    p = captured["prompts"][0]
+    assert "기존 카드 제목" in p and "delta" in p  # 연속성 블록
+    assert "파일럿을 진행하고" in p  # negative example 주입
+
+
+# ---- v6.18.0: action 템플릿 감지 ----
+
+def test_flag_template_actions_vs_history():
+    c = _card("카드", ["http://a.com/1"])
+    c["action"] = "자사 AI 프로젝트를 분류하고 파일럿을 진행하며 KPI로 설정한다"
+    n = sq.flag_template_actions([c], recent_actions=[
+        "자사 AI 프로젝트를 분류하고 파일럿을 진행해 KPI로 설정하자"])
+    assert n == 1 and c.get("_action_template") is True
+
+
+def test_flag_template_actions_within_batch():
+    c1 = _card("카드1", ["http://a.com/1"])
+    c2 = _card("카드2", ["http://b.com/1"], tag="TREND 02 · 별개")
+    c1["action"] = "판결문 공개 대응 자문 패키지를 기획해 클라이언트 세미나로 연결한다"
+    c2["action"] = "판결문 공개 대응 자문 패키지를 기획해 클라이언트 세미나로 연결해보자"
+    n = sq.flag_template_actions([c1, c2])
+    assert n == 1 and c2.get("_action_template") is True and not c1.get("_action_template")
+
+
+def test_flag_template_actions_distinct_pass():
+    c1 = _card("카드1", ["http://a.com/1"])
+    c2 = _card("카드2", ["http://b.com/1"], tag="TREND 02 · 별개")
+    c1["action"] = "금융 AI 책임 법리 메모를 작성해 대기업 법무팀 대상 세미나로 연결한다"
+    c2["action"] = "EU AI Act 시행 일정에 맞춰 규제 대응 뉴스레터 발행 여부를 검토한다"
+    assert sq.flag_template_actions([c1, c2]) == 0

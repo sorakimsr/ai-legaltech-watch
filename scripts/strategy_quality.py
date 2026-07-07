@@ -32,9 +32,59 @@ import json
 import os
 import re
 import sys
+from datetime import timedelta
 from urllib.parse import urlparse
 
 from llm_client import call_llm_json
+
+
+# ============================================================================
+# 0. 트렌드 연속성 컨텍스트 (v6.18.0, 2026-07-07)
+#    배경: daily 카드가 매일 히스토리 없이 처음부터 생성돼 '당일 뉴스 해설'에
+#    머물던 문제. 같은 거시 트렌드(예: AI 거버넌스 제도화)가 매일 재도출되고,
+#    "이 흐름이 N일째 가속 중, 오늘 달라진 것은 X" 같은 진짜 트렌드 분석 불가.
+#    → 최근 7일 카드 히스토리를 Stage A/B에 주입, 클러스터별 연속성 라벨.
+# ============================================================================
+
+def load_recent_daily_context(history_path: str, ref_date, days: int = 7,
+                              max_topics: int = 40, max_actions: int = 6) -> dict:
+    """strategy_history.json에서 최근 N일 daily 카드의 (주제 목록, action 예시) 추출.
+
+    Returns: {"topics": [{"date","tag","title"}...], "actions": [str, ...]}
+    topics → Stage A 연속성 판단용. actions → Stage B 템플릿 반복 방지 negative example.
+    파일 없음·파싱 실패 시 빈 컨텍스트 (기능 없이도 동작).
+    """
+    empty = {"topics": [], "actions": []}
+    if not os.path.exists(history_path):
+        return empty
+    try:
+        with open(history_path, "r", encoding="utf-8") as f:
+            history = json.load(f)
+    except Exception:
+        return empty
+    daily = history.get("daily", {}) if isinstance(history, dict) else {}
+
+    topics, actions = [], []
+    for back in range(1, days + 1):
+        d_iso = (ref_date - timedelta(days=back)).isoformat()
+        entry = daily.get(d_iso)
+        if isinstance(entry, dict):
+            cards = entry.get("cards", []) or []
+        elif isinstance(entry, list):
+            cards = entry
+        else:
+            continue
+        for c in cards:
+            if not isinstance(c, dict) or c.get("_emergency"):
+                continue
+            topics.append({
+                "date": d_iso,
+                "tag": str(c.get("tag", ""))[:60],
+                "title": str(c.get("title", ""))[:80],
+            })
+            if len(actions) < max_actions and c.get("action"):
+                actions.append(str(c["action"]).strip()[:160])
+    return {"topics": topics[:max_topics], "actions": actions}
 
 
 # ============================================================================
@@ -116,11 +166,11 @@ CLUSTER_PROMPT = """당신은 한국 대형로펌 경영전략팀 브리핑의 *
 
 [기사 목록 — 각 항목 앞 번호가 인덱스]
 {news_blob}
-{hints_block}
+{hints_block}{history_block}
 [응답 형식 — JSON 객체만, 다른 텍스트 절대 금지]
 {{
   "clusters": [
-    {{"topic": "[카드 주제 한 줄, 20~40자]", "bucket": "legal 또는 frontier", "indexes": [번호, ...], "reason": "[이 주제가 카드 가치가 있는 이유 한 문장]"}}
+    {{"topic": "[카드 주제 한 줄, 20~40자]", "bucket": "legal 또는 frontier", "indexes": [번호, ...], "reason": "[이 주제가 카드 가치가 있는 이유 한 문장]", "continuity": "new 또는 developing 또는 reignited", "prior_ref": "[developing/reignited일 때: 이어받는 기존 카드 제목 그대로. new면 빈 문자열]"}}
   ]
 }}
 
@@ -131,6 +181,11 @@ CLUSTER_PROMPT = """당신은 한국 대형로펌 경영전략팀 브리핑의 *
 4. bucket 균형: legal(법조·거버넌스 교차) 다수 ~60%, frontier(AI 기술·산업·논문) ~40% — 단, **균형을 채우기 위해 같은 사건을 재활용하거나 가치 없는 기사를 억지로 묶지 말 것**. 데이터가 부족하면 그 bucket은 적어도 된다.
 5. 카드 가치가 없는 기사(단순 홍보·중복 보도·주변부)는 어느 클러스터에도 넣지 않는다.
 6. 유사 주제 기사 여러 건은 반드시 하나의 클러스터로 (예: 로펌 3곳의 AI 도입 보도 3건 → 1클러스터).
+7. **연속성 판단 (트렌드 추적의 핵심)**: 위 [최근 발행 카드 히스토리]와 대조해 각 클러스터에 continuity를 지정하라.
+   - "new" — 히스토리에 없는 새 흐름
+   - "developing" — 기존 트렌드의 전개. **오늘 무엇이 새로 진전됐는지(delta)가 카드 가치의 전부다.** prior_ref에 이어받는 기존 카드 제목을 그대로 기입.
+   - "reignited" — 한동안 잠잠하다 오늘 재점화된 흐름. prior_ref 기입.
+   ★ 기존 카드와 같은 주제인데 **오늘 새 진전이 없으면 클러스터화하지 말 것** — 어제 카드의 동어반복은 최악의 결과물이다. (히스토리가 비어 있으면 전부 "new".)
 """
 
 HINTS_BLOCK_TEMPLATE = """
@@ -138,11 +193,18 @@ HINTS_BLOCK_TEMPLATE = """
 {hints}
 """
 
+HISTORY_BLOCK_TEMPLATE = """
+[최근 발행 카드 히스토리 (최근 {days}일) — 연속성 판단 + 동어반복 방지용]
+{topics}
+"""
 
-def cluster_topics(sorted_items: list, period_label: str, bookmark_hints: list = None) -> list:
+
+def cluster_topics(sorted_items: list, period_label: str, bookmark_hints: list = None,
+                   recent_topics: list = None) -> list:
     """Stage A: 기사 목록 → 주제 클러스터 목록.
 
-    Returns: [{"topic": str, "bucket": str, "indexes": [int(1-based)], "reason": str}]
+    recent_topics (v6.18.0): load_recent_daily_context()["topics"] — 연속성 판단용 히스토리.
+    Returns: [{"topic", "bucket", "indexes", "reason", "continuity", "prior_ref"}]
              실패(빈 응답·형식 오류) 시 [] — 호출자는 레거시 경로로 폴백.
     Deterministic 후처리: 범위 밖 인덱스 제거, 중복 배정 제거(선착순), 빈 클러스터 제거, 최대 12개.
     """
@@ -164,11 +226,21 @@ def cluster_topics(sorted_items: list, period_label: str, bookmark_hints: list =
             hints="\n".join(f"  · {h}" for h in bookmark_hints[:15])
         )
 
+    history_block = ""
+    if recent_topics:
+        topic_lines = "\n".join(
+            f"  · {t.get('date', '')}: {t.get('tag', '')} — {t.get('title', '')}"
+            for t in recent_topics[:40]
+        )
+        days_span = len({t.get("date", "") for t in recent_topics})
+        history_block = HISTORY_BLOCK_TEMPLATE.format(days=max(days_span, 1), topics=topic_lines)
+
     prompt = CLUSTER_PROMPT.format(
         n=len(sorted_items),
         period_label=period_label,
         news_blob=news_blob,
         hints_block=hints_block,
+        history_block=history_block,
     )
 
     result = call_llm_json(prompt, max_tokens=3000, temperature=0.2)
@@ -194,11 +266,14 @@ def cluster_topics(sorted_items: list, period_label: str, bookmark_hints: list =
         if not idxs:
             continue
         bucket = str(c.get("bucket", "")).strip().lower()
+        continuity = str(c.get("continuity", "")).strip().lower()
         clusters.append({
             "topic": str(c["topic"]).strip()[:60],
             "bucket": bucket if bucket in ("legal", "frontier") else "legal",
             "indexes": idxs,
             "reason": str(c.get("reason", "")).strip()[:200],
+            "continuity": continuity if continuity in ("new", "developing", "reignited") else "new",
+            "prior_ref": str(c.get("prior_ref", "")).strip()[:100],
         })
 
     n_articles = sum(len(c["indexes"]) for c in clusters)
@@ -218,7 +293,7 @@ CARD_PROMPT = """당신은 **한국 대형로펌 경영전략팀의 시니어 �
 
 [확정 주제] {topic}
 [주제 성격] {bucket_desc}
-[근거 기사 — 번호는 전체 목록 기준 인덱스이므로 그대로 인용할 것]
+{continuity_block}[근거 기사 — 번호는 전체 목록 기준 인덱스이므로 그대로 인용할 것]
 {news_blob}
 
 [응답 형식 — JSON 객체만, 다른 텍스트 절대 금지]
@@ -232,10 +307,30 @@ CARD_PROMPT = """당신은 **한국 대형로펌 경영전략팀의 시니어 �
 규칙:
 - body: (1) 어떤 흐름인가(구체 회사명·제품명·금액·날짜) (2) 왜 한국 실무자에게 의미 있나 (3) 표면 아래 시장 구조·역학 (4) 향후 어디로 가나. 일반론·교과서적 표현 금지. **첫 문장에 근거 인덱스를 명시** (예: "오늘(3, 7번) 보도에 따르면...").
 - {bucket_rule}
-- action: 동사형·서술형 2~3문장 ("~한다", "~해보자"). 명사형 종결 금지. (1) 첫 단계 동작 (2) 다음 검증·산출물 (3) 성공·실패 판단 지표 — 최소 둘 포함.
-- **시점/기한 표현 절대 금지** ("지금 당장", "즉시", "이번 주", "이번 달", "빠른 시일 내", "우선", "곧" 등).
+- **action은 한국 대형로펌 경영전략팀의 관점에서** 동사형·서술형 2~3문장 ("~한다", "~해보자", 명사형 종결 금지). 이 주제에 가장 맞는 렌즈 **하나**를 골라 그 관점으로만 쓴다:
+  ① **자문 기회** — 어떤 클라이언트군에 어떤 자문 상품·세미나·뉴스레터·법리 메모로 연결되는가
+  ② **프랙티스 전략** — 수임 구조·프랙티스 그룹 구성·경쟁 로펌 대비 포지셔닝에 주는 함의
+  ③ **내부 도입** — 로펌 자신의 AI 도입·업무 방식·인력 구조에 주는 함의
+  ④ **모니터링** — 아직 행동 시점이 아니면, 무엇이 관찰되면 움직일지 그 **트리거 조건**을 구체적으로
+- **action 금지 패턴 (템플릿 탈피 — 엄격)**: "…를 분류하고 …를 매핑한다", "파일럿을 진행한다", "…를 KPI로 설정한다", "체크리스트를 개발한다" 류의 범용 컨설팅 문구 반복 금지. "자사 AI 프로젝트", "사내 …" 같은 일반 기업 관점 표현 금지 — 독자는 로펌이다. 아래 [최근 카드 action 예시]와 문형이 겹치면 실패작이다.
+{recent_actions_block}- **시점/기한 표현 절대 금지** ("지금 당장", "즉시", "이번 주", "이번 달", "빠른 시일 내", "우선", "곧" 등).
 - **굵게 강조(`**...**`)는 카드 전체(body+action)에 3~6개 필수** — 인과·판단·시사 구절에만 (예: "**책임 경계가 명확히 설계된 아키텍처를 선택**"). 회사명·금액·기법명·논문제목은 절대 강조하지 말 것.
 - sources에는 위 근거 기사 인덱스만. 본문과 무관한 인덱스 금지.
+"""
+
+CONTINUITY_BLOCK_TEMPLATE = {
+    "developing": """[연속성 — 중요] 이 주제는 이미 추적 중인 트렌드 "{prior_ref}"의 **전개**다.
+body 서두에서 기존 흐름의 연속임을 명시하고 (예: "…흐름이 이번에는 …로 확장됐다"),
+**오늘 새로 진전된 것(delta)을 카드의 중심에 둘 것.** 기존 카드 내용의 재서술은 실패작이다.
+""",
+    "reignited": """[연속성] 이 주제는 한동안 잠잠했던 트렌드 "{prior_ref}"의 **재점화**다.
+body에서 무엇이 다시 불을 붙였는지, 이전과 무엇이 달라졌는지를 중심에 둘 것.
+""",
+}
+
+RECENT_ACTIONS_BLOCK_TEMPLATE = """
+[최근 카드 action 예시 — 이런 문형·패턴 반복 금지 (negative examples)]
+{actions}
 """
 
 BUCKET_DESC = {
@@ -249,14 +344,22 @@ BUCKET_RULE = {
 }
 
 
-def write_cluster_cards(clusters: list, sorted_items: list, period_label: str) -> list:
+def write_cluster_cards(clusters: list, sorted_items: list, period_label: str,
+                        recent_actions: list = None) -> list:
     """Stage B: 클러스터별 소형 LLM 호출로 카드 생성.
 
+    recent_actions (v6.18.0): 최근 카드 action 목록 — 템플릿 반복 방지 negative example.
     Returns: generate_cards의 cards_raw와 동일 형식
-             [{"tag","title","body","action","sources"}].
+             [{"tag","title","body","action","sources","continuity","prior_ref"}].
     개별 클러스터 실패는 skip — 다른 클러스터에 영향 없음 (구조적 격리).
     전체 실패(0건) 시 [] — 호출자가 레거시 폴백.
     """
+    recent_actions_block = ""
+    if recent_actions:
+        recent_actions_block = RECENT_ACTIONS_BLOCK_TEMPLATE.format(
+            actions="\n".join(f"  · {a}" for a in recent_actions[:6])
+        )
+
     cards_raw = []
     for ci, cluster in enumerate(clusters, 1):
         idxs = cluster["indexes"]
@@ -269,6 +372,11 @@ def write_cluster_cards(clusters: list, sorted_items: list, period_label: str) -
                 f"{it.get('title', '')[:140]}\n   요약: {summary[:250]}"
             )
         bucket = cluster.get("bucket", "legal")
+        continuity = cluster.get("continuity", "new")
+        continuity_block = ""
+        if continuity in CONTINUITY_BLOCK_TEMPLATE and cluster.get("prior_ref"):
+            continuity_block = CONTINUITY_BLOCK_TEMPLATE[continuity].format(
+                prior_ref=cluster["prior_ref"])
         prompt = CARD_PROMPT.format(
             period_label=period_label,
             topic=cluster["topic"],
@@ -276,6 +384,8 @@ def write_cluster_cards(clusters: list, sorted_items: list, period_label: str) -
             bucket_rule=BUCKET_RULE.get(bucket, BUCKET_RULE["legal"]),
             news_blob="\n".join(news_lines),
             indexes=", ".join(str(i) for i in idxs),
+            continuity_block=continuity_block,
+            recent_actions_block=recent_actions_block,
         )
         result = call_llm_json(prompt, max_tokens=2200, temperature=0.35)
         if not isinstance(result, dict) or not all(k in result for k in ("title", "body", "action")):
@@ -296,13 +406,19 @@ def write_cluster_cards(clusters: list, sorted_items: list, period_label: str) -
         if not sources:
             sources = list(idxs)
 
-        cards_raw.append({
+        card = {
             "tag": f"TREND {ci:02d} · {cluster['topic']}",
             "title": str(result["title"]).strip(),
             "body": str(result["body"]).strip(),
             "action": str(result["action"]).strip(),
             "sources": sources,
-        })
+        }
+        # v6.18.0: 연속성 메타데이터 — history/news.json에 실려 UI 배지(신규/전개 N일째)에 활용 가능
+        if continuity != "new":
+            card["continuity"] = continuity
+            if cluster.get("prior_ref"):
+                card["prior_ref"] = cluster["prior_ref"]
+        cards_raw.append(card)
 
     print(f"  [stage-B] {len(cards_raw)}/{len(clusters)} 카드 생성", flush=True)
     return cards_raw
@@ -397,3 +513,52 @@ def validate_cards(cards: list, existing_cards: list = None, priority_fn=None):
         print(f"  [검증 게이트] 단일 근거 카드 {len(singles)}건 유지 (모니터링)", flush=True)
 
     return kept, dropped
+
+
+# ============================================================================
+# 5. ACTION 템플릿 반복 감지 (v6.18.0, deterministic, LLM 비용 0)
+#    배경: 거의 모든 카드 action이 "분류/매핑 → 파일럿 → KPI 설정" 한 가지 틀로
+#    수렴하던 문제. 프롬프트 negative example과 이중 방어 — 여기서는 감지·로깅만
+#    (drop은 과격: action이 비슷해도 body 가치는 있을 수 있음). 반복 비율이 높게
+#    유지되면 프롬프트 재조정의 정량 신호로 사용.
+# ============================================================================
+
+def _action_tokens(text: str) -> set:
+    return {t for t in _TOKEN_RE.findall(str(text).lower()) if len(t) >= 2}
+
+
+def flag_template_actions(cards: list, recent_actions: list = None,
+                          threshold: float = 0.45) -> int:
+    """카드 action이 (a) 최근 히스토리 action 또는 (b) 같은 배치의 앞 카드 action과
+    토큰 Jaccard ≥ threshold면 `_action_template=True` 플래그 + 로그.
+
+    Returns: 플래그된 카드 수.
+    """
+    if not cards:
+        return 0
+    prior = [_action_tokens(a) for a in (recent_actions or []) if a]
+    flagged = 0
+    for card in cards:
+        if card.get("_emergency"):
+            continue
+        tokens = _action_tokens(card.get("action", ""))
+        if not tokens:
+            continue
+        is_dup = False
+        for p in prior:
+            if not p:
+                continue
+            j = len(tokens & p) / len(tokens | p)
+            if j >= threshold:
+                is_dup = True
+                break
+        if is_dup:
+            card["_action_template"] = True
+            flagged += 1
+            print(f"  [action 템플릿 경고] '{str(card.get('title', ''))[:40]}' — "
+                  f"기존 action과 유사 (Jaccard ≥ {threshold})", flush=True)
+        prior.append(tokens)
+    if flagged:
+        print(f"  [action 템플릿] {flagged}/{len(cards)}건 반복 패턴 감지 — "
+              f"비율 지속 시 프롬프트 재조정 필요", flush=True)
+    return flagged
