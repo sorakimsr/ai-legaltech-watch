@@ -860,13 +860,28 @@ def main():
 
     save_partial()
 
+    # ===== v6.18.1 (2026-07-08): CLI 모드 처리량 개선 — 병렬 enrich =====
+    # 배경: v6.16.0 CLI 전환 후 첫 빌드(#191)가 timeout 180분 초과로 취소.
+    #   CLI는 호출마다 Node 프로세스 기동(수 초) + 비스트리밍이라 SDK 대비 호출당
+    #   지연이 크다. 순차 400건 × 건당 수십 초 = 3시간 초과가 구조적 원인.
+    # 해결: LLM 호출은 subprocess/네트워크 I/O 바운드 → 스레드 병렬화 (GIL 무관).
+    #   enrich_item은 자기 item dict만 변경하므로 항목 간 상태 공유 없음(스레드 안전).
+    #   청크 단위 제출 → 완료 대기 → save_partial: 파일 쓰기는 메인 스레드에서만.
+    #   기본 4 워커 (환경변수 ENRICH_CONCURRENCY로 조정, 1이면 사실상 순차).
+    from concurrent.futures import ThreadPoolExecutor
+    workers = max(1, int(os.environ.get("ENRICH_CONCURRENCY", "4")))
+    target = need_list[:MAX_PER_RUN]
+    if workers > 1 and len(target) > 1:
+        print(f"  [parallel] {workers} workers (ENRICH_CONCURRENCY)", flush=True)
     enriched_count = 0
-    for i, it in enumerate(need_list[:MAX_PER_RUN]):
-        print(f"  [{i+1}/{min(len(need_list), MAX_PER_RUN)}] [{it.get('lang','?')}] {it['title'][:60]}", flush=True)
-        enrich_item(it)
-        enriched_count += 1
-        time.sleep(0.3)
-        if enriched_count % 10 == 0:
+    chunk_size = max(1, workers * 3)
+    with ThreadPoolExecutor(max_workers=workers) as pool:
+        for start in range(0, len(target), chunk_size):
+            chunk = target[start:start + chunk_size]
+            for i, it in enumerate(chunk, start + 1):
+                print(f"  [{i}/{len(target)}] [{it.get('lang','?')}] {it['title'][:60]}", flush=True)
+            list(pool.map(enrich_item, chunk))
+            enriched_count += len(chunk)
             save_partial()
 
     save_partial()
