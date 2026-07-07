@@ -106,7 +106,32 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r scripts/requirements.txt
 
-      # v2.7.3: Claude Code CLI 설치 제거 — Anthropic SDK 사용 (CLI 불필요, 30~60s 절약)
+      # ===== v6.16.0 (2026-07-07): CLI 모드 일원화 =====
+      # API 종량 과금(ANTHROPIC_API_KEY, $50/2~3일) → Claude 구독(Max) 인증으로 전환.
+      # `claude setup-token`으로 생성한 CLAUDE_CODE_OAUTH_TOKEN secret으로 CLI 인증.
+      # LLM_BACKEND=claude-cli 강제. ANTHROPIC_API_KEY는 모든 step에서 제거.
+      # OPENAI_API_KEY(gpt-4o-mini)만 최후 비상 폴백으로 유지 — 임시카드 고착 방지.
+      # (v2.7.3에서 제거했던 CLI 설치 step 재도입)
+      - name: Set up Node.js (for Claude Code CLI)
+        if: github.event.inputs.deploy_only != 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Claude Code CLI
+        if: github.event.inputs.deploy_only != 'true'
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Verify Claude CLI auth (fail fast)
+        if: github.event.inputs.deploy_only != 'true'
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+        run: |
+          claude --version
+          # 토큰이 유효하지 않으면 여기서 즉시 실패 → 1시간 빌드 후 임시카드 고착 방지
+          OUT=$(echo "pong 한 단어만 출력해" | claude --print --model claude-haiku-4-5-20251001 --output-format text)
+          echo "smoke test response: $OUT"
+          test -n "$OUT"
 
       # ===== 1단계: 뉴스 수집 =====
       - name: "Step 1/4 — Fetch news"
@@ -127,7 +152,8 @@ jobs:
       - name: "Step 3/4 — Enrich with LLM (Korean summary & insight)"
         if: github.event.inputs.deploy_only != 'true' && github.event.inputs.skip_enrich != 'true'
         env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          LLM_BACKEND: "claude-cli"
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           ANTHROPIC_MODEL: "claude-haiku-4-5-20251001"
           ENRICH_TOP_N: "500"
@@ -148,7 +174,8 @@ jobs:
       - name: "Step 4/4 — Generate strategy cards & paper trends (parallel)"
         if: github.event.inputs.deploy_only != 'true' && github.event.inputs.skip_strategy != 'true'
         env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          LLM_BACKEND: "claude-cli"
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           ANTHROPIC_MODEL: "claude-sonnet-4-6"
           # v3.2: weekly/monthly 강제 재생성 옵션 (workflow_dispatch input → '1' 또는 '0')
@@ -193,7 +220,8 @@ jobs:
       - name: "Step 4d — Extract relations (LLM, Haiku)"
         if: github.event.inputs.deploy_only != 'true' && github.event.inputs.skip_enrich != 'true'
         env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          LLM_BACKEND: "claude-cli"
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           ANTHROPIC_MODEL: "claude-haiku-4-5-20251001"
         run: python scripts/relation_extractor.py
