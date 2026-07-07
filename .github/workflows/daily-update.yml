@@ -75,7 +75,9 @@ jobs:
     # v6.15.1 (2026-05-27): refresh_recent_days=14 + 800 enrich cap에서 빌드 3건 연속
     # 90분 timeout 도달로 cancelled. 90→180으로 안전 마진 확보. 동시에
     # ENRICH_MAX_PER_RUN을 800→400으로 축소하여 통상 빌드 60-90분 수렴 (아래 env 참조).
-    timeout-minutes: 180
+    # v6.18.1 (2026-07-08): 180→300. CLI 모드 호출당 지연 증가로 #191이 180분 초과 취소.
+    #   병렬 enrich로 통상 빌드는 단축 예상되나, 캘리브레이션 기간 안전 마진 확보.
+    timeout-minutes: 300
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -157,7 +159,11 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           ANTHROPIC_MODEL: "claude-haiku-4-5-20251001"
           ENRICH_TOP_N: "500"
-          ENRICH_MAX_PER_RUN: "400"            # v6.15.1: 800→400 (timeout 안전. 못 다한 backlog는 cron 6h마다 캐시 hit으로 자동 이어 처리)
+          # v6.18.1 (2026-07-08): 400→250 + 병렬 4워커. CLI 모드 첫 빌드(#191)가 순차
+          #   400건 처리로 timeout 180분 초과 취소 → 병렬화 + 물량 축소로 재캘리브레이션.
+          #   backlog는 캐시 기반으로 다음 빌드가 자동 이어 처리 (기존 동작 유지).
+          ENRICH_MAX_PER_RUN: "250"
+          ENRICH_CONCURRENCY: "4"
           # v6.14: 한국어 insight 임계값 70→35 (cut-off와 동일). 사용자 정책:
           #   "최대한 많은 데이터 + 모든 항목에 시사점 반영".
           #   기존 70은 한국어 기사 대부분 누락. cut-off (35) 통과한 모든 항목에 insight 생성.
