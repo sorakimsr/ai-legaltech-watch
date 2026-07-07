@@ -263,7 +263,7 @@ PROMPT_EN_FULL = """다음 영문 뉴스를 한국 전략·기획·AI 업무 담
 - '시사점:' 같은 접두어 없이 본문만.
 - 시점 표현(지금 당장 / 이번 주 안에 / 이번 달 내 / 즉시 등) 사용 금지.
 
-JSON만 응답하세요. 다른 텍스트 없이.
+JSON만 응답하세요. 다른 텍스트 없이. **추가 자료를 요청하거나 '분석 불가'를 선언하는 응답 절대 금지** — 요약이 비어 있거나 짧아도 제목·출처만으로 최선의 추정 분석을 작성한다. 채울 수 없는 필드는 null이 아니라 빈 문자열 ""로.
 
 {{
   "summary_ko": "2~3문장. 핵심 사실 중심. 80~150자. 단정 어조 지양.",
@@ -290,7 +290,7 @@ PROMPT_KO_INSIGHT_ONLY = """다음 한국어 뉴스에 대한 전략·기획·AI
 """ + _HIGHLIGHT_RULES + _NER_RULES + _PRIMARY_CATEGORY_RULES + _PERSONA_SCORE_RULES + """
 - 시점 표현(지금 당장 / 이번 주 안에 / 이번 달 내 / 즉시 등) 사용 금지.
 
-JSON만 응답하세요. 다른 텍스트 없이.
+JSON만 응답하세요. 다른 텍스트 없이. **추가 자료를 요청하거나 '분석 불가'를 선언하는 응답 절대 금지** — 요약이 비어 있거나 짧아도 제목·출처만으로 최선의 추정 분석을 작성한다. 채울 수 없는 필드는 null이 아니라 빈 문자열 ""로.
 
 {{
   "insight_ko": "1~2문장. 본인 업무에 적용할 액션 가능한 시사점. 60~120자.",
@@ -337,7 +337,7 @@ Abstract (원문):
 
 """ + _PERSONA_SCORE_RULES + """
 
-JSON만 응답하세요. 다른 텍스트 없이.
+JSON만 응답하세요. 다른 텍스트 없이. **추가 자료를 요청하거나 '분석 불가'를 선언하는 응답 절대 금지** — 요약이 비어 있거나 짧아도 제목·출처만으로 최선의 추정 분석을 작성한다. 채울 수 없는 필드는 null이 아니라 빈 문자열 ""로.
 
 {{
   "summary_ko": "2~3문장. 논문의 핵심 기여·방법·결과 중심. 100~200자.",
@@ -363,7 +363,7 @@ PROMPT_KO_NER_ONLY = """다음 한국어 뉴스에서 주 카테고리 분류와
 규칙:
 """ + _NER_RULES + _PRIMARY_CATEGORY_RULES + """
 
-JSON만 응답하세요. 다른 텍스트 없이.
+JSON만 응답하세요. 다른 텍스트 없이. **추가 자료를 요청하거나 '분석 불가'를 선언하는 응답 절대 금지** — 요약이 비어 있거나 짧아도 제목·출처만으로 최선의 추정 분석을 작성한다. 채울 수 없는 필드는 null이 아니라 빈 문자열 ""로.
 
 {{
   "primary_category": "legaltech|gov_policy|policy|governance|adoption|funding|models|coding|infra|product|market|ai-industry 중 정확히 하나",
@@ -426,6 +426,18 @@ def _apply_primary_category(item: dict, pc) -> None:
                 seen.append(c)
         cats = seen[:3]
     item["categories"] = cats
+
+
+def _safe_text(result: dict, key: str) -> str:
+    """v6.18.2 (2026-07-08): LLM 응답 필드를 안전하게 문자열로 변환.
+
+    배경: 빌드 #193에서 CLI가 '기사 본문이 없어 분석 불가' 류의 거절 응답을 내고,
+    json_repair가 이를 {"summary_ko": null, ...} 형태로 복구 → .strip()에서
+    AttributeError → 병렬 enrich 전체 중단. 키 존재만 확인하고 값 타입을 확인하지
+    않던 잠재 결함. null·비문자열이면 빈 문자열 반환 (호출부는 빈 값이면 미할당).
+    """
+    v = result.get(key)
+    return v.strip() if isinstance(v, str) else ""
 
 
 def _absorb_ner_fields(item: dict, result: dict) -> None:
@@ -642,13 +654,19 @@ def enrich_item(item: dict) -> dict:
         # 응답에 persona_reason + 6 어젠다 매칭 reasoning 추가됨. entity 리스트도
         # 길어질 수 있어 1400→2200으로 넉넉히 잘림 방지.
         result = call_llm_json(prompt, max_tokens=2200, temperature=0.3)
-        if isinstance(result, dict):
-            if "summary_ko" in result:
-                item["summary_ko"] = result["summary_ko"].strip()
-            if "insight_ko" in result:
-                item["insight_ko"] = result["insight_ko"].strip()
+        # v6.18.2: 빈 dict({} = LLM 실패)면 미마킹 → 다음 빌드에서 자동 재시도.
+        #   (기존엔 실패 항목도 llm_enriched=True로 캐시에 '완료' 고착 → 영구 누락)
+        if isinstance(result, dict) and result:
+            s = _safe_text(result, "summary_ko")
+            if s:
+                item["summary_ko"] = s
+            s = _safe_text(result, "insight_ko")
+            if s:
+                item["insight_ko"] = s
             _absorb_ner_fields(item, result)
-            item["llm_enriched"] = True
+            # v6.18.2: 실질 내용이 하나라도 흡수됐을 때만 '완료' 마킹 (전부 null인 응답 방어)
+            if item.get("summary_ko") or item.get("insight_ko") or item.get("entities"):
+                item["llm_enriched"] = True
         return item
 
     if lang == "en":
@@ -658,13 +676,16 @@ def enrich_item(item: dict) -> dict:
         )
         # v6.15.25: 900 → 1500 (persona_reason + entity 잘림 방지)
         result = call_llm_json(prompt, max_tokens=1500, temperature=0.3)
-        if isinstance(result, dict):
-            if "summary_ko" in result:
-                item["summary_ko"] = result["summary_ko"].strip()
-            if "insight_ko" in result:
-                item["insight_ko"] = result["insight_ko"].strip()
+        if isinstance(result, dict) and result:  # v6.18.2: 빈 dict는 실패 — 미마킹(재시도)
+            s = _safe_text(result, "summary_ko")
+            if s:
+                item["summary_ko"] = s
+            s = _safe_text(result, "insight_ko")
+            if s:
+                item["insight_ko"] = s
             _absorb_ner_fields(item, result)
-            item["llm_enriched"] = True
+            if item.get("summary_ko") or item.get("insight_ko") or item.get("entities"):
+                item["llm_enriched"] = True  # v6.18.2: 실질 내용 있을 때만
 
     elif lang == "ko":
         # v6.15.33 (P1-4): keyword score 임계 OR 어젠다 매칭이면 insight 생성.
@@ -675,11 +696,13 @@ def enrich_item(item: dict) -> dict:
             )
             # v6.15.25: 700 → 1200 (persona_reason + 한국 매체 긴 entity 리스트 대비)
             result = call_llm_json(prompt, max_tokens=1200, temperature=0.3)
-            if isinstance(result, dict):
-                if "insight_ko" in result:
-                    item["insight_ko"] = result["insight_ko"].strip()
+            if isinstance(result, dict) and result:  # v6.18.2
+                s = _safe_text(result, "insight_ko")
+                if s:
+                    item["insight_ko"] = s
                 _absorb_ner_fields(item, result)
-                item["llm_enriched"] = True
+                if item.get("insight_ko") or item.get("entities"):
+                    item["llm_enriched"] = True  # v6.18.2: 실질 내용 있을 때만
         else:
             # v5.1: 점수 낮은 한국어도 NER lightweight 패스 — entities + relations만
             prompt = PROMPT_KO_NER_ONLY.format(
@@ -875,12 +898,21 @@ def main():
         print(f"  [parallel] {workers} workers (ENRICH_CONCURRENCY)", flush=True)
     enriched_count = 0
     chunk_size = max(1, workers * 3)
+    # v6.18.2: 항목별 예외 격리 — 빌드 #193에서 한 항목의 예외가 pool.map을 타고
+    #   전파돼 enrich 전체(250건 중 24건에서 중단)를 죽인 사고 방지.
+    def _safe_enrich(it):
+        try:
+            enrich_item(it)
+        except Exception as exc:
+            print(f"  [enrich 실패 — skip] {str(it.get('title', ''))[:50]} · "
+                  f"{type(exc).__name__}: {str(exc)[:100]}", flush=True)
+
     with ThreadPoolExecutor(max_workers=workers) as pool:
         for start in range(0, len(target), chunk_size):
             chunk = target[start:start + chunk_size]
             for i, it in enumerate(chunk, start + 1):
                 print(f"  [{i}/{len(target)}] [{it.get('lang','?')}] {it['title'][:60]}", flush=True)
-            list(pool.map(enrich_item, chunk))
+            list(pool.map(_safe_enrich, chunk))
             enriched_count += len(chunk)
             save_partial()
 
