@@ -1,10 +1,16 @@
 """
 LLM 클라이언트 — 다중 백엔드 지원
 
-우선순위:
-1. Claude Code CLI (`claude --print`)  — GitHub Actions에서 가장 안정적
-2. anthropic Python SDK                 — ANTHROPIC_API_KEY 있을 때
-3. openai Python SDK                    — OPENAI_API_KEY 있을 때 (폴백)
+우선순위 (v6.16.0, 2026-07-07: CLI 모드 일원화):
+1. Claude Code CLI (`claude --print`)  — CLAUDE_CODE_OAUTH_TOKEN(구독 인증). 기본 백엔드.
+2. anthropic Python SDK                 — ANTHROPIC_API_KEY 있을 때만 (통상 미설정)
+3. openai Python SDK                    — OPENAI_API_KEY 있을 때 (최후 비상 폴백)
+
+v6.16.0 배경: API 종량 과금($50/2~3일)을 구독(Max) 한도 내 사용으로 전환.
+GitHub Actions에서 `claude setup-token`으로 만든 CLAUDE_CODE_OAUTH_TOKEN secret으로
+CLI 인증. LLM_BACKEND=claude-cli 강제 + ANTHROPIC_API_KEY 제거가 표준 구성.
+CLI는 max_tokens/temperature 파라미터를 받지 않음 — 호출부 값은 무시되며,
+잘림·형식 이슈는 기존 call_llm_json의 다단 복구(json_repair 등)가 흡수.
 
 사용:
     from llm_client import call_llm
@@ -55,25 +61,51 @@ def has_openai_sdk():
 def call_claude_cli(prompt: str, max_tokens: int = 800) -> str:
     """Claude Code CLI 호출. --print 모드로 일회성 응답.
     v2.7: timeout 120 → 300, 모델 명시 (Sonnet 4.6).
+    v6.16.0 (2026-07-07): CLI 모드 일원화에 맞춰 보강.
+      ① prompt를 argv 대신 stdin으로 전달 — 대형 프롬프트(전략 카드 수십 KB)의
+         argv 길이 제한·이스케이프 문제 원천 차단.
+      ② 재시도·백오프(최대 3회, 5s·20s) — v6.15.57이 SDK 경로에만 넣었던
+         일시 장애(529/429/네트워크) 방어를 CLI 경로에도 동일 적용.
+         (일시 실패 1회가 임시카드 fallback으로 cascade되는 것 방지)
+      ③ timeout을 max_tokens에 연동 — 전략 카드(max_tokens 24000)는 생성이
+         300s를 넘을 수 있음. 8000토큰 초과 요청은 900s.
+    주의: CLI는 max_tokens/temperature를 지원하지 않음(모델 기본값 사용).
     """
-    # 환경변수로 override 가능, 기본 sonnet 4.6
+    import time
     model = os.environ.get("ANTHROPIC_MODEL", "claude-sonnet-4-6")
-    try:
-        r = subprocess.run(
-            ["claude", "--print", "--model", model, "--output-format", "text", prompt],
-            capture_output=True, text=True, timeout=300,
-            stdin=subprocess.DEVNULL,
-        )
-        if r.returncode != 0:
-            print(f"  [claude-cli] error: {r.stderr[:200]}", file=sys.stderr)
-            return ""
-        return r.stdout.strip()
-    except subprocess.TimeoutExpired:
-        print("  [claude-cli] timeout (300s)", file=sys.stderr)
-        return ""
-    except Exception as exc:
-        print(f"  [claude-cli] exception: {exc}", file=sys.stderr)
-        return ""
+    timeout_s = 900 if max_tokens > 8000 else 300
+    last_err = None
+    for attempt in range(1, 4):
+        try:
+            r = subprocess.run(
+                ["claude", "--print", "--model", model, "--output-format", "text"],
+                input=prompt,
+                capture_output=True, text=True, timeout=timeout_s,
+            )
+            if r.returncode == 0:
+                out = r.stdout.strip()
+                if out:
+                    if attempt > 1:
+                        print(f"  [claude-cli] 재시도 {attempt}회차에 성공", file=sys.stderr)
+                    return out
+                last_err = "empty response (exit 0, 본문 0자)"
+                print(f"  [claude-cli] 빈 응답 (attempt {attempt}/3)", file=sys.stderr)
+            else:
+                last_err = r.stderr.strip()[:200]
+                print(f"  [claude-cli] exit {r.returncode}: {last_err} (attempt {attempt}/3)",
+                      file=sys.stderr)
+        except subprocess.TimeoutExpired:
+            last_err = f"timeout ({timeout_s}s)"
+            print(f"  [claude-cli] timeout {timeout_s}s (attempt {attempt}/3)", file=sys.stderr)
+        except Exception as exc:
+            last_err = exc
+            print(f"  [claude-cli] {type(exc).__name__}: {str(exc)[:160]} (attempt {attempt}/3)",
+                  file=sys.stderr)
+        if attempt < 3:
+            time.sleep(5 * (attempt ** 2))  # 5s, 20s 지수 백오프
+    print(f"  [claude-cli] 3회 모두 실패 → 빈 결과 반환 (마지막 원인: {str(last_err)[:120]})",
+          file=sys.stderr)
+    return ""
 
 
 def call_anthropic_sdk(prompt: str, max_tokens: int = 800, temperature: float = 0.3) -> str:
@@ -158,6 +190,8 @@ def detect_backend() -> str:
     """가용한 백엔드 자동 감지. 한 번 정해지면 캐시.
 
     v2.7: 우선순위 변경 — Anthropic SDK 우선 (CLI는 stdin/timeout 제어 어려움, SDK가 더 안정적).
+    v6.16.0: 우선순위 재역전 — CLI 우선. 구독 인증(CLAUDE_CODE_OAUTH_TOKEN)으로
+    종량 과금 없이 사용. SDK는 ANTHROPIC_API_KEY가 명시된 경우에만 차선.
     """
     global _BACKEND_CACHE
     if _BACKEND_CACHE:
@@ -170,11 +204,11 @@ def detect_backend() -> str:
         print(f"  [llm] backend: {_BACKEND_CACHE} (forced)", flush=True)
         return forced
 
-    # SDK 우선 (ANTHROPIC_API_KEY 있으면) → CLI fallback → OpenAI fallback
-    if has_anthropic_sdk():
-        _BACKEND_CACHE = "anthropic"
-    elif has_claude_cli():
+    # CLI 우선 (구독 인증) → SDK (API key 있으면) → OpenAI fallback
+    if has_claude_cli():
         _BACKEND_CACHE = "claude-cli"
+    elif has_anthropic_sdk():
+        _BACKEND_CACHE = "anthropic"
     elif has_openai_sdk():
         _BACKEND_CACHE = "openai"
     else:
