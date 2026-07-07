@@ -74,6 +74,7 @@ v6.15.26 (2026-05-28): 카드 개수 정책 변경 — **{period_label} 기준 {
 규칙:
 - 모든 텍스트는 한국어 (영문 용어는 괄호 병기)
 - 각 카드는 서로 다른 관점/주제 (중복 금지)
+- **★ 동일 기사(인덱스)를 2개 이상 카드의 근거로 재사용 절대 금지 (v6.17.0)**: 한 기사가 법조·기술 양면을 가지면(예: 대기업 금융 AI 도입 = 기술 사례이자 규제 이슈) **카드 1개 안에서 두 관점을 함께 서술**하라. '다른 각도'라는 이유로 같은 사건을 두 카드로 쪼개는 것은 금지. 구성 균형(60:40)을 채우기 위한 기사 재활용도 금지 — 데이터가 부족하면 그 bucket 카드는 적어도 된다.
 - {period_focus}
 - 구체 사실(회사명·금액·날짜·기법명) 근거로. 일반론·교과서적 설명 금지
 - body는 4~5문장으로 풍부하게. 한 줄로 끝내지 말 것. 줄 사이에 흐름이 이어지도록.
@@ -181,6 +182,7 @@ PROMPT_TEMPLATE_INCREMENTAL = """당신은 한국의 시니어 전략 컨설턴�
 
 규칙:
 - **신규 기사가 기존 카드와 다른 새로운 흐름을 명확히 보여주는 경우에만 추가 카드 생성**. 단순히 같은 흐름의 추가 사례라면 카드 0개로 답해도 무방 ({{"summary_addition": "", "cards": []}})
+- **동일 기사(인덱스)를 2개 이상 카드의 근거로 재사용 절대 금지** — 한 사건의 다른 각도는 카드 1개 안에서 함께 서술
 - 시점/기한 표현 절대 금지 (이번 주 안에, 즉시, 우선 등)
 - body 4~5문장, action 2~3문장 동사형·서술형
 - 굵게 강조는 인과·판단·시사 구절에만 (회사명·금액·기법명 강조 X)
@@ -437,7 +439,31 @@ def generate_cards(items: list, period: str, ref_date: date, all_items: list):
     # v6.15.47 (2026-06-02): 12000→24000. daily 응답이 12000 토큰에서 잘려 JSON 파싱 실패 →
     #   카드 0건 → 임시 카드 fallback 재발(2번째). 상한 상향(실제 출력 길 때만 비용 증가) +
     #   cards-first 프롬프트 + llm_client salvage 보강으로 3중 방어.
-    result = call_llm_json(prompt, max_tokens=24000, temperature=0.4)
+    #
+    # ===== v6.17.0 (2026-07-07): 2단계 분리 — 주제 클러스터링 → 클러스터별 카드 작성 =====
+    # 배경: 7/7 daily에서 같은 기사 1건이 TREND 01·06 두 카드의 유일 근거로 재사용됨.
+    #   단일 24K 호출에 '주제 선정 + 근거 배분 + 본문 작성'이 뒤엉켜 있던 구조가 원인.
+    # Stage A(cluster_topics)가 근거를 배타적으로 배분하고, Stage B(write_cluster_cards)가
+    #   클러스터별 소형 호출로 카드 작성 → truncation 실패 모드도 구조적으로 제거.
+    # daily에만 우선 적용 (weekly/monthly는 재생성 빈도 낮고 전체 조망이 유리 — 효과 검증 후 확대).
+    # 실패 시 아래 레거시 단일 호출로 자동 폴백. STRATEGY_TWO_STAGE=0으로 비활성화 가능.
+    result = None
+    if period == "daily" and os.environ.get("STRATEGY_TWO_STAGE", "1") != "0":
+        try:
+            from strategy_quality import cluster_topics, write_cluster_cards, load_bookmark_hints
+            hints = load_bookmark_hints(ROOT_DIR)
+            if hints:
+                print(f"  [stage-A] 북마크 ground-truth 힌트 {len(hints)}건 주입", flush=True)
+            clusters = cluster_topics(sorted_items, period_label, hints)
+            if clusters:
+                cards_2s = write_cluster_cards(clusters, sorted_items, period_label)
+                if cards_2s:
+                    result = {"summary": "", "cards": cards_2s}
+                    # summary는 아래 기존 보강 경로(_generate_summary_from_cards)가 생성
+        except Exception as exc:
+            print(f"  [two-stage] 예외 → 레거시 단일 호출 폴백: {type(exc).__name__}: {exc}", flush=True)
+    if result is None:
+        result = call_llm_json(prompt, max_tokens=24000, temperature=0.4)
 
     # v6.15: 응답은 {"summary": "...", "cards": [...]} 객체. 단 backward-compat:
     # LLM이 옛 형식(배열)으로 응답하면 summary="" 로 폴백.
@@ -523,6 +549,15 @@ def generate_cards(items: list, period: str, ref_date: date, all_items: list):
             "action": action_text,
             "citations": cited,
         })
+
+    # ===== v6.17.0: deterministic 검증 게이트 (모든 period 공통, LLM 비용 0) =====
+    # 근거 URL 겹침·주제 유사도 기반 중복 카드 drop.
+    # "sources 3~5개 필수" 같은 프롬프트 룰이 코드로 강제되지 않던 공백을 메움.
+    try:
+        from strategy_quality import validate_cards
+        cards, _dropped = validate_cards(cards, priority_fn=_card_priority)
+    except Exception as exc:
+        print(f"  [검증 게이트] 예외 — 검증 skip: {type(exc).__name__}: {exc}", flush=True)
 
     # v6.15.9: LLM이 dict 응답 안 하고 list로 응답한 경우 summary 누락 → 별도 LLM 호출로 보강
     if cards and not summary_text:
@@ -911,6 +946,17 @@ def main():
                 add_summary, add_cards = generate_incremental_cards(
                     new_items_only, existing_daily_cards, "daily", today
                 )
+                # v6.17.0: 증분 카드도 기존 카드 대비 deterministic 검증
+                # (기존엔 프롬프트 "중복 금지"에만 의존 → 같은 사건 재카드화 가능했음)
+                if add_cards:
+                    try:
+                        from strategy_quality import validate_cards
+                        add_cards, _ = validate_cards(
+                            add_cards, existing_cards=existing_daily_cards,
+                            priority_fn=_card_priority,
+                        )
+                    except Exception as exc:
+                        print(f"  [검증 게이트/증분] 예외 — skip: {exc}", flush=True)
                 if add_cards:
                     existing_daily_cards = existing_daily_cards + add_cards
                     print(f"  [daily 누적] +{len(add_cards)} cards appended → 총 {len(existing_daily_cards)}", flush=True)
