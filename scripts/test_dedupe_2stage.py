@@ -10,11 +10,30 @@ v6.15.36 (P2-7): dedupe 2단계 병합 판정 회귀 테스트.
 """
 import os
 import sys
+from datetime import datetime, timedelta, timezone
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import dedupe_similar as D
 
-D_ = "2026-05-28T0{}:00:00+00:00"
+# v6.18.1 (2026-07-08): 고정 날짜("2026-05-28T...") → 상대 날짜로 수정.
+#   group_items는 30일 이전 항목을 비교 대상에서 제외(cutoff)하는데, 고정 날짜가
+#   시간이 지나며 cutoff 밖으로 밀려나 테스트가 아무것도 비교하지 않은 채
+#   실패했음 (시간 의존 테스트 결함 — 병합 로직 자체는 정상이었음).
+_BASE = datetime.now(timezone.utc) - timedelta(days=1)
+
+
+def _dt(hours: int) -> str:
+    return (_BASE + timedelta(hours=hours)).isoformat()
+
+
+class _D_fmt:
+    """기존 D_.format(h) 호출 형태 보존용 shim."""
+    @staticmethod
+    def format(h):
+        return _dt(int(h))
+
+
+D_ = _D_fmt()
 
 
 def _items():
