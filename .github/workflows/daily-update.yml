@@ -230,6 +230,8 @@ jobs:
           LLM_BACKEND: "claude-cli"
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           ANTHROPIC_MODEL: "claude-haiku-4-5-20251001"
+          # v6.18.2: 순차 카드 호출이 #193에서 1h43m → 4워커 병렬화
+          RELATION_CONCURRENCY: "4"
         run: python scripts/relation_extractor.py
         continue-on-error: true
 
