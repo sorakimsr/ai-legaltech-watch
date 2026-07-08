@@ -211,6 +211,39 @@ def content_similarity(a: str, b: str) -> float:
     return jaccard
 
 
+def _content_meets_floor(a: str, b: str, thr: float) -> bool:
+    """v6.18.2 (2026-07-08): 'content_similarity(a,b) >= thr' 판정의 고속 동등 구현.
+
+    배경: 빌드 #193에서 dedupe가 45m 소요. 프로파일 결과 전체 시간의 ~80%가
+    영문↔영문 쌍의 SequenceMatcher.ratio() (O(len²) 문자 비교, 쌍마다 호출).
+    arXiv 논문 유입 증가로 영-영 쌍이 폭증한 것이 원인.
+
+    group_items는 base 값을 임계(thr) 비교에만 사용하므로, ratio()의 **보장된
+    상한**인 real_quick_ratio()/quick_ratio()로 게이팅하면 대부분의 쌍에서
+    ratio() 계산을 생략할 수 있다. 상한이 필요 최소치(s_min) 미만이면 실제
+    ratio도 반드시 미만 → 판정 결과는 content_similarity 사용과 완전 동일.
+    (한국어 등 비영문 쌍은 원래 jaccard만 사용 — 동일 로직)
+    """
+    a_tokens = tokenize(a)
+    b_tokens = tokenize(b)
+    if not a_tokens or not b_tokens:
+        return False  # content_similarity()가 0.0을 반환하는 케이스 (thr > 0)
+    jaccard = len(a_tokens & b_tokens) / max(1, len(a_tokens | b_tokens))
+    if jaccard >= thr:
+        return True
+    if _is_ascii(a) and _is_ascii(b):
+        # max(jaccard, seq*0.6 + jaccard*0.4) >= thr 이려면 seq >= s_min 필요
+        s_min = (thr - 0.4 * jaccard) / 0.6
+        if s_min > 1.0:
+            return False
+        sm = SequenceMatcher(None, _lower(a), _lower(b))
+        # 싼 상한부터 차례로 — 상한 < s_min 이면 ratio() 없이 확정 False
+        if sm.real_quick_ratio() < s_min or sm.quick_ratio() < s_min:
+            return False
+        return sm.ratio() * 0.6 + jaccard * 0.4 >= thr
+    return False
+
+
 def merge_anchor(a: str, b: str) -> bool:
     """v6.15.36 (P2-7): 두 제목이 '같은 사건'을 가리킬 수 있는 회사명/고유명사 앵커 공유 여부.
 
@@ -302,8 +335,11 @@ def group_items(items):
                 continue
 
             # === v6.15.36 (P2-7): 2단계 병합 판정 — 회사명 게이트 + 내용 유사도 분리 ===
-            base = content_similarity(items[i]["title"], items[j]["title"])  # 순수 내용 (회사명 보너스 없음)
-            anchor = merge_anchor(items[i]["title"], items[j]["title"])       # 회사명/고유명사 게이트(제목)
+            # v6.18.2: base 값 자체는 임계 비교에만 쓰이므로 _content_meets_floor로
+            #   지연 판정 (SequenceMatcher 게이팅 — 판정 결과 동일, 속도 수 배).
+            title_i = items[i]["title"]
+            title_j = items[j]["title"]
+            anchor = merge_anchor(title_i, title_j)  # 회사명/고유명사 게이트(제목)
 
             same_source = items[i].get("source") == items[j].get("source")
             same_day = items[i].get("date", "")[:10] == items[j].get("date", "")[:10]
@@ -332,11 +368,10 @@ def group_items(items):
             #   ① 내용만으로 동일 기사로 볼 만큼 강함 (anchor 불필요)
             #   ② 회사명 게이트 통과 + 내용 floor 이상
             #   ③ 같은 매체+같은날 의미 토큰 3+ (content 강신호)
-            merge = (
-                base >= STRONG_CONTENT_SIM
-                or (anchor and base >= ANCHORED_CONTENT_SIM)
-                or strong_same_source
-            )
+            # v6.18.2: anchor면 낮은 floor(ANCHORED)만 넘으면 되므로 thr를 하나로 축약
+            #   (ANCHORED < STRONG — 판정 결과는 기존 식과 동일).
+            thr = ANCHORED_CONTENT_SIM if anchor else STRONG_CONTENT_SIM
+            merge = strong_same_source or _content_meets_floor(title_i, title_j, thr)
             if merge:
                 union(i, j)
 
