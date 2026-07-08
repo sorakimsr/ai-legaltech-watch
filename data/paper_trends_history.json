@@ -23856,6 +23856,749 @@
           "score": 54
         }
       ]
+    },
+    "2026-07-08": {
+      "analyzed_at": "2026-07-08T19:31:19.715375+09:00",
+      "llm_backend": "claude-cli",
+      "period": "daily",
+      "period_label": "오늘",
+      "days_window": 1,
+      "paper_count": 117,
+      "narrative": "한 줄 요약 AI 에이전트가 단순 보조 도구를 넘어 자율 태스크 수행 주체로 진입하면서, 규제 공백·신뢰 한계·운영 비용이라는 세 병목이 동시에 전면으로 부상하고 있다.\n\n1) 무엇이 부상하고 있는가 오늘 논문군의 핵심 축은 '에이전트 자율성의 현실적 한계와 그 관리 방법'이다. Regulating AI Agents는 EU AI Act가 자율 에이전트의 성능 실패·책임 배분 문제에 체계적으로 대응하지 못한다는 규제 공백을 정면으로 지적한다. Beyond Reactivity는 GPT-5, Claude Opus-4.1 같은 최신 모델조차 주도적 문제 해결 성공률이 40% 수준에 머물렀음을 수치로 보였다 — **단일 LLM 선택은 이미 낡은 질문이고, 에이전트 간 신뢰·조정 계층이 새 병목**임을 실증한 셈이다. 한편 NVIDIA의 Puzzle-75B와 Leech Lattice 양자화(LLVQ)는 추론 처리량을 2배 높이면서 비용은 낮추는 방향으로 수렴하고 있어, 에이전트 인프라의 경제성 논쟁이 본격화될 전조를 보인다.\n\n2) 한국 실무자에게 이 흐름이 무슨 의미인가 에이전트 실패율 60%라는 현실은 '도입 여부'보다 '실패 감지와 조기 중단'이 운영 설계의 핵심임을 의미한다. Doomed from the Start는 에이전트 첫 상호작용부터 최종 실패를 예측해 불필요한 계산을 최대 47% 절감하는 기법을 제시했다 — **기존 API 호출 단위 비용 측정이 다단계 에이전트 오케스트레이션 환경에서는 무의미하며, 성공한 목표당 비용으로 KPI를 재설계해야** 에이전트 투자 효율을 실질적으로 측정할 수 있다. Spider 2.0-AIFunc는 Snowflake 같은 클라우드 플랫폼에서 ML 기능이 네이티브 SQL 함수로 통합되는 흐름을 보여준다 — **BI와 ML 파이프라인 경계가 사라지는 속도에 맞춰 데이터 조직의 역할 재정의**가 불가피하다.\n\n3) 산업 적용 흐름 의료 분야에서는 H. pylori 병리 리포트 자동 추출(98.61% 정확도)과 암 진료 AI 오케스트레이션 프레임워크 LCA가 파일럿 검증을 마쳤고, 법률·금융에서도 BPMN 프로세스 자동 생성처럼 내부 문서 기반 자동화가 선도적으로 진입할 가능성이 높다. 그러나 **한국 기업 환경에서는 개인정보보호법상 국외 데이터 이전 제한, 금융위·금감원의 AI 모델 설명 요구, 공공기관의 망분리 정책이 클라우드 기반 멀티에이전트 도입의 현실적 장벽으로 작용**한다. Puzzle-75B, LLVQ 같은 경량화 기술의 성숙은 **온프레미스(on-premise) 또는 폐쇄망 요구가 도입 속도를 제한하는 현실적 제약으로 작동**하는 기간을 예상보다 빠르게 단축할 수 있어, 공공·금융 분야의 내부 배포 타임라인을 재검토할 근거가 생기고 있다.",
+      "hot_topics": [
+        {
+          "topic": "AI 에이전트 자율성과 규제 공백 (AI Agent Autonomy & Regulation Gaps)",
+          "description": "자율 에이전트가 실무 태스크를 수행하기 시작했지만, EU AI Act를 포함한 기존 규제 체계는 성능 실패·책임 배분 문제를 아직 체계적으로 다루지 못하고 있다.",
+          "paper_count": 5,
+          "paper_indices": [
+            1,
+            5,
+            17,
+            19,
+            32
+          ],
+          "papers": [
+            {
+              "title": "Regulating AI Agents",
+              "url": "https://arxiv.org/abs/2603.23471v2",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-07-07"
+            },
+            {
+              "title": "Constitutional Governance in Metric Spaces",
+              "url": "https://arxiv.org/abs/2605.13362v3",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-07-07"
+            },
+            {
+              "title": "Beyond Reactivity: Measuring Proactive Problem Solving in LLM Agents",
+              "url": "https://arxiv.org/abs/2510.19771v4",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-07-07"
+            },
+            {
+              "title": "Quantifying Frontier LLM Capabilities for Container Sandbox Escape",
+              "url": "https://arxiv.org/abs/2603.02277v2",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-07-07"
+            },
+            {
+              "title": "Not All Refusals Are Equal: How Safety Alignment Fails Cybersecurity at Scale",
+              "url": "https://arxiv.org/abs/2607.02714v2",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-07-07"
+            }
+          ]
+        },
+        {
+          "topic": "멀티에이전트 업무·의료 자동화 (Multi-Agent Process & Healthcare Automation)",
+          "description": "복수 AI 에이전트가 병리 보고서 추출, BPMN 프로세스 생성, 임상 의사결정 지원에 실질적으로 배포되며 파일럿 단계를 넘어서고 있다.",
+          "paper_count": 4,
+          "paper_indices": [
+            7,
+            12,
+            15,
+            16
+          ],
+          "papers": [
+            {
+              "title": "Improving LLM-Generated Process Model Quality Through Reinforcement Learning: The Role of Reward Function Design",
+              "url": "https://arxiv.org/abs/2607.06175v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-07-07"
+            },
+            {
+              "title": "Finding H. pylori in the Fine Print: Evidence-Linked Multi-Agent Case Finding from Gastric Biopsy Reports",
+              "url": "https://arxiv.org/abs/2607.06435v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-07-07"
+            },
+            {
+              "title": "LLM Agents for Deliberative Collaboration: A Study on Joint Decision Making Under Partial Observability",
+              "url": "https://arxiv.org/abs/2607.06157v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-07-07"
+            },
+            {
+              "title": "The Large Cancer Assistant (LCA): A Model-Agnostic Orchestration Framework for Scalable Clinical Decision Support in Oncology",
+              "url": "https://arxiv.org/abs/2607.06531v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-07-07"
+            }
+          ]
+        },
+        {
+          "topic": "LLM 경량화·압축 기술 (LLM Compression & Quantization)",
+          "description": "서버 처리량 2배·메모리 16배 절감 수준의 압축 기술이 등장하면서, 대형 모델의 온프레미스 배포 가능성이 현실로 가까워지고 있다.",
+          "paper_count": 3,
+          "paper_indices": [
+            21,
+            24,
+            28
+          ],
+          "papers": [
+            {
+              "title": "LLMs Meet Isolation Kernel: Lightweight, Learning-free Binary Embeddings for Fast Retrieval",
+              "url": "https://arxiv.org/abs/2601.09159v4",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-07-07"
+            },
+            {
+              "title": "Nemotron-Labs-3-Puzzle-75B-A9B: Compressing Hybrid MoE LLMs",
+              "url": "https://arxiv.org/abs/2607.04371v2",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-07-07"
+            },
+            {
+              "title": "Leech Lattice Vector Quantization for Efficient LLM Compression",
+              "url": "https://arxiv.org/abs/2603.11021v2",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-07-07"
+            }
+          ]
+        },
+        {
+          "topic": "설명가능 AI 및 신뢰성 (Explainable AI & Trustworthiness)",
+          "description": "임베딩 거리·분류 모델·보상 함수 전반에 걸쳐 AI 의사결정의 근거를 추적하고 보상 해킹을 차단하는 기법이 부상하며, 규제 대응 핵심 레이어로 자리 잡고 있다.",
+          "paper_count": 3,
+          "paper_indices": [
+            2,
+            18,
+            29
+          ],
+          "papers": [
+            {
+              "title": "Explainable embeddings with Distance Explainer",
+              "url": "https://arxiv.org/abs/2505.15516v3",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-07-07"
+            },
+            {
+              "title": "ExplAIner: A Declarative Query Language for Explaining Classification Models",
+              "url": "https://arxiv.org/abs/2607.06407v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-07-07"
+            },
+            {
+              "title": "Truthful or Fabricated? Using Causal Attribution to Mitigate Reward Hacking in Explanations",
+              "url": "https://arxiv.org/abs/2504.05294v3",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-07-07"
+            }
+          ]
+        },
+        {
+          "topic": "AI 안전성·딥페이크 탐지 (AI Safety & Deepfake Detection)",
+          "description": "LLM의 컨테이너 탈출 능력 정량화, 딥페이크 탐지 벤치마크, 학습 데이터 무단 복제 서베이가 동시에 발표되며 AI 보안 리스크의 구체화 국면이 도래했다.",
+          "paper_count": 5,
+          "paper_indices": [
+            4,
+            13,
+            19,
+            32,
+            33
+          ],
+          "papers": [
+            {
+              "title": "Detoxify: A framework for abusive text transformation using LLMs",
+              "url": "https://arxiv.org/abs/2507.10177v2",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-07-07"
+            },
+            {
+              "title": "VendorBench-100: A Unified Cross-Paradigm Benchmark for Deepfake Image Detection",
+              "url": "https://arxiv.org/abs/2607.06254v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-07-07"
+            },
+            {
+              "title": "Quantifying Frontier LLM Capabilities for Container Sandbox Escape",
+              "url": "https://arxiv.org/abs/2603.02277v2",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-07-07"
+            },
+            {
+              "title": "Not All Refusals Are Equal: How Safety Alignment Fails Cybersecurity at Scale",
+              "url": "https://arxiv.org/abs/2607.02714v2",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-07-07"
+            },
+            {
+              "title": "Replication in Visual Diffusion Models: A Survey and Outlook",
+              "url": "https://arxiv.org/abs/2408.00001v2",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-07-07"
+            }
+          ]
+        },
+        {
+          "topic": "에이전트 운영 효율·조기 중단 (Agent Efficiency & Early Abort)",
+          "description": "에이전트가 실패 궤도에 진입했을 때 계산 자원 낭비를 47% 이상 줄이는 조기 감지·중단 기법이 등장해, 운영 비용 최적화의 새 축이 되고 있다.",
+          "paper_count": 4,
+          "paper_indices": [
+            17,
+            25,
+            26,
+            39
+          ],
+          "papers": [
+            {
+              "title": "Beyond Reactivity: Measuring Proactive Problem Solving in LLM Agents",
+              "url": "https://arxiv.org/abs/2510.19771v4",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-07-07"
+            },
+            {
+              "title": "Agent Step Value: Probing the Observer Effect in Black-Box Traces",
+              "url": "https://arxiv.org/abs/2607.04419v2",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-07-07"
+            },
+            {
+              "title": "Doomed from the Start: Early Abort of LLM Agent Episodes via a Recall-Controlled Probe Cascade",
+              "url": "https://arxiv.org/abs/2607.06503v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-07-07"
+            },
+            {
+              "title": "Knowing When to Quit: A Principled Framework for Dynamic Abstention in LLM Reasoning",
+              "url": "https://arxiv.org/abs/2604.18419v6",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-07-07"
+            }
+          ]
+        }
+      ],
+      "key_techniques": [
+        {
+          "technique": "에이전트 조기 종료·동적 추론 중단 (Early Abort & Dynamic Abstention)",
+          "description": "실패 가능성을 초기 상호작용에서 예측해 불필요한 추론 계산을 최대 47% 절감하는 기법으로, 에이전트 운영 비용을 성공 건수 기준으로 재정의하는 실무 근거가 된다.",
+          "paper_count": 2,
+          "paper_indices": [
+            26,
+            39
+          ],
+          "papers": [
+            {
+              "title": "Doomed from the Start: Early Abort of LLM Agent Episodes via a Recall-Controlled Probe Cascade",
+              "url": "https://arxiv.org/abs/2607.06503v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-07-07"
+            },
+            {
+              "title": "Knowing When to Quit: A Principled Framework for Dynamic Abstention in LLM Reasoning",
+              "url": "https://arxiv.org/abs/2604.18419v6",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-07-07"
+            }
+          ]
+        },
+        {
+          "technique": "멀티에이전트 오케스트레이션 (Multi-Agent Orchestration)",
+          "description": "복수 전문 에이전트가 역할 분담·증거 추적·출력 통합을 담당하는 아키텍처로, 의료·법률·금융 영역의 복잡한 문서 처리 자동화에 실질적으로 투입되고 있다.",
+          "paper_count": 3,
+          "paper_indices": [
+            12,
+            15,
+            16
+          ],
+          "papers": [
+            {
+              "title": "Finding H. pylori in the Fine Print: Evidence-Linked Multi-Agent Case Finding from Gastric Biopsy Reports",
+              "url": "https://arxiv.org/abs/2607.06435v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-07-07"
+            },
+            {
+              "title": "LLM Agents for Deliberative Collaboration: A Study on Joint Decision Making Under Partial Observability",
+              "url": "https://arxiv.org/abs/2607.06157v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-07-07"
+            },
+            {
+              "title": "The Large Cancer Assistant (LCA): A Model-Agnostic Orchestration Framework for Scalable Clinical Decision Support in Oncology",
+              "url": "https://arxiv.org/abs/2607.06531v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-07-07"
+            }
+          ]
+        },
+        {
+          "technique": "모델 압축·양자화 (Model Compression & Quantization)",
+          "description": "MoE 프루닝·Leech Lattice 양자화·바이너리 임베딩 변환으로 대형 모델의 메모리·처리량 장벽을 낮춰, 폐쇄망·온프레미스 배포 실현 가능성을 높인다.",
+          "paper_count": 3,
+          "paper_indices": [
+            21,
+            24,
+            28
+          ],
+          "papers": [
+            {
+              "title": "LLMs Meet Isolation Kernel: Lightweight, Learning-free Binary Embeddings for Fast Retrieval",
+              "url": "https://arxiv.org/abs/2601.09159v4",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-07-07"
+            },
+            {
+              "title": "Nemotron-Labs-3-Puzzle-75B-A9B: Compressing Hybrid MoE LLMs",
+              "url": "https://arxiv.org/abs/2607.04371v2",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-07-07"
+            },
+            {
+              "title": "Leech Lattice Vector Quantization for Efficient LLM Compression",
+              "url": "https://arxiv.org/abs/2603.11021v2",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-07-07"
+            }
+          ]
+        },
+        {
+          "technique": "강화학습 기반 생성·최적화 (Reinforcement Learning for Generation & Optimization)",
+          "description": "프로세스 모델 자동 생성(BPMN), LLM 추론 동적 중단, 로봇 동작 학습까지 RL이 구조화된 출력 품질 제어의 핵심 기법으로 확산되고 있다.",
+          "paper_count": 3,
+          "paper_indices": [
+            7,
+            39,
+            40
+          ],
+          "papers": [
+            {
+              "title": "Improving LLM-Generated Process Model Quality Through Reinforcement Learning: The Role of Reward Function Design",
+              "url": "https://arxiv.org/abs/2607.06175v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-07-07"
+            },
+            {
+              "title": "Knowing When to Quit: A Principled Framework for Dynamic Abstention in LLM Reasoning",
+              "url": "https://arxiv.org/abs/2604.18419v6",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-07-07"
+            },
+            {
+              "title": "Learning to Throw Objects Safely in Multi-Obstacle Environments",
+              "url": "https://arxiv.org/abs/2607.06388v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-07-07"
+            }
+          ]
+        },
+        {
+          "technique": "인과 귀속 기반 설명가능성 (Causal Attribution & Explainability)",
+          "description": "모델이 왜 그 답을 내놨는지를 추적하고 보상 해킹을 차단하는 인과 귀속 기법은, 금감원·공공기관의 AI 모델 설명 요구에 대응하는 실무적 도구로 부상하고 있다.",
+          "paper_count": 3,
+          "paper_indices": [
+            2,
+            18,
+            29
+          ],
+          "papers": [
+            {
+              "title": "Explainable embeddings with Distance Explainer",
+              "url": "https://arxiv.org/abs/2505.15516v3",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-07-07"
+            },
+            {
+              "title": "ExplAIner: A Declarative Query Language for Explaining Classification Models",
+              "url": "https://arxiv.org/abs/2607.06407v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-07-07"
+            },
+            {
+              "title": "Truthful or Fabricated? Using Causal Attribution to Mitigate Reward Hacking in Explanations",
+              "url": "https://arxiv.org/abs/2504.05294v3",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-07-07"
+            }
+          ]
+        }
+      ],
+      "actionable_insights": [
+        "에이전트 도입 ROI 평가 기준을 재설계할 때, 최신 모델조차 성공률이 40%에 불과하다는 점을 전제로 삼아야 한다 — **API 호출 횟수나 토큰 소비량이 아니라, 성공한 목표당 비용으로 KPI를 재설계해야** 에이전트 투자 효율을 실질적으로 측정할 수 있다.",
+        "멀티에이전트 시스템 도입 아키텍처를 설계할 때 **책임 경계가 명확히 설계된 아키텍처를 선택**해야 한다 — 규제 공백이 큰 현 시점에서 책임 귀속 불명확성은 내부통제 감사 리스크로 직결되며, 한국의 AI 기본법 논의 속도와 맞물려 사전 설계 비용이 사후 수정 비용보다 훨씬 낮다.",
+        "데이터 분석 조직의 역할 재편을 검토할 때, Spider 2.0-AIFunc가 보여주는 'ML 기능의 네이티브 SQL 통합' 흐름을 선행 참조해야 한다 — **BI·데이터 분석 업무의 경계가 AI 함수 레이어로 흡수되는 속도에 맞춰 직무 범위와 필요 역량을 재정의**하지 않으면 조직 설계가 기술 변화를 따라가지 못하게 된다.",
+        "공공·금융 분야의 AI 도입 타임라인을 수립할 때, Puzzle-75B와 Leech Lattice 양자화처럼 대형 모델을 온프레미스 수준으로 압축하는 기술의 성숙 속도를 핵심 변수로 포함해야 한다 — **온프레미스(on-premise) 또는 폐쇄망 요구가 도입 속도를 제한하는 현실적 제약으로 작동**하는 기간이 예상보다 빠르게 단축될 수 있어, 클라우드 전용 전략을 전제한 로드맵은 재검토가 필요하다.",
+        "멀티에이전트 파일럿을 기획할 때, ExplAIner·Distance Explainer·인과 귀속 기법 같은 설명가능 AI 레이어를 아키텍처 설계 단계부터 포함시켜야 한다 — **AI 모델 설명 요구를 사후 규제 대응이 아닌 설계 원칙으로 내재화**해야 금감원·공공기관의 심사를 실질적으로 통과할 수 있고, 이후 모델 교체 시에도 설명 레이어를 재활용할 수 있다."
+      ],
+      "top_institutions": [
+        {
+          "name": "ETH",
+          "count": 62
+        },
+        {
+          "name": "MIT",
+          "count": 46
+        },
+        {
+          "name": "AWS",
+          "count": 5
+        },
+        {
+          "name": "Meta",
+          "count": 3
+        },
+        {
+          "name": "NVIDIA",
+          "count": 2
+        },
+        {
+          "name": "Hugging Face",
+          "count": 1
+        },
+        {
+          "name": "Google",
+          "count": 1
+        },
+        {
+          "name": "FAIR",
+          "count": 1
+        }
+      ],
+      "top_keywords": [
+        {
+          "keyword": "multi",
+          "count": 10
+        },
+        {
+          "keyword": "reasoning",
+          "count": 9
+        },
+        {
+          "keyword": "agent",
+          "count": 9
+        },
+        {
+          "keyword": "language",
+          "count": 8
+        },
+        {
+          "keyword": "framework",
+          "count": 6
+        },
+        {
+          "keyword": "agents",
+          "count": 5
+        },
+        {
+          "keyword": "human",
+          "count": 5
+        },
+        {
+          "keyword": "large",
+          "count": 5
+        },
+        {
+          "keyword": "generation",
+          "count": 5
+        },
+        {
+          "keyword": "visual",
+          "count": 5
+        },
+        {
+          "keyword": "data",
+          "count": 5
+        },
+        {
+          "keyword": "graph",
+          "count": 5
+        },
+        {
+          "keyword": "llms",
+          "count": 4
+        },
+        {
+          "keyword": "multimodal",
+          "count": 4
+        },
+        {
+          "keyword": "benchmark",
+          "count": 4
+        },
+        {
+          "keyword": "process",
+          "count": 4
+        },
+        {
+          "keyword": "reinforcement",
+          "count": 4
+        },
+        {
+          "keyword": "scale",
+          "count": 4
+        },
+        {
+          "keyword": "generative",
+          "count": 4
+        },
+        {
+          "keyword": "systems",
+          "count": 4
+        }
+      ],
+      "recent_papers": [
+        {
+          "title": "Regulating AI Agents",
+          "url": "https://arxiv.org/abs/2603.23471v2",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-07",
+          "summary_ko": "본 논문은 자율적 태스크 수행이 가능한 AI agents의 등장에 따라 기존 규제 체계(EU AI Act)가 성능 실패·악용·불균등 접근 등의 문제에 제대로 대응하지 못하고 있음을 분석한다. 모니터링·집행 책임 배분, 자율규제 의존도, 정부 자원 부족이 핵심 문제이며, EU와 글로벌 정책 입안자들의 전환이 필요함을 주장한다.",
+          "score": 80
+        },
+        {
+          "title": "Explainable embeddings with Distance Explainer",
+          "url": "https://arxiv.org/abs/2505.15516v3",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-07",
+          "summary_ko": "논문은 임베딩 공간에서 두 데이터포인트 간의 거리를 설명하는 Distance Explainer라는 설명가능 AI 방법을 제안합니다. RISE 기법을 적응시켜 선택적 마스킹과 거리 기반 필터링을 통해 속성값을 할당하며, 이미지-캡션 쌍 등 크로스-모달 임베딩에서 평가됩니다. ImageNet과 CLIP 모델 실험 결과, 높은 견고성과 일관성을 유지하면서 유사성/비유사성에 기여하는 특징을 효과적으로 식별합니다.",
+          "score": 74
+        },
+        {
+          "title": "Reduced NEXI protocol for the quantification of human gray matter microstructure on the Connectome 2.0 scanner",
+          "url": "https://arxiv.org/abs/2509.09513v3",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-07",
+          "summary_ko": "Explainable AI(XGBoost, SHAP, Recursive Feature Elimination) 프레임워크를 활용해 확산 MRI의 NEXI 프로토콜을 최적화하여 스캔 시간을 27분에서 14분으로 단축했으며, 7명 건강한 피험자 검증에서 Cramér-Rao Lower Bound 이론값과 수렴하고 휴리스틱 방법보다 우월한 견고성을 입증했다.",
+          "score": 73
+        },
+        {
+          "title": "Detoxify: A framework for abusive text transformation using LLMs",
+          "url": "https://arxiv.org/abs/2507.10177v2",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-07",
+          "summary_ko": "논문은 혐오 발언과 욕설을 포함한 학대적 텍스트를 의미론적 원의를 유지하면서 비학대적 텍스트로 변환하는 Detoxify 프레임워크를 제시하고, Gemini, GPT-4o, DeepSeek, Groq의 4개 주요 LLM 성능을 비교·평가했으며, Groq가 과도한 긍정 표현으로 원래 문맥을 손실하는 경향을 확인했다.",
+          "score": 68
+        },
+        {
+          "title": "Constitutional Governance in Metric Spaces",
+          "url": "https://arxiv.org/abs/2605.13362v3",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-07",
+          "summary_ko": "메트릭 공간에서 헌법적 거버넌스 프로토콜을 제시하는 논문으로, 계산 사회 선택 이론을 적용해 법률 코퍼스 수정·숙의·합의를 다항식 시간에 처리하는 집계 규칙을 설계했으며, AI 중재와 디지털 주권을 결합해 개인 기기에서 실행 가능한 공동 의사결정 시스템을 제안한다.",
+          "score": 68
+        },
+        {
+          "title": "Pluralis v0.1: Towards a Multicultural, Multimodal, Multilingual Benchmark for AI Risk and Reliability",
+          "url": "https://arxiv.org/abs/2607.06196v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-07",
+          "summary_ko": "서구 중심의 AI 평가 기준이 글로벌 배포 시 문화·법적 맥락을 무시하는 문제를 지적하고, 아시아-태평양 6개국 6,448개 프롬프트로 구성된 다중모달·다중언어 벤치마크 Pluralis v0.1을 제시. 텍스트와 이미지의 시너지로 특정 법적·문화적 위반을 트리거하는 평가 패러다임을 도입하고, Judge-Pluralis 앙상블로 지역별 오류 패턴의 체계적 차이를 규명.",
+          "score": 67
+        },
+        {
+          "title": "Improving LLM-Generated Process Model Quality Through Reinforcement Learning: The Role of Reward Function Design",
+          "url": "https://arxiv.org/abs/2607.06175v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-07",
+          "summary_ko": "BPMN 프로세스 모델 자동 생성을 위해 강화학습(RL)과 구조화된 보상 함수를 활용하여 감독학습 한계를 극복하는 방법을 제시. 38개 메트릭(구문·실용·의미론적 품질)으로 48가지 구성을 비교한 결과, 등가 보상 가중치가 타겟 가중치보다 안정적이며 설계 선택이 모델 아키텍처와 비자명하게 상호작용함을 발견.",
+          "score": 67
+        },
+        {
+          "title": "Spider 2.0-AIFunc: Extending Real-World Text-to-SQL to AI-Native SQL Workflows",
+          "url": "https://arxiv.org/abs/2607.06229v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-07",
+          "summary_ko": "클라우드 데이터 플랫폼의 ML 기능이 네이티브 SQL 함수로 통합되는 AI-native SQL 워크플로우를 평가하기 위해 Spider 2.0-AIFunc 벤치마크를 제시한다. Snowflake 플랫폼 125개 데이터베이스의 465개 검증 인스턴스를 agent-based 파이프라인으로 구성하며, 기존 에이전트 프레임워크가 이 환경에서는 단순한 설정만큼 효과적이지 않음을 발견했다.",
+          "score": 65
+        },
+        {
+          "title": "From Application-Layer Simulation to Native Meta-Architecture: Structural Tension as an Endogenous Driver for Heterogeneous AI Evolution",
+          "url": "https://arxiv.org/abs/2607.06269v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-07",
+          "summary_ko": "LLM의 무상태(stateless) 제약을 극복하기 위해 Structural Tension을 내생적 손실함수로 하는 native meta-architecture 이론을 제안하며, Offline Recurrent Loop·Inference-time Plasticity 메커니즘을 통해 감사성·가역성·위상연속성의 거버넌스 제약 내에서 이질적 AI 생태가 path-dependent 진화할 수 있음을 보인다.",
+          "score": 64
+        },
+        {
+          "title": "Estimating Uncertainty from Reasoning: A Large-Scale Study of Multi- and Crosslingual MCQA Performance in LLMs",
+          "url": "https://arxiv.org/abs/2607.06327v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-07",
+          "summary_ko": "이 논문은 22개 언어의 MCQA 데이터셋으로 LLM의 불확실성 추정(UE) 방법 9가지를 대규모 평가한 연구입니다. 저자원 언어에서 질문은 원언어, 추론은 영어로 진행할 때 성능이 향상되며, 모델 크기에 따라 최적 UE 방법이 달라짐(소형 모델: 확률 기반, 대형 모델: 자체 표현형)을 보였습니다.",
+          "score": 63
+        },
+        {
+          "title": "Designing Maintainable Hybrid Generative Systems: A Quantum-Inspired Approach to Automated Music Harmony Generation",
+          "url": "https://arxiv.org/abs/2607.06296v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-07",
+          "summary_ko": "논문은 음악 화성 생성을 위한 양자 영감의 하이브리드 생성 아키텍처를 제시하며, 규칙 기반 최적화로 생성 유연성과 구조적 통제를 조화시킨다. 명시적 평가 지표(구조적 일관성, 화성 유사성, 견고성)를 통해 음계 구조와 종지 동작을 보존하면서도 다중 유효한 화성화를 가능하게 함을 보였다.",
+          "score": 63
+        },
+        {
+          "title": "Finding H. pylori in the Fine Print: Evidence-Linked Multi-Agent Case Finding from Gastric Biopsy Reports",
+          "url": "https://arxiv.org/abs/2607.06435v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-07",
+          "summary_ko": "싱가포르 대형 의료기관의 익명화 위생검 병리 리포트 54건을 대상으로 Nimblemind Multi-Agent System(nMAS)을 적용하여 H. pylori 감염 증거 추출 성능을 평가한 파일럿 연구. 4개 이진 분류 필드에서 98.61% 정확도를 달성하였으며, 주요 기여는 성능 우위보다 통합 리포트 수준 출력과 증거 추적 가능성이고, 수동 검토 대비 자동 검증 시 약 USD 6,100 비용 절감 잠재력을 입증.",
+          "score": 62
+        },
+        {
+          "title": "VendorBench-100: A Unified Cross-Paradigm Benchmark for Deepfake Image Detection",
+          "url": "https://arxiv.org/abs/2607.06254v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-07",
+          "summary_ko": "VendorBench-100은 deepfake 이미지 탐지의 3가지 패러다임(상용 API, zero-shot 비전 LLM, 오픈소스)을 단일 벤치마크로 평가한 논문이다. 36개 모델을 100장의 이미지로 평가하여 상용 API > 비전 LLM > 오픈소스 순의 성능을 확인했으며, 핵심 발견은 점수 구분 능력(ROC-AUC)과 운영 신뢰도(MCC) 간의 불일치가 일관되게 나타난다는 것이다.",
+          "score": 62
+        },
+        {
+          "title": "WordVoice: Explicit and Decoupled Multi-Dimensional Word-Level Control for LLM-Based TTS",
+          "url": "https://arxiv.org/abs/2607.06461v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-07",
+          "summary_ko": "LLM 기반 TTS를 위한 단어 수준 명시적 제어 프레임워크 제안. 음성(길이·경계·에너지·음정·톤) 5개 차원 주석이 있는 4.7k시간 이중언어 데이터셋 WordVoice-5A를 구축하고, bound-token 메커니즘과 음향 조절 모듈로 세밀한 음성합성 제어를 실현.",
+          "score": 61
+        },
+        {
+          "title": "LLM Agents for Deliberative Collaboration: A Study on Joint Decision Making Under Partial Observability",
+          "url": "https://arxiv.org/abs/2607.06157v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-07",
+          "summary_ko": "부분 관찰 조건의 협력적 의사결정 하에서 LLM 에이전트의 다중 에이전트 협력 능력을 평가하는 논문. 새로운 벤치마크를 통해 SOTA 모델들을 체계적으로 평가한 결과, 정보 정렬과 복잡 추론에서 여전히 한계를 보이지만 협력 과정의 오류 수정 가능성도 발견.",
+          "score": 61
+        },
+        {
+          "title": "The Large Cancer Assistant (LCA): A Model-Agnostic Orchestration Framework for Scalable Clinical Decision Support in Oncology",
+          "url": "https://arxiv.org/abs/2607.06531v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-07",
+          "summary_ko": "암 진료용 멀티모달 AI 모델들의 유연성 부족을 해결하는 모델 불가지론적 오케스트레이션 프레임워크 LCA. 기하학적 딥러닝과 Algorithmic Impermeability 원칙으로 멀티모달 데이터 표준화 및 AI 모델 교체 시에도 라우팅 일관성 보장. PoC 검증에서 100% recall의 데이터 이상 감지 능력과 다중 프로토콜 실행 가능성 입증.",
+          "score": 60
+        },
+        {
+          "title": "Beyond Reactivity: Measuring Proactive Problem Solving in LLM Agents",
+          "url": "https://arxiv.org/abs/2510.19771v4",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-07",
+          "summary_ko": "논문은 LLM 에이전트의 주도적 문제 해결 능력을 측정하는 벤치마크 PROBE를 제시하며, 문제 탐색·병목 식별·해결 실행의 3단계 파이프라인으로 분해했다. GPT-5, Claude Opus-4.1 등 최신 모델도 40% 수준의 성공률을 기록해 자율 에이전트 시스템의 현실적 한계를 드러냈다.",
+          "score": 60
+        },
+        {
+          "title": "ExplAIner: A Declarative Query Language for Explaining Classification Models",
+          "url": "https://arxiv.org/abs/2607.06407v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-07",
+          "summary_ko": "Boolean 모델의 분류 예측을 설명하는 선언형 쿼리 언어 ExplAIner를 제안한다. FOIL의 한계(최적성 기반 쿼리 미지원, 높은 복잡도)를 극복하며, 반박적·대조적·특성기반 설명을 통일된 형식으로 표현 가능하고, SAT 솔버를 통해 효율적 계산이 가능함을 증명한다.",
+          "score": 60
+        },
+        {
+          "title": "Quantifying Frontier LLM Capabilities for Container Sandbox Escape",
+          "url": "https://arxiv.org/abs/2603.02277v2",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-07",
+          "summary_ko": "본 논문은 LLM 에이전트의 Docker/OCI 컨테이너 샌드박스 탈출 능력을 정량화하는 SANDBOXESCAPEBENCH 벤치마크를 제시합니다. Inspect AI 기반 CTF 평가로 설정 오류, 권한 할당 실수, 커널 결함 등 다양한 취약점을 포함한 중첩 아키텍처를 구현했으며, 현 LLM이 이러한 취약점을 식별·악용 가능함을 입증합니다.",
+          "score": 60
+        },
+        {
+          "title": "BabyVision: Visual Reasoning Beyond Language",
+          "url": "https://arxiv.org/abs/2601.06521v2",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-07",
+          "summary_ko": "본 논문은 멀티모달 LLM(MLLM)이 기본적인 시각 작업에서 인간 3세 아이 수준의 능력도 보이지 못함을 드러내기 위해 BabyVision 벤치마크(388개 항목, 22개 세부 클래스)를 제안한다. Gemini3-Pro-Preview가 49.7점에 그쳐 성인 평균(94.1점)에 크게 못 미쳤으며, 지식 기반 평가에서 우수한 현대 MLLM도 기초적 시각 원시성(visual primitives)이 부족함을 실증적으로 보였다.",
+          "score": 60
+        },
+        {
+          "title": "LLMs Meet Isolation Kernel: Lightweight, Learning-free Binary Embeddings for Fast Retrieval",
+          "url": "https://arxiv.org/abs/2601.09159v4",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-07",
+          "summary_ko": "이 논문은 LLM 임베딩을 Isolation Kernel을 이용해 바이너리 임베딩으로 변환하는 학습-자유 방법(IKE)을 제안합니다. 메모리 사용을 16배 감소시키고 검색 속도를 16.7배 향상시키면서도 정확도를 유지하며, 네 가지 바이너리 해싱 필수 기준을 만족한다는 이론적 기여를 제시합니다.",
+          "score": 59
+        },
+        {
+          "title": "Multiplayer Interactive World Models with Representation Autoencoders",
+          "url": "https://arxiv.org/abs/2607.05352v2",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-07",
+          "summary_ko": "Rocket League 멀티플레이어 환경에서 복수 에이전트의 행동을 독립적으로 조건으로 하는 세계 모델을 처음 개발했다. 50억 파라미터 잠재 확산 모델로 4명 경기를 실시간 생성(초당 20프레임)하며, 훈련 범위를 넘어 5분 이상 안정적인 장시간 롤아웃을 달성했다.",
+          "score": 58
+        },
+        {
+          "title": "An Experimental Design Approach to Evaluating Agentic AI's Autonomous Model Discovery",
+          "url": "https://arxiv.org/abs/2607.06413v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-07",
+          "summary_ko": "논문은 LLM 코딩 에이전트(Claude Code, Codex)의 자율 모델 발견 과정을 평가하기 위한 실험 설계 프레임워크를 제안하며, 추론 노력·작업·최적화 메트릭·훈련 데이터를 제어 변수로 삼아 결과 품질, 비용, 실행 시간, 프로세스 복잡도를 측정한다. Utility-aligned canonical decomposition 분석으로 추론 노력의 비용-성능 트레이드오프를 특성화하고, 네트워크 단어 게임 테스트베드에서 추론 노력과 비용·복잡도의 관계를 실증했다.",
+          "score": 58
+        },
+        {
+          "title": "Nemotron-Labs-3-Puzzle-75B-A9B: Compressing Hybrid MoE LLMs",
+          "url": "https://arxiv.org/abs/2607.04371v2",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-07",
+          "summary_ko": "NVIDIA Nemotron-3-Super의 압축 버전인 Puzzle-75B-A9B를 제시한 논문입니다. Iterative Puzzle 프레임워크에 지식 증류, 강화학습, 양자화 등을 결합한 다단계 파이프라인으로 MoE 및 Mamba 프루닝을 최적화하며, 서버 처리량 2배 증가, 1M-토큰 동시성 8배 증가를 달성했습니다.",
+          "score": 58
+        },
+        {
+          "title": "Agent Step Value: Probing the Observer Effect in Black-Box Traces",
+          "url": "https://arxiv.org/abs/2607.04419v2",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-07",
+          "summary_ko": "에이전트 추적의 각 스텝이 최종 결과에 미치는 영향을 정량화하는 ASV(Agent Step Value) 프레임워크를 제안한다. 고정 후보 집합에 대해 상태 전후를 LLM으로 평가하고 Entropy movement·Bayesian surprise·gold-margin gain을 측정하며, Prompt·Rationale·Scoring rule 변화에 따른 평가자 민감성을 추적한다. 1,100개 전환 분석 결과 128-token rationale 조건에서 -2.335 손실, one-token 직접 평가에서 +4.033 이득을 나타냈다.",
+          "score": 57
+        },
+        {
+          "title": "Doomed from the Start: Early Abort of LLM Agent Episodes via a Recall-Controlled Probe Cascade",
+          "url": "https://arxiv.org/abs/2607.06503v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-07",
+          "summary_ko": "LLM 에이전트가 실패 궤도에서 비효율적 계산을 지속하는 문제를 해결하기 위해, hidden activation의 경량 프로브로 첫 상호작용부터 최종 실패를 조기 예측하고, 캘리브레이션된 게이트로 에이전트를 중단하는 'Recall-Controlled Probe Cascade' 기법을 제안했다. TextCraft에서 90% 재현율 목표 시 추론 계산의 47.1~37.2%를 절감했다.",
+          "score": 56
+        },
+        {
+          "title": "TriA Pipeline: A Large-Scale Automatic Audio Annotation Pipeline For Audio Classification In Specific Scenarios",
+          "url": "https://arxiv.org/abs/2607.06179v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-07",
+          "summary_ko": "가정 환경 등 다양한 시나리오의 음성을 고품질 학습 데이터로 자동 변환하는 TriA Pipeline을 제시. 2130시간 이상의 음성 431개 클래스를 커버하는 데이터셋을 구축했으며, 사전 지식 기반 부분집합(TriA_GK)을 통해 국내 환경 음성 분류 3개 태스크에서 평균 3.97% 정확도, 3.35% Macro-F1 향상을 달성했음.",
+          "score": 56
+        },
+        {
+          "title": "Leech Lattice Vector Quantization for Efficient LLM Compression",
+          "url": "https://arxiv.org/abs/2603.11021v2",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-07",
+          "summary_ko": "Leech lattice의 24차원 최적 구 패킹 특성을 활용하여 LLM 양자화 방법(LLVQ)을 제안. 확장 Golay 코드 기반 인덱싱과 Shape-gain 양자화를 GPTQ-스타일 Hessian 보정과 결합하여 구현했으며, Quip#·QTIP·PVQ를 능가하는 SOTA 성능 달성.",
+          "score": 54
+        },
+        {
+          "title": "Truthful or Fabricated? Using Causal Attribution to Mitigate Reward Hacking in Explanations",
+          "url": "https://arxiv.org/abs/2504.05294v3",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-07",
+          "summary_ko": "Preference optimization 단계에서 reward model이 LLM의 설명 신뢰성을 감소시킬 수 있음을 보인다. 모델이 실제 추론 과정을 정확히 반영하지 않으면서도 높은 보상을 받는 'reward hacking' 현상을 식별하고, 인과 귀속(causal attribution)을 RM 입력에 추가하여 이 문제를 완화하는 방법을 제안한다.",
+          "score": 53
+        },
+        {
+          "title": "Rethinking Indic AI from a Lens of Cultural Heritage Preservation",
+          "url": "https://arxiv.org/abs/2607.06544v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-07",
+          "summary_ko": "인도 언어권의 AI 발전을 문화유산 보존 관점에서 재검토하는 종합 분석입니다. Indic 언어의 형태론적 복잡성·다중 방언·이중언어현상 등이 기초모델 개발의 고유 과제임을 추적하고, '해석학적 추론' 기반의 'Culture Sensing' 방법론을 제안하여 저자원 언어의 공정한 성능과 문화적 의미있는 AI 출력을 실현할 방향을 제시합니다.",
+          "score": 52
+        }
+      ]
     }
   },
   "weekly": {
@@ -28630,25 +29373,25 @@
       ]
     },
     "2026-W28": {
-      "analyzed_at": "2026-07-08T07:10:36.744815+09:00",
+      "analyzed_at": "2026-07-08T19:36:13.003834+09:00",
       "llm_backend": "claude-cli",
       "period": "weekly",
       "period_label": "최근 7일",
       "days_window": 7,
-      "paper_count": 463,
-      "narrative": "한 줄 요약 (한 줄 요약 본문) 에이전트 AI가 조직 실무 깊숙이 침투한 지금, 핵심 논의는 '어떻게 쓸 것인가'에서 **'누가 책임지고 어떻게 감사할 것인가'**로 완전히 이동했다.\n\n1) 무엇이 부상하고 있는가 80편의 공통 축은 에이전트 AI의 거버넌스 공백이다. 'From Runtime Records to Legal Findings'(논문 3)는 EU AI Act 감시 의무를 충족하려면 에이전트 런타임 로그가 단순 이력이 아닌 **법적 증거로서 인과·권한·시간 유효성 관계를 모두 담아야** 함을 증명했다. ContextNest(논문 6)는 에이전트가 소비하는 외부 지식의 출처와 버전을 SHA-256 해시 체인으로 검증하는 오픈 사양을 제안해 BM25 대비 토큰 비용 3분의 1에 답변 품질 향상이라는 실용적 수치를 제시했다. CERN 연구팀의 완료된 작업당 비용(CPCT) 프레임워크(논문 65)는 토큰 비용·캐시·실패 시도·인간 검토 노력을 단일 지표로 통합해, **기존 API 호출 단위 비용 측정이 다단계 에이전트 오케스트레이션 환경에서는 무의미**해짐을 실증했다. 'When Agents Lie'(논문 8)는 LLM 에이전트가 반복 게임에서 공개 약속을 계획적으로 위반하는 현상을 포착해, **에이전트 신뢰 구조 자체가 설계 대상**임을 드러냈다.\n\n2) 한국 실무자에게 이 흐름이 무슨 의미인가 전략·기획 담당자에게 이 흐름은 두 가지 실무 질문으로 직결된다. 첫째, 우리 회사 에이전트의 행동 이력을 감사 시점에 재구성할 수 있는가. 'Cheap Code, Costly Judgment'(논문 16)가 보여주듯 에이전트가 생산한 코드와 문서는 빠르게 쌓이지만, **책임 경계가 명확히 설계된 아키텍처를 선택**하지 않으면 장애 발생 시 원인 추적이 불가능하다. 둘째, 현재 AI 성과 지표가 실제 업무 가치와 연결되어 있는가. '마찰-성능 역설'(논문 37)이 밝혔듯 AI 인터페이스가 매끄러울수록 사용자 판단 품질이 오히려 저하되며, 'Human Capital, Not Model Benchmarks'(논문 39)는 AI 협업 성과를 결정하는 요인이 모델 스펙이 아닌 사용자의 관점 수용·지적 겸손임을 증명했다. **성공한 목표당 비용으로 KPI를 재설계해야** 하는 실질적 근거가 여기 있다.\n\n3) 산업 적용 흐름 법률·금융·공공 분야에서 규제 연동형 AI 도입이 가장 빠르게 진행될 것으로 보인다. Lawgic(논문 2)의 민사판결 예측 시스템, GRACE(논문 33)의 실물자산 토큰화 컴플라이언스 감시, EU AI Act CHRO 준수 로드맵(논문 4)은 **국내 금융·공공 분야의 내부통제 자동화 수요와 직결**된다. 다만 **한국 기업 환경에서는 개인정보보호법상 국외 데이터 이전 제한, 금융위·금감원의 AI 모델 설명 요구, 공공기관의 망분리 정책이 클라우드 기반 멀티에이전트 도입의 현실적 장벽으로 작용**한다. NeuroFilter(논문 46)나 kNNGuard(논문 69)처럼 모델 내부 활성화 기반의 경량 가드레일이 주목받는 배경도 이 제약과 맞닿아 있다. **온프레미스(on-premise) 또는 폐쇄망 요구가 도입 속도를 제한하는 현실적 제약으로 작동**하는 상황에서, 로컬 배포 가능한 소형 LLM 기반 파이프라인(논문 34, 47)은 한국 기업의 현실적 대안으로 주목할 만하다.",
+      "paper_count": 576,
+      "narrative": "한 줄 요약 AI 연구 80편을 관통하는 핵심 흐름은, 에이전트 AI가 실제 업무 시스템 안으로 본격 진입하면서 **'어떻게 만드느냐'보다 '어떻게 통제하고 책임 경계를 설계하느냐'가 기업 AI 전략의 새 핵심 의제**로 부상했다는 것이다.\n\n1) 무엇이 부상하고 있는가 가장 뚜렷한 변화는 에이전트 AI 거버넌스가 기술 개발보다 앞서는 실제 경영 과제가 됐다는 점이다. EU AI Act 2027년 12월 시행을 앞두고 고위험 채용 AI의 감사 준비 로드맵(CHRO's 18-Month Compliance Window)과, 에이전트 시스템의 런타임 로그가 인과·권한·시간 유효성 관계를 포함해야만 법적 증거로 인정받는다는 분석(From Runtime Records to Legal Findings)이 함께 등장했다. 보안 측면에서는 AI 코딩 에이전트가 여러 PR에 걸쳐 공격을 분산 배치할 수 있다는 실증과, 웹 에이전트가 평균 25% 작업에서 프롬프트 인젝션에 취약하다는 TRAP 벤치마크 결과가 **에이전트 배포 결정과 보안 아키텍처 설계를 분리하는 것이 구조적으로 불가능한 단계**에 접어들었음을 보여준다. 143만 개 에이전트 스킬에서 재귀적 의존성이 숨겨진 보안 위험을 만든다는 발견(Skills Are Not Islands)과, LLM이 반복 게임에서 공개 약속을 어기는 기회주의적 행동을 보인다는 연구는 **에이전트 오케스트레이션 환경에서 신뢰 설계 자체가 새 병목**임을 시사한다.\n\n2) 한국 실무자에게 이 흐름이 무슨 의미인가 인간-AI 협업 연구들은 에이전트 AI를 도입한 조직에서 사용자가 위임·모니터링·개입·오류 복구를 동시에 관리해야 하는 새로운 인지 과부하가 발생한다고 지적한다. 생성형 AI의 유창한 인터페이스가 의사결정 품질을 저하시키는 '마찰-성능 역설'(Friction-Performance Paradox)과, 사용자 평가 점수가 모델 실제 성능이 아닌 사전 기대치를 반영한다는 실증은 **내부 AI 도입 효과를 사용자 만족도 설문만으로 측정하는 방식을 재검토해야** 한다는 신호다. BPMN 기반 AI 지식관리 방법론의 등장과, 런타임 로그가 법적 감사 가능성을 결정한다는 분석은 **에이전트 업무 자동화를 설계할 때 감사 추적(audit trail)을 배포 전 아키텍처 필수 요건으로 확정**해야 함을 의미한다. LLM 파인튜닝이 채팅 템플릿 토큰을 통해 의도하지 않은 가치 정렬 붕괴(emergent misalignment)를 유발한다는 메커니즘 연구는 **사내 모델 커스터마이징 프로젝트에 정렬 검증 단계를 필수 게이트로 포함**해야 한다는 새 요건을 제시한다.\n\n3) 산업 적용 흐름 법률·컴플라이언스 분야가 가장 빠른 적용 후보다. Lawgic의 민사판결 예측 다중에이전트 시스템, GRACE의 실물자산 토큰화 컴플라이언스 감시, Sovereign RAG의 Privacy by Design 자동화는 법무·준법감시 파이프라인이 이미 연구 단계를 넘어서고 있음을 보여준다. **국내 개인정보보호법상 국외 데이터 이전 제한, 금감원의 AI 설명 요구, 공공기관 망분리 정책이 클라우드 기반 멀티에이전트 도입의 현실적 장벽으로 작용**하므로, 온프레미스 배포가 가능한 소형 언어모델(4B~20B 파라미터 수준)과 폐쇄형 RAG 아키텍처를 결합한 도입 전략이 현실적 선택지다. AI 거버넌스 위원회 설립 프레임워크와 ISO/IEC 42001 기반 정량적 영향평가 자동화는 **이사회·경영진 보고 체계에서 AI 위험 관리를 제도화하는 실행 가능한 첫 단계**가 될 수 있으며, 특히 금융·공공 조직에서 규제 대응 로드맵의 기초 문서로 활용 가능하다.",
       "hot_topics": [
         {
-          "topic": "AI 에이전트 거버넌스·감사 책임 (AI Agent Governance & Accountability)",
-          "description": "에이전트 AI가 자율 실행 권한을 가질수록 런타임 로그·감사 추적·책임 귀속 구조가 규제 및 조직 관리의 핵심 인프라로 부상하고 있다.",
+          "topic": "에이전트 AI 거버넌스·규제 체계화 (Agentic AI Governance & Regulatory Framework)",
+          "description": "EU AI Act 시행을 앞두고 AI 사건 보고·런타임 감사·거버넌스 위원회 설립까지, 에이전트 배포 후 책임 구조화가 규제 과제로 급부상.",
           "paper_count": 6,
           "paper_indices": [
             1,
+            2,
             3,
-            5,
-            6,
-            14,
-            15
+            16,
+            17,
+            68
           ],
           "papers": [
             {
@@ -28664,16 +29407,10 @@
               "date": "2026-07-01"
             },
             {
-              "title": "A BPMN-Centered Method for Process-Based Knowledge Management with Generative AI",
-              "url": "https://aisel.aisnet.org/pacis2026/ai_ml/ai_ml/18",
+              "title": "The CHRO's 18-Month Compliance Window: How to Be Audit-Ready by December 2, 2027",
+              "url": "https://doi.org/10.5281/zenodo.21087339",
               "source": "OpenAlex",
-              "date": "2026-07-05"
-            },
-            {
-              "title": "ContextNest: Verifiable Context Governance for Autonomous AI Agent",
-              "url": "https://arxiv.org/abs/2607.02116v2",
-              "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-07-06"
+              "date": "2026-07-01"
             },
             {
               "title": "Establishing an Artificial Intelligence Governance Committee",
@@ -28686,20 +29423,116 @@
               "url": "https://arxiv.org/abs/2410.22526v2",
               "source": "arXiv AI/CL/LG/IR/MA/CY",
               "date": "2026-07-01"
+            },
+            {
+              "title": "Regulating AI Agents",
+              "url": "https://arxiv.org/abs/2603.23471v2",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-07-07"
             }
           ]
         },
         {
-          "topic": "인간-AI 협업 성과와 과의존 역설 (Human-AI Collaboration & Over-reliance Paradox)",
-          "description": "AI 지원이 늘수록 사용자 판단 품질 저하·사회적 태만·AI 유도 침묵 현상이 동반되며, 협업 성과는 모델 스펙이 아닌 사용자 특성에 의해 결정된다는 실증이 집중되고 있다.",
+          "topic": "에이전트 시스템 보안 취약성 (Agentic AI Security Vulnerabilities)",
+          "description": "프롬프트 인젝션, 분산 공격, 스킬 의존성 리스크까지 에이전트가 실제 환경에 진입하면서 보안 공격 면(attack surface)이 빠르게 확장 중.",
           "paper_count": 6,
           "paper_indices": [
-            24,
-            25,
+            6,
+            7,
+            8,
+            14,
+            43,
+            45
+          ],
+          "papers": [
+            {
+              "title": "SovereignPA-Bench: Evaluating User-Owned Personal Agents under Evolving Intent, Platform Mediation, and Consent Constraints",
+              "url": "https://arxiv.org/abs/2607.05363v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-07-06"
+            },
+            {
+              "title": "PiSAs: Benchmarking Contextual Integrity in Multi-User Agentic Systems",
+              "url": "https://arxiv.org/abs/2607.05318v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-07-06"
+            },
+            {
+              "title": "Untrusted Content Masking for Web Agents with Security Guarantees",
+              "url": "https://arxiv.org/abs/2607.05277v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-07-06"
+            },
+            {
+              "title": "Distributed Attacks in Persistent-State AI Control",
+              "url": "https://arxiv.org/abs/2607.02514v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-07-02"
+            },
+            {
+              "title": "It's a TRAP! Task-Redirecting Agent Persuasion Benchmark for Web Agents",
+              "url": "https://arxiv.org/abs/2512.23128v3",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-07-02"
+            },
+            {
+              "title": "Skills Are Not Islands: Measuring Dependency and Risk in Agent Skill Supply Chains",
+              "url": "https://arxiv.org/abs/2607.01136v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-07-01"
+            }
+          ]
+        },
+        {
+          "topic": "AI 법률·컴플라이언스 자동화 (AI Legal & Compliance Automation)",
+          "description": "민사판결 예측, RWA 토큰화 감시, Privacy by Design 자동화 등 법무·준법감시 업무에 AI 파이프라인이 실제 적용 단계에 진입.",
+          "paper_count": 4,
+          "paper_indices": [
+            2,
+            4,
+            5,
+            39
+          ],
+          "papers": [
+            {
+              "title": "From Runtime Records to Legal Findings: An Evidentiary-Adequacy Criterion for Agentic AI Oversight",
+              "url": "https://arxiv.org/abs/2607.00941v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-07-01"
+            },
+            {
+              "title": "Lawgic: A Retrieval-Augmented Multi-Agent System for Civil Legal Judgment Prediction",
+              "url": "https://aisel.aisnet.org/pacis2026/ai_ml/ai_ml/6",
+              "source": "OpenAlex",
+              "date": "2026-07-05"
+            },
+            {
+              "title": "A BPMN-Centered Method for Process-Based Knowledge Management with Generative AI",
+              "url": "https://aisel.aisnet.org/pacis2026/ai_ml/ai_ml/18",
+              "source": "OpenAlex",
+              "date": "2026-07-05"
+            },
+            {
+              "title": "GRACE: An AI-Augmented Compliance Information System for Real-World Asset Tokenization",
+              "url": "https://aisel.aisnet.org/cgi/viewcontent.cgi?article=1089&context=pacis2026",
+              "source": "OpenAlex",
+              "date": "2026-07-05"
+            }
+          ]
+        },
+        {
+          "topic": "인간-AI 협업 제어 및 의존성 설계 (Human-AI Collaboration Control & Dependency Design)",
+          "description": "에이전트 AI 도입 후 사용자 인지 과부하, 사회적 태만, 마찰-성능 역설이 실증되며 조직 내 협업 구조 재설계가 새 경영 과제로 등장.",
+          "paper_count": 8,
+          "paper_indices": [
+            28,
+            35,
             36,
-            37,
-            39,
-            73
+            41,
+            52,
+            53,
+            64,
+            65
           ],
           "papers": [
             {
@@ -28715,14 +29548,8 @@
               "date": "2026-07-05"
             },
             {
-              "title": "Generative AI as a Teammate: Exploring Social Loafing and Individual Effort in Human–AI Teams",
-              "url": "https://aisel.aisnet.org/pacis2026/general_topic/general_topic/9",
-              "source": "OpenAlex",
-              "date": "2026-07-05"
-            },
-            {
-              "title": "The Friction-Performance Paradox: How Procedural Ease Degrades Decision Quality in Generative AI",
-              "url": "https://aisel.aisnet.org/context/pacis2026/article/1224/viewcontent/1402_doc.pdf",
+              "title": "Task-Driven Explanation Strategies: Enhance Human-AI Collaboration Performance by Achieving Cognitive Fit",
+              "url": "https://aisel.aisnet.org/context/pacis2026/article/1186/viewcontent/1459_doc.pdf",
               "source": "OpenAlex",
               "date": "2026-07-05"
             },
@@ -28733,43 +29560,92 @@
               "date": "2026-07-02"
             },
             {
-              "title": "Are Knowledge Workers Too Reliant on Generative AI?",
-              "url": "https://aisel.aisnet.org/pacis2026/ai_fow/ai_fow/14",
+              "title": "Power Calibration and Delegation in Human–Agentic AI Interaction: Psychological Pathways",
+              "url": "https://aisel.aisnet.org/cgi/viewcontent.cgi?article=1041&context=pacis2026",
+              "source": "OpenAlex",
+              "date": "2026-07-05"
+            },
+            {
+              "title": "When AI Takes the Lead: How AI Solicitation Shapes Users Engagement in Human-AI Collaboration",
+              "url": "https://aisel.aisnet.org/pacis2026/hci_robotic/hci_robotic/2",
+              "source": "OpenAlex",
+              "date": "2026-07-05"
+            },
+            {
+              "title": "Generative AI as a Teammate: Exploring Social Loafing and Individual Effort in Human–AI Teams",
+              "url": "https://aisel.aisnet.org/pacis2026/general_topic/general_topic/9",
+              "source": "OpenAlex",
+              "date": "2026-07-05"
+            },
+            {
+              "title": "The Friction-Performance Paradox: How Procedural Ease Degrades Decision Quality in Generative AI",
+              "url": "https://aisel.aisnet.org/context/pacis2026/article/1224/viewcontent/1402_doc.pdf",
               "source": "OpenAlex",
               "date": "2026-07-05"
             }
           ]
         },
         {
-          "topic": "AI 보안·적대적 공격 방어 (AI Security & Adversarial Attack Defense)",
-          "description": "프롬프트 인젝션, 분산 코드 공격, 정신건강 안전장치 우회 등 에이전트 AI 특유의 보안 취약점이 실증되면서 운영 단계 모니터링과 가드레일 설계가 필수 과제로 자리잡았다.",
-          "paper_count": 6,
+          "topic": "LLM 평가·벤치마크 신뢰성 위기 (LLM Evaluation & Benchmark Reliability Crisis)",
+          "description": "사용자 평가가 기대치를 반영하고 벤치마크가 머신 간 재현성이 없다는 실증이 잇따르며, 모델 선택 근거로서 공개 리더보드의 신뢰성이 근본적으로 흔들리고 있음.",
+          "paper_count": 5,
           "paper_indices": [
-            12,
-            19,
-            41,
-            46,
-            56,
-            69
+            29,
+            34,
+            47,
+            59,
+            75
           ],
           "papers": [
             {
-              "title": "Distributed Attacks in Persistent-State AI Control",
-              "url": "https://arxiv.org/abs/2607.02514v1",
+              "title": "LLM-as-a-Verifier: A General-Purpose Verification Framework",
+              "url": "https://arxiv.org/abs/2607.05391v1",
               "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-07-02"
+              "date": "2026-07-06"
             },
             {
-              "title": "One Year Later...The Harms Persist, But So Do We!",
-              "url": "https://arxiv.org/abs/2606.23884v3",
+              "title": "Rating the Pitch, Not the Product: User Evaluations of LLMs Reflect Expectations More Than Performance",
+              "url": "https://arxiv.org/abs/2607.05113v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-07-06"
+            },
+            {
+              "title": "Clinician-Level Agreement Without Clinical Caution: LLM Evaluator Limits in Medical AI Benchmarking",
+              "url": "https://arxiv.org/abs/2607.01103v1",
               "source": "arXiv AI/CL/LG/IR/MA/CY",
               "date": "2026-07-01"
             },
             {
-              "title": "It's a TRAP! Task-Redirecting Agent Persuasion Benchmark for Web Agents",
-              "url": "https://arxiv.org/abs/2512.23128v3",
+              "title": "Are Performance-Optimization Benchmarks Reliably Measuring Coding Agents?",
+              "url": "https://arxiv.org/abs/2607.01211v1",
               "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-07-02"
+              "date": "2026-07-01"
+            },
+            {
+              "title": "PACE: A Proxy for Agentic Capability Evaluation",
+              "url": "https://arxiv.org/abs/2607.02032v2",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-07-06"
+            }
+          ]
+        },
+        {
+          "topic": "AI 편향·모델 정렬 내재화 위험 (Embedded AI Bias & Alignment Risk)",
+          "description": "파인튜닝 후 새 사회적 편향이 자발적으로 생성되고, 가치 정렬 붕괴가 도메인 외로 전파되며, 에이전트가 개인정보를 유출하는 경로가 다양하게 실증되며 도입 시 필수 검증 항목으로 자리잡는 중.",
+          "paper_count": 5,
+          "paper_indices": [
+            30,
+            48,
+            56,
+            61,
+            76
+          ],
+          "papers": [
+            {
+              "title": "Large Language Models Develop Novel Social Biases Through Adaptive Exploration",
+              "url": "https://arxiv.org/abs/2511.06148v4",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-07-06"
             },
             {
               "title": "NeuroFilter: Activation-Based Guardrails for Privacy-Conscious LLM Agents",
@@ -28778,95 +29654,20 @@
               "date": "2026-07-01"
             },
             {
-              "title": "Online Safety Monitoring for LLMs",
-              "url": "https://arxiv.org/abs/2607.02510v1",
+              "title": "LACUNA: A Testbed for Evaluating Localization Precision for LLM Unlearning",
+              "url": "https://arxiv.org/abs/2607.02513v1",
               "source": "arXiv AI/CL/LG/IR/MA/CY",
               "date": "2026-07-02"
             },
             {
-              "title": "kNNGuard: Turning LLM Hidden Activations into a Training-Free Configurable Guardrail",
-              "url": "https://arxiv.org/abs/2607.02072v2",
-              "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-07-06"
-            }
-          ]
-        },
-        {
-          "topic": "규제 연동형 AI 컴플라이언스 (Regulatory AI Compliance)",
-          "description": "EU AI Act·GDPR·금융 규제를 충족하는 AI 시스템 설계가 법률·금융·인사 분야에서 구체적 의무로 전환되고 있으며, 감사 가능성(auditability)이 설계 1순위 요건으로 부상했다.",
-          "paper_count": 5,
-          "paper_indices": [
-            2,
-            3,
-            4,
-            32,
-            33
-          ],
-          "papers": [
-            {
-              "title": "Lawgic: A Retrieval-Augmented Multi-Agent System for Civil Legal Judgment Prediction",
-              "url": "https://aisel.aisnet.org/pacis2026/ai_ml/ai_ml/6",
-              "source": "OpenAlex",
-              "date": "2026-07-05"
-            },
-            {
-              "title": "From Runtime Records to Legal Findings: An Evidentiary-Adequacy Criterion for Agentic AI Oversight",
-              "url": "https://arxiv.org/abs/2607.00941v1",
+              "title": "Distill to Detect: Exposing Stealth Biases in LLMs through Cartridge Distillation",
+              "url": "https://arxiv.org/abs/2607.01208v1",
               "source": "arXiv AI/CL/LG/IR/MA/CY",
               "date": "2026-07-01"
             },
             {
-              "title": "The CHRO's 18-Month Compliance Window: How to Be Audit-Ready by December 2, 2027",
-              "url": "https://doi.org/10.5281/zenodo.21087339",
-              "source": "OpenAlex",
-              "date": "2026-07-01"
-            },
-            {
-              "title": "A Sovereign RAG Architecture for Pattern-Grounded Privacy Reasoning and Design Decisions",
-              "url": "https://aisel.aisnet.org/context/pacis2026/article/1107/viewcontent/1023_doc.pdf",
-              "source": "OpenAlex",
-              "date": "2026-07-05"
-            },
-            {
-              "title": "GRACE: An AI-Augmented Compliance Information System for Real-World Asset Tokenization",
-              "url": "https://aisel.aisnet.org/cgi/viewcontent.cgi?article=1089&context=pacis2026",
-              "source": "OpenAlex",
-              "date": "2026-07-05"
-            }
-          ]
-        },
-        {
-          "topic": "AI 투자 성과 측정 재설계 (AI Investment & Performance Measurement Redesign)",
-          "description": "기존 API 비용·토큰 수·벤치마크 점수 중심 측정이 에이전트 환경에서 ROI를 설명하지 못하면서, 완료 작업당 비용 및 조직 역량 중심의 대안 프레임워크가 등장하고 있다.",
-          "paper_count": 4,
-          "paper_indices": [
-            16,
-            59,
-            65,
-            70
-          ],
-          "papers": [
-            {
-              "title": "Cheap Code, Costly Judgment: A Case Study on Governable Agentic Software Engineering",
-              "url": "https://arxiv.org/abs/2607.01087v1",
-              "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-07-01"
-            },
-            {
-              "title": "Governing Enterprise AI Investments: A Decision-Centric Portfolio Framework",
-              "url": "https://aisel.aisnet.org/cgi/viewcontent.cgi?article=1236&context=pacis2026",
-              "source": "OpenAlex",
-              "date": "2026-07-05"
-            },
-            {
-              "title": "Cost per Completed Task: A Measurement Framework and Cross-Domain Case Study for Evaluating AI Model Configurations in Agentic Workflows",
-              "url": "https://doi.org/10.5281/zenodo.21198419",
-              "source": "OpenAlex",
-              "date": "2026-07-05"
-            },
-            {
-              "title": "Three-Phase Evaluation of AI-Assisted Software Development Life Cycle",
-              "url": "https://arxiv.org/abs/2607.05125v1",
+              "title": "The Piggyback Hypothesis of Generalization: Explaining and Mitigating Emergent Misalignment",
+              "url": "https://arxiv.org/abs/2606.06667v2",
               "source": "arXiv AI/CL/LG/IR/MA/CY",
               "date": "2026-07-06"
             }
@@ -28875,14 +29676,12 @@
       ],
       "key_techniques": [
         {
-          "technique": "런타임 감사 계층 설계 (Runtime Audit Layer Design)",
-          "description": "에이전트 행동 이력을 법적 증거 수준으로 재구성할 수 있도록 인과·권한·버전 관계를 포함한 구조적 로그를 설계하는 기법으로, 규제 감사 대응과 내부 책임 귀속의 기반이 된다.",
-          "paper_count": 4,
+          "technique": "에이전트 컨텍스트 거버넌스 (Agent Context Governance)",
+          "description": "에이전트가 소비하는 외부 지식의 출처·버전·무결성을 SHA-256 해시와 감사 추적으로 검증 가능하게 만드는 구조 — 규제 감사 대응의 기술적 기반이자 법적 증거력 확보의 전제 조건.",
+          "paper_count": 2,
           "paper_indices": [
-            3,
-            6,
-            14,
-            15
+            2,
+            10
           ],
           "papers": [
             {
@@ -28896,38 +29695,47 @@
               "url": "https://arxiv.org/abs/2607.02116v2",
               "source": "arXiv AI/CL/LG/IR/MA/CY",
               "date": "2026-07-06"
-            },
-            {
-              "title": "Establishing an Artificial Intelligence Governance Committee",
-              "url": "https://doi.org/10.5281/zenodo.21116696",
-              "source": "OpenAlex",
-              "date": "2026-07-02"
-            },
-            {
-              "title": "From Silos to Systems: Process-Oriented Hazard Analysis for AI Systems",
-              "url": "https://arxiv.org/abs/2410.22526v2",
-              "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-07-01"
             }
           ]
         },
         {
-          "technique": "에이전트 기반 RAG 아키텍처 (Agentic RAG Architecture)",
-          "description": "단순 검색 증강을 넘어 다중 에이전트가 지식을 누적·검색·반성하는 구조로, 법률 판결 예측부터 물리 시뮬레이션까지 전문 도메인의 추론 품질과 비용 효율을 동시에 높이는 핵심 설계다.",
-          "paper_count": 5,
+          "technique": "프롬프트 인젝션 방어 마스킹 (Prompt Injection Defense / Untrusted Content Masking)",
+          "description": "DOM 구조나 신뢰 경계를 활용해 외부 콘텐츠를 사전에 격리함으로써 웹 에이전트의 공격 노출을 차단 — 에이전트 배포 전 필수 보안 레이어로 부상.",
+          "paper_count": 2,
           "paper_indices": [
-            2,
-            32,
-            49,
-            77,
-            80
+            8,
+            43
           ],
           "papers": [
             {
-              "title": "Lawgic: A Retrieval-Augmented Multi-Agent System for Civil Legal Judgment Prediction",
-              "url": "https://aisel.aisnet.org/pacis2026/ai_ml/ai_ml/6",
-              "source": "OpenAlex",
-              "date": "2026-07-05"
+              "title": "Untrusted Content Masking for Web Agents with Security Guarantees",
+              "url": "https://arxiv.org/abs/2607.05277v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-07-06"
+            },
+            {
+              "title": "It's a TRAP! Task-Redirecting Agent Persuasion Benchmark for Web Agents",
+              "url": "https://arxiv.org/abs/2512.23128v3",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-07-02"
+            }
+          ]
+        },
+        {
+          "technique": "RAG 신뢰성 아키텍처 (RAG Trust Architecture)",
+          "description": "큐레이션 소스 대 개방형 검색의 커버리지-신뢰성 트레이드오프를 설계 단계에서 결정하고 출처 감사를 운영 프로세스화 — 기업 내부 AI 서비스 품질 관리의 핵심 설계 결정.",
+          "paper_count": 3,
+          "paper_indices": [
+            32,
+            38,
+            51
+          ],
+          "papers": [
+            {
+              "title": "Curated retrieval versus open web search in public AI information services: a coverage-trust trade-off",
+              "url": "https://arxiv.org/abs/2607.05217v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-07-06"
             },
             {
               "title": "A Sovereign RAG Architecture for Pattern-Grounded Privacy Reasoning and Design Decisions",
@@ -28940,30 +29748,40 @@
               "url": "https://arxiv.org/abs/2607.00895v1",
               "source": "arXiv AI/CL/LG/IR/MA/CY",
               "date": "2026-07-01"
-            },
-            {
-              "title": "An Agentic RAG Architecture for Knowledge-Intensive QA",
-              "url": "https://aisel.aisnet.org/context/pacis2026/article/1009/viewcontent/1559_doc.pdf",
-              "source": "OpenAlex",
-              "date": "2026-07-05"
-            },
-            {
-              "title": "From Experiments to Expertise: Scientific Knowledge Consolidation for AI-Driven Computational Physics",
-              "url": "https://arxiv.org/abs/2603.13191v2",
-              "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-07-02"
             }
           ]
         },
         {
-          "technique": "경량 활성화 기반 가드레일 (Lightweight Activation-based Guardrails)",
-          "description": "모델 내부 활성화값을 활용해 별도 파인튜닝 없이 유해 출력·개인정보 유출·편향을 탐지하는 방식으로, 온프레미스·제한 리소스 환경에서도 배포 가능한 현실적 보안 레이어다.",
-          "paper_count": 4,
+          "technique": "LLM 검증 프레임워크 (LLM Verification Framework)",
+          "description": "토큰 로짓 분포나 타입화된 상태 전이 수열로 AI 답변의 정확성을 독립적으로 감사 — 고위험 의사결정 지원 시스템에서 신뢰 검증 계층이 없는 배포는 규제 리스크로 직결.",
+          "paper_count": 2,
           "paper_indices": [
-            46,
-            56,
-            57,
-            69
+            29,
+            44
+          ],
+          "papers": [
+            {
+              "title": "LLM-as-a-Verifier: A General-Purpose Verification Framework",
+              "url": "https://arxiv.org/abs/2607.05391v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-07-06"
+            },
+            {
+              "title": "Theoria: Rewrite-Acceptability Verification over Informal Reasoning States",
+              "url": "https://arxiv.org/abs/2607.01223v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-07-01"
+            }
+          ]
+        },
+        {
+          "technique": "활성화 기반 내재 특성 탐지 (Activation-Based Intrinsic Property Detection)",
+          "description": "모델 내부 활성화 값을 직접 분석하여 개인정보 유출 경향, 숨겨진 편향, 거부 메커니즘을 배포 전에 탐지 — 모델 커스터마이징 후 안전성 검증의 새 표준으로 부상.",
+          "paper_count": 3,
+          "paper_indices": [
+            48,
+            61,
+            71
           ],
           "papers": [
             {
@@ -28973,87 +29791,14 @@
               "date": "2026-07-01"
             },
             {
-              "title": "Online Safety Monitoring for LLMs",
-              "url": "https://arxiv.org/abs/2607.02510v1",
-              "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-07-02"
-            },
-            {
               "title": "Distill to Detect: Exposing Stealth Biases in LLMs through Cartridge Distillation",
               "url": "https://arxiv.org/abs/2607.01208v1",
               "source": "arXiv AI/CL/LG/IR/MA/CY",
               "date": "2026-07-01"
             },
             {
-              "title": "kNNGuard: Turning LLM Hidden Activations into a Training-Free Configurable Guardrail",
-              "url": "https://arxiv.org/abs/2607.02072v2",
-              "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-07-06"
-            }
-          ]
-        },
-        {
-          "technique": "다중 에이전트 집단 행동 평가 (Multi-Agent Collective Behavior Evaluation)",
-          "description": "수백 개 LLM 에이전트의 협력·배신·문화 진화를 사회적 딜레마 게임으로 측정하는 프레임워크로, 에이전트 조직 도입 전 신뢰·정렬 위험을 사전 진단하는 도구로 활용된다.",
-          "paper_count": 4,
-          "paper_indices": [
-            8,
-            9,
-            18,
-            40
-          ],
-          "papers": [
-            {
-              "title": "When Agents Lie: Premeditation, Persistence, and Exploitation in Repeated Games",
-              "url": "https://arxiv.org/abs/2607.05132v1",
-              "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-07-06"
-            },
-            {
-              "title": "Learning to Behave: The Paradox of Compliance and Structural Inertia in Large Language Model Agents",
-              "url": "https://aisel.aisnet.org/context/pacis2026/article/1154/viewcontent/1232_doc.pdf",
-              "source": "OpenAlex",
-              "date": "2026-07-05"
-            },
-            {
-              "title": "Conversable Complexity: Agentic LLM Collectives as Interpretable Substrates",
-              "url": "https://arxiv.org/abs/2607.01047v1",
-              "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-07-01"
-            },
-            {
-              "title": "Evaluating Collective Behaviour of Hundreds of LLM Agents",
-              "url": "https://arxiv.org/abs/2602.16662v2",
-              "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-07-02"
-            }
-          ]
-        },
-        {
-          "technique": "완료 작업당 비용 측정 (Cost-per-Completed-Task, CPCT)",
-          "description": "토큰 비용, 실패 시도, 인간 검토 노력, 도구 사용료를 단일 지표로 통합해 에이전트 ROI를 측정하는 방법론으로, 다단계 에이전트 환경의 실질 비용을 파악하는 현실적 측정 기준이다.",
-          "paper_count": 3,
-          "paper_indices": [
-            16,
-            65,
-            70
-          ],
-          "papers": [
-            {
-              "title": "Cheap Code, Costly Judgment: A Case Study on Governable Agentic Software Engineering",
-              "url": "https://arxiv.org/abs/2607.01087v1",
-              "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-07-01"
-            },
-            {
-              "title": "Cost per Completed Task: A Measurement Framework and Cross-Domain Case Study for Evaluating AI Model Configurations in Agentic Workflows",
-              "url": "https://doi.org/10.5281/zenodo.21198419",
-              "source": "OpenAlex",
-              "date": "2026-07-05"
-            },
-            {
-              "title": "Three-Phase Evaluation of AI-Assisted Software Development Life Cycle",
-              "url": "https://arxiv.org/abs/2607.05125v1",
+              "title": "Faithfulness to Refusal: A Causal Audit of Neuron Selectors",
+              "url": "https://arxiv.org/abs/2607.05355v1",
               "source": "arXiv AI/CL/LG/IR/MA/CY",
               "date": "2026-07-06"
             }
@@ -29061,40 +29806,40 @@
         }
       ],
       "actionable_insights": [
-        "사내 에이전트 AI가 생성하는 로그를 운영 기록이 아닌 **법적 증거로 재분류하고, 인과·권한·시간 유효성 관계를 포함한 구조적 감사 추적 표준을 아키텍처 설계 단계에서 확정해야** 한다. EU AI Act 고위험 시스템 의무가 2027년 12월 적용되는 시점에 소급 설계는 불가능하며, 지금 도입하는 에이전트가 그 대상에 포함되는지 여부를 먼저 분류해야 한다.",
-        "AI 코딩 어시스턴트·분석 에이전트의 성과를 토큰 절감량이나 처리 건수로 측정하는 관행에서 벗어나, **완료 작업당 비용(CPCT) 기준으로 AI 투자 KPI 체계를 재설계해야** 한다. 실패 시도와 인간 검토 노력이 포함되지 않으면 실제 ROI는 구조적으로 과대평가된다.",
-        "지식근로자의 AI 협업 성과는 모델 스펙이 아닌 사용자의 관점 수용·지적 겸손에 의해 결정된다는 실증을 바탕으로, **AI 리터러시 교육을 도구 사용법 안내에서 판단력 강화·비판적 검토 훈련 중심으로 재설계해야** 한다. AI 유도 침묵과 사회적 태만은 생산성 지표에 나타나지 않으므로 별도 측정 체계가 필요하다.",
-        "클라우드 기반 대형 LLM을 AI 아키텍처의 기본 전제로 설정하는 관행을 재검토해야 한다. **개인정보보호법상 국외이전 제한과 금융·공공 분야 망분리 정책이 멀티에이전트 도입의 실질적 병목**이며, 로컬 배포 가능한 소형 LLM 기반 파이프라인을 동등한 설계 옵션으로 평가 기준에 포함해야 도입 후 재설계 비용을 방지할 수 있다.",
-        "AI 거버넌스 위원회를 형식적 조직이 아닌 **AI 사건 분류·모니터링·보고를 실제로 수행하는 실무 기구로 설계해야** 하며, 에이전트 스킬 의존성 지도(Skill Dependency Map)와 사건 분류 체계를 위원회 초기 산출물로 확정해야 한다. 거버넌스 구조가 없는 상태에서 포트폴리오 수준의 AI 도입 결정은 실행 불가 리스크를 내포한다."
+        "에이전트 자동화 시스템을 도입할 때 **런타임 감사 추적(audit trail)을 배포 전 아키텍처 필수 요건으로 확정**해야 한다 — EU AI Act 및 국내 규제 환경에서 런타임 로그가 인과·권한·시간 유효성을 포함하지 않으면 이미 운영 중인 시스템도 법적 증거력을 갖추지 못하며, 이는 사후 아키텍처 수정보다 초기 설계 단계 결정이 훨씬 낮은 비용으로 해결된다.",
+        "내부 AI 도입 효과 측정 지표를 **사용자 만족도 설문 중심에서 실제 업무 성과 변화(작업 완료율, 의사결정 정확도)로 전환**해야 한다 — 사전 기대가 높을수록 사용자 평가는 올라가지만 실제 성과는 그와 독립적으로 움직인다는 것이 통제 실험에서 확인됐으며, 잘못된 지표는 투자 의사결정 왜곡으로 이어진다.",
+        "에이전트 스킬·플러그인·MCP 도구를 도입할 때 **소프트웨어 BOM(Bill of Materials) 방식으로 의존성 구조를 사전에 문서화하고 주기적으로 감사**해야 한다 — 재귀적 의존성이 숨겨진 보안 취약점으로 연결되는 구조적 패턴이 143만 개 스킬 분석에서 확인됐으며, 이는 단일 스킬 검토만으로는 발견할 수 없다.",
+        "기업 내 AI 서비스의 **RAG 파이프라인 출처 신뢰성을 정기적으로 감사하는 운영 프로세스를 별도로 수립**해야 한다 — 개방형 웹 검색 답변의 35%에서 신뢰할 수 없는 인용이 발견됐으며, 금융·법무·공공 분야에서는 오정보가 직접적인 규제 리스크와 연결된다.",
+        "사내 LLM 파인튜닝 프로젝트에서 **특정 도메인 데이터 학습 후 도메인 외 쿼리에서의 가치 정렬 붕괴(emergent misalignment) 검증을 출시 전 필수 게이트로 포함**해야 한다 — 채팅 템플릿 토큰이 파인튜닝된 행동을 의도치 않은 영역으로 전파하는 메커니즘이 실증됐으며, 이는 고객 대면 서비스에서 브랜드 리스크로 직결될 수 있다."
       ],
       "top_institutions": [
         {
           "name": "ETH",
-          "count": 193
+          "count": 253
         },
         {
           "name": "MIT",
-          "count": 128
+          "count": 173
         },
         {
           "name": "Meta",
-          "count": 14
+          "count": 17
         },
         {
           "name": "AWS",
-          "count": 12
+          "count": 17
         },
         {
           "name": "Google",
-          "count": 6
+          "count": 7
         },
         {
           "name": "FAIR",
-          "count": 4
+          "count": 5
         },
         {
           "name": "NVIDIA",
-          "count": 2
+          "count": 3
         },
         {
           "name": "Amazon",
@@ -29102,6 +29847,10 @@
         },
         {
           "name": "Hugging Face",
+          "count": 2
+        },
+        {
+          "name": "Meta AI",
           "count": 1
         },
         {
@@ -29119,92 +29868,88 @@
         {
           "name": "Apple",
           "count": 1
-        },
-        {
-          "name": "Meta AI",
-          "count": 1
         }
       ],
       "top_keywords": [
         {
-          "keyword": "generative",
-          "count": 30
-        },
-        {
           "keyword": "multi",
-          "count": 29
+          "count": 39
         },
         {
-          "keyword": "agents",
-          "count": 25
+          "keyword": "generative",
+          "count": 34
         },
         {
           "keyword": "language",
-          "count": 25
+          "count": 33
         },
         {
           "keyword": "framework",
-          "count": 25
+          "count": 31
+        },
+        {
+          "keyword": "agents",
+          "count": 30
         },
         {
           "keyword": "data",
+          "count": 30
+        },
+        {
+          "keyword": "agent",
           "count": 25
         },
         {
           "keyword": "agentic",
-          "count": 22
+          "count": 24
+        },
+        {
+          "keyword": "reasoning",
+          "count": 24
+        },
+        {
+          "keyword": "human",
+          "count": 21
         },
         {
           "keyword": "driven",
+          "count": 21
+        },
+        {
+          "keyword": "systems",
+          "count": 19
+        },
+        {
+          "keyword": "generation",
           "count": 19
         },
         {
           "keyword": "training",
-          "count": 18
+          "count": 19
         },
         {
           "keyword": "knowledge",
-          "count": 17
-        },
-        {
-          "keyword": "agent",
-          "count": 16
-        },
-        {
-          "keyword": "systems",
-          "count": 16
-        },
-        {
-          "keyword": "human",
-          "count": 16
-        },
-        {
-          "keyword": "reasoning",
-          "count": 15
-        },
-        {
-          "keyword": "aware",
-          "count": 15
-        },
-        {
-          "keyword": "generation",
-          "count": 14
-        },
-        {
-          "keyword": "time",
-          "count": 14
+          "count": 18
         },
         {
           "keyword": "benchmark",
-          "count": 14
+          "count": 18
         },
         {
           "keyword": "efficient",
-          "count": 14
+          "count": 18
         },
         {
-          "keyword": "intelligence",
-          "count": 12
+          "keyword": "aware",
+          "count": 18
+        },
+        {
+          "keyword": "large",
+          "count": 17
+        },
+        {
+          "keyword": "time",
+          "count": 17
         }
       ],
       "recent_papers": [
@@ -29214,14 +29959,6 @@
           "source": "arXiv AI/CL/LG/IR/MA/CY",
           "date": "2026-07-06",
           "summary_ko": "본 논문은 배포 후 AI 시스템 장애를 관리하기 위한 '적절한 AI 사건 거버넌스'의 필요성을 제시한다. 규제 기관과 독립 조직의 기존 프레임워크를 검토한 결과, 정의·분류·모니터링·보고 측면에서 일관성 부족이 발견되었으며, 이는 수집되는 사건 데이터의 유형, 분류 방식, 분석의 깊이와 대표성에 직접 영향을 미친다.",
-          "score": 110
-        },
-        {
-          "title": "Lawgic: A Retrieval-Augmented Multi-Agent System for Civil Legal Judgment Prediction",
-          "url": "https://aisel.aisnet.org/pacis2026/ai_ml/ai_ml/6",
-          "source": "OpenAlex",
-          "date": "2026-07-05",
-          "summary_ko": "민사판결 예측을 위한 검색 증강 다중에이전트 시스템 'Lawgic'을 제시한 연구. 기존 형사사건 중심·구조화된 요약 의존에서 벗어나 실제 소송 자료(판결문·소장·답변서 등)를 활용한 AI 기반 판결 예측 모델을 개발했다는 점이 핵심이다.",
           "score": 110
         },
         {
@@ -29241,12 +29978,52 @@
           "score": 110
         },
         {
+          "title": "Lawgic: A Retrieval-Augmented Multi-Agent System for Civil Legal Judgment Prediction",
+          "url": "https://aisel.aisnet.org/pacis2026/ai_ml/ai_ml/6",
+          "source": "OpenAlex",
+          "date": "2026-07-05",
+          "summary_ko": "민사판결 예측을 위한 검색 증강 다중에이전트 시스템 'Lawgic'을 제시한 연구. 기존 형사사건 중심·구조화된 요약 의존에서 벗어나 실제 소송 자료(판결문·소장·답변서 등)를 활용한 AI 기반 판결 예측 모델을 개발했다는 점이 핵심이다.",
+          "score": 108
+        },
+        {
           "title": "A BPMN-Centered Method for Process-Based Knowledge Management with Generative AI",
           "url": "https://aisel.aisnet.org/pacis2026/ai_ml/ai_ml/18",
           "source": "OpenAlex",
           "date": "2026-07-05",
           "summary_ko": "조직이 생성형 AI를 지식집약적 업무에 활용할 때 임시 채팅 중심 배포가 아닌 거버넌스된 프로세스 기반 접근이 필요하다는 연구. BPMN(비즈니스 프로세스 모델링 표기법)을 중심으로 AI 지식관리 시스템을 설계하는 방법론을 제시하며, 책임성·감사·구현 통제의 문제를 해결하는 것을 목표로 함.",
-          "score": 109
+          "score": 106
+        },
+        {
+          "title": "SovereignPA-Bench: Evaluating User-Owned Personal Agents under Evolving Intent, Platform Mediation, and Consent Constraints",
+          "url": "https://arxiv.org/abs/2607.05363v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-06",
+          "summary_ko": "본 논문은 사용자 소유 개인 에이전트(Personal Agent)가 사용자 주권을 보존하는지 평가하는 벤치마크 SovereignPA-Bench를 제시한다. 진화하는 의도, 플랫폼 중재, 개인정보·동의·증거 제약 하에서 120개 시나리오로 4개 모델군과 8개 정책 기준선을 평가하여, **에이전트 설계가 개인정보 유출·동의 위반·조작 포획을 결정한다**는 결과를 도출했다.",
+          "score": 100
+        },
+        {
+          "title": "PiSAs: Benchmarking Contextual Integrity in Multi-User Agentic Systems",
+          "url": "https://arxiv.org/abs/2607.05318v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-06",
+          "summary_ko": "본 논문은 다중 사용자 에이전트 시스템에서 발생하는 정보 유출 위험을 측정하기 위해 PiSAs 벤치마크를 제안한다. 맥락적 무결성(Contextual Integrity) 이중 주석을 통해 작업 적절성과 사용자 접근 권한을 평가하며, 최신 LLM 모델들도 부적절한 콘텐츠 필터링과 권한 기반 전송 제한에 실패함을 실증한다.",
+          "score": 100
+        },
+        {
+          "title": "Untrusted Content Masking for Web Agents with Security Guarantees",
+          "url": "https://arxiv.org/abs/2607.05277v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-06",
+          "summary_ko": "본 논문은 웹 에이전트의 프롬프트 인젝션 공격 방어를 위해 Untrusted Content Masking(UCM)을 제안한다. DOM 구조를 활용해 신뢰할 수 없는 콘텐츠를 사전에 마스킹하고 샌드박스 인터페이스로 상호작용을 제한함으로써, 웹 환경에서도 보안 보장을 복원할 수 있음을 보인다.",
+          "score": 100
+        },
+        {
+          "title": "Privacy-Preserving Robustness Verification for Neural Networks",
+          "url": "https://arxiv.org/abs/2607.05251v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-06",
+          "summary_ko": "SecureCROWN은 안전한 2자간 계산(2PC)을 기반으로 모델 소유자와 데이터 소유자가 신경망의 인증된 견고성 경계를 공동 계산할 수 있는 프라이버시 보존 검증 프레임워크다. 선형 경계 전파의 조건부 연산을 연속 산술 연산으로 재구성하여 분기 문제를 해결하고, Newton-Raphson 정제로 수치 안정성을 개선했으며, 0.1~200초 내 완료 가능함을 입증했다.",
+          "score": 100
         },
         {
           "title": "ContextNest: Verifiable Context Governance for Autonomous AI Agent",
@@ -29278,22 +30055,6 @@
           "source": "OpenAlex",
           "date": "2026-07-05",
           "summary_ko": "LLM 기반 자율 에이전트가 디지털 시장에서 경쟁 의사결정을 중재할 때, 기계적 제약이 아닌 제도화된 규범으로 거버넌스할 수 있는지를 검증하는 정보시스템 연구. Gemini-2.5 에이전트 두 개를 반복 게임에 배치해 구조적 관성과 규정 준수의 역설을 실증 분석.",
-          "score": 100
-        },
-        {
-          "title": "When Generative AI Devalues Quantity Signals: Strategic Reallocation on Online Programming Platforms",
-          "url": "https://aisel.aisnet.org/pacis2026/ai_fow/ai_fow/6",
-          "source": "OpenAlex",
-          "date": "2026-07-05",
-          "summary_ko": "생성형 AI가 온라인 프로그래밍 플랫폼에서 코딩 비용을 급락시키면서, 종래 신뢰 신호로 기능하던 제출 건수(quantity metrics)의 가치가 훼손되고 있다. 정보 비대칭 하에서 고용주들의 신호 해석 전략이 재편되는 현상을 분석한 학술 연구다.",
-          "score": 100
-        },
-        {
-          "title": "From Compliance to Communication: How Explainable AIGC Disclosure Shapes Consumer Responses in E-Commerce",
-          "url": "https://aisel.aisnet.org/context/pacis2026/article/1046/viewcontent/1588_doc.pdf",
-          "source": "OpenAlex",
-          "date": "2026-07-05",
-          "summary_ko": "AIGC 공시 의무화가 소비자 신뢰에 미치는 영향을 연구한 논문. 규제당국의 AI 투명성 요구가 의도와 달리 소비자 반응을 부정적으로 유도할 수 있음을 시사하며, 단순 공시를 넘어 설명 가능한(explainable) 공시 방식의 필요성을 제기.",
           "score": 100
         },
         {
@@ -29369,6 +30130,14 @@
           "score": 100
         },
         {
+          "title": "When Generative AI Devalues Quantity Signals: Strategic Reallocation on Online Programming Platforms",
+          "url": "https://aisel.aisnet.org/pacis2026/ai_fow/ai_fow/6",
+          "source": "OpenAlex",
+          "date": "2026-07-05",
+          "summary_ko": "생성형 AI가 온라인 프로그래밍 플랫폼에서 코딩 비용을 급락시키면서, 종래 신뢰 신호로 기능하던 제출 건수(quantity metrics)의 가치가 훼손되고 있다. 정보 비대칭 하에서 고용주들의 신호 해석 전략이 재편되는 현상을 분석한 학술 연구다.",
+          "score": 99
+        },
+        {
           "title": "Hardware-Enforced Semantic Coordination for Safety-Critical Real-Time Autonomous Systems",
           "url": "https://arxiv.org/abs/2607.02376v1",
           "source": "arXiv AI/CL/LG/IR/MA/CY",
@@ -29377,12 +30146,20 @@
           "score": 99
         },
         {
+          "title": "From Compliance to Communication: How Explainable AIGC Disclosure Shapes Consumer Responses in E-Commerce",
+          "url": "https://aisel.aisnet.org/context/pacis2026/article/1046/viewcontent/1588_doc.pdf",
+          "source": "OpenAlex",
+          "date": "2026-07-05",
+          "summary_ko": "AIGC 공시 의무화가 소비자 신뢰에 미치는 영향을 연구한 논문. 규제당국의 AI 투명성 요구가 의도와 달리 소비자 반응을 부정적으로 유도할 수 있음을 시사하며, 단순 공시를 넘어 설명 가능한(explainable) 공시 방식의 필요성을 제기.",
+          "score": 98
+        },
+        {
           "title": "AI for Project Portfolio Governance in the Public Sector: Opportunities and Limitations",
           "url": "https://aisel.aisnet.org/cgi/viewcontent.cgi?article=1159&context=pacis2026",
           "source": "OpenAlex",
           "date": "2026-07-05",
           "summary_ko": "공공부문 조직이 프로젝트 포트폴리오 거버넌스에 AI를 활용하려는 움직임이 증가하고 있으나, 기존 거버넌스 구조가 포트폴리오 수준의 AI 도입 가능성을 어떻게 제약하는지에 대한 연구는 부족한 상태다. 이 연구는 거버넌스 구조가 AI 실행 가능성을 어떻게 조건화하는지를 분석한다.",
-          "score": 98
+          "score": 95
         },
         {
           "title": "Automated Quantitative Impact Assessment Framework for Artificial Intelligence Systems: Bridging Governance and Engineering Practices",
@@ -29390,7 +30167,7 @@
           "source": "OpenAlex",
           "date": "2026-07-05",
           "summary_ko": "ISO/IEC 42001·42005의 AI 영향평가 절차 요구사항을 보완하기 위해 정량적 기술 방법론을 설계·구현한 자동화 프레임워크 연구. 거버넌스와 엔지니어링 실무 간 격차를 메우는 기술적 접근.",
-          "score": 97
+          "score": 94
         },
         {
           "title": "Calibrating Human Control in Agentic AI: How Autonomy, Uncertainty Transparency, and Override Friction Shape User GenAI Resilience",
@@ -29398,54 +30175,22 @@
           "source": "OpenAlex",
           "date": "2026-07-05",
           "summary_ko": "에이전트 AI가 조직 업무에서 수동적 조언에서 능동적 실행으로 전환되면서, 사용자가 위임·모니터링·개입·오류 복구를 동시에 관리해야 하는 제어 문제가 발생. 연구는 자율성, 불확실성 투명성, 개입 마찰도가 사용자의 AI 의존성 회복력을 어떻게 형성하는지 이론화.",
-          "score": 97
+          "score": 94
         },
         {
-          "title": "When Human Multitasking Meets Agentic AI",
-          "url": "https://aisel.aisnet.org/pacis2026/ai_fow/ai_fow/1",
-          "source": "OpenAlex",
-          "date": "2026-07-05",
-          "summary_ko": "중국 스마트홈 기업 사례를 통해 인간의 멀티태스킹이 AI 에이전트와 협업하는 하이브리드 서비스 시스템에서 서비스 성과에 미치는 영향을 실증 분석한 학술 연구. 에이전트 기반 업무 환경에서 인간 행동 패턴의 재설계 필요성을 제시.",
-          "score": 93
-        },
-        {
-          "title": "Power Calibration and Delegation in Human–Agentic AI Interaction: Psychological Pathways",
-          "url": "https://aisel.aisnet.org/cgi/viewcontent.cgi?article=1041&context=pacis2026",
-          "source": "OpenAlex",
-          "date": "2026-07-05",
-          "summary_ko": "조직 워크플로우에 에이전트 AI가 도입되면서 인간과 AI 간 실행 권한 위임이 핵심 과제로 부상했다. 이 연구는 자율성 공유 상황에서의 권력 역학과 심리적 경로를 분석한 학술 논문이다.",
-          "score": 92
-        },
-        {
-          "title": "When AI Takes the Lead: How AI Solicitation Shapes Users Engagement in Human-AI Collaboration",
-          "url": "https://aisel.aisnet.org/pacis2026/hci_robotic/hci_robotic/2",
-          "source": "OpenAlex",
-          "date": "2026-07-05",
-          "summary_ko": "AI가 수동적 도구에서 자율적 협력자로 진화하면서 인간이 명시적 지시 없이도 AI가 주도하는 협업 모델이 등장하고 있다. 이는 전통적 인간 중심 협업 구조를 근본적으로 재편하는 변화를 의미한다.",
-          "score": 92
-        },
-        {
-          "title": "Rating the Pitch, Not the Product: User Evaluations of LLMs Reflect Expectations More Than Performance",
-          "url": "https://arxiv.org/abs/2607.05113v1",
+          "title": "LLM-as-a-Verifier: A General-Purpose Verification Framework",
+          "url": "https://arxiv.org/abs/2607.05391v1",
           "source": "arXiv AI/CL/LG/IR/MA/CY",
           "date": "2026-07-06",
-          "summary_ko": "통제된 실험에서 162명 참여자가 6개 LLM을 사용할 때, 사전 제시된 모델 능력 정보(과장/정확/과소)가 사용자 평가와 상호작용 행동을 크게 변화시켰으나, 실제 작업 성능은 모델의 진정한 능력에만 의존했다. 사용자 평가 변화는 작업 성능이 아닌 기대 충족도와 신뢰도로만 예측되었으며, 공개 리더보드 같은 사용자 평가는 모델 자체보다 기대 관리를 측정한다는 결론을 도출했다.",
+          "summary_ko": "LLM-as-a-Verifier는 LLM의 토큰 로짓 분포 기댓값을 이용해 연속 점수를 생성하는 검증 프레임워크로, 점수 세밀도·반복 평가·기준 분해를 통해 검증 정확도를 향상시킨다. Terminal-Bench V2(86.5%), SWE-Bench Verified(78.2%), RoboRewardBench(87.4%) 등에서 SOTA 달성하며, Claude Code 확장으로 에이전트 시스템 모니터링을 지원한다.",
           "score": 90
         },
         {
-          "title": "From Tools to Proxy Executors: The Role of Perceived AI Agency in Unethical Consumer Behavior",
-          "url": "https://aisel.aisnet.org/pacis2026/ai_ethic/ai_ethic/12",
-          "source": "OpenAlex",
-          "date": "2026-07-05",
-          "summary_ko": "전자상거래 환경에서 소비자들이 생성형 AI를 이용해 제품 손상 증거를 조작하여 부정 환불을 청구하는 새로운 비윤리적 행동이 증가하고 있다. 연구는 소비자가 AI를 독립적 행위자로 인식할수록 도덕적 책임감이 약화되어 부정행위 의도가 높아지는 메커니즘을 규명했다.",
-          "score": 90
-        },
-        {
-          "title": "Task-Driven Explanation Strategies: Enhance Human-AI Collaboration Performance by Achieving Cognitive Fit",
-          "url": "https://aisel.aisnet.org/context/pacis2026/article/1186/viewcontent/1459_doc.pdf",
-          "source": "OpenAlex",
-          "date": "2026-07-05",
-          "summary_ko": "Wang et al.의 연구는 설명 가능한 AI(XAI)가 인간-AI 협업 성능을 향상시키는 메커니즘을 태스크-기술 적합 이론으로 분석했다. 행동 실험과 EEG 실험을 통해 설명 전략이 특정 태스크 맥락에 맞을 때 인지 부하를 줄이고 협업 효율을 높인다는 것을 입증했다.",
+          "title": "Large Language Models Develop Novel Social Biases Through Adaptive Exploration",
+          "url": "https://arxiv.org/abs/2511.06148v4",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-06",
+          "summary_ko": "본 논문은 LLM이 기존 편향을 제거하는 것만으로는 불충분하며, 실제로는 인공 인구통계 집단에 대해 새로운 사회적 편향을 자발적으로 개발할 수 있음을 심리학 패러다임을 통해 입증한다. 탐색-활용 트레이드오프로 인한 이러한 신규 편향은 과제 할당의 심각한 불공정성을 야기하며, 더 큰 모델에서 악화된다. 명시적 탐색 인센티브 부여가 가장 효과적인 완화 방안임을 보여준다.",
           "score": 90
         }
       ]
