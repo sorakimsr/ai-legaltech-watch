@@ -321,54 +321,51 @@ def main():
             return cards if isinstance(cards, list) else []
         return []
 
-    # === daily — 최근 7일만 ===
+    # ===== v6.18.2 (2026-07-08): 카드별 순차 호출 → 병렬 =====
+    # 빌드 #193에서 이 단계만 1h 43m (전체 3h13m의 절반) — enrich와 동일한
+    # '순차 CLI 호출' 병목. 잡 목록을 모아 4워커 스레드 병렬 처리 (subprocess I/O
+    # 바운드라 안전). 항목별 예외 격리 포함. RELATION_CONCURRENCY로 조정.
+    jobs = []  # (card, period, key)
+
+    # daily — 최근 7일만
     for key in sorted((history.get("daily") or {}).keys(), reverse=True):
         if key < daily_cutoff:
             continue
-        cards = _extract_cards(history["daily"][key])
-        if not cards:
-            continue
-        for c in cards:
-            card_count += 1
-            rels = extract_relations_from_card(c, entities, "daily", key)
-            if rels:
-                all_relations.extend(rels)
-                print(f"    daily/{key} [{c.get('tag','')[:30]}] → {len(rels)} relations", flush=True)
-            else:
-                skip_count += 1
-            time.sleep(0.3)  # API rate limit 친화
+        for c in _extract_cards(history["daily"][key]):
+            jobs.append((c, "daily", key))
 
-    # === weekly — 최근 4주만 ===
-    weekly_keys = sorted((history.get("weekly") or {}).keys(), reverse=True)[:4]
-    for key in weekly_keys:
-        cards = _extract_cards(history["weekly"][key])
-        if not cards:
-            continue
-        for c in cards:
-            card_count += 1
-            rels = extract_relations_from_card(c, entities, "weekly", key)
-            if rels:
-                all_relations.extend(rels)
-                print(f"    weekly/{key} [{c.get('tag','')[:30]}] → {len(rels)} relations", flush=True)
-            else:
-                skip_count += 1
-            time.sleep(0.3)
+    # weekly — 최근 4주만
+    for key in sorted((history.get("weekly") or {}).keys(), reverse=True)[:4]:
+        for c in _extract_cards(history["weekly"][key]):
+            jobs.append((c, "weekly", key))
 
-    # === monthly — 최근 3개월만 ===
-    monthly_keys = sorted((history.get("monthly") or {}).keys(), reverse=True)[:3]
-    for key in monthly_keys:
-        cards = _extract_cards(history["monthly"][key])
-        if not cards:
-            continue
-        for c in cards:
+    # monthly — 최근 3개월만
+    for key in sorted((history.get("monthly") or {}).keys(), reverse=True)[:3]:
+        for c in _extract_cards(history["monthly"][key]):
+            jobs.append((c, "monthly", key))
+
+    from concurrent.futures import ThreadPoolExecutor
+    workers = max(1, int(os.environ.get("RELATION_CONCURRENCY", "4")))
+    if workers > 1 and len(jobs) > 1:
+        print(f"  [parallel] {len(jobs)} cards · {workers} workers (RELATION_CONCURRENCY)", flush=True)
+
+    def _safe_extract(job):
+        c, period, key = job
+        try:
+            return extract_relations_from_card(c, entities, period, key)
+        except Exception as exc:
+            print(f"    [relation 실패 — skip] {str(c.get('tag', ''))[:30]} · "
+                  f"{type(exc).__name__}: {str(exc)[:80]}", flush=True)
+            return []
+
+    with ThreadPoolExecutor(max_workers=workers) as pool:
+        for (c, period, key), rels in zip(jobs, pool.map(_safe_extract, jobs)):
             card_count += 1
-            rels = extract_relations_from_card(c, entities, "monthly", key)
             if rels:
                 all_relations.extend(rels)
-                print(f"    monthly/{key} [{c.get('tag','')[:30]}] → {len(rels)} relations", flush=True)
+                print(f"    {period}/{key} [{c.get('tag', '')[:30]}] → {len(rels)} relations", flush=True)
             else:
                 skip_count += 1
-            time.sleep(0.3)
 
     print(f"  processed {card_count} cards ({skip_count} no-relation)", flush=True)
     print(f"  total relations: {len(all_relations)}", flush=True)
