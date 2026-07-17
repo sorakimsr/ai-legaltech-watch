@@ -3473,13 +3473,14 @@ function renderGraphSvg() {
     knowledge:  { x: width * 0.62, y: height * 0.85 },
   };
 
+  // v7.4.1: 중앙 뭉침 완화 — 그룹 앵커 강화(0.13→0.28), forceCenter 제거(앵커가 대체),
+  //   반발 -170→-260, 링크 거리 95→130, collide 여백 +15→+18
   const sim = d3.forceSimulation(nodes)
-    .force('link', d3.forceLink(links).id(d => d.id).distance(95).strength(0.3))
-    .force('charge', d3.forceManyBody().strength(-170))
-    .force('center', d3.forceCenter(width / 2, height / 2))
-    .force('collide', d3.forceCollide().radius(d => rOf(d) + 15))
-    .force('x', d3.forceX(d => ANCHOR[d.group].x).strength(0.13))
-    .force('y', d3.forceY(d => ANCHOR[d.group].y).strength(0.13));
+    .force('link', d3.forceLink(links).id(d => d.id).distance(130).strength(0.22))
+    .force('charge', d3.forceManyBody().strength(-260))
+    .force('collide', d3.forceCollide().radius(d => rOf(d) + 18))
+    .force('x', d3.forceX(d => ANCHOR[d.group].x).strength(0.28))
+    .force('y', d3.forceY(d => ANCHOR[d.group].y).strength(0.28));
 
   // v7.4: 링크 — 얇게(1~3.5px)·저채도, 방향 타입은 화살표
   const link = g.append('g').attr('class', 'graph-links')
