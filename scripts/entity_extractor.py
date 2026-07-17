@@ -225,6 +225,17 @@ ENTITY_CATALOG = [
 
     # ─── M.AX·정책 이니셔티브 ───
     ("max_policy", "M.AX 정책 (산업부)", "policy", ["m.ax", "m·ax", "max 정책"]),
+
+    # ─── v7.3: auto_entities 상위 후보 승격 (최근 30일 100건+ 감지) ───
+    ("amazon_aws", "Amazon / AWS", "ai_company", ["amazon", "aws", "아마존", "amazon web services", "bedrock", "베드락"]),
+    ("kt", "KT", "korean_manufacturing", ["kt", "케이티", "kt클라우드", "kt cloud"]),
+    ("skt", "SK텔레콤", "korean_manufacturing", ["sk텔레콤", "skt", "에이닷", "sk 텔레콤"]),
+    ("lg_cns", "LG CNS", "korean_manufacturing", ["lg cns", "lgcns"]),
+    ("us_gov", "미국 정부", "gov_foreign", ["백악관", "white house", "미 행정부", "미국 행정부", "ai 행정명령", "미 상무부", "연방거래위"]),
+    ("physical_ai", "피지컬 AI", "tech", ["피지컬 ai", "physical ai", "휴머노이드", "humanoid"]),
+    ("ai_governance_t", "AI 거버넌스", "policy", ["ai 거버넌스", "ai governance"]),
+    ("privacy_law", "개인정보보호법", "policy", ["개인정보보호법", "개인정보 보호법"]),
+    ("network_act", "정보통신망법", "policy", ["정보통신망법"]),
 ]
 
 
@@ -238,6 +249,11 @@ AUTO_ENTITY_STOPWORDS = {
     "정부", "한국 정부", "국회", "법원", "검찰", "경찰",
     "한국", "미국", "중국", "일본", "유럽", "eu", "글로벌",
     "기업", "산업", "시장", "기술", "서비스", "플랫폼", "데이터",
+    # v7.3: 매체·커뮤니티명 (LLM이 기사 출처를 엔티티로 오추출)
+    "hacker news", "above the law", "techmeme", "techcrunch", "reuters",
+    "bloomberg", "bloomberg law", "the verge", "wired", "ars technica",
+    "조선일보", "중앙일보", "동아일보", "한국경제", "매일경제", "전자신문",
+    "지디넷", "zdnet", "아이뉴스24", "디지털데일리", "법률신문",
 }
 
 
