@@ -55,8 +55,63 @@ OUTPUT_PATH = os.path.join(ROOT_DIR, "data", "relations.json")
 
 RELATION_TYPES = [
     "competes_with", "partners_with", "acquires", "invests_in",
-    "regulates", "adopts", "launches", "implements", "mentions",
+    "regulates", "adopts", "launches", "implements", "complies_with", "mentions",
 ]
+
+# ============================================================================
+# v7.2: 관계 타입-방향 검증 (엔티티 타입 페어 화이트리스트)
+# 실측 문제: implements가 역방향·의미 붕괴 상태로 누적
+#   (law_yulchon→ai_basic_law, samsung→eu_ai_act, ai_basic_law→ftc 등).
+# 원인: "준수" 개념이 타입에 없어 LLM이 전부 implements로 출력 + 검증 부재.
+# 해결: complies_with 신설 + 타입별 (src그룹, tgt그룹) 화이트리스트 검증.
+#   위반 시 ① 방향 뒤집어 유효하면 flip ② ORG→POLICY implements는 complies_with로
+#   교정 ③ 그래도 무효면 mentions로 강등 (그래프에선 기본 숨김).
+# ============================================================================
+_ORG_TYPES = {"ai_company", "legaltech_company", "korean_law_firm", "global_law_firm",
+              "korean_finance", "korean_manufacturing", "academic_inst"}
+_GOV_TYPES = {"kr_government"}
+_POLICY_TYPES = {"policy"}
+_PRODUCT_TYPES = {"ai_product"}
+_TECH_TYPES = {"tech", "benchmark"}
+
+# 타입별 (허용 src 그룹, 허용 tgt 그룹)
+_RELATION_RULES = {
+    "competes_with": (_ORG_TYPES | _PRODUCT_TYPES, _ORG_TYPES | _PRODUCT_TYPES),
+    "partners_with": (_ORG_TYPES | _GOV_TYPES, _ORG_TYPES | _GOV_TYPES),
+    "acquires":      (_ORG_TYPES, _ORG_TYPES),
+    "invests_in":    (_ORG_TYPES | _GOV_TYPES, _ORG_TYPES | _TECH_TYPES),
+    "regulates":     (_GOV_TYPES | _POLICY_TYPES, _ORG_TYPES | _PRODUCT_TYPES | _TECH_TYPES),
+    "adopts":        (_ORG_TYPES | _GOV_TYPES, _PRODUCT_TYPES | _TECH_TYPES),
+    "launches":      (_ORG_TYPES | _GOV_TYPES, _PRODUCT_TYPES | _TECH_TYPES | _POLICY_TYPES),
+    "implements":    (_POLICY_TYPES | _GOV_TYPES, _ORG_TYPES | _PRODUCT_TYPES | _TECH_TYPES | _POLICY_TYPES),
+    "complies_with": (_ORG_TYPES | _PRODUCT_TYPES, _POLICY_TYPES | _GOV_TYPES),
+    # mentions: 제한 없음
+}
+
+
+def validate_relation(src_id: str, tgt_id: str, rtype: str, entities: dict):
+    """(src, tgt, type) 검증·교정. 반환 (src, tgt, type) 또는 None(무효).
+
+    교정 규칙:
+      1) ORG/PRODUCT → POLICY/GOV 의 implements → complies_with (의미 교정)
+      2) 타입 규칙 위반이지만 방향을 뒤집으면 유효 → flip
+      3) 그래도 무효 → mentions로 강등
+    """
+    st = (entities.get(src_id) or {}).get("type", "")
+    tt = (entities.get(tgt_id) or {}).get("type", "")
+    if rtype == "mentions" or rtype not in _RELATION_RULES:
+        return (src_id, tgt_id, "mentions") if rtype == "mentions" else None
+    src_ok, tgt_ok = _RELATION_RULES[rtype]
+    # 규칙 1: 기업이 정책을 "implements" → 실제 의미는 준수
+    if rtype == "implements" and st in (_ORG_TYPES | _PRODUCT_TYPES) and tt in (_POLICY_TYPES | _GOV_TYPES):
+        return (src_id, tgt_id, "complies_with")
+    if st in src_ok and tt in tgt_ok:
+        return (src_id, tgt_id, rtype)
+    # 규칙 2: 방향 flip으로 유효해지면 flip
+    if tt in src_ok and st in tgt_ok:
+        return (tgt_id, src_id, rtype)
+    # 규칙 3: mentions 강등
+    return (src_id, tgt_id, "mentions")
 
 
 PROMPT_TEMPLATE = """당신은 대형로펌 경영전략팀을 위한 관계 추출 분석가입니다.
@@ -81,10 +136,11 @@ ACTION:
 - partners_with    : 제휴·협력
 - acquires         : 인수
 - invests_in       : 투자
-- regulates        : 규제·감독 (정부 → 회사 방향)
+- regulates        : 규제·감독 (정부·정책 → 회사 방향)
 - adopts           : 도입 (회사·로펌 → 제품·기술 방향)
 - launches         : 출시·발표 (회사 → 제품)
-- implements       : 정책 구현 (정책 → 영향받는 회사·산업)
+- implements       : 정책 시행·의무 부과 (반드시 정책·정부 → 영향받는 회사·산업 방향)
+- complies_with    : 준수·대응 (반드시 회사·로펌 → 법령·규제 방향. 예: 삼성전자 → EU AI Act)
 - mentions         : 위 어디에도 안 맞지만 같이 언급됨 (보조)
 
 [지시]
@@ -154,15 +210,21 @@ def _build_name_to_id_index(entities: dict):
 
 
 def _resolve_entity_name(name: str, name_to_id: dict):
-    """v5.1: LLM 출력 엔티티 이름을 catalog ID로 매칭. 정확 매칭 우선, 실패 시 substring 시도."""
+    """LLM 출력 엔티티 이름을 catalog ID로 매칭.
+
+    v7.2: 양방향 substring 매칭 제거 — "Meta"가 meta_ai/meta_fair 중 dict 순서에
+    따라 아무 데나 붙는 오매핑의 구조적 원인이었음. 정확 매칭 + 괄호 제거 후
+    정확 매칭만 허용 (예: "Claude (Anthropic)" → "claude"). 미매칭은 로그로 관찰.
+    """
     if not name: return None
     n = name.lower().strip()
     if n in name_to_id:
         return name_to_id[n]
-    # substring 매칭 (LLM이 "OpenAI Codex" 같이 풀네임 출력한 경우)
-    for k, eid in name_to_id.items():
-        if len(k) >= 3 and (k in n or n in k):
-            return eid
+    # 괄호 부가 정보 제거 후 재시도: "gemini (google)" → "gemini"
+    import re as _re
+    n2 = _re.sub(r"\s*\([^)]*\)\s*", " ", n).strip()
+    if n2 and n2 in name_to_id:
+        return name_to_id[n2]
     return None
 
 
@@ -173,10 +235,14 @@ def extract_relations_from_articles(articles: list, entities: dict) -> list:
     name_to_id = _build_name_to_id_index(entities)
     rels = []
     unmatched_names = {}  # 디버깅용 — catalog에 없는 엔티티 이름 빈도
+    # v7.2: 90일 이내 기사만 — 그래프가 "역대 누적"이 아니라 최신 구도를 반영하게
+    cutoff = (datetime.now(KST) - timedelta(days=90)).date().isoformat()
     for art in articles:
         art_rels = art.get("relations") or []
         if not isinstance(art_rels, list): continue
         date = (art.get("date") or "")[:10]
+        if date and date < cutoff:
+            continue
         url = art.get("url", "")
         score = art.get("score", 0) or 0
         for r in art_rels:
@@ -193,6 +259,9 @@ def extract_relations_from_articles(articles: list, entities: dict) -> list:
             if not t:
                 unmatched_names[tgt_name] = unmatched_names.get(tgt_name, 0) + 1
             if not s or not t or s == t: continue
+            validated = validate_relation(s, t, rtype, entities)
+            if not validated: continue
+            s, t, rtype = validated
             rels.append({
                 "source": s,
                 "target": t,
@@ -273,6 +342,10 @@ def extract_relations_from_card(card: dict, entities: dict, period: str, key: st
             continue
         if s == t:
             continue
+        validated = validate_relation(s, t, rtype, entities)
+        if not validated:
+            continue
+        s, t, rtype = validated
         rels.append({
             "source": s,
             "target": t,
@@ -373,7 +446,7 @@ def main():
     # v5.0: 중복 제거 (대칭 관계는 방향 무관)
     # 대칭 타입: competes_with, partners_with, mentions → (min, max, type)
     # 비대칭 타입: acquires/invests_in/regulates/adopts/launches/implements → (s, t, type)
-    SYMMETRIC_TYPES = {"competes_with", "partners_with", "mentions"}
+    SYMMETRIC_TYPES = {"competes_with", "partners_with", "mentions"}  # complies_with는 비대칭
     seen = {}
     unique = []
     for r in all_relations:
