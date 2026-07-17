@@ -256,15 +256,17 @@ jobs:
           git clone "https://x-access-token:${VAULT_PAT}@github.com/${VAULT_REPO}.git" _vault_local || \
             mkdir -p _vault_local
 
+      # v7.4.2: deploy_only 가드 추가 — clone(위 스텝)이 스킵된 상태에서 export/push가
+      #   실행돼 deploy_only 런이 실패하고 Pages 배포까지 도달 못 하던 버그 수정.
       - name: "Step 5 — Export markdown to vault"
-        if: env.VAULT_PAT != ''
+        if: github.event.inputs.deploy_only != 'true' && env.VAULT_PAT != ''
         env:
           VAULT_PAT: ${{ secrets.VAULT_PAT }}
           VAULT_DIR: ${{ github.workspace }}/_vault_local
         run: python scripts/export_to_vault.py
 
       - name: "Step 5 — Push to vault repo"
-        if: env.VAULT_PAT != ''
+        if: github.event.inputs.deploy_only != 'true' && env.VAULT_PAT != ''
         env:
           VAULT_PAT: ${{ secrets.VAULT_PAT }}
           VAULT_REPO: ${{ secrets.VAULT_REPO }}
