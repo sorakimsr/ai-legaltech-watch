@@ -101,6 +101,7 @@ const state = {
   graphShowIsolated: false,       // 지식그래프에서 관계 없는 엔티티도 표시
   // v6.15.38 (P3-10): 가독성 — 기본은 연결도 상위 핵심 엔티티만(헤어볼 완화), 토글로 전체.
   graphCoreOnly: true,            // true=연결도 상위 graphTopN개만, false=전체 노드
+  graphHideMentions: true,        // v7.2: '언급'(약한 관계) 기본 숨김 — 헤어볼 완화
   graphTopN: 28,                  // 핵심 모드에서 표시할 상위 노드 수
 };
 
@@ -796,7 +797,23 @@ function renderNewsCards() {
   }
   const limit = Math.min(state.newsLimit, filtered.length);
   const remaining = filtered.length - limit;
-  let html = filtered.slice(0, limit).map(renderCard).join('');
+  // v7.2: 시각적 위계 —
+  //   중요도/오늘 정렬: 상위 4건을 리드 카드(2칸 폭·본문 전체)로, 나머지는 컴팩트.
+  //   최신 정렬: 날짜 구분선 삽입.
+  const useLead = state.view === 'latest' && state.sortBy !== 'latest';
+  const useDateSep = state.view === 'latest' && state.sortBy === 'latest';
+  let html = '';
+  let prevDate = null;
+  filtered.slice(0, limit).forEach((item, i) => {
+    if (useDateSep) {
+      const d = formatKoreanDate(new Date(item.date));
+      if (d !== prevDate) {
+        html += `<div class="feed-date-sep"><span>${escapeHtml(d)}</span></div>`;
+        prevDate = d;
+      }
+    }
+    html += renderCard(item, { lead: useLead && i < 4 });
+  });
   if (remaining > 0) {
     html += `<div class="load-more-wrap"><button id="load-more-btn" class="load-more-btn">더 보기 · 남은 ${remaining}개</button></div>`;
   }
@@ -1248,10 +1265,13 @@ function computeDateCutoff(key) {
   return d;
 }
 
-function renderCard(item) {
+function renderCard(item, opts) {
+  const isLead = !!(opts && opts.lead);
   const score = item.score || 0;
-  const scoreClass = score >= 80 ? 'high' : score >= 65 ? 'mid' : 'low';
-  const scoreLabel = score > 0 ? `중요도 ${score}` : '신규';
+  // v7.2: 숫자 뱃지 → 티어 라벨. Plan C 분포(70+ = 상위 11%) 기준.
+  //   핵심(70+) / 주목(50~69) / 참고(<50). 원점수는 툴팁으로.
+  const scoreClass = score >= 70 ? 'high' : score >= 50 ? 'mid' : 'low';
+  const scoreLabel = score > 0 ? (score >= 70 ? '핵심' : score >= 50 ? '주목' : '참고') : '신규';
   const dateStr = formatKoreanDate(new Date(item.date));
   const sourceInitial = (item.source || '?').charAt(0).toUpperCase();
 
@@ -1287,13 +1307,13 @@ function renderCard(item) {
   const itemSaved = isSaved('items', item.url);
 
   return `
-    <article class="news-card ${isSelected ? 'is-selected' : ''}" data-url="${escapeHtml(item.url)}">
+    <article class="news-card ${isLead ? 'news-card--lead' : ''} ${isSelected ? 'is-selected' : ''}" data-url="${escapeHtml(item.url)}">
       <div class="card-top">
         <div class="card-top-left">
           <label class="card-checkbox" title="AI 분석 선택">
             <input type="checkbox" class="card-check" data-url="${escapeHtml(item.url)}" ${isSelected ? 'checked' : ''} />
           </label>
-          <span class="score-badge ${scoreClass}">${escapeHtml(scoreLabel)}</span>
+          <span class="score-badge ${scoreClass}" title="중요도 ${score}">${escapeHtml(scoreLabel)}</span>
           ${newBadge}
         </div>
         <div class="card-top-right">${langBadge}${relBadge}<span class="date-text">${escapeHtml(dateStr)}</span></div>
@@ -2912,7 +2932,8 @@ const SYMMETRIC_RELATION_TYPES = new Set(['competes_with', 'partners_with', 'men
 // v5.0: 엔티티별 mention 카운트 (논문 토글 적용)
 function entityEffectiveMentions(e) {
   if (!e) return 0;
-  const articles = (e.mentioned_articles || []).length;
+  // v7.2: 노드 크기·정렬이 "역대 누적"이 아니라 최근 90일 활동을 반영 (v7.1 필드)
+  const articles = (typeof e.mentions_90d === 'number') ? e.mentions_90d : (e.mentioned_articles || []).length;
   const trends = (e.mentioned_trends || []).length;
   const papers = (e.mentioned_papers || []).length;
   return state.entityIncludePapers ? (articles + trends + papers) : (articles + trends);
@@ -2928,6 +2949,7 @@ const RELATION_TYPE_LABEL = {
   adopts: '도입',
   launches: '출시',
   implements: '정책',
+  complies_with: '준수',
   mentions: '언급',
 };
 const RELATION_TYPE_COLOR = {
@@ -2939,6 +2961,7 @@ const RELATION_TYPE_COLOR = {
   adopts: '#edc949',
   launches: '#f28e2b',
   implements: '#9c755f',
+  complies_with: '#8cd17d',
   mentions: '#bab0ab',
 };
 const ENTITY_TYPE_COLOR = {
@@ -3288,6 +3311,10 @@ function renderGraphView() {
         <input type="checkbox" id="graph-toggle-isolated" ${state.graphShowIsolated ? 'checked' : ''}/>
         <span>관계 없는 엔티티도 표시</span>
       </label>
+      <label class="entity-toggle">
+        <input type="checkbox" id="graph-toggle-mentions" ${state.graphHideMentions ? '' : 'checked'}/>
+        <span>약한 관계(언급) 표시</span>
+      </label>
     </div>`;
     controlsHtml += '<div class="graph-meta" id="graph-meta">로딩 중...</div>';
     controlsHtml += '<div class="graph-container"><svg id="graph-svg" width="100%" height="640"><g id="graph-g"></g></svg></div>';
@@ -3309,6 +3336,8 @@ function renderGraphView() {
     if (tc) tc.addEventListener('change', (ev) => { state.graphCoreOnly = ev.target.checked; renderGraphSvg(); });
     if (tp) tp.addEventListener('change', (ev) => { state.entityIncludePapers = ev.target.checked; renderGraphSvg(); });
     if (ti) ti.addEventListener('change', (ev) => { state.graphShowIsolated = ev.target.checked; renderGraphSvg(); });
+    const tm = document.getElementById('graph-toggle-mentions');
+    if (tm) tm.addEventListener('change', (ev) => { state.graphHideMentions = !ev.target.checked; renderGraphSvg(); });
   }
   // 데이터 로드
   Promise.all([loadEntities(), loadRelations()]).then(() => {
@@ -3334,6 +3363,8 @@ function renderGraphSvg() {
   // v5.0: 필터 — 관계 타입 + 논문 source 제외
   let relsFiltered = allRels;
   if (state.graphTypeFilter) relsFiltered = relsFiltered.filter(r => r.type === state.graphTypeFilter);
+  // v7.2: '언급'은 전체 관계의 24%를 차지하는 약한 관계 — 기본 숨김 (토글로 표시)
+  if (!state.graphTypeFilter && state.graphHideMentions) relsFiltered = relsFiltered.filter(r => r.type !== 'mentions');
   if (!state.entityIncludePapers) relsFiltered = relsFiltered.filter(r => (r.source_type || 'trend') !== 'paper');
 
   // 노드 선택: 기본은 관계 있는 엔티티만, 토글 시 모든 엔티티 (단, 어느 시사점/article에라도 등장한 엔티티만)

@@ -2305,3 +2305,50 @@ mark {
 .graph-links line { transition: stroke-opacity 0.15s; }
 .graph-node:hover circle { stroke: #1f2937; stroke-width: 2.5; }
 .graph-node text { pointer-events: none; user-select: none; }
+
+/* ============================================================
+   v7.2 — 뉴스 피드 시각적 위계 (리드 카드 · 컴팩트 카드 · 날짜 구분선)
+   ============================================================ */
+/* 리드 카드: 상위 4건 (중요도 정렬 시) — 2칸 폭 + 강조 보더 + 본문 전체 */
+@media (min-width: 800px) {
+  .news-card--lead { grid-column: span 2; }
+}
+.news-card--lead {
+  border-left: 3px solid #2563eb;
+  background: linear-gradient(180deg, #fbfdff 0%, #fff 60%);
+}
+.news-card--lead .card-title { font-size: 17px; line-height: 1.45; }
+.news-card--lead .card-summary,
+.news-card--lead .card-insight { display: block; }
+
+/* 컴팩트 카드: 리드가 아닌 카드는 요약 3줄·시사점 2줄 클램프 — 스캔 속도 향상 */
+.news-card:not(.news-card--lead) .card-summary {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.news-card:not(.news-card--lead) .card-insight {
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* 라벨 1줄 + 본문 2줄 */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* 날짜 구분선 (최신 정렬) */
+.feed-date-sep {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 6px 0 -4px;
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 600;
+}
+.feed-date-sep::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #e2e8f0;
+}
