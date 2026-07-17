@@ -2867,6 +2867,7 @@ const ENTITY_TYPE_LABEL = {
   korean_finance: '한국 금융',
   korean_manufacturing: '한국 제조',
   kr_government: '정부 부처',
+  gov_foreign: '해외 정부·규제',  // v7.3
   policy: '정책·법안',
   tech: '기술',
   ai_product: 'AI 제품',
@@ -2877,7 +2878,7 @@ const ENTITY_TYPE_LABEL = {
 
 const ENTITY_TYPE_ORDER = [
   'ai_company', 'legaltech_company', 'korean_law_firm', 'global_law_firm',
-  'korean_finance', 'korean_manufacturing', 'kr_government', 'policy',
+  'korean_finance', 'korean_manufacturing', 'kr_government', 'gov_foreign', 'policy',
   'ai_product', 'benchmark', 'academic_inst', 'researcher', 'tech',
 ];
 
@@ -2972,6 +2973,7 @@ const ENTITY_TYPE_COLOR = {
   korean_finance: '#edc949',
   korean_manufacturing: '#f28e2b',
   kr_government: '#9c755f',
+  gov_foreign: '#8c6d31',  // v7.3: 해외 정부·규제
   policy: '#bab0ab',
   ai_product: '#59a14f',
   benchmark: '#ff9da7',
