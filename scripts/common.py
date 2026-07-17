@@ -11,6 +11,7 @@ common.py는 backward compat을 위해 그대로 재노출하므로
 """
 
 import html
+import os
 import re
 from datetime import datetime, timezone, timedelta
 from functools import lru_cache
@@ -1160,7 +1161,7 @@ def count_signal_hits(text: str, signals: list) -> int:
 from pr_patterns import classify_pr_pattern  # noqa: E402
 
 
-def score_item(title: str, summary: str, date, categories: list, persona_score: int = None, source: str = "") -> int:
+def score_item_a(title: str, summary: str, date, categories: list, persona_score: int = None, source: str = "") -> int:
     """v4.3: AI 관련성 게이트 + 행동 시그널 기반 중요도 — 대형로펌 경영전략팀 페르소나.
 
     v6.8 (Phase 2): persona_score (0~10, LLM 평가) 가산형 보정.
@@ -1533,3 +1534,183 @@ def normalize_url(url: str) -> str:
     url = re.sub(r"[?&](utm_[^=]+|fbclid|gclid|mc_cid|mc_eid)=[^&]*", "", url)
     url = re.sub(r"\?$", "", url)
     return url.strip()
+
+
+# ============================================================================
+# v7.0 — Score Plan C (docs/SCORE_REDESIGN_C.md 구현)
+# ============================================================================
+# 3단계 책임 분리:
+#   1단계 filter_item()      : 0/1 노이즈 필터 (점수 기여 X)
+#   2단계 persona value      : LLM persona_score × 10 (dominant). 미평가 시 키워드 추정(0~6 cap)
+#   3단계 검증·보정          : bookmark(+12 cap)·어젠다 floor·recency(+5)
+# 원칙: 각 단계 출력은 다음 단계 입력일 뿐 합산하지 않는다.
+# 전환: score_item()이 SCORE_MODE 환경변수로 디스패치 (기본 "C", "A"로 롤백 가능).
+# 점수 의미: 90+ 의사결정 직접 영향 / 70~89 검토 가치 / 40~69 참고 / <35 drop.
+
+def _score_signal_strengths(text: str, categories: list):
+    """4축 시그널 strength + AI 컨텍스트 multiplier (A/C 공용 헬퍼)."""
+    ai_mentions = (text.count(" ai ") + text.count("ai ") +
+                   text.count(" ai") + text.count("인공지능") +
+                   text.count("llm") + text.count("gpt") +
+                   text.count("머신러닝") + text.count("딥러닝"))
+    if ai_mentions >= 3:
+        mult = 1.0
+    elif ai_mentions >= 1:
+        mult = 0.7
+    else:
+        mult = 0.5
+    core_ai_cats = {"papers", "legaltech", "models", "coding", "infra"}
+    if any(c in core_ai_cats for c in categories):
+        mult = max(mult, 0.85)
+
+    def strength(n: int) -> float:
+        return round(1.0 - 0.78 ** n, 3) if n > 0 else 0.0
+
+    d = strength(count_signal_hits(text, DECISION_SIGNALS))
+    r = strength(count_signal_hits(text, REGULATORY_SIGNALS))
+    m = strength(count_signal_hits(text, MARKET_SIGNALS))
+    l = strength(count_signal_hits(text, SCORE_LEGAL_SIGNALS))
+    return ai_mentions, mult, d, r, m, l
+
+
+def filter_item(title: str, summary: str, categories: list, source: str = "",
+                persona_score: int = None) -> bool:
+    """Plan C 1단계 — 노이즈 필터. True=통과, False=drop. 점수에 기여하지 않는다.
+
+    persona_score >= 5면 NEGATIVE drop 면제 — 키워드 프록시가 LLM 직접 평가를
+    뒤집지 않게 (LLM dominant 원칙). PR block·AI gate는 persona와 무관하게 유지.
+    """
+    pr_verdict, _ = classify_pr_pattern(title or "", summary or "")
+    if pr_verdict == 'block':
+        return False
+    text = _normalize_text_for_match((title or "") + " " + (summary or ""))
+    ai_mentions, _mult, d, r, m, l = _score_signal_strengths(text, categories or [])
+    ai_intrinsic = {"papers", "legaltech", "models", "coding", "infra"}
+    # AI gate — 핵심 도메인 카테고리·SUPER_BOOST는 면제
+    if ai_mentions == 0:
+        if not any(c in ai_intrinsic for c in (categories or [])) and not _has_super_boost(text):
+            return False
+    # NEGATIVE 강한 매칭 + 시그널 빈약 → drop
+    # 면제: 핵심 도메인(v6.15.13 학습)·SUPER_BOOST·LLM 고평가(ps>=5)
+    llm_approved = False
+    try:
+        llm_approved = persona_score is not None and int(persona_score) >= 5
+    except (ValueError, TypeError):
+        pass
+    is_core = any(c in ("legaltech", "papers", "funding") for c in (categories or []))
+    if not is_core and not _has_super_boost(text) and not llm_approved:
+        neg = count_signal_hits(text, NEGATIVE_SIGNALS)
+        if neg >= 1 and (d + r + m + l) < 0.3:
+            return False
+    return True
+
+
+def _estimate_persona_from_signals(text: str, categories: list) -> int:
+    """Plan C 2단계 fallback — enrich 못 받은 항목의 키워드 기반 추정 persona (0~6 cap).
+
+    cap 6인 이유: LLM 평가를 통과한 기사(7~10 가능)보다 항상 낮게 — LLM 통과 기사 우선.
+    """
+    _ai, mult, d, r, m, l = _score_signal_strengths(text, categories or [])
+    weighted = d * 2.6 + r * 2.6 + m * 1.4 + l * 1.2
+    return max(0, min(6, int(round(weighted * mult * 1.6))))
+
+
+def score_item_c(title: str, summary: str, date, categories: list,
+                 persona_score: int = None, source: str = "") -> int:
+    """Plan C — 다단계 점수. score_item과 동일 시그니처 (디스패처에서 호출)."""
+    categories = categories or []
+    # ── 1단계 Filter ──
+    pr_verdict, pr_cap = classify_pr_pattern(title or "", summary or "")
+    if pr_verdict == 'block':
+        return 0
+    text = _normalize_text_for_match((title or "") + " " + (summary or ""))
+    if not filter_item(title, summary, categories, source, persona_score=persona_score):
+        return 0
+
+    # ── 2단계 Persona value (dominant) ──
+    ps = None
+    try:
+        if persona_score is not None:
+            ps_int = int(persona_score)
+            if 0 <= ps_int <= 10:
+                ps = ps_int
+    except (ValueError, TypeError):
+        ps = None
+    if ps is not None:
+        score = ps * 10.0                                   # 0~100
+    else:
+        # 미평가(enrich 전) 항목 — filter PASS 기본 20점 + 키워드 추정 persona×10.
+        # floor 35: filter를 통과한 항목은 enrich 전에 cut-off로 잘리지 않게 보장
+        #   (가치 판단은 LLM 몫 — 시뮬레이션에서 ps>=5 판명 기사의 43%가 조기 drop되던 문제).
+        # cap 60: LLM 평가 통과 기사(70+)를 미평가 항목이 추월하지 못하게.
+        est = _estimate_persona_from_signals(text, categories)
+        score = min(60.0, max(35.0, 20.0 + est * 10.0))
+
+    # ── 3단계 Verification & Adjustment ──
+    agenda_floor = 0.0
+
+    # bookmark 검증 보너스 (+12 cap) — PR cap 항목엔 미적용 (cap 우회 방지)
+    if pr_verdict != 'cap':
+        bonus = 0
+        src_lower = (source or "").lower()
+        for ent_kw, w in BOOKMARK_BONUS_ENTITIES.items():
+            if ent_kw.lower() in text:
+                bonus += w
+        for kw, w in BOOKMARK_BONUS_KEYWORDS.items():
+            if kw.lower() in text:
+                bonus += w
+        if src_lower:
+            for tok, w in BOOKMARK_BONUS_SOURCES.items():
+                if tok in src_lower:
+                    bonus += w
+                    break
+        score += min(bonus, 12)
+
+    # 핵심 법령 floor 78 (가산 없이 floor만 — 이중 가산 제거)
+    law_hit = _is_ai_basic_law(text)
+    if not law_hit and _is_conditional_law(text):
+        ai_related_cats = {"legaltech", "policy", "governance", "gov_policy",
+                           "papers", "models", "coding", "infra"}
+        ai_mentions, _m, *_ = _score_signal_strengths(text, categories)
+        if ai_mentions >= 1 or any(c in ai_related_cats for c in categories):
+            law_hit = True
+    if law_hit:
+        agenda_floor = max(agenda_floor, 78)
+
+    # SUPER_BOOST — LLM 평가를 못 받았으면 85 (보호 강화), 받았으면 70 (진입 보장만)
+    if _has_super_boost(text):
+        agenda_floor = max(agenda_floor, 85 if ps is None else 70)
+
+    # 핵심 도메인 카테고리 floor 35 (cut-off 통과 보장)
+    if any(c in ("papers", "legaltech", "models", "coding", "infra") for c in categories):
+        agenda_floor = max(agenda_floor, 35)
+
+    # recency — 24h 이내만 +5 (보조)
+    if date:
+        if isinstance(date, str):
+            date = parse_date_safe(date)
+        if date is not None:
+            if date.tzinfo is None:
+                date = date.replace(tzinfo=timezone.utc)
+            if (datetime.now(timezone.utc) - date).total_seconds() < 24 * 3600:
+                score += 5
+
+    # PR cap (어젠다 floor가 항상 우선 — 불변식 유지)
+    if pr_verdict == 'cap' and pr_cap is not None:
+        score = min(score, max(pr_cap, agenda_floor))
+
+    score = max(score, agenda_floor)
+    return max(0, min(120, int(round(score))))
+
+
+def score_item(title: str, summary: str, date, categories: list,
+               persona_score: int = None, source: str = "") -> int:
+    """점수 산정 디스패처 — SCORE_MODE 환경변수로 A/C 전환.
+
+    기본 "C" (Plan C, v7.0). 롤백: SCORE_MODE=A.
+    """
+    if os.environ.get("SCORE_MODE", "C").upper() == "A":
+        return score_item_a(title, summary, date, categories,
+                            persona_score=persona_score, source=source)
+    return score_item_c(title, summary, date, categories,
+                        persona_score=persona_score, source=source)

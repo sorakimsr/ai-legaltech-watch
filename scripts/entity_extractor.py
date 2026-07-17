@@ -58,17 +58,17 @@ ENTITY_CATALOG = [
     # v5.0: claude alias 제거 — 별도 ai_product 노드 'claude'로 분리
     ("anthropic", "Anthropic", "ai_company", ["anthropic", "앤트로픽", "다리오 아모데이", "dario amodei"]),
     # v5.0: Gemini는 별도 ai_product 노드로 분리 (Google AI는 회사 단위 유지)
-    ("google_ai", "Google AI", "ai_company", ["google deepmind", "google ai", "구글 ai", "deepmind", "alphabet ai"]),
-    ("meta_ai", "Meta AI", "ai_company", ["meta ai", "meta llama", "llama", "라마", "fair", "메타 ai"]),
-    ("microsoft_ai", "Microsoft AI", "ai_company", ["microsoft ai", "copilot", "코파일럿", "microsoft copilot"]),
+    ("google_ai", "Google (AI)", "ai_company", ["google ai", "구글 ai", "alphabet ai", "google", "구글"]),  # v7.1: deepmind→별도 노드, 모기업 alias 승격
+    ("meta_ai", "Meta (AI)", "ai_company", ["meta ai", "메타 ai", "meta", "메타"]),  # v7.1: llama·fair→별도 노드
+    ("microsoft_ai", "Microsoft (AI)", "ai_company", ["microsoft ai", "microsoft", "마이크로소프트", "ms ai"]),  # v7.1: copilot→제품 노드
     ("nvidia", "NVIDIA", "ai_company", ["nvidia", "엔비디아", "젠슨 황", "jensen huang"]),
     ("mistral", "Mistral AI", "ai_company", ["mistral", "미스트랄"]),
     ("cohere", "Cohere", "ai_company", ["cohere", "코히어"]),
     ("perplexity", "Perplexity", "ai_company", ["perplexity", "퍼플렉시티"]),
     ("xai", "xAI", "ai_company", ["xai", "grok", "그록", "일론 머스크 ai"]),
-    ("apple_ai", "Apple Intelligence", "ai_company", ["apple intelligence", "애플 인텔리전스", "apple ai"]),
+    ("apple_ai", "Apple (AI)", "ai_company", ["apple intelligence", "애플 인텔리전스", "apple ai", "apple", "애플"]),
     ("deepseek", "DeepSeek", "ai_company", ["deepseek", "딥시크"]),
-    ("qwen", "Qwen (Alibaba)", "ai_company", ["qwen", "퀀", "큐원", "알리바바 qwen"]),
+    ("qwen", "Qwen (Alibaba)", "ai_company", ["qwen", "큐원", "알리바바 qwen"]),  # v7.1: "퀀" 제거(퀀텀 오탐)
 
     # ─── 리걸테크 회사 ───
     ("harvey", "Harvey", "legaltech_company", ["harvey", "하비", "harvey ai"]),
@@ -228,23 +228,46 @@ ENTITY_CATALOG = [
 ]
 
 
+# v7.1: auto_entities 후보에서 제외할 generic 명사 (lowercase 비교)
+AUTO_ENTITY_STOPWORDS = {
+    "ai", "생성형 ai", "생성형ai", "generative ai", "genai", "인공지능",
+    "llm", "sllm", "슬름", "거대언어모델", "대규모 언어모델", "언어모델",
+    "머신러닝", "딥러닝", "챗봇", "로봇", "알고리즘",
+    "데이터센터", "ai 데이터센터", "gpu", "npu", "반도체", "ai 반도체", "클라우드",
+    "빅테크", "스타트업", "테크기업", "it업계",
+    "정부", "한국 정부", "국회", "법원", "검찰", "경찰",
+    "한국", "미국", "중국", "일본", "유럽", "eu", "글로벌",
+    "기업", "산업", "시장", "기술", "서비스", "플랫폼", "데이터",
+}
+
+
 def _make_alias_text(text: str) -> str:
     """매칭용 정규화 — common._normalize_text_for_match와 동일."""
     return _normalize_text_for_match(text or "")
 
 
+# v7.1: 한글 alias 뒤에 허용되는 조사·접미(단일 문자) — "라마의", "클로드가" 등은 매칭 유지
+_KO_PARTICLES = "은는이가을를과와의도로에만"
+
+
 @lru_cache(maxsize=4096)
 def _alias_pattern(alias_lower: str):
-    """v6.15.34 (P2-5): alias 매칭 정규식 — ASCII 단어 내부 오탐 차단.
+    """alias 매칭 정규식 — ASCII·한글 단어 내부 오탐 차단.
 
-    배경(감사 P2-5): 기존 substring 매칭은 짧은 ASCII alias가 더 큰 단어에 무차별 매칭됐다.
-      "fair"→"fairness"(meta_ai 오탐 10건), "rag"→"leveraging"(rag 오탐 18건), "nus"→"bonus".
-    교정: alias 앞뒤가 ASCII 알파벳(a-z)이면 매칭 차단하는 lookaround.
-      - 한국어 조사 결합("Copilot을", "오픈ai를")은 그대로 매칭 (조사는 a-z가 아님).
-      - 숫자·구두점·한글 인접도 매칭 유지 ("llama3", "claude-3", "claude의").
-      - 한글 포함 alias는 lookaround가 a-z만 보므로 사실상 substring과 동일(동작 불변).
+    v6.15.34 (P2-5): ASCII lookaround — "fair"→"fairness", "rag"→"leveraging" 오탐 차단.
+    v7.1: 한글 경계 추가 — 기존엔 a-z만 검사해 한글 alias가 무방비였다.
+      실측 오탐: "라마"→"드라마"(llama), "퀀"→"퀀텀점프"(qwen), "애플"→"애플리케이션" 류.
+      교정: 한글 포함 alias는 ① 앞이 한글이면 차단(단어 중간 매칭 방지),
+      ② 뒤는 비한글/문자열끝/조사 화이트리스트(_KO_PARTICLES)만 허용.
+      "라마를"·"클로드의"(조사 결합)는 매칭 유지, "드라마"·"퀀텀"은 차단.
     """
-    return re.compile(r'(?<![a-z])' + re.escape(alias_lower) + r'(?![a-z])')
+    esc = re.escape(alias_lower)
+    if re.search(r"[가-힣]", alias_lower):
+        return re.compile(
+            r"(?<![가-힣a-z])" + esc +
+            r"(?:(?![가-힣])|(?=[" + _KO_PARTICLES + r"]))"
+        )
+    return re.compile(r'(?<![a-z])' + esc + r'(?![a-z])')
 
 
 def _entity_matches(entity_aliases: list, normalized_text: str) -> bool:
@@ -456,11 +479,19 @@ def main():
     extract_from_papers(paper_trends_history, records)
 
     # 4. avg_score 계산 + 정렬용 메트릭
+    # v7.1: 최근 30/90일 언급 수 — 프론트가 "역대 누적" 대신 최신 활동으로 노드 크기 결정 가능
+    today = datetime.now(KST).date()
+    cutoff_30 = (today - timedelta(days=30)).isoformat()
+    cutoff_90 = (today - timedelta(days=90)).isoformat()
     for eid, rec in records.items():
         if rec["total_mentions"] > 0:
             rec["avg_score"] = round(rec["score_sum"] / rec["total_mentions"], 1)
         else:
             rec["avg_score"] = 0
+        rec["mentions_30d"] = sum(1 for a in rec["mentioned_articles"]
+                                  if (a.get("date") or "") >= cutoff_30)
+        rec["mentions_90d"] = sum(1 for a in rec["mentioned_articles"]
+                                  if (a.get("date") or "") >= cutoff_90)
         # mentioned_articles는 최근 30개로 제한 (날짜 내림차순)
         rec["mentioned_articles"].sort(key=lambda x: x.get("date", ""), reverse=True)
         rec["mentioned_articles"] = rec["mentioned_articles"][:30]
@@ -489,9 +520,12 @@ def main():
         print(f"    {rec['name']:<35} ({rec['type']:<20}) mentions={rec['total_mentions']:>4} avg_score={rec['avg_score']}")
 
     # v5.1: auto_entities 정리 — 2회 이상 등장한 후보만 (노이즈 컷)
+    # v7.1: generic 명사 stopword — "AI"(742회)·"생성형 AI"(724회) 같은 무의미 후보 제거
     auto_filtered = []
     for key, info in auto_counter.items():
         if info["count"] < 2:
+            continue
+        if key in AUTO_ENTITY_STOPWORDS:
             continue
         avg = round(info["score_sum"] / info["count"], 1)
         auto_filtered.append({
