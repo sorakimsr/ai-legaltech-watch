@@ -3319,8 +3319,8 @@ function renderGraphView() {
       </label>
     </div>`;
     controlsHtml += '<div class="graph-meta" id="graph-meta">로딩 중...</div>';
-    controlsHtml += '<div class="graph-container"><svg id="graph-svg" width="100%" height="640"><g id="graph-g"></g></svg></div>';
-    controlsHtml += '<div class="graph-tip">좌측 정부·정책 / 중앙 행위 주체 / 우측 제품·기술 / 하단 학술·연구 (온톨로지 그룹 배치) · 화살표 = 관계 방향 · 선 굵기 = 관계 강도 · 노드 드래그 → 고정, 더블클릭 → 해제 · 클릭 → 엔티티 상세</div>';
+    controlsHtml += '<div class="graph-container"><div id="graph-net" style="height:680px;background:#fff;border-radius:10px;"></div></div>';
+    controlsHtml += '<div class="graph-tip">모양 = 개념 유형 (박스=정부 · 다이아=정책·법 · 원=기업 · 사각=제품 · 삼각=기술 · 타원=학술) · 화살표 = 관계 방향 · 엣지 hover = 근거 · 클릭 = 엔티티 상세 · 휠 줌 · 드래그 이동</div>';
     wrap.innerHTML = controlsHtml;
     // 필터 버튼 핸들러
     wrap.querySelectorAll('.graph-filter-btn').forEach(btn => {
@@ -3348,11 +3348,20 @@ function renderGraphView() {
 }
 
 function renderGraphSvg() {
-  const svg = document.getElementById('graph-svg');
+  // ── v7.5: D3 force → vis-network 전환 ──
+  // 문제(사용자 피드백): 무지개색 엣지 + 큰 화살표 + 전부 원형 노드 → 여전히 헤어볼.
+  // 참조 구현(부처 지식그래프)의 원칙 채택:
+  //   ① 온톨로지를 색이 아닌 "모양"으로 — 정부=박스, 정책·법=다이아, 기업=원(색=업종),
+  //      제품=사각, 기술=삼각, 학술=타원
+  //   ② 엣지는 기본 연회색 — 관계 타입 필터를 선택했을 때만 그 타입 색으로 강조
+  //   ③ 방향 화살표는 작게(scaleFactor 0.5), 방향 있는 타입만
+  //   ④ forceAtlas2 물리 + 안정화 후 physics off (정지 화면 = 라벨 안정)
+  //   ⑤ 엣지 hover 시 근거(evidence) 툴팁
+  const container = document.getElementById('graph-net');
   const metaEl = document.getElementById('graph-meta');
-  if (!svg) return;
-  if (typeof d3 === 'undefined') {
-    if (metaEl) metaEl.textContent = 'D3 로딩 실패 — 새로고침 후 다시 시도';
+  if (!container) return;
+  if (typeof vis === 'undefined') {
+    if (metaEl) metaEl.textContent = 'vis-network 로딩 실패 — 새로고침 후 다시 시도';
     return;
   }
 
@@ -3365,7 +3374,6 @@ function renderGraphSvg() {
 
   let relsFiltered = allRels;
   if (state.graphTypeFilter) relsFiltered = relsFiltered.filter(r => r.type === state.graphTypeFilter);
-  // v7.2: '언급'은 약한 관계 — 기본 숨김
   if (!state.graphTypeFilter && state.graphHideMentions) relsFiltered = relsFiltered.filter(r => r.type !== 'mentions');
   if (!state.entityIncludePapers) relsFiltered = relsFiltered.filter(r => (r.source_type || 'trend') !== 'paper');
 
@@ -3377,202 +3385,108 @@ function renderGraphSvg() {
     }
   }
 
-  // ── v7.4 온톨로지 매크로 그룹 — 타입을 4개 상위 개념으로 묶어 공간 분리 ──
-  //   actor(행위 주체: 기업·로펌·금융) / artifact(산출물: 제품·기술·벤치마크)
-  //   governance(규범: 정부·정책) / knowledge(지식: 학술·연구)
-  const GROUP_OF = (t) => (
-    (t === 'kr_government' || t === 'gov_foreign' || t === 'policy') ? 'governance'
-    : (t === 'ai_product' || t === 'tech' || t === 'benchmark') ? 'artifact'
-    : (t === 'academic_inst' || t === 'researcher') ? 'knowledge'
-    : 'actor');
-  const GROUP_LABEL = { actor: '행위 주체', artifact: '제품·기술', governance: '정부·정책', knowledge: '학술·연구' };
-
-  let nodes = [];
+  let nodeList = [];
   for (const id of usedIds) {
     if (!ents[id]) continue;
     const e = ents[id];
-    nodes.push({
-      id,
-      name: e.name,
-      type: e.type,
-      group: GROUP_OF(e.type),
-      mentions: entityEffectiveMentions(e) || 1,
-      avgScore: e.avg_score || 0,
-    });
+    nodeList.push({ id, name: e.name, type: e.type, mentions: entityEffectiveMentions(e) || 1, avgScore: e.avg_score || 0 });
   }
-  let links = relsFiltered
-    .filter(r => ents[r.source] && ents[r.target])
-    .map(r => ({ source: r.source, target: r.target, type: r.type, weight: r.weight || 1 }));
+  let linkList = relsFiltered.filter(r => ents[r.source] && ents[r.target]);
 
-  const totalNodeCount = nodes.length;
-  if (state.graphCoreOnly && nodes.length > state.graphTopN) {
+  const totalNodeCount = nodeList.length;
+  if (state.graphCoreOnly && nodeList.length > state.graphTopN) {
     const deg = {};
-    for (const l of links) { deg[l.source] = (deg[l.source] || 0) + 1; deg[l.target] = (deg[l.target] || 0) + 1; }
-    const ranked = nodes.slice().sort((a, b) => (deg[b.id] || 0) - (deg[a.id] || 0) || ((b.mentions || 0) - (a.mentions || 0)));
+    for (const l of linkList) { deg[l.source] = (deg[l.source] || 0) + 1; deg[l.target] = (deg[l.target] || 0) + 1; }
+    const ranked = nodeList.slice().sort((a, b) => (deg[b.id] || 0) - (deg[a.id] || 0) || ((b.mentions || 0) - (a.mentions || 0)));
     const keep = new Set(ranked.slice(0, state.graphTopN).map(n => n.id));
-    nodes = nodes.filter(n => keep.has(n.id));
-    links = links.filter(l => keep.has(l.source) && keep.has(l.target));
+    nodeList = nodeList.filter(n => keep.has(n.id));
+    linkList = linkList.filter(l => keep.has(l.source) && keep.has(l.target));
   }
 
-  if (nodes.length === 0) {
+  if (nodeList.length === 0) {
     if (metaEl) metaEl.innerHTML = '<strong>표시할 노드가 없습니다</strong> — 필터를 조정하거나 다음 빌드를 기다리세요.';
-    d3.select(svg).select('#graph-g').selectAll('*').remove();
+    container.innerHTML = '';
     return;
   }
 
-  if (metaEl) {
-    // v7.4: 메타 + 온톨로지 그룹 범례
-    const legendChips = Object.keys(GROUP_LABEL).map(g => {
-      const sample = { actor: '#4e79a7', artifact: '#59a14f', governance: '#9c755f', knowledge: '#b07aa1' }[g];
-      return `<span style="display:inline-flex;align-items:center;gap:4px;margin-right:10px;white-space:nowrap;">` +
-        `<span style="width:9px;height:9px;border-radius:50%;background:${sample};display:inline-block;"></span>${GROUP_LABEL[g]}</span>`;
-    }).join('');
-    metaEl.innerHTML = `노드 <strong>${nodes.length}</strong>` +
-      (state.graphCoreOnly && totalNodeCount > nodes.length ? ` <span style="color:#94a3b8">(핵심 · 전체 ${totalNodeCount}개)</span>` : '') +
-      ` · 관계 <strong>${links.length}</strong>` +
-      (state.relations.generated_at ? ` · 생성 ${state.relations.generated_at.slice(0, 16)}` : '') +
-      `<div style="margin-top:6px;font-size:12px;color:#475569;">${legendChips}` +
-      `<span style="color:#94a3b8">· 화살표 = 관계 방향 (예: 정부 →규제→ 기업, 기업 →준수→ 법령)</span></div>`;
-  }
-
-  const svgSel = d3.select(svg);
-  const g = svgSel.select('#graph-g');
-  g.selectAll('*').remove();
-  svgSel.selectAll('defs').remove();
-
-  const width = svg.clientWidth || 900;
-  const height = 640;
-
-  // v7.4: 방향 관계 화살표 marker (타입별 색)
-  const DIRECTED = new Set(['acquires', 'invests_in', 'regulates', 'adopts', 'launches', 'implements', 'complies_with']);
-  const defs = svgSel.append('defs');
-  for (const t of Object.keys(RELATION_TYPE_COLOR)) {
-    defs.append('marker')
-      .attr('id', `arrow-${t}`)
-      .attr('viewBox', '0 -4 8 8')
-      .attr('refX', 8).attr('refY', 0)
-      .attr('markerWidth', 7).attr('markerHeight', 7)
-      .attr('orient', 'auto')
-      .append('path').attr('d', 'M0,-4L8,0L0,4')
-      .attr('fill', RELATION_TYPE_COLOR[t] || '#999');
-  }
-
-  svgSel.call(d3.zoom().scaleExtent([0.3, 4]).on('zoom', (event) => {
-    g.attr('transform', event.transform);
-  }));
-
-  // v7.4: 노드 반경 — log 스케일 + cap 26px.
-  //   기존 sqrt 무제한(언급 900건 → 반경 94px)이 화면을 덮는 자이언트 노드의 원인.
-  const rOf = (d) => 7 + Math.min(19, 3.1 * Math.log2(1 + (d.mentions || 1)));
-
-  // v7.4: 온톨로지 그룹별 앵커 — governance 좌측 / actor 중앙 / artifact 우측 / knowledge 하단
-  const ANCHOR = {
-    governance: { x: width * 0.17, y: height * 0.38 },
-    actor:      { x: width * 0.50, y: height * 0.48 },
-    artifact:   { x: width * 0.83, y: height * 0.38 },
-    knowledge:  { x: width * 0.62, y: height * 0.85 },
+  // ── 온톨로지 모양 스타일 ──
+  const NODE_STYLE = {
+    kr_government: { shape: 'box', bg: '#33517d', fontColor: '#fff' },
+    gov_foreign:   { shape: 'box', bg: '#5b7db1', fontColor: '#fff' },
+    policy:        { shape: 'diamond', bg: '#2e7d32' },
+    ai_product:    { shape: 'square', bg: '#59a14f' },
+    tech:          { shape: 'triangle', bg: '#6fa8cf' },
+    benchmark:     { shape: 'triangle', bg: '#ff9da7' },
+    academic_inst: { shape: 'ellipse', bg: '#b07aa1', fontColor: '#fff' },
+    researcher:    { shape: 'ellipse', bg: '#d4a373', fontColor: '#fff' },
   };
 
-  // v7.4.1: 중앙 뭉침 완화 — 그룹 앵커 강화(0.13→0.28), forceCenter 제거(앵커가 대체),
-  //   반발 -170→-260, 링크 거리 95→130, collide 여백 +15→+18
-  const sim = d3.forceSimulation(nodes)
-    .force('link', d3.forceLink(links).id(d => d.id).distance(130).strength(0.22))
-    .force('charge', d3.forceManyBody().strength(-260))
-    .force('collide', d3.forceCollide().radius(d => rOf(d) + 18))
-    .force('x', d3.forceX(d => ANCHOR[d.group].x).strength(0.28))
-    .force('y', d3.forceY(d => ANCHOR[d.group].y).strength(0.28));
-
-  // v7.4: 링크 — 얇게(1~3.5px)·저채도, 방향 타입은 화살표
-  const link = g.append('g').attr('class', 'graph-links')
-    .selectAll('line').data(links).enter().append('line')
-    .attr('stroke', d => RELATION_TYPE_COLOR[d.type] || '#999')
-    .attr('stroke-opacity', d => Math.min(0.65, 0.28 + ((d.weight || 1) - 1) * 0.07))
-    .attr('stroke-width', d => Math.max(1, Math.min(3.5, 1 + Math.sqrt(Math.max(0, (d.weight || 1) - 1)) * 1.2)))
-    .attr('marker-end', d => DIRECTED.has(d.type) ? `url(#arrow-${d.type})` : null);
-
-  const node = g.append('g').attr('class', 'graph-nodes')
-    .selectAll('g.graph-node').data(nodes).enter().append('g')
-    .attr('class', 'graph-node')
-    .style('cursor', 'pointer')
-    .call(d3.drag()
-      .on('start', (event, d) => {
-        if (!event.active) sim.alphaTarget(0.3).restart();
-        d.fx = d.x; d.fy = d.y;
-      })
-      .on('drag', (event, d) => { d.fx = event.x; d.fy = event.y; })
-      .on('end', (event, d) => {
-        if (!event.active) sim.alphaTarget(0);
-        d.fixed = true;
-        d3.select(event.sourceEvent.target.parentNode).select('circle')
-          .attr('stroke', '#0f172a').attr('stroke-width', 2.5);
-      })
-    )
-    .on('dblclick', (event, d) => {
-      d.fx = null; d.fy = null;
-      d.fixed = false;
-      d3.select(event.currentTarget).select('circle')
-        .attr('stroke', '#fff').attr('stroke-width', 1.6);
-      sim.alphaTarget(0.3).restart();
-      setTimeout(() => sim.alphaTarget(0), 500);
-      event.stopPropagation();
-    })
-    .on('click', (event, d) => {
-      state.view = 'entities';
-      state.selectedEntityId = d.id;
-      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-      const navEnt = document.querySelector('.nav-item[data-view="entities"]');
-      if (navEnt) navEnt.classList.add('active');
-      syncUrl();
-      renderContent();
-    });
-
-  node.append('circle')
-    .attr('r', rOf)
-    .attr('fill', d => ENTITY_TYPE_COLOR[d.type] || '#888')
-    .attr('fill-opacity', 0.92)
-    .attr('stroke', '#fff')
-    .attr('stroke-width', 1.6);
-
-  node.append('title')
-    .text(d => `${d.name} [${ENTITY_TYPE_LABEL[d.type] || d.type} · ${GROUP_LABEL[d.group]}]\n최근 언급 ${d.mentions}건 · 평균 중요도 ${d.avgScore}`);
-
-  // v7.4: 라벨을 노드와 분리된 최상위 레이어에 — 큰 원이 이웃 라벨을 가리던 문제 해결
-  const label = g.append('g').attr('class', 'graph-labels')
-    .selectAll('text').data(nodes).enter().append('text')
-    .attr('text-anchor', 'middle')
-    .attr('font-size', 11.5)
-    .attr('font-weight', 600)
-    .attr('fill', '#1f2937')
-    .attr('stroke', '#fff')
-    .attr('stroke-width', 3)
-    .attr('paint-order', 'stroke fill')
-    .attr('pointer-events', 'none')
-    .text(d => d.name);
-
-  sim.on('tick', () => {
-    // v7.4: 뷰포트 경계 클램프 — 노드가 화면 밖으로 밀려나 라벨이 잘리던 문제 방지
-    for (const d of nodes) {
-      const r = rOf(d);
-      d.x = Math.max(r + 4, Math.min(width - r - 4, d.x));
-      d.y = Math.max(r + 16, Math.min(height - r - 6, d.y));
+  const visNodes = new vis.DataSet(nodeList.map(n => {
+    const st = NODE_STYLE[n.type];
+    const base = {
+      id: n.id,
+      label: n.name,
+      value: n.mentions,
+      title: `${n.name} [${ENTITY_TYPE_LABEL[n.type] || n.type}] · 최근 언급 ${n.mentions}건 · 평균 중요도 ${n.avgScore}`,
+    };
+    if (st) {
+      return { ...base, shape: st.shape, color: { background: st.bg, border: st.bg },
+               font: { color: st.fontColor || '#22304a', size: st.shape === 'box' || st.shape === 'ellipse' ? 13 : 12 } };
     }
-    link
-      .attr('x1', d => d.source.x).attr('y1', d => d.source.y)
-      .attr('x2', d => {
-        // 화살표가 노드 테두리에 닿도록 끝점을 반경만큼 당김
-        const dx = d.target.x - d.source.x, dy = d.target.y - d.source.y;
-        const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-        return d.target.x - (dx / dist) * (rOf(d.target) + 2);
-      })
-      .attr('y2', d => {
-        const dx = d.target.x - d.source.x, dy = d.target.y - d.source.y;
-        const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-        return d.target.y - (dy / dist) * (rOf(d.target) + 2);
-      });
-    node.attr('transform', d => `translate(${d.x},${d.y})`);
-    label
-      .attr('x', d => d.x)
-      .attr('y', d => d.y - rOf(d) - 5);
+    // 기업류 = 원(dot), 색 = 업종 (기존 팔레트 유지)
+    return { ...base, shape: 'dot', color: { background: ENTITY_TYPE_COLOR[n.type] || '#888', border: '#fff' },
+             font: { size: 12, color: '#22304a' } };
+  }));
+
+  const DIRECTED = new Set(['acquires', 'invests_in', 'regulates', 'adopts', 'launches', 'implements', 'complies_with']);
+  const visEdges = new vis.DataSet(linkList.map((r, i) => ({
+    id: i,
+    from: r.source,
+    to: r.target,
+    // 기본 연회색 — 타입 필터 선택 시에만 해당 타입 색으로 강조 (참조 구현 원칙)
+    color: { color: state.graphTypeFilter ? (RELATION_TYPE_COLOR[r.type] || '#c3c9d6') : '#c3c9d6', opacity: 0.75, highlight: '#b01f24' },
+    width: Math.max(1, Math.min(3, 1 + Math.sqrt(Math.max(0, (r.weight || 1) - 1)))),
+    arrows: DIRECTED.has(r.type) ? { to: { enabled: true, scaleFactor: 0.5 } } : undefined,
+    title: `${RELATION_TYPE_LABEL[r.type] || r.type}${r.evidence ? ' — ' + r.evidence.slice(0, 140) : ''}`,
+  })));
+
+  if (metaEl) {
+    metaEl.innerHTML = `노드 <strong>${nodeList.length}</strong>` +
+      (state.graphCoreOnly && totalNodeCount > nodeList.length ? ` <span style="color:#94a3b8">(핵심 · 전체 ${totalNodeCount}개)</span>` : '') +
+      ` · 관계 <strong>${linkList.length}</strong>` +
+      (state.relations.generated_at ? ` · 생성 ${state.relations.generated_at.slice(0, 16)}` : '') +
+      `<div style="margin-top:6px;font-size:12px;color:#475569;display:flex;flex-wrap:wrap;gap:12px;">` +
+      `<span>▇ 정부(박스)</span><span style="color:#2e7d32">◆ 정책·법</span><span>● 기업 (색=업종)</span>` +
+      `<span style="color:#59a14f">■ 제품</span><span style="color:#6fa8cf">▲ 기술</span><span style="color:#b07aa1">⬭ 학술</span>` +
+      `<span style="color:#94a3b8">· 화살표=방향 · 엣지에 마우스를 올리면 근거 표시 · 관계 타입 필터 선택 시 해당 엣지 색 강조</span></div>`;
+  }
+
+  if (state._graphNet) { try { state._graphNet.destroy(); } catch (e) { /* noop */ } }
+  const network = new vis.Network(container, { nodes: visNodes, edges: visEdges }, {
+    physics: {
+      solver: 'forceAtlas2Based',
+      forceAtlas2Based: { gravitationalConstant: -55, springLength: 130, avoidOverlap: 0.6 },
+      stabilization: { iterations: 180, fit: true },
+    },
+    interaction: { hover: true, tooltipDelay: 120 },
+    nodes: {
+      borderWidth: 0,
+      scaling: { min: 10, max: 30, label: { enabled: true, min: 11, max: 15 } },
+    },
+    edges: { smooth: { type: 'continuous' }, selectionWidth: 2 },
+  });
+  state._graphNet = network;
+  // 안정화 완료 후 물리 off → 정지 화면 (라벨 흔들림 방지). 드래그 시엔 그 노드만 이동.
+  network.once('stabilizationIterationsDone', () => network.setOptions({ physics: false }));
+  network.on('click', p => {
+    if (!p.nodes || !p.nodes.length) return;
+    state.view = 'entities';
+    state.selectedEntityId = p.nodes[0];
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    const navEnt = document.querySelector('.nav-item[data-view="entities"]');
+    if (navEnt) navEnt.classList.add('active');
+    syncUrl();
+    renderContent();
   });
 }
 
