@@ -2307,32 +2307,12 @@ mark {
 .graph-node text { pointer-events: none; user-select: none; }
 
 /* ============================================================
-   v7.2 — 뉴스 피드 시각적 위계 (리드 카드 · 컴팩트 카드 · 날짜 구분선)
+   v7.2 — 뉴스 피드 (v7.7: 카드 사이즈 원복 — 사용자 피드백)
+   리드 카드의 2칸 폭·본문 클램프 제거. 카드 크기는 기존과 동일하게 유지하고
+   상위 4건은 좌측 액센트 보더로만 구분.
    ============================================================ */
-/* 리드 카드: 상위 4건 (중요도 정렬 시) — 2칸 폭 + 강조 보더 + 본문 전체 */
-@media (min-width: 800px) {
-  .news-card--lead { grid-column: span 2; }
-}
 .news-card--lead {
   border-left: 3px solid #2563eb;
-  background: linear-gradient(180deg, #fbfdff 0%, #fff 60%);
-}
-.news-card--lead .card-title { font-size: 17px; line-height: 1.45; }
-.news-card--lead .card-summary,
-.news-card--lead .card-insight { display: block; }
-
-/* 컴팩트 카드: 리드가 아닌 카드는 요약 3줄·시사점 2줄 클램프 — 스캔 속도 향상 */
-.news-card:not(.news-card--lead) .card-summary {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-.news-card:not(.news-card--lead) .card-insight {
-  display: -webkit-box;
-  -webkit-line-clamp: 3; /* 라벨 1줄 + 본문 2줄 */
-  -webkit-box-orient: vertical;
-  overflow: hidden;
 }
 
 /* 날짜 구분선 (최신 정렬) */
