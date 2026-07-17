@@ -3320,7 +3320,7 @@ function renderGraphView() {
     </div>`;
     controlsHtml += '<div class="graph-meta" id="graph-meta">로딩 중...</div>';
     controlsHtml += '<div class="graph-container"><div id="graph-net" style="height:680px;background:#fff;border-radius:10px;"></div></div>';
-    controlsHtml += '<div class="graph-tip">모양 = 개념 유형 (박스=정부 · 다이아=정책·법 · 원=기업 · 사각=제품 · 삼각=기술 · 타원=학술) · 화살표 = 관계 방향 · 엣지 hover = 근거 · 클릭 = 엔티티 상세 · 휠 줌 · 드래그 이동</div>';
+    controlsHtml += '<div class="graph-tip">모양 = 개념 유형 (박스=정부 · 다이아=정책·법 · 원=기업 · 사각=제품 · 삼각=기술 · 타원=학술) · 선 색 = 관계 타입 (상단 필터 색과 동일) · 화살표 = 방향 · 엣지 hover = 근거 · 클릭 = 하이라이트 · <strong>더블클릭 = 엔티티 상세</strong> · 드래그 = 이동 · 휠 줌</div>';
     wrap.innerHTML = controlsHtml;
     // 필터 버튼 핸들러
     wrap.querySelectorAll('.graph-filter-btn').forEach(btn => {
@@ -3431,11 +3431,11 @@ function renderGraphSvg() {
     };
     if (st) {
       return { ...base, shape: st.shape, color: { background: st.bg, border: st.bg },
-               font: { color: st.fontColor || '#22304a', size: st.shape === 'box' || st.shape === 'ellipse' ? 13 : 12 } };
+               font: { color: st.fontColor || '#22304a', size: st.shape === 'box' || st.shape === 'ellipse' ? 11 : 11 } };
     }
     // 기업류 = 원(dot), 색 = 업종 (기존 팔레트 유지)
     return { ...base, shape: 'dot', color: { background: ENTITY_TYPE_COLOR[n.type] || '#888', border: '#fff' },
-             font: { size: 12, color: '#22304a' } };
+             font: { size: 11, color: '#22304a' } };
   }));
 
   const DIRECTED = new Set(['acquires', 'invests_in', 'regulates', 'adopts', 'launches', 'implements', 'complies_with']);
@@ -3443,9 +3443,9 @@ function renderGraphSvg() {
     id: i,
     from: r.source,
     to: r.target,
-    // 기본 연회색 — 타입 필터 선택 시에만 해당 타입 색으로 강조 (참조 구현 원칙)
-    color: { color: state.graphTypeFilter ? (RELATION_TYPE_COLOR[r.type] || '#c3c9d6') : '#c3c9d6', opacity: 0.75, highlight: '#b01f24' },
-    width: Math.max(1, Math.min(3, 1 + Math.sqrt(Math.max(0, (r.weight || 1) - 1)))),
+    // v7.6: 타입별 색 상시 표시 (저채도 0.45) — 회색 단일화는 관계 구분이 안 보인다는 피드백
+    color: { color: RELATION_TYPE_COLOR[r.type] || '#c3c9d6', opacity: state.graphTypeFilter ? 0.85 : 0.45, highlight: '#b01f24' },
+    width: Math.max(1, Math.min(2.5, 1 + Math.sqrt(Math.max(0, (r.weight || 1) - 1)) * 0.8)),
     arrows: DIRECTED.has(r.type) ? { to: { enabled: true, scaleFactor: 0.5 } } : undefined,
     title: `${RELATION_TYPE_LABEL[r.type] || r.type}${r.evidence ? ' — ' + r.evidence.slice(0, 140) : ''}`,
   })));
@@ -3458,7 +3458,7 @@ function renderGraphSvg() {
       `<div style="margin-top:6px;font-size:12px;color:#475569;display:flex;flex-wrap:wrap;gap:12px;">` +
       `<span>▇ 정부(박스)</span><span style="color:#2e7d32">◆ 정책·법</span><span>● 기업 (색=업종)</span>` +
       `<span style="color:#59a14f">■ 제품</span><span style="color:#6fa8cf">▲ 기술</span><span style="color:#b07aa1">⬭ 학술</span>` +
-      `<span style="color:#94a3b8">· 화살표=방향 · 엣지에 마우스를 올리면 근거 표시 · 관계 타입 필터 선택 시 해당 엣지 색 강조</span></div>`;
+      `<span style="color:#94a3b8">· 선 색=관계 타입 · 화살표=방향 · 엣지 hover=근거 · 더블클릭=엔티티 상세</span></div>`;
   }
 
   if (state._graphNet) { try { state._graphNet.destroy(); } catch (e) { /* noop */ } }
@@ -3471,14 +3471,17 @@ function renderGraphSvg() {
     interaction: { hover: true, tooltipDelay: 120 },
     nodes: {
       borderWidth: 0,
-      scaling: { min: 10, max: 30, label: { enabled: true, min: 11, max: 15 } },
+      // v7.6: 노드 표식 축소 (10~30 → 6~16) — 표식이 커서 그래프를 가린다는 피드백
+      scaling: { min: 6, max: 16, label: { enabled: true, min: 10, max: 13 } },
     },
     edges: { smooth: { type: 'continuous' }, selectionWidth: 2 },
   });
   state._graphNet = network;
   // 안정화 완료 후 물리 off → 정지 화면 (라벨 흔들림 방지). 드래그 시엔 그 노드만 이동.
   network.once('stabilizationIterationsDone', () => network.setOptions({ physics: false }));
-  network.on('click', p => {
+  // v7.6: 클릭은 선택·하이라이트만 (vis 기본 동작 — 드래그·탐색 방해 X).
+  //   엔티티 상세 이동은 더블클릭으로 — "클릭하면 바로 페이지 이동해서 번거롭다" 피드백.
+  network.on('doubleClick', p => {
     if (!p.nodes || !p.nodes.length) return;
     state.view = 'entities';
     state.selectedEntityId = p.nodes[0];
