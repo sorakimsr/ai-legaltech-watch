@@ -143,6 +143,8 @@ jobs:
           NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
           OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
           OPENALEX_MAILTO: "eternalpassionfor@gmail.com"
+          # v7.0: Score Plan C (docs/SCORE_REDESIGN_C.md). 롤백: "A"
+          SCORE_MODE: "C"
         run: python scripts/fetch_news.py
 
       # ===== 2단계: 유사 뉴스 병합 =====
@@ -169,6 +171,8 @@ jobs:
           #   기존 70은 한국어 기사 대부분 누락. cut-off (35) 통과한 모든 항목에 insight 생성.
           INSIGHT_THRESHOLD_KO: "35"
           ENRICH_REFRESH_DAYS: ${{ github.event.inputs.refresh_recent_days || '0' }}
+          # v7.0: Score Plan C — enrich 후 재점수도 동일 모드로
+          SCORE_MODE: "C"
         run: python scripts/enrich_with_llm.py
         continue-on-error: true
 
