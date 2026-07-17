@@ -237,6 +237,13 @@ SOURCES = [
     ("Google News: Spellbook (EN)", "https://news.google.com/rss/search?q=%22Spellbook%22+(legal+OR+contract+OR+AI)&hl=en&gl=US&ceid=US:en", "google_news", ["legaltech"], "en"),
     ("Google News: Robin AI Casetext Everlaw (EN)", "https://news.google.com/rss/search?q=%22Robin+AI%22+OR+%22Casetext%22+OR+%22Everlaw%22&hl=en&gl=US&ceid=US:en", "google_news", ["legaltech"], "en"),
     ("Google News: Eltemate (EN)", "https://news.google.com/rss/search?q=%22Eltemate%22+OR+%22Hogan+Lovells%22+AI&hl=en&gl=US&ceid=US:en", "google_news", ["legaltech"], "en"),
+    # v7.3: 커버리지 공백 글로벌 리걸테크 플레이어 (실측 최근 30일 0~3건이던 곳)
+    ("Google News: EvenUp (EN)", "https://news.google.com/rss/search?q=%22EvenUp%22+legal+AI&hl=en&gl=US&ceid=US:en", "google_news", ["legaltech"], "en"),
+    ("Google News: Clio (EN)", "https://news.google.com/rss/search?q=%22Clio%22+legal+(AI+OR+software+OR+funding)&hl=en&gl=US&ceid=US:en", "google_news", ["legaltech"], "en"),
+    ("Google News: Luminance (EN)", "https://news.google.com/rss/search?q=%22Luminance%22+legal+AI&hl=en&gl=US&ceid=US:en", "google_news", ["legaltech"], "en"),
+    ("Google News: SpotDraft Filevine (EN)", "https://news.google.com/rss/search?q=%22SpotDraft%22+OR+%22Filevine%22+OR+%22Definely%22&hl=en&gl=US&ceid=US:en", "google_news", ["legaltech"], "en"),
+    ("Google News: CoCounsel vLex (EN)", "https://news.google.com/rss/search?q=%22CoCounsel%22+OR+%22vLex%22+OR+%22Thomson+Reuters%22+legal+AI&hl=en&gl=US&ceid=US:en", "google_news", ["legaltech"], "en"),
+    ("Google News: Legaltech funding (EN)", "https://news.google.com/rss/search?q=legaltech+(funding+OR+%22series+a%22+OR+%22series+b%22+OR+acquisition)&hl=en&gl=US&ceid=US:en", "google_news", ["legaltech", "funding"], "en"),
     ("Google News: Law firm AI (EN)", "https://news.google.com/rss/search?q=%22law+firm%22+AI+(adoption+OR+implementation+OR+rollout)&hl=en&gl=US&ceid=US:en", "google_news", ["legaltech"], "en"),
 
     # === 영문 — 분야·실무 use case ===

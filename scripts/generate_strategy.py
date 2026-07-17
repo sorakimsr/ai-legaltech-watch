@@ -125,6 +125,12 @@ v6.15.26 (2026-05-28): 카드 개수 정책 변경 — **{period_label} 기준 {
     (4) 향후 12개월 내 후속 의사결정 트리거 여부
   cards 배열 순서가 곧 사용자 노출 순서. LLM은 의식적으로 1번이 가장 묵직한 카드, 끝번호로 갈수록 보조 카드가 되도록 배치하라.
 
+  **★ 언어 중립 순위 (v7.3)**: 순위는 "의사결정 영향 × 근거 강도"로만 판단한다.
+  영문(해외) 기사 기반이라는 이유로 순위를 낮추지 말 것. 글로벌 빅테크(OpenAI·Anthropic·
+  Google·Meta 등)와 글로벌 리걸테크(Harvey·Legora·Ironclad·EvenUp·Luminance·CoCounsel 등)
+  플레이어의 유의미한 움직임(펀딩·제품·파트너십·소송)이 후보에 있으면 반드시 카드에 반영 —
+  한국 로펌에게는 오히려 이런 글로벌 신호가 선행 지표다.
+
   **★★ 코버리지 의무 (v6.15.26 — LLM 자율 판단)**:
   위 6개 AI×법조 주제군은 사용자 핵심 관심 영역이므로 **누락되지 않도록** 다룬다.
   단 카드화 단위는 LLM이 가치 기준으로 판단:
@@ -372,6 +378,34 @@ def generate_cards(items: list, period: str, ref_date: date, all_items: list):
     top_n = top_n_map.get(period, 30)
 
     sorted_items = sorted(items, key=lambda x: x.get("score", 0), reverse=True)[:top_n]
+
+    # ── v7.3: 후보 풀 글로벌(EN) 최소 쿼터 ──
+    # 실측: EN이 당일 기사의 ~45%인데 Top30에선 23~33%로 축소, 카드 인용은 6%.
+    # 국내 법령 floor·북마크 보너스가 한국어 기사를 구조적으로 밀어올리는 편향 보정.
+    # score 상위 EN 기사로 하위 KO 기사를 치환해 EN 비중 최소 STRATEGY_MIN_EN_RATIO 보장.
+    try:
+        min_en_ratio = float(os.environ.get("STRATEGY_MIN_EN_RATIO", "0.35"))
+    except ValueError:
+        min_en_ratio = 0.35
+    if 0 < min_en_ratio < 1 and len(sorted_items) >= 10:
+        want_en = int(round(len(sorted_items) * min_en_ratio))
+        have_en = sum(1 for it in sorted_items if it.get("lang") == "en")
+        if have_en < want_en:
+            pool_urls = {it.get("url") for it in sorted_items}
+            extra_en = [it for it in sorted(items, key=lambda x: x.get("score", 0), reverse=True)
+                        if it.get("lang") == "en" and it.get("url") not in pool_urls]
+            need = want_en - have_en
+            swapped = 0
+            # 하위 KO부터 치환 (score 낮은 순)
+            for idx in range(len(sorted_items) - 1, -1, -1):
+                if swapped >= need or not extra_en:
+                    break
+                if sorted_items[idx].get("lang") != "en":
+                    sorted_items[idx] = extra_en.pop(0)
+                    swapped += 1
+            if swapped:
+                print(f"  [{period} EN 쿼터] KO 하위 {swapped}건 → EN 상위 치환 "
+                      f"(EN {have_en}→{have_en + swapped}/{len(sorted_items)})", flush=True)
 
     # v6.15.29 (2026-05-29): 사용자 명시 어젠다 강제 포함 (안전망)
     # 사용자 지적 — 판결문 공개·공정위 AI·개인정보 특례 기사가 score 부족으로
@@ -666,6 +700,9 @@ _HIGH_PRIORITY_KEYWORDS = [
     "ai 저작권", "ai 책임", "ai 소송", "ai 판례", "모델 학습 데이터 분쟁",
     # ⑥ 글로벌 AI 거버넌스 (법무 직접 영향)
     "eu ai act", "gpai", "ai 행정명령", "ai executive order",
+    # ⑦ v7.3: 글로벌 리걸테크 플레이어 (영문 카드가 tier 강등되지 않게)
+    "harvey", "legora", "ironclad", "spellbook", "evenup", "luminance",
+    "cocounsel", "relativity", "legal ai", "biglaw",
 ]
 
 _MEDIUM_PRIORITY_KEYWORDS = [
@@ -674,23 +711,55 @@ _MEDIUM_PRIORITY_KEYWORDS = [
 ]
 
 
-def _card_priority(card: dict) -> tuple:
-    """카드 중요도 tier — 낮을수록 상위."""
+# v7.3: 카드 인용 URL → 기사 lookup (main()에서 세팅). 근거 기반 랭킹에 사용.
+_URL_ITEM_MAP = {}
+
+
+def _card_rank_score(card: dict) -> float:
+    """v7.3: 근거 기반 복합 랭킹 점수 — 높을수록 상위.
+
+    문제(사용자 지적): 기존 키워드 tier 방식은 한국어 법조 키워드가 없는 카드
+    (글로벌 빅테크·리걸테크·프런티어 기술)를 일괄 tier 3으로 강등 — LLM이 공들여
+    배치한 순서를 언어 편향으로 덮어썼다 (카드 인용 EN 비중 6%의 원인 중 하나).
+
+    새 기준 = 어젠다 가중치(유지하되 티어가 아닌 가산) + 근거 강도:
+      · 어젠다 매칭:      high×3.0 (cap 3개) + med×1.0 (cap 2개)  → 0~11
+      · 인용 기사 품질:   max persona×1.2 + 평균 persona×0.4     → 0~16
+      · 근거 볼륨:        인용 수×0.5 (cap 5) + 교차 소스×0.5 (cap 4) → 0~4.5
+    동점은 LLM 원래 순서 유지 (stable sort).
+    """
     text = (str(card.get("tag", "")) + " " + str(card.get("title", "")) + " " +
             str(card.get("body", ""))).lower()
-    high_hits = sum(1 for kw in _HIGH_PRIORITY_KEYWORDS if kw in text)
-    if high_hits >= 2:
-        return (0, -high_hits)  # top tier — 핵심 어젠다 다수 매칭
-    if high_hits >= 1:
-        return (1, -high_hits)  # AI×법조 교차 1건 매칭
-    med_hits = sum(1 for kw in _MEDIUM_PRIORITY_KEYWORDS if kw in text)
-    if med_hits >= 1:
-        return (2, -med_hits)
-    return (3, 0)
+    high_hits = min(3, sum(1 for kw in _HIGH_PRIORITY_KEYWORDS if kw in text))
+    med_hits = min(2, sum(1 for kw in _MEDIUM_PRIORITY_KEYWORDS if kw in text))
+    score = high_hits * 3.0 + med_hits * 1.0
+
+    citations = card.get("citations") or []
+    ps_list, sources = [], set()
+    for c in citations:
+        if not isinstance(c, dict):
+            continue
+        if c.get("source"):
+            sources.add(c["source"])
+        it = _URL_ITEM_MAP.get(c.get("url", ""))
+        if it and it.get("persona_score") is not None:
+            try:
+                ps_list.append(int(it["persona_score"]))
+            except (ValueError, TypeError):
+                pass
+    if ps_list:
+        score += max(ps_list) * 1.2 + (sum(ps_list) / len(ps_list)) * 0.4
+    score += min(5, len(citations)) * 0.5 + min(4, len(sources)) * 0.5
+    return score
+
+
+def _card_priority(card: dict) -> tuple:
+    """(하위호환) 카드 중요도 — 낮을수록 상위. v7.3: 복합 점수의 음수."""
+    return (-_card_rank_score(card), 0)
 
 
 def _reorder_cards_by_importance(cards: list) -> list:
-    """카드 목록을 중요도 우선순위로 stable sort.
+    """카드 목록을 근거 기반 중요도로 stable sort (v7.3 재설계).
 
     Returns: 재정렬된 새 리스트 (원본 비파괴).
     tag 'TREND 01·02·...' 번호도 재정렬 후 순서에 맞춰 재부여.
@@ -844,6 +913,9 @@ def main():
         data = json.load(f)
 
     items = data["items"]
+    # v7.3: 카드 랭킹용 인용 URL → 기사 lookup
+    global _URL_ITEM_MAP
+    _URL_ITEM_MAP = {it.get("url"): it for it in items if it.get("url")}
     backend = detect_backend()
 
     # v6.15.28 (2026-05-29): fallback_strategy 사용 제거.
