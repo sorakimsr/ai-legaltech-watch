@@ -454,10 +454,13 @@ def generate_cards(items: list, period: str, ref_date: date, all_items: list):
     # v6.15.26 (2026-05-28): period별 카드 개수 룰 — 사용자 정책
     #   daily: max 20개 cap (오늘 시사점이 너무 많으면 가독성 저하)
     #   weekly/monthly: 무제한 (계속 추가되어야 하는 누적 시사점)
+    # v7.9: weekly/monthly "무제한" → 상한 12/14. 무제한 정책이 CLI 모드에서
+    #   응답 생성 15분+ → timeout 3연속 → 카드 0장(2026-W29 누락)의 직접 원인.
+    #   상한 내 압축이 "생성 실패로 0장"보다 사용자 가치가 명백히 높음.
     card_count_rules = {
         "daily":   "**daily는 최대 20개까지** (cap). 의미 있는 trend가 20개 미만이면 그만큼만, 20개 넘으면 가장 중요한 20개로 압축.",
-        "weekly":  "**weekly는 개수 제한 없음** (누적 시사점). 데이터에 등장한 모든 의미 있는 trend를 카드화.",
-        "monthly": "**monthly는 개수 제한 없음** (누적 시사점). 데이터에 등장한 모든 의미 있는 trend를 카드화. 구조적 변화·반복 패턴 모두 별도 카드.",
+        "weekly":  "**weekly는 최대 12개** (cap). 가장 의사결정 영향이 큰 12개로 압축 — 유사 주제는 한 카드로 병합.",
+        "monthly": "**monthly는 최대 14개** (cap). 구조적 변화·반복 패턴 위주로 가장 중요한 14개로 압축.",
     }
     card_count_rule = card_count_rules.get(period, "의미 있는 흐름이 있는 만큼만, 억지로 채우지 말 것")
 

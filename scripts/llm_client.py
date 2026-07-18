@@ -73,7 +73,11 @@ def call_claude_cli(prompt: str, max_tokens: int = 800) -> str:
     """
     import time
     model = os.environ.get("ANTHROPIC_MODEL", "claude-sonnet-4-6")
-    timeout_s = 900 if max_tokens > 8000 else 300
+    # v7.9: weekly/monthly 전략 카드(대형 출력)가 CLI 모드에서 900s를 상습 초과 —
+    #   2026-W29가 "3회 모두 timeout(900s)"으로 일주일 내내 누락된 실측 원인.
+    #   대형 요청 상한 900→1800s (환경변수 LLM_CLI_TIMEOUT_LARGE로 조정 가능).
+    _large_timeout = int(os.environ.get("LLM_CLI_TIMEOUT_LARGE", "1800"))
+    timeout_s = _large_timeout if max_tokens > 8000 else 300
     last_err = None
     for attempt in range(1, 4):
         try:
