@@ -1,22 +1,252 @@
 {
-  "analyzed_at": "2026-07-19T07:30:31.737116+09:00",
+  "analyzed_at": "2026-07-19T19:25:55.442272+09:00",
   "llm_backend": "claude-cli",
   "period": "weekly",
   "period_label": "최근 7일",
   "days_window": 7,
-  "paper_count": 647,
-  "narrative": "한 줄 요약 AI 에이전트가 실험실을 벗어나 기업 실무에 진입하는 지금, '무엇을 도입할 것인가'보다 **'어떻게 통제하고 책임을 질 것인가'가 전략·기획 담당자의 핵심 과제**로 전면에 부상하고 있다.\n\n1) 무엇이 부상하고 있는가 논문 흐름에서 가장 선명하게 떠오른 키워드는 '검증 가능한 에이전트 제어'다. EG-VAR(Evidence-Grounded Verified Agentic Reasoning)는 Lean 4 커널 기반 아키텍처로 LLM 환각을 구조적으로 차단해 TableBench에서 120/120 완벽 정확도를 달성했고, CAVA(Canonical Action Verification and Attestation)는 에이전트가 API·브라우저·워크플로우 엔진 등 다양한 런타임을 거칠 때 승인과 실행 사이를 증거로 잇는 거버넌스 레이어를 제안했다. Proof-or-Stop 라이프사이클 제어는 자율 코딩 에이전트가 '완료했다'고 주장하는 것과 실제 완료 사이의 간극을 형식적 증거로만 채울 것을 요구하며, 자기 적용 실험에서 허위 완료(false-DONE) 0건, 94.8% 해결률을 달성했다. 한편 다중 에이전트 시스템에서 유해 페이로드를 에이전트별로 분산시키면 각 로컬 모니터는 통과하지만 조합 시 공격이 완성된다는 진단은 **단일 에이전트 신뢰보다 에이전트 간 조정 계층이 새로운 보안 병목**임을 드러낸다. 비용 측면에서도 전환점이 감지된다. LLM 에이전트가 모든 태스크에 최대 컨텍스트를 투입하는 전략이 비용 85%, 토큰 91%를 낭비한다는 실증은 **성공한 목표당 비용으로 에이전트 운영 KPI를 재설계해야** 한다는 강력한 신호다.\n\n2) 한국 실무자에게 이 흐름이 무슨 의미인가 Enterprise AI Governance: Why Post-Deployment Fails는 기업 대부분이 AI 배포 후 수주일 내 예상 밖 비용 급등과 성능 저하를 경험한다고 지적한다. GitHub 2,361개 프로젝트를 분석한 Early Adoption of Agentic Coding Tools는 에이전트 채택 성공이 기술 능력보다 **조직 프로세스와 감시 구조에 의해 결정**된다는 점을 실증했다. 전략·기획 담당자는 'AI 도구를 도입한다'는 질문을 '에이전트가 실행한 액션의 책임 소재와 검증 체계를 어떻게 설계할 것인가'로 전환해야 한다. RAG 파이프라인도 마찬가지다. Bridge Evidence 논문은 정적 문서 유용성 평가와 에이전트 추론 상의 실제 인과적 영향력이 통계적으로 독립적임을 밝혔고, 에이전트가 읽은 문서의 약 3분의 1만이 인과적으로 유효했다. **RAG 파이프라인을 한 번 구축하고 방치하는 운영 방식은 재검토가 필요한 시점**이다.\n\n3) 산업 적용 흐름 법률·의료·금융이 에이전트 자동화의 첫 번째 파고를 맞을 분야다. 프랑스 법원 판결문의 암묵적 법령 인용 자동 탐지(논문 47)나 임상 노트 다중 에이전트 증상 추출 시스템 Pythia(논문 19)가 이를 보여준다. 보안 에이전트 비용 효율 분석(논문 25)은 금융 보안운영센터(SOC) 자동화의 경제성 논거를 제공하며, 구조공학 워크플로우 자동화 StructureClaw는 제조·건설 도메인의 전문가 업무 자동화 가능성을 실증했다. 그러나 **한국 기업 환경에서는 개인정보보호법상 국외 데이터 이전 제한, 금융위·금감원의 AI 모델 설명 요구, 공공기관 망분리 정책이 클라우드 기반 멀티에이전트 도입의 현실적 장벽으로 작용**한다. PalmClaw(논문 62)처럼 온디바이스 또는 **온프레미스(on-premise) 배포가 가능한 에이전트 아키텍처를 우선 검토하는 전략**이 이 제약을 우회하는 현실적 경로가 된다.",
+  "paper_count": 649,
+  "narrative": "한 줄 요약 AI 연구의 무게중심은 '에이전트가 무엇을 할 수 있는가'에서 '에이전트를 어떻게 믿고 얼마에 쓸 수 있는가'로 결정적으로 이동했으며, 이 질문에 답하지 못한 조직은 도입 직후 예상치 못한 비용 증가와 통제 실패를 경험할 가능성이 높다.\n\n1) 무엇이 부상하고 있는가 세 가지 흐름이 동시에 가시화됐다. 첫째, 에이전트 출력의 신뢰성 위기와 그 구조적 해법이다. EG-VAR는 Lean 4 커널 기반 tool-calling 아키텍처로 LLM 환각을 0으로 수렴시켰고, Proof-or-Stop은 검증 불가능한 에이전트 상태 전환을 원천 차단하여 false-DONE을 0으로 달성했다. CAVA는 에이전트가 여러 런타임에서 동일 액션을 수행할 때 승인과 실행 사이의 증거 연결을 형식화하여 **내부통제 감사가 가능한 아키텍처 레이어**를 제공한다. 둘째, 에이전트 비용 비효율 문제다. E3 방법론은 에이전트가 태스크 복잡도를 과대 추정하여 불필요한 파일 재독회를 반복하는 현상을 정량화하고, 최소 충분 실행(minimum-sufficient execution)으로 비용 85%, 토큰 91%를 절감했다. Abort Cascade는 실패 가능성이 높은 에이전트 경로를 첫 상호작용에서 감지하여 추론 비용을 최대 8.8배 줄였다. 셋째, GitHub 2,361개 프로젝트 실증 분석은 에이전트 코딩 도구 채택의 성패를 가르는 것이 모델 성능이 아니라 **조직 프로세스와 감시 구조**임을 명확히 했다.\n\n2) 한국 실무자에게 이 흐름이 무슨 의미인가 에이전트 도입을 검토하는 팀이라면 두 가지를 반드시 점검해야 한다. 하나는 비용 측정 단위다. API 호출 횟수·토큰 수 중심의 KPI는 멀티에이전트 오케스트레이션 환경에서 실제 경제성을 전혀 포착하지 못한다. **성공한 목표당 비용으로 KPI를 재설계해야** 비로소 에이전트 투자 타당성을 판단할 수 있다. 다른 하나는 거버넌스 아키텍처다. Enterprise AI Governance 연구가 지적했듯 대부분의 기업은 배포 후 수 주 내에 예상치 못한 비용 증가와 성능 저하를 겪으며, 이는 배포 후 거버넌스 체계의 공백에서 비롯된다. 다중 에이전트 시스템에서는 각 로컬 모니터를 모두 통과하는 분산형 공격이 가능하다는 논문의 발견처럼, **개별 에이전트 단위 평가만으로는 시스템 전체 리스크를 통제할 수 없다**는 점을 설계 단계부터 반영해야 한다.\n\n3) 산업 적용 흐름 법률·의료·금융 분야의 고위험 에이전트 배포가 가장 먼저 가시화될 가능성이 높다. 임상 노트 자동 분석 시스템 Pythia는 파인튜닝 없이 민감도 0.76·특이도 0.95를 달성했고, 프랑스 법원 판결문의 암묵적 법령 인용 탐지 연구는 법률 AI의 실무 적용 범위를 확장한다. 한국 맥락에서는 **개인정보보호법상 국외 데이터 이전 제한, 금융위·금감원의 AI 모델 설명 요구, 공공기관의 망분리 정책이 클라우드 기반 멀티에이전트 도입의 현실적 장벽으로 작용**하므로, 아키텍처 설계 단계에서 온프레미스 배포 옵션을 반드시 확보하고 **책임 경계가 명확히 설계된 아키텍처를 선택**해야 규제 리스크를 줄일 수 있다.",
   "hot_topics": [
     {
-      "topic": "에이전트 거버넌스·검증 체계 (Agentic Governance & Verification)",
-      "description": "에이전트가 '완료했다'고 주장하는 것과 실제 완료 사이의 간극을 형식적 증거로 메우는 제어 기술이 기업 AI 도입의 새 필수 레이어로 부상 중.",
-      "paper_count": 5,
+      "topic": "에이전트 거버넌스·안전성 (Agentic Governance & Safety)",
+      "description": "에이전트 출력을 검증 가능한 증거로만 허용하고 런타임 액션 승인·집행 간 감사 추적을 형식화하는 아키텍처가 잇따라 제안됨.",
+      "paper_count": 6,
       "paper_indices": [
         1,
         6,
         8,
+        9,
+        40,
+        79
+      ],
+      "papers": [
+        {
+          "title": "Evidence-Grounded Verified Agentic Reasoning: A Path Toward Eliminating LLM Hallucination in Empirical Inference via Tool-Attested Kernel Proofs",
+          "url": "https://arxiv.org/abs/2607.12650v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-14"
+        },
+        {
+          "title": "Proof-or-Stop: Don't Trust the Agent, Trust the Evidence -- Loop Engineering for Verifiable Evidence-Gated Lifecycle Control",
+          "url": "https://arxiv.org/abs/2607.14890v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-16"
+        },
+        {
+          "title": "Win by Silence: Deletion Non-Monotonicity, Autonomous Exploitation, and Typed-State Gating in LLM Plan Evaluation",
+          "url": "https://arxiv.org/abs/2607.12986v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-14"
+        },
+        {
+          "title": "When Local Monitors Miss Compositional Harm: Diagnosing Distributed Backdoors in Multi-Agent Systems",
+          "url": "https://arxiv.org/abs/2607.11751v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-13"
+        },
+        {
+          "title": "CAVA: Canonical Action Verification and Attestation for Runtime Governance of Agentic AI Systems",
+          "url": "https://arxiv.org/abs/2607.13716v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-15"
+        },
+        {
+          "title": "How Agents Ask for Permission: User Permissions for AI Agents, from Interfaces to Enforcement",
+          "url": "https://arxiv.org/abs/2607.13718v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-15"
+        }
+      ]
+    },
+    {
+      "topic": "에이전트 비용 효율화 (Agentic Cost Efficiency)",
+      "description": "에이전트가 태스크 복잡도를 과대 추정하거나 실패 경로를 지속 실행하는 낭비를 구조적으로 제거하는 연구들이 부상함.",
+      "paper_count": 3,
+      "paper_indices": [
+        3,
+        7,
+        25
+      ],
+      "papers": [
+        {
+          "title": "Doomed from the Start: Early Abort of LLM Agent Episodes via a Recall-Controlled Probe Cascade",
+          "url": "https://arxiv.org/abs/2607.06503v2",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-16"
+        },
+        {
+          "title": "Do AI Agents Know When a Task Is Simple? Toward Complexity-Aware Reasoning and Execution",
+          "url": "https://arxiv.org/abs/2607.13034v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-14"
+        },
+        {
+          "title": "Beyond Success Rate: Cost-Aware Evaluation of Offensive and Defensive Security Agents",
+          "url": "https://arxiv.org/abs/2607.15263v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-16"
+        }
+      ]
+    },
+    {
+      "topic": "멀티에이전트 협업 및 조직 변화 (Multi-Agent Collaboration & Org Impact)",
+      "description": "에이전트 네트워크의 창발적 성능과 봇 채택 이후 팀 내 역할 분화·갈등 감소 등 조직 구조 변화를 실증한 연구가 급증함.",
+      "paper_count": 5,
+      "paper_indices": [
+        12,
+        14,
+        17,
+        44,
+        61
+      ],
+      "papers": [
+        {
+          "title": "ANet Patu-1: The Value of Connection in the Agent Network",
+          "url": "https://arxiv.org/abs/2607.15053v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-16"
+        },
+        {
+          "title": "Early Adoption of Agentic Coding Tools by GitHub Projects",
+          "url": "https://arxiv.org/abs/2607.14037v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-15"
+        },
+        {
+          "title": "When and Why Does Multi-Agent Debate Fail and Does It Really Underperform?",
+          "url": "https://arxiv.org/abs/2510.20963v2",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-14"
+        },
+        {
+          "title": "Can LLMs Perform Deep Technical Comprehension of Computer Architecture Papers?",
+          "url": "https://arxiv.org/abs/2607.11859v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-13"
+        },
+        {
+          "title": "When Bots Join the Team: Bot Adoption and the Institutional Fabric of Open-Source Software Projects",
+          "url": "https://arxiv.org/abs/2607.13679v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-15"
+        }
+      ]
+    },
+    {
+      "topic": "AI 규제 준수 프레임워크 (AI Regulatory Compliance Framework)",
+      "description": "NIST AI RMF 적응·에이전트 웹 정책·사용자 권한 설계 등 규제 대응 실무 프레임워크가 제도화 단계로 진입함.",
+      "paper_count": 4,
+      "paper_indices": [
+        2,
         39,
-        77
+        53,
+        79
+      ],
+      "papers": [
+        {
+          "title": "SCITUS: A Multi-Jurisdictional Framework for Adapting NIST AI RMF to the Canadian Regulatory Context",
+          "url": "https://arxiv.org/abs/2607.15051v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-16"
+        },
+        {
+          "title": "The Agentic Web Requires New Normative Infrastructure",
+          "url": "https://arxiv.org/abs/2606.10711v2",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-15"
+        },
+        {
+          "title": "Enterprise AI Governance: Why Post-Deployment Fails",
+          "url": "https://doi.org/10.5281/zenodo.21347527",
+          "source": "OpenAlex",
+          "date": "2026-07-14"
+        },
+        {
+          "title": "How Agents Ask for Permission: User Permissions for AI Agents, from Interfaces to Enforcement",
+          "url": "https://arxiv.org/abs/2607.13718v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-15"
+        }
+      ]
+    },
+    {
+      "topic": "LLM 환각 제거 및 증거 기반 추론 (Hallucination Elimination & Verified Reasoning)",
+      "description": "형식적 증명·tool-calling·컴파일러 피드백 등 구조적 방법으로 LLM 환각을 0에 수렴시키는 접근이 상용화 직전 단계에 진입함.",
+      "paper_count": 4,
+      "paper_indices": [
+        1,
+        6,
+        38,
+        78
+      ],
+      "papers": [
+        {
+          "title": "Evidence-Grounded Verified Agentic Reasoning: A Path Toward Eliminating LLM Hallucination in Empirical Inference via Tool-Attested Kernel Proofs",
+          "url": "https://arxiv.org/abs/2607.12650v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-14"
+        },
+        {
+          "title": "Proof-or-Stop: Don't Trust the Agent, Trust the Evidence -- Loop Engineering for Verifiable Evidence-Gated Lifecycle Control",
+          "url": "https://arxiv.org/abs/2607.14890v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-16"
+        },
+        {
+          "title": "Generative Compilation: On-the-Fly Compiler Feedback as AI Generates Code",
+          "url": "https://arxiv.org/abs/2607.13921v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-15"
+        },
+        {
+          "title": "Partially Correlated Verifier Cascades in LLM Harnesses: Concave Log-Odds, Polynomial Reliability, and Blind-Spot Ceilings",
+          "url": "https://arxiv.org/abs/2607.13918v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-15"
+        }
+      ]
+    },
+    {
+      "topic": "AI의 문화·노동시장 영향 (AI's Societal & Labor Market Impact)",
+      "description": "LLM이 인간 구어에 어휘 변화를 초래하고 데이터 접근 제한 정책이 노동시장 매칭 효율을 저하시킨다는 인과 관계 실증 연구가 등장함.",
+      "paper_count": 3,
+      "paper_indices": [
+        33,
+        52,
+        60
+      ],
+      "papers": [
+        {
+          "title": "Empirical evidence of Large Language Model's influence on human spoken communication",
+          "url": "https://arxiv.org/abs/2409.01754v4",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-16"
+        },
+        {
+          "title": "The AI End Game: The Industrial Revolution That Replaces the SaaS Industry, Not Just Its Workers",
+          "url": "https://doi.org/10.5281/zenodo.21316317",
+          "source": "OpenAlex",
+          "date": "2026-07-12"
+        },
+        {
+          "title": "The Efficiency Costs of Information Assurance in AI-Enabled Labor Markets: Evidence from LinkedIn's Policy Changes",
+          "url": "https://arxiv.org/abs/2511.01923v2",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-15"
+        }
+      ]
+    }
+  ],
+  "key_techniques": [
+    {
+      "technique": "증거 기반 게이팅 (Evidence-Gated Lifecycle Control)",
+      "description": "에이전트 상태 전환을 기계 검증 가능한 증거로만 허용하여 false-DONE·환각 기반 의사결정을 원천 차단하는 아키텍처 패턴으로, 내부통제 감사 인프라와 직결됨.",
+      "paper_count": 4,
+      "paper_indices": [
+        1,
+        6,
+        8,
+        40
       ],
       "papers": [
         {
@@ -42,302 +272,58 @@
           "url": "https://arxiv.org/abs/2607.13716v1",
           "source": "arXiv AI/CL/LG/IR/MA/CY",
           "date": "2026-07-15"
-        },
-        {
-          "title": "How Agents Ask for Permission: User Permissions for AI Agents, from Interfaces to Enforcement",
-          "url": "https://arxiv.org/abs/2607.13718v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-15"
         }
       ]
     },
     {
-      "topic": "멀티에이전트 신뢰·보안 (Multi-Agent Trust & Security)",
-      "description": "여러 에이전트를 조합할 때 각 에이전트 단위 모니터로는 감지 불가능한 분산 공격이 발생하며, 에이전트 네트워크 수준의 신뢰 설계와 감사 체계가 필수화되는 흐름.",
-      "paper_count": 5,
-      "paper_indices": [
-        9,
-        12,
-        17,
-        43,
-        50
-      ],
-      "papers": [
-        {
-          "title": "When Local Monitors Miss Compositional Harm: Diagnosing Distributed Backdoors in Multi-Agent Systems",
-          "url": "https://arxiv.org/abs/2607.11751v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-13"
-        },
-        {
-          "title": "ANet Patu-1: The Value of Connection in the Agent Network",
-          "url": "https://arxiv.org/abs/2607.15053v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-16"
-        },
-        {
-          "title": "When and Why Does Multi-Agent Debate Fail and Does It Really Underperform?",
-          "url": "https://arxiv.org/abs/2510.20963v2",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-14"
-        },
-        {
-          "title": "Can LLMs Perform Deep Technical Comprehension of Computer Architecture Papers?",
-          "url": "https://arxiv.org/abs/2607.11859v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-13"
-        },
-        {
-          "title": "Scaling the Horizon, Not the Parameters: Reaching Trillion-Parameter Performance with a 35B Agent",
-          "url": "https://arxiv.org/abs/2606.30616v2",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-13"
-        }
-      ]
-    },
-    {
-      "topic": "에이전트 AI 추론 비용 효율화 (Agentic AI Cost Optimization)",
-      "description": "에이전트가 불필요한 컨텍스트를 과소비하는 패턴을 정량화하고, 성공한 목표당 비용이라는 새 운영 지표로 KPI를 재정의하는 연구가 집중 등장.",
-      "paper_count": 4,
-      "paper_indices": [
-        3,
-        7,
-        20,
-        25
-      ],
-      "papers": [
-        {
-          "title": "Doomed from the Start: Early Abort of LLM Agent Episodes via a Recall-Controlled Probe Cascade",
-          "url": "https://arxiv.org/abs/2607.06503v2",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-16"
-        },
-        {
-          "title": "Do AI Agents Know When a Task Is Simple? Toward Complexity-Aware Reasoning and Execution",
-          "url": "https://arxiv.org/abs/2607.13034v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-14"
-        },
-        {
-          "title": "How Inference Compute Shapes Frontier LLM Evaluation",
-          "url": "https://arxiv.org/abs/2606.17930v2",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-14"
-        },
-        {
-          "title": "Beyond Success Rate: Cost-Aware Evaluation of Offensive and Defensive Security Agents",
-          "url": "https://arxiv.org/abs/2607.15263v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-16"
-        }
-      ]
-    },
-    {
-      "topic": "기업 AI 배포 후 거버넌스 공백 (Post-Deployment Enterprise AI Governance)",
-      "description": "AI 배포 직후 발생하는 비용 급등·성능 저하 패턴과 조직 감시 구조의 부재를 실증하며, 기술 선택보다 운영 체계 설계가 성패를 가르는 요소로 부각.",
-      "paper_count": 4,
-      "paper_indices": [
-        14,
-        52,
-        60,
-        77
-      ],
-      "papers": [
-        {
-          "title": "Early Adoption of Agentic Coding Tools by GitHub Projects",
-          "url": "https://arxiv.org/abs/2607.14037v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-15"
-        },
-        {
-          "title": "Enterprise AI Governance: Why Post-Deployment Fails",
-          "url": "https://doi.org/10.5281/zenodo.21347527",
-          "source": "OpenAlex",
-          "date": "2026-07-14"
-        },
-        {
-          "title": "When Bots Join the Team: Bot Adoption and the Institutional Fabric of Open-Source Software Projects",
-          "url": "https://arxiv.org/abs/2607.13679v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-15"
-        },
-        {
-          "title": "How Agents Ask for Permission: User Permissions for AI Agents, from Interfaces to Enforcement",
-          "url": "https://arxiv.org/abs/2607.13718v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-15"
-        }
-      ]
-    },
-    {
-      "topic": "LLM 환각·신뢰성 구조적 제어 (Structural LLM Hallucination & Reliability Control)",
-      "description": "RAG 기반 언러닝, 통계적 일관성 평가, 정적 검색 유용성과 인과적 영향력 간 괴리 등 LLM 출력의 신뢰도를 구조적으로 관리하는 방법론이 급부상.",
-      "paper_count": 5,
-      "paper_indices": [
-        1,
-        4,
-        26,
-        76,
-        79
-      ],
-      "papers": [
-        {
-          "title": "Evidence-Grounded Verified Agentic Reasoning: A Path Toward Eliminating LLM Hallucination in Empirical Inference via Tool-Attested Kernel Proofs",
-          "url": "https://arxiv.org/abs/2607.12650v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-14"
-        },
-        {
-          "title": "When Machine Unlearning Meets Retrieval-Augmented Generation (RAG): Keep Secret or Forget Knowledge?",
-          "url": "https://arxiv.org/abs/2410.15267v3",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-16"
-        },
-        {
-          "title": "Bridge Evidence: Static Retrieval Utility Does Not Predict Causal Utility in Multi-Step Agentic Search",
-          "url": "https://arxiv.org/abs/2607.15253v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-16"
-        },
-        {
-          "title": "Partially Correlated Verifier Cascades in LLM Harnesses: Concave Log-Odds, Polynomial Reliability, and Blind-Spot Ceilings",
-          "url": "https://arxiv.org/abs/2607.13918v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-15"
-        },
-        {
-          "title": "The Illusion of Robustness: Aggregate Accuracy Hides Prediction Flips under Task-Irrelevant Context",
-          "url": "https://arxiv.org/abs/2607.12963v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-14"
-        }
-      ]
-    }
-  ],
-  "key_techniques": [
-    {
-      "technique": "증거 기반 에이전트 생애주기 제어 (Evidence-Gated Lifecycle Control)",
-      "description": "에이전트 출력을 '주장'으로 재정의하고 기계 검증 가능한 증거만으로 상태 전환을 허용하는 아키텍처 패턴 — 자율 에이전트 도입 시 허위 완료 리스크를 구조적으로 차단하는 핵심 설계 원칙.",
-      "paper_count": 3,
-      "paper_indices": [
-        1,
-        6,
-        39
-      ],
-      "papers": [
-        {
-          "title": "Evidence-Grounded Verified Agentic Reasoning: A Path Toward Eliminating LLM Hallucination in Empirical Inference via Tool-Attested Kernel Proofs",
-          "url": "https://arxiv.org/abs/2607.12650v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-14"
-        },
-        {
-          "title": "Proof-or-Stop: Don't Trust the Agent, Trust the Evidence -- Loop Engineering for Verifiable Evidence-Gated Lifecycle Control",
-          "url": "https://arxiv.org/abs/2607.14890v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-16"
-        },
-        {
-          "title": "CAVA: Canonical Action Verification and Attestation for Runtime Governance of Agentic AI Systems",
-          "url": "https://arxiv.org/abs/2607.13716v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-15"
-        }
-      ]
-    },
-    {
-      "technique": "추론 컴퓨트 최적화·조기 중단 (Inference Compute Optimization & Early Abort)",
-      "description": "에이전트 실패를 초기 단계에 예측해 중단하거나 태스크 복잡도에 맞는 최소 컨텍스트만 투입하는 기술 — 운영 비용 85% 이상 절감 실증이 등장하며 에이전트 ROI 계산의 전제를 바꾸는 중.",
-      "paper_count": 4,
-      "paper_indices": [
-        3,
-        7,
-        20,
-        48
-      ],
-      "papers": [
-        {
-          "title": "Doomed from the Start: Early Abort of LLM Agent Episodes via a Recall-Controlled Probe Cascade",
-          "url": "https://arxiv.org/abs/2607.06503v2",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-16"
-        },
-        {
-          "title": "Do AI Agents Know When a Task Is Simple? Toward Complexity-Aware Reasoning and Execution",
-          "url": "https://arxiv.org/abs/2607.13034v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-14"
-        },
-        {
-          "title": "How Inference Compute Shapes Frontier LLM Evaluation",
-          "url": "https://arxiv.org/abs/2606.17930v2",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-14"
-        },
-        {
-          "title": "Interaction Scaling: Grounding the Third Axis of Test-Time Compute",
-          "url": "https://arxiv.org/abs/2607.11598v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-13"
-        }
-      ]
-    },
-    {
-      "technique": "RAG 언러닝·인과 효용 분석 (RAG Unlearning & Counterfactual Utility Analysis)",
-      "description": "민감 정보의 잊힘 효과를 외부 지식베이스 수정으로 시뮬레이션하고, 정적 검색 점수가 높은 문서가 에이전트 추론에서 인과적으로 무효한 경우를 식별 — 폐쇄형 모델에도 적용 가능해 기업 실무 활용 가능성이 높음.",
-      "paper_count": 3,
-      "paper_indices": [
-        4,
-        26,
-        75
-      ],
-      "papers": [
-        {
-          "title": "When Machine Unlearning Meets Retrieval-Augmented Generation (RAG): Keep Secret or Forget Knowledge?",
-          "url": "https://arxiv.org/abs/2410.15267v3",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-16"
-        },
-        {
-          "title": "Bridge Evidence: Static Retrieval Utility Does Not Predict Causal Utility in Multi-Step Agentic Search",
-          "url": "https://arxiv.org/abs/2607.15253v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-16"
-        },
-        {
-          "title": "DeepStress: Stress-Testing Deep Search Agents",
-          "url": "https://arxiv.org/abs/2607.13920v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-15"
-        }
-      ]
-    },
-    {
-      "technique": "자동화 에이전트 레드팀·AI 침투 테스트 (Automated Agent Red-Teaming & AI Penetration Testing)",
-      "description": "AI 에이전트를 공격자로 활용해 다른 에이전트의 취약점을 자동 발굴하는 방법론 — 프롬프트 인젝션·데이터 포이즈닝·도구 오용 등 AI 특화 공격 벡터를 사전에 식별하는 보안 실사의 새 표준.",
+      "technique": "에이전트 조기 중단 (Abort Cascade / Early Abort)",
+      "description": "첫 상호작용에서 실패 가능성을 예측하고 불필요한 추론을 차단하여 운영 비용을 최대 8.8배 절감하는 기술로, 에이전트 ROI 측정의 핵심 레버임.",
       "paper_count": 2,
       "paper_indices": [
-        66,
-        73
+        3,
+        7
       ],
       "papers": [
         {
-          "title": "Agent Hacks Agent: Autoresearch for Production-Agent Red-Teaming",
-          "url": "https://arxiv.org/abs/2607.11698v1",
+          "title": "Doomed from the Start: Early Abort of LLM Agent Episodes via a Recall-Controlled Probe Cascade",
+          "url": "https://arxiv.org/abs/2607.06503v2",
           "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-13"
+          "date": "2026-07-16"
         },
         {
-          "title": "Rethinking Penetration Testing for AI-Enabled Systems: From Resource Compromise to Behavioral Objective Violation",
-          "url": "https://arxiv.org/abs/2607.14006v1",
+          "title": "Do AI Agents Know When a Task Is Simple? Toward Complexity-Aware Reasoning and Execution",
+          "url": "https://arxiv.org/abs/2607.13034v1",
           "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-15"
+          "date": "2026-07-14"
         }
       ]
     },
     {
-      "technique": "다중 에이전트 합의·네트워크 지능 (Multi-Agent Consensus & Networked Intelligence)",
-      "description": "이질적 저비용 모델 군집이 단일 고가 모델을 능가하는 조건과 자기조직화 합의 프로토콜 설계 원리 — 모델 비용 대비 성능 전략의 판단 기준을 제공하며, 연구·분석 팀 구성 방식에 직접 시사점.",
+      "technique": "RAG 기반 언러닝 (RAG-based Machine Unlearning)",
+      "description": "모델 재학습 없이 외부 지식베이스 수정만으로 민감 정보를 삭제하여 ChatGPT·Gemini 같은 폐쇄 모델에도 적용 가능한 개인정보 잊힐 권리 이행 기법.",
+      "paper_count": 2,
+      "paper_indices": [
+        4,
+        70
+      ],
+      "papers": [
+        {
+          "title": "When Machine Unlearning Meets Retrieval-Augmented Generation (RAG): Keep Secret or Forget Knowledge?",
+          "url": "https://arxiv.org/abs/2410.15267v3",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-16"
+        },
+        {
+          "title": "When Does Belief-Based Agent Memory Help? Reliability-Conditional Updating and Provenance-Capped Poisoning Defense",
+          "url": "https://arxiv.org/abs/2606.22030v2",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-16"
+        }
+      ]
+    },
+    {
+      "technique": "비제로섬 멀티에이전트 협업 프로토콜 (Non-Zero-Sum Multi-Agent Collaboration)",
+      "description": "경쟁·합의 기반 에이전트 토론의 인센티브 실패를 해소하고 오류 탐지를 10%p 이상 개선하는 협업 설계 방식으로, 다중 에이전트 시스템 신뢰성의 기반이 됨.",
       "paper_count": 3,
       "paper_indices": [
         12,
@@ -364,19 +350,42 @@
           "date": "2026-07-16"
         }
       ]
+    },
+    {
+      "technique": "복잡도 인식 최소 실행 (Complexity-Aware Minimum-Sufficient Execution)",
+      "description": "에이전트가 태스크 복잡도를 스스로 추정하여 최소 필요 컨텍스트만 활용함으로써 비용과 토큰을 80% 이상 절감하는 실행 전략으로, 에이전트 운영 경제성 설계의 핵심.",
+      "paper_count": 2,
+      "paper_indices": [
+        7,
+        31
+      ],
+      "papers": [
+        {
+          "title": "Do AI Agents Know When a Task Is Simple? Toward Complexity-Aware Reasoning and Execution",
+          "url": "https://arxiv.org/abs/2607.13034v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-14"
+        },
+        {
+          "title": "SAGA: Scene-Aware, Goal-Evolving Agents for Long-Horizon Strategy Game Planning",
+          "url": "https://arxiv.org/abs/2606.29932v3",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-16"
+        }
+      ]
     }
   ],
   "actionable_insights": [
-    "에이전트 도입 프로젝트를 검토할 때 기술 스택 선정보다 **조직의 감시·승인 구조와 실행 책임 소재를 먼저 문서화**해야 한다. GitHub 분석 결과 에이전트 채택 성공을 가른 것은 기술 능력이 아니라 단일 개발자 검토 모델로 대표되는 조직 프로세스의 성숙도였으며, 이 구조 없이 도입한 기업은 배포 직후 비용 급등과 성능 저하를 반복적으로 경험했다.",
-    "현재 운용 중인 에이전트나 RAG 시스템의 KPI가 정확도나 응답 속도에만 집중되어 있다면, **성공한 목표당 실제 비용(cost-per-successful-goal)을 핵심 운영 지표로 추가**해야 한다. 불필요한 컨텍스트 반복이 비용의 85%를 소모한다는 실증은 현재의 고정 예산 기반 평가 방식이 에이전트 환경에서는 오도적임을 시사하며, 추론 컴퓨트 규모를 성과의 함수로 보고하는 체계로 전환이 필요하다.",
-    "RAG 시스템 운영 팀은 정적 검색 평가 점수와 에이전트 추론 상의 인과적 기여도 간 괴리를 주기적으로 측정하는 감사 프로세스를 도입해야 한다. **RAG 파이프라인을 구축 후 방치하는 운영 방식은 재검토가 필요**하며, 에이전트가 실제로 의존한 문서를 역추적하는 반사실적(counterfactual) 평가 루틴을 운영 주기에 포함시켜야 한다.",
-    "멀티에이전트 시스템을 설계하거나 외부 공급사 솔루션을 평가할 때, 로컬 모니터만으로는 분산형 백도어와 조합 공격을 원칙적으로 감지할 수 없다는 전제를 설계 출발점으로 삼아야 한다. **책임 경계가 명확히 설계된 아키텍처를 선택**하고, 에이전트 간 통신 로그를 시스템 수준에서 통합 감사하는 체계를 계약 조건에 포함시켜야 한다.",
-    "법률·의료·금융 분야 에이전트 도입을 검토하는 팀은, **국내 개인정보보호법상 국외 데이터 이전 제한 및 금융당국의 AI 설명 요구와 충돌하는 지점을 법무·컴플라이언스 부서와 공동으로 사전 점검**해야 한다. 클라우드 기반 멀티에이전트가 이 장벽에 막힐 경우를 대비해 온디바이스 또는 온프레미스 배포가 가능한 아키텍처를 대안 후보군에 반드시 포함시켜야 한다."
+    "에이전트 도입 파일럿을 설계할 때 API 호출 횟수나 토큰 소비량이 아니라 **성공한 목표당 비용으로 KPI를 재설계해야** 실제 경제성을 측정할 수 있다. E3 방법론이 보여주듯 같은 태스크를 85% 저렴하게 완료하는 에이전트와 전체 비용을 소진하고도 실패하는 에이전트의 차이는 기존 비용 지표로는 포착되지 않는다.",
+    "멀티에이전트 시스템을 도입할 경우 **개별 에이전트 단위의 품질 검증만으로는 시스템 전체 리스크를 통제할 수 없다**. 각 로컬 모니터를 통과하는 분산형 백도어가 실증됐으며, 이는 조직의 AI 내부통제 프레임워크가 개별 모델이 아닌 에이전트 간 상호작용 단위로 설계되어야 함을 의미한다.",
+    "LLM이 학습한 민감 정보(임직원 개인정보, 거래 데이터 등)의 삭제 요구에 대응하기 위해 RAG 기반 언러닝 방식을 기술 검토 목록에 포함해야 한다. 모델 재학습 없이 외부 지식베이스 수정만으로 삭제 효과를 구현하므로, **개인정보보호법상 잊힐 권리 이행 비용을 크게 낮출 수 있는 현실적 대안**이다.",
+    "에이전트 코딩 도구 도입 성패를 가르는 변수는 모델 성능이 아니라 조직 내 감시 구조와 리뷰 프로세스라는 것이 GitHub 대규모 실증 분석의 결론이다. **에이전트 도입 로드맵에는 기술 스택 선정보다 리뷰·승인 체계 설계가 선행**되어야 하며, 이 순서를 역전한 채 도입한 조직은 생산성 향상 없이 거버넌스 부채만 축적하게 된다.",
+    "국내 금융·공공·헬스케어 분야의 에이전트 도입 시 **온프레미스(on-premise) 또는 폐쇄망 요구가 도입 속도를 제한하는 현실적 제약으로 작동**하므로, 아키텍처 설계 단계에서 클라우드 의존도를 최소화하거나 하이브리드 배포 옵션을 확보하지 않으면 규제 대응 국면에서 전면 재설계 비용이 발생한다."
   ],
   "top_institutions": [
     {
       "name": "ETH",
-      "count": 274
+      "count": 275
     },
     {
       "name": "MIT",
@@ -384,7 +393,7 @@
     },
     {
       "name": "Meta",
-      "count": 23
+      "count": 22
     },
     {
       "name": "AWS",
@@ -446,11 +455,11 @@
     },
     {
       "keyword": "language",
-      "count": 35
+      "count": 36
     },
     {
       "keyword": "generative",
-      "count": 34
+      "count": 35
     },
     {
       "keyword": "framework",
@@ -509,11 +518,11 @@
       "count": 18
     },
     {
-      "keyword": "systems",
+      "keyword": "driven",
       "count": 18
     },
     {
-      "keyword": "driven",
+      "keyword": "llms",
       "count": 18
     }
   ],
