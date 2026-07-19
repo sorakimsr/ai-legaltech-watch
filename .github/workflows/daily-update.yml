@@ -41,6 +41,15 @@ on:
         description: "데이터 갱신 없이 GitHub Pages만 재배포 (UI 변경 후 빠른 배포)"
         required: false
         default: "false"
+      # v8.0: LLM 백엔드 재설정 가능화 (사용자 요청 — API/Max OAuth 전환)
+      llm_backend:
+        description: "LLM 백엔드: claude-cli(Max 구독 OAuth, 기본·무과금) / anthropic(API 종량 과금) / openai(비상)"
+        required: false
+        default: "claude-cli"
+      disable_openai_fallback:
+        description: "OpenAI 비상 폴백 끄기 (비용 완전 차단 — 단, LLM 전면 실패 시 임시카드 위험)"
+        required: false
+        default: "false"
       refresh_recent_days:
         description: "최근 N일 이내 항목 enrich 재실행 (캐시 무시) — 프롬프트 정책 변경 후 새 음영/시사점 적용용"
         required: false
@@ -157,8 +166,11 @@ jobs:
         if: github.event.inputs.deploy_only != 'true' && github.event.inputs.skip_enrich != 'true'
         env:
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          LLM_BACKEND: "claude-cli"
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          # v8.0: 백엔드 스위치 — 기본 claude-cli(구독). anthropic 선택 시에만 API 키 전달
+          #   (키를 상시 주입하면 CLI 실패 시 자동 SDK 폴백으로 조용히 종량 과금되는 구조 차단)
+          LLM_BACKEND: ${{ github.event.inputs.llm_backend || 'claude-cli' }}
+          ANTHROPIC_API_KEY: ${{ github.event.inputs.llm_backend == 'anthropic' && secrets.ANTHROPIC_API_KEY || '' }}
+          OPENAI_API_KEY: ${{ github.event.inputs.disable_openai_fallback == 'true' && '' || secrets.OPENAI_API_KEY }}
           ANTHROPIC_MODEL: "claude-haiku-4-5-20251001"
           ENRICH_TOP_N: "500"
           # v6.18.1 (2026-07-08): 400→250 + 병렬 4워커. CLI 모드 첫 빌드(#191)가 순차
@@ -185,8 +197,11 @@ jobs:
         if: github.event.inputs.deploy_only != 'true' && github.event.inputs.skip_strategy != 'true'
         env:
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          LLM_BACKEND: "claude-cli"
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          # v8.0: 백엔드 스위치 — 기본 claude-cli(구독). anthropic 선택 시에만 API 키 전달
+          #   (키를 상시 주입하면 CLI 실패 시 자동 SDK 폴백으로 조용히 종량 과금되는 구조 차단)
+          LLM_BACKEND: ${{ github.event.inputs.llm_backend || 'claude-cli' }}
+          ANTHROPIC_API_KEY: ${{ github.event.inputs.llm_backend == 'anthropic' && secrets.ANTHROPIC_API_KEY || '' }}
+          OPENAI_API_KEY: ${{ github.event.inputs.disable_openai_fallback == 'true' && '' || secrets.OPENAI_API_KEY }}
           ANTHROPIC_MODEL: "claude-sonnet-4-6"
           # v3.2: weekly/monthly 강제 재생성 옵션 (workflow_dispatch input → '1' 또는 '0')
           STRATEGY_FORCE_REFRESH: ${{ github.event.inputs.strategy_force_refresh == 'true' && '1' || '0' }}
@@ -231,8 +246,11 @@ jobs:
         if: github.event.inputs.deploy_only != 'true' && github.event.inputs.skip_enrich != 'true'
         env:
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          LLM_BACKEND: "claude-cli"
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          # v8.0: 백엔드 스위치 — 기본 claude-cli(구독). anthropic 선택 시에만 API 키 전달
+          #   (키를 상시 주입하면 CLI 실패 시 자동 SDK 폴백으로 조용히 종량 과금되는 구조 차단)
+          LLM_BACKEND: ${{ github.event.inputs.llm_backend || 'claude-cli' }}
+          ANTHROPIC_API_KEY: ${{ github.event.inputs.llm_backend == 'anthropic' && secrets.ANTHROPIC_API_KEY || '' }}
+          OPENAI_API_KEY: ${{ github.event.inputs.disable_openai_fallback == 'true' && '' || secrets.OPENAI_API_KEY }}
           ANTHROPIC_MODEL: "claude-haiku-4-5-20251001"
           # v6.18.2: 순차 카드 호출이 #193에서 1h43m → 4워커 병렬화
           RELATION_CONCURRENCY: "4"
