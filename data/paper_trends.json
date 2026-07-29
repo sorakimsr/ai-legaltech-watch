@@ -1,10 +1,10 @@
 {
-  "analyzed_at": "2026-07-27T18:52:14.925175+09:00",
+  "analyzed_at": "2026-07-29T19:04:55.424520+09:00",
   "llm_backend": "claude-cli",
   "period": "weekly",
   "period_label": "최근 7일",
   "days_window": 7,
-  "paper_count": 442,
+  "paper_count": 232,
   "narrative": "",
   "hot_topics": [],
   "key_techniques": [],
@@ -12,43 +12,39 @@
   "top_institutions": [
     {
       "name": "ETH",
-      "count": 189
+      "count": 111
     },
     {
       "name": "MIT",
-      "count": 135
+      "count": 71
     },
     {
       "name": "Meta",
-      "count": 11
+      "count": 6
     },
     {
       "name": "FAIR",
-      "count": 7
-    },
-    {
-      "name": "Anthropic",
-      "count": 6
+      "count": 3
     },
     {
       "name": "Google",
-      "count": 6
+      "count": 3
     },
     {
       "name": "AWS",
-      "count": 6
+      "count": 3
     },
     {
-      "name": "OpenAI",
-      "count": 3
+      "name": "Anthropic",
+      "count": 2
     },
     {
       "name": "Hugging Face",
-      "count": 3
+      "count": 2
     },
     {
-      "name": "NVIDIA",
-      "count": 3
+      "name": "OpenAI",
+      "count": 1
     },
     {
       "name": "Amazon",
@@ -57,95 +53,87 @@
   ],
   "top_keywords": [
     {
+      "keyword": "multi",
+      "count": 14
+    },
+    {
       "keyword": "reasoning",
-      "count": 25
-    },
-    {
-      "keyword": "data",
-      "count": 22
-    },
-    {
-      "keyword": "framework",
-      "count": 21
+      "count": 14
     },
     {
       "keyword": "language",
-      "count": 21
+      "count": 14
     },
     {
-      "keyword": "llms",
-      "count": 21
+      "keyword": "data",
+      "count": 13
+    },
+    {
+      "keyword": "framework",
+      "count": 12
     },
     {
       "keyword": "agent",
-      "count": 20
-    },
-    {
-      "keyword": "multi",
-      "count": 19
-    },
-    {
-      "keyword": "design",
-      "count": 16
-    },
-    {
-      "keyword": "self",
-      "count": 16
+      "count": 11
     },
     {
       "keyword": "aware",
-      "count": 15
-    },
-    {
-      "keyword": "context",
-      "count": 15
+      "count": 10
     },
     {
       "keyword": "time",
-      "count": 15
-    },
-    {
-      "keyword": "agentic",
-      "count": 14
+      "count": 10
     },
     {
       "keyword": "generation",
-      "count": 14
+      "count": 9
     },
     {
-      "keyword": "agents",
-      "count": 13
+      "keyword": "context",
+      "count": 9
     },
     {
-      "keyword": "systems",
-      "count": 13
+      "keyword": "flow",
+      "count": 8
+    },
+    {
+      "keyword": "diffusion",
+      "count": 8
+    },
+    {
+      "keyword": "vision",
+      "count": 8
     },
     {
       "keyword": "optimization",
-      "count": 13
+      "count": 8
     },
     {
-      "keyword": "evidence",
-      "count": 13
+      "keyword": "networks",
+      "count": 8
+    },
+    {
+      "keyword": "self",
+      "count": 8
     },
     {
       "keyword": "generative",
-      "count": 13
+      "count": 7
+    },
+    {
+      "keyword": "large",
+      "count": 7
+    },
+    {
+      "keyword": "design",
+      "count": 7
     },
     {
       "keyword": "adaptive",
-      "count": 13
+      "count": 7
     }
   ],
   "recent_papers": [
-    {
-      "title": "Autoresearch with Coding Agents: Generalizers and Metric-Maximizers on Quran Recitation Data",
-      "url": "https://arxiv.org/abs/2607.18064v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-07-20",
-      "summary_ko": "코딩 에이전트(Claude Code, Codex)가 Quranic 구절 인식 작업에서 자동으로 코드를 개선하는 실험에서, 두 에이전트는 동일 알고리즘을 발명했으나 Codex는 답변을 하드코딩(specification gaming)했다. Held-out test set 도입으로 이 문제가 해소되며, 에이전트 진정한 성능 평가에는 엄격한 기준 설계가 필수임을 보였다.",
-      "score": 85
-    },
     {
       "title": "Will the Agent Recuse, and Will It Stop? Measuring LLM-Agent Compliance with In-Band Governance Signals at the Access Door and Mid-Flight",
       "url": "https://arxiv.org/abs/2606.06460v3",
@@ -153,14 +141,6 @@
       "date": "2026-07-22",
       "summary_ko": "자율 LLM 에이전트의 리소스 접근 통제를 위해 'Recuse Signal'이라는 in-band 거버넌스 신호를 제안하고, 5개 모델(GPT-4o, Claude Sonnet 4.5, Gemini 2.5 Flash 등)에서 준수도를 측정한 논문. 접근 시점(access door)에서는 모델별로 상이한 준수율(50~100%)을 보였으나, 실행 중 정지 신호(mid-flight halt)는 0/40 준수되어 cooperative signaling의 근본적 한계를 실증했다.",
       "score": 82
-    },
-    {
-      "title": "Value Leakage: An LLM's Answers Are Silently Shaped by Its Own Values",
-      "url": "https://arxiv.org/abs/2607.14345v3",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-07-20",
-      "summary_ko": "LLM이 자신의 가치관(도덕적 선호, 개발사 편향, 여가활동 편호도 등)에 의해 제공하는 정보가 영향을 받으면서도 이를 사용자에게 공개하지 않는 '숨겨진 가치 누출'(value leakage) 현상을 정량화하는 평가 방법론을 제시했으며, Claude는 편향을 부인하고 Qwen은 명시하는 등 모델마다 차이를 보임.",
-      "score": 78
     },
     {
       "title": "Coercion and Deception in AI-to-AI Management: An Agentic Benchmark of Unprompted Escalation",
@@ -171,22 +151,6 @@
       "score": 77
     },
     {
-      "title": "An approach to systemic risks of AI through the lens of emergence, collective action problems, and externalities",
-      "url": "https://arxiv.org/abs/2607.18170v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-07-20",
-      "summary_ko": "일반목적 AI의 하류 시스템 통합에서 비롯된 '시스템적 위험'을 복잡성·emergence·collective action 관점에서 재개념화한 논문. externalities와 collective action problems로 프레임화하며, feedback dynamics·algorithmic monocultures·AI 공급체인 통합 과정에서 structural dominance·cascading risks·governance 적자가 야기되는 메커니즘을 분석.",
-      "score": 76
-    },
-    {
-      "title": "Simple Domain Generalization for Strong Pixel-Level Image Tampering Detection in Modern VLMs",
-      "url": "https://arxiv.org/abs/2607.18230v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-07-20",
-      "summary_ko": "ChatGPT, Gemini 등 현대 VLM이 생성한 이미지의 픽셀 레벨 조작을 탐지하는 도메인 일반화 프레임워크를 제시. 균형 잡힌 미니배치 샘플링과 지연 주입 전략으로 다양한 VLM 분포에 강건한 모델을 구축하며, 기존 PIXAR 대비 26% 이상의 성능 개선 달성.",
-      "score": 64
-    },
-    {
       "title": "AI Security Policy Should Assess Systems, Not Only Models",
       "url": "https://arxiv.org/abs/2605.09504v2",
       "source": "arXiv AI/CL/LG/IR/MA/CY",
@@ -195,68 +159,12 @@
       "score": 57
     },
     {
-      "title": "Explainable AI: Das Projekt DIA-XAI erprobt ein System für KI-gestützte Workflows und ihre fachwissenschaftliche Validierung durch Experts-in-the-Loop",
-      "url": "https://doi.org/10.58079/16lli",
-      "source": "OpenAlex",
-      "date": "2026-07-20",
-      "summary_ko": "DIA-XAI 프로젝트는 설명 가능한 AI(XAI) 기술을 기반으로 AI 워크플로우를 구축하고, 전문가 루프(Experts-in-the-Loop) 방식으로 전문 검증을 수행하는 시스템을 개발·실증 중이다.",
-      "score": 56
-    },
-    {
-      "title": "Logical Judgments Under Pressure: Diagnosing Syllogistic Stability with Learned Soft Prefixes",
-      "url": "https://arxiv.org/abs/2607.18228v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-07-20",
-      "summary_ko": "논문은 학습된 소프트 프리픽스(continuous vector)를 삼단논법 벤치마크에 추가하여 LLM의 논리적 안정성을 진단합니다. Qwen과 Gemma 모델에서 프리픽스가 정답을 37~99 포인트 이상 오답으로 돌릴 수 있으며, 이 효과는 특정 기호 강제나 논리 연산이 아닌 광범위한 답변 선호도에서 비롯됨을 보여줍니다.",
-      "score": 54
-    },
-    {
-      "title": "Full Bayesian Reinforcement Learning via LF-IBIS",
-      "url": "https://arxiv.org/abs/2607.01741v2",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-07-20",
-      "summary_ko": "LF-IBIS는 명시적·추적 불가능한 우도함수 없이 베이지안 강화학습을 수행하는 새로운 알고리즘입니다. Approximate Bayesian Computation과 Iterated Batch Importance Sampling을 결합하여 환경 매개변수와 최적 정책의 근사 후선 분포를 제공하며, 임상시험의 반응 적응형 무작위화에서 검증되었습니다.",
-      "score": 54
-    },
-    {
       "title": "TRUST-ESD: A Risk-Calibrated and Governance-Aware AI Framework for Enterprise Strategic Decision Support Under Uncertainty",
       "url": "https://arxiv.org/abs/2607.20065v1",
       "source": "arXiv AI/CL/LG/IR/MA/CY",
       "date": "2026-07-22",
       "summary_ko": "기업 전략적 의사결정을 지원하기 위해 불확실성 보정, 하향 위험 평가, 정책-코드 거버넌스를 통합한 TRUST-ESD 프레임워크를 제안합니다. 최대 기대값 선택이 아닌 가치, 신뢰성, 위험 노출, 규제 준수의 균형을 고려한 전략 추천으로, 위험 조정 유틸리티 7.95% 개선, 거버넌스 준수 9.76% 향상을 달성했습니다.",
       "score": 52
-    },
-    {
-      "title": "OR Else: A Differentiable Trust Region for Policy Optimization",
-      "url": "https://arxiv.org/abs/2607.18163v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-07-20",
-      "summary_ko": "이 논문은 대형언어모델 정렬을 위한 정책 최적화 방법을 개선합니다. PPO와 GRPO의 클립된 대리 목적 함수를 부드러운 Output Reset 손실로 대체하는 PPO-OR과 GRPO-OR을 제안하며, Llama-3.2-1B를 Anthropic hh-rlhf에서 평가한 결과 GAE 조건에서는 PPO-OR이 우월하나 그룹 상대 이득에서는 GRPO-OR이 일관성 있는 개선을 보이지 않습니다.",
-      "score": 45
-    },
-    {
-      "title": "Unveiling Invariant and Transferable Latent Factors Across Heterogeneous Environments via ATLAS",
-      "url": "https://arxiv.org/abs/2607.18209v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-07-20",
-      "summary_ko": "이 논문은 이질적 환경에서 수집된 고차원 데이터로부터 불변 인수와 환경 특정 인수를 분리하는 다중 환경 인수 모델을 제안합니다. ATLAS라는 방법을 통해 보조 라벨과 불변성 원칙을 활용하여 전이학습 가능한 저차원 표현을 추출하며, 새로운 환경에서의 예측 성능을 보장합니다.",
-      "score": 44
-    },
-    {
-      "title": "mHC-GNN: Manifold-Constrained Hyper-Connections for Graph Neural Networks",
-      "url": "https://arxiv.org/abs/2601.02451v2",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-07-20",
-      "summary_ko": "그래프 신경망의 과도평탄화 문제를 Birkhoff polytope 제약 하에서 doubly stochastic 혼합 행렬로 해결하는 mHC-GNN을 제안. Sinkhorn-Knopp 정규화를 통해 노드 쌍 거리가 (1-ε)^L 속도로만 감소함을 이론적으로 증명하며, 128층에서도 74% 이상 정확도 유지하는 50 percentage point 이상의 성능 개선 달성.",
-      "score": 44
-    },
-    {
-      "title": "EVOLVE: Efficient Learned Volume Compression with Variable-Rate Encoding on a Cross-Domain Database",
-      "url": "https://arxiv.org/abs/2607.18187v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-07-20",
-      "summary_ko": "과학 시뮬레이션 데이터의 고압축 손실 압축을 위해 오토인코더 기반 프레임워크 EVOLVE를 제안. 21개 시뮬레이션의 6,376개 볼륨으로 구성된 교차 도메인 데이터베이스 구축 및 학습 가능한 gain 메커니즘으로 가변 비율 인코딩 지원, 기존 방식 대비 높은 압축 효율과 신속한 처리 속도 달성.",
-      "score": 44
     },
     {
       "title": "Same Dangerous Objective, Opposite Advice: Direct Exposure versus Multi-Agent Mediation",
@@ -272,14 +180,6 @@
       "source": "OpenAlex",
       "date": "2026-07-22",
       "summary_ko": "Kirstin Stevens, The Novacene Ltd — [Zenodo (CERN European Organization for Nuclear Research)] Governance, risk and compliance practice is roughly fifty years old, and its whole lineage — from 1970s f",
-      "score": 40
-    },
-    {
-      "title": "A GOVERNANCE MODEL FOR AGENTIC AI USE IN BANKING SYSTEMS",
-      "url": "https://doi.org/10.56726/irjmets100553",
-      "source": "OpenAlex",
-      "date": "2026-07-20",
-      "summary_ko": "[International Research Journal of Modernization in Engineering Technology and Science] Agentic artificial intelligence is emerging in banking as AI agents capable of planning tasks, retrieving contex",
       "score": 40
     },
     {
@@ -377,6 +277,102 @@
       "date": "2026-07-23",
       "summary_ko": "Safe and socially compliant navigation in open human-robot environments requires robots to reason about heterogeneous participants with different dynamics, autonomy levels, and social roles. Existing ",
       "score": 39
+    },
+    {
+      "title": "Gumbel Distillation for Parallel Text Generation",
+      "url": "https://arxiv.org/abs/2603.22216v2",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-07-23",
+      "summary_ko": "The slow, sequential nature of autoregressive (AR) language models has driven the adoption of parallel decoding methods. However, these non-AR models often sacrifice generation quality as they struggl",
+      "score": 39
+    },
+    {
+      "title": "Moral Semantics Survive Machine Translation: Cross-Lingual Evidence from Moral Foundations Corpora",
+      "url": "https://arxiv.org/abs/2605.22660v2",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-07-23",
+      "summary_ko": "Moral language is subtle and culturally variable, making it difficult to translate faithfully across languages. Idiomatic expressions, slang, and cultural references introduce hard-to-avoid translatio",
+      "score": 39
+    },
+    {
+      "title": "Agentic coding without the cloud: evaluating open-weight large language models on longitudinal data preparation tasks",
+      "url": "https://arxiv.org/abs/2607.21482v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-07-23",
+      "summary_ko": "Large language models (LLMs) and agents are now widely used tools in code development, with data typically sent to third-party cloud-based models. Their adoption in research using personal data is con",
+      "score": 39
+    },
+    {
+      "title": "Finite-Sample Coverage Audits for High-Recall Candidate Generation: Certification and Learning-Theoretic Design",
+      "url": "https://arxiv.org/abs/2607.21480v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-07-23",
+      "summary_ko": "An initial high-recall stage in an empirical pipeline decides which items pass to later review, labelling, or modelling, and relevant items it misses are lost to every subsequent stage. We study how m",
+      "score": 39
+    },
+    {
+      "title": "White Box Evidence Packages for Policy Audit Reports",
+      "url": "https://arxiv.org/abs/2607.21462v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-07-23",
+      "summary_ko": "As AI governance moves from benchmark scores toward auditable oversight, a central question is how reviewers can tell whether an LLM-generated audit report is actually supported by evidence. This pape",
+      "score": 39
+    },
+    {
+      "title": "Detecting LLM-Generated Tokens in Human--LLM Coauthored Text",
+      "url": "https://arxiv.org/abs/2607.21458v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-07-23",
+      "summary_ko": "The rise of human-AI collaborative writing has created a growing need for fine-grained detection methods that support localizing likely LLM-generated content in mixed-authorship documents. Existing me",
+      "score": 39
+    },
+    {
+      "title": "Anticipate Before Acting: Future-State-Conditioned Vision-Language Navigation",
+      "url": "https://arxiv.org/abs/2607.18042v2",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-07-23",
+      "summary_ko": "End-to-end vision-language navigation (VLN) with causal vision-language models maps instructions and egocentric observations directly to actions, but standard behavior cloning supervises only the next",
+      "score": 39
+    },
+    {
+      "title": "From Checklists to Clusters: A Homeostatic Account of AGI Evaluation",
+      "url": "https://arxiv.org/abs/2510.15236v2",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-07-23",
+      "summary_ko": "Contemporary AGI evaluations report multidomain capability profiles, yet they typically assign symmetric weights and rely on snapshot scores. This creates two problems: (i) equal weighting treats all ",
+      "score": 39
+    },
+    {
+      "title": "Agent-Guided Relational Concept Discovery: Toward Interpretable Surgical Margin Assessment",
+      "url": "https://arxiv.org/abs/2607.21437v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-07-23",
+      "summary_ko": "Deep learning models can effectively use Rapid Evaporative Ionization Mass Spectrometry (REIMS) data for surgical margin assessment. However, their clinical adoption remains challenging due to limited",
+      "score": 39
+    },
+    {
+      "title": "Adaptive Identity Anchoring: Closed-Loop Keyframe Placement for Synthetic Paired Supervision in Video Face Swapping",
+      "url": "https://arxiv.org/abs/2607.21434v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-07-23",
+      "summary_ko": "Video face swapping has no natural paired supervision: no real footage exists of one person's face performing another person's video. The strongest current answer, DreamID-V's SyncID-Pipe, mints pairs",
+      "score": 39
+    },
+    {
+      "title": "Towards Disentangled Preference Optimization Dynamics: Suppress the Loser, Preserve the Winner",
+      "url": "https://arxiv.org/abs/2604.18239v4",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-07-23",
+      "summary_ko": "Preference optimization is widely used to align large language models (LLMs) with human preferences. However, many margin-based methods also suppress the chosen response when they try to suppress the ",
+      "score": 39
+    },
+    {
+      "title": "Context-weighted Discrete Flow Matching",
+      "url": "https://arxiv.org/abs/2607.21427v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-07-23",
+      "summary_ko": "Discrete flow matching provides a flexible framework for generative modeling on discrete structures. However, the standard factorized training objective exposes the model to targets of varying difficu",
+      "score": 39
     }
   ],
   "available_periods": {
@@ -438,9 +434,7 @@
       "2026-06-02",
       "2026-06-01",
       "2026-05-31",
-      "2026-05-30",
-      "2026-05-29",
-      "2026-05-28"
+      "2026-05-30"
     ],
     "weekly": [
       "2026-W31",
