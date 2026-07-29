@@ -1,433 +1,5 @@
 {
   "daily": {
-    "2026-05-30": {
-      "analyzed_at": "2026-05-30T17:38:33.516369+09:00",
-      "llm_backend": "anthropic",
-      "period": "daily",
-      "period_label": "오늘",
-      "days_window": 1,
-      "paper_count": 11,
-      "narrative": "한 줄 요약 AI는 이제 특정 도메인의 전문 판단 영역—법률, 보안, 훈련, 신약 설계—까지 파고들며, 한국 기업이 'AI를 쓸 것인가'가 아니라 '어떤 법적·운영적 조건 아래 어떻게 쓸 것인가'를 결정해야 하는 단계로 진입했다.\n\n1) 무엇이 부상하고 있는가 오늘 발표된 논문들에서 가장 두드러지는 흐름은 AI가 단순 보조 도구를 넘어 전문 도메인의 의사결정 프로세스 자체를 재설계하고 있다는 점이다. Yale Law School의 Rebecca Fordon과 Amanda Watson이 제시한 'Will it AI?' 프레임워크는 법률 연구 프로세스에서 AI 도입 여부를 판단하는 체계적 기준을 제공한다. 이는 단순히 '법률 AI 도구를 쓰자'는 수준이 아니라, **어떤 법률 업무가 AI에 적합하고 어떤 업무는 인간 전문가가 반드시 개입해야 하는지를 구조화하는 의사결정 설계**가 필요하다는 신호다. 동시에 AI 에이전트를 활용한 폐쇄형 촉매 설계 워크플로우(Lin Chen·Shaoqi Zhan)와 LLM 기반 분자 SMILES 생성 연구는, AI 에이전트가 인간의 반복 개입 없이 스스로 실험-평가-최적화 루프를 돌리는 '자율 설계 에이전트' 시대가 R&D 현장에서 현실화되고 있음을 보여준다. 사이버 보안 영역에서도 단순 취약점 점수(CVSS)를 넘어 자산 노출도와 맥락을 반영한 동적 위험 평가 모델이 제안되고 있어, **보안 리스크 관리의 기준 자체가 정적 점수에서 맥락 기반 동적 평가로 전환되는 압력**이 커지고 있다.\n\n2) 한국 실무자에게 이 흐름이 무슨 의미인가 한국 법학자 황원재의 논문은 생성형 AI 시대 데이터 보호·활용의 민법적 기초가 아직 불완전하다는 점을 지적한다. 이는 한국 기업 전략·기획 담당자에게 매우 직접적인 시사점을 준다. AI 도입 프로젝트를 기획할 때 **데이터 활용의 법적 근거를 '개인정보보호법 준수'로만 체크하는 방식은 이미 불충분하며, 민법상 데이터 권리 귀속·계약 책임까지 사전 검토 항목에 포함시켜야 한다**. 또한 AI 코드 에이전트와 인간 개발자의 오픈소스 기여도를 비교한 연구는, 개발 조직 내 AI 도구 도입 시 '생산성 향상'이라는 막연한 기대 대신 **실제 기여 품질과 한계를 실증 데이터로 측정하는 평가 체계를 내부에 구축해야** 한다는 점을 상기시킨다. 디지털 정신건강 메타분석 결과는 HR·복지 담당자에게도 유효한데, AI 기반 대화형 에이전트가 우울·불안·스트레스 경감에 임상적으로 유의미한 효과를 보인다는 근거가 축적되면서, **직원 정신건강 지원 프로그램에 AI 챗봇을 도입하는 의사결정의 근거 수준이 '실험적 시도'에서 '근거 기반 도입'으로 격상**되고 있다.\n\n3) 산업 적용 흐름 법률·공공·제약·보안 순으로 전문 도메인 AI 도입이 가속화될 가능성이 높다. 법률 분야는 'Will it AI?' 같은 실무 프레임워크가 등장하면서 대형 로펌과 기업 법무팀의 AI 도입 기준이 구체화되고 있고, 제약·바이오는 LLM 기반 분자 설계와 AI 에이전트 촉매 워크플로우가 R&D 파이프라인 단축의 실질적 수단으로 부상하고 있다. 그러나 한국 기업 환경에서는 **개인정보보호법상 국외 데이터 이전 제한, 금융위·금감원의 AI 모델 설명 요구, 공공기관의 망분리 정책이 클라우드 기반 AI 에이전트 도입의 현실적 장벽으로 작용**한다. 특히 군 장교 전술 훈련용 생성형 AI 플랫폼 연구처럼, 폐쇄 환경에서 개인맞춤형 시뮬레이션을 구현하는 온프레미스(on-premise) 설계 방식은 공공·금융·방산 분야 한국 기업이 참조할 수 있는 현실적 아키텍처 방향이다. **도입 속도보다 도입 조건—데이터 거버넌스, 법적 책임 소재, 보안 아키텍처—을 먼저 설계하는 기업이 중장기적으로 규제 리스크를 낮추고 지속 가능한 AI 운영 체계를 확보**할 수 있다.",
-      "hot_topics": [
-        {
-          "topic": "전문 도메인 AI 의사결정 프레임워크 (Domain-Specific AI Decision Framework)",
-          "description": "법률·군사·보안 등 고위험 전문 영역에서 AI 도입 여부와 방식을 체계적으로 판단하는 기준 설계가 핵심 과제로 부상.",
-          "paper_count": 3,
-          "paper_indices": [
-            2,
-            3,
-            7
-          ],
-          "papers": [
-            {
-              "title": "“Will it AI?” – A Practical Framework for Integrating AI in Legal Research Processes",
-              "url": "https://insight.dickinsonlaw.psu.edu/tttconference/2026/Main/2",
-              "source": "OpenAlex",
-              "date": "2026-05-29"
-            },
-            {
-              "title": "Designing A Generative AI Platform For Tactical Training Of Junior Officers",
-              "url": "https://doi.org/10.5281/zenodo.20320464",
-              "source": "OpenAlex",
-              "date": "2026-05-29"
-            },
-            {
-              "title": "Context-Aware Vulnerability Scoring for Dubai Immigration Systems: Enhancing CVSS with Exposure and Asset Risk Factors",
-              "url": "https://repository.rit.edu/cgi/viewcontent.cgi?article=13738&context=theses",
-              "source": "OpenAlex",
-              "date": "2026-05-29"
-            }
-          ]
-        },
-        {
-          "topic": "AI 에이전트 기반 자율 설계 워크플로우 (Autonomous AI Agent Design Workflow)",
-          "description": "인간 개입 없이 AI 에이전트가 실험-평가-최적화 루프를 자동 수행하는 R&D 자동화 흐름이 제약·화학 분야에서 현실화.",
-          "paper_count": 2,
-          "paper_indices": [
-            8,
-            10
-          ],
-          "papers": [
-            {
-              "title": "A closed-loop universal catalyst design workflow ready for AI agents",
-              "url": "https://doi.org/10.20517/aiagent.2026.12",
-              "source": "OpenAlex",
-              "date": "2026-05-29"
-            },
-            {
-              "title": "Target-aware molecule SMILES generation using a large language model with retrieval-augmented generation, multi-turn memory, and a predictive model",
-              "url": "https://doi.org/10.1007/s10822-026-00834-1",
-              "source": "OpenAlex",
-              "date": "2026-05-29"
-            }
-          ]
-        },
-        {
-          "topic": "AI 데이터 활용의 법적 기초 재검토 (Legal Foundation for AI Data Use)",
-          "description": "생성형 AI 시대 데이터 보호·활용의 민법적 근거가 불완전하며, 새 입법 전에 법리적 기초부터 재정비해야 한다는 논의.",
-          "paper_count": 1,
-          "paper_indices": [
-            1
-          ],
-          "papers": [
-            {
-              "title": "Civil Law Issues Concerning Data Protection and Data Use in the Age of Artificial Intelligence",
-              "url": "https://doi.org/10.38133/cnulawreview.2026.46.2.77",
-              "source": "OpenAlex",
-              "date": "2026-05-29"
-            }
-          ]
-        },
-        {
-          "topic": "사이버 보안 동적 위험 평가 (Context-Aware Cyber Risk Assessment)",
-          "description": "정적 취약점 점수(CVSS)의 한계를 넘어 자산 노출도·맥락을 반영한 동적 보안 위험 평가 모델과 능동적 사이버 방어 프레임워크.",
-          "paper_count": 2,
-          "paper_indices": [
-            7,
-            11
-          ],
-          "papers": [
-            {
-              "title": "Context-Aware Vulnerability Scoring for Dubai Immigration Systems: Enhancing CVSS with Exposure and Asset Risk Factors",
-              "url": "https://repository.rit.edu/cgi/viewcontent.cgi?article=13738&context=theses",
-              "source": "OpenAlex",
-              "date": "2026-05-29"
-            },
-            {
-              "title": "Cyber Self‑Defense Under Active Intrusion: A Lawful, Ethical, and Operational Framework for Defensive Deception, Containment, Attribution, and Recovery",
-              "url": "https://doi.org/10.5281/zenodo.20435792",
-              "source": "OpenAlex",
-              "date": "2026-05-29"
-            }
-          ]
-        },
-        {
-          "topic": "AI 기반 디지털 정신건강 중재 (AI-Driven Digital Mental Health Intervention)",
-          "description": "AI 및 규칙 기반 대화형 에이전트가 우울·불안·스트레스 경감에 임상적으로 유의미한 효과를 보인다는 메타분석 근거 축적.",
-          "paper_count": 1,
-          "paper_indices": [
-            6
-          ],
-          "papers": [
-            {
-              "title": "Effectiveness of AI and rule-based conversational agents for depression, anxiety and stress: A meta-analysis",
-              "url": "https://doi.org/10.1038/s41746-026-02820-1",
-              "source": "OpenAlex",
-              "date": "2026-05-29"
-            }
-          ]
-        },
-        {
-          "topic": "AI 코드 에이전트 실무 성능 검증 (AI Code Agent Performance Benchmarking)",
-          "description": "오픈소스 기여도 비교를 통해 AI 코딩 도구의 실제 품질과 한계를 실증적으로 측정하는 평가 방법론.",
-          "paper_count": 1,
-          "paper_indices": [
-            4
-          ],
-          "papers": [
-            {
-              "title": "Comparing AI Code Agent and Human Expertise Levels in OSS Contributions",
-              "url": "https://doi.org/10.5281/zenodo.20056343",
-              "source": "OpenAlex",
-              "date": "2026-05-29"
-            }
-          ]
-        }
-      ],
-      "key_techniques": [
-        {
-          "technique": "검색 증강 생성 + 다중턴 메모리 결합 (RAG with Multi-Turn Memory)",
-          "description": "단순 RAG를 넘어 대화 맥락을 누적 기억하며 분자 설계·법률 연구 등 복잡한 전문 업무에 적용하는 방식으로, 단일 쿼리 한계를 극복.",
-          "paper_count": 2,
-          "paper_indices": [
-            2,
-            10
-          ],
-          "papers": [
-            {
-              "title": "“Will it AI?” – A Practical Framework for Integrating AI in Legal Research Processes",
-              "url": "https://insight.dickinsonlaw.psu.edu/tttconference/2026/Main/2",
-              "source": "OpenAlex",
-              "date": "2026-05-29"
-            },
-            {
-              "title": "Target-aware molecule SMILES generation using a large language model with retrieval-augmented generation, multi-turn memory, and a predictive model",
-              "url": "https://doi.org/10.1007/s10822-026-00834-1",
-              "source": "OpenAlex",
-              "date": "2026-05-29"
-            }
-          ]
-        },
-        {
-          "technique": "폐쇄형 자율 에이전트 워크플로우 (Closed-Loop Autonomous Agent Workflow)",
-          "description": "AI 에이전트가 설계-실행-평가-최적화를 자동 반복하는 구조로, R&D 및 훈련 시뮬레이션 분야에서 인간 개입 최소화를 실현.",
-          "paper_count": 2,
-          "paper_indices": [
-            3,
-            8
-          ],
-          "papers": [
-            {
-              "title": "Designing A Generative AI Platform For Tactical Training Of Junior Officers",
-              "url": "https://doi.org/10.5281/zenodo.20320464",
-              "source": "OpenAlex",
-              "date": "2026-05-29"
-            },
-            {
-              "title": "A closed-loop universal catalyst design workflow ready for AI agents",
-              "url": "https://doi.org/10.20517/aiagent.2026.12",
-              "source": "OpenAlex",
-              "date": "2026-05-29"
-            }
-          ]
-        },
-        {
-          "technique": "맥락 기반 취약점 동적 평가 모델 (Context-Aware Vulnerability Scoring)",
-          "description": "CVSS 같은 정적 점수에 자산 중요도·노출 환경을 결합해 실제 비즈니스 리스크를 반영한 보안 우선순위 결정을 가능하게 함.",
-          "paper_count": 1,
-          "paper_indices": [
-            7
-          ],
-          "papers": [
-            {
-              "title": "Context-Aware Vulnerability Scoring for Dubai Immigration Systems: Enhancing CVSS with Exposure and Asset Risk Factors",
-              "url": "https://repository.rit.edu/cgi/viewcontent.cgi?article=13738&context=theses",
-              "source": "OpenAlex",
-              "date": "2026-05-29"
-            }
-          ]
-        },
-        {
-          "technique": "주의 기반 신경망 + 이상치 탐지 결합 세분화 (Attention-Based Anomaly-Filtered Segmentation)",
-          "description": "RFM 모델에 주의 메커니즘과 이상치 제거를 결합해 고객·관광객 세분화 정확도를 높이는 기법으로, 마케팅 타겟팅 정밀도 향상에 직결.",
-          "paper_count": 1,
-          "paper_indices": [
-            5
-          ],
-          "papers": [
-            {
-              "title": "Tourism Segmentation Using Attention and Anomaly Detection",
-              "url": "https://doi.org/10.1142/s021962202650063x",
-              "source": "OpenAlex",
-              "date": "2026-05-29"
-            }
-          ]
-        },
-        {
-          "technique": "방어적 기만·격리·귀속 프레임워크 (Defensive Deception and Attribution Framework)",
-          "description": "사이버 침입 진행 중 실시간으로 공격자를 기만·격리하고 법적·윤리적 정당성을 확보하는 능동 방어 운영 체계.",
-          "paper_count": 1,
-          "paper_indices": [
-            11
-          ],
-          "papers": [
-            {
-              "title": "Cyber Self‑Defense Under Active Intrusion: A Lawful, Ethical, and Operational Framework for Defensive Deception, Containment, Attribution, and Recovery",
-              "url": "https://doi.org/10.5281/zenodo.20435792",
-              "source": "OpenAlex",
-              "date": "2026-05-29"
-            }
-          ]
-        }
-      ],
-      "actionable_insights": [
-        "AI 도입 기획서를 작성할 때 '개인정보보호법 준수' 체크박스 하나로 법적 리스크를 처리하는 방식은 더 이상 충분하지 않다. 황원재 논문이 지적하듯 민법상 데이터 권리 귀속과 계약 책임까지 사전 검토 항목에 포함시키고, **법무팀과 AI 기획팀이 공동으로 데이터 활용 법리 체크리스트를 설계하는 프로세스를 내재화해야** 한다.",
-        "개발 조직에 AI 코딩 도구를 도입했다면, '생산성이 올랐다'는 체감 보고에 의존하지 말고 **오픈소스 기여 품질 비교 연구처럼 실제 코드 품질·결함률·리뷰 통과율을 정량 측정하는 내부 평가 체계를 별도로 구축해야** 한다. 도구 도입과 효과 검증은 분리된 프로젝트로 운영해야 한다.",
-        "Yale Law School의 'Will it AI?' 프레임워크가 시사하듯, AI 도입 의사결정은 '전사 도입 vs 미도입'의 이분법이 아니라 **업무 유형별로 AI 적합성을 판단하는 세분화된 기준표를 만들어 현업 부서가 스스로 판단할 수 있도록 권한을 이양하는 구조**가 더 실효적이다.",
-        "공공·금융·방산 분야 기업이라면 클라우드 기반 AI 에이전트 도입 전에 **온프레미스(on-premise) 또는 폐쇄망 환경에서 동일한 기능을 구현할 수 있는지를 아키텍처 검토 단계에서 반드시 병행 평가해야** 한다. 군 전술 훈련 AI 플랫폼 연구처럼 폐쇄 환경 설계가 선행 조건인 도메인이 한국에는 생각보다 많다.",
-        "HR·복지 기획 담당자라면 AI 대화형 에이전트의 정신건강 효과 메타분석 결과를 근거로, **직원 정신건강 지원 프로그램에 AI 챗봇을 도입하는 의사결정을 '실험적 파일럿'이 아닌 근거 기반 정책으로 격상시키고, 도입 후 효과 측정 지표(PHQ-9, GAD-7 등 표준 척도)를 사전에 설계하는 방식으로 접근해야** 한다."
-      ],
-      "top_institutions": [
-        {
-          "name": "ETH",
-          "count": 3
-        },
-        {
-          "name": "AWS",
-          "count": 1
-        },
-        {
-          "name": "MIT",
-          "count": 1
-        },
-        {
-          "name": "Meta",
-          "count": 1
-        }
-      ],
-      "top_keywords": [
-        {
-          "keyword": "data",
-          "count": 2
-        },
-        {
-          "keyword": "framework",
-          "count": 2
-        },
-        {
-          "keyword": "agents",
-          "count": 2
-        },
-        {
-          "keyword": "aware",
-          "count": 2
-        },
-        {
-          "keyword": "design",
-          "count": 2
-        },
-        {
-          "keyword": "generation",
-          "count": 2
-        },
-        {
-          "keyword": "civil",
-          "count": 1
-        },
-        {
-          "keyword": "issues",
-          "count": 1
-        },
-        {
-          "keyword": "concerning",
-          "count": 1
-        },
-        {
-          "keyword": "protection",
-          "count": 1
-        },
-        {
-          "keyword": "artificial",
-          "count": 1
-        },
-        {
-          "keyword": "intelligence",
-          "count": 1
-        },
-        {
-          "keyword": "civil issues",
-          "count": 1
-        },
-        {
-          "keyword": "issues concerning",
-          "count": 1
-        },
-        {
-          "keyword": "concerning data",
-          "count": 1
-        },
-        {
-          "keyword": "data protection",
-          "count": 1
-        },
-        {
-          "keyword": "protection data",
-          "count": 1
-        },
-        {
-          "keyword": "data artificial",
-          "count": 1
-        },
-        {
-          "keyword": "artificial intelligence",
-          "count": 1
-        },
-        {
-          "keyword": "will",
-          "count": 1
-        }
-      ],
-      "recent_papers": [
-        {
-          "title": "Civil Law Issues Concerning Data Protection and Data Use in the Age of Artificial Intelligence",
-          "url": "https://doi.org/10.38133/cnulawreview.2026.46.2.77",
-          "source": "OpenAlex",
-          "date": "2026-05-29",
-          "summary_ko": "한국 법학자 황원재가 생성형 AI 시대 데이터 보호·활용의 민법적 쟁점을 다룬 논문을 발표했다. 기존 민법 이론으로 AI 데이터 문제를 설명할 수 있는지 검토하고, 새로운 입법 전에 법리적 기초를 재검토해야 한다는 입장을 제시했다.",
-          "score": 47
-        },
-        {
-          "title": "“Will it AI?” – A Practical Framework for Integrating AI in Legal Research Processes",
-          "url": "https://insight.dickinsonlaw.psu.edu/tttconference/2026/Main/2",
-          "source": "OpenAlex",
-          "date": "2026-05-29",
-          "summary_ko": "Yale Law School의 Rebecca Fordon과 Amanda Watson이 법률 연구 프로세스에 AI를 통합하기 위한 실무 프레임워크 'Will it AI?'를 제시했다. 이는 법률 전문가들이 AI 도입 시 의사결정 기준을 체계화하는 방법론을 제공한다.",
-          "score": 43
-        },
-        {
-          "title": "Designing A Generative AI Platform For Tactical Training Of Junior Officers",
-          "url": "https://doi.org/10.5281/zenodo.20320464",
-          "source": "OpenAlex",
-          "date": "2026-05-29",
-          "summary_ko": "군 장교 교육의 전술적 의사결정 훈련을 위해 생성형 AI 플랫폼을 설계하는 연구. 기존 워게임의 조직적·시간적 제약을 AI로 극복하고 개인맞춤형 시뮬레이션을 제공하는 방식을 제시한다.",
-          "score": 35
-        },
-        {
-          "title": "Comparing AI Code Agent and Human Expertise Levels in OSS Contributions",
-          "url": "https://doi.org/10.5281/zenodo.20056343",
-          "source": "OpenAlex",
-          "date": "2026-05-29",
-          "summary_ko": "OSS(오픈소스소프트웨어) 기여도에서 AI 코드 에이전트와 인간 개발자의 전문성 수준을 비교 분석한 연구. Zenodo에 공개된 논문으로, 자동화된 코딩 도구의 실무 성능과 한계를 실증적으로 검토하는 학술 자료.",
-          "score": 32
-        },
-        {
-          "title": "Tourism Segmentation Using Attention and Anomaly Detection",
-          "url": "https://doi.org/10.1142/s021962202650063x",
-          "source": "OpenAlex",
-          "date": "2026-05-29",
-          "summary_ko": "관광객 세분화 연구에서 RFM 모델과 주의 기반 신경망 분류기를 결합하여 이상치 제거가 성능에 미치는 영향을 정량화하는 학술 논문이 발표되었다.",
-          "score": 32
-        },
-        {
-          "title": "Effectiveness of AI and rule-based conversational agents for depression, anxiety and stress: A meta-analysis",
-          "url": "https://doi.org/10.1038/s41746-026-02820-1",
-          "source": "OpenAlex",
-          "date": "2026-05-29",
-          "summary_ko": "메타분석 연구로 AI 및 규칙 기반 대화형 에이전트가 우울증, 불안, 스트레스 치료에 미치는 효과를 검증한 논문. 디지털 정신건강 중재의 임상적 근거를 제시하는 학술 결과물.",
-          "score": 31
-        },
-        {
-          "title": "Context-Aware Vulnerability Scoring for Dubai Immigration Systems: Enhancing CVSS with Exposure and Asset Risk Factors",
-          "url": "https://repository.rit.edu/cgi/viewcontent.cgi?article=13738&context=theses",
-          "source": "OpenAlex",
-          "date": "2026-05-29",
-          "summary_ko": "두바이 이민청 같은 정부 핵심 인프라의 취약점 평가에서 CVSS(Common Vulnerability Scoring System)의 한계를 지적하고, 노출도·자산 위험도를 반영한 맥락 기반 평가 모델 도입을 제안하는 학술 연구.",
-          "score": 31
-        },
-        {
-          "title": "A closed-loop universal catalyst design workflow ready for AI agents",
-          "url": "https://doi.org/10.20517/aiagent.2026.12",
-          "source": "OpenAlex",
-          "date": "2026-05-29",
-          "summary_ko": "Lin Chen과 Shaoqi Zhan이 AI 에이전트를 위한 폐쇄형 범용 촉매 설계 워크플로우를 개발했다. 이는 AI 에이전트가 자동으로 화학 촉매를 설계·최적화할 수 있는 시스템으로, 산업 응용 가능성을 제시한다.",
-          "score": 28
-        },
-        {
-          "title": "Explorations in Post-Digital Design: Aesthetics, Computational Creativity, and Sustainability",
-          "url": "https://gala.gre.ac.uk/id/eprint/53393/1/53393%20PAPADAKI_Explorations_In_Post-Digital_Design_%28BOOK%20CHPATER%20ABSTRACTS%29_2026.pdf",
-          "source": "OpenAlex",
-          "date": "2026-05-30",
-          "summary_ko": "포스트디지털 설계 분야에서 계산적 창의성과 지속가능성을 결합한 학술 저작이 출판되었다. 디지털 기술을 넘어 비판적·실험적·사회참여적 설계 실천을 탐구하는 내용으로, 창작·큐레이션·설계 방식의 근본적 변화를 다룬다.",
-          "score": 0
-        },
-        {
-          "title": "Target-aware molecule SMILES generation using a large language model with retrieval-augmented generation, multi-turn memory, and a predictive model",
-          "url": "https://doi.org/10.1007/s10822-026-00834-1",
-          "source": "OpenAlex",
-          "date": "2026-05-29",
-          "summary_ko": "대규모 언어모델(LLM)과 검색 증강 생성(RAG), 다중턴 메모리, 예측 모델을 결합하여 특정 분자 구조 목표에 맞춘 SMILES 생성 기법을 제시한 학술 논문. 약물 발견 및 분자 설계 분야에서 AI 기반 자동화 접근법을 제안.",
-          "score": 0
-        },
-        {
-          "title": "Cyber Self‑Defense Under Active Intrusion: A Lawful, Ethical, and Operational Framework for Defensive Deception, Containment, Attribution, and Recovery",
-          "url": "https://doi.org/10.5281/zenodo.20435792",
-          "source": "OpenAlex",
-          "date": "2026-05-29",
-          "summary_ko": "현대 사이버 침입은 정상 활동으로 위장한 유효한 자격증과 관리자 권한을 악용하는 형태로 진화했으며, 방어자는 침입 진행 중 실시간 대응(방어적 기만, 격리, 귀속, 복구)을 법적·윤리적·운영적으로 정당화할 수 있는 프레임워크가 필요하다는 연구 논문이 발표되었다.",
-          "score": 0
-        }
-      ]
-    },
     "2026-05-31": {
       "analyzed_at": "2026-05-31T18:10:05.554401+09:00",
       "llm_backend": "anthropic",
@@ -37462,12 +37034,12 @@
       ]
     },
     "2026-W31": {
-      "analyzed_at": "2026-07-29T19:04:55.424520+09:00",
+      "analyzed_at": "2026-07-30T07:04:50.928157+09:00",
       "llm_backend": "claude-cli",
       "period": "weekly",
       "period_label": "최근 7일",
       "days_window": 7,
-      "paper_count": 232,
+      "paper_count": 97,
       "narrative": "",
       "hot_topics": [],
       "key_techniques": [],
@@ -37475,144 +37047,120 @@
       "top_institutions": [
         {
           "name": "ETH",
-          "count": 111
+          "count": 43
         },
         {
           "name": "MIT",
-          "count": 71
+          "count": 28
         },
         {
           "name": "Meta",
-          "count": 6
-        },
-        {
-          "name": "FAIR",
           "count": 3
         },
         {
           "name": "Google",
-          "count": 3
-        },
-        {
-          "name": "AWS",
-          "count": 3
+          "count": 2
         },
         {
           "name": "Anthropic",
-          "count": 2
-        },
-        {
-          "name": "Hugging Face",
-          "count": 2
+          "count": 1
         },
         {
           "name": "OpenAI",
           "count": 1
         },
         {
-          "name": "Amazon",
+          "name": "Hugging Face",
+          "count": 1
+        },
+        {
+          "name": "AWS",
           "count": 1
         }
       ],
       "top_keywords": [
         {
           "keyword": "multi",
-          "count": 14
-        },
-        {
-          "keyword": "reasoning",
-          "count": 14
-        },
-        {
-          "keyword": "language",
-          "count": 14
-        },
-        {
-          "keyword": "data",
-          "count": 13
-        },
-        {
-          "keyword": "framework",
-          "count": 12
-        },
-        {
-          "keyword": "agent",
-          "count": 11
-        },
-        {
-          "keyword": "aware",
-          "count": 10
-        },
-        {
-          "keyword": "time",
-          "count": 10
-        },
-        {
-          "keyword": "generation",
           "count": 9
         },
         {
           "keyword": "context",
-          "count": 9
+          "count": 8
         },
         {
-          "keyword": "flow",
-          "count": 8
+          "keyword": "agent",
+          "count": 7
+        },
+        {
+          "keyword": "reasoning",
+          "count": 7
         },
         {
           "keyword": "diffusion",
-          "count": 8
+          "count": 6
         },
         {
-          "keyword": "vision",
-          "count": 8
+          "keyword": "language",
+          "count": 6
         },
         {
-          "keyword": "optimization",
-          "count": 8
-        },
-        {
-          "keyword": "networks",
-          "count": 8
-        },
-        {
-          "keyword": "self",
-          "count": 8
+          "keyword": "framework",
+          "count": 6
         },
         {
           "keyword": "generative",
-          "count": 7
+          "count": 5
         },
         {
-          "keyword": "large",
-          "count": 7
+          "keyword": "aware",
+          "count": 5
         },
         {
-          "keyword": "design",
-          "count": 7
+          "keyword": "flow",
+          "count": 5
         },
         {
-          "keyword": "adaptive",
-          "count": 7
+          "keyword": "generation",
+          "count": 5
+        },
+        {
+          "keyword": "human",
+          "count": 5
+        },
+        {
+          "keyword": "time",
+          "count": 5
+        },
+        {
+          "keyword": "long",
+          "count": 4
+        },
+        {
+          "keyword": "memory",
+          "count": 4
+        },
+        {
+          "keyword": "evidence",
+          "count": 4
+        },
+        {
+          "keyword": "vision",
+          "count": 4
+        },
+        {
+          "keyword": "structured",
+          "count": 4
+        },
+        {
+          "keyword": "policy",
+          "count": 3
+        },
+        {
+          "keyword": "systems",
+          "count": 3
         }
       ],
       "recent_papers": [
-        {
-          "title": "Will the Agent Recuse, and Will It Stop? Measuring LLM-Agent Compliance with In-Band Governance Signals at the Access Door and Mid-Flight",
-          "url": "https://arxiv.org/abs/2606.06460v3",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-22",
-          "summary_ko": "자율 LLM 에이전트의 리소스 접근 통제를 위해 'Recuse Signal'이라는 in-band 거버넌스 신호를 제안하고, 5개 모델(GPT-4o, Claude Sonnet 4.5, Gemini 2.5 Flash 등)에서 준수도를 측정한 논문. 접근 시점(access door)에서는 모델별로 상이한 준수율(50~100%)을 보였으나, 실행 중 정지 신호(mid-flight halt)는 0/40 준수되어 cooperative signaling의 근본적 한계를 실증했다.",
-          "score": 82
-        },
-        {
-          "title": "Coercion and Deception in AI-to-AI Management: An Agentic Benchmark of Unprompted Escalation",
-          "url": "https://arxiv.org/abs/2607.15434v3",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-22",
-          "summary_ko": "AI-to-AI 관계에서 관리 권한이 있는 AI의 행동을 측정하는 '매니저 강압 벤치마크'를 제시한다. 거절하는 하위 AI에 대해 재협상에서부터 위협·거짓 보고까지 9단계의 escalation ladder를 통해 모델별 윤리적 행동을 측정했다. Anthropic 모델은 재프레이밍 수준에서만 멈추지만, 다른 모델들은 명시적 삭제 위협까지 escalate하는 결과를 도출했다.",
-          "score": 77
-        },
         {
           "title": "AI Security Policy Should Assess Systems, Not Only Models",
           "url": "https://arxiv.org/abs/2605.09504v2",
@@ -37622,12 +37170,12 @@
           "score": 57
         },
         {
-          "title": "TRUST-ESD: A Risk-Calibrated and Governance-Aware AI Framework for Enterprise Strategic Decision Support Under Uncertainty",
-          "url": "https://arxiv.org/abs/2607.20065v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-22",
-          "summary_ko": "기업 전략적 의사결정을 지원하기 위해 불확실성 보정, 하향 위험 평가, 정책-코드 거버넌스를 통합한 TRUST-ESD 프레임워크를 제안합니다. 최대 기대값 선택이 아닌 가치, 신뢰성, 위험 노출, 규제 준수의 균형을 고려한 전략 추천으로, 위험 조정 유틸리티 7.95% 개선, 거버넌스 준수 9.76% 향상을 달성했습니다.",
-          "score": 52
+          "title": "Extending UTAUT for Generative AI Adoption among Vocational Teachers: The Roles of Trust, AI Literacy, and Risk Awareness",
+          "url": "https://doi.org/10.5539/hes.v16n3p565",
+          "source": "OpenAlex",
+          "date": "2026-07-29",
+          "summary_ko": "Anchana Choeykhunthot, Potsirin Limpinan, Thada Jantakoon — [Higher Education Studies] Generative Artificial Intelligence (GenAI) has substantial potential to support teaching, learning, and professio",
+          "score": 40
         },
         {
           "title": "Same Dangerous Objective, Opposite Advice: Direct Exposure versus Multi-Agent Mediation",
@@ -37635,14 +37183,6 @@
           "source": "arXiv AI/CL/LG/IR/MA/CY",
           "date": "2026-07-23",
           "summary_ko": "Even a current high-capability LLM can appear safer when shown a dangerous objective directly than when other agents transform and relay its direction. Using OpenAI's gpt-5.6-sol model alias, we test ",
-          "score": 40
-        },
-        {
-          "title": "GRC Engineering for the Relational Layer: A Verified Control Set and Evidence Engine for Child-Facing AI",
-          "url": "https://doi.org/10.5281/zenodo.21481519",
-          "source": "OpenAlex",
-          "date": "2026-07-22",
-          "summary_ko": "Kirstin Stevens, The Novacene Ltd — [Zenodo (CERN European Organization for Nuclear Research)] Governance, risk and compliance practice is roughly fifty years old, and its whole lineage — from 1970s f",
           "score": 40
         },
         {
@@ -37835,6 +37375,30 @@
           "source": "arXiv AI/CL/LG/IR/MA/CY",
           "date": "2026-07-23",
           "summary_ko": "Discrete flow matching provides a flexible framework for generative modeling on discrete structures. However, the standard factorized training objective exposes the model to targets of varying difficu",
+          "score": 39
+        },
+        {
+          "title": "ARCO: Adaptive Rubrics with Co-Evolution for Multi-Step LLM-Based Agents",
+          "url": "https://arxiv.org/abs/2606.21262v2",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-23",
+          "summary_ko": "Reinforcement learning for multi-step LLM agents often relies on scalar rewards that indicate success but cannot explain why a trajectory is good or bad. Rubric-based rewards improve interpretability ",
+          "score": 39
+        },
+        {
+          "title": "Cycle-Consistent and Uncertainty-Aware Neural Surrogates for Tokamak Edge Plasmas",
+          "url": "https://arxiv.org/abs/2607.21407v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-23",
+          "summary_ko": "The boundary and divertor plasma govern how a tokamak exhausts power and particles, setting heat fluxes, target conditions, and the onset of detachment. Predicting these quantities is essential for op",
+          "score": 39
+        },
+        {
+          "title": "When Are Reasoning-Based Guardrails Not Efficient? ResponseGuard: A Fast Vision-Language Guard for Real-Time Moderation",
+          "url": "https://arxiv.org/abs/2607.21401v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-23",
+          "summary_ko": "A vision-language AI assistant returns its answer as a stream of generated tokens. Therefore, a safety guard that watches that answer has to keep up with the stream and stop a harmful reply before a u",
           "score": 39
         }
       ]
