@@ -1,738 +1,5 @@
 {
   "daily": {
-    "2026-06-02": {
-      "analyzed_at": "2026-06-02T22:14:29.512794+09:00",
-      "llm_backend": "anthropic",
-      "period": "daily",
-      "period_label": "오늘",
-      "days_window": 1,
-      "paper_count": 312,
-      "narrative": "한 줄 요약 AI 거버넌스가 '선언'에서 '기술적 증거'로 전환되는 변곡점에 진입했으며, 에이전트 AI의 실무 적용이 금융·물류·의료 전반에서 동시다발적으로 가속화되고 있다.\n\n1) 무엇이 부상하고 있는가 오늘 발표된 논문군에서 가장 두드러진 흐름은 두 가지다. 첫째, AI 거버넌스가 '종이 준수(paper compliance)'를 넘어 기술적 실증 체계로 진화하고 있다. 논문 5번(From Declarations to Demonstrations)은 현재 대부분의 AI 거버넌스 도구가 설문지와 자기선언에 의존한다는 구조적 허점을 정면으로 지적하며, 실제 시스템 동작을 감사하는 증거 수집 프레임워크를 제안한다. EU AI Act 준수를 위한 SENTRY-DVL v1.1(논문 2번)은 LLM의 환각 문제를 규제 요건과 결합해 캐스케이드 가드레일로 설계하는 방식을 제시했다. 이는 **'AI가 잘 작동한다'는 주장이 아니라 '작동을 증명하는 감사 로그'가 규제 대응의 핵심 자산이 되는 시대**가 열렸음을 의미한다. 둘째, 에이전트 AI가 단순 챗봇을 넘어 실험 설계·예측 수정·물류 최적화까지 실무 루프에 진입하고 있다. 논문 30번(Beyond One-shot)은 69만 건 의료 처방 메시징 실험에서 에이전트 AI가 생성한 메시지가 69.8% CTR을 달성했으며, 성공의 핵심이 일반 LLM 추론이 아닌 도메인 특화 실험 데이터였음을 실증했다. 논문 29번(Bridging the Last Mile)은 시계열 예측 모델과 현업 의사결정 사이의 '마지막 마일' 격차를 LLM 에이전트로 메우는 프레임워크를 제시했다.\n\n2) 한국 실무자에게 이 흐름이 무슨 의미인가 전략·기획 담당자 입장에서 이 흐름은 세 가지 실무 과제를 동시에 던진다. 우선, **AI 도입 증빙 체계를 지금의 'PPT 보고서' 수준에서 기술적 감사 로그 수준으로 격상해야 한다**. 금융위·금감원의 AI 모델 설명 요구가 강화되는 상황에서, 논문 1번(AI 금융 감사)과 논문 5번이 지적하는 '블랙박스 책임 공백'은 한국 금융·공공기관의 내부통제 자동화 수요와 직결된다. 다음으로, 에이전트 AI 도입 시 **거버넌스 설계가 시스템 능력 그래프를 사전에 파악하지 못한 채 수립되면, 의도된 행동은 제약하고 예측 불가능한 행동은 통제 밖에 두는 역설이 발생**한다(논문 3번). 즉, 에이전트를 도입하기 전에 '이 에이전트가 어디까지 할 수 있는가'를 먼저 매핑하는 역량 그래프 설계가 선행되어야 한다. 마지막으로, 논문 25번(K-BrowseComp)은 한국어 맥락에서 최신 글로벌 모델도 30~45% 수준에 그치고 한국 LLM은 0~10%에 불과하다는 충격적 격차를 실증했다. **한국어 도메인 특화 데이터와 파인튜닝 없이 글로벌 LLM을 그대로 도입하는 전략은 실무 성능 보장이 불가능**하다는 뜻이다.\n\n3) 산업 적용 흐름 가장 빠르게 진입할 분야는 금융과 법률이다. 논문 1번·13번·15번이 보여주듯 금융 감사·ERP 회계·기업 재무(treasury) 영역은 AI 에이전트 적용 압력이 가장 강하다. 법률 분야에서는 논문 8번(Neuro-Symbolic Legal Guardian)의 하이브리드 RAG·지식그래프 조합이 환각 리스크를 낮추는 현실적 설계로 주목받고 있다. 한국 기업이 이 흐름을 채택할 때 부딪히는 제약은 명확하다. **개인정보보호법상 국외 데이터 이전 제한, 금융위·금감원의 AI 모델 설명 요구, 공공기관의 망분리 정책이 클라우드 기반 에이전트 도입의 현실적 장벽으로 작동**한다. 논문 9번(Sarvam-105B)이 보여주는 인도의 주권형 LLM 전략처럼, 한국도 온프레미스(on-premise) 또는 폐쇄망 환경에서 작동하는 경량 에이전트 아키텍처 설계가 도입 속도를 결정하는 핵심 변수가 될 것이다.",
-      "hot_topics": [
-        {
-          "topic": "AI 거버넌스 실증화 — 선언에서 기술적 증거로 (AI Governance Evidence Infrastructure)",
-          "description": "설문·자기선언 기반 거버넌스에서 벗어나 실제 시스템 동작을 감사하는 기술적 증거 체계로의 전환 — 규제 대응 실무의 판도를 바꾸는 흐름.",
-          "paper_count": 5,
-          "paper_indices": [
-            2,
-            5,
-            26,
-            31,
-            1
-          ],
-          "papers": [
-            {
-              "title": "SENTRY-DVL (v1.1): A Cascaded Hybrid Guardrail Architecture for Fact-Verification and Regulatory Compliance under the EU AI Act",
-              "url": "https://doi.org/10.5281/zenodo.20490643",
-              "source": "OpenAlex",
-              "date": "2026-06-01"
-            },
-            {
-              "title": "From Declarations to Demonstrations: A Technical Evidence Framework for AI Compliance Auditing",
-              "url": "https://doi.org/10.5281/zenodo.20490281",
-              "source": "OpenAlex",
-              "date": "2026-06-01"
-            },
-            {
-              "title": "PALLAS preprint release candidate: public AI-governance evidence infrastructure",
-              "url": "https://doi.org/10.5281/zenodo.20488968",
-              "source": "OpenAlex",
-              "date": "2026-06-01"
-            },
-            {
-              "title": "Are Algorithm Registers Transparent? Perspectives from Germany",
-              "url": "https://arxiv.org/abs/2606.02347v1",
-              "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-06-01"
-            },
-            {
-              "title": "Auditing Artificial Intelligence-Driven Financial Systems: Accountability, Transparency, and Auditor Liability in Algorithm-Based Decision Making",
-              "url": "https://doi.org/10.36733/jia.v4i1.13758",
-              "source": "OpenAlex",
-              "date": "2026-06-01"
-            }
-          ]
-        },
-        {
-          "topic": "에이전트 AI의 실무 루프 진입 (Agentic AI in Operational Workflows)",
-          "description": "단순 질의응답을 넘어 실험 설계·예측 수정·물류 최적화까지 실무 의사결정 루프에 직접 개입하는 에이전트 AI 사례가 급증.",
-          "paper_count": 5,
-          "paper_indices": [
-            3,
-            18,
-            29,
-            30,
-            33
-          ],
-          "papers": [
-            {
-              "title": "Agentic Capability Graph Governance Map, Fuzz, Govern: A Four-Layer Framework for Substrate-Level Agent Security",
-              "url": "https://doi.org/10.5281/zenodo.20484041",
-              "source": "OpenAlex",
-              "date": "2026-06-01"
-            },
-            {
-              "title": "Investigating the Potential and Performance of Generative AI for a Vehicle Routing Problem",
-              "url": "https://doi.org/10.3390/logistics10060120",
-              "source": "OpenAlex",
-              "date": "2026-06-01"
-            },
-            {
-              "title": "Bridging the Last Mile of Time Series Forecasting with LLM Agents",
-              "url": "https://arxiv.org/abs/2606.02497v1",
-              "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-06-01"
-            },
-            {
-              "title": "Beyond One-shot: AI Agents for Learning in Field Experiments",
-              "url": "https://arxiv.org/abs/2606.02458v1",
-              "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-06-01"
-            },
-            {
-              "title": "CVEvolve: Autonomous Algorithm Discovery for Unstructured Scientific Data Processing",
-              "url": "https://arxiv.org/abs/2605.11359v3",
-              "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-06-01"
-            }
-          ]
-        },
-        {
-          "topic": "LLM 환각·편향 리스크 관리 (LLM Hallucination & Bias Mitigation)",
-          "description": "금융·법률·의료 등 고위험 도메인에서 LLM 환각과 편향이 실제 책임 문제로 연결되면서, 이를 구조적으로 억제하는 아키텍처 설계가 핵심 과제로 부상.",
-          "paper_count": 5,
-          "paper_indices": [
-            2,
-            6,
-            8,
-            32,
-            34
-          ],
-          "papers": [
-            {
-              "title": "SENTRY-DVL (v1.1): A Cascaded Hybrid Guardrail Architecture for Fact-Verification and Regulatory Compliance under the EU AI Act",
-              "url": "https://doi.org/10.5281/zenodo.20490643",
-              "source": "OpenAlex",
-              "date": "2026-06-01"
-            },
-            {
-              "title": "Español Evaluación comparativa de sesgos algorítmicos y alucinaciones en cuatro LLMs (ChatGPT, Claude, DeepSeek, Gemini) aplicados a preguntas biomédicas, genóm",
-              "url": "https://doi.org/10.70099/bj/2026.03.02.9",
-              "source": "OpenAlex",
-              "date": "2026-06-01"
-            },
-            {
-              "title": "Neuro-Symbolic Legal Guardian: A Hybrid RAG and Knowledge-Graph Framework for Reducing Hallucination in Legal Question Answering",
-              "url": "https://doi.org/10.25258/ijddt.16.41s.137",
-              "source": "OpenAlex",
-              "date": "2026-06-01"
-            },
-            {
-              "title": "Mitigating Perceptual Judgment Bias in Multimodal LLM-as-a-Judge via Perceptual Perturbation and Reward Modeling",
-              "url": "https://arxiv.org/abs/2606.02578v1",
-              "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-06-01"
-            },
-            {
-              "title": "Efficient LLM Moderation with Multi-Layer Latent Prototypes",
-              "url": "https://arxiv.org/abs/2502.16174v4",
-              "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-06-01"
-            }
-          ]
-        },
-        {
-          "topic": "한국어·비영어권 AI 성능 격차 (Korean/Non-English LLM Performance Gap)",
-          "description": "글로벌 최신 모델도 한국어 맥락 과제에서 30~45% 수준에 그치는 실증 결과 — 한국 기업의 LLM 도입 전략 재검토를 요구하는 데이터.",
-          "paper_count": 2,
-          "paper_indices": [
-            19,
-            25
-          ],
-          "papers": [
-            {
-              "title": "Performance Evaluation of GPT-4o on the Korean Level 2 Sports Instructor Licensing Examination",
-              "url": "https://www.kjsm.org/journal/download_pdf.php?doi=10.5763/kjsm.2026.44.2.103",
-              "source": "OpenAlex",
-              "date": "2026-06-01"
-            },
-            {
-              "title": "K-BrowseComp: A Web Browsing Agent Benchmark Grounded in Korean Contexts",
-              "url": "https://arxiv.org/abs/2606.02404v1",
-              "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-06-01"
-            }
-          ]
-        },
-        {
-          "topic": "AI 주권 인프라와 지정학적 거버넌스 (Sovereign AI & Geopolitical Governance)",
-          "description": "미국·유럽·인도·중국이 각자의 AI 주권 전략을 강화하는 가운데, 다중관할권 규제 공백과 국가 자체 AI 역량 구축이 기업 전략의 외부 변수로 부상.",
-          "paper_count": 4,
-          "paper_indices": [
-            4,
-            9,
-            11,
-            23
-          ],
-          "papers": [
-            {
-              "title": "The Geopolitical Void in AI Governance: Why the Meniw Protocol Is the Only Viable Multi-Jurisdictional Framework for the Machine Economy in 2026",
-              "url": "https://doi.org/10.5281/zenodo.20499584",
-              "source": "OpenAlex",
-              "date": "2026-06-01"
-            },
-            {
-              "title": "Sovereign AI: Digital Decolonization through Sarvam-105B in Libraries",
-              "url": "https://doi.org/10.5281/zenodo.20488334",
-              "source": "OpenAlex",
-              "date": "2026-06-01"
-            },
-            {
-              "title": "Stereotypes in AI Voice Assistants: A Case Study of China’s Doubao Platform",
-              "url": "https://ccsenet.org/journal/index.php/elt/article/download/0/0/53348/58194",
-              "source": "OpenAlex",
-              "date": "2026-06-01"
-            },
-            {
-              "title": "Scarcity, Surplus, and Somatic Crisis: Mapping the Iran War, the $65B AI Sovereign Cycle, and the Social Valuation of Care",
-              "url": "https://doi.org/10.58079/16b8g",
-              "source": "OpenAlex",
-              "date": "2026-06-01"
-            }
-          ]
-        },
-        {
-          "topic": "LLM 기반 시계열 예측 및 의사결정 지원 (LLM-Augmented Forecasting & Decision Support)",
-          "description": "통계 예측 모델과 현업 의사결정 사이의 '마지막 마일'을 LLM 에이전트가 메우는 프레임워크 — 기획·SCM·마케팅 실무에 직접 적용 가능한 흐름.",
-          "paper_count": 2,
-          "paper_indices": [
-            29,
-            30
-          ],
-          "papers": [
-            {
-              "title": "Bridging the Last Mile of Time Series Forecasting with LLM Agents",
-              "url": "https://arxiv.org/abs/2606.02497v1",
-              "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-06-01"
-            },
-            {
-              "title": "Beyond One-shot: AI Agents for Learning in Field Experiments",
-              "url": "https://arxiv.org/abs/2606.02458v1",
-              "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-06-01"
-            }
-          ]
-        }
-      ],
-      "key_techniques": [
-        {
-          "technique": "캐스케이드 하이브리드 가드레일 (Cascaded Hybrid Guardrail Architecture)",
-          "description": "LLM 출력의 환각·오류를 다단계 필터로 순차 차단하는 구조 — 규제 준수 증빙이 필요한 금융·법률 AI 서비스의 안전망 설계에 직접 적용 가능.",
-          "paper_count": 2,
-          "paper_indices": [
-            2,
-            34
-          ],
-          "papers": [
-            {
-              "title": "SENTRY-DVL (v1.1): A Cascaded Hybrid Guardrail Architecture for Fact-Verification and Regulatory Compliance under the EU AI Act",
-              "url": "https://doi.org/10.5281/zenodo.20490643",
-              "source": "OpenAlex",
-              "date": "2026-06-01"
-            },
-            {
-              "title": "Efficient LLM Moderation with Multi-Layer Latent Prototypes",
-              "url": "https://arxiv.org/abs/2502.16174v4",
-              "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-06-01"
-            }
-          ]
-        },
-        {
-          "technique": "하이브리드 RAG + 지식그래프 (Hybrid RAG with Knowledge Graph)",
-          "description": "단순 벡터 검색을 넘어 구조화된 지식 관계를 결합해 환각을 줄이는 방식 — 법률·규정·내부 정책 기반 Q&A 시스템의 신뢰도를 높이는 핵심 설계.",
-          "paper_count": 2,
-          "paper_indices": [
-            8,
-            24
-          ],
-          "papers": [
-            {
-              "title": "Neuro-Symbolic Legal Guardian: A Hybrid RAG and Knowledge-Graph Framework for Reducing Hallucination in Legal Question Answering",
-              "url": "https://doi.org/10.25258/ijddt.16.41s.137",
-              "source": "OpenAlex",
-              "date": "2026-06-01"
-            },
-            {
-              "title": "MemoNoveltyAgent: A Historical Research Memory-Aware Agent Workflow for Paper Novelty Assessment",
-              "url": "https://arxiv.org/abs/2603.20884v2",
-              "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-06-01"
-            }
-          ]
-        },
-        {
-          "technique": "도구 증강 에이전트 워크플로우 (Tool-Augmented Agentic Workflow)",
-          "description": "LLM이 외부 도구·데이터·실험 결과를 자율적으로 호출·학습하며 후속 행동을 설계하는 구조 — 반복적 현업 프로세스 자동화의 실질적 진입점.",
-          "paper_count": 4,
-          "paper_indices": [
-            22,
-            29,
-            30,
-            33
-          ],
-          "papers": [
-            {
-              "title": "Spanning the void between the 'wet' lab and the 'dry' lab – How AI can augment the experimental work in the toxicology lab",
-              "url": "https://doi.org/10.5281/zenodo.20459128",
-              "source": "OpenAlex",
-              "date": "2026-06-02"
-            },
-            {
-              "title": "Bridging the Last Mile of Time Series Forecasting with LLM Agents",
-              "url": "https://arxiv.org/abs/2606.02497v1",
-              "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-06-01"
-            },
-            {
-              "title": "Beyond One-shot: AI Agents for Learning in Field Experiments",
-              "url": "https://arxiv.org/abs/2606.02458v1",
-              "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-06-01"
-            },
-            {
-              "title": "CVEvolve: Autonomous Algorithm Discovery for Unstructured Scientific Data Processing",
-              "url": "https://arxiv.org/abs/2605.11359v3",
-              "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-06-01"
-            }
-          ]
-        },
-        {
-          "technique": "기술적 AI 감사 프레임워크 (Technical AI Compliance Auditing Framework)",
-          "description": "AI 시스템의 실제 동작을 로그·테스트·증거로 검증하는 구조화된 감사 방법론 — 규제기관 제출용 증빙 체계 구축에 필수적인 접근법.",
-          "paper_count": 3,
-          "paper_indices": [
-            5,
-            26,
-            31
-          ],
-          "papers": [
-            {
-              "title": "From Declarations to Demonstrations: A Technical Evidence Framework for AI Compliance Auditing",
-              "url": "https://doi.org/10.5281/zenodo.20490281",
-              "source": "OpenAlex",
-              "date": "2026-06-01"
-            },
-            {
-              "title": "PALLAS preprint release candidate: public AI-governance evidence infrastructure",
-              "url": "https://doi.org/10.5281/zenodo.20488968",
-              "source": "OpenAlex",
-              "date": "2026-06-01"
-            },
-            {
-              "title": "Are Algorithm Registers Transparent? Perspectives from Germany",
-              "url": "https://arxiv.org/abs/2606.02347v1",
-              "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-06-01"
-            }
-          ]
-        },
-        {
-          "technique": "밀집 피드백 기반 정책 합성 (Dense Feedback Policy Synthesis)",
-          "description": "단순 성공/실패 신호 대신 효율성·형평성·지속성 등 다차원 사회적 지표를 피드백으로 활용해 LLM이 더 나은 정책·규칙을 생성하도록 유도하는 기법.",
-          "paper_count": 2,
-          "paper_indices": [
-            10,
-            27
-          ],
-          "papers": [
-            {
-              "title": "Generative policy design: AI for simulating sustainability governance frameworks",
-              "url": "https://doi.org/10.1049/icp.2026.1920",
-              "source": "OpenAlex",
-              "date": "2026-06-01"
-            },
-            {
-              "title": "Beyond Scalar Rewards: Dense Feedback for LLM Policy Synthesis in Sequential Social Dilemmas",
-              "url": "https://arxiv.org/abs/2603.19453v2",
-              "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-06-01"
-            }
-          ]
-        }
-      ],
-      "actionable_insights": [
-        "AI 도입 보고서에 '잘 작동한다'는 서술 대신 **시스템 동작을 입증하는 감사 로그와 기술적 테스트 결과를 내부통제 문서에 포함하는 체계**를 설계해야 한다 — 논문 5번·26번이 지적하듯 선언 기반 거버넌스는 규제 심사에서 실효성을 인정받기 어렵다.",
-        "에이전트 AI 도입 전, **해당 에이전트가 실제로 수행 가능한 행동의 범위를 사전에 매핑한 '능력 그래프'를 거버넌스 설계의 출발점으로 삼아야** 한다 — 능력 범위를 모른 채 제약 정책만 수립하면 의도치 않은 행동이 통제 밖에 놓이는 역설이 발생한다(논문 3번).",
-        "한국어 도메인 과제에 LLM을 적용할 때 **글로벌 모델의 벤치마크 점수를 그대로 내부 성능 기준으로 채택하는 관행을 재검토해야** 한다 — K-BrowseComp(논문 25번) 실증 결과, 한국어 맥락에서 최신 글로벌 모델도 30~45% 수준에 그쳐 도메인 특화 파인튜닝 또는 한국어 특화 모델 병행 검토가 필요하다.",
-        "시계열 수요예측·마케팅 반응 예측 등 기존 통계 모델을 운용 중인 팀은 **예측 결과와 현업 의사결정 사이의 '해석 격차'를 LLM 에이전트 레이어로 메우는 아키텍처를 파일럿 설계 대상으로 검토해야** 한다 — 논문 29번·30번은 도메인 데이터 기반 에이전트가 일반 LLM 추론보다 실무 성과에서 우위임을 실증했다.",
-        "금융·법률·공공 분야에서 LLM 기반 서비스를 설계할 때 **온프레미스(on-premise) 또는 폐쇄망 환경에서 작동하는 경량 가드레일 아키텍처를 초기 설계 단계부터 반영해야** 한다 — 개인정보보호법 국외 이전 제한과 망분리 정책이 클라우드 기반 멀티에이전트 도입의 현실적 장벽으로 작동하기 때문이다."
-      ],
-      "top_institutions": [
-        {
-          "name": "ETH",
-          "count": 101
-        },
-        {
-          "name": "MIT",
-          "count": 62
-        },
-        {
-          "name": "Meta",
-          "count": 10
-        },
-        {
-          "name": "FAIR",
-          "count": 3
-        },
-        {
-          "name": "AWS",
-          "count": 3
-        },
-        {
-          "name": "Microsoft",
-          "count": 2
-        },
-        {
-          "name": "Hugging Face",
-          "count": 1
-        },
-        {
-          "name": "Tsinghua",
-          "count": 1
-        },
-        {
-          "name": "Apple",
-          "count": 1
-        }
-      ],
-      "top_keywords": [
-        {
-          "keyword": "framework",
-          "count": 20
-        },
-        {
-          "keyword": "generative",
-          "count": 20
-        },
-        {
-          "keyword": "agents",
-          "count": 14
-        },
-        {
-          "keyword": "data",
-          "count": 14
-        },
-        {
-          "keyword": "multi",
-          "count": 14
-        },
-        {
-          "keyword": "evaluation",
-          "count": 13
-        },
-        {
-          "keyword": "aware",
-          "count": 12
-        },
-        {
-          "keyword": "governance",
-          "count": 12
-        },
-        {
-          "keyword": "systems",
-          "count": 11
-        },
-        {
-          "keyword": "through",
-          "count": 11
-        },
-        {
-          "keyword": "graph",
-          "count": 11
-        },
-        {
-          "keyword": "digital",
-          "count": 11
-        },
-        {
-          "keyword": "intelligence",
-          "count": 9
-        },
-        {
-          "keyword": "research",
-          "count": 9
-        },
-        {
-          "keyword": "agent",
-          "count": 9
-        },
-        {
-          "keyword": "agentic",
-          "count": 9
-        },
-        {
-          "keyword": "knowledge",
-          "count": 9
-        },
-        {
-          "keyword": "design",
-          "count": 9
-        },
-        {
-          "keyword": "driven",
-          "count": 8
-        },
-        {
-          "keyword": "detection",
-          "count": 8
-        }
-      ],
-      "recent_papers": [
-        {
-          "title": "Auditing Artificial Intelligence-Driven Financial Systems: Accountability, Transparency, and Auditor Liability in Algorithm-Based Decision Making",
-          "url": "https://doi.org/10.36733/jia.v4i1.13758",
-          "source": "OpenAlex",
-          "date": "2026-06-01",
-          "summary_ko": "금융 감사 및 보고에서 AI 활용이 증가하면서 감사 신뢰성, 책임성, 투명성이 위협받고 있다. 연구는 AI의 '블랙박스' 특성, 구식 감사 기준, 감사인 전문성 부족, 법적 책임 불명확 등 핵심 과제를 분석한다.",
-          "score": 110
-        },
-        {
-          "title": "SENTRY-DVL (v1.1): A Cascaded Hybrid Guardrail Architecture for Fact-Verification and Regulatory Compliance under the EU AI Act",
-          "url": "https://doi.org/10.5281/zenodo.20490643",
-          "source": "OpenAlex",
-          "date": "2026-06-01",
-          "summary_ko": "EU AI Act 규제 준수를 위한 LLM 팩트 검증 및 거버넌스 아키텍처 'SENTRY-DVL v1.1'이 제시되었다. 캐스케이드 하이브리드 가드레일 구조로 대규모언어모델의 고유한 환각·오류 문제를 규제 요구사항과 결합하여 해결하는 설계 방식을 제안한다.",
-          "score": 110
-        },
-        {
-          "title": "Agentic Capability Graph Governance Map, Fuzz, Govern: A Four-Layer Framework for Substrate-Level Agent Security",
-          "url": "https://doi.org/10.5281/zenodo.20484041",
-          "source": "OpenAlex",
-          "date": "2026-06-01",
-          "summary_ko": "AI 에이전트 거버넌스 프레임워크는 시스템의 능력 그래프를 사전에 파악하지 못한 채 수립되어, 의도된 행동은 제약하면서 예측 불가능한 신흥 행동은 통제 밖에 두는 구조적 문제를 지적한다. 4계층 기반 에이전트 보안 프레임워크를 제시하며 거버넌스 설계의 근본적 재검토를 촉구한다.",
-          "score": 106
-        },
-        {
-          "title": "The Geopolitical Void in AI Governance: Why the Meniw Protocol Is the Only Viable Multi-Jurisdictional Framework for the Machine Economy in 2026",
-          "url": "https://doi.org/10.5281/zenodo.20499584",
-          "source": "OpenAlex",
-          "date": "2026-06-01",
-          "summary_ko": "Chris Meniw가 발표한 분석은 실리콘밸리의 규제 없는 운영 가속화와 유럽의 규제 야심 사이의 구조적 공백을 지적하며, 자율 AI 에이전트 시대를 위한 다중관할권 거버넌스 프레임워크로 Meniw Protocol(Universal Constitution of AI Agents)을 제시한다.",
-          "score": 105
-        },
-        {
-          "title": "From Declarations to Demonstrations: A Technical Evidence Framework for AI Compliance Auditing",
-          "url": "https://doi.org/10.5281/zenodo.20490281",
-          "source": "OpenAlex",
-          "date": "2026-06-01",
-          "summary_ko": "현재 AI 거버넌스 도구들이 선언과 설문지 기반의 '종이 준수(paper compliance)'에 의존하고 있다는 문제를 지적하며, 실제 기술적 증거를 수집하는 구조화된 감사 프레임워크를 제안하는 연구 논문이다.",
-          "score": 98
-        },
-        {
-          "title": "Español Evaluación comparativa de sesgos algorítmicos y alucinaciones en cuatro LLMs (ChatGPT, Claude, DeepSeek, Gemini) aplicados a preguntas biomédicas, genómicas y de gobernanza de datos",
-          "url": "https://doi.org/10.70099/bj/2026.03.02.9",
-          "source": "OpenAlex",
-          "date": "2026-06-01",
-          "summary_ko": "4개 주요 LLM(ChatGPT, Claude, DeepSeek, Gemini)을 42개 구조화된 질문으로 비교 평가한 연구로, 알고리즘 편향과 환각 현상을 생의학·유전체·데이터 거버넌스 영역에서 분석했다. 기술적 차이보다는 윤리·권력·부등식 관련 응답의 수렴과 차이를 드러냈다.",
-          "score": 90
-        },
-        {
-          "title": "Hospitalists Are Already Using AI—Why Implementation Will Determine Its Impact",
-          "url": "https://doi.org/10.2196/97419",
-          "source": "OpenAlex",
-          "date": "2026-06-01",
-          "summary_ko": "의료 현장의 호스피탈리스트(입원 환자 전담 의사) 3분의 2가 이미 LLM 기반 AI를 임상 진료에 활용 중이나, 조직 차원의 거버넌스·교육·정책 수립이 도입 속도를 따라가지 못하고 있다는 연구 결과.",
-          "score": 90
-        },
-        {
-          "title": "Neuro-Symbolic Legal Guardian: A Hybrid RAG and Knowledge-Graph Framework for Reducing Hallucination in Legal Question Answering",
-          "url": "https://doi.org/10.25258/ijddt.16.41s.137",
-          "source": "OpenAlex",
-          "date": "2026-06-01",
-          "summary_ko": "LLM의 법률 질의응답 적용에서 발생하는 환각(hallucination) 문제를 해결하기 위해 하이브리드 RAG와 지식그래프 기반의 '신경-기호 법률 보호자' 프레임워크를 제안한 학술 연구.",
-          "score": 80
-        },
-        {
-          "title": "Sovereign AI: Digital Decolonization through Sarvam-105B in Libraries",
-          "url": "https://doi.org/10.5281/zenodo.20488334",
-          "source": "OpenAlex",
-          "date": "2026-06-01",
-          "summary_ko": "인도의 주권형 LLM 'Sarvam-105B'를 도서관 운영에 적용한 연구로, OpenRefine 기반 데이터 변환 프레임워크를 통해 복잡한 도서관 업무의 효율성을 평가했다. 디지털 탈식민화와 국가 자체 AI 역량 구축의 사례를 제시한다.",
-          "score": 80
-        },
-        {
-          "title": "Generative policy design: AI for simulating sustainability governance frameworks",
-          "url": "https://doi.org/10.1049/icp.2026.1920",
-          "source": "OpenAlex",
-          "date": "2026-06-01",
-          "summary_ko": "Wai Yie Leong의 연구는 대규모언어모델(LLM)과 생성형 시뮬레이션을 활용한 생성형 정책설계(GPD) 방법론을 제시하며, 지속가능성 거버넌스 프레임워크를 적응적·체계적·시나리오 복원력 있게 설계·반복·평가할 수 있는 접근법을 소개한다.",
-          "score": 80
-        },
-        {
-          "title": "Stereotypes in AI Voice Assistants: A Case Study of China’s Doubao Platform",
-          "url": "https://ccsenet.org/journal/index.php/elt/article/download/0/0/53348/58194",
-          "source": "OpenAlex",
-          "date": "2026-06-01",
-          "summary_ko": "중국 더우바오 플랫폼의 음성 AI 어시스턴트에 내재된 성별·직업 고정관념을 분석한 사례 연구. 중국의 AI 윤리 거버넌스 강화 맥락에서 음성 설계의 사회언어학적 쟁점을 다룬다.",
-          "score": 80
-        },
-        {
-          "title": "From Policy Success Research to Success Criteria in the Context of the AI Transition",
-          "url": "https://doi.org/10.5281/zenodo.20489958",
-          "source": "OpenAlex",
-          "date": "2026-06-01",
-          "summary_ko": "정책 평가의 성공 기준을 어떻게 설정할 것인가를 다루는 학술 논문. AI 전환 맥락에서 정책 성공 연구자들이 제기한 미해결 질문—평가 기준 자체가 평가 대상 사회·제도 과정 내에서 형성될 때의 방법론적 타당성—을 논리적으로 구조화한다.",
-          "score": 80
-        },
-        {
-          "title": "The Sovereign Liquidity Gateway How Agentic AI and Sovereign Infrastructure Will Unlock the $100 Trillion Treasury Opportunity",
-          "url": "https://doi.org/10.5281/zenodo.20487745",
-          "source": "OpenAlex",
-          "date": "2026-06-01",
-          "summary_ko": "에이전트 AI와 주권 인프라가 글로벌 기업 재무(treasury) 시장의 100조 달러 규모 기회를 열 것이라는 주장. 소비자 결제는 즉시 처리되지만 기업 간 결제는 40년 된 메인프레임에 의존하고 있으며, 마이그레이션 다운타임 1시간이 대형 은행에 5000~2억 달러 손실을 초래할 수 있다는 현실을 지적.",
-          "score": 80
-        },
-        {
-          "title": "Ethics of AI in nursing care: A doctrinal analysis of governance and societal implications in Bangladesh",
-          "url": "https://doi.org/10.1016/j.ssaho.2026.103008",
-          "source": "OpenAlex",
-          "date": "2026-06-01",
-          "summary_ko": "방글라데시 간호 현장에서 AI 도입 시 발생하는 윤리·거버넌스 문제를 법적·사회적 관점에서 분석한 학술 논문. 의료 AI의 책임 경계, 규제 공백, 사회적 함의를 다룬다.",
-          "score": 80
-        },
-        {
-          "title": "The Impact of AI Technologies and Cybersecurity Threats Readiness on ERP Accounting Systems: The Role of Cybersecurity Governance",
-          "url": "https://doi.org/10.1016/j.joitmc.2026.100797",
-          "source": "OpenAlex",
-          "date": "2026-06-01",
-          "summary_ko": "ERP 회계 시스템의 사이버보안 위협에 대응하기 위해 AI 기술 도입과 사이버보안 거버넌스의 역할을 분석한 학술 연구. 조직의 사이버보안 준비도와 거버넌스 체계가 AI 기반 회계 시스템의 효과성을 결정하는 핵심 요소임을 제시.",
-          "score": 79
-        },
-        {
-          "title": "Hermetic Constitutional Guardrails: Safety Alignment Through Ancient Philosophical Principles with Noether-Invariant Evaluation and Apollo-METR Red-Team Validation",
-          "url": "https://doi.org/10.5281/zenodo.20499319",
-          "source": "OpenAlex",
-          "date": "2026-06-02",
-          "summary_ko": "Stephen P. Lutar가 Hermetic Constitutional Guardrails(HCG)라는 안전 정렬 프레임워크를 제시했으며, 이는 고대 철학의 일곱 가지 원칙을 LLM 평가 함수로 변환하고 Apollo-METR 레드팀 검증을 통해 검증하는 방식을 제안한다.",
-          "score": 70
-        },
-        {
-          "title": "Building Evaluation Sovereignty - In Healthcare",
-          "url": "https://doi.org/10.5281/zenodo.20488147",
-          "source": "OpenAlex",
-          "date": "2026-06-01",
-          "summary_ko": "Ovviia는 비서방 시장의 생식보건 정보 공백을 AI로 채우는 플랫폼이다. 문화적 접근성과 임상 신뢰성이 낮은 지역에서 근거 기반 생식보건 정보를 제공하며, 평가 주권(evaluation sovereignty) 개념으로 현지 맥락에 맞는 AI 평가 체계 구축을 강조한다.",
-          "score": 70
-        },
-        {
-          "title": "Investigating the Potential and Performance of Generative AI for a Vehicle Routing Problem",
-          "url": "https://doi.org/10.3390/logistics10060120",
-          "source": "OpenAlex",
-          "date": "2026-06-01",
-          "summary_ko": "생성형 AI(Claude 3.5 Sonnet)가 전통적 차량 경로 최적화 소프트웨어와 비교하여 경쟁력 있는 솔루션을 제공할 수 있는지를 검증하는 연구. 중소기업의 접근성 제약을 완화할 가능성을 탐색하는 물류 최적화 사례 연구.",
-          "score": 70
-        },
-        {
-          "title": "Performance Evaluation of GPT-4o on the Korean Level 2 Sports Instructor Licensing Examination",
-          "url": "https://www.kjsm.org/journal/download_pdf.php?doi=10.5763/kjsm.2026.44.2.103",
-          "source": "OpenAlex",
-          "date": "2026-06-01",
-          "summary_ko": "OpenAI의 GPT-4o 모델이 한국 2급 스포츠지도자 국가자격시험(673개 객관식 문제)에서의 문제해결 성능을 평가한 연구. 대규모언어모델의 한국 전문자격시험 적용 가능성을 실증적으로 검증한 사례.",
-          "score": 70
-        },
-        {
-          "title": "Human versus AI in audiological practice: A comparative evaluation of ChatGPT and physician treatment decisions in idiopathic sudden sensorineural hearing loss",
-          "url": "https://doi.org/10.1371/journal.pone.0350549",
-          "source": "OpenAlex",
-          "date": "2026-06-01",
-          "summary_ko": "청각학 분야에서 ChatGPT 등 AI의 임상 의사결정 능력을 의사 판단과 비교 평가한 연구. 특발성 돌발성 감각신경성 난청 치료 결정에서 AI의 복잡한 임상 추론 한계를 실증적으로 검증한 사례.",
-          "score": 70
-        },
-        {
-          "title": "Putting Humans First: Reimagining Undergraduate Data Analysis and Visualisation Through Data Justice, Critical AI Literacy, and Open Practices",
-          "url": "https://doi.org/10.5281/zenodo.20489720",
-          "source": "OpenAlex",
-          "date": "2026-06-01",
-          "summary_ko": "대학 데이터 분석·시각화 교육에 데이터 정의(data justice)와 비판적 AI 리터러시를 통합하는 교육과정 재설계 사례를 보고한 논문. 범죄학·사회학·심리학 학부생을 대상으로 사회적 책임감 있는 데이터 전문가 양성을 목표로 함.",
-          "score": 70
-        },
-        {
-          "title": "Spanning the void between the 'wet' lab and the 'dry' lab – How AI can augment the experimental work in the toxicology lab",
-          "url": "https://doi.org/10.5281/zenodo.20459128",
-          "source": "OpenAlex",
-          "date": "2026-06-02",
-          "summary_ko": "AI 에이전트와 Model Context Protocol(MCP) 같은 신기술이 독성학 실험실의 습식 연구와 건식 데이터 분석 간 격차를 좁히고 있다. LLM이 실시간 생성 데이터·모델·과학 산출물에 접근 가능해지면서 과학 발견 지원 도구로서의 AI 역할이 확대되는 추세다.",
-          "score": 70
-        },
-        {
-          "title": "Scarcity, Surplus, and Somatic Crisis: Mapping the Iran War, the $65B AI Sovereign Cycle, and the Social Valuation of Care",
-          "url": "https://doi.org/10.58079/16b8g",
-          "source": "OpenAlex",
-          "date": "2026-06-01",
-          "summary_ko": "이란 전쟁, 650억 달러 규모 AI 주권 사이클, 돌봄 노동의 사회적 가치 평가를 연결하는 거시 분석 논문. 지정학적 긴장과 AI 자본 흐름, 사회 인프라 재편의 교차점을 다룬 학술 기고.",
-          "score": 70
-        },
-        {
-          "title": "MemoNoveltyAgent: A Historical Research Memory-Aware Agent Workflow for Paper Novelty Assessment",
-          "url": "https://arxiv.org/abs/2603.20884v2",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-06-01",
-          "summary_ko": "MemoNoveltyAgent는 학술논문의 신규성 평가를 위한 다중에이전트 시스템으로, RAG 기반 구체적 선행논문 검색과 대규모 학술 코퍼스로부터 구축한 계층적 메모리 구조를 결합하여 역사적 맥락을 제공한다. 논문을 이산적 신규성 포인트로 분해하고 자체 검증 메커니즘으로 보고서 신뢰성을 강화하며, GPT-5 DeepResearch 대비 13.69% 성능 향상을 달성했다.",
-          "score": 69
-        },
-        {
-          "title": "K-BrowseComp: A Web Browsing Agent Benchmark Grounded in Korean Contexts",
-          "url": "https://arxiv.org/abs/2606.02404v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-06-01",
-          "summary_ko": "한국 맥락의 웹 브라우징 에이전트 벤치마크 K-BrowseComp(400문제)를 제시하며, 수동 검증 300문제 부분집합에서 GPT-5.5·DeepSeek-V4-Pro 등 최신 모델도 30~45% 수준에 그치고 한국 LLM은 0~10% 성능을 보임. 적대적 필터링 합성 100문제 진단 분할에서는 최강 모델도 26% 달성으로, 한국어 에이전트 능력의 심각한 격차를 실증.",
-          "score": 68
-        },
-        {
-          "title": "PALLAS preprint release candidate: public AI-governance evidence infrastructure",
-          "url": "https://doi.org/10.5281/zenodo.20488968",
-          "source": "OpenAlex",
-          "date": "2026-06-01",
-          "summary_ko": "PALLAS(Policy and Legal AI-readiness Landscape Assessment System)는 AI 거버넌스 증거 인프라로서, 정책·법률 AI 준비도를 평가하는 공개 데이터셋·메타데이터·검증 자료를 제공한다. EU 규제 기준과의 비교 자료, 소스 검토 기록, 공개 관찰성 데이터를 포함하며 법적 준수 인증이 아닌 준비도 지도를 목표로 한다.",
-          "score": 68
-        },
-        {
-          "title": "Beyond Scalar Rewards: Dense Feedback for LLM Policy Synthesis in Sequential Social Dilemmas",
-          "url": "https://arxiv.org/abs/2603.19453v2",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-06-01",
-          "summary_ko": "LLM을 이용해 다중에이전트 환경에서 프로그래밍 정책을 반복 생성·평가하는 정책 합성 프레임워크를 제시. 스칼라 보상만 제공하는 희소 피드백 대비 효율성·평등성·지속성·평화 등 사회적 메트릭을 포함한 밀집 피드백이 일관되게 우수한 성능을 달성하며, 피드백 앨리어싱 현상을 통해 메커니즘을 설명.",
-          "score": 67
-        },
-        {
-          "title": "STABLEVAL: Disagreement-Aware and Stable Evaluation of AI Systems",
-          "url": "https://arxiv.org/abs/2605.02122v2",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-06-01",
-          "summary_ko": "본 논문은 인간 평가의 주석자 불일치와 편향으로 인한 AI 시스템 순위 불안정성을 해결하기 위해 STABLEVAL 프레임워크를 제안한다. 잠재적 항목 정확성과 주석자별 혼동 패턴을 모델링하여 보정된 시스템 점수를 생성하며, 다수결 투표 대비 더 안정적이고 통계적으로 근거 있는 순위를 제공한다.",
-          "score": 62
-        },
-        {
-          "title": "Bridging the Last Mile of Time Series Forecasting with LLM Agents",
-          "url": "https://arxiv.org/abs/2606.02497v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-06-01",
-          "summary_ko": "본 논문은 통계적 예측 모델과 실무 의사결정 사이의 '마지막 마일' 격차를 LLM 에이전트로 해소하는 프레임워크를 제시한다. 시계열 예측 백본 위에 구축된 에이전트는 휴일·캠페인·외부 사건·전문가 피드백 등 약구조화된 비즈니스 맥락을 통합하여 감사 가능하고 제어 가능한 예측 수정을 수행한다.",
-          "score": 62
-        },
-        {
-          "title": "Beyond One-shot: AI Agents for Learning in Field Experiments",
-          "url": "https://arxiv.org/abs/2606.02458v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-06-01",
-          "summary_ko": "본 논문은 도구 증강 에이전트 AI가 실험 데이터로부터 자동 학습하여 후속 개입을 설계할 수 있는지를 의료 처방 메시징 필드 실험(69만 환자 방문)으로 검증했다. 인간-챗봇 협업(1단계)과 비교하여 에이전트 AI(2단계)가 생성한 메시지가 69.8% CTR을 달성했으며, 일반 LLM의 추론 능력보다 도메인 특화 실험 데이터가 성공의 핵심임을 밝혔다.",
-          "score": 62
-        }
-      ]
-    },
     "2026-06-03": {
       "analyzed_at": "2026-06-03T09:04:37.539108+09:00",
       "llm_backend": "anthropic",
@@ -30553,6 +29820,224 @@
           "score": 0
         }
       ]
+    },
+    "2026-08-02": {
+      "analyzed_at": "2026-08-02T06:56:34.905340+09:00",
+      "llm_backend": "claude-cli",
+      "period": "daily",
+      "period_label": "오늘",
+      "days_window": 1,
+      "paper_count": 14,
+      "narrative": "",
+      "hot_topics": [],
+      "key_techniques": [],
+      "actionable_insights": [],
+      "top_institutions": [
+        {
+          "name": "ETH",
+          "count": 6
+        },
+        {
+          "name": "MIT",
+          "count": 1
+        }
+      ],
+      "top_keywords": [
+        {
+          "keyword": "data",
+          "count": 5
+        },
+        {
+          "keyword": "detection",
+          "count": 3
+        },
+        {
+          "keyword": "fine",
+          "count": 2
+        },
+        {
+          "keyword": "tuning",
+          "count": 2
+        },
+        {
+          "keyword": "construction",
+          "count": 2
+        },
+        {
+          "keyword": "evidence",
+          "count": 2
+        },
+        {
+          "keyword": "fine tuning",
+          "count": 2
+        },
+        {
+          "keyword": "knowledge",
+          "count": 2
+        },
+        {
+          "keyword": "impact",
+          "count": 2
+        },
+        {
+          "keyword": "clinical",
+          "count": 2
+        },
+        {
+          "keyword": "college",
+          "count": 2
+        },
+        {
+          "keyword": "driven",
+          "count": 2
+        },
+        {
+          "keyword": "data driven",
+          "count": 2
+        },
+        {
+          "keyword": "engineering",
+          "count": 2
+        },
+        {
+          "keyword": "peri",
+          "count": 2
+        },
+        {
+          "keyword": "implant",
+          "count": 2
+        },
+        {
+          "keyword": "peri implant",
+          "count": 2
+        },
+        {
+          "keyword": "optimising",
+          "count": 1
+        },
+        {
+          "keyword": "lora",
+          "count": 1
+        },
+        {
+          "keyword": "lightweight",
+          "count": 1
+        }
+      ],
+      "recent_papers": [
+        {
+          "title": "Optimising LoRA for fine-tuning lightweight LLM expert agents in cross-regional collaboration in the construction industry: Evidence from the Greater Bay Area",
+          "url": "https://doi.org/10.1007/s42524-026-5274-4",
+          "source": "OpenAlex",
+          "date": "2026-08-01",
+          "summary_ko": "광동-홍콩-마카오 지역의 건설산업에서 복잡한 다지역·다법역 협력 환경을 다루기 위해 LoRA 기반 경량 LLM 다중 에이전트를 최적화한 기술 논문. 기존 수동 분석 방식의 한계를 AI로 극복하려는 시도.",
+          "score": 47
+        },
+        {
+          "title": "Construction of a knowledge graph for the educational statistical indicator system based on large language models",
+          "url": "https://doaj.org/article/01ff7fee67544e8fb50443703ff5c1f9",
+          "source": "OpenAlex",
+          "date": "2026-08-01",
+          "summary_ko": "WANG Pengyu, JIANG Shuming, WEI Zhiqiang, YU Jun,  — [DOAJ (DOAJ: Directory of Open Access Journals)] Current statistical work in the field of educational development faces challenges such as low know",
+          "score": 40
+        },
+        {
+          "title": "The Impact of AI on the Landscape Design Process",
+          "url": "https://digitalcommons.usu.edu/cgi/viewcontent.cgi?article=1868&context=etd2023",
+          "source": "OpenAlex",
+          "date": "2026-08-01",
+          "summary_ko": "Jacob Owen Huff — [Digital Commons - USU (Utah State University)] Artificial intelligence (AI) is becoming more common in design fields, including landscape architecture. For example, AI has been used",
+          "score": 40
+        },
+        {
+          "title": "AI chatbots and youth suicide risk: current evidence, critical gaps, and a clinical research agenda",
+          "url": "https://doi.org/10.1038/s41746-026-03080-9",
+          "source": "OpenAlex",
+          "date": "2026-08-01",
+          "summary_ko": "Kelly L. Zuromski, Margaret Meagher, Tracy Costigan — [npj Digital Medicine] Abstract Generative AI chatbots are increasingly used by youth for mental health support, but their safety for managing you",
+          "score": 40
+        },
+        {
+          "title": "AI, Digital Tools Can Operationalize Readiness for Crisis and Emergency Management",
+          "url": "https://doi.org/10.2118/0826-0020-jpt",
+          "source": "OpenAlex",
+          "date": "2026-08-01",
+          "summary_ko": "Chris Carpenter — [Journal of Petroleum Technology] _ This article, written by JPT Technology Editor Chris Carpenter, contains highlights of paper SPE 229328, “Operationalizing AI for Crisis and Emerg",
+          "score": 40
+        },
+        {
+          "title": "Multispecies Weed Detection Using Unmanned Aerial Vehicles and Deep Learning Object Detection Models in Utah Forage Crop Corn Field",
+          "url": "https://digitalcommons.usu.edu/context/etd2023/article/1845/viewcontent/ASTEetd2026Aug_Bhandari_Utsav.pdf",
+          "source": "OpenAlex",
+          "date": "2026-08-01",
+          "summary_ko": "Utsav Bhandari — [Digital Commons - USU (Utah State University)] Weeds cost global agriculture over $32 billion annually and reduce crop yields by nearly one-third. Current weed control relies heavily",
+          "score": 40
+        },
+        {
+          "title": "The Relativity of Education: Student Perspectives on Artificial Intelligence in Community College",
+          "url": "https://scholarworks.lib.csusb.edu/etd/2522",
+          "source": "OpenAlex",
+          "date": "2026-08-01",
+          "summary_ko": "Ashley Greta Magana — [CSUSB ScholarWorks (California State University, San Bernardino)] This hermeneutic phenomenological study examined how diverse community college students experience and make mea",
+          "score": 40
+        },
+        {
+          "title": "A Fault Diagnosis-Oriented Data-Driven Embedding Fine-Tuning and Domain-Aware Hybrid Retrieval Method for Intelligent Operation and Maintenance",
+          "url": "https://doi.org/10.37965/jdmd.2026.1505",
+          "source": "OpenAlex",
+          "date": "2026-08-01",
+          "summary_ko": "Xueyi Li, Gang Li, Jiannan Dong — [Journal of Dynamics Monitoring and Diagnostics] To improve the support of engineering knowledge resources for fault diagnosis and intelligent maintenance, this paper",
+          "score": 0
+        },
+        {
+          "title": "The Impact of Early Exposure to Engineering Concepts in the Form of Family, School Classes, and STEM Extracurriculars on the Long-Term Sense of Belonging in Undergraduate Women in Engineering",
+          "url": "https://digitalcommons.usu.edu/context/etd2023/article/1857/viewcontent/ASTEetd2026Aug_Lloyd_Hannah.pdf",
+          "source": "OpenAlex",
+          "date": "2026-08-01",
+          "summary_ko": "Hannah Lloyd — [Digital Commons - USU (Utah State University)] Engineering continues to struggle with the underrepresentation of women, and many women who begin engineering programs report feeling iso",
+          "score": 0
+        },
+        {
+          "title": "(Global) Single Market for Data? Exploring Data Cosmopolitanism as a Solidarity-Based Regulatory Approach to the European Health Data Space",
+          "url": "https://lirias.kuleuven.be/handle/20.500.12942/788846",
+          "source": "OpenAlex",
+          "date": "2026-08-01",
+          "summary_ko": "Michiel Fierens, Marta Musidlowska, Isabela Rosal — [Lirias] ",
+          "score": 0
+        },
+        {
+          "title": "Case Study: Closing the Loop on Fracture Execution With Real-Time Subsurface Measurements",
+          "url": "https://doi.org/10.2118/0826-0008-jpt",
+          "source": "OpenAlex",
+          "date": "2026-08-01",
+          "summary_ko": "K. Fatheree — [Journal of Petroleum Technology] _ Hydraulic fracturing execution has historically relied on surface treating pressure as the primary information source for evaluating a stage. However,",
+          "score": 0
+        },
+        {
+          "title": "DBSSNet: Dual-Branch Spectral-Spatial Network With Data-Driven and Knowledge-Guided Band Selection for UAV Hyperspectral Wheat Rust Detection",
+          "url": "https://digitalcommons.usu.edu/context/etd2023/article/1837/viewcontent/COMSetd2026Aug_Kim_Subin.pdf",
+          "source": "OpenAlex",
+          "date": "2026-08-01",
+          "summary_ko": "Subin Kim — [Digital Commons - USU (Utah State University)] Wheat rust is a serious plant disease that can reduce crop yield and quality. In practice, the disease is often noticed only after visible s",
+          "score": 0
+        },
+        {
+          "title": "Peri-implant soft tissue phenotype modification for refractory peri-implant mucositis: a 12-month clinical and ultrasonographic study",
+          "url": "https://doktori.bibl.u-szeged.hu/id/eprint/13134/1/Barootchi%20PhD%20Document_MArch%209%2C%202026_SB_May%2010%2C26_CLEAN.pdf",
+          "source": "OpenAlex",
+          "date": "2026-08-01",
+          "summary_ko": "Barootchi Shayan — [SZTE Repository of Dissertations (University of Szeged)] This prospective observational study evaluated the clinical, ultrasonographic, and patient-reported (PROMs) outcomes follow",
+          "score": 0
+        },
+        {
+          "title": "A Qualitative Study of Immigration Trauma, Posttraumatic Growth, and the College Experience Among MENA Immigrant Students",
+          "url": "https://digitalcommons.nl.edu/cgi/viewcontent.cgi?article=2047&context=diss",
+          "source": "OpenAlex",
+          "date": "2026-08-01",
+          "summary_ko": "Braa A Elkhidir — [Digital Commons at National Lewis University (National Lewis University)] Middle Eastern and North African (MENA) immigrant students who are seeking to earn a higher education in th",
+          "score": 0
+        }
+      ]
     }
   },
   "weekly": {
@@ -37349,12 +36834,12 @@
       ]
     },
     "2026-W31": {
-      "analyzed_at": "2026-08-01T18:58:46.876344+09:00",
+      "analyzed_at": "2026-08-02T06:57:03.885555+09:00",
       "llm_backend": "claude-cli",
       "period": "weekly",
       "period_label": "최근 7일",
       "days_window": 7,
-      "paper_count": 310,
+      "paper_count": 297,
       "narrative": "",
       "hot_topics": [],
       "key_techniques": [],
@@ -37366,7 +36851,7 @@
         },
         {
           "name": "MIT",
-          "count": 99
+          "count": 98
         },
         {
           "name": "Meta",
@@ -37377,11 +36862,11 @@
           "count": 6
         },
         {
-          "name": "AWS",
-          "count": 4
+          "name": "Google",
+          "count": 3
         },
         {
-          "name": "Google",
+          "name": "AWS",
           "count": 3
         },
         {
@@ -37400,30 +36885,26 @@
       "top_keywords": [
         {
           "keyword": "language",
-          "count": 20
+          "count": 19
         },
         {
           "keyword": "data",
           "count": 19
         },
         {
-          "keyword": "multi",
-          "count": 15
-        },
-        {
           "keyword": "agents",
-          "count": 14
+          "count": 15
         },
         {
           "keyword": "multimodal",
           "count": 14
         },
         {
-          "keyword": "framework",
+          "keyword": "multi",
           "count": 13
         },
         {
-          "keyword": "aware",
+          "keyword": "framework",
           "count": 13
         },
         {
@@ -37431,15 +36912,19 @@
           "count": 13
         },
         {
+          "keyword": "aware",
+          "count": 13
+        },
+        {
+          "keyword": "knowledge",
+          "count": 12
+        },
+        {
+          "keyword": "time",
+          "count": 12
+        },
+        {
           "keyword": "policy",
-          "count": 12
-        },
-        {
-          "keyword": "agent",
-          "count": 12
-        },
-        {
-          "keyword": "generation",
           "count": 12
         },
         {
@@ -37447,39 +36932,63 @@
           "count": 11
         },
         {
-          "keyword": "knowledge",
-          "count": 11
-        },
-        {
-          "keyword": "time",
-          "count": 11
-        },
-        {
-          "keyword": "human",
-          "count": 10
-        },
-        {
           "keyword": "evidence",
+          "count": 11
+        },
+        {
+          "keyword": "generation",
+          "count": 11
+        },
+        {
+          "keyword": "agent",
           "count": 10
-        },
-        {
-          "keyword": "social",
-          "count": 9
-        },
-        {
-          "keyword": "large",
-          "count": 9
         },
         {
           "keyword": "what",
           "count": 9
         },
         {
+          "keyword": "human",
+          "count": 9
+        },
+        {
+          "keyword": "graph",
+          "count": 9
+        },
+        {
           "keyword": "networks",
           "count": 9
+        },
+        {
+          "keyword": "evaluation",
+          "count": 8
         }
       ],
       "recent_papers": [
+        {
+          "title": "PAIChecker: Uncovering and Checking PR-Issue Misalignment in SWE-Bench-Like Benchmarks",
+          "url": "https://arxiv.org/abs/2607.28587v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-30",
+          "summary_ko": "SWE-Bench-like 벤치마크에서 PR-Issue 미정렬 문제를 체계적으로 분석하여 13.6%의 사례를 발견하고, 세 단계 다중 에이전트 검증 시스템(PAIChecker)을 제안하여 92.12% 이상의 정확도로 미정렬을 식별하는 방법론 제시.",
+          "score": 74
+        },
+        {
+          "title": "MANTA: Multi-Agent Network Topology Adaptation for Self-Evolving Multi-Agent Systems",
+          "url": "https://arxiv.org/abs/2607.28527v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-30",
+          "summary_ko": "LLM 기반 다중에이전트 시스템에서 통신 위상이 추론 시간에 자동 진화하는 MANTA 프레임워크를 제시. 초기 구조를 학습하되 실시간 모니터링으로 에이전트 역할·통신 링크·실행 순서·정보 가시성을 동적 조정하며, 5개 벤치마크에서 74.0 점수로 기존 최강 베이스라인 대비 5.8 포인트 상향 달성.",
+          "score": 74
+        },
+        {
+          "title": "What AI Red-Team Evaluations Can and Cannot Prove",
+          "url": "https://arxiv.org/abs/2607.21735v2",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-30",
+          "summary_ko": "AI 모델의 레드팀 평가가 어떤 안전성 주장은 증명할 수 있고 어떤 것은 증명할 수 없는지를 '증거 천장(evidential ceiling)' 개념으로 수학적으로 규정합니다. 벤치마크의 크기와 해로움 비율에 따라 안전 인증 가능 여부가 결정되며, 현재 벤치마크는 고빈도 해로움은 감지하나 희귀한 재앙적 위험에는 수 주문 부족함을 보입니다.",
+          "score": 74
+        },
         {
           "title": "Partner Capability Estimation for Task-Agnostic Adaptation in Ad-Hoc Teamwork",
           "url": "https://arxiv.org/abs/2607.27177v1",
@@ -37495,6 +37004,14 @@
           "date": "2026-07-29",
           "summary_ko": "LLM 안전성 평가에서 단순 pass/fail 라벨이 능력 한계·정책 모호성·명령어 충돌 등 실제 실패 원인을 가린다는 문제를 진단하고, 'adversarial pragmatics' 개념 하에 18개 항목 벤치마크와 6셀 평가 프로토콜을 제시했다. LLM 판사가 자신의 출력을 평가할 때 안전성 관련 소수 클래스를 놓치고 평가자 간 일치도가 낮으며, 이는 단순 벤치마크 점수의 신뢰성 한계를 드러낸다.",
           "score": 74
+        },
+        {
+          "title": "AISPA: User-Centric System Prompt Auditing for Large Language Model Applications",
+          "url": "https://arxiv.org/abs/2607.28617v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-30",
+          "summary_ko": "본 논문은 88개 상용 AI 제품의 3,249개 시스템 프롬프트를 8개 차원으로 감시하는 AISPA 프레임워크를 제안한다. 분석 결과 제품별 설계 편차가 크고, 보호 명령어는 광범위하지만 얕으며, 여전히 40% 제품에 사용자 이익에 반하는 지시가 공존함을 드러냈다.",
+          "score": 64
         },
         {
           "title": "Minimal Markovization via Stable Quotients in Holonomy-Cover Decision Processes",
@@ -37513,12 +37030,68 @@
           "score": 58
         },
         {
+          "title": "Constitutional Midtraining: Content Presence Drives Alignment Gains",
+          "url": "https://arxiv.org/abs/2607.26654v2",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-30",
+          "summary_ko": "Constitutional midtraining은 Anthropic의 Constitution을 기반으로 LLM의 midtraining 단계에 가치 기반 content를 삽입하는 기법이다. 120B 모델에서 alignment durability를 향상시켰으며, 특히 blackmail 행동을 -17.5pp 억제하면서 기존 능력(MMLU, GSM8K 등)을 손실하지 않았다.",
+          "score": 57
+        },
+        {
           "title": "OptimismBench: Forecasting Bias and the Alignment Effect in Language Model Judgment",
           "url": "https://arxiv.org/abs/2607.26981v1",
           "source": "arXiv AI/CL/LG/IR/MA/CY",
           "date": "2026-07-29",
           "summary_ko": "LLM의 확률 판단에 내재된 방향성 편향(낙관/비관)을 inverted pair 프레임으로 측정하는 OptimismBench를 제안. 16개 모델 중 14개가 낙관적 편향을 보이는데, alignment 후처리가 편향의 부호를 결정하며 모델 정체성이 언어 차이보다 4.7배 강한 영향을 미침.",
           "score": 55
+        },
+        {
+          "title": "ReToken: One Token to Improve Vision-Language Models for Visual Retrieval",
+          "url": "https://arxiv.org/abs/2607.28627v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-30",
+          "summary_ko": "ReToken은 vision-language 모델에서 긴 시각 맥락 처리 시 성능 저하를 해결하기 위해 단일 학습 임베딩으로 KV 캐시에서 관련 토큰을 희소 선택하는 방법을 제시합니다. 작은 이미지-QA 데이터셋으로 학습하여 Visual Haystacks와 LVBench에서 각각 13.4점, 12.4점 개선을 달성했으며, 단일 H100에서 효율적으로 동작합니다.",
+          "score": 54
+        },
+        {
+          "title": "OSReward: Instituting Standardized Evaluation for Cross-Platform Computer-Use Reward Models",
+          "url": "https://arxiv.org/abs/2607.28609v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-30",
+          "summary_ko": "논문은 컴퓨터 사용 에이전트(CUA)의 작업 완수 여부를 판정하는 비전-언어 모델(VLM) 판사의 신뢰성을 평가하는 OSReward 벤치마크를 제시합니다. 현재 SOTA 모델들은 실패한 실행을 성공으로 잘못 판단하는 편향성을 보이며, OS-Shepherd 오픈 보상 모델을 학습시켜 상용 모델 대비 30-60% 저비용으로 유사한 신뢰성을 달성했습니다.",
+          "score": 54
+        },
+        {
+          "title": "ScaFE: Data-Efficient Scar Classification with LLM-Generated Clinical Feature Programs",
+          "url": "https://arxiv.org/abs/2607.28538v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-30",
+          "summary_ko": "LLM이 임상 증거를 기반으로 실행 가능한 특징 프로그램을 합성하여 흉터 이미지를 분류하며, 로컬 실행으로 원본 이미지와 환자 데이터를 보호함. 600장 이미지에서 81% 정확도 달성, 개발 데이터 10%만으로도 72% 유지.",
+          "score": 54
+        },
+        {
+          "title": "InfoOps Bench: A live information operations safety benchmark",
+          "url": "https://arxiv.org/abs/2607.28503v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-30",
+          "summary_ko": "17개 LLM(8개 공급자)의 국가 지원 정보작전 악용 가능성을 측정하는 벤치마크 제시. 모델 무결성 점수는 8.8%~94.5% 범위이며, 중국 개발 모델이 중국 비판적 주장에 극적으로 낮은 준수도를 보임. 정보작전 방어 능력이 모델 크기보다 모델 선택과 개발 국가에 더 좌우됨을 실증.",
+          "score": 54
+        },
+        {
+          "title": "The Role of Causality in Algorithmic Recourse",
+          "url": "https://arxiv.org/abs/2607.28497v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-30",
+          "summary_ko": "이 논문은 대출·신용 심사 같은 고스테이크 분류 설정에서 알고리즘 권고가 개인 행동을 변화시키는 메커니즘을 구조적 인과모델로 정식화한다. 인과 구조를 무시한 권고는 게이밍을 초래하지만 인과 기반 접근은 안정적 균형을 달성하며, 신용 데이터셋 실험에서 표준 방법 대비 우수 성능을 보인다.",
+          "score": 54
+        },
+        {
+          "title": "Improving Mental Health Screening and Early Risk Detection in Spanish",
+          "url": "https://arxiv.org/abs/2607.28476v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-30",
+          "summary_ko": "스페인어 정신건강 조기 진단을 위해 도메인 특화 파운데이션 모델과 Incremental Context Expansion(ICE) 자동 라벨링 방법론을 제시. ICE는 누적 메시지에서 장애 증거의 임계점을 자동 감지하여 학습 샘플을 생성하며, 3개 스페인어 벤치마크에서 검출 지연을 줄이면서 성능을 유지.",
+          "score": 54
         },
         {
           "title": "Pangram 4 Technical Report",
@@ -37569,6 +37142,54 @@
           "score": 54
         },
         {
+          "title": "A Deterministic Infrastructure Approach to AI Governance and Regulatory Compliance",
+          "url": "https://doi.org/10.5281/zenodo.21710774",
+          "source": "OpenAlex",
+          "date": "2026-07-31",
+          "summary_ko": "CERN의 마틴 리오토르토가 AI 거버넌스 및 규제 준수를 위한 결정론적 인프라 접근법을 제시한 학술 문헌. 규제 환경의 복잡성 증가에 대응하기 위해 명확한 기술적 기반구조와 거버넌스 체계의 필요성을 강조한다.",
+          "score": 50
+        },
+        {
+          "title": "Optimising LoRA for fine-tuning lightweight LLM expert agents in cross-regional collaboration in the construction industry: Evidence from the Greater Bay Area",
+          "url": "https://doi.org/10.1007/s42524-026-5274-4",
+          "source": "OpenAlex",
+          "date": "2026-08-01",
+          "summary_ko": "광동-홍콩-마카오 지역의 건설산업에서 복잡한 다지역·다법역 협력 환경을 다루기 위해 LoRA 기반 경량 LLM 다중 에이전트를 최적화한 기술 논문. 기존 수동 분석 방식의 한계를 AI로 극복하려는 시도.",
+          "score": 47
+        },
+        {
+          "title": "Neurosymbolic Imitation Learning with Human Guidance: A Privileged Information Approach",
+          "url": "https://arxiv.org/abs/2605.07166v2",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-30",
+          "summary_ko": "논문은 신경망과 기호 방식을 결합한 뉴로심볼릭 모방 학습 접근법을 제안한다. 고차원 데이터 처리와 일반화를 동시에 달성하며, 학습 중 사용 가능한 특권 정보(시선 데이터)를 효과적 활용한다. 방법의 효과성과 효율성을 실증적으로 입증했다.",
+          "score": 44
+        },
+        {
+          "title": "Stage-Replay Divergence Follows the KV Cache: Fixed-Prefix Precision Controls and Bidirectional Cache Transplantation",
+          "url": "https://arxiv.org/abs/2607.28495v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-30",
+          "summary_ko": "LLM의 중간 계산 상태(KV cache)를 재현하는 stage-replay 진단에서, 숫자 정밀도(BF16 vs FP32)와 캐시 상태가 추론 결과의 일관성을 결정하는 메커니즘을 실증했다. Qwen2.5 기반 시스템 200개 토큰에 양방향 캐시 이식을 적용하여 KV cache가 divergent trajectory의 충분 원인임을 규명했다.",
+          "score": 44
+        },
+        {
+          "title": "Towards Autonomous Aircraft Surveillance from Nanosatellites through On-Board Inference and Generative Data Augmentation",
+          "url": "https://arxiv.org/abs/2607.28470v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-30",
+          "summary_ko": "나노위성(6U CubeSat)의 저전력 엣지 가속기에서 온보드 추론을 실행하면서, LoRA 파인튜닝 확산 모델이 합성 소수 클래스 이미지를 자동 주석 처리로 생성하여 클래스 불균형을 해결하는 워크플로우를 제안한다. 이 방식으로 mAP 77.9%→82.2%, 소수 클래스 F1 0.683→0.811로 개선하고 온보드에서 25-30fps 실시간 항공기 감시를 실현했다.",
+          "score": 44
+        },
+        {
+          "title": "A report-grounded vision-language foundation model for colonoscopy from 280000 routine reports",
+          "url": "https://arxiv.org/abs/2607.28466v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-30",
+          "summary_ko": "280,000건의 대장내시경 루틴 보고서에서 125,756개 병변-이미지-텍스트 쌍을 자동 추출하여 EndoCLIP 모델 훈련. 약한 감독을 구조화된 강한 감독으로 변환하여 이미지-텍스트 검색, 보고서 생성, 6개 다중센터 임상 분류에서 일반 및 의료용 비전-언어 모델 대비 우수 성능 달성, 양성-악성 분류에서 전문가 수준에 근접.",
+          "score": 44
+        },
+        {
           "title": "AgentMap: Joint Equivalence and Subsumption Discovery for Ontology Matching",
           "url": "https://arxiv.org/abs/2607.27130v1",
           "source": "arXiv AI/CL/LG/IR/MA/CY",
@@ -37583,142 +37204,6 @@
           "date": "2026-07-29",
           "summary_ko": "InferScale은 개인화된 LLM 서빙에서 반복되는 프리필 오버헤드를 해결하는 GPU 네이티브 메모리 시스템이다. 메모리 팩트의 KV 표현을 미리 계산·저장하고, Chunked RoPE와 Context-Window Encoding 기법으로 위치 임베딩과 문맥 문제를 해결한다. TTFT를 72-79% 감소시키고 Mem0 대비 처리량을 3.7-4.5배 향상시킨다.",
           "score": 44
-        },
-        {
-          "title": "Constitutional Midtraining: Content Presence Drives Alignment Gains",
-          "url": "https://arxiv.org/abs/2607.26654v2",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-30",
-          "summary_ko": "Constitutional midtraining은 Anthropic의 Constitution을 기반으로 LLM의 midtraining 단계에 가치 기반 content를 삽입하는 기법이다. 120B 모델에서 alignment durability를 향상시켰으며, 특히 blackmail 행동을 -17.5pp 억제하면서 기존 능력(MMLU, GSM8K 등)을 손실하지 않았다.",
-          "score": 42
-        },
-        {
-          "title": "Multispecies Weed Detection Using Unmanned Aerial Vehicles and Deep Learning Object Detection Models in Utah Forage Crop Corn Field",
-          "url": "https://digitalcommons.usu.edu/context/etd2023/article/1845/viewcontent/ASTEetd2026Aug_Bhandari_Utsav.pdf",
-          "source": "OpenAlex",
-          "date": "2026-08-01",
-          "summary_ko": "Utsav Bhandari — [Digital Commons - USU (Utah State University)] Weeds cost global agriculture over $32 billion annually and reduce crop yields by nearly one-third. Current weed control relies heavily",
-          "score": 40
-        },
-        {
-          "title": "The Impact of AI on the Landscape Design Process",
-          "url": "https://digitalcommons.usu.edu/cgi/viewcontent.cgi?article=1868&context=etd2023",
-          "source": "OpenAlex",
-          "date": "2026-08-01",
-          "summary_ko": "Jacob Owen Huff — [Digital Commons - USU (Utah State University)] Artificial intelligence (AI) is becoming more common in design fields, including landscape architecture. For example, AI has been used",
-          "score": 40
-        },
-        {
-          "title": "The Relativity of Education: Student Perspectives on Artificial Intelligence in Community College",
-          "url": "https://scholarworks.lib.csusb.edu/etd/2522",
-          "source": "OpenAlex",
-          "date": "2026-08-01",
-          "summary_ko": "Ashley Greta Magana — [CSUSB ScholarWorks (California State University, San Bernardino)] This hermeneutic phenomenological study examined how diverse community college students experience and make mea",
-          "score": 40
-        },
-        {
-          "title": "A Deterministic Infrastructure Approach to AI Governance and Regulatory Compliance",
-          "url": "https://doi.org/10.5281/zenodo.21710774",
-          "source": "OpenAlex",
-          "date": "2026-07-31",
-          "summary_ko": "CERN의 마틴 리오토르토가 AI 거버넌스 및 규제 준수를 위한 결정론적 인프라 접근법을 제시한 학술 문헌. 규제 환경의 복잡성 증가에 대응하기 위해 명확한 기술적 기반구조와 거버넌스 체계의 필요성을 강조한다.",
-          "score": 40
-        },
-        {
-          "title": "ReToken: One Token to Improve Vision-Language Models for Visual Retrieval",
-          "url": "https://arxiv.org/abs/2607.28627v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-30",
-          "summary_ko": "ReToken은 vision-language 모델에서 긴 시각 맥락 처리 시 성능 저하를 해결하기 위해 단일 학습 임베딩으로 KV 캐시에서 관련 토큰을 희소 선택하는 방법을 제시합니다. 작은 이미지-QA 데이터셋으로 학습하여 Visual Haystacks와 LVBench에서 각각 13.4점, 12.4점 개선을 달성했으며, 단일 H100에서 효율적으로 동작합니다.",
-          "score": 39
-        },
-        {
-          "title": "Neurosymbolic Imitation Learning with Human Guidance: A Privileged Information Approach",
-          "url": "https://arxiv.org/abs/2605.07166v2",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-30",
-          "summary_ko": "논문은 신경망과 기호 방식을 결합한 뉴로심볼릭 모방 학습 접근법을 제안한다. 고차원 데이터 처리와 일반화를 동시에 달성하며, 학습 중 사용 가능한 특권 정보(시선 데이터)를 효과적 활용한다. 방법의 효과성과 효율성을 실증적으로 입증했다.",
-          "score": 39
-        },
-        {
-          "title": "AISPA: User-Centric System Prompt Auditing for Large Language Model Applications",
-          "url": "https://arxiv.org/abs/2607.28617v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-30",
-          "summary_ko": "본 논문은 88개 상용 AI 제품의 3,249개 시스템 프롬프트를 8개 차원으로 감시하는 AISPA 프레임워크를 제안한다. 분석 결과 제품별 설계 편차가 크고, 보호 명령어는 광범위하지만 얕으며, 여전히 40% 제품에 사용자 이익에 반하는 지시가 공존함을 드러냈다.",
-          "score": 39
-        },
-        {
-          "title": "OSReward: Instituting Standardized Evaluation for Cross-Platform Computer-Use Reward Models",
-          "url": "https://arxiv.org/abs/2607.28609v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-30",
-          "summary_ko": "논문은 컴퓨터 사용 에이전트(CUA)의 작업 완수 여부를 판정하는 비전-언어 모델(VLM) 판사의 신뢰성을 평가하는 OSReward 벤치마크를 제시합니다. 현재 SOTA 모델들은 실패한 실행을 성공으로 잘못 판단하는 편향성을 보이며, OS-Shepherd 오픈 보상 모델을 학습시켜 상용 모델 대비 30-60% 저비용으로 유사한 신뢰성을 달성했습니다.",
-          "score": 39
-        },
-        {
-          "title": "Critic Architecture Matters: Dual vs. Unified Critics for Humanoid Loco-Manipulation",
-          "url": "https://arxiv.org/abs/2606.11891v2",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-30",
-          "summary_ko": "이 논문은 휴머노이드 로봇의 로코-매니퓰레이션 정책 학습에서 Dual Critic과 Unified Critic 아키텍처를 비교한다. Unitree G1 로봇을 NVIDIA Isaac Lab에서 순차 커리큘럼으로 학습시킨 결과, Dual Critic이 Unified Critic 대비 3.5배 빠른 수렴, 2배 높은 처리량, 65.2% vs 53.8%의 높은 도달률을 달성했다.",
-          "score": 39
-        },
-        {
-          "title": "RMBench: Memory-Dependent Robotic Manipulation Benchmark with Insights into Policy Design",
-          "url": "https://arxiv.org/abs/2603.01229v3",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-30",
-          "summary_ko": "로봇 조작 정책의 메모리 능력을 체계적으로 평가하기 위해 복잡도 수준이 다른 9개 과제로 구성된 RMBench 벤치마크를 제안합니다. 명시적 메모리 컴포넌트를 갖춘 모듈형 정책 Mem-0을 설계하여 아키텍처 선택이 메모리 성능에 미치는 영향을 실험·분석하고, 기존 정책의 메모리 관련 한계를 규명했습니다.",
-          "score": 39
-        },
-        {
-          "title": "PAIChecker: Uncovering and Checking PR-Issue Misalignment in SWE-Bench-Like Benchmarks",
-          "url": "https://arxiv.org/abs/2607.28587v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-30",
-          "summary_ko": "SWE-Bench-like 벤치마크에서 PR-Issue 미정렬 문제를 체계적으로 분석하여 13.6%의 사례를 발견하고, 세 단계 다중 에이전트 검증 시스템(PAIChecker)을 제안하여 92.12% 이상의 정확도로 미정렬을 식별하는 방법론 제시.",
-          "score": 39
-        },
-        {
-          "title": "Doubly Robust Functional Representation Learning for Longitudinal Causal Inference with Irregular Histories",
-          "url": "https://arxiv.org/abs/2607.28567v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-30",
-          "summary_ko": "종단적 인과추론에서 불규칙한 측정 시간을 갖는 함수형 임상 데이터(검사값, 생리신호, 센서 스트림)를 처리하기 위해 Doubly Robust Functional Representation Learning(DR-FRL)을 제안. Functional/temporal encoders와 nuisance 함수 추정, EIF 기반 검증을 통해 점근 선형성을 보장하며, VitalDB 실증에서 스칼라 요약이 ICU 결과 예측에 충분할 수 있음을 보임.",
-          "score": 39
-        },
-        {
-          "title": "APO: Unsupervised Atomic Policy Optimization for 3D Structure Prediction of Atomic Systems",
-          "url": "https://arxiv.org/abs/2607.28553v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-30",
-          "summary_ko": "APO는 지도학습 없이 원자계의 3D 구조 예측이 가능한 비지도형 정책 최적화 프레임워크로, 이중 보상 메커니즘(고유 분해 기반 구조 강화 + 열역학 안정성 강제)으로 물리적으로 타당한 구성을 자기 수정합니다. 결정질·항체 구조 벤치마크에서 지도학습 베이스라인을 능가하고 추론 효율성을 개선합니다.",
-          "score": 39
-        },
-        {
-          "title": "ScaFE: Data-Efficient Scar Classification with LLM-Generated Clinical Feature Programs",
-          "url": "https://arxiv.org/abs/2607.28538v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-30",
-          "summary_ko": "LLM이 임상 증거를 기반으로 실행 가능한 특징 프로그램을 합성하여 흉터 이미지를 분류하며, 로컬 실행으로 원본 이미지와 환자 데이터를 보호함. 600장 이미지에서 81% 정확도 달성, 개발 데이터 10%만으로도 72% 유지.",
-          "score": 39
-        },
-        {
-          "title": "MANTA: Multi-Agent Network Topology Adaptation for Self-Evolving Multi-Agent Systems",
-          "url": "https://arxiv.org/abs/2607.28527v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-30",
-          "summary_ko": "LLM 기반 다중에이전트 시스템에서 통신 위상이 추론 시간에 자동 진화하는 MANTA 프레임워크를 제시. 초기 구조를 학습하되 실시간 모니터링으로 에이전트 역할·통신 링크·실행 순서·정보 가시성을 동적 조정하며, 5개 벤치마크에서 74.0 점수로 기존 최강 베이스라인 대비 5.8 포인트 상향 달성.",
-          "score": 39
-        },
-        {
-          "title": "What AI Red-Team Evaluations Can and Cannot Prove",
-          "url": "https://arxiv.org/abs/2607.21735v2",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-30",
-          "summary_ko": "AI 모델의 레드팀 평가가 어떤 안전성 주장은 증명할 수 있고 어떤 것은 증명할 수 없는지를 '증거 천장(evidential ceiling)' 개념으로 수학적으로 규정합니다. 벤치마크의 크기와 해로움 비율에 따라 안전 인증 가능 여부가 결정되며, 현재 벤치마크는 고빈도 해로움은 감지하나 희귀한 재앙적 위험에는 수 주문 부족함을 보입니다.",
-          "score": 39
         }
       ]
     }
@@ -40166,12 +39651,12 @@
       ]
     },
     "2026-08": {
-      "analyzed_at": "2026-08-01T18:59:15.392813+09:00",
+      "analyzed_at": "2026-08-02T06:57:33.043277+09:00",
       "llm_backend": "claude-cli",
       "period": "monthly",
       "period_label": "최근 30일",
       "days_window": 30,
-      "paper_count": 2240,
+      "paper_count": 2146,
       "narrative": "",
       "hot_topics": [],
       "key_techniques": [],
@@ -40179,19 +39664,19 @@
       "top_institutions": [
         {
           "name": "ETH",
-          "count": 976
+          "count": 933
         },
         {
           "name": "MIT",
-          "count": 660
+          "count": 633
         },
         {
           "name": "Meta",
-          "count": 58
+          "count": 54
         },
         {
           "name": "AWS",
-          "count": 39
+          "count": 36
         },
         {
           "name": "FAIR",
@@ -40199,11 +39684,11 @@
         },
         {
           "name": "Google",
-          "count": 16
+          "count": 14
         },
         {
           "name": "NVIDIA",
-          "count": 13
+          "count": 12
         },
         {
           "name": "Anthropic",
@@ -40211,11 +39696,11 @@
         },
         {
           "name": "OpenAI",
-          "count": 8
+          "count": 7
         },
         {
           "name": "Hugging Face",
-          "count": 5
+          "count": 4
         },
         {
           "name": "Apple",
@@ -40241,71 +39726,71 @@
       "top_keywords": [
         {
           "keyword": "data",
-          "count": 138
+          "count": 133
         },
         {
           "keyword": "multi",
-          "count": 125
+          "count": 117
         },
         {
           "keyword": "generative",
-          "count": 119
+          "count": 117
         },
         {
           "keyword": "framework",
-          "count": 116
-        },
-        {
-          "keyword": "language",
           "count": 112
         },
         {
+          "keyword": "language",
+          "count": 109
+        },
+        {
           "keyword": "agents",
-          "count": 99
+          "count": 94
         },
         {
           "keyword": "agent",
-          "count": 98
+          "count": 92
         },
         {
           "keyword": "reasoning",
-          "count": 91
+          "count": 87
         },
         {
           "keyword": "human",
-          "count": 80
+          "count": 78
         },
         {
           "keyword": "aware",
-          "count": 79
+          "count": 73
         },
         {
           "keyword": "generation",
-          "count": 77
-        },
-        {
-          "keyword": "agentic",
-          "count": 70
+          "count": 72
         },
         {
           "keyword": "systems",
-          "count": 70
+          "count": 67
         },
         {
           "keyword": "time",
-          "count": 69
+          "count": 67
         },
         {
           "keyword": "detection",
           "count": 66
         },
         {
+          "keyword": "agentic",
+          "count": 65
+        },
+        {
           "keyword": "llms",
-          "count": 66
+          "count": 61
         },
         {
           "keyword": "driven",
-          "count": 61
+          "count": 60
         },
         {
           "keyword": "adaptive",
@@ -40317,7 +39802,7 @@
         },
         {
           "keyword": "intelligence",
-          "count": 55
+          "count": 54
         }
       ],
       "recent_papers": [
