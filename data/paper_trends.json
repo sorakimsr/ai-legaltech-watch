@@ -1,10 +1,10 @@
 {
-  "analyzed_at": "2026-08-03T19:00:46.584988+09:00",
+  "analyzed_at": "2026-08-04T06:59:41.004516+09:00",
   "llm_backend": "claude-cli",
   "period": "weekly",
   "period_label": "최근 7일",
   "days_window": 7,
-  "paper_count": 299,
+  "paper_count": 303,
   "narrative": "",
   "hot_topics": [],
   "key_techniques": [],
@@ -12,15 +12,15 @@
   "top_institutions": [
     {
       "name": "ETH",
-      "count": 150
+      "count": 149
     },
     {
       "name": "MIT",
-      "count": 98
+      "count": 99
     },
     {
       "name": "Meta",
-      "count": 12
+      "count": 11
     },
     {
       "name": "FAIR",
@@ -61,16 +61,16 @@
       "count": 15
     },
     {
-      "keyword": "multi",
-      "count": 14
-    },
-    {
       "keyword": "framework",
       "count": 14
     },
     {
       "keyword": "multimodal",
       "count": 14
+    },
+    {
+      "keyword": "multi",
+      "count": 13
     },
     {
       "keyword": "detection",
@@ -85,11 +85,19 @@
       "count": 12
     },
     {
+      "keyword": "intelligence",
+      "count": 11
+    },
+    {
       "keyword": "generative",
       "count": 11
     },
     {
       "keyword": "evidence",
+      "count": 11
+    },
+    {
+      "keyword": "knowledge",
       "count": 11
     },
     {
@@ -109,15 +117,7 @@
       "count": 10
     },
     {
-      "keyword": "knowledge",
-      "count": 10
-    },
-    {
       "keyword": "what",
-      "count": 9
-    },
-    {
-      "keyword": "intelligence",
       "count": 9
     },
     {
@@ -171,6 +171,14 @@
       "score": 74
     },
     {
+      "title": "Authority Before Optimization: Governing AI Capacity Selection",
+      "url": "https://doi.org/10.5281/zenodo.21709599",
+      "source": "OpenAlex",
+      "date": "2026-08-02",
+      "summary_ko": "조직이 호스팅·프라이빗·로컬 등 다양한 AI 용량 제공 경로 중 선택할 때, 최적화 도구보다는 권한과 책임, 규제 준수라는 거버넌스가 먼저 정의되어야 한다고 주장하는 연구논문.",
+      "score": 72
+    },
+    {
       "title": "AISPA: User-Centric System Prompt Auditing for Large Language Model Applications",
       "url": "https://arxiv.org/abs/2607.28617v1",
       "source": "arXiv AI/CL/LG/IR/MA/CY",
@@ -209,6 +217,14 @@
       "date": "2026-07-29",
       "summary_ko": "LLM의 확률 판단에 내재된 방향성 편향(낙관/비관)을 inverted pair 프레임으로 측정하는 OptimismBench를 제안. 16개 모델 중 14개가 낙관적 편향을 보이는데, alignment 후처리가 편향의 부호를 결정하며 모델 정체성이 언어 차이보다 4.7배 강한 영향을 미침.",
       "score": 55
+    },
+    {
+      "title": "AE-23",
+      "url": "https://doi.org/10.5281/zenodo.21750534",
+      "source": "OpenAlex",
+      "date": "2026-08-02",
+      "summary_ko": "Zenodo에 등록된 학술 자료로, EU AI Act 제50조(투명성 의무)를 인용하며 저자의 지시·검토 하에 LLM으로 생성된 콘텐츠임을 명시. 학술 영역의 AI 생성물 투명성 표시 사례.",
+      "score": 54
     },
     {
       "title": "ReToken: One Token to Improve Vision-Language Models for Visual Retrieval",
@@ -307,14 +323,6 @@
       "score": 54
     },
     {
-      "title": "AE-23",
-      "url": "https://doi.org/10.5281/zenodo.21750534",
-      "source": "OpenAlex",
-      "date": "2026-08-02",
-      "summary_ko": "Zenodo에 등록된 학술 자료로, EU AI Act 제50조(투명성 의무)를 인용하며 저자의 지시·검토 하에 LLM으로 생성된 콘텐츠임을 명시. 학술 영역의 AI 생성물 투명성 표시 사례.",
-      "score": 54
-    },
-    {
       "title": "A Deterministic Infrastructure Approach to AI Governance and Regulatory Compliance",
       "url": "https://doi.org/10.5281/zenodo.21710774",
       "source": "OpenAlex",
@@ -361,18 +369,11 @@
       "date": "2026-07-29",
       "summary_ko": "AgentMap은 온톨로지 매칭 문제를 LLM 기반 다중 에이전트 프레임워크로 해결하는 논문이다. 기존의 동등성 또는 포함관계 중 하나만 발견하는 방식을 벗어나 HOM(Hybrid Ontology Matching)이라는 새로운 작업을 정의하고, 의미론적 검색·계층적 탐색·협업적 에이전트 추론을 결합하여 두 가지 대응을 모두 발견한다.",
       "score": 44
-    },
-    {
-      "title": "InferScale: GPU-Native KV Injection for Personalized LLM Serving",
-      "url": "https://arxiv.org/abs/2607.27090v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-07-29",
-      "summary_ko": "InferScale은 개인화된 LLM 서빙에서 반복되는 프리필 오버헤드를 해결하는 GPU 네이티브 메모리 시스템이다. 메모리 팩트의 KV 표현을 미리 계산·저장하고, Chunked RoPE와 Context-Window Encoding 기법으로 위치 임베딩과 문맥 문제를 해결한다. TTFT를 72-79% 감소시키고 Mem0 대비 처리량을 3.7-4.5배 향상시킨다.",
-      "score": 44
     }
   ],
   "available_periods": {
     "daily": [
+      "2026-08-04",
       "2026-08-03",
       "2026-08-02",
       "2026-08-01",
@@ -429,8 +430,7 @@
       "2026-06-08",
       "2026-06-07",
       "2026-06-06",
-      "2026-06-05",
-      "2026-06-04"
+      "2026-06-05"
     ],
     "weekly": [
       "2026-W32",
