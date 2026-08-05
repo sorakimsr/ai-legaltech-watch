@@ -1,351 +1,5 @@
 {
   "daily": {
-    "2026-06-06": {
-      "analyzed_at": "2026-06-06T18:19:40.661721+09:00",
-      "llm_backend": "anthropic",
-      "period": "daily",
-      "period_label": "오늘",
-      "days_window": 1,
-      "paper_count": 7,
-      "narrative": "한 줄 요약 AI는 이제 단일 모델 도입을 넘어 '에이전트 간 조율·보안·추적 가능성'이라는 운영 인프라 문제로 전선이 이동하고 있으며, 신흥시장 실증 연구들은 그 도입 효과가 산업·맥락별로 극명히 갈린다는 사실을 보여준다.\n\n1) 무엇이 부상하고 있는가 오늘 발표된 논문들에서 가장 주목할 흐름은 두 가지다. 첫째, 다중에이전트시스템(MAS)의 부상이다. 생성형 AI 확산과 함께 단일 모델이 아닌 복수의 자율 에이전트가 분산 환경에서 협력·경쟁하는 구조가 핵심 아키텍처로 자리잡고 있다. 논문 3번(MAS 진화·과제 분석)은 에이전트 간 신뢰 설계와 조율 계층이 새로운 병목임을 명시한다. **단일 LLM 선택은 이미 낡은 질문이고, 에이전트 간 신뢰·조정 계층이 새 병목**으로 부상했다는 의미다. 둘째, 머신러닝 기반 사이버보안(논문 7번)이다. CERN 산하 연구팀의 분석에 따르면 네트워크 침입 탐지·악성코드 분류·피싱 방어에서 ML이 기본 기술로 정착했고, 역으로 사이버보안 환경이 ML 모델의 견고성을 검증하는 스트레스 테스트 역할을 한다. 이는 AI 도입과 보안 설계가 더 이상 분리된 의사결정이 아님을 뜻한다. 여기에 우즈베키스탄 관광·섬유 산업의 AI 리마케팅 실증 연구(논문 6번)는 자원기반관점(RBV)과 기술수용모델(TAM)을 통해 **AI 도입 효과가 산업 특성과 디지털 인프라 수준에 따라 구조적으로 달라진다**는 점을 실증했다.\n\n2) 한국 실무자에게 이 흐름이 무슨 의미인가 전략·기획 담당자 입장에서 가장 직접적인 시사점은 'AI 도입 = 모델 선택'이라는 프레임을 버려야 한다는 것이다. MAS 논문이 지적하듯 에이전트 오케스트레이션 환경에서는 **기존 API 호출 단위 비용 측정이 다단계 에이전트 오케스트레이션 환경에서는 무의미**해지며, 성능 KPI 자체를 재설계해야 한다. 또한 사이버보안 ML 논문은 AI 시스템 도입 시 보안 아키텍처를 후속 과제가 아닌 설계 단계에서 함께 고려해야 함을 시사한다. 유전·가스 산업의 블록체인·IoT 기반 장비 추적 모델(논문 5번)은 제조·물류 현장에서 **추적 가능성(traceability)이 운영 정확도와 내부통제의 핵심 인프라**로 기능한다는 점을 보여주며, 이는 국내 제조·에너지 기업의 스마트팩토리 전략과 직결된다.\n\n3) 산업 적용 흐름 가장 빠르게 적용이 진행될 분야는 제조·에너지·물류다. 블록체인·IoT 통합 추적 모델(논문 5번)과 태양광 추적 시스템 AI 분석(논문 2번)은 이미 현장 데이터 기반 실증 단계에 있다. 마케팅·커머스 분야에서는 AI 리마케팅(논문 6번)의 신흥시장 실증이 국내 이커머스·여행 플랫폼의 개인화 전략 고도화에 직접 참조 가능하다. 다만 한국 기업 환경에서는 **개인정보보호법상 국외 데이터 이전 제한, 금융위·금감원의 AI 모델 설명 요구, 공공기관의 망분리 정책이 클라우드 기반 멀티에이전트 도입의 현실적 장벽으로 작용**한다. MAS 아키텍처를 도입할 때 **온프레미스(on-premise) 또는 폐쇄망 요구가 도입 속도를 제한하는 현실적 제약으로 작동**하므로, 초기 설계 단계에서 **책임 경계가 명확히 설계된 아키텍처를 선택**하는 것이 이후 규제 대응 비용을 줄이는 핵심 의사결정이 된다.",
-      "hot_topics": [
-        {
-          "topic": "다중에이전트시스템 아키텍처 (Multi-Agent Systems, MAS)",
-          "description": "단일 AI 모델을 넘어 복수의 자율 에이전트가 분산 환경에서 협력하는 구조로, 에이전트 간 신뢰 설계와 조율이 새로운 기술·전략 과제로 부상.",
-          "paper_count": 1,
-          "paper_indices": [
-            3
-          ],
-          "papers": [
-            {
-              "title": "Arquiteturas distribuídas e integração de agentes inteligentes: evolução, desafios e cenário atual dos MAS",
-              "url": "https://doi.org/10.5281/zenodo.19930775",
-              "source": "OpenAlex",
-              "date": "2026-06-06"
-            }
-          ]
-        },
-        {
-          "topic": "머신러닝 기반 사이버보안 (ML-Driven Cybersecurity)",
-          "description": "네트워크 침입 탐지·악성코드 분류 등에서 ML이 기본 기술로 정착했으며, AI 도입과 보안 설계가 동시에 고려되어야 하는 통합 의제로 전환.",
-          "paper_count": 1,
-          "paper_indices": [
-            7
-          ],
-          "papers": [
-            {
-              "title": "Machine Learning for Modern Cybersecurity: Trend-Driven Architectures, Threat Models, and Quantitative Evaluation",
-              "url": "https://doi.org/10.5281/zenodo.19458846",
-              "source": "OpenAlex",
-              "date": "2026-06-05"
-            }
-          ]
-        },
-        {
-          "topic": "신흥시장 AI 리마케팅 실증 (AI Remarketing in Emerging Markets)",
-          "description": "우즈베키스탄 관광·섬유 산업 사례를 통해 AI 도입 효과가 산업 특성과 디지털 인프라 수준에 따라 구조적으로 달라진다는 점을 실증.",
-          "paper_count": 1,
-          "paper_indices": [
-            6
-          ],
-          "papers": [
-            {
-              "title": "AI-Driven Remarketing and Digital Infrastructure in Emerging Markets: Evidence from Tourism and Textile Enterprises in Uzbekistan",
-              "url": "https://doi.org/10.3390/su18115739",
-              "source": "OpenAlex",
-              "date": "2026-06-05"
-            }
-          ]
-        },
-        {
-          "topic": "IoT·블록체인 기반 자산 추적 (Traceability with Blockchain & IoT)",
-          "description": "유전·가스 산업 장비 렌탈 관리에 블록체인·IoT·QR코드를 통합해 운영 투명성과 내부통제를 동시에 강화하는 모델로, 제조·물류 전반에 확장 가능.",
-          "paper_count": 1,
-          "paper_indices": [
-            5
-          ],
-          "papers": [
-            {
-              "title": "A Traceability Model for Rental Equipment in Support Companies within the Oil and Gas Industry",
-              "url": "https://doi.org/10.22441/sinergi.2026.2.009",
-              "source": "OpenAlex",
-              "date": "2026-06-05"
-            }
-          ]
-        },
-        {
-          "topic": "제조업 효율성 시계열 예측 (Time-Series Forecasting for Manufacturing Efficiency)",
-          "description": "2000~2026년 종단 데이터를 활용한 제조 시스템 효율성 평가 방법론으로, 전략 계획 수립을 위한 예측 프레임워크 부재 문제를 다룸.",
-          "paper_count": 1,
-          "paper_indices": [
-            1
-          ],
-          "papers": [
-            {
-              "title": "Methodological Evaluation and Time-Series Forecasting for Manufacturing Systems Efficiency in Senegal: A Longitudinal Analysis from 2000–2026",
-              "url": "https://parj.africa/aje_civileng/article/view/methodological-evaluation-and-time-series-forecasting-for-ma",
-              "source": "OpenAlex",
-              "date": "2026-06-06"
-            }
-          ]
-        },
-        {
-          "topic": "태양광 AI 효율 분석 (AI Analysis of Solar Tracking Efficiency)",
-          "description": "전 세계 태양광 발전 비중이 10~12%에 달하는 가운데, 고정식 대비 추적 시스템의 에너지 생산 격차를 AI로 분석해 재생에너지 운영 최적화 방향 제시.",
-          "paper_count": 1,
-          "paper_indices": [
-            2
-          ],
-          "papers": [
-            {
-              "title": "AI Analysis of Sun Tracking Efficiency",
-              "url": "https://doi.org/10.22158/asir.v10n2p33",
-              "source": "OpenAlex",
-              "date": "2026-06-05"
-            }
-          ]
-        }
-      ],
-      "key_techniques": [
-        {
-          "technique": "에이전트 오케스트레이션 (Agent Orchestration in MAS)",
-          "description": "복수의 자율 에이전트를 분산 환경에서 조율하는 기법으로, 단일 모델 한계를 넘어서는 복잡한 업무 자동화의 핵심 설계 요소.",
-          "paper_count": 1,
-          "paper_indices": [
-            3
-          ],
-          "papers": [
-            {
-              "title": "Arquiteturas distribuídas e integração de agentes inteligentes: evolução, desafios e cenário atual dos MAS",
-              "url": "https://doi.org/10.5281/zenodo.19930775",
-              "source": "OpenAlex",
-              "date": "2026-06-06"
-            }
-          ]
-        },
-        {
-          "technique": "머신러닝 위협 탐지 모델 (ML-Based Threat Detection)",
-          "description": "네트워크 침입·악성코드·피싱을 실시간으로 탐지하는 ML 아키텍처로, AI 시스템 자체의 견고성 검증 수단으로도 기능해 보안과 AI 품질 관리를 동시에 지원.",
-          "paper_count": 1,
-          "paper_indices": [
-            7
-          ],
-          "papers": [
-            {
-              "title": "Machine Learning for Modern Cybersecurity: Trend-Driven Architectures, Threat Models, and Quantitative Evaluation",
-              "url": "https://doi.org/10.5281/zenodo.19458846",
-              "source": "OpenAlex",
-              "date": "2026-06-05"
-            }
-          ]
-        },
-        {
-          "technique": "블록체인·IoT 통합 추적 모델 (Blockchain-IoT Traceability Model)",
-          "description": "자산의 이동·상태를 실시간으로 기록·검증하는 분산원장 기반 추적 기법으로, 운영 정확도와 감사 가능성을 동시에 확보하는 인프라.",
-          "paper_count": 1,
-          "paper_indices": [
-            5
-          ],
-          "papers": [
-            {
-              "title": "A Traceability Model for Rental Equipment in Support Companies within the Oil and Gas Industry",
-              "url": "https://doi.org/10.22441/sinergi.2026.2.009",
-              "source": "OpenAlex",
-              "date": "2026-06-05"
-            }
-          ]
-        },
-        {
-          "technique": "자원기반관점·기술수용모델 결합 분석 (RBV + TAM Combined Analysis)",
-          "description": "AI 도입 효과를 기업 자원 역량과 사용자 수용 행동 두 축으로 동시에 분석하는 프레임워크로, 산업별 AI 투자 우선순위 설정에 실용적 근거 제공.",
-          "paper_count": 1,
-          "paper_indices": [
-            6
-          ],
-          "papers": [
-            {
-              "title": "AI-Driven Remarketing and Digital Infrastructure in Emerging Markets: Evidence from Tourism and Textile Enterprises in Uzbekistan",
-              "url": "https://doi.org/10.3390/su18115739",
-              "source": "OpenAlex",
-              "date": "2026-06-05"
-            }
-          ]
-        },
-        {
-          "technique": "리만 신뢰영역 최적화 (Riemannian Trust-Region Optimization)",
-          "description": "고차원 행렬 최적화 문제를 기하학적 공간에서 풀어내는 수학적 기법으로, 머신러닝 모델 학습의 수렴 안정성과 정확도 향상에 기초 기술로 활용.",
-          "paper_count": 1,
-          "paper_indices": [
-            4
-          ],
-          "papers": [
-            {
-              "title": "RIEMANNIAN TRUST-REGION METHOD FOR THE LOG-DETERMINANT MODEL OF HERMITIAN MATRIX EIGENPROBLEMS",
-              "url": "https://doi.org/10.4208/jcm.2512-m2025-0154",
-              "source": "OpenAlex",
-              "date": "2026-06-05"
-            }
-          ]
-        }
-      ],
-      "actionable_insights": [
-        "AI 도입 로드맵을 재검토할 때 '어떤 모델을 쓸 것인가'보다 에이전트 간 역할 분리와 책임 경계를 어떻게 설계할 것인가를 선행 의제로 올려야 한다. MAS 아키텍처에서는 조율 계층 설계 실패가 전체 시스템 신뢰성을 무너뜨리는 핵심 리스크다.",
-        "AI 시스템 도입 프로젝트의 보안 검토를 별도 후속 단계로 분리하는 관행은 재고가 필요하다. CERN 연구팀의 분석이 보여주듯 **AI 모델의 견고성 검증과 사이버보안 아키텍처는 설계 단계에서 통합되어야** 하며, 이를 분리하면 운영 단계에서 예측 불가능한 취약점이 발생한다.",
-        "제조·물류·에너지 분야의 스마트팩토리 또는 자산관리 고도화 과제를 검토 중이라면, 블록체인·IoT 통합 추적 모델이 단순 효율화를 넘어 **내부통제 자동화와 감사 대응 비용 절감의 인프라**로 기능할 수 있다는 점을 투자 근거에 포함해야 한다.",
-        "신흥시장 AI 리마케팅 실증 연구(우즈베키스탄 사례)는 **AI 투자 효과가 디지털 인프라 성숙도와 산업 특성에 따라 구조적으로 달라진다**는 점을 보여준다. 국내에서도 동일 AI 솔루션을 전사 일괄 도입하기보다 사업부별 디지털 역량 수준을 먼저 진단하고 우선순위를 차별화하는 방식이 투자 효율을 높인다.",
-        "온프레미스 또는 폐쇄망 환경을 요구하는 규제 산업(금융·공공·의료)에서 멀티에이전트 AI를 검토할 경우, **클라우드 기반 MAS 아키텍처의 기본 가정이 국내 망분리·데이터 국외이전 규제와 충돌하는 지점을 사전에 법무·컴플라이언스 팀과 함께 명시적으로 매핑**해야 도입 지연과 재설계 비용을 줄일 수 있다."
-      ],
-      "top_institutions": [
-        {
-          "name": "MIT",
-          "count": 3
-        },
-        {
-          "name": "ETH",
-          "count": 3
-        }
-      ],
-      "top_keywords": [
-        {
-          "keyword": "evaluation",
-          "count": 2
-        },
-        {
-          "keyword": "efficiency",
-          "count": 2
-        },
-        {
-          "keyword": "driven",
-          "count": 2
-        },
-        {
-          "keyword": "methodological",
-          "count": 1
-        },
-        {
-          "keyword": "time",
-          "count": 1
-        },
-        {
-          "keyword": "series",
-          "count": 1
-        },
-        {
-          "keyword": "forecasting",
-          "count": 1
-        },
-        {
-          "keyword": "manufacturing",
-          "count": 1
-        },
-        {
-          "keyword": "systems",
-          "count": 1
-        },
-        {
-          "keyword": "senegal",
-          "count": 1
-        },
-        {
-          "keyword": "longitudinal",
-          "count": 1
-        },
-        {
-          "keyword": "methodological evaluation",
-          "count": 1
-        },
-        {
-          "keyword": "evaluation time",
-          "count": 1
-        },
-        {
-          "keyword": "time series",
-          "count": 1
-        },
-        {
-          "keyword": "series forecasting",
-          "count": 1
-        },
-        {
-          "keyword": "forecasting manufacturing",
-          "count": 1
-        },
-        {
-          "keyword": "manufacturing systems",
-          "count": 1
-        },
-        {
-          "keyword": "systems efficiency",
-          "count": 1
-        },
-        {
-          "keyword": "efficiency senegal",
-          "count": 1
-        },
-        {
-          "keyword": "senegal longitudinal",
-          "count": 1
-        }
-      ],
-      "recent_papers": [
-        {
-          "title": "Methodological Evaluation and Time-Series Forecasting for Manufacturing Systems Efficiency in Senegal: A Longitudinal Analysis from 2000–2026",
-          "url": "https://parj.africa/aje_civileng/article/view/methodological-evaluation-and-time-series-forecasting-for-ma",
-          "source": "OpenAlex",
-          "date": "2026-06-06",
-          "summary_ko": "세네갈 제조업 시스템 효율성 평가를 위한 2000~2026년 종단 분석 연구로, 식물 수준 성능 평가의 방법론적 틀과 전망 능력 부족 문제를 다룬다. 기존 프레임워크의 한계를 극복하고 전략 계획 수립을 위한 강화된 방법론 제시를 목표로 한다.",
-          "score": 50
-        },
-        {
-          "title": "AI Analysis of Sun Tracking Efficiency",
-          "url": "https://doi.org/10.22158/asir.v10n2p33",
-          "source": "OpenAlex",
-          "date": "2026-06-05",
-          "summary_ko": "2025~2026년 전 세계 태양광 발전량이 전체 전기의 10~12%를 차지하는 가운데, 고정식 태양광 시스템이 대부분이고 태양 추적 시스템은 40~45% 수준의 에너지만 생산하고 있다는 연구 분석이 발표됐다.",
-          "score": 32
-        },
-        {
-          "title": "Arquiteturas distribuídas e integração de agentes inteligentes: evolução, desafios e cenário atual dos MAS",
-          "url": "https://doi.org/10.5281/zenodo.19930775",
-          "source": "OpenAlex",
-          "date": "2026-06-06",
-          "summary_ko": "생성형 AI 발전에 따라 분산 환경에서 자율 에이전트를 조율하는 다중에이전트시스템(MAS)이 핵심 전략으로 부상하고 있다. 본 논문은 MAS의 진화, 기술적 과제, 현황을 분석한 학술 자료다.",
-          "score": 0
-        },
-        {
-          "title": "RIEMANNIAN TRUST-REGION METHOD FOR THE LOG-DETERMINANT MODEL OF HERMITIAN MATRIX EIGENPROBLEMS",
-          "url": "https://doi.org/10.4208/jcm.2512-m2025-0154",
-          "source": "OpenAlex",
-          "date": "2026-06-05",
-          "summary_ko": "Hermitian 행렬 고유값 문제의 로그-행렬식 최적화 모델에 대한 Riemannian 신뢰영역 방법론을 제시한 학술논문. 통계·기계학습·정보통신공학 분야에서 광범위하게 응용되는 수학적 기초 연구.",
-          "score": 0
-        },
-        {
-          "title": "A Traceability Model for Rental Equipment in Support Companies within the Oil and Gas Industry",
-          "url": "https://doi.org/10.22441/sinergi.2026.2.009",
-          "source": "OpenAlex",
-          "date": "2026-06-05",
-          "summary_ko": "유전·가스 산업의 장비 렌탈 관리 비효율성을 해결하기 위해 블록체인, IoT, QR코드를 통합한 추적성 모델을 설계한 연구. 투명성과 운영 정확도 개선을 목표로 객체지향 분석 방법론을 적용했다.",
-          "score": 0
-        },
-        {
-          "title": "AI-Driven Remarketing and Digital Infrastructure in Emerging Markets: Evidence from Tourism and Textile Enterprises in Uzbekistan",
-          "url": "https://doi.org/10.3390/su18115739",
-          "source": "OpenAlex",
-          "date": "2026-06-05",
-          "summary_ko": "우즈베키스탄의 관광·섬유 산업에서 AI 기반 리마케팅 전략의 효과를 비교 분석한 학술 연구. 자원기반관점(RBV)과 기술수용모델(TAM)을 적용하여 신흥시장의 디지털 전환 과정에서 AI 도입의 산업별 차이를 실증적으로 검증.",
-          "score": 0
-        },
-        {
-          "title": "Machine Learning for Modern Cybersecurity: Trend-Driven Architectures, Threat Models, and Quantitative Evaluation",
-          "url": "https://doi.org/10.5281/zenodo.19458846",
-          "source": "OpenAlex",
-          "date": "2026-06-05",
-          "summary_ko": "CERN 산하 연구팀이 기계학습의 사이버보안 적용 현황을 분석한 학술 논문을 발표했다. 네트워크 침입 탐지, 악성코드 분류, 피싱 방어 등 보안 영역에서 ML이 기본 기술로 자리잡았으며, 동시에 사이버보안이 ML 모델의 견고성을 검증하는 '스트레스 테스트'로 기능하고 있다는 점을 강조한다.",
-          "score": 0
-        }
-      ]
-    },
     "2026-06-07": {
       "analyzed_at": "2026-06-07T18:53:53.671600+09:00",
       "llm_backend": "anthropic",
@@ -29348,6 +29002,127 @@
           "score": 44
         }
       ]
+    },
+    "2026-08-06": {
+      "analyzed_at": "2026-08-06T07:02:33.403788+09:00",
+      "llm_backend": "claude-cli",
+      "period": "daily",
+      "period_label": "오늘",
+      "days_window": 1,
+      "paper_count": 3,
+      "narrative": "",
+      "hot_topics": [],
+      "key_techniques": [],
+      "actionable_insights": [],
+      "top_institutions": [],
+      "top_keywords": [
+        {
+          "keyword": "assessing",
+          "count": 1
+        },
+        {
+          "keyword": "acuity",
+          "count": 1
+        },
+        {
+          "keyword": "pediatric",
+          "count": 1
+        },
+        {
+          "keyword": "emergency",
+          "count": 1
+        },
+        {
+          "keyword": "department",
+          "count": 1
+        },
+        {
+          "keyword": "triage",
+          "count": 1
+        },
+        {
+          "keyword": "performance",
+          "count": 1
+        },
+        {
+          "keyword": "large",
+          "count": 1
+        },
+        {
+          "keyword": "language",
+          "count": 1
+        },
+        {
+          "keyword": "assessing acuity",
+          "count": 1
+        },
+        {
+          "keyword": "acuity pediatric",
+          "count": 1
+        },
+        {
+          "keyword": "pediatric emergency",
+          "count": 1
+        },
+        {
+          "keyword": "emergency department",
+          "count": 1
+        },
+        {
+          "keyword": "department triage",
+          "count": 1
+        },
+        {
+          "keyword": "triage performance",
+          "count": 1
+        },
+        {
+          "keyword": "performance large",
+          "count": 1
+        },
+        {
+          "keyword": "large language",
+          "count": 1
+        },
+        {
+          "keyword": "cyber",
+          "count": 1
+        },
+        {
+          "keyword": "bulletin",
+          "count": 1
+        },
+        {
+          "keyword": "july",
+          "count": 1
+        }
+      ],
+      "recent_papers": [
+        {
+          "title": "Assessing acuity in pediatric emergency department triage: performance of a large language model",
+          "url": "https://doi.org/10.1038/s44401-026-00128-6",
+          "source": "OpenAlex",
+          "date": "2026-08-05",
+          "summary_ko": "Kush Narang, Newton Addo, Christopher Y. K. Williams — [npj Health Systems] Abstract Pediatric triage performance varies across emergency departments (ED), contributing to ongoing challenges in pediat",
+          "score": 40
+        },
+        {
+          "title": "Cyber Bulletin July Edition 2026",
+          "url": "https://doi.org/10.5281/zenodo.21791040",
+          "source": "OpenAlex",
+          "date": "2026-08-05",
+          "summary_ko": "Mohammad Faisal, Mr. SHUBHAM KUMAR, Mr. FAIZAN MAHMOOD — [Zenodo (CERN European Organization for Nuclear Research)] Dear All, Welcome to the Cyber Bulletin – July 2026. This edition highlights the gro",
+          "score": 40
+        },
+        {
+          "title": "Designing a Multi-Agent Personalized Learning Support System Grounded in Mastery Learning Theory",
+          "url": "https://doi.org/10.26689/jcer.v10i7.15728",
+          "source": "OpenAlex",
+          "date": "2026-08-05",
+          "summary_ko": "Chenwei Liu, Linshuo Xiao — [Journal of Contemporary Educational Research] Generative artificial intelligence offers new ways to support personalized learning, yet many existing applications emphasize",
+          "score": 0
+        }
+      ]
     }
   },
   "weekly": {
@@ -36518,12 +36293,12 @@
       ]
     },
     "2026-W32": {
-      "analyzed_at": "2026-08-05T19:02:15.347468+09:00",
+      "analyzed_at": "2026-08-06T07:03:02.536290+09:00",
       "llm_backend": "claude-cli",
       "period": "weekly",
       "period_label": "최근 7일",
       "days_window": 7,
-      "paper_count": 559,
+      "paper_count": 431,
       "narrative": "",
       "hot_topics": [],
       "key_techniques": [],
@@ -36531,35 +36306,31 @@
       "top_institutions": [
         {
           "name": "ETH",
-          "count": 290
+          "count": 217
         },
         {
           "name": "MIT",
-          "count": 195
+          "count": 144
         },
         {
           "name": "FAIR",
-          "count": 18
+          "count": 17
         },
         {
           "name": "Meta",
-          "count": 18
+          "count": 13
         },
         {
           "name": "Google",
-          "count": 7
+          "count": 6
         },
         {
           "name": "AWS",
-          "count": 7
+          "count": 4
         },
         {
           "name": "OpenAI",
           "count": 3
-        },
-        {
-          "name": "Anthropic",
-          "count": 2
         },
         {
           "name": "Amazon",
@@ -36568,6 +36339,10 @@
         {
           "name": "NVIDIA",
           "count": 2
+        },
+        {
+          "name": "Anthropic",
+          "count": 1
         },
         {
           "name": "Stanford",
@@ -36581,83 +36356,83 @@
       "top_keywords": [
         {
           "keyword": "language",
-          "count": 36
+          "count": 27
         },
         {
           "keyword": "multi",
-          "count": 29
+          "count": 22
         },
         {
           "keyword": "agent",
-          "count": 26
+          "count": 22
         },
         {
           "keyword": "framework",
-          "count": 26
-        },
-        {
-          "keyword": "data",
-          "count": 24
-        },
-        {
-          "keyword": "agents",
-          "count": 24
+          "count": 22
         },
         {
           "keyword": "agentic",
-          "count": 23
-        },
-        {
-          "keyword": "aware",
-          "count": 22
-        },
-        {
-          "keyword": "llms",
-          "count": 22
-        },
-        {
-          "keyword": "generation",
-          "count": 22
-        },
-        {
-          "keyword": "detection",
           "count": 21
         },
         {
-          "keyword": "time",
-          "count": 20
+          "keyword": "llms",
+          "count": 19
         },
         {
-          "keyword": "reasoning",
-          "count": 19
+          "keyword": "data",
+          "count": 18
         },
         {
           "keyword": "generative",
-          "count": 19
-        },
-        {
-          "keyword": "knowledge",
-          "count": 19
-        },
-        {
-          "keyword": "memory",
           "count": 18
+        },
+        {
+          "keyword": "detection",
+          "count": 17
         },
         {
           "keyword": "inference",
-          "count": 18
+          "count": 16
         },
         {
-          "keyword": "multimodal",
-          "count": 17
+          "keyword": "agents",
+          "count": 16
+        },
+        {
+          "keyword": "time",
+          "count": 16
         },
         {
           "keyword": "when",
-          "count": 17
+          "count": 16
+        },
+        {
+          "keyword": "aware",
+          "count": 15
+        },
+        {
+          "keyword": "memory",
+          "count": 14
         },
         {
           "keyword": "evaluation",
-          "count": 16
+          "count": 14
+        },
+        {
+          "keyword": "efficient",
+          "count": 14
+        },
+        {
+          "keyword": "through",
+          "count": 14
+        },
+        {
+          "keyword": "generation",
+          "count": 14
+        },
+        {
+          "keyword": "training",
+          "count": 14
         }
       ],
       "recent_papers": [
@@ -36686,22 +36461,6 @@
           "score": 74
         },
         {
-          "title": "Partner Capability Estimation for Task-Agnostic Adaptation in Ad-Hoc Teamwork",
-          "url": "https://arxiv.org/abs/2607.27177v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-29",
-          "summary_ko": "논문은 숨겨진 파트너 능력 하에서 다중 작업 협업을 위해 CE-CM(능력 추정 베이지안 방법)과 그 확장인 CE-CM-Div를 제안한다. 시뮬레이션과 225개 인간 궤적 실험을 통해 파트너의 task-invariant 능력 벡터를 온라인으로 추론하고 행동 다양성을 고려한 협업 적응의 효과를 입증했다.",
-          "score": 74
-        },
-        {
-          "title": "Adversarial Pragmatics for AI Safety Evaluation: A Diagnostic Framework and Seed Benchmark for Language-Mediated Control",
-          "url": "https://arxiv.org/abs/2607.01153v3",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-29",
-          "summary_ko": "LLM 안전성 평가에서 단순 pass/fail 라벨이 능력 한계·정책 모호성·명령어 충돌 등 실제 실패 원인을 가린다는 문제를 진단하고, 'adversarial pragmatics' 개념 하에 18개 항목 벤치마크와 6셀 평가 프로토콜을 제시했다. LLM 판사가 자신의 출력을 평가할 때 안전성 관련 소수 클래스를 놓치고 평가자 간 일치도가 낮으며, 이는 단순 벤치마크 점수의 신뢰성 한계를 드러낸다.",
-          "score": 74
-        },
-        {
           "title": "Authority Before Optimization: Governing AI Capacity Selection",
           "url": "https://doi.org/10.5281/zenodo.21709599",
           "source": "OpenAlex",
@@ -36726,14 +36485,6 @@
           "score": 64
         },
         {
-          "title": "Minimal Markovization via Stable Quotients in Holonomy-Cover Decision Processes",
-          "url": "https://arxiv.org/abs/2607.27132v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-29",
-          "summary_ko": "부분관측성 환경에서 POMDP의 최소 메모리 요구를 특성화하는 이론적 연구. Stable quotient이라는 관측 기반 추상화를 도입해 현재 관측과 안정 클래스의 쌍이 정확한 마르코프 상태를 형성함을 증명. Holonomy Memory RL 알고리즘으로 메모리 효율적 제어를 실현하고 실험으로 검증.",
-          "score": 64
-        },
-        {
           "title": "Explainable artificial intelligence as AI literacy scaffolding",
           "url": "https://doi.org/10.1108/jd-02-2026-0088",
           "source": "OpenAlex",
@@ -36750,12 +36501,12 @@
           "score": 57
         },
         {
-          "title": "OptimismBench: Forecasting Bias and the Alignment Effect in Language Model Judgment",
-          "url": "https://arxiv.org/abs/2607.26981v1",
+          "title": "Beyond Compliance: A Proposed Framework for Ethical Governance of Student Data in Learning Analytics",
+          "url": "https://arxiv.org/abs/2608.03968v1",
           "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-29",
-          "summary_ko": "LLM의 확률 판단에 내재된 방향성 편향(낙관/비관)을 inverted pair 프레임으로 측정하는 OptimismBench를 제안. 16개 모델 중 14개가 낙관적 편향을 보이는데, alignment 후처리가 편향의 부호를 결정하며 모델 정체성이 언어 차이보다 4.7배 강한 영향을 미침.",
-          "score": 55
+          "date": "2026-08-04",
+          "summary_ko": "고등교육 학습분석 도입 급증에 따른 학생 데이터 거버넌스의 공백을 해결하기 위해, 법적 준수(FERPA/GDPR)를 넘어 공정성·학생 권한·책임성·윤리 설계를 포함한 LEAGUE 6단계 프레임워크를 제시하고 조기경보 사례로 실용성을 입증한 연구이다.",
+          "score": 54
         },
         {
           "title": "onepot-Bench 0: towards lab-aware in silico chemistry benchmarks",
@@ -36830,60 +36581,12 @@
           "score": 54
         },
         {
-          "title": "Optimal Causal Annotations: An Application to Casenotes in Social Services",
-          "url": "https://arxiv.org/abs/2502.10605v4",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-29",
-          "summary_ko": "제한된 예산 내에서 인과 효과 추정을 위한 최적 주석 대상 선택 방법을 제시한다. LLM 기반 텍스트 주석의 편향 위험을 인식하고, 폐쇄형 해와 이중 배치 추정기를 도출하며, 노숙인 서비스 casenotes 사례에서 LLM이 클라이언트 진전을 과소평가함을 실증했다.",
-          "score": 54
-        },
-        {
-          "title": "OmegaUse-OfficeVal: Benchmarking LLM Agents on Long-Horizon Office-Suite Tasks with Economic Grounding",
-          "url": "https://arxiv.org/abs/2607.27155v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-29",
-          "summary_ko": "OmegaUse-OfficeVal은 오피스 스위트 작업 100개로 구성된 벤치마크로, 각 작업에 인간 노동 시간과 가격 정보를 경제적으로 그라운딩했다. 코드 기반 검증자로 평가하면 프론티어 LLM들이 인간보다 저렴하고 빠르지만 품질 수준은 미달한다.",
-          "score": 54
-        },
-        {
-          "title": "AI LEGO: Scaffolding Cross-Functional Collaboration in Industrial Responsible AI Practices during Early Design Stages",
-          "url": "https://arxiv.org/abs/2505.10300v2",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-29",
-          "summary_ko": "산업 환경에서 책임 있는 AI 개발 초기 단계의 기술팀과 비기술팀 간 협업 문제를 분석하고, 경계 객체 이론 기반의 웹 도구 AI LEGO를 개발했다. 기술 역할은 인터랙티브 블록으로 계획을 수립하고 비기술 역할은 LLM 페르소나 시뮬레이션으로 해악을 식별하며, 18명 실무자 검증에서 기존 워크시트 대비 식별된 해악의 양과 가능성을 증대시켰다.",
-          "score": 54
-        },
-        {
-          "title": "Behavioral Controllability of Agentic Models for Information Extraction: From Fixed Workflows to Reflective Agents",
-          "url": "https://arxiv.org/abs/2607.15715v2",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-29",
-          "summary_ko": "학술 논문 데이터셋 추출 작업에서 고정 워크플로우 대비 반사형 에이전트의 행동 제어 가능성을 평가. 동적 도구 선택, 메모리 활용, 장애 복구 메커니즘을 프로세스 레벨에서 분석하여 관찰 가능하고 제어 가능한 에이전트 설계 원칙을 제안.",
-          "score": 54
-        },
-        {
-          "title": "Scores Are Not Decisions: Cost-Aware Stopping for Tool Acquisition in LLM Agents",
-          "url": "https://arxiv.org/abs/2607.27083v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-07-29",
-          "summary_ko": "LLM 에이전트가 검색·DB·커넥터 등 외부 서비스를 선택할 때 비용과 성과의 트레이드오프를 해결하는 CAM-DF 방법론을 제시한다. 기존 점수 순위만으로는 이질적 비용 환경에서 최적 결정을 내릴 수 없음을 증명하고, 실행 시 전체 도구 접근 대비 37% 더 적은 도구로도 유사한 과제 성공률을 달성했다.",
-          "score": 54
-        },
-        {
           "title": "A Deterministic Infrastructure Approach to AI Governance and Regulatory Compliance",
           "url": "https://doi.org/10.5281/zenodo.21710774",
           "source": "OpenAlex",
           "date": "2026-07-31",
           "summary_ko": "CERN의 마틴 리오토르토가 AI 거버넌스 및 규제 준수를 위한 결정론적 인프라 접근법을 제시한 학술 문헌. 규제 환경의 복잡성 증가에 대응하기 위해 명확한 기술적 기반구조와 거버넌스 체계의 필요성을 강조한다.",
           "score": 50
-        },
-        {
-          "title": "Beyond Compliance: A Proposed Framework for Ethical Governance of Student Data in Learning Analytics",
-          "url": "https://arxiv.org/abs/2608.03968v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-08-04",
-          "summary_ko": "고등교육 학습분석 도입 급증에 따른 학생 데이터 거버넌스의 공백을 해결하기 위해, 법적 준수(FERPA/GDPR)를 넘어 공정성·학생 권한·책임성·윤리 설계를 포함한 LEAGUE 6단계 프레임워크를 제시하고 조기경보 사례로 실용성을 입증한 연구이다.",
-          "score": 49
         },
         {
           "title": "Trustworthy AI in Digital Health: A Comprehensive Review of Robustness and Explainability",
@@ -36894,12 +36597,84 @@
           "score": 47
         },
         {
+          "title": "CEL: Comprehensive Counterfactual Explanations Library and Benchmark",
+          "url": "https://arxiv.org/abs/2607.22045v2",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-08-03",
+          "summary_ko": "Counterfactual explanations을 위한 통합 라이브러리 및 벤치마크(CEL)를 제안하며, 기존 방법들의 비일관적인 평가 문제를 해결한다. 18개 데이터셋과 14개 counterfactual 방법의 구현을 제공하고, 타당성·커버리지·희소성·근접성·분포 타당성 등 다양한 메트릭으로 체계적 비교 평가를 수행한다.",
+          "score": 45
+        },
+        {
+          "title": "Neurosymbolic Imitation Learning with Human Guidance: A Privileged Information Approach",
+          "url": "https://arxiv.org/abs/2605.07166v2",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-30",
+          "summary_ko": "논문은 신경망과 기호 방식을 결합한 뉴로심볼릭 모방 학습 접근법을 제안한다. 고차원 데이터 처리와 일반화를 동시에 달성하며, 학습 중 사용 가능한 특권 정보(시선 데이터)를 효과적 활용한다. 방법의 효과성과 효율성을 실증적으로 입증했다.",
+          "score": 44
+        },
+        {
+          "title": "Stage-Replay Divergence Follows the KV Cache: Fixed-Prefix Precision Controls and Bidirectional Cache Transplantation",
+          "url": "https://arxiv.org/abs/2607.28495v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-30",
+          "summary_ko": "LLM의 중간 계산 상태(KV cache)를 재현하는 stage-replay 진단에서, 숫자 정밀도(BF16 vs FP32)와 캐시 상태가 추론 결과의 일관성을 결정하는 메커니즘을 실증했다. Qwen2.5 기반 시스템 200개 토큰에 양방향 캐시 이식을 적용하여 KV cache가 divergent trajectory의 충분 원인임을 규명했다.",
+          "score": 44
+        },
+        {
+          "title": "Towards Autonomous Aircraft Surveillance from Nanosatellites through On-Board Inference and Generative Data Augmentation",
+          "url": "https://arxiv.org/abs/2607.28470v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-30",
+          "summary_ko": "나노위성(6U CubeSat)의 저전력 엣지 가속기에서 온보드 추론을 실행하면서, LoRA 파인튜닝 확산 모델이 합성 소수 클래스 이미지를 자동 주석 처리로 생성하여 클래스 불균형을 해결하는 워크플로우를 제안한다. 이 방식으로 mAP 77.9%→82.2%, 소수 클래스 F1 0.683→0.811로 개선하고 온보드에서 25-30fps 실시간 항공기 감시를 실현했다.",
+          "score": 44
+        },
+        {
+          "title": "A report-grounded vision-language foundation model for colonoscopy from 280000 routine reports",
+          "url": "https://arxiv.org/abs/2607.28466v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-07-30",
+          "summary_ko": "280,000건의 대장내시경 루틴 보고서에서 125,756개 병변-이미지-텍스트 쌍을 자동 추출하여 EndoCLIP 모델 훈련. 약한 감독을 구조화된 강한 감독으로 변환하여 이미지-텍스트 검색, 보고서 생성, 6개 다중센터 임상 분류에서 일반 및 의료용 비전-언어 모델 대비 우수 성능 달성, 양성-악성 분류에서 전문가 수준에 근접.",
+          "score": 44
+        },
+        {
+          "title": "Optimising LoRA for fine-tuning lightweight LLM expert agents in cross-regional collaboration in the construction industry: Evidence from the Greater Bay Area",
+          "url": "https://doi.org/10.1007/s42524-026-5274-4",
+          "source": "OpenAlex",
+          "date": "2026-08-01",
+          "summary_ko": "광동-홍콩-마카오 지역의 건설산업에서 복잡한 다지역·다법역 협력 환경을 다루기 위해 LoRA 기반 경량 LLM 다중 에이전트를 최적화한 기술 논문. 기존 수동 분석 방식의 한계를 AI로 극복하려는 시도.",
+          "score": 42
+        },
+        {
+          "title": "Assessing acuity in pediatric emergency department triage: performance of a large language model",
+          "url": "https://doi.org/10.1038/s44401-026-00128-6",
+          "source": "OpenAlex",
+          "date": "2026-08-05",
+          "summary_ko": "Kush Narang, Newton Addo, Christopher Y. K. Williams — [npj Health Systems] Abstract Pediatric triage performance varies across emergency departments (ED), contributing to ongoing challenges in pediat",
+          "score": 40
+        },
+        {
+          "title": "Cyber Bulletin July Edition 2026",
+          "url": "https://doi.org/10.5281/zenodo.21791040",
+          "source": "OpenAlex",
+          "date": "2026-08-05",
+          "summary_ko": "Mohammad Faisal, Mr. SHUBHAM KUMAR, Mr. FAIZAN MAHMOOD — [Zenodo (CERN European Organization for Nuclear Research)] Dear All, Welcome to the Cyber Bulletin – July 2026. This edition highlights the gro",
+          "score": 40
+        },
+        {
           "title": "SAT-Edge-Agent: Hardware-in-the-Loop Edge-Agent Orchestration for Onboard Satellite Intelligence",
           "url": "https://arxiv.org/abs/2608.03728v1",
           "source": "arXiv AI/CL/LG/IR/MA/CY",
           "date": "2026-08-04",
           "summary_ko": "Onboard satellite intelligence requires a task layer that translates mission intent into local tool calls, exposes execution state, and returns machine-consumable artifacts under communication and pow",
-          "score": 45
+          "score": 40
+        },
+        {
+          "title": "ParVL: Parallel Scaling and Expandable Compute Allocation for Multimodal LLMs",
+          "url": "https://arxiv.org/abs/2608.04010v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-08-04",
+          "summary_ko": "Existing scaling strategies for Multimodal Large Language Models (MLLMs) typically expand either model parameters or sequential inference computation, incurring substantial memory or latency overhead.",
+          "score": 39
         }
       ]
     }
