@@ -1,301 +1,5 @@
 {
   "daily": {
-    "2026-06-11": {
-      "analyzed_at": "2026-06-11T08:32:57.215513+09:00",
-      "llm_backend": "anthropic",
-      "period": "daily",
-      "period_label": "오늘",
-      "days_window": 1,
-      "paper_count": 5,
-      "narrative": "한 줄 요약 AI가 교육·의료·감사·보안 전 영역에서 '검증 가능한 신뢰'를 핵심 조건으로 요구받기 시작했으며, 이는 도입 여부보다 '어떻게 통제할 것인가'가 전략 의제의 중심으로 이동했음을 의미한다.\n\n1) 무엇이 부상하고 있는가 오늘 발표된 논문들을 관통하는 키워드는 '신뢰 검증'이다. Edinburgh Napier University의 교육 분야 LLM 연구는 무료 AI 도구가 개인 튜터 역할을 수행할 수 있다는 가능성을 인정하면서도, 과도한 의존이 학습자의 비판적 사고를 약화시킬 수 있다는 경고를 동시에 제시한다. 의료 분야에서는 청소년 특발성 척추측만증(AIS) 환자 교육을 위한 LLM 벤치마크 연구가 전문가 기반 평가 기준으로 모델의 신뢰성과 이해도를 정량 검증했는데, 이는 **LLM 출력의 품질을 도메인 전문가가 직접 설계한 기준으로 측정하지 않으면 현장 도입 자체가 리스크**가 된다는 점을 실증한다. 보안 측면에서는 딥러닝 모델에 대한 백도어 주입 공격에 대응하는 취약 워터마킹(fragile watermarking) 기술이 제안되었으며, 이는 **AI 모델 자체가 공격 대상이 되는 시대에 모델 무결성 보장이 운영 인프라의 필수 요건**으로 부상하고 있음을 보여준다. 나이지리아 공공조달 시스템의 AI 감사 분석 연구는 개발도상국 사례임에도 불구하고, **수작업 내부통제를 AI 기반 이상 탐지로 전환하는 흐름이 국내 금융·공공 분야의 내부통제 자동화 수요와 직결**된다는 점에서 주목할 필요가 있다.\n\n2) 한국 실무자에게 이 흐름이 무슨 의미인가 전략·기획 담당자 입장에서 이 논문들이 던지는 질문은 하나다. '우리 회사가 도입한 AI 도구의 출력을 누가, 어떤 기준으로 검증하고 있는가?' 의료 LLM 벤치마크 연구처럼 **도메인 전문가가 설계한 평가 기준 없이 AI 도구를 업무에 투입하는 방식은 이미 재검토가 필요한 운영 관행**이다. 교육 분야의 과도한 의존 경고는 사내 AI 활용 가이드라인 부재 상태에서 직원들이 LLM에 판단을 위임하는 상황과 직접 연결된다. 취약 워터마킹 연구는 외부 AI 모델을 API로 연동하거나 파인튜닝한 모델을 운영할 때 **모델 무결성 검증 체계가 없으면 공급망 보안 리스크가 내부 시스템 전체로 전파**될 수 있다는 경고다. AI 감사 분석 연구는 조달·구매·회계 부서의 이상거래 탐지 자동화를 검토하는 팀에게 **정량적 효과 검증 설계를 선행하지 않으면 도입 후 ROI 입증이 불가능**하다는 교훈을 준다.\n\n3) 산업 적용 흐름 가장 빠르게 적용이 진행될 분야는 금융과 공공 조달이다. AI 감사 분석은 이미 글로벌 회계법인과 금융기관이 내부감사 자동화에 투입하고 있으며, 한국의 경우 금융감독원의 AI 모델 설명 요구와 내부통제 강화 기조가 맞물려 수요가 구체화되고 있다. 의료 분야는 LLM 기반 환자 교육 도구의 신뢰성 검증 체계가 선행되어야 하므로 규제 정비 속도에 따라 도입 시점이 결정된다. 교육 분야는 에듀테크 기업과 기업 내 러닝 플랫폼에서 AI 튜터 도입이 가속화될 수 있으나, **학습자의 비판적 사고 저하라는 부작용을 측정하는 지표 설계가 없으면 도입 효과 자체를 입증할 수 없는 구조적 한계**가 존재한다. 한국 기업 환경에서는 개인정보보호법상 국외 데이터 이전 제한, 금융위·금감원의 AI 모델 설명 요구, 공공기관의 망분리 정책이 클라우드 기반 AI 감사·보안 솔루션 도입의 현실적 장벽으로 작용하며, **온프레미스(on-premise) 또는 폐쇄망 요구가 도입 속도를 제한하는 현실적 제약으로 작동**한다는 점을 조달 전략 수립 단계에서 반드시 반영해야 한다.",
-      "hot_topics": [
-        {
-          "topic": "AI 출력 신뢰성 검증 체계 (LLM Output Validation & Benchmarking)",
-          "description": "LLM을 교육·의료 등 전문 도메인에 투입할 때 전문가 기반 평가 기준 없이는 품질 보증이 불가능하다는 인식이 확산되고 있다.",
-          "paper_count": 2,
-          "paper_indices": [
-            1,
-            2
-          ],
-          "papers": [
-            {
-              "title": "AI in Teaching & Learning -- Prospects and Pitfalls",
-              "url": "https://napier-repository.worktribe.com/5064229/1/AI%20in%20Teaching%20and%20Learning%20--%20Prospects%20and%20Pitfalls",
-              "source": "OpenAlex",
-              "date": "2026-06-10"
-            },
-            {
-              "title": "An expert-led benchmark using common patient questions: evaluating large language models for adolescent idiopathic scoliosis education",
-              "url": "https://doi.org/10.1007/s00586-026-10046-8",
-              "source": "OpenAlex",
-              "date": "2026-06-10"
-            }
-          ]
-        },
-        {
-          "topic": "AI 기반 내부감사·사기 탐지 자동화 (AI-Driven Audit Analytics & Fraud Detection)",
-          "description": "공공·금융 조달 시스템의 수작업 감시를 AI로 대체하는 정량 효과 검증 연구가 본격화되고 있다.",
-          "paper_count": 1,
-          "paper_indices": [
-            5
-          ],
-          "papers": [
-            {
-              "title": "Artificial Intelligence–Driven Audit Analytics and Fraud Detection Effectiveness in Public Sector Procurement Systems: A Quantitative Study in Nigeria",
-              "url": "https://doi.org/10.5281/zenodo.20605034",
-              "source": "OpenAlex",
-              "date": "2026-06-10"
-            }
-          ]
-        },
-        {
-          "topic": "AI 모델 보안·무결성 보호 (AI Model Integrity & Security)",
-          "description": "딥러닝 모델 자체가 백도어 공격의 표적이 되면서 모델 무결성 검증이 운영 보안의 새 의제로 부상하고 있다.",
-          "paper_count": 1,
-          "paper_indices": [
-            3
-          ],
-          "papers": [
-            {
-              "title": "Research Progress and Prospects of Fragile Watermarking for Model Integrity Protection",
-              "url": "https://doi.org/10.70267/ic-aimees.20260243251",
-              "source": "OpenAlex",
-              "date": "2026-06-10"
-            }
-          ]
-        },
-        {
-          "topic": "교육 현장 LLM 활용과 의존성 리스크 (LLM in Education & Over-reliance Risk)",
-          "description": "AI 튜터의 접근성 확대와 동시에 학습자의 비판적 사고 약화라는 부작용이 교육 설계의 핵심 변수로 등장했다.",
-          "paper_count": 1,
-          "paper_indices": [
-            1
-          ],
-          "papers": [
-            {
-              "title": "AI in Teaching & Learning -- Prospects and Pitfalls",
-              "url": "https://napier-repository.worktribe.com/5064229/1/AI%20in%20Teaching%20and%20Learning%20--%20Prospects%20and%20Pitfalls",
-              "source": "OpenAlex",
-              "date": "2026-06-10"
-            }
-          ]
-        },
-        {
-          "topic": "과학·기술 소프트웨어의 지속가능한 개발 원칙 (Sustainable Scientific Software Engineering)",
-          "description": "AI 및 데이터 파이프라인의 유지보수성 문제를 소프트웨어 엔지니어링 원칙으로 해결하려는 교육·표준화 움직임이 나타나고 있다.",
-          "paper_count": 1,
-          "paper_indices": [
-            4
-          ],
-          "papers": [
-            {
-              "title": "HeFDI Code School - Part 1 - Scientific software development is not a Jenga game - Software Engineering to the rescue",
-              "url": "https://doi.org/10.5281/zenodo.20614111",
-              "source": "OpenAlex",
-              "date": "2026-06-10"
-            }
-          ]
-        }
-      ],
-      "key_techniques": [
-        {
-          "technique": "전문가 기반 LLM 벤치마크 설계 (Expert-Led LLM Benchmark)",
-          "description": "도메인 전문가가 직접 평가 기준을 설계해 LLM 출력의 정확성과 신뢰도를 측정하는 방식으로, AI 도입 ROI 입증의 선행 조건이 된다.",
-          "paper_count": 1,
-          "paper_indices": [
-            2
-          ],
-          "papers": [
-            {
-              "title": "An expert-led benchmark using common patient questions: evaluating large language models for adolescent idiopathic scoliosis education",
-              "url": "https://doi.org/10.1007/s00586-026-10046-8",
-              "source": "OpenAlex",
-              "date": "2026-06-10"
-            }
-          ]
-        },
-        {
-          "technique": "취약 워터마킹 기반 모델 무결성 보호 (Fragile Watermarking for Model Integrity)",
-          "description": "모델이 무단 수정되거나 백도어가 주입되는 순간 즉각 탐지하는 능동 방어 기법으로, 외부 AI 모델 연동 시 공급망 보안의 핵심 수단이다.",
-          "paper_count": 1,
-          "paper_indices": [
-            3
-          ],
-          "papers": [
-            {
-              "title": "Research Progress and Prospects of Fragile Watermarking for Model Integrity Protection",
-              "url": "https://doi.org/10.70267/ic-aimees.20260243251",
-              "source": "OpenAlex",
-              "date": "2026-06-10"
-            }
-          ]
-        },
-        {
-          "technique": "AI 감사 분석 (AI-Driven Audit Analytics)",
-          "description": "조달·회계 데이터에서 이상 패턴을 자동 탐지하는 기법으로, 내부감사 인력 효율화와 부정 적발률 향상을 동시에 달성할 수 있다.",
-          "paper_count": 1,
-          "paper_indices": [
-            5
-          ],
-          "papers": [
-            {
-              "title": "Artificial Intelligence–Driven Audit Analytics and Fraud Detection Effectiveness in Public Sector Procurement Systems: A Quantitative Study in Nigeria",
-              "url": "https://doi.org/10.5281/zenodo.20605034",
-              "source": "OpenAlex",
-              "date": "2026-06-10"
-            }
-          ]
-        },
-        {
-          "technique": "소프트웨어 엔지니어링 원칙 기반 AI 파이프라인 설계 (SE-Principled AI Pipeline Architecture)",
-          "description": "모듈화·재사용성·유지보수성 원칙을 AI 개발 파이프라인에 적용해 기술 부채 누적을 방지하는 접근법이다.",
-          "paper_count": 1,
-          "paper_indices": [
-            4
-          ],
-          "papers": [
-            {
-              "title": "HeFDI Code School - Part 1 - Scientific software development is not a Jenga game - Software Engineering to the rescue",
-              "url": "https://doi.org/10.5281/zenodo.20614111",
-              "source": "OpenAlex",
-              "date": "2026-06-10"
-            }
-          ]
-        }
-      ],
-      "actionable_insights": [
-        "사내에서 LLM을 업무에 활용하고 있다면, **도메인 전문가가 설계한 평가 기준 없이 AI 출력을 그대로 의사결정에 투입하는 운영 방식은 재검토가 필요한 시점**이다. 의료 LLM 벤치마크 연구처럼 각 부서별로 '우리 업무에서 LLM이 틀리면 안 되는 항목'을 명시한 평가 체크리스트를 먼저 설계해야 한다.",
-        "외부 AI 모델을 API로 연동하거나 파인튜닝 모델을 운영 중인 경우, **모델 무결성 검증 절차가 없으면 공급망 보안 리스크가 내부 시스템 전체로 전파될 수 있다**는 점을 IT·보안팀과 공유하고, 취약 워터마킹(fragile watermarking) 등 능동 방어 기법의 도입 가능성을 검토해야 한다.",
-        "조달·구매·내부감사 부서의 AI 도입을 검토 중이라면, **정량적 효과 검증 설계를 선행하지 않으면 도입 후 ROI 입증이 불가능**하다. 나이지리아 공공조달 연구처럼 '탐지율', '오탐률', '처리 시간 단축' 등 측정 가능한 지표를 파일럿 단계부터 설정해야 한다.",
-        "AI 튜터나 사내 학습 플랫폼에 LLM을 도입할 때, **학습자의 비판적 사고 저하를 측정하는 지표 없이 활용률만 KPI로 삼으면 도입 효과를 입증할 수 없는 구조적 한계**에 빠진다. 활용 빈도와 함께 '자력 문제 해결 비율' 같은 역량 지표를 병행 설계해야 한다.",
-        "AI 감사·보안 솔루션의 클라우드 기반 도입을 검토할 때, **온프레미스(on-premise) 또는 폐쇄망 요구가 도입 속도를 제한하는 현실적 제약으로 작동**한다는 점을 벤더 선정 기준에 반드시 포함해야 하며, 개인정보보호법상 국외 데이터 이전 가능 여부를 법무팀과 사전 확인하는 절차를 조달 프로세스에 내재화해야 한다."
-      ],
-      "top_institutions": [],
-      "top_keywords": [
-        {
-          "keyword": "prospects",
-          "count": 2
-        },
-        {
-          "keyword": "software",
-          "count": 2
-        },
-        {
-          "keyword": "teaching",
-          "count": 1
-        },
-        {
-          "keyword": "pitfalls",
-          "count": 1
-        },
-        {
-          "keyword": "prospects pitfalls",
-          "count": 1
-        },
-        {
-          "keyword": "expert",
-          "count": 1
-        },
-        {
-          "keyword": "benchmark",
-          "count": 1
-        },
-        {
-          "keyword": "common",
-          "count": 1
-        },
-        {
-          "keyword": "patient",
-          "count": 1
-        },
-        {
-          "keyword": "questions",
-          "count": 1
-        },
-        {
-          "keyword": "evaluating",
-          "count": 1
-        },
-        {
-          "keyword": "large",
-          "count": 1
-        },
-        {
-          "keyword": "language",
-          "count": 1
-        },
-        {
-          "keyword": "adolescent",
-          "count": 1
-        },
-        {
-          "keyword": "idiopathic",
-          "count": 1
-        },
-        {
-          "keyword": "scoliosis",
-          "count": 1
-        },
-        {
-          "keyword": "education",
-          "count": 1
-        },
-        {
-          "keyword": "expert benchmark",
-          "count": 1
-        },
-        {
-          "keyword": "common patient",
-          "count": 1
-        },
-        {
-          "keyword": "patient questions",
-          "count": 1
-        }
-      ],
-      "recent_papers": [
-        {
-          "title": "AI in Teaching & Learning -- Prospects and Pitfalls",
-          "url": "https://napier-repository.worktribe.com/5064229/1/AI%20in%20Teaching%20and%20Learning%20--%20Prospects%20and%20Pitfalls",
-          "source": "OpenAlex",
-          "date": "2026-06-10",
-          "summary_ko": "Edinburgh Napier University 연구진이 교육 현장에서의 LLM 활용 전망과 위험을 분석한 논문. 무료 AI 도구가 개인 튜터 역할을 할 수 있는 가능성과 동시에 과도한 의존성의 문제점을 제시하고 있으나, 본문이 불완전하여 구체 논의 내용 파악 불가.",
-          "score": 70
-        },
-        {
-          "title": "An expert-led benchmark using common patient questions: evaluating large language models for adolescent idiopathic scoliosis education",
-          "url": "https://doi.org/10.1007/s00586-026-10046-8",
-          "source": "OpenAlex",
-          "date": "2026-06-10",
-          "summary_ko": "의료 분야 LLM 벤치마크 연구로, 청소년 특발성 척추측만증(AIS) 환자 교육용 대형언어모델의 신뢰성과 이해도를 전문가 기반 평가 기준으로 검증한 학술 논문.",
-          "score": 38
-        },
-        {
-          "title": "Research Progress and Prospects of Fragile Watermarking for Model Integrity Protection",
-          "url": "https://doi.org/10.70267/ic-aimees.20260243251",
-          "source": "OpenAlex",
-          "date": "2026-06-10",
-          "summary_ko": "딥러닝 모델의 무단 수정·백도어 주입 공격에 대응하기 위해 '취약 워터마킹(fragile watermarking)' 기술이 제안되고 있다. 이는 모델 무결성 침해 시 즉각 반응하는 능동 방어 기법으로, 모델 보안의 새로운 패러다임을 제시한다.",
-          "score": 36
-        },
-        {
-          "title": "HeFDI Code School - Part 1 - Scientific software development is not a Jenga game - Software Engineering to the rescue",
-          "url": "https://doi.org/10.5281/zenodo.20614111",
-          "source": "OpenAlex",
-          "date": "2026-06-10",
-          "summary_ko": "CERN 산하 HeFDI Code School이 과학 소프트웨어 개발의 유지보수성·재사용성 문제를 다루며, 지속적 변화에 따른 불안정성을 소프트웨어 엔지니어링 원칙으로 해결하는 교육 프로그램을 제시한다.",
-          "score": 0
-        },
-        {
-          "title": "Artificial Intelligence–Driven Audit Analytics and Fraud Detection Effectiveness in Public Sector Procurement Systems: A Quantitative Study in Nigeria",
-          "url": "https://doi.org/10.5281/zenodo.20605034",
-          "source": "OpenAlex",
-          "date": "2026-06-10",
-          "summary_ko": "나이지리아 공공부문 조달시스템의 부정부패 적발을 위해 AI 기반 감시 분석(audit analytics)과 사기 탐지 효과를 정량 연구한 논문. 개발도상국의 수작업 감시 체계에서 AI 도입의 실효성을 검증하는 사례 연구.",
-          "score": 0
-        }
-      ]
-    },
     "2026-06-12": {
       "analyzed_at": "2026-06-12T22:18:32.534177+09:00",
       "llm_backend": "anthropic",
@@ -28647,6 +28351,244 @@
           "score": 35
         }
       ]
+    },
+    "2026-08-11": {
+      "analyzed_at": "2026-08-11T06:57:18.673932+09:00",
+      "llm_backend": "claude-cli",
+      "period": "daily",
+      "period_label": "오늘",
+      "days_window": 1,
+      "paper_count": 16,
+      "narrative": "",
+      "hot_topics": [],
+      "key_techniques": [],
+      "actionable_insights": [],
+      "top_institutions": [
+        {
+          "name": "ETH",
+          "count": 3
+        },
+        {
+          "name": "Google",
+          "count": 1
+        },
+        {
+          "name": "MIT",
+          "count": 1
+        }
+      ],
+      "top_keywords": [
+        {
+          "keyword": "digital",
+          "count": 4
+        },
+        {
+          "keyword": "development",
+          "count": 3
+        },
+        {
+          "keyword": "generative",
+          "count": 3
+        },
+        {
+          "keyword": "enhancing",
+          "count": 2
+        },
+        {
+          "keyword": "information",
+          "count": 2
+        },
+        {
+          "keyword": "design",
+          "count": 2
+        },
+        {
+          "keyword": "education",
+          "count": 2
+        },
+        {
+          "keyword": "among",
+          "count": 2
+        },
+        {
+          "keyword": "review",
+          "count": 2
+        },
+        {
+          "keyword": "aware",
+          "count": 2
+        },
+        {
+          "keyword": "case",
+          "count": 2
+        },
+        {
+          "keyword": "emerging",
+          "count": 2
+        },
+        {
+          "keyword": "botnet",
+          "count": 1
+        },
+        {
+          "keyword": "attack",
+          "count": 1
+        },
+        {
+          "keyword": "detection",
+          "count": 1
+        },
+        {
+          "keyword": "hybrid",
+          "count": 1
+        },
+        {
+          "keyword": "combining",
+          "count": 1
+        },
+        {
+          "keyword": "network",
+          "count": 1
+        },
+        {
+          "keyword": "flow",
+          "count": 1
+        },
+        {
+          "keyword": "query",
+          "count": 1
+        }
+      ],
+      "recent_papers": [
+        {
+          "title": "Enhancing botnet attack detection using a hybrid deep learning model combining network flow and DNS query features with explainable AI for cybersecurity",
+          "url": "https://doi.org/10.1038/s41598-026-65732-w",
+          "source": "OpenAlex",
+          "date": "2026-08-10",
+          "summary_ko": "봇넷 기반 사이버공격 탐지를 위해 네트워크 플로우와 DNS 쿼리 특징을 결합한 하이브리드 딥러닝 모델 연구. 설명가능한 AI(XAI)를 통해 모델의 의사결정 과정을 투명화하여 DDoS 공격 등 위협 대응을 강화하는 접근법을 제시.",
+          "score": 43
+        },
+        {
+          "title": "Comparative Analysis of Machine Learning Models for Emotion Prediction in Reviews of Large Language Model-Powered Applications",
+          "url": "https://doi.org/10.60079/ahrmr.v4i3.1008",
+          "source": "OpenAlex",
+          "date": "2026-08-10",
+          "summary_ko": "Semmy Wellem Taju, George Morris William Tangka, Ibrena Reghuella Chrisanti — [Advances in Human Resource Management Research] Purpose: This study compares the performance of conventional machine lear",
+          "score": 42
+        },
+        {
+          "title": "Development of a Retrieval-Augmented Generation Chatbot for Academic Regulation Information Services",
+          "url": "https://doi.org/10.32877/bt.v9i1.3863",
+          "source": "OpenAlex",
+          "date": "2026-08-10",
+          "summary_ko": "Aisma Nurlaili, Mohamad Irwan Afandi, Anindo Saka Fitri — [bit-Tech] Academic information services in higher education institutions still face challenges because important information is often distrib",
+          "score": 40
+        },
+        {
+          "title": "Assurance by design: embedding the SAGE Defend step in AI-integrated higher education assessment",
+          "url": "https://doi.org/10.3389/feduc.2026.1872630",
+          "source": "OpenAlex",
+          "date": "2026-08-10",
+          "summary_ko": "Mahmoud Elkhodr, Ergun Gide — [Frontiers in Education] This paper conceptualises the SAGE Defend step, the sixth stage of the Structured AI-Guided Education framework, as a format-agnostic assurance c",
+          "score": 40
+        },
+        {
+          "title": "Generative AI and the Reconfiguration of Symbolic Authority: Implications of a Psychoanalytic View",
+          "url": "https://doi.org/10.1007/s42087-026-00687-y",
+          "source": "OpenAlex",
+          "date": "2026-08-10",
+          "summary_ko": "Bilal Hamamra, Michael Uebel — [Human Arenas] ",
+          "score": 40
+        },
+        {
+          "title": "Designing Epistemic Partnerships with Generative AI: A Four-Stage Model of Student Engagement in Scientific Argumentation",
+          "url": "https://doi.org/10.1007/s11165-026-10370-5",
+          "source": "OpenAlex",
+          "date": "2026-08-10",
+          "summary_ko": "Akiko Deguchi, Hiroko Tsuji, Takeshi Kitazawa — [Research in Science Education] Abstract This study examined how a design-based learning environment supported first-year undergraduates’ ( N = 31) epis",
+          "score": 40
+        },
+        {
+          "title": "Generative AI and Smart Learning Devices in Accounting Education: Enhancing Knowledge Acquisition Among Students in Ghanaian Private Universities",
+          "url": "https://doi.org/10.5281/zenodo.21858559",
+          "source": "OpenAlex",
+          "date": "2026-08-10",
+          "summary_ko": "Helen Karrow-Kamara (MPhil), Irene Wilson (MPhil), David Owusu Korankye - — [Zenodo (CERN European Organization for Nuclear Research)] Purpose – This study aims to examine the comprehensive role of ge",
+          "score": 40
+        },
+        {
+          "title": "Towards low-carbon deep soil mixing: a complementary review of supplementary cementitious and alkali-activated binders",
+          "url": "https://doi.org/10.1007/s44242-026-00112-1",
+          "source": "OpenAlex",
+          "date": "2026-08-10",
+          "summary_ko": "Deepesh Bansal, Kai Yao, Zhanyong Yao — [Low-carbon Materials and Green Construction] Abstract Deep soil mixing (DSM) is a proven in situ ground improvement technique conventionally employing cement/l",
+          "score": 40
+        },
+        {
+          "title": "Affective pathways in human–AI interaction: the formation of willingness to communicate among Chinese KFL learners in AI-mediated informal digital learning of Korean",
+          "url": "https://doi.org/10.3389/fpsyg.2026.1786682",
+          "source": "OpenAlex",
+          "date": "2026-08-10",
+          "summary_ko": "Yumei Jin, Byeonggon Min — [Frontiers in Psychology] This study examines willingness to communicate (WTC) among Chinese learners of Korean in the context of AI-mediated informal digital learning of Ko",
+          "score": 40
+        },
+        {
+          "title": "Improving Tree Traversal in Hierarchical RAG via Reasoning-Aware Approach with Interleaving Chain-of-Thought",
+          "url": "https://doi.org/10.32877/bt.v9i1.3785",
+          "source": "OpenAlex",
+          "date": "2026-08-10",
+          "summary_ko": "Mukhamad Khafid Maassobirin, Wahyu Syaifullah J.S., Andri Fauzan Adziima — [bit-Tech] Retrieval-Augmented Generation (RAG) has improved the factual grounding of large language models; however, convent",
+          "score": 0
+        },
+        {
+          "title": "Digital Forensic in Incident Response: An Investigative Case Study of Email-Based Phishing Attacks",
+          "url": "https://doi.org/10.32877/bt.v9i1.3835",
+          "source": "OpenAlex",
+          "date": "2026-08-10",
+          "summary_ko": "Chrisna Maulana Fatchurrochim, Yudi Prayudi — [bit-Tech] Email-based phishing remains a dominant threat in modern cybersecurity environments due to its reliance on social engineering rather than purel",
+          "score": 0
+        },
+        {
+          "title": "Bridging Frontend Development and Security Through Client-Side Protection A Literature Review",
+          "url": "https://doi.org/10.32877/bt.v9i1.3939",
+          "source": "OpenAlex",
+          "date": "2026-08-10",
+          "summary_ko": "Sahar Adnan Alselwi, Soemantri Soemantri — [bit-Tech] Modern web applications increasingly shift application logic, user interaction, and security-relevant processes to the browser, making the fronten",
+          "score": 0
+        },
+        {
+          "title": "Design Principles for a Risk-Aware Conversational Agent in Digital Mental Health Information Access: The Case of Cognitive Theatre",
+          "url": "https://doi.org/10.1007/s10796-026-10802-7",
+          "source": "OpenAlex",
+          "date": "2026-08-10",
+          "summary_ko": "Yiming Zhou, Mahsa Honary, Amjad Fayoumi — [Information Systems Frontiers] Abstract This study investigates digital mental health as a high-stakes problem of conversational information access and inte",
+          "score": 0
+        },
+        {
+          "title": "Digital Architecture for Direct Stewardship and Enduring Consent",
+          "url": "https://doi.org/10.5281/zenodo.21865228",
+          "source": "OpenAlex",
+          "date": "2026-08-10",
+          "summary_ko": "WariNkwi Flores, Martin Sosa, Manisha Priyadarshini — [Zenodo (CERN European Organization for Nuclear Research)] This working paper introduces the Sovereign Data Supply Chain (SovDSC), a governance fr",
+          "score": 0
+        },
+        {
+          "title": "Emerging Trends in Robotics and Automation for Sustainable Development in Nigeria",
+          "url": "https://doi.org/10.5281/zenodo.21859213",
+          "source": "OpenAlex",
+          "date": "2026-08-10",
+          "summary_ko": "Henry Azuka Ifeachor, Agha Ikechukwu Chukwukadibia, Onwualia Promise Ebubechukwu — [Zenodo (CERN European Organization for Nuclear Research)] Nigeria faces significant developmental challenges in agri",
+          "score": 0
+        },
+        {
+          "title": "Photothermal Superhydrophobic Textiles: An Emerging Paradigm from Passive Water Repellency to Active Thermal Management",
+          "url": "https://doi.org/10.1007/s40820-026-02323-4",
+          "source": "OpenAlex",
+          "date": "2026-08-10",
+          "summary_ko": "Tianyu Sheng, Haoyang Wang, Ke Pei — [Nano-Micro Letters] Abstract Photothermal superhydrophobic textiles represent an emerging paradigm integrating active light-driven functionality with passive liqu",
+          "score": 0
+        }
+      ]
     }
   },
   "weekly": {
@@ -36203,12 +36145,12 @@
       ]
     },
     "2026-W33": {
-      "analyzed_at": "2026-08-10T18:57:42.563756+09:00",
+      "analyzed_at": "2026-08-11T06:57:46.696290+09:00",
       "llm_backend": "claude-cli",
       "period": "weekly",
       "period_label": "최근 7일",
       "days_window": 7,
-      "paper_count": 596,
+      "paper_count": 447,
       "narrative": "",
       "hot_topics": [],
       "key_techniques": [],
@@ -36216,38 +36158,34 @@
       "top_institutions": [
         {
           "name": "ETH",
-          "count": 275
+          "count": 200
         },
         {
           "name": "MIT",
-          "count": 188
+          "count": 137
         },
         {
           "name": "Meta",
-          "count": 17
+          "count": 13
         },
         {
           "name": "FAIR",
-          "count": 16
+          "count": 9
         },
         {
           "name": "OpenAI",
-          "count": 6
+          "count": 5
         },
         {
           "name": "Google",
-          "count": 6
-        },
-        {
-          "name": "AWS",
           "count": 4
         },
         {
-          "name": "DeepMind",
-          "count": 2
+          "name": "AWS",
+          "count": 3
         },
         {
-          "name": "Amazon",
+          "name": "DeepMind",
           "count": 2
         },
         {
@@ -36255,98 +36193,98 @@
           "count": 2
         },
         {
-          "name": "CMU",
-          "count": 2
+          "name": "Amazon",
+          "count": 1
         },
         {
           "name": "Stanford",
           "count": 1
         },
         {
-          "name": "Harvard",
+          "name": "CMU",
           "count": 1
         }
       ],
       "top_keywords": [
         {
           "keyword": "language",
-          "count": 41
-        },
-        {
-          "keyword": "agent",
-          "count": 31
-        },
-        {
-          "keyword": "agentic",
           "count": 30
         },
         {
-          "keyword": "llms",
-          "count": 29
-        },
-        {
-          "keyword": "multi",
-          "count": 28
-        },
-        {
-          "keyword": "generative",
-          "count": 25
-        },
-        {
-          "keyword": "generation",
-          "count": 25
-        },
-        {
-          "keyword": "agents",
-          "count": 24
-        },
-        {
-          "keyword": "training",
-          "count": 24
-        },
-        {
-          "keyword": "time",
-          "count": 24
-        },
-        {
-          "keyword": "aware",
-          "count": 24
-        },
-        {
-          "keyword": "framework",
+          "keyword": "agent",
           "count": 23
         },
         {
-          "keyword": "human",
+          "keyword": "llms",
+          "count": 22
+        },
+        {
+          "keyword": "agentic",
           "count": 21
         },
         {
-          "keyword": "data",
+          "keyword": "generative",
+          "count": 21
+        },
+        {
+          "keyword": "agents",
           "count": 20
         },
         {
-          "keyword": "systems",
+          "keyword": "aware",
           "count": 20
+        },
+        {
+          "keyword": "time",
+          "count": 19
+        },
+        {
+          "keyword": "human",
+          "count": 18
+        },
+        {
+          "keyword": "training",
+          "count": 17
         },
         {
           "keyword": "when",
-          "count": 20
-        },
-        {
-          "keyword": "through",
-          "count": 19
-        },
-        {
-          "keyword": "knowledge",
-          "count": 19
-        },
-        {
-          "keyword": "efficient",
-          "count": 19
+          "count": 17
         },
         {
           "keyword": "reasoning",
-          "count": 19
+          "count": 17
+        },
+        {
+          "keyword": "multi",
+          "count": 16
+        },
+        {
+          "keyword": "generation",
+          "count": 16
+        },
+        {
+          "keyword": "framework",
+          "count": 15
+        },
+        {
+          "keyword": "data",
+          "count": 15
+        },
+        {
+          "keyword": "evaluation",
+          "count": 15
+        },
+        {
+          "keyword": "intelligence",
+          "count": 14
+        },
+        {
+          "keyword": "digital",
+          "count": 14
+        },
+        {
+          "keyword": "through",
+          "count": 14
         }
       ],
       "recent_papers": [
@@ -36399,20 +36337,20 @@
           "score": 64
         },
         {
-          "title": "Beyond the Final Prompt: Measuring the Effect of Within-Conversation Context on AI Answers",
-          "url": "https://arxiv.org/abs/2608.02556v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-08-03",
-          "summary_ko": "다중 턴 대화에서 선행 문맥을 제거할 경우 44.7%의 답변이 사용자 행동을 바꿀 수준의 실질적 차이를 보이며, 160단어 압축 프리픽스 추가로도 30.8%에서 문맥 손실이 지속되는데, 이는 현재 AI 평가 방식(최종 메시지만 사용)의 근본적 한계를 실증적으로 입증한다.",
-          "score": 64
-        },
-        {
           "title": "Can Post-Training Transform LLMs into Causal Reasoners?",
           "url": "https://arxiv.org/abs/2602.06337v2",
           "source": "arXiv AI/CL/LG/IR/MA/CY",
           "date": "2026-08-05",
           "summary_ko": "논문은 post-training이 LLM의 인과 추론(causal inference) 능력을 향상시키는지 체계적으로 연구했다. CauGym 데이터셋(7개 인과 작업)을 기반으로 SFT, DPO, KTO, PPO, GRPO 등 5가지 post-training 방법을 평가한 결과, 14B 모델이 CaLM 벤치마크에서 93.5% 정확도 달성하며 OpenAI o3(55.4%)를 상회했으며, 분포 이동·노이즈 데이터 환경에서도 견고성을 입증했다.",
           "score": 57
+        },
+        {
+          "title": "Future Directions in Artificial Intelligence",
+          "url": "https://doi.org/10.5281/zenodo.21205991",
+          "source": "OpenAlex",
+          "date": "2026-08-09",
+          "summary_ko": "AI 연구는 계산 정확도에서 Explainable AI(XAI), 책임 있는 거버넌스, 알고리즘 편향 완화로 초점을 이동 중이며, 투명하고 윤리적인 일반화 시스템으로의 진화를 지향하고 있다.",
+          "score": 56
         },
         {
           "title": "The Neural Echo: A Signal Processing Perspective for Understanding Neural Networks",
@@ -36471,27 +36409,19 @@
           "score": 54
         },
         {
-          "title": "onepot-Bench 0: towards lab-aware in silico chemistry benchmarks",
-          "url": "https://arxiv.org/abs/2608.02595v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-08-03",
-          "summary_ko": "언어모델의 화학 실험실 능력을 평가하기 위해 세 가지 벤치마크를 통합한 onepot-Bench 0을 제시한다. ChemAbacus는 화학정보학 리터러시, SynthRefusal은 안전 거부 행동, SynthBench는 반응 예측과 촉매 선택을 평가하며, 공개 데이터 노출 없이 실험실 신뢰성을 측정한다.",
-          "score": 54
-        },
-        {
-          "title": "RoMeRL: Balancing Feedback Coverage and the Memory-Reward Trap in Self-Evolving Agent Memory via Reduced-Order Utility States",
-          "url": "https://arxiv.org/abs/2608.02508v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-08-03",
-          "summary_ko": "LLM 에이전트의 자가 진화 메모리 시스템에서 피드백 분산과 메모리-보상 트랩을 해결하는 RoMeRL 방법을 제시. 감소 차수 효용 상태로 고정 좌표 집합 통해 의미론적으로 피드백을 집중화하여, ALFWorld와 LifelongAgentBench에서 LLM 호출 21.1% 감소, 피드백 밀도 6배 증가 달성.",
-          "score": 54
-        },
-        {
           "title": "Building Ethical AI Systems for Competitive Advantage in Commerce",
           "url": "https://doi.org/10.5281/zenodo.21205625",
           "source": "OpenAlex",
           "date": "2026-08-09",
           "summary_ko": "상거래 AI가 운영 효율성과 고객 참여를 강화하는 이점이 있으나, 개인정보 침해·알고리즘 편향·투명성 부족·책임 공백 같은 윤리적 우려도 함께 대두되고 있다.",
+          "score": 52
+        },
+        {
+          "title": "Automated Compliance Auditing in Enterprise Digital Asset Management via Specialized AI Agents",
+          "url": "https://doi.org/10.5281/zenodo.21855713",
+          "source": "OpenAlex",
+          "date": "2026-08-09",
+          "summary_ko": "기업의 디지털 자산 관리 환경에서 brand, technical protocol, formatting compliance를 자동으로 감시하기 위해 custom AI agents를 통합한 결정론적 감시 아키텍처를 제시하는 학술 논문. 노동 집약적 수동 QA를 대체하는 자동화 방법론을 다룬다.",
           "score": 52
         },
         {
@@ -36519,36 +36449,12 @@
           "score": 48
         },
         {
-          "title": "Enhancing botnet attack detection using a hybrid deep learning model combining network flow and DNS query features with explainable AI for cybersecurity",
-          "url": "https://doi.org/10.1038/s41598-026-65732-w",
-          "source": "OpenAlex",
-          "date": "2026-08-10",
-          "summary_ko": "봇넷 기반 사이버공격 탐지를 위해 네트워크 플로우와 DNS 쿼리 특징을 결합한 하이브리드 딥러닝 모델 연구. 설명가능한 AI(XAI)를 통해 모델의 의사결정 과정을 투명화하여 DDoS 공격 등 위협 대응을 강화하는 접근법을 제시.",
-          "score": 48
-        },
-        {
-          "title": "Trustworthy AI in Digital Health: A Comprehensive Review of Robustness and Explainability",
-          "url": "https://arxiv.org/abs/2608.02238v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-08-03",
-          "summary_ko": "이 리뷰는 디지털 헬스케어에서 신뢰 가능한 AI 개발을 위해 robustness와 explainability 방법론을 종합하고, intensive care·neonatal·metabolic health 등 임상 응용에서의 기술적·실무적 고려사항을 구조화합니다. Data scarcity 극복, distributional shift 대응, feature attribution, gradient-based 해석, counterfactual explanation 등 최신 기법을 다룹니다.",
-          "score": 47
-        },
-        {
           "title": "From Siloed Algorithms to Compliance-First Agentic Platforms: A Multi-Layered Architecture for Hospital AI Systems",
           "url": "https://arxiv.org/abs/2608.06112v1",
           "source": "arXiv AI/CL/LG/IR/MA/CY",
           "date": "2026-08-06",
           "summary_ko": "논문은 병원 AI 도입의 부서 간 사일로 문제 해결을 위해 에이전트 오케스트레이션, HIPAA·GDPR·EU AI Act 등을 정책-코드로 중앙화하는 컴플라이언스 계층, 연합학습·차분프라이버시 기반 데이터 패브릭을 통합한 다층 아키텍처를 제안한다. 합성 병원 데이터로 진료 대기 시간 단축과 수동 문서화 감소를 입증했다.",
           "score": 46
-        },
-        {
-          "title": "CEL: Comprehensive Counterfactual Explanations Library and Benchmark",
-          "url": "https://arxiv.org/abs/2607.22045v2",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-08-03",
-          "summary_ko": "Counterfactual explanations을 위한 통합 라이브러리 및 벤치마크(CEL)를 제안하며, 기존 방법들의 비일관적인 평가 문제를 해결한다. 18개 데이터셋과 14개 counterfactual 방법의 구현을 제공하고, 타당성·커버리지·희소성·근접성·분포 타당성 등 다양한 메트릭으로 체계적 비교 평가를 수행한다.",
-          "score": 45
         },
         {
           "title": "Using AI with Confidence: Validating Trust, Governance, and Adjudication",
@@ -36589,6 +36495,38 @@
           "date": "2026-08-05",
           "summary_ko": "CoPlan은 의료 돌봄 계획을 위한 인간-AI 협력 인터페이스로, 다중 에이전트 워크플로우가 후보 개입과 이를 뒷받침하거나 이의를 제기하는 주장을 생성하고 인간 계획자가 이를 검토·수정·추가할 수 있도록 설계되어, 상보적 전문성(co-intelligence)과 재검토 가능성(contestability)을 결합한다.",
           "score": 44
+        },
+        {
+          "title": "Capability-Gated Planning: Cost-to-Goal Discovery and the Limits of Myopic Experiment Selection",
+          "url": "https://arxiv.org/abs/2608.05085v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-08-05",
+          "summary_ko": "자동화된 과학 발견 시스템이 단기 정보 이득(myopic score)으로만 행동을 평가하면, 즉시 정보 없이 미래 역량을 확보하는 '능력 구축'(도구·시뮬레이터 개발 등)을 외면하는 구조적 한계를 증명. Belief space의 stochastic shortest-path 문제로 형식화하고 각 lookahead depth에 대해 unbounded approximation ratio를 가지는 반례 존재를 증명했으며, capability-aware cost-to-go heuristic을 사용하는 CG-Plan 알고리즘 제안.",
+          "score": 44
+        },
+        {
+          "title": "Enhancing botnet attack detection using a hybrid deep learning model combining network flow and DNS query features with explainable AI for cybersecurity",
+          "url": "https://doi.org/10.1038/s41598-026-65732-w",
+          "source": "OpenAlex",
+          "date": "2026-08-10",
+          "summary_ko": "봇넷 기반 사이버공격 탐지를 위해 네트워크 플로우와 DNS 쿼리 특징을 결합한 하이브리드 딥러닝 모델 연구. 설명가능한 AI(XAI)를 통해 모델의 의사결정 과정을 투명화하여 DDoS 공격 등 위협 대응을 강화하는 접근법을 제시.",
+          "score": 43
+        },
+        {
+          "title": "Smart Medical Libraries: Leveraging Artificial Intelligence for Knowledge Discovery",
+          "url": "https://doi.org/10.5281/zenodo.21205203",
+          "source": "OpenAlex",
+          "date": "2026-08-09",
+          "summary_ko": "생물의학 데이터 급증으로 인한 정보 관리 문제를 해결하기 위해 의료 도서관을 자연언어처리·머신러닝 기반의 지능형 지식 생태계로 변환하는 방안을 탐색한 연구.",
+          "score": 43
+        },
+        {
+          "title": "Comparative Analysis of Machine Learning Models for Emotion Prediction in Reviews of Large Language Model-Powered Applications",
+          "url": "https://doi.org/10.60079/ahrmr.v4i3.1008",
+          "source": "OpenAlex",
+          "date": "2026-08-10",
+          "summary_ko": "Semmy Wellem Taju, George Morris William Tangka, Ibrena Reghuella Chrisanti — [Advances in Human Resource Management Research] Purpose: This study compares the performance of conventional machine lear",
+          "score": 42
         }
       ]
     }
