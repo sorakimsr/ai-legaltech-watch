@@ -1,390 +1,5 @@
 {
   "daily": {
-    "2026-06-22": {
-      "analyzed_at": "2026-06-22T13:17:55.411955+09:00",
-      "llm_backend": "anthropic",
-      "period": "daily",
-      "period_label": "오늘",
-      "days_window": 1,
-      "paper_count": 9,
-      "narrative": "한 줄 요약 (AI 운영의 무게중심이 '모델 성능'에서 '파이프라인 신뢰성·인간 감시 체계'로 이동하고 있으며, 에이전트 AI의 자율화 범위가 헬스케어·과학 검증 영역까지 확장되는 흐름이 동시에 가시화되고 있다.)\n\n1) 무엇이 부상하고 있는가 이번 논문군에서 가장 뚜렷한 흐름은 두 가지다. 첫째, AI 시스템을 '만드는 것'보다 '안정적으로 운영하는 것'에 대한 학술적 관심이 집중되고 있다. CERN 연구팀이 발표한 Human-in-the-Loop(HITL)·Human-on-the-Loop(HOTL) 감시 메커니즘 논문과 마이크로서비스 기반 AI 파이프라인 재현성 연구, 그리고 DAVE 시각화 실행 환경 논문이 동시에 등장한 것은 우연이 아니다. 프로토타입 단계를 넘어 실제 운영 환경에 AI를 올려놓는 순간, **파이프라인 전체 생명주기를 누가 어떻게 통제하느냐가 새로운 병목**이 된다는 현장의 문제의식이 반영된 것이다. 둘째, 에이전트 AI의 적용 범위가 단순 자동화를 넘어 '인식론적 도구'로 확장되고 있다. 행동·사회과학 분야의 재현성 위기를 에이전트 AI가 자동 감시·검증하는 역할을 맡을 수 있다는 주장과, 헬스케어에서 자율 목표 설정·다단계 계획·반복적 자기 수정이 가능한 에이전트 시스템으로의 패러다임 전환을 다룬 체계적 리뷰가 같은 날 발표됐다. **단순 질의응답 수준의 AI 도구 도입은 이미 낡은 프레임이고, 멀티스텝 의사결정에 참여하는 자율 에이전트 설계가 다음 경쟁 지점**이다.\n\n2) 한국 실무자에게 이 흐름이 무슨 의미인가 많은 한국 기업이 현재 AI 도입 1단계, 즉 특정 업무에 LLM 기반 도구를 붙이는 단계에 있다. 그런데 이번 논문군이 집중적으로 다루는 것은 그 다음 단계의 문제다. AI 파이프라인이 복잡해질수록 **'누가 어느 시점에 개입하고, 어디서 자동화를 멈출 것인가'를 사전에 설계하지 않으면 운영 리스크가 통제 불가능한 수준으로 커진다**. 예를 들어 내부 문서 검토나 계약 분석에 에이전트를 도입한 기업이라면, HITL 감시 지점을 어디에 둘 것인지, 파이프라인 실패 시 재현 가능한 로그를 남기고 있는지를 점검해야 한다. 또한 연합 데이터 공간(Federated Data Space) 기반 협업 머신러닝 아키텍처 논문은, 계열사 간 또는 협력사 간 데이터를 직접 공유하지 않고도 모델을 공동 개발할 수 있는 구조적 가능성을 보여준다. **데이터 공유 없이 협업 학습이 가능한 아키텍처는 국내 개인정보보호법 제약을 우회하는 현실적 대안**으로 검토할 수 있다.\n\n3) 산업 적용 흐름 헬스케어와 제조·자율주행 분야가 가장 빠른 적용 후보군이다. 헬스케어에서는 에이전트 AI의 7원칙 프레임워크 논문과 전립선암 MRI 설명 가능 딥러닝 논문이 보여주듯, 임상 의사결정 지원 시스템의 설명 가능성과 자율화 수준이 동시에 요구되는 방향으로 규제 환경이 형성되고 있다. 자율주행·로봇 분야에서는 센서 고장 환경에서의 신뢰도 기반 융합 기법이 실질적 안전 요건으로 부상한다. 한국 기업이 이 흐름을 채택할 때 직면하는 제약은 명확하다. **온프레미스(on-premise) 또는 폐쇄망 요구가 에이전트 파이프라인 도입 속도를 제한하는 현실적 장벽으로 작동**하며, 금융·공공 분야에서는 AI 모델의 설명 가능성 요구와 망분리 정책이 클라우드 기반 멀티에이전트 아키텍처 도입을 어렵게 만든다. 결국 **책임 경계가 명확히 설계된 온프레미스 친화적 아키텍처를 선택하는 것이 한국 규제 환경에서의 실질적 진입 전략**이 된다.",
-      "hot_topics": [
-        {
-          "topic": "AI 운영 신뢰성·파이프라인 거버넌스 (AI Ops Governance & Pipeline Reliability)",
-          "description": "모델 개발 이후 운영 단계에서 파이프라인의 재현성·가시성·인간 감시 체계를 어떻게 설계할 것인가가 핵심 과제로 부상.",
-          "paper_count": 3,
-          "paper_indices": [
-            1,
-            2,
-            3
-          ],
-          "papers": [
-            {
-              "title": "The Human Oversight approaches at the forefront of responsible and trustworthy AI, from data-centric adaptive AI-Ops pipelines to Multi-Agent Systems",
-              "url": "https://doi.org/10.5281/zenodo.20491956",
-              "source": "OpenAlex",
-              "date": "2026-06-22"
-            },
-            {
-              "title": "A Microservice-based Architecture for Reproducible AI Pipelines",
-              "url": "https://doi.org/10.5281/zenodo.20492573",
-              "source": "OpenAlex",
-              "date": "2026-06-22"
-            },
-            {
-              "title": "Bridging Complexity and Usability: The DAVE Visual Execution Environment for AI/ML Pipelines",
-              "url": "https://doi.org/10.5281/zenodo.20527024",
-              "source": "OpenAlex",
-              "date": "2026-06-22"
-            }
-          ]
-        },
-        {
-          "topic": "자율 에이전트 AI의 도메인 확장 (Agentic AI in Specialized Domains)",
-          "description": "헬스케어·과학 검증 등 고위험 전문 영역에서 멀티스텝 자율 에이전트가 단순 도구를 넘어 의사결정 참여자로 진입하는 흐름.",
-          "paper_count": 2,
-          "paper_indices": [
-            4,
-            5
-          ],
-          "papers": [
-            {
-              "title": "Agentic AI as epistemic tools",
-              "url": "https://doi.org/10.31234/osf.io/xnvak_v2",
-              "source": "OpenAlex",
-              "date": "2026-06-21"
-            },
-            {
-              "title": "A Systematic Review of Agentic AI in Healthcare: An Evidence-Informed Seven-Principle Framework",
-              "url": "https://doi.org/10.62411/jcta.16171",
-              "source": "OpenAlex",
-              "date": "2026-06-21"
-            }
-          ]
-        },
-        {
-          "topic": "설명 가능한 AI의 임상·교육 적용 (Explainable AI for Clinical & Educational Use)",
-          "description": "AI 판단의 근거를 사람이 이해할 수 있도록 제시하는 기술이 의료 진단과 교육 현장에서 실질적 도입 요건으로 자리잡는 중.",
-          "paper_count": 2,
-          "paper_indices": [
-            6,
-            7
-          ],
-          "papers": [
-            {
-              "title": "AI Code Debugger for Beginners: An Explainable Error Interpretation System for Programming Education",
-              "url": "https://doi.org/10.5281/zenodo.20775954",
-              "source": "OpenAlex",
-              "date": "2026-06-21"
-            },
-            {
-              "title": "Explainable multimodal deep learning with dual attention for prostate cancer classification from MRI",
-              "url": "https://doi.org/10.1007/s44163-026-01663-9",
-              "source": "OpenAlex",
-              "date": "2026-06-21"
-            }
-          ]
-        },
-        {
-          "topic": "프라이버시 보존 협업 학습 (Federated & Privacy-Preserving Machine Learning)",
-          "description": "데이터를 직접 공유하지 않고 분산 환경에서 모델을 공동 개발하는 구조로, 국내 개인정보 규제 환경에서 현실적 대안이 될 수 있음.",
-          "paper_count": 1,
-          "paper_indices": [
-            8
-          ],
-          "papers": [
-            {
-              "title": "Architectural foundations for collaborative machine learning in federated data spaces",
-              "url": "https://inria.hal.science/hal-05548473",
-              "source": "OpenAlex",
-              "date": "2026-06-22"
-            }
-          ]
-        },
-        {
-          "topic": "센서 불확실성 대응 AI 시스템 (Reliability-Aware AI for Sensor Fusion)",
-          "description": "자율주행·로봇 등 물리 환경에서 센서 고장·성능 저하 상황에도 안정적으로 작동하는 AI 시스템 설계가 안전 요건으로 부상.",
-          "paper_count": 1,
-          "paper_indices": [
-            9
-          ],
-          "papers": [
-            {
-              "title": "Reliability-Aware Fusion for Semantic Segmentation under Sensor Degradation and Failures",
-              "url": "https://hal.science/hal-05562018v1/document",
-              "source": "OpenAlex",
-              "date": "2026-06-22"
-            }
-          ]
-        }
-      ],
-      "key_techniques": [
-        {
-          "technique": "인간 감시 루프 설계 (Human-in-the-Loop / Human-on-the-Loop, HITL/HOTL)",
-          "description": "AI가 자동으로 처리하는 범위와 사람이 개입해야 하는 지점을 사전에 명시적으로 설계하는 방식으로, 운영 리스크 통제의 핵심 구조.",
-          "paper_count": 1,
-          "paper_indices": [
-            1
-          ],
-          "papers": [
-            {
-              "title": "The Human Oversight approaches at the forefront of responsible and trustworthy AI, from data-centric adaptive AI-Ops pipelines to Multi-Agent Systems",
-              "url": "https://doi.org/10.5281/zenodo.20491956",
-              "source": "OpenAlex",
-              "date": "2026-06-22"
-            }
-          ]
-        },
-        {
-          "technique": "마이크로서비스 기반 AI 파이프라인 (Microservice-based AI Pipeline Architecture)",
-          "description": "AI 시스템을 독립적으로 배포·교체 가능한 작은 서비스 단위로 분리해 재현성과 유지보수성을 높이는 아키텍처 접근법.",
-          "paper_count": 2,
-          "paper_indices": [
-            2,
-            3
-          ],
-          "papers": [
-            {
-              "title": "A Microservice-based Architecture for Reproducible AI Pipelines",
-              "url": "https://doi.org/10.5281/zenodo.20492573",
-              "source": "OpenAlex",
-              "date": "2026-06-22"
-            },
-            {
-              "title": "Bridging Complexity and Usability: The DAVE Visual Execution Environment for AI/ML Pipelines",
-              "url": "https://doi.org/10.5281/zenodo.20527024",
-              "source": "OpenAlex",
-              "date": "2026-06-22"
-            }
-          ]
-        },
-        {
-          "technique": "연합 학습 기반 협업 머신러닝 (Federated Learning for Collaborative ML)",
-          "description": "원본 데이터를 외부로 내보내지 않고 각 기관이 로컬에서 학습한 결과만 공유해 모델을 공동 개발하는 기법으로, 데이터 주권 문제를 우회.",
-          "paper_count": 1,
-          "paper_indices": [
-            8
-          ],
-          "papers": [
-            {
-              "title": "Architectural foundations for collaborative machine learning in federated data spaces",
-              "url": "https://inria.hal.science/hal-05548473",
-              "source": "OpenAlex",
-              "date": "2026-06-22"
-            }
-          ]
-        },
-        {
-          "technique": "설명 가능한 멀티모달 딥러닝 (Explainable Multimodal Deep Learning)",
-          "description": "영상·수치 등 복수 데이터 유형을 결합해 분석하면서 AI가 왜 그 판단을 내렸는지 시각적으로 근거를 제시하는 기법.",
-          "paper_count": 1,
-          "paper_indices": [
-            7
-          ],
-          "papers": [
-            {
-              "title": "Explainable multimodal deep learning with dual attention for prostate cancer classification from MRI",
-              "url": "https://doi.org/10.1007/s44163-026-01663-9",
-              "source": "OpenAlex",
-              "date": "2026-06-21"
-            }
-          ]
-        },
-        {
-          "technique": "신뢰도 기반 센서 융합 (Reliability-Aware Sensor Fusion)",
-          "description": "여러 센서의 신뢰도를 실시간으로 평가해 고장·저하된 센서의 영향을 자동으로 줄이는 방식으로, 물리 환경 AI 시스템의 안전성을 높임.",
-          "paper_count": 1,
-          "paper_indices": [
-            9
-          ],
-          "papers": [
-            {
-              "title": "Reliability-Aware Fusion for Semantic Segmentation under Sensor Degradation and Failures",
-              "url": "https://hal.science/hal-05562018v1/document",
-              "source": "OpenAlex",
-              "date": "2026-06-22"
-            }
-          ]
-        }
-      ],
-      "actionable_insights": [
-        "AI 파이프라인을 운영 중인 조직이라면 **HITL 개입 지점이 문서화되지 않은 자동화 구간이 어디인지를 먼저 감사**해야 한다. CERN 연구팀의 논문이 지적하듯, 완전 자동화 구간이 늘어날수록 오류 발생 시 책임 소재가 불분명해지고 내부통제 감사에서 취약점으로 드러난다.",
-        "AI 도입 성과를 측정하는 KPI가 여전히 '도입 건수'나 '응답 속도'에 머물러 있다면, **파이프라인 재현성과 감사 가능성(auditability)을 운영 지표에 포함시키는 방향으로 KPI 체계를 재설계해야** 한다. 마이크로서비스 기반 AI 파이프라인 논문이 강조하는 생명주기 전체 관리 개념이 그 근거다.",
-        "계열사 간 또는 협력사 간 데이터 협업을 검토 중인 기업이라면, **데이터를 직접 이전하지 않고 연합 학습 구조로 모델을 공동 개발하는 아키텍처가 개인정보보호법상 국외 이전 제한을 우회하는 현실적 설계 옵션**임을 법무·IT 부서와 함께 검토할 필요가 있다.",
-        "헬스케어·금융·법률 등 고위험 도메인에서 에이전트 AI 도입을 기획 중이라면, **자율화 수준(자율 목표 설정·다단계 계획·자기 수정)을 단계별로 구분하고 각 단계마다 규제 적합성을 별도로 검토하는 로드맵 구조**가 필요하다. 헬스케어 에이전트 AI 7원칙 프레임워크는 이 단계 구분의 실무 참조 기준으로 활용할 수 있다.",
-        "AI 시스템의 설명 가능성(Explainability)을 단순한 기술 요건이 아니라 **내부 의사결정자와 외부 규제기관 모두를 설득하는 커뮤니케이션 자산으로 재정의**해야 한다. 전립선암 MRI 분류 논문과 AI 디버깅 교육 시스템 논문이 공통적으로 보여주듯, 설명 가능성은 도입 장벽을 낮추는 가장 직접적인 수단이다."
-      ],
-      "top_institutions": [
-        {
-          "name": "MIT",
-          "count": 3
-        },
-        {
-          "name": "ETH",
-          "count": 1
-        },
-        {
-          "name": "Meta",
-          "count": 1
-        }
-      ],
-      "top_keywords": [
-        {
-          "keyword": "pipelines",
-          "count": 3
-        },
-        {
-          "keyword": "data",
-          "count": 2
-        },
-        {
-          "keyword": "agentic",
-          "count": 2
-        },
-        {
-          "keyword": "explainable",
-          "count": 2
-        },
-        {
-          "keyword": "human",
-          "count": 1
-        },
-        {
-          "keyword": "oversight",
-          "count": 1
-        },
-        {
-          "keyword": "approaches",
-          "count": 1
-        },
-        {
-          "keyword": "forefront",
-          "count": 1
-        },
-        {
-          "keyword": "responsible",
-          "count": 1
-        },
-        {
-          "keyword": "trustworthy",
-          "count": 1
-        },
-        {
-          "keyword": "centric",
-          "count": 1
-        },
-        {
-          "keyword": "adaptive",
-          "count": 1
-        },
-        {
-          "keyword": "multi",
-          "count": 1
-        },
-        {
-          "keyword": "agent",
-          "count": 1
-        },
-        {
-          "keyword": "systems",
-          "count": 1
-        },
-        {
-          "keyword": "human oversight",
-          "count": 1
-        },
-        {
-          "keyword": "oversight approaches",
-          "count": 1
-        },
-        {
-          "keyword": "approaches forefront",
-          "count": 1
-        },
-        {
-          "keyword": "forefront responsible",
-          "count": 1
-        },
-        {
-          "keyword": "responsible trustworthy",
-          "count": 1
-        }
-      ],
-      "recent_papers": [
-        {
-          "title": "The Human Oversight approaches at the forefront of responsible and trustworthy AI, from data-centric adaptive AI-Ops pipelines to Multi-Agent Systems",
-          "url": "https://doi.org/10.5281/zenodo.20491956",
-          "source": "OpenAlex",
-          "date": "2026-06-22",
-          "summary_ko": "CERN 연구팀이 발표한 논문은 AI 시스템의 책임 있는 운영을 위해 Human-in-the-Loop(HITL)과 Human-on-the-Loop(HOTL) 같은 인간 감시 메커니즘의 필요성을 강조하며, 완전 자동화 시스템의 한계를 지적한다.",
-          "score": 90
-        },
-        {
-          "title": "A Microservice-based Architecture for Reproducible AI Pipelines",
-          "url": "https://doi.org/10.5281/zenodo.20492573",
-          "source": "OpenAlex",
-          "date": "2026-06-22",
-          "summary_ko": "마이크로서비스 기반 AI 파이프라인 아키텍처 연구로, 프로토타입에서 운영 단계로 전환하는 AI 시스템의 신뢰성과 재현성을 높이는 방법론을 제시한다. 데이터·AI 파이프라인 생명주기 전체의 관리 필요성을 강조한다.",
-          "score": 80
-        },
-        {
-          "title": "Bridging Complexity and Usability: The DAVE Visual Execution Environment for AI/ML Pipelines",
-          "url": "https://doi.org/10.5281/zenodo.20527024",
-          "source": "OpenAlex",
-          "date": "2026-06-22",
-          "summary_ko": "CERN 산하 연구팀이 AI/ML 파이프라인 관리를 위한 시각화 실행 환경 'DAVE'를 개발했다. 기존 오케스트레이션 플랫폼의 복잡성을 낮추고 사용자 중심의 접근성을 강조하는 도구로, 산업·연구 현장의 파이프라인 관리 수요에 대응한다.",
-          "score": 36
-        },
-        {
-          "title": "Agentic AI as epistemic tools",
-          "url": "https://doi.org/10.31234/osf.io/xnvak_v2",
-          "source": "OpenAlex",
-          "date": "2026-06-21",
-          "summary_ko": "행동·사회과학 분야의 누적 지식 위기(재현성 부족, 통계 검증력 저하, 인용 왜곡)를 에이전트 AI가 인식론적 도구로 해결할 수 있다는 주장. 오픈사이언스 확산에도 불구하고 검증 비용이 높은 현실에서 AI 에이전트의 자동 감시·검증 역할 가능성을 제시.",
-          "score": 35
-        },
-        {
-          "title": "A Systematic Review of Agentic AI in Healthcare: An Evidence-Informed Seven-Principle Framework",
-          "url": "https://doi.org/10.62411/jcta.16171",
-          "source": "OpenAlex",
-          "date": "2026-06-21",
-          "summary_ko": "헬스케어 분야에서 자율 목표 설정, 다단계 계획, 도구 활용, 다중 에이전트 조정, 반복적 자기 수정이 가능한 에이전트 AI 시스템으로의 전환을 체계적으로 검토한 연구. 수동적 임상 AI 도구에서 복잡한 의료 워크플로우에 참여할 수 있는 자율 시스템으로의 패러다임 변화를 다룬다.",
-          "score": 34
-        },
-        {
-          "title": "AI Code Debugger for Beginners: An Explainable Error Interpretation System for Programming Education",
-          "url": "https://doi.org/10.5281/zenodo.20775954",
-          "source": "OpenAlex",
-          "date": "2026-06-21",
-          "summary_ko": "초보 파이썬 프로그래머를 위한 AI 기반 디버깅 시스템 연구로, 전통적 오류 메시지의 해석 난제를 설명 가능한 AI로 해결하는 프로토타입을 제시했다. 교육 현장의 학습 장벽 제거를 목표로 한다.",
-          "score": 34
-        },
-        {
-          "title": "Explainable multimodal deep learning with dual attention for prostate cancer classification from MRI",
-          "url": "https://doi.org/10.1007/s44163-026-01663-9",
-          "source": "OpenAlex",
-          "date": "2026-06-21",
-          "summary_ko": "전립선암 MRI 영상 분석을 위한 설명 가능한 다중모달 딥러닝 모델 연구로, 임상적으로 유의미한 암과 무의미한 암 분류의 정확도와 민감도·특이도 균형을 동시에 달성하는 것을 목표로 함. AI 기반 진단 시스템의 임상 도입 장벽인 해석 가능성과 성능 신뢰성 문제를 다룸.",
-          "score": 31
-        },
-        {
-          "title": "Architectural foundations for collaborative machine learning in federated data spaces",
-          "url": "https://inria.hal.science/hal-05548473",
-          "source": "OpenAlex",
-          "date": "2026-06-22",
-          "summary_ko": "연합 데이터 공간에서 협업 머신러닝을 위한 아키텍처 기초를 다룬 학술 논문. 분산된 데이터 환경에서 개인정보 보호와 데이터 거버넌스를 유지하면서 기계학습 모델을 공동 개발하는 기술적·구조적 설계 방안을 제시.",
-          "score": 0
-        },
-        {
-          "title": "Reliability-Aware Fusion for Semantic Segmentation under Sensor Degradation and Failures",
-          "url": "https://hal.science/hal-05562018v1/document",
-          "source": "OpenAlex",
-          "date": "2026-06-22",
-          "summary_ko": "센서 고장·성능 저하 환경에서 의미론적 분할(semantic segmentation) 정확도를 높이기 위해 신뢰도 기반 센서 융합 기법을 제안한 학술 논문. 자율주행·로봇 비전 시스템의 견고성 강화에 초점.",
-          "score": 0
-        }
-      ]
-    },
     "2026-06-23": {
       "analyzed_at": "2026-06-23T13:39:50.924908+09:00",
       "llm_backend": "anthropic",
@@ -33341,12 +32956,12 @@
       ]
     },
     "2026-W34": {
-      "analyzed_at": "2026-08-21T18:58:55.462620+09:00",
+      "analyzed_at": "2026-08-22T06:59:54.388617+09:00",
       "llm_backend": "claude-cli",
       "period": "weekly",
       "period_label": "최근 7일",
       "days_window": 7,
-      "paper_count": 663,
+      "paper_count": 658,
       "narrative": "",
       "hot_topics": [],
       "key_techniques": [],
@@ -33354,7 +32969,7 @@
       "top_institutions": [
         {
           "name": "ETH",
-          "count": 272
+          "count": 273
         },
         {
           "name": "MIT",
@@ -33362,7 +32977,7 @@
         },
         {
           "name": "Meta",
-          "count": 18
+          "count": 19
         },
         {
           "name": "AWS",
@@ -33378,18 +32993,18 @@
         },
         {
           "name": "OpenAI",
-          "count": 4
+          "count": 3
         },
         {
           "name": "NVIDIA",
           "count": 3
         },
         {
-          "name": "Apple",
+          "name": "Anthropic",
           "count": 2
         },
         {
-          "name": "Anthropic",
+          "name": "Apple",
           "count": 2
         },
         {
@@ -33401,15 +33016,15 @@
           "count": 1
         },
         {
+          "name": "Harvard",
+          "count": 1
+        },
+        {
           "name": "CMU",
           "count": 1
         },
         {
           "name": "Amazon",
-          "count": 1
-        },
-        {
-          "name": "Harvard",
           "count": 1
         }
       ],
@@ -33420,51 +33035,55 @@
         },
         {
           "keyword": "framework",
-          "count": 41
+          "count": 42
         },
         {
           "keyword": "data",
-          "count": 35
+          "count": 34
         },
         {
           "keyword": "agent",
-          "count": 32
+          "count": 31
         },
         {
           "keyword": "agents",
-          "count": 31
+          "count": 30
         },
         {
           "keyword": "multi",
           "count": 30
         },
         {
-          "keyword": "language",
-          "count": 26
-        },
-        {
           "keyword": "detection",
           "count": 26
         },
         {
+          "keyword": "language",
+          "count": 25
+        },
+        {
           "keyword": "reasoning",
-          "count": 20
-        },
-        {
-          "keyword": "retrieval",
-          "count": 20
-        },
-        {
-          "keyword": "governance",
-          "count": 19
+          "count": 21
         },
         {
           "keyword": "time",
           "count": 19
         },
         {
+          "keyword": "aware",
+          "count": 19
+        },
+        {
+          "keyword": "retrieval",
+          "count": 19
+        },
+        {
           "keyword": "agentic",
           "count": 19
+        },
+        {
+          "keyword": "governance",
+          "count": 18
         },
         {
           "keyword": "human",
@@ -33483,10 +33102,6 @@
           "count": 18
         },
         {
-          "keyword": "aware",
-          "count": 18
-        },
-        {
           "keyword": "under",
           "count": 18
         },
@@ -33496,14 +33111,6 @@
         }
       ],
       "recent_papers": [
-        {
-          "title": "Permission by Default: Privacy, Consent, and the Expanding Authority of OpenAI's Desktop AI Agents",
-          "url": "https://doi.org/10.5281/zenodo.21925734",
-          "source": "OpenAlex",
-          "date": "2026-08-14",
-          "summary_ko": "OpenAI 데스크톱 AI 에이전트의 기본 권한 구조(워크스페이스 읽기/쓰기, Full Access, Computer Use)와 개인정보 처리 방식을 분석한 비판적 논문. 자동 권한 검토 메커니즘과 소비자 모델 학습의 위험도 높은 기본값을 지적.",
-          "score": 93
-        },
         {
           "title": "Open at the Edge, Captured at the Center: llama.cpp and the Political Economy of Local AI Inference",
           "url": "https://arxiv.org/abs/2608.19001v1",
@@ -33551,6 +33158,14 @@
           "date": "2026-08-18",
           "summary_ko": "세 개의 프런티어 MoE 모델(Alibaba, OpenAI, NVIDIA)을 저자원 언어(그리스어)로 미세조정하여 정확도 벤치마크에 나타나지 않는 행동 차이를 측정한 연구. SFT는 그리스어 추론을 ~98% 활성화하지만 형식 오류·누수를 남기며, RL with verifiable rewards가 이를 교정(형식 오류 24%→2.5%, 누수 3.5%→0%)하는 효과를 입증.",
           "score": 75
+        },
+        {
+          "title": "When Contextual Inference Fails: Cancelability in Interactive Instruction Following",
+          "url": "https://arxiv.org/abs/2603.19997v2",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-08-20",
+          "summary_ko": "본 논문은 협력적 블록 구축 과제(BWIM)에서 AI 모델이 underspecified 지시를 처리할 때 화자의 신뢰성을 인식하면서도 행동에 반영하지 못하는 현상을 분석합니다. 여러 최신 LLM을 평가한 결과, 명시적 신뢰성 판단과 실제 행동 간 심각한 괴리를 발견했으며, 모델이 과도한 명확화 요청이나 불확실성 회피 행동으로 대응함을 보였습니다.",
+          "score": 74
         },
         {
           "title": "Beyond the Transcript: Detecting Covert Co ordination in Latent Multi-Agent Communication",
@@ -33625,6 +33240,30 @@
           "score": 68
         },
         {
+          "title": "OenoBench: A Wine-Domain Benchmark for Knowledge-Grounded Evaluation of Large Language Models",
+          "url": "https://arxiv.org/abs/2608.20106v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-08-20",
+          "summary_ko": "와인 지식 도메인의 OenoBench는 정부·학술·위키데이터 출처에서 검증된 38,104개 사실 기반 3,266개 객관식 문제로 구성되며, LLM을 파이프라인에 활용하되 진실의 원천으로 삼지 않는 방법론을 제시한다. 16개 프론티어 모델 평가에서 o3 (83.6%), DeepSeek R1의 추론 모드 개선, Claude와 Gemini의 자기선호편향을 발견했다.",
+          "score": 65
+        },
+        {
+          "title": "FlowEvo: Self-Evolving Agents through the Co-Evolution of Workflows and Executable Skills",
+          "url": "https://arxiv.org/abs/2607.21596v2",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-08-20",
+          "summary_ko": "FlowEvo는 LLM 에이전트가 인퍼런스 시점에 워크플로우를 구성하고 성공한 워크플로우를 재사용 가능한 스킬로 컴파일하는 훈련 불필요 프레임워크다. 스킬 라이브러리는 직접 실행이나 새 워크플로우 구성의 맥락으로 활용되며, 각 스킬의 downstream utility 추적을 통해 부정적 전이를 억제한다. ALFWorld, HumanEval, MBPP, GSM8K, MATH-500에서 기존 방법 대비 높은 성능을 달성했다.",
+          "score": 64
+        },
+        {
+          "title": "Why AI Detection Fails for Academic Integrity",
+          "url": "https://arxiv.org/abs/2608.11256v2",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-08-20",
+          "summary_ko": "상업용 AI 감지 도구의 신뢰성을 검증한 실증 연구. 2013-2015년 vs 2023-2025년 발표 abstract 비교로 경미한 AI 편집이 38-80% 오탐지되는 반면 진정한 AI 생성물은 9-15%만 감지된다는 정책 실패를 드러냄. 정직한 AI 사용이 회피 행위보다 높은 제재 위험을 초래하므로, AI 감지 점수만으로 부정행위를 판단하면 안 된다고 경고.",
+          "score": 64
+        },
+        {
           "title": "Tuning the Stochastic Machine: A Systems Engineer's Operating Model for Human-AI Engineering",
           "url": "https://arxiv.org/abs/2608.19125v1",
           "source": "arXiv AI/CL/LG/IR/MA/CY",
@@ -33681,6 +33320,14 @@
           "score": 62
         },
         {
+          "title": "Computational Phenomenology of Borderline Personality Disorder: A Comparative Evaluation of LLM-Simulated Expert Personas and Human Clinical Experts",
+          "url": "https://arxiv.org/abs/2508.19008v3",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-08-20",
+          "summary_ko": "경계성 인격장애 임상 인터뷰(15만+ 단어)의 현상학적 분석에서 GPT, Gemini, Claude의 해석 역량을 인간 전문가와 혼합 방법으로 비교. 신경 임베딩·의미론적 일치도·다차원 타당성 평가 결과, Gemini 2.5 Pro는 콘텐츠 타당성에서 인간과 구분 불가능했으며, 모든 모델이 인간이 놓친 주제를 발견해 인간 편향 완화 가능성을 입증했다.",
+          "score": 58
+        },
+        {
           "title": "Do Explainable AI Models Explain the Same Thing Everywhere? An Institutional Perspective Using Public Healthcare Data",
           "url": "https://aisel.aisnet.org/treos_amcis2026/66",
           "source": "OpenAlex",
@@ -33689,51 +33336,19 @@
           "score": 58
         },
         {
-          "title": "Discretizing Continuous Time Series for Imputation with Masked Diffusion Training",
-          "url": "https://arxiv.org/abs/2608.19119v1",
+          "title": "SABET-QA: Temporal Knowledge Graph Question Answering",
+          "url": "https://arxiv.org/abs/2608.20083v1",
           "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-08-19",
-          "summary_ko": "시계열 결측값 대체 문제를 해결하기 위해 Masked Diffusion 훈련 패러다임을 활용한 MDTIM을 제안한다. MASK 토큰의 구조적 직교성과 원본값 직접 예측으로 표현과 학습 목표를 정렬하고, Stochastic Discretization으로 연속값의 순서 정보를 보존하며 토큰화한다. 다양한 벤치마크에서 결정론적·생성 모델 기준선을 초과한다.",
+          "date": "2026-08-20",
+          "summary_ko": "SABET-QA는 양방향 엔티티-시간 점수 메커니즘과 차별화 가능한 작업 메모리를 이용해 시간 기반 지식 그래프의 다단계 질의응답을 개선하는 프레임워크이며, 시간 질의 벤치마크에서 기존 방법을 지속적으로 상회했다.",
           "score": 54
         },
         {
-          "title": "Pretraining Reusable Inference Across Views with Synthetic Task Priors",
-          "url": "https://arxiv.org/abs/2608.19115v1",
+          "title": "A three-dimensional typology of agency for advanced AI systems",
+          "url": "https://arxiv.org/abs/2608.20041v1",
           "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-08-19",
-          "summary_ko": "멀티뷰 학습을 고정 융합 함수가 아닌 재사용 가능한 조건부 추론 절차로 재정의한 SIMPLE을 제안한다. 합성 작업 사전으로 다양한 뷰 구성·분포를 포함한 학습 에피소드를 생성하고, 계층적 구조로 뷰 간 추론을 수행한다. 멀티뷰·멀티오믹스 벤치마크에서 프로즌 모델과 라이트웨이트 어댑터 모두 경쟁력 있는 성능을 달성한다.",
-          "score": 54
-        },
-        {
-          "title": "AutoOR: Scalably Post-training LLMs to Autoformalize Operations Research Problems",
-          "url": "https://arxiv.org/abs/2604.16804v3",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-08-19",
-          "summary_ko": "LLM을 자동으로 최적화 문제를 자연언어에서 solver 형식으로 변환하도록 post-training하는 AutoOR 파이프라인 제시. 합성 데이터와 RL을 결합하고 solver 피드백을 보상 신호로 활용하여 선형·혼합정수·비선형 최적화 문제 자동 형식화 달성. 8B 모델이 6개 OR 벤치마크에서 SOTA 달성, 물리 동역학 비선형 문제는 curriculum RL 전략으로 0%에서 실무 수준으로 개선.",
-          "score": 54
-        },
-        {
-          "title": "Interval POMDP Shielding for Imperfect-Perception Agents",
-          "url": "https://arxiv.org/abs/2604.20728v2",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-08-19",
-          "summary_ko": "자율 시스템이 센서 오류로 인해 안전하지 않은 결정을 내리는 문제를 다루며, Interval POMDP를 통해 perception 불확실성을 모델링하고 런타임 쉴드를 구성하는 방법을 제안한다. 학습 데이터로부터 추정한 confidence intervals를 활용해 보수적인 신념 집합을 구성하고, 유한 수평선 안전성 보장(high probability guarantee)을 제공한다.",
-          "score": 54
-        },
-        {
-          "title": "DeepWeaver: Bridging the Evidence Synthesis Gap in Open-Ended Question Answering",
-          "url": "https://arxiv.org/abs/2608.18988v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-08-19",
-          "summary_ko": "Retrieve-then-generate 파이프라인에서 검색 증거의 구조화된 조직을 위해 Thought Block Chains(TBCs)라는 표현 방식을 도입한다. 주장·정보·키워드·증거를 그룹화하고 반복 수정하여 최종 답변을 생성하며, LoQA 벤치마크에서 콘텐츠 충분성, 인용 기반성, 세부 보존을 개선했다.",
-          "score": 54
-        },
-        {
-          "title": "Online Learning for Dynamic Constellation Topologies",
-          "url": "https://arxiv.org/abs/2603.25954v2",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-08-19",
-          "summary_ko": "위성 네트워크의 동적 궤도 운동으로 인한 토폴로지 변화를 온라인 학습 프레임워크로 대응하는 방법을 제안한다. 사전에 궤도 평면 같은 네트워크 구조를 가정하지 않으면서도 오프라인 최적화 기법과 유사한 성능을 달성하며, 제약된 온라인 학습에 적용 가능하고 계산 복잡도와 수렴성 간 트레이드오프를 시연한다.",
+          "date": "2026-08-20",
+          "summary_ko": "Advanced AI systems의 행위주체성(agency)을 3개 차원(도덕/법적 성질, 개인/집단적 양식, 인간/비인간적 소재)으로 분류하는 논문. 법적 주체성과 도덕적 주체성을 구분함으로써 개인적·법적·비인간 행위주체성을 이론화하고, 도구적 목표 추구가 AI 행동의 인간 귀속을 어렵게 할 때 이 분류가 필요함을 주장.",
           "score": 54
         }
       ]
