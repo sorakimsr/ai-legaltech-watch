@@ -1,10 +1,10 @@
 {
-  "analyzed_at": "2026-08-25T19:00:57.643732+09:00",
+  "analyzed_at": "2026-08-26T06:50:08.733122+09:00",
   "llm_backend": "claude-cli",
   "period": "weekly",
   "period_label": "최근 7일",
   "days_window": 7,
-  "paper_count": 608,
+  "paper_count": 472,
   "narrative": "",
   "hot_topics": [],
   "key_techniques": [],
@@ -12,34 +12,30 @@
   "top_institutions": [
     {
       "name": "ETH",
-      "count": 253
+      "count": 202
     },
     {
       "name": "MIT",
-      "count": 200
+      "count": 139
     },
     {
       "name": "Meta",
-      "count": 19
+      "count": 14
     },
     {
       "name": "AWS",
-      "count": 13
-    },
-    {
-      "name": "FAIR",
-      "count": 6
-    },
-    {
-      "name": "OpenAI",
-      "count": 5
+      "count": 11
     },
     {
       "name": "Google",
       "count": 5
     },
     {
-      "name": "NVIDIA",
+      "name": "FAIR",
+      "count": 5
+    },
+    {
+      "name": "OpenAI",
       "count": 3
     },
     {
@@ -69,88 +65,92 @@
     {
       "name": "Oxford",
       "count": 1
+    },
+    {
+      "name": "NVIDIA",
+      "count": 1
     }
   ],
   "top_keywords": [
     {
       "keyword": "framework",
-      "count": 41
-    },
-    {
-      "keyword": "data",
-      "count": 33
-    },
-    {
-      "keyword": "agent",
-      "count": 32
-    },
-    {
-      "keyword": "language",
-      "count": 30
-    },
-    {
-      "keyword": "multi",
-      "count": 30
+      "count": 34
     },
     {
       "keyword": "generative",
-      "count": 29
-    },
-    {
-      "keyword": "detection",
-      "count": 28
-    },
-    {
-      "keyword": "human",
       "count": 27
     },
     {
-      "keyword": "time",
+      "keyword": "human",
+      "count": 25
+    },
+    {
+      "keyword": "multi",
+      "count": 25
+    },
+    {
+      "keyword": "agent",
+      "count": 25
+    },
+    {
+      "keyword": "data",
+      "count": 24
+    },
+    {
+      "keyword": "language",
       "count": 23
     },
     {
-      "keyword": "agents",
-      "count": 22
-    },
-    {
-      "keyword": "training",
-      "count": 21
-    },
-    {
-      "keyword": "cross",
-      "count": 20
-    },
-    {
-      "keyword": "under",
+      "keyword": "time",
       "count": 19
     },
     {
-      "keyword": "reasoning",
+      "keyword": "detection",
+      "count": 19
+    },
+    {
+      "keyword": "training",
       "count": 18
     },
     {
-      "keyword": "evaluation",
+      "keyword": "cross",
       "count": 17
+    },
+    {
+      "keyword": "agents",
+      "count": 16
     },
     {
       "keyword": "machine",
-      "count": 17
-    },
-    {
-      "keyword": "retrieval",
-      "count": 17
-    },
-    {
-      "keyword": "intelligence",
-      "count": 17
+      "count": 16
     },
     {
       "keyword": "systems",
       "count": 16
     },
     {
-      "keyword": "prediction",
-      "count": 16
+      "keyword": "reasoning",
+      "count": 15
+    },
+    {
+      "keyword": "evaluation",
+      "count": 14
+    },
+    {
+      "keyword": "under",
+      "count": 14
+    },
+    {
+      "keyword": "aware",
+      "count": 13
+    },
+    {
+      "keyword": "optimization",
+      "count": 13
+    },
+    {
+      "keyword": "networks",
+      "count": 13
     }
   ],
   "recent_papers": [
@@ -169,14 +169,6 @@
       "date": "2026-08-22",
       "summary_ko": "에이전트 협업에서 인간 개입이 제공하는 인식론적 내용을 분류하는 새로운 체계를 제시한 연구로, 2천여 건의 LLM 코딩 에이전트 상호작용 데이터를 분석해 기존 타이밍·권한·세분성 중심의 분류에서 벗어나 상호작용 구조의 본질을 규명한다.",
       "score": 82
-    },
-    {
-      "title": "Thinking in a Low-Resource Language: What SFT Builds, What RL Fixes, What Accuracy Cannot See",
-      "url": "https://arxiv.org/abs/2608.17744v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-08-18",
-      "summary_ko": "세 개의 프런티어 MoE 모델(Alibaba, OpenAI, NVIDIA)을 저자원 언어(그리스어)로 미세조정하여 정확도 벤치마크에 나타나지 않는 행동 차이를 측정한 연구. SFT는 그리스어 추론을 ~98% 활성화하지만 형식 오류·누수를 남기며, RL with verifiable rewards가 이를 교정(형식 오류 24%→2.5%, 누수 3.5%→0%)하는 효과를 입증.",
-      "score": 75
     },
     {
       "title": "When Contextual Inference Fails: Cancelability in Interactive Instruction Following",
@@ -393,10 +385,19 @@
       "date": "2026-08-19",
       "summary_ko": "SkillForge는 LLM 기반 에이전트가 특정 프로젝트의 도메인 지식을 능동적으로 습득하도록 하는 자체-증류 프레임워크입니다. 저장소의 테스트-커버 기능을 재구현하여 합성 이슈를 생성하고, 이를 해결하면서 획득한 지식을 엔티티 기반 재사용 스킬로 증류합니다. 오픈소스·폐쇄 모델 모두에서 기존 베이스라인 대비 이슈 해결 성능 개선을 입증했습니다.",
       "score": 54
+    },
+    {
+      "title": "Bridging the Interpretability Gap: A Comparative Review of Regulatory Trends and Technical Implementations of Explainable AI (XAI) in the Financial Systems of Emerging Economies",
+      "url": "https://doi.org/10.64823/ijter.2621024",
+      "source": "OpenAlex",
+      "date": "2026-08-23",
+      "summary_ko": "금융 기관들이 복잡한 '블랙박스' AI 시스템으로 전환하면서 투명성에 대한 규제 수요가 급증했다. 신흥 경제의 금융 시스템에서 설명가능 AI(XAI) 규제의 글로벌 동향과 기술 구현을 비교 검토한 학술 논문이다.",
+      "score": 46
     }
   ],
   "available_periods": {
     "daily": [
+      "2026-08-26",
       "2026-08-25",
       "2026-08-24",
       "2026-08-23",
@@ -452,8 +453,7 @@
       "2026-06-30",
       "2026-06-29",
       "2026-06-28",
-      "2026-06-27",
-      "2026-06-26"
+      "2026-06-27"
     ],
     "weekly": [
       "2026-W35",
