@@ -1,10 +1,10 @@
 {
-  "analyzed_at": "2026-08-26T06:50:08.733122+09:00",
+  "analyzed_at": "2026-08-26T19:01:09.617786+09:00",
   "llm_backend": "claude-cli",
   "period": "weekly",
   "period_label": "최근 7일",
   "days_window": 7,
-  "paper_count": 472,
+  "paper_count": 595,
   "narrative": "",
   "hot_topics": [],
   "key_techniques": [],
@@ -12,30 +12,38 @@
   "top_institutions": [
     {
       "name": "ETH",
-      "count": 202
+      "count": 254
     },
     {
       "name": "MIT",
-      "count": 139
+      "count": 180
     },
     {
       "name": "Meta",
-      "count": 14
+      "count": 16
     },
     {
       "name": "AWS",
-      "count": 11
+      "count": 13
+    },
+    {
+      "name": "FAIR",
+      "count": 8
     },
     {
       "name": "Google",
       "count": 5
     },
     {
-      "name": "FAIR",
-      "count": 5
+      "name": "OpenAI",
+      "count": 4
     },
     {
-      "name": "OpenAI",
+      "name": "Anthropic",
+      "count": 3
+    },
+    {
+      "name": "NVIDIA",
       "count": 3
     },
     {
@@ -43,7 +51,11 @@
       "count": 3
     },
     {
-      "name": "Anthropic",
+      "name": "Hugging Face",
+      "count": 2
+    },
+    {
+      "name": "Apple",
       "count": 2
     },
     {
@@ -55,102 +67,90 @@
       "count": 2
     },
     {
-      "name": "Hugging Face",
-      "count": 1
-    },
-    {
-      "name": "Apple",
-      "count": 1
-    },
-    {
       "name": "Oxford",
-      "count": 1
-    },
-    {
-      "name": "NVIDIA",
       "count": 1
     }
   ],
   "top_keywords": [
     {
       "keyword": "framework",
-      "count": 34
-    },
-    {
-      "keyword": "generative",
-      "count": 27
-    },
-    {
-      "keyword": "human",
-      "count": 25
+      "count": 36
     },
     {
       "keyword": "multi",
-      "count": 25
+      "count": 31
     },
     {
       "keyword": "agent",
-      "count": 25
+      "count": 30
     },
     {
-      "keyword": "data",
-      "count": 24
+      "keyword": "generative",
+      "count": 30
     },
     {
       "keyword": "language",
+      "count": 28
+    },
+    {
+      "keyword": "data",
+      "count": 28
+    },
+    {
+      "keyword": "human",
+      "count": 27
+    },
+    {
+      "keyword": "detection",
+      "count": 23
+    },
+    {
+      "keyword": "under",
       "count": 23
     },
     {
       "keyword": "time",
-      "count": 19
+      "count": 22
     },
     {
-      "keyword": "detection",
-      "count": 19
+      "keyword": "agents",
+      "count": 22
     },
     {
       "keyword": "training",
+      "count": 22
+    },
+    {
+      "keyword": "machine",
+      "count": 21
+    },
+    {
+      "keyword": "reasoning",
+      "count": 20
+    },
+    {
+      "keyword": "evaluation",
+      "count": 18
+    },
+    {
+      "keyword": "systems",
+      "count": 18
+    },
+    {
+      "keyword": "networks",
+      "count": 18
+    },
+    {
+      "keyword": "optimization",
       "count": 18
     },
     {
       "keyword": "cross",
-      "count": 17
-    },
-    {
-      "keyword": "agents",
-      "count": 16
-    },
-    {
-      "keyword": "machine",
-      "count": 16
-    },
-    {
-      "keyword": "systems",
-      "count": 16
-    },
-    {
-      "keyword": "reasoning",
-      "count": 15
-    },
-    {
-      "keyword": "evaluation",
-      "count": 14
-    },
-    {
-      "keyword": "under",
-      "count": 14
+      "count": 18
     },
     {
       "keyword": "aware",
-      "count": 13
-    },
-    {
-      "keyword": "optimization",
-      "count": 13
-    },
-    {
-      "keyword": "networks",
-      "count": 13
+      "count": 17
     }
   ],
   "recent_papers": [
@@ -193,6 +193,14 @@
       "date": "2026-08-19",
       "summary_ko": "Test-Time Scaling의 효과를 exploration(후보 생성)과 exploitation(최적 선택)으로 분해하여 의료·법률·금융·채팅·창작 5개 벤치마크에서 비교 분석했습니다. 후보 생성은 컴퓨팅 증가에 따라 개선되지만, reward model의 신뢰도가 극히 낮아(ρv≈0.12) 선택 단계가 병목이며, Fusion만 일관된 개선을 보이지만 40% 수준의 품질만 회복됩니다.",
       "score": 74
+    },
+    {
+      "title": "Comparing Explanations is Not Enough, Explain the Change: New Standards are Needed to Explain Behavioral Shifts in Large Language Models",
+      "url": "https://arxiv.org/abs/2602.02304v3",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-08-25",
+      "summary_ko": "논문은 LLM이 스케일링, 파인튜닝, RLHF, 인컨텍스트 학습 등 개입을 받을 때 나타나는 행동 변화를 설명하는 기존 XAI 방법론의 구조적 한계를 지적합니다. 저자들은 두 모델 체크포인트 간 행동 변화 자체를 설명 대상으로 하는 새로운 패러다임 '비교 XAI(XAI_Δ)'를 제안하며, 비교성·타당성·실행 가능성·모니터링의 요구 사항 정의를 통해 EU AI Act 등 글로벌 규제의 감시·감사 표준을 제시합니다.",
+      "score": 67
     },
     {
       "title": "OenoBench: A Wine-Domain Benchmark for Knowledge-Grounded Evaluation of Large Language Models",
@@ -251,6 +259,14 @@
       "score": 64
     },
     {
+      "title": "The Invisible Editorial Layer: Formalizing Undisclosed Inference-Time Steering, Probability Placement, and the Attribution Problem in Deployed Language Models",
+      "url": "https://arxiv.org/abs/2608.24662v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-08-25",
+      "summary_ko": "배포된 LLM의 추론 단계에서 일어나는 확률 분포 조작(inference-time steering)을 정식화하고, **모델 가중치로는 설명할 수 없는 행동 편향의 귀속 문제**, 상업적 영향이 확률 이동으로 구현되는 새로운 광고 수단(Probability Placement), 배포 계층 개입의 감사 가능성(Inference Policy Transparency)을 제안하며 EU AI Act·Digital Services Act·FTC 교리의 규제 함의를 분석.",
+      "score": 61
+    },
+    {
       "title": "Observability Is Not Enforcement: A Doctrinal Framework for Distinguishing Compliance Instrumentation from Runtime Authorization in AI Governance Architectures (Working Paper v2.0)",
       "url": "https://doi.org/10.5281/zenodo.18663864",
       "source": "OpenAlex",
@@ -273,6 +289,22 @@
       "date": "2026-08-20",
       "summary_ko": "경계성 인격장애 임상 인터뷰(15만+ 단어)의 현상학적 분석에서 GPT, Gemini, Claude의 해석 역량을 인간 전문가와 혼합 방법으로 비교. 신경 임베딩·의미론적 일치도·다차원 타당성 평가 결과, Gemini 2.5 Pro는 콘텐츠 타당성에서 인간과 구분 불가능했으며, 모든 모델이 인간이 놓친 주제를 발견해 인간 편향 완화 가능성을 입증했다.",
       "score": 58
+    },
+    {
+      "title": "Benchmarking Retrieval-Augmented Generation Strategies for Large Language Model-Based Travel Mode Choice Prediction",
+      "url": "https://arxiv.org/abs/2508.17527v2",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-08-24",
+      "summary_ko": "본 논문은 여행 수단 선택 예측에서 LLM과 RAG(검색증강생성)의 상호작용을 체계적으로 벤치마킹합니다. 기본 RAG부터 균형 검색과 크로스인코더 리랭킹을 포함한 4가지 전략을 GPT-4o, o4-mini, o3 세 모델에서 평가한 결과, GPT-4o+균형검색+크로스인코더 조합이 80.8% 정확도로 기존 통계·ML 모델을 초과 달성했으며 제로샷 전이 능력도 우수함을 보였습니다.",
+      "score": 55
+    },
+    {
+      "title": "How to Train a Critic Stably and Efficiently",
+      "url": "https://arxiv.org/abs/2608.23566v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-08-24",
+      "summary_ko": "LLM 훈련 중 critic 학습의 불안정성을 해결하기 위해 DPPO, 리워드 범위 내 value 제약, Monte Carlo 타겟, 정규화되지 않은 정책 이점, 길이 적응 GAE를 조합한 BPCO 레시피를 제시. 1.5B~30B 모델의 수학 추론 작업에서 그룹 기반 방법과 경쟁하면서 샘플 효율을 높임.",
+      "score": 54
     },
     {
       "title": "An Agentic Approach for Active Data Collection, Travel Behavior Modeling, and Weather-Sensitive Demand Prediction",
@@ -361,38 +393,6 @@
       "date": "2026-08-19",
       "summary_ko": "자율 시스템이 센서 오류로 인해 안전하지 않은 결정을 내리는 문제를 다루며, Interval POMDP를 통해 perception 불확실성을 모델링하고 런타임 쉴드를 구성하는 방법을 제안한다. 학습 데이터로부터 추정한 confidence intervals를 활용해 보수적인 신념 집합을 구성하고, 유한 수평선 안전성 보장(high probability guarantee)을 제공한다.",
       "score": 54
-    },
-    {
-      "title": "DeepWeaver: Bridging the Evidence Synthesis Gap in Open-Ended Question Answering",
-      "url": "https://arxiv.org/abs/2608.18988v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-08-19",
-      "summary_ko": "Retrieve-then-generate 파이프라인에서 검색 증거의 구조화된 조직을 위해 Thought Block Chains(TBCs)라는 표현 방식을 도입한다. 주장·정보·키워드·증거를 그룹화하고 반복 수정하여 최종 답변을 생성하며, LoQA 벤치마크에서 콘텐츠 충분성, 인용 기반성, 세부 보존을 개선했다.",
-      "score": 54
-    },
-    {
-      "title": "Online Learning for Dynamic Constellation Topologies",
-      "url": "https://arxiv.org/abs/2603.25954v2",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-08-19",
-      "summary_ko": "위성 네트워크의 동적 궤도 운동으로 인한 토폴로지 변화를 온라인 학습 프레임워크로 대응하는 방법을 제안한다. 사전에 궤도 평면 같은 네트워크 구조를 가정하지 않으면서도 오프라인 최적화 기법과 유사한 성능을 달성하며, 제약된 온라인 학습에 적용 가능하고 계산 복잡도와 수렴성 간 트레이드오프를 시연한다.",
-      "score": 54
-    },
-    {
-      "title": "SkillForge: Self-Distilling Agents for Project-Specific Issue Resolution",
-      "url": "https://arxiv.org/abs/2608.18933v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-08-19",
-      "summary_ko": "SkillForge는 LLM 기반 에이전트가 특정 프로젝트의 도메인 지식을 능동적으로 습득하도록 하는 자체-증류 프레임워크입니다. 저장소의 테스트-커버 기능을 재구현하여 합성 이슈를 생성하고, 이를 해결하면서 획득한 지식을 엔티티 기반 재사용 스킬로 증류합니다. 오픈소스·폐쇄 모델 모두에서 기존 베이스라인 대비 이슈 해결 성능 개선을 입증했습니다.",
-      "score": 54
-    },
-    {
-      "title": "Bridging the Interpretability Gap: A Comparative Review of Regulatory Trends and Technical Implementations of Explainable AI (XAI) in the Financial Systems of Emerging Economies",
-      "url": "https://doi.org/10.64823/ijter.2621024",
-      "source": "OpenAlex",
-      "date": "2026-08-23",
-      "summary_ko": "금융 기관들이 복잡한 '블랙박스' AI 시스템으로 전환하면서 투명성에 대한 규제 수요가 급증했다. 신흥 경제의 금융 시스템에서 설명가능 AI(XAI) 규제의 글로벌 동향과 기술 구현을 비교 검토한 학술 논문이다.",
-      "score": 46
     }
   ],
   "available_periods": {
