@@ -1,598 +1,5 @@
 {
   "daily": {
-    "2026-06-30": {
-      "analyzed_at": "2026-06-30T13:31:07.033743+09:00",
-      "llm_backend": "anthropic",
-      "period": "daily",
-      "period_label": "오늘",
-      "days_window": 1,
-      "paper_count": 31,
-      "narrative": "한 줄 요약 (한 줄 요약 본문) AI가 전문 지식의 '생산·유통·검증' 전 단계에 개입하면서, 기업이 직면한 핵심 과제는 '도입 여부'가 아니라 '어떻게 통제하고 책임을 설계할 것인가'로 이동했다.\n\n1) 무엇이 부상하고 있는가 오늘 발표된 논문들에서 가장 두드러진 흐름은 AI 거버넌스의 '다단계 제어' 요구다. 논문 3(Risk–Utility Optimization Framework)은 LLM 응답을 단순히 허용·차단하는 이분법이 아니라 위험-효용 균형에 따른 응답 수준별 제어가 필요하다고 주장한다. 이는 기업이 LLM을 내부 업무에 배포할 때 '전사 허용'이나 '전면 차단' 같은 극단적 정책이 아니라, 용도·사용자·데이터 민감도에 따라 세분화된 거버넌스 레이어를 설계해야 한다는 신호다. 동시에 논문 26(The Verification Budget)은 생성 비용이 거의 제로에 수렴하는 시대에 **희소 자원이 '생성'에서 '검증'으로 이동**했다고 지적한다. AI가 대량의 콘텐츠·분석·보고서를 쏟아낼수록, 그것이 맞는지 확인하는 검증 비용이 조직의 새로운 병목이 된다는 뜻이다. 논문 1(Epistemic Injustice)은 법률·임상 등 전문 영역에서 LLM이 지식 중개자로 배치될 때 확률 기반 생성 특성이 구조적 신뢰 침식을 야기한다고 분석하며, 이 문제가 단순 오류 수준이 아닌 제도적 해악임을 강조한다.\n\n2) 한국 실무자에게 이 흐름이 무슨 의미인가 전략·기획 담당자 입장에서 이 흐름은 세 가지 실무 질문으로 번역된다. 첫째, 우리 회사의 LLM 정책이 '사용 허용/금지' 수준에 머물러 있다면 **응답 유형·데이터 등급·사용자 역할별로 세분화된 제어 정책을 설계해야** 한다. 논문 3이 제시한 위험-효용 프레임은 이 설계의 출발점이 될 수 있다. 둘째, AI가 생성한 전략 보고서·시장 분석·법무 검토 결과물을 그대로 의사결정에 활용하는 관행이 있다면, **검증 프로세스를 별도 업무 단계로 제도화하는 것이 조직 리스크 관리의 핵심**이 된다. 논문 26의 '검증 예산' 개념은 이 단계에 실제 인력·시간·비용을 배정해야 한다는 근거로 쓸 수 있다. 셋째, 논문 18(Compound Algorithmic Vulnerability)이 지적하듯 금융 AI의 알고리즘 편향은 단순 오류가 아니라 구조적 배제 메커니즘으로 작동하므로, **AI 도입 시 편향 감사(bias audit) 항목을 내부통제 체계에 명시적으로 포함**시켜야 한다.\n\n3) 산업 적용 흐름 가장 먼저 영향이 가시화될 분야는 금융·법률·의료다. 논문 18과 21은 금융 서비스와 의료 챗봇 모두 규제 기관이 투명성과 설명 가능성을 요구하는 방향으로 움직이고 있음을 보여준다. 한국 기업 환경에서는 **개인정보보호법상 국외 데이터 이전 제한, 금융위·금감원의 AI 모델 설명 요구, 공공기관의 망분리 정책이 클라우드 기반 LLM 도입의 현실적 장벽으로 작용**한다. 논문 6(터키 공공부문 AI 도입 연구)이 보여주듯 기술 준비도와 유용성 인식이 도입 속도를 결정하는 매개 변수인데, 한국 공공·금융 부문은 이 두 요소보다 규제 컴플라이언스가 선행 조건이 된다. 교육 분야(논문 9, 12, 13)는 상대적으로 규제 장벽이 낮아 적응형 피드백·맞춤형 학습 도구의 파일럿 적용이 빠르게 확산될 수 있으나, 학습 데이터의 개인정보 처리 방침 정비가 선결 과제다. 콘텐츠·미디어 분야에서는 논문 16의 Ouest-France 사례처럼 **자체 AI 인프라를 통한 데이터 주권 확보 모델이 온프레미스 또는 폐쇄망 요구가 강한 한국 언론·공공기관에 현실적 대안**으로 부상할 가능성이 높다.",
-      "hot_topics": [
-        {
-          "topic": "LLM 거버넌스 및 위험 제어 (LLM Governance & Risk Control)",
-          "description": "AI 응답을 허용·차단 이분법이 아닌 위험-효용 균형 기반 다단계로 제어해야 한다는 흐름 — 기업 AI 정책 설계의 핵심 과제.",
-          "paper_count": 3,
-          "paper_indices": [
-            1,
-            3,
-            21
-          ],
-          "papers": [
-            {
-              "title": "Epistemic Injustice in Generative AI: Probabilistic Generation, Trust Erosion, and the Structural Conditions of Algorithmic Knowledge Harm",
-              "url": "https://pub.respai.de/articles/1-1/is1-6.pdf",
-              "source": "OpenAlex",
-              "date": "2026-06-30"
-            },
-            {
-              "title": "A Risk–Utility Optimization Framework for Governing Large Language Model Responses",
-              "url": "https://pub.respai.de/articles/1-1/is1-2.pdf",
-              "source": "OpenAlex",
-              "date": "2026-06-30"
-            },
-            {
-              "title": "Can Chatbots Serve as Ethical Agents in Healthcare?",
-              "url": "https://pub.respai.de/articles/1-1/is1-7.pdf",
-              "source": "OpenAlex",
-              "date": "2026-06-30"
-            }
-          ]
-        },
-        {
-          "topic": "AI 검증 비용과 신뢰성 경제학 (Verification Economy)",
-          "description": "생성 비용이 제로에 수렴할수록 검증이 새로운 희소 자원이 된다 — 조직 내 AI 산출물 검토 프로세스를 별도 비용 항목으로 설계해야 하는 이유.",
-          "paper_count": 2,
-          "paper_indices": [
-            26,
-            1
-          ],
-          "papers": [
-            {
-              "title": "The Verification Budget: Pricing Scientific Credibility Under Near-Zero Generation Costs",
-              "url": "https://pub.respai.de/articles/1-1/is1.pdf",
-              "source": "OpenAlex",
-              "date": "2026-06-30"
-            },
-            {
-              "title": "Epistemic Injustice in Generative AI: Probabilistic Generation, Trust Erosion, and the Structural Conditions of Algorithmic Knowledge Harm",
-              "url": "https://pub.respai.de/articles/1-1/is1-6.pdf",
-              "source": "OpenAlex",
-              "date": "2026-06-30"
-            }
-          ]
-        },
-        {
-          "topic": "AI 사회적 반발과 거버넌스 재설정 (AI Societal Pushback & Governance)",
-          "description": "AI의 급속한 산업 배치가 공중 저항을 촉발하고 있으며, 경쟁 프레이밍을 사회적 거버넌스로 전환해야 한다는 논의가 부상.",
-          "paper_count": 2,
-          "paper_indices": [
-            2,
-            7
-          ],
-          "papers": [
-            {
-              "title": "What the AI Race Has Given Us and What It Requires Next",
-              "url": "https://doi.org/10.17613/mxnp5-0g716",
-              "source": "OpenAlex",
-              "date": "2026-06-30"
-            },
-            {
-              "title": "Societal Pushback on AI-Driven Disruption",
-              "url": "https://doi.org/10.5281/zenodo.20757762",
-              "source": "OpenAlex",
-              "date": "2026-06-30"
-            }
-          ]
-        },
-        {
-          "topic": "금융·의료 AI의 알고리즘 편향과 책임 (Algorithmic Bias & Accountability)",
-          "description": "금융 AI의 편향이 구조적 배제로 작동하고, 의료 챗봇의 윤리적 책임 경계가 규제 의제로 부상 — 내부통제 설계에 직결.",
-          "paper_count": 2,
-          "paper_indices": [
-            18,
-            21
-          ],
-          "papers": [
-            {
-              "title": "Compound algorithmic vulnerability: a transformative service perspective on AI mediated financial services",
-              "url": "https://doi.org/10.1108/ijbm-10-2025-0816",
-              "source": "OpenAlex",
-              "date": "2026-06-29"
-            },
-            {
-              "title": "Can Chatbots Serve as Ethical Agents in Healthcare?",
-              "url": "https://pub.respai.de/articles/1-1/is1-7.pdf",
-              "source": "OpenAlex",
-              "date": "2026-06-30"
-            }
-          ]
-        },
-        {
-          "topic": "교육 분야 AI 도입 현황 (AI in Education Adoption)",
-          "description": "적응형 피드백, 특수교육 보조, 문화 문해력 교육 등 다양한 교육 맥락에서 AI 도입 효과와 장벽을 실증 분석하는 연구가 집중 발표.",
-          "paper_count": 4,
-          "paper_indices": [
-            9,
-            12,
-            13,
-            14
-          ],
-          "papers": [
-            {
-              "title": "AI-DRIVEN ADAPTIVE FEEDBACK TOOL: IMPACTS ON STUDENT LEARNING OUTCOMES AND TEACHERS' PERCEPTIONS ACROSS EDUCATIONAL CONTEXTS",
-              "url": "https://doi.org/10.5281/zenodo.20808670",
-              "source": "OpenAlex",
-              "date": "2026-06-30"
-            },
-            {
-              "title": "READINESS AND PERCEIVED BARRIERS TOWARDS AI-ASSISTED TOOLS AMONG SPECIAL EDUCATION UNDERGRADUATES",
-              "url": "https://doi.org/10.5281/zenodo.20824004",
-              "source": "OpenAlex",
-              "date": "2026-06-30"
-            },
-            {
-              "title": "AI-Generated Instructional Animation for Local Cultural Literacy: A Design and Development Study in Indonesian Islamic Secondary Education",
-              "url": "https://doi.org/10.51574/ijrer.v5i4.5000",
-              "source": "OpenAlex",
-              "date": "2026-06-29"
-            },
-            {
-              "title": "Exploring Gen AI Perception & Usage Patterns in Gen Z Undergraduate Students",
-              "url": "https://doi.org/10.5281/zenodo.20757819",
-              "source": "OpenAlex",
-              "date": "2026-06-30"
-            }
-          ]
-        },
-        {
-          "topic": "데이터 주권형 AI 인프라 (Sovereign AI Infrastructure)",
-          "description": "Ouest-France 사례처럼 외부 의존 없이 자체 AI 인프라를 구축해 운영 독립성과 데이터 주권을 동시에 확보하는 모델이 주목받고 있음.",
-          "paper_count": 1,
-          "paper_indices": [
-            16
-          ],
-          "papers": [
-            {
-              "title": ": Augmented Journalism Powered by a Sovereign AI – The Ouest-France Experience.",
-              "url": "https://hal.science/hal-05618549",
-              "source": "OpenAlex",
-              "date": "2026-06-29"
-            }
-          ]
-        }
-      ],
-      "key_techniques": [
-        {
-          "technique": "위험-효용 최적화 프레임워크 (Risk–Utility Optimization Framework)",
-          "description": "LLM 응답을 단순 허용·차단이 아닌 위험 수준별 다단계로 제어하는 설계 방식 — 기업 AI 정책의 세분화 근거로 활용 가능.",
-          "paper_count": 1,
-          "paper_indices": [
-            3
-          ],
-          "papers": [
-            {
-              "title": "A Risk–Utility Optimization Framework for Governing Large Language Model Responses",
-              "url": "https://pub.respai.de/articles/1-1/is1-2.pdf",
-              "source": "OpenAlex",
-              "date": "2026-06-30"
-            }
-          ]
-        },
-        {
-          "technique": "검증 예산 개념 (Verification Budget)",
-          "description": "AI 생성물의 신뢰성을 확보하기 위한 검증 비용(시간·인력·실험·감사)을 명시적 자원으로 배정하는 관리 프레임 — 조직 내 AI 품질관리 체계 설계에 직접 적용 가능.",
-          "paper_count": 1,
-          "paper_indices": [
-            26
-          ],
-          "papers": [
-            {
-              "title": "The Verification Budget: Pricing Scientific Credibility Under Near-Zero Generation Costs",
-              "url": "https://pub.respai.de/articles/1-1/is1.pdf",
-              "source": "OpenAlex",
-              "date": "2026-06-30"
-            }
-          ]
-        },
-        {
-          "technique": "설명 가능 AI (Explainable AI, XAI)",
-          "description": "AI 의사결정 근거를 사용자가 이해할 수 있도록 시각화·설명하는 기법 — 금융·공공 분야 규제 대응과 내부 감사 자동화에 필수 요소.",
-          "paper_count": 2,
-          "paper_indices": [
-            15,
-            18
-          ],
-          "papers": [
-            {
-              "title": "Toward Explainable Trading Analytics Features: A Systematic Literature Review and Proposed AI-Augmented Design for Broker Flow Data in Mobile Stock Trading Appl",
-              "url": "https://doi.org/10.5281/zenodo.21010144",
-              "source": "OpenAlex",
-              "date": "2026-06-29"
-            },
-            {
-              "title": "Compound algorithmic vulnerability: a transformative service perspective on AI mediated financial services",
-              "url": "https://doi.org/10.1108/ijbm-10-2025-0816",
-              "source": "OpenAlex",
-              "date": "2026-06-29"
-            }
-          ]
-        },
-        {
-          "technique": "LLM 벤치마크 편향 분석 (LLM Benchmark Bias Analysis)",
-          "description": "MMLU 등 주요 벤치마크가 모델 성능을 왜곡한다는 연구 — 벤치마크 점수만으로 AI 솔루션을 선정하는 관행을 재검토해야 하는 근거.",
-          "paper_count": 1,
-          "paper_indices": [
-            17
-          ],
-          "papers": [
-            {
-              "title": "Les benchmarks sont une source de biais des LLM : MMLU, CommonSenseQA et MGSM au microscope",
-              "url": "https://inria.hal.science/hal-05618509",
-              "source": "OpenAlex",
-              "date": "2026-06-29"
-            }
-          ]
-        },
-        {
-          "technique": "감정 인식 강화학습 기반 개인화 넛지 (Affect-Aware Reinforcement Learning Nudge)",
-          "description": "사용자 감정 상태를 인식해 개인화된 행동 유도 메시지를 제공하는 강화학습 방식 — 에너지·HR·소비자 행동 변화 설계에 응용 가능.",
-          "paper_count": 1,
-          "paper_indices": [
-            22
-          ],
-          "papers": [
-            {
-              "title": "Learning to Nudge:Affect-Aware Model-Free Reinforcement Learning for Energy Conservation",
-              "url": "https://portal.findresearcher.sdu.dk/files/309793919/Learning_to_Nudge_Affect_Aware_Model_Free_Reinforcement_Learning_for_Energy_Conservation.pdf",
-              "source": "OpenAlex",
-              "date": "2026-06-30"
-            }
-          ]
-        }
-      ],
-      "actionable_insights": [
-        "현재 사내 AI 사용 정책이 '허용/금지' 이분법 수준이라면, **용도·데이터 민감도·사용자 역할에 따라 응답 수준을 세분화한 다단계 제어 정책으로 고도화해야** 한다 — 논문 3의 위험-효용 프레임이 이 설계의 실무 출발점이 될 수 있다.",
-        "AI가 생성한 전략 보고서·법무 검토·시장 분석을 의사결정에 활용하는 프로세스가 있다면, **검증 단계를 별도 업무 스텝으로 제도화하고 여기에 실제 인력과 시간을 배정하는 것이 조직 리스크 관리의 핵심**이 된다 — 생성 비용이 제로에 수렴할수록 검증이 희소 자원이 된다는 논문 26의 논리를 내부 설득 근거로 활용할 수 있다.",
-        "금융·HR·법무 등 의사결정 지원 AI를 도입하거나 평가 중이라면, **알고리즘 편향 감사(bias audit) 항목을 내부통제 체계에 명시적으로 포함**시켜야 한다 — 논문 18이 지적하듯 편향은 단순 오류가 아니라 구조적 배제 메커니즘으로 작동하며, 이는 규제 리스크와 직결된다.",
-        "AI 솔루션 도입 시 벤치마크 점수(MMLU 등)를 주요 선정 기준으로 삼고 있다면, **벤치마크 자체의 편향과 설계 결함을 감안해 실제 업무 시나리오 기반의 자체 평가 기준을 병행 설계해야** 한다 — 논문 17은 주요 벤치마크가 실제 성능을 체계적으로 왜곡할 수 있음을 실증한다.",
-        "공공·금융·의료 분야에서 클라우드 기반 LLM 도입을 검토 중이라면, **개인정보보호법상 국외 데이터 이전 제한과 망분리 정책이 도입 속도를 제한하는 현실적 제약으로 작동**하므로, Ouest-France 사례(논문 16)처럼 온프레미스 또는 자체 인프라 기반의 주권형 AI 아키텍처를 병행 검토하는 것이 현실적 대안이 된다."
-      ],
-      "top_institutions": [
-        {
-          "name": "ETH",
-          "count": 10
-        },
-        {
-          "name": "MIT",
-          "count": 2
-        }
-      ],
-      "top_keywords": [
-        {
-          "keyword": "education",
-          "count": 5
-        },
-        {
-          "keyword": "algorithmic",
-          "count": 3
-        },
-        {
-          "keyword": "ethical",
-          "count": 3
-        },
-        {
-          "keyword": "driven",
-          "count": 3
-        },
-        {
-          "keyword": "augmented",
-          "count": 3
-        },
-        {
-          "keyword": "perceived",
-          "count": 3
-        },
-        {
-          "keyword": "islamic",
-          "count": 2
-        },
-        {
-          "keyword": "mental",
-          "count": 2
-        },
-        {
-          "keyword": "health",
-          "count": 2
-        },
-        {
-          "keyword": "mental health",
-          "count": 2
-        },
-        {
-          "keyword": "generation",
-          "count": 2
-        },
-        {
-          "keyword": "trading",
-          "count": 2
-        },
-        {
-          "keyword": "design",
-          "count": 2
-        },
-        {
-          "keyword": "generated",
-          "count": 2
-        },
-        {
-          "keyword": "agents",
-          "count": 2
-        },
-        {
-          "keyword": "what",
-          "count": 2
-        },
-        {
-          "keyword": "mumbai",
-          "count": 2
-        },
-        {
-          "keyword": "readiness",
-          "count": 2
-        },
-        {
-          "keyword": "optimization",
-          "count": 2
-        },
-        {
-          "keyword": "language",
-          "count": 2
-        }
-      ],
-      "recent_papers": [
-        {
-          "title": "Epistemic Injustice in Generative AI: Probabilistic Generation, Trust Erosion, and the Structural Conditions of Algorithmic Knowledge Harm",
-          "url": "https://pub.respai.de/articles/1-1/is1-6.pdf",
-          "source": "OpenAlex",
-          "date": "2026-06-30",
-          "summary_ko": "생성형 AI와 LLM이 법률 연구·임상 의사결정 등 전문 영역의 '지식 중개자'로 배치되면서, 확률 기반 생성 특성으로 인한 새로운 형태의 인식론적 부정의(epistemic injustice)를 야기한다는 학술 논문. 신뢰 침식과 알고리즘 지식 해악의 구조적 조건을 분석.",
-          "score": 110
-        },
-        {
-          "title": "What the AI Race Has Given Us and What It Requires Next",
-          "url": "https://doi.org/10.17613/mxnp5-0g716",
-          "source": "OpenAlex",
-          "date": "2026-06-30",
-          "summary_ko": "AI 경쟁의 프레이밍을 '가속 vs 일시중단'에서 '사회적 거버넌스'로 재설정해야 한다는 주장. 상업적 가치·지정학적 영향·인프라 특성을 가진 AI 분야의 경쟁 규제 방식이 핵심 질문이라고 지적.",
-          "score": 88
-        },
-        {
-          "title": "A Risk–Utility Optimization Framework for Governing Large Language Model Responses",
-          "url": "https://pub.respai.de/articles/1-1/is1-2.pdf",
-          "source": "OpenAlex",
-          "date": "2026-06-30",
-          "summary_ko": "LLM 응답 거버넌스를 위한 위험-효용 최적화 프레임워크를 제시한 연구. 기업과 공공부문에서 LLM 배포 시 단순 '출시/미출시' 이분법이 아닌 응답 수준별 다단계 제어 방식의 필요성을 논의.",
-          "score": 84
-        },
-        {
-          "title": "Beyond Algorithmic Diagnosis: Legal Accountability and Islamic Ethical Governance of AI-Driven Mental Health Systems",
-          "url": "https://doi.org/10.5281/zenodo.20630592",
-          "source": "OpenAlex",
-          "date": "2026-06-30",
-          "summary_ko": "AI 기반 정신건강 시스템의 도입 확대에 따라 법적 책임성과 이슬람 윤리 거버넌스 프레임워크의 필요성을 논의하는 학술 연구. 예측 분석과 행동 데이터 분석을 통한 심리 상태 모니터링의 법적·윤리적 문제를 다룬다.",
-          "score": 80
-        },
-        {
-          "title": "Synthetic Moral Agents or Sophisticated Mimics?",
-          "url": "https://pub.respai.de/articles/1-1/is1-5.pdf",
-          "source": "OpenAlex",
-          "date": "2026-06-30",
-          "summary_ko": "대규모언어모델(LLM)이 생성하는 도덕적 판단이 인간 윤리학자의 것과 구별 불가능한 수준에 도달했으나, 이것이 진정한 윤리적 추론인지 아니면 표면적 모방인지에 대한 철학적 논쟁이 재점화되고 있다.",
-          "score": 80
-        },
-        {
-          "title": "Technological Readiness as a Driver of Artificial Intelligence Adoption in Public Administration and Auditing: Serial Mediation by Perceived Ease of Use and Perceived Usefulness",
-          "url": "https://doi.org/10.5281/zenodo.20800531",
-          "source": "OpenAlex",
-          "date": "2026-06-30",
-          "summary_ko": "터키 공공부문 409명 직원을 대상으로 한 연구로, 기술 준비도(technological readiness)가 AI 도입에 미치는 영향을 분석했으며, 사용 용이성과 유용성 인식이 순차적 매개 역할을 한다는 결과를 제시했다.",
-          "score": 78
-        },
-        {
-          "title": "Societal Pushback on AI-Driven Disruption",
-          "url": "https://doi.org/10.5281/zenodo.20757762",
-          "source": "OpenAlex",
-          "date": "2026-06-30",
-          "summary_ko": "AI의 급속한 산업 배치가 공중의 우려와 저항을 촉발하고 있다. 본 논문은 AI 기술이 의료·금융·교육·거버넌스 등 다양한 분야를 재편하면서 동시에 사회적 반발에 직면한 현황을 분석한다.",
-          "score": 77
-        },
-        {
-          "title": "Rethinking AI in youth mental health: promise, perils, and ethical integration",
-          "url": "https://doi.org/10.1186/s13033-026-00714-z",
-          "source": "OpenAlex",
-          "date": "2026-06-29",
-          "summary_ko": "청소년 정신건강 치료에서 대규모언어모델(LLM)의 역할을 재검토하는 학술 논평. 환자 참여 지원과 의료 전달 체계 강화의 잠재력과 함께 윤리적 통합, 책임 경계, 데이터 보호의 위험성을 동시에 제시.",
-          "score": 75
-        },
-        {
-          "title": "AI-DRIVEN ADAPTIVE FEEDBACK TOOL: IMPACTS ON STUDENT LEARNING OUTCOMES AND TEACHERS' PERCEPTIONS ACROSS EDUCATIONAL CONTEXTS",
-          "url": "https://doi.org/10.5281/zenodo.20808670",
-          "source": "OpenAlex",
-          "date": "2026-06-30",
-          "summary_ko": "말레이시아 연구팀이 AI 기반 적응형 피드백 도구가 초등·중등·고등교육 학생 학습 성과와 교사 인식에 미치는 영향을 혼합방법론으로 조사했다. 도시·농촌 맥락에서 60명 학생과 12명 교사를 대상으로 준실험 설계를 적용했다.",
-          "score": 67
-        },
-        {
-          "title": "The Ontological Status of AI-Generated Music: From Stylistic Mimicry to Collaborative Agency",
-          "url": "https://pub.respai.de/articles/1-1/is1-9.pdf",
-          "source": "OpenAlex",
-          "date": "2026-06-30",
-          "summary_ko": "본 연구는 AI 생성 음악의 존재론적 지위를 철학적·기술적으로 분석하며, 형식적 미적 자율성과 주관적 행위성 부재 간의 역설을 다룬다. Kant 미학, Dewey 실용주의, Danto 예술세계론과 Transformer 아키텍처 분석을 통합하여 AI 음악을 '기능주의적' 현상으로 규정한다.",
-          "score": 60
-        },
-        {
-          "title": "Rising Use of AI in Education in Mumbai A study on the use of AI in the education institutes of Mumbai",
-          "url": "https://doi.org/10.5281/zenodo.20757885",
-          "source": "OpenAlex",
-          "date": "2026-06-30",
-          "summary_ko": "뭄바이 교육기관의 AI 활용 현황을 분석한 학술 연구로, 학생과 교수진의 ChatGPT·Gemini·Claude·Gamma 등 AI 도구 인식도를 조사했다. 교육 방식 개선과 학습 효율성 향상 가능성에 주목하고 있으나 본문이 불완전하다.",
-          "score": 60
-        },
-        {
-          "title": "READINESS AND PERCEIVED BARRIERS TOWARDS AI-ASSISTED TOOLS AMONG SPECIAL EDUCATION UNDERGRADUATES",
-          "url": "https://doi.org/10.5281/zenodo.20824004",
-          "source": "OpenAlex",
-          "date": "2026-06-30",
-          "summary_ko": "특수교육 학부생들의 AI 보조 도구 활용 준비도와 인식된 장벽을 조사한 연구. 맞춤형 학습과 교사 업무 경감이라는 교육 AI의 잠재력을 특수교육 맥락에서 실증적으로 분석하는 학술 논문.",
-          "score": 60
-        },
-        {
-          "title": "AI-Generated Instructional Animation for Local Cultural Literacy: A Design and Development Study in Indonesian Islamic Secondary Education",
-          "url": "https://doi.org/10.51574/ijrer.v5i4.5000",
-          "source": "OpenAlex",
-          "date": "2026-06-29",
-          "summary_ko": "인도네시아 이슬람 중등학교(마드라사 알리야) 학생들의 문화 문해력 저하 문제를 해결하기 위해 AI 생성 교육용 애니메이션을 개발·평가한 연구. 글로벌 디지털 확산으로 인한 토착 문화유산 소외 현상에 대응하는 교육 설계 사례.",
-          "score": 54
-        },
-        {
-          "title": "Exploring Gen AI Perception & Usage Patterns in Gen Z Undergraduate Students",
-          "url": "https://doi.org/10.5281/zenodo.20757819",
-          "source": "OpenAlex",
-          "date": "2026-06-30",
-          "summary_ko": "Gen Z 대학생의 생성형 AI 인식과 사용 패턴을 연구한 학술 논문. 상업화 이전부터 존재했던 생성형 AI 개념이 최근 교육·업무 환경에서 광범위하게 채택되고 있는 현황을 분석한다.",
-          "score": 50
-        },
-        {
-          "title": "Toward Explainable Trading Analytics Features: A Systematic Literature Review and Proposed AI-Augmented Design for Broker Flow Data in Mobile Stock Trading Applications",
-          "url": "https://doi.org/10.5281/zenodo.21010144",
-          "source": "OpenAlex",
-          "date": "2026-06-29",
-          "summary_ko": "인도네시아 자본시장의 브로커 거래 공시 데이터를 대상으로 설명 가능 AI(XAI), 추천 시스템, 대형언어모델(LLM)을 적용한 거래 분석 기능 설계를 체계적으로 검토한 학술 논문. 모바일 주식거래 앱의 사용자 경험 개선을 위한 AI 기반 설계 방안을 제시.",
-          "score": 49
-        },
-        {
-          "title": ": Augmented Journalism Powered by a Sovereign AI – The Ouest-France Experience.",
-          "url": "https://hal.science/hal-05618549",
-          "source": "OpenAlex",
-          "date": "2026-06-29",
-          "summary_ko": "Ouest-France가 주권형 AI를 기반으로 한 '증강 저널리즘' 시스템을 구축한 사례 연구. 언론사가 자체 AI 인프라를 통해 기사 작성·검증·배포 프로세스를 자동화하면서 데이터 주권과 운영 독립성을 확보한 모델을 제시한다.",
-          "score": 43
-        },
-        {
-          "title": "Les benchmarks sont une source de biais des LLM : MMLU, CommonSenseQA et MGSM au microscope",
-          "url": "https://inria.hal.science/hal-05618509",
-          "source": "OpenAlex",
-          "date": "2026-06-29",
-          "summary_ko": "MMLU, CommonSenseQA, MGSM 등 주요 LLM 벤치마크가 모델 평가의 신뢰성을 훼손하는 체계적 편향을 내재하고 있다는 연구 결과. 벤치마크 설계 결함이 실제 모델 성능 평가를 왜곡할 수 있음을 지적.",
-          "score": 39
-        },
-        {
-          "title": "Compound algorithmic vulnerability: a transformative service perspective on AI mediated financial services",
-          "url": "https://doi.org/10.1108/ijbm-10-2025-0816",
-          "source": "OpenAlex",
-          "date": "2026-06-29",
-          "summary_ko": "금융서비스에 내재된 알고리즘 편향이 단순 의사결정 오류가 아닌 구조적 배제 메커니즘으로 작동한다는 학술 연구. 금융 AI의 누적적 불공정성이 서비스 접근성 자체를 제한하는 현상을 분석.",
-          "score": 34
-        },
-        {
-          "title": "New Subscription to the Lifelong Plan: How Can You Help Me Today?",
-          "url": "https://pub.respai.de/articles/1-1/is1-11.pdf",
-          "source": "OpenAlex",
-          "date": "2026-06-30",
-          "summary_ko": "OpenAlex에 공개된 Stella Anne Ming Hui Teoh의 인간-AI 대화 로그 문서로, 특정 구독 플랜 도입과 AI 어시스턴트의 역할을 다룬 것으로 보이나, 본문 내용이 제시되지 않아 구체적 분석 불가.",
-          "score": 30
-        },
-        {
-          "title": "Problem-Based Learning in Adult Education: The Case of Language Teaching",
-          "url": "https://doi.org/10.5281/zenodo.20683719",
-          "source": "OpenAlex",
-          "date": "2026-06-30",
-          "summary_ko": "2024-2025학년도 봄학기 터키어 외국어 교육 현장에서 문제기반학습(PBL) 적용 효과를 액션리서치로 검증한 박사학위 논문 기반 연구. 성인 언어교육에서 PBL의 교수학습 설계와 실행 결과를 분석.",
-          "score": 0
-        },
-        {
-          "title": "Can Chatbots Serve as Ethical Agents in Healthcare?",
-          "url": "https://pub.respai.de/articles/1-1/is1-7.pdf",
-          "source": "OpenAlex",
-          "date": "2026-06-30",
-          "summary_ko": "의료 시스템에서 챗봇 도입이 확대되면서 임상 대화가 주변 인터페이스 문제에서 핵심 거버넌스 문제로 전환되고 있다. 환자 메시징·분류·문서화·코칭 등 다양한 용도로 LLM 챗봇이 사용·시범 중이며, 규제 기관과 표준 설정 기구가 투명성을 요구하고 있다.",
-          "score": 0
-        },
-        {
-          "title": "Learning to Nudge:Affect-Aware Model-Free Reinforcement Learning for Energy Conservation",
-          "url": "https://portal.findresearcher.sdu.dk/files/309793919/Learning_to_Nudge_Affect_Aware_Model_Free_Reinforcement_Learning_for_Energy_Conservation.pdf",
-          "source": "OpenAlex",
-          "date": "2026-06-30",
-          "summary_ko": "덴마크 남부대학교 연구팀이 사용자의 감정 상태를 인식하는 강화학습 기반 에너지 피드백 시스템을 제안했다. 정적인 메시지 대신 개인화된 '넛지'를 제공해 에너지 절감 효과를 장기적으로 높이는 접근법이다.",
-          "score": 0
-        },
-        {
-          "title": "Platforming threatoric on TikTok : racial‑religious fear during Malaysia’s 15th general election",
-          "url": "https://eprints.lancs.ac.uk/id/eprint/235854/1/Platforming_Threatoric_on_TikTok-_snmj-revised-cleaned-AAM.pdf",
-          "source": "OpenAlex",
-          "date": "2026-06-30",
-          "summary_ko": "말레이시아 15차 총선 중 TikTok이 인종·종교적 위협 담론(threatoric)의 생산과 유포에 미친 영향을 근접화 이론과 소셜미디어 비판담론분석으로 검토한 학술 논문. 플랫폼이 선거 시기 정치적 감정 동원의 매개체로 기능하는 메커니즘을 분석.",
-          "score": 0
-        },
-        {
-          "title": "Politics in professional service firms : discursive control and struggle through the lens of hegemony",
-          "url": "https://eprints.lancs.ac.uk/id/eprint/234894/1/Hegemony_JPO_Online_version.pdf",
-          "source": "OpenAlex",
-          "date": "2026-06-30",
-          "summary_ko": "Lancaster University 연구팀이 전문서비스회사(PSF)의 조직 변화를 헤게모니 렌즈로 분석한 학술 논문. 전통적 전문가 가치와 신규 경영통제 간 긴장 관계를 담론적 권력 투쟁으로 해석하는 이론적 프레임을 제시.",
-          "score": 0
-        },
-        {
-          "title": "INVESTIGATION OF TRIBOLOGICAL BEHAVIOUR OF Al 4032 ALLOY REINFORCED WITH SEASHELL POWDER UNDER BIOFRIENDLY DIESEL LUBRICATION",
-          "url": "https://doi.org/10.5281/zenodo.20832836",
-          "source": "OpenAlex",
-          "date": "2026-06-30",
-          "summary_ko": "Al4032 합금의 마찰 특성을 바이오디젤 윤활유와 굴패 분말 첨가제로 개선하는 연구. 내마모성 향상이 필요한 산업 응용 분야를 대상으로 한 학술 논문.",
-          "score": 0
-        },
-        {
-          "title": "The Verification Budget: Pricing Scientific Credibility Under Near-Zero Generation Costs",
-          "url": "https://pub.respai.de/articles/1-1/is1.pdf",
-          "source": "OpenAlex",
-          "date": "2026-06-30",
-          "summary_ko": "생성 비용이 급락하면서 과학적 신뢰성의 희소 자원이 '검증'으로 이동한다는 논문. 검증 예산(verification budget)이라는 개념을 제시하며, 시간·계산·실험·감사·재현성 등 진실과 오류를 구분하는 비용이 새로운 가치 기준이 됨을 분석.",
-          "score": 0
-        },
-        {
-          "title": "Implications of the climate transition on employment, skills, and training in Belgium",
-          "url": "https://lirias.kuleuven.be/retrieve/48e7cbd6-d90b-4ecb-8d6a-03ff9247934e",
-          "source": "OpenAlex",
-          "date": "2026-06-30",
-          "summary_ko": "벨기에의 기후 전환이 고용, 기술, 교육에 미치는 영향을 분석한 학술 연구. KU Leuven 연구팀이 발표한 보고서로, 탄소중립 전환 과정에서 노동시장 재편과 인력 양성 정책의 필요성을 다룬다.",
-          "score": 0
-        },
-        {
-          "title": "Digital Platforms as a Catalyst for Logistics Development and Process Optimization",
-          "url": "https://doi.org/10.5281/zenodo.20518222",
-          "source": "OpenAlex",
-          "date": "2026-06-30",
-          "summary_ko": "기업 경쟁력 강화를 위해 비즈니스 프로세스 디지털화와 정보기술 통합이 필수적이며, 본 연구는 디지털 관리 도구의 영향을 분석하고 물류 개발 및 프로세스 최적화에서의 효율성 평가를 목표로 함.",
-          "score": 0
-        },
-        {
-          "title": "Enhancing CYP4B1 catalytic performance through an orthologous sequence-guided engineering approach",
-          "url": "https://doi.org/10.3389/fctls.2026.1869705",
-          "source": "OpenAlex",
-          "date": "2026-06-29",
-          "summary_ko": "생명공학 연구팀이 CYP4B1 효소의 촉매 성능을 개선하기 위해 직교 서열 기반 엔지니어링 접근법을 개발했다. 포화 지방산의 선택적 ω-하이드록실화와 트랜스-스틸벤의 순차적 하이드록실화를 달성했다.",
-          "score": 0
-        },
-        {
-          "title": "Volitional Motion Theory",
-          "url": "https://doi.org/10.5281/zenodo.21014676",
-          "source": "OpenAlex",
-          "date": "2026-06-29",
-          "summary_ko": "근대 물리학의 뉴턴 역학을 모델로 삼아 의지력(willpower)을 수학적으로 추정하는 '의지적 운동 이론(VMT)'을 제안한 학술 논문. 공학 및 인공지능 응용 가능성을 제시하고 있으나, 현재 단계는 이론 프레임워크 제시 수준.",
-          "score": 0
-        }
-      ]
-    },
     "2026-07-01": {
       "analyzed_at": "2026-07-01T13:29:26.569901+09:00",
       "llm_backend": "anthropic",
@@ -32401,12 +31808,12 @@
       ]
     },
     "2026-W35": {
-      "analyzed_at": "2026-08-29T18:58:56.982237+09:00",
+      "analyzed_at": "2026-08-30T07:00:44.710273+09:00",
       "llm_backend": "claude-cli",
       "period": "weekly",
       "period_label": "최근 7일",
       "days_window": 7,
-      "paper_count": 600,
+      "paper_count": 564,
       "narrative": "",
       "hot_topics": [],
       "key_techniques": [],
@@ -32414,23 +31821,23 @@
       "top_institutions": [
         {
           "name": "ETH",
-          "count": 237
+          "count": 227
         },
         {
           "name": "MIT",
-          "count": 170
+          "count": 167
         },
         {
           "name": "AWS",
-          "count": 15
-        },
-        {
-          "name": "Meta",
           "count": 14
         },
         {
           "name": "FAIR",
           "count": 12
+        },
+        {
+          "name": "Meta",
+          "count": 11
         },
         {
           "name": "OpenAI",
@@ -32476,34 +31883,26 @@
       "top_keywords": [
         {
           "keyword": "language",
-          "count": 33
-        },
-        {
-          "keyword": "framework",
-          "count": 33
-        },
-        {
-          "keyword": "multi",
           "count": 32
         },
         {
-          "keyword": "data",
-          "count": 29
+          "keyword": "framework",
+          "count": 30
         },
         {
-          "keyword": "agents",
+          "keyword": "multi",
           "count": 28
         },
         {
-          "keyword": "generative",
+          "keyword": "agents",
+          "count": 27
+        },
+        {
+          "keyword": "data",
           "count": 26
         },
         {
           "keyword": "agent",
-          "count": 26
-        },
-        {
-          "keyword": "human",
           "count": 25
         },
         {
@@ -32519,15 +31918,11 @@
           "count": 21
         },
         {
+          "keyword": "human",
+          "count": 20
+        },
+        {
           "keyword": "training",
-          "count": 20
-        },
-        {
-          "keyword": "optimization",
-          "count": 20
-        },
-        {
-          "keyword": "reasoning",
           "count": 20
         },
         {
@@ -32539,20 +31934,32 @@
           "count": 19
         },
         {
-          "keyword": "cross",
+          "keyword": "optimization",
           "count": 19
         },
         {
+          "keyword": "reasoning",
+          "count": 19
+        },
+        {
+          "keyword": "generative",
+          "count": 18
+        },
+        {
+          "keyword": "systems",
+          "count": 16
+        },
+        {
+          "keyword": "machine",
+          "count": 16
+        },
+        {
           "keyword": "detection",
-          "count": 18
+          "count": 16
         },
         {
-          "keyword": "evaluation",
-          "count": 18
-        },
-        {
-          "keyword": "through",
-          "count": 18
+          "keyword": "llms",
+          "count": 16
         }
       ],
       "recent_papers": [
@@ -32597,14 +32004,6 @@
           "score": 85
         },
         {
-          "title": "An Epistemic-Content Taxonomy of Human Intervention in Agentic Collaboration",
-          "url": "https://doi.org/10.5281/zenodo.21730478",
-          "source": "OpenAlex",
-          "date": "2026-08-22",
-          "summary_ko": "에이전트 협업에서 인간 개입이 제공하는 인식론적 내용을 분류하는 새로운 체계를 제시한 연구로, 2천여 건의 LLM 코딩 에이전트 상호작용 데이터를 분석해 기존 타이밍·권한·세분성 중심의 분류에서 벗어나 상호작용 구조의 본질을 규명한다.",
-          "score": 82
-        },
-        {
           "title": "Expectation, Backlash, Recovery, and Excitement: How Model Releases Shape Reddit Perceptions of Conversational AI Systems",
           "url": "https://arxiv.org/abs/2608.24654v1",
           "source": "arXiv AI/CL/LG/IR/MA/CY",
@@ -32645,6 +32044,14 @@
           "score": 74
         },
         {
+          "title": "Puro-2B: Poor Lab's Qwen2-1.5B Trained on RTX 5090 within $5090",
+          "url": "https://arxiv.org/abs/2608.27370v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-08-27",
+          "summary_ko": "논문은 저비용으로 언어모델을 처음부터 학습하는 오픈소스 방법론 Puro-2B를 제시한다. RTX 5090 같은 소비자 등급 GPU에서 FP8 정밀도, 하이퍼볼 최적화, 커리큘럼 모델 평균화 등을 조합하여 1.4조 토큰으로 학습한 결과 $6.9K의 저비용으로 Qwen2.5-1.5B 수준 성능을 달성했으며, 비용-성능 스케일링 법칙을 도출했다.",
+          "score": 64
+        },
+        {
           "title": "Agentic Autoresearch for Cell-Edge Power Control: Radically Redefining the Researcher's Role",
           "url": "https://arxiv.org/abs/2608.26093v1",
           "source": "arXiv AI/CL/LG/IR/MA/CY",
@@ -32677,6 +32084,14 @@
           "score": 58
         },
         {
+          "title": "BTS-AgentBench: A Deterministic, Replayable Pipeline from Read-Only Telemetry Logs to Agent Benchmarks",
+          "url": "https://arxiv.org/abs/2608.27334v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-08-27",
+          "summary_ko": "산업 텔레메트리 로그를 읽기 전용 도구 저장소와 타입화된 에이전트 에피소드로 변환하는 결정론적 파이프라인인 BTS-AgentBench를 제시한다. 532행 벤치마크 데이터셋과 함께 파이프라인의 재현성을 검증했으며, GPT-5.5가 테스트 케이스 41개를 완전히 수행하며 방법론의 실효성을 입증했다.",
+          "score": 57
+        },
+        {
           "title": "iFlip: Iterative Feedback-driven Counterfactual Example Refinement",
           "url": "https://arxiv.org/abs/2601.01446v2",
           "source": "arXiv AI/CL/LG/IR/MA/CY",
@@ -32691,6 +32106,22 @@
           "date": "2026-08-24",
           "summary_ko": "본 논문은 여행 수단 선택 예측에서 LLM과 RAG(검색증강생성)의 상호작용을 체계적으로 벤치마킹합니다. 기본 RAG부터 균형 검색과 크로스인코더 리랭킹을 포함한 4가지 전략을 GPT-4o, o4-mini, o3 세 모델에서 평가한 결과, GPT-4o+균형검색+크로스인코더 조합이 80.8% 정확도로 기존 통계·ML 모델을 초과 달성했으며 제로샷 전이 능력도 우수함을 보였습니다.",
           "score": 55
+        },
+        {
+          "title": "CritICL: Inference-Time Weak-to-Strong Generalization from Small Language Model Failure Modes",
+          "url": "https://arxiv.org/abs/2608.27455v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-08-27",
+          "summary_ko": "약한 모델의 실패 패턴을 학습 신호로 활용하는 CritICL 프레임워크를 제안하여 LLM의 추론 시간 성능을 효율적으로 확장한다. 동적/정적 두 변형으로 입력별 실패 모드 예측 및 안정적 지도를 제공하며, test-time scaling보다 적은 생성으로 경쟁력 있는 성능을 달성한다.",
+          "score": 54
+        },
+        {
+          "title": "From Static to Dynamic: Benchmarking Real-World Code Review with MCR-Bench",
+          "url": "https://arxiv.org/abs/2608.27442v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-08-27",
+          "summary_ko": "MCR-Bench는 LLM 기반 코드 리뷰의 첫 멀티라운드 실무형 벤치마크로, 5개 언어의 2,269개 실제 사례를 수집했다. 실험 결과 주류 LLM들은 라운드 증가에 따른 성능 저하가 뚜렷하며, 의미론적으로 복잡하거나 저명도 결함을 놓치는 경향을 보인다.",
+          "score": 54
         },
         {
           "title": "Amplifying, Not Learning: The Price of Out-of-Distribution Generalization in AI-Text Detection",
@@ -32741,6 +32172,14 @@
           "score": 45
         },
         {
+          "title": "Beyond F1: Evaluating Coverage and Failure Recovery in AI Model Security Scanners",
+          "url": "https://arxiv.org/abs/2608.27424v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-08-27",
+          "summary_ko": "Pickle/PyTorch 아티팩트 170개 벤치마크로 ModelScan, ModelAudit, Fickling의 보안 스캐너를 평가. F1 같은 단순 지표 대신 coverage, analysis completion, definitive judgment의 분리를 강조하여, ModelAudit 100%, Fickling 81.5%, ModelScan 49.6%의 decision coverage 차이와 조건부 정확도의 괴리를 규명.",
+          "score": 44
+        },
+        {
           "title": "A Visual Dependence-Aware Framework for Multimodal Unsupervised Continual Post-Training",
           "url": "https://arxiv.org/abs/2608.26095v1",
           "source": "arXiv AI/CL/LG/IR/MA/CY",
@@ -32762,38 +32201,6 @@
           "source": "arXiv AI/CL/LG/IR/MA/CY",
           "date": "2026-08-26",
           "summary_ko": "연합학습에서 클라이언트의 데이터 분포 불균형(라벨 편향)으로 인한 모델 편향을 해결하기 위해 FedCC 알고리즘을 제안한다. 클라이언트가 애매한 샘플을 'unknown'으로 표시하고 보정된 의사 레이블을 활용해 다수 클래스와 소수 클래스 간 신뢰도를 균형 있게 관리한다. 극단적 라벨 편향(10개 클래스 중 1개만 보유) 조건에서 기존 베이스라인이 무작위 수준으로 붕괴할 때 FedCC는 67.3% 정확도를 달성한다.",
-          "score": 44
-        },
-        {
-          "title": "EG-ARSA: An Expert-Grounded Open Model for Visual Road Safety Auditing in Low-Resource Settings",
-          "url": "https://arxiv.org/abs/2608.23563v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-08-24",
-          "summary_ko": "저자원 환경의 도로 안전 감시를 위해 전문가 의견과 field audit 데이터로 teacher VLM을 검증한 후, 8B 파라미터 student 모델로 Low-Rank Adaptation 기반 증류하는 Expert-Grounded Distillation(EGD) 프레임워크 제안. 21,947개 이미지 기록의 방글라데시 도로 안전 감시 데이터셋(BD-ARSA)을 공개하며, 개발된 EG-ARSA 모델이 31B teacher와 Gemini-2.5-Flash를 능가하는 ordinal risk 평가 성능 입증.",
-          "score": 44
-        },
-        {
-          "title": "ConvergeFlow: Language Flow with Provable Convergence to Token Embeddings",
-          "url": "https://arxiv.org/abs/2608.23551v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-08-24",
-          "summary_ko": "ConvergeFlow는 토큰 임베딩 공간에서 데이터 예측기를 제한하고 MSE 목적으로 훈련하는 흐름 기반 언어모델이다. 수학적으로 유효한 토큰 임베딩으로의 수렴을 증명해 기존의 교차엔트로피 지도 디코더를 제거했으며, OpenWebText에서 기존 확산 LM과 경쟁 가능한 성능을 달성했다.",
-          "score": 44
-        },
-        {
-          "title": "Robustness of Anomaly Detection Models for Industrial Control Systems under Training-Time Data Contamination",
-          "url": "https://arxiv.org/abs/2608.23547v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-08-24",
-          "summary_ko": "산업용 제어 시스템(ICS)의 ML 기반 이상 탐지 모델이 학습 데이터 오염(contamination) 상황에서 얼마나 견고한지 평가한 논문. SWaT 벤치마크에서 11개 모델을 3가지 오염 전략과 1~10% 오염 예산 하에 테스트한 결과, 모델별 견고성이 큰 차이를 보였으며, 깨끗한 데이터 성능만으로는 견고성을 예측 불가능함을 발견.",
-          "score": 44
-        },
-        {
-          "title": "A Survey on Human-AI Collaboration with Large Foundation Models",
-          "url": "https://arxiv.org/pdf/2403.04931",
-          "source": "OpenAlex",
-          "date": "2026-08-22",
-          "summary_ko": "인공지능의 역량 확대에 따라 인간과 AI 시스템을 결합한 협업(HAI)이 대규모 기초 모델 시대의 핵심 문제 해결·의사결정 방식으로 주목받고 있는 학술 동향을 정리한 논문.",
           "score": 44
         }
       ]

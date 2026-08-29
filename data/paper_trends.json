@@ -1,10 +1,10 @@
 {
-  "analyzed_at": "2026-08-29T18:58:56.982237+09:00",
+  "analyzed_at": "2026-08-30T07:00:44.710273+09:00",
   "llm_backend": "claude-cli",
   "period": "weekly",
   "period_label": "최근 7일",
   "days_window": 7,
-  "paper_count": 600,
+  "paper_count": 564,
   "narrative": "",
   "hot_topics": [],
   "key_techniques": [],
@@ -12,23 +12,23 @@
   "top_institutions": [
     {
       "name": "ETH",
-      "count": 237
+      "count": 227
     },
     {
       "name": "MIT",
-      "count": 170
+      "count": 167
     },
     {
       "name": "AWS",
-      "count": 15
-    },
-    {
-      "name": "Meta",
       "count": 14
     },
     {
       "name": "FAIR",
       "count": 12
+    },
+    {
+      "name": "Meta",
+      "count": 11
     },
     {
       "name": "OpenAI",
@@ -74,34 +74,26 @@
   "top_keywords": [
     {
       "keyword": "language",
-      "count": 33
-    },
-    {
-      "keyword": "framework",
-      "count": 33
-    },
-    {
-      "keyword": "multi",
       "count": 32
     },
     {
-      "keyword": "data",
-      "count": 29
+      "keyword": "framework",
+      "count": 30
     },
     {
-      "keyword": "agents",
+      "keyword": "multi",
       "count": 28
     },
     {
-      "keyword": "generative",
+      "keyword": "agents",
+      "count": 27
+    },
+    {
+      "keyword": "data",
       "count": 26
     },
     {
       "keyword": "agent",
-      "count": 26
-    },
-    {
-      "keyword": "human",
       "count": 25
     },
     {
@@ -117,15 +109,11 @@
       "count": 21
     },
     {
+      "keyword": "human",
+      "count": 20
+    },
+    {
       "keyword": "training",
-      "count": 20
-    },
-    {
-      "keyword": "optimization",
-      "count": 20
-    },
-    {
-      "keyword": "reasoning",
       "count": 20
     },
     {
@@ -137,20 +125,32 @@
       "count": 19
     },
     {
-      "keyword": "cross",
+      "keyword": "optimization",
       "count": 19
     },
     {
+      "keyword": "reasoning",
+      "count": 19
+    },
+    {
+      "keyword": "generative",
+      "count": 18
+    },
+    {
+      "keyword": "systems",
+      "count": 16
+    },
+    {
+      "keyword": "machine",
+      "count": 16
+    },
+    {
       "keyword": "detection",
-      "count": 18
+      "count": 16
     },
     {
-      "keyword": "evaluation",
-      "count": 18
-    },
-    {
-      "keyword": "through",
-      "count": 18
+      "keyword": "llms",
+      "count": 16
     }
   ],
   "recent_papers": [
@@ -195,14 +195,6 @@
       "score": 85
     },
     {
-      "title": "An Epistemic-Content Taxonomy of Human Intervention in Agentic Collaboration",
-      "url": "https://doi.org/10.5281/zenodo.21730478",
-      "source": "OpenAlex",
-      "date": "2026-08-22",
-      "summary_ko": "에이전트 협업에서 인간 개입이 제공하는 인식론적 내용을 분류하는 새로운 체계를 제시한 연구로, 2천여 건의 LLM 코딩 에이전트 상호작용 데이터를 분석해 기존 타이밍·권한·세분성 중심의 분류에서 벗어나 상호작용 구조의 본질을 규명한다.",
-      "score": 82
-    },
-    {
       "title": "Expectation, Backlash, Recovery, and Excitement: How Model Releases Shape Reddit Perceptions of Conversational AI Systems",
       "url": "https://arxiv.org/abs/2608.24654v1",
       "source": "arXiv AI/CL/LG/IR/MA/CY",
@@ -243,6 +235,14 @@
       "score": 74
     },
     {
+      "title": "Puro-2B: Poor Lab's Qwen2-1.5B Trained on RTX 5090 within $5090",
+      "url": "https://arxiv.org/abs/2608.27370v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-08-27",
+      "summary_ko": "논문은 저비용으로 언어모델을 처음부터 학습하는 오픈소스 방법론 Puro-2B를 제시한다. RTX 5090 같은 소비자 등급 GPU에서 FP8 정밀도, 하이퍼볼 최적화, 커리큘럼 모델 평균화 등을 조합하여 1.4조 토큰으로 학습한 결과 $6.9K의 저비용으로 Qwen2.5-1.5B 수준 성능을 달성했으며, 비용-성능 스케일링 법칙을 도출했다.",
+      "score": 64
+    },
+    {
       "title": "Agentic Autoresearch for Cell-Edge Power Control: Radically Redefining the Researcher's Role",
       "url": "https://arxiv.org/abs/2608.26093v1",
       "source": "arXiv AI/CL/LG/IR/MA/CY",
@@ -275,6 +275,14 @@
       "score": 58
     },
     {
+      "title": "BTS-AgentBench: A Deterministic, Replayable Pipeline from Read-Only Telemetry Logs to Agent Benchmarks",
+      "url": "https://arxiv.org/abs/2608.27334v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-08-27",
+      "summary_ko": "산업 텔레메트리 로그를 읽기 전용 도구 저장소와 타입화된 에이전트 에피소드로 변환하는 결정론적 파이프라인인 BTS-AgentBench를 제시한다. 532행 벤치마크 데이터셋과 함께 파이프라인의 재현성을 검증했으며, GPT-5.5가 테스트 케이스 41개를 완전히 수행하며 방법론의 실효성을 입증했다.",
+      "score": 57
+    },
+    {
       "title": "iFlip: Iterative Feedback-driven Counterfactual Example Refinement",
       "url": "https://arxiv.org/abs/2601.01446v2",
       "source": "arXiv AI/CL/LG/IR/MA/CY",
@@ -289,6 +297,22 @@
       "date": "2026-08-24",
       "summary_ko": "본 논문은 여행 수단 선택 예측에서 LLM과 RAG(검색증강생성)의 상호작용을 체계적으로 벤치마킹합니다. 기본 RAG부터 균형 검색과 크로스인코더 리랭킹을 포함한 4가지 전략을 GPT-4o, o4-mini, o3 세 모델에서 평가한 결과, GPT-4o+균형검색+크로스인코더 조합이 80.8% 정확도로 기존 통계·ML 모델을 초과 달성했으며 제로샷 전이 능력도 우수함을 보였습니다.",
       "score": 55
+    },
+    {
+      "title": "CritICL: Inference-Time Weak-to-Strong Generalization from Small Language Model Failure Modes",
+      "url": "https://arxiv.org/abs/2608.27455v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-08-27",
+      "summary_ko": "약한 모델의 실패 패턴을 학습 신호로 활용하는 CritICL 프레임워크를 제안하여 LLM의 추론 시간 성능을 효율적으로 확장한다. 동적/정적 두 변형으로 입력별 실패 모드 예측 및 안정적 지도를 제공하며, test-time scaling보다 적은 생성으로 경쟁력 있는 성능을 달성한다.",
+      "score": 54
+    },
+    {
+      "title": "From Static to Dynamic: Benchmarking Real-World Code Review with MCR-Bench",
+      "url": "https://arxiv.org/abs/2608.27442v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-08-27",
+      "summary_ko": "MCR-Bench는 LLM 기반 코드 리뷰의 첫 멀티라운드 실무형 벤치마크로, 5개 언어의 2,269개 실제 사례를 수집했다. 실험 결과 주류 LLM들은 라운드 증가에 따른 성능 저하가 뚜렷하며, 의미론적으로 복잡하거나 저명도 결함을 놓치는 경향을 보인다.",
+      "score": 54
     },
     {
       "title": "Amplifying, Not Learning: The Price of Out-of-Distribution Generalization in AI-Text Detection",
@@ -339,6 +363,14 @@
       "score": 45
     },
     {
+      "title": "Beyond F1: Evaluating Coverage and Failure Recovery in AI Model Security Scanners",
+      "url": "https://arxiv.org/abs/2608.27424v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-08-27",
+      "summary_ko": "Pickle/PyTorch 아티팩트 170개 벤치마크로 ModelScan, ModelAudit, Fickling의 보안 스캐너를 평가. F1 같은 단순 지표 대신 coverage, analysis completion, definitive judgment의 분리를 강조하여, ModelAudit 100%, Fickling 81.5%, ModelScan 49.6%의 decision coverage 차이와 조건부 정확도의 괴리를 규명.",
+      "score": 44
+    },
+    {
       "title": "A Visual Dependence-Aware Framework for Multimodal Unsupervised Continual Post-Training",
       "url": "https://arxiv.org/abs/2608.26095v1",
       "source": "arXiv AI/CL/LG/IR/MA/CY",
@@ -360,38 +392,6 @@
       "source": "arXiv AI/CL/LG/IR/MA/CY",
       "date": "2026-08-26",
       "summary_ko": "연합학습에서 클라이언트의 데이터 분포 불균형(라벨 편향)으로 인한 모델 편향을 해결하기 위해 FedCC 알고리즘을 제안한다. 클라이언트가 애매한 샘플을 'unknown'으로 표시하고 보정된 의사 레이블을 활용해 다수 클래스와 소수 클래스 간 신뢰도를 균형 있게 관리한다. 극단적 라벨 편향(10개 클래스 중 1개만 보유) 조건에서 기존 베이스라인이 무작위 수준으로 붕괴할 때 FedCC는 67.3% 정확도를 달성한다.",
-      "score": 44
-    },
-    {
-      "title": "EG-ARSA: An Expert-Grounded Open Model for Visual Road Safety Auditing in Low-Resource Settings",
-      "url": "https://arxiv.org/abs/2608.23563v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-08-24",
-      "summary_ko": "저자원 환경의 도로 안전 감시를 위해 전문가 의견과 field audit 데이터로 teacher VLM을 검증한 후, 8B 파라미터 student 모델로 Low-Rank Adaptation 기반 증류하는 Expert-Grounded Distillation(EGD) 프레임워크 제안. 21,947개 이미지 기록의 방글라데시 도로 안전 감시 데이터셋(BD-ARSA)을 공개하며, 개발된 EG-ARSA 모델이 31B teacher와 Gemini-2.5-Flash를 능가하는 ordinal risk 평가 성능 입증.",
-      "score": 44
-    },
-    {
-      "title": "ConvergeFlow: Language Flow with Provable Convergence to Token Embeddings",
-      "url": "https://arxiv.org/abs/2608.23551v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-08-24",
-      "summary_ko": "ConvergeFlow는 토큰 임베딩 공간에서 데이터 예측기를 제한하고 MSE 목적으로 훈련하는 흐름 기반 언어모델이다. 수학적으로 유효한 토큰 임베딩으로의 수렴을 증명해 기존의 교차엔트로피 지도 디코더를 제거했으며, OpenWebText에서 기존 확산 LM과 경쟁 가능한 성능을 달성했다.",
-      "score": 44
-    },
-    {
-      "title": "Robustness of Anomaly Detection Models for Industrial Control Systems under Training-Time Data Contamination",
-      "url": "https://arxiv.org/abs/2608.23547v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-08-24",
-      "summary_ko": "산업용 제어 시스템(ICS)의 ML 기반 이상 탐지 모델이 학습 데이터 오염(contamination) 상황에서 얼마나 견고한지 평가한 논문. SWaT 벤치마크에서 11개 모델을 3가지 오염 전략과 1~10% 오염 예산 하에 테스트한 결과, 모델별 견고성이 큰 차이를 보였으며, 깨끗한 데이터 성능만으로는 견고성을 예측 불가능함을 발견.",
-      "score": 44
-    },
-    {
-      "title": "A Survey on Human-AI Collaboration with Large Foundation Models",
-      "url": "https://arxiv.org/pdf/2403.04931",
-      "source": "OpenAlex",
-      "date": "2026-08-22",
-      "summary_ko": "인공지능의 역량 확대에 따라 인간과 AI 시스템을 결합한 협업(HAI)이 대규모 기초 모델 시대의 핵심 문제 해결·의사결정 방식으로 주목받고 있는 학술 동향을 정리한 논문.",
       "score": 44
     }
   ],
@@ -452,8 +452,7 @@
       "2026-07-04",
       "2026-07-03",
       "2026-07-02",
-      "2026-07-01",
-      "2026-06-30"
+      "2026-07-01"
     ],
     "weekly": [
       "2026-W35",
