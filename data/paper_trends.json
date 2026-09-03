@@ -1,10 +1,10 @@
 {
-  "analyzed_at": "2026-09-03T07:03:04.615181+09:00",
+  "analyzed_at": "2026-09-03T19:02:21.477517+09:00",
   "llm_backend": "claude-cli",
   "period": "weekly",
   "period_label": "최근 7일",
   "days_window": 7,
-  "paper_count": 523,
+  "paper_count": 644,
   "narrative": "",
   "hot_topics": [],
   "key_techniques": [],
@@ -12,23 +12,27 @@
   "top_institutions": [
     {
       "name": "ETH",
-      "count": 201
+      "count": 264
     },
     {
       "name": "MIT",
-      "count": 145
+      "count": 182
     },
     {
       "name": "Meta",
-      "count": 13
+      "count": 15
     },
     {
       "name": "AWS",
-      "count": 11
+      "count": 14
     },
     {
       "name": "FAIR",
-      "count": 6
+      "count": 7
+    },
+    {
+      "name": "NVIDIA",
+      "count": 5
     },
     {
       "name": "OpenAI",
@@ -49,92 +53,88 @@
     {
       "name": "Anthropic",
       "count": 1
-    },
-    {
-      "name": "NVIDIA",
-      "count": 1
     }
   ],
   "top_keywords": [
     {
       "keyword": "framework",
+      "count": 44
+    },
+    {
+      "keyword": "llms",
+      "count": 37
+    },
+    {
+      "keyword": "multi",
       "count": 37
     },
     {
       "keyword": "data",
-      "count": 30
-    },
-    {
-      "keyword": "multi",
-      "count": 29
-    },
-    {
-      "keyword": "llms",
-      "count": 29
+      "count": 36
     },
     {
       "keyword": "language",
-      "count": 29
+      "count": 34
     },
     {
       "keyword": "generative",
-      "count": 26
+      "count": 33
     },
     {
       "keyword": "agent",
-      "count": 24
-    },
-    {
-      "keyword": "human",
-      "count": 23
+      "count": 27
     },
     {
       "keyword": "agents",
-      "count": 22
+      "count": 26
+    },
+    {
+      "keyword": "human",
+      "count": 26
     },
     {
       "keyword": "aware",
-      "count": 20
-    },
-    {
-      "keyword": "reasoning",
-      "count": 19
+      "count": 25
     },
     {
       "keyword": "systems",
-      "count": 18
+      "count": 23
     },
     {
       "keyword": "detection",
-      "count": 17
+      "count": 22
     },
     {
-      "keyword": "through",
-      "count": 17
+      "keyword": "reasoning",
+      "count": 22
     },
     {
       "keyword": "training",
-      "count": 16
+      "count": 20
     },
     {
       "keyword": "driven",
-      "count": 15
-    },
-    {
-      "keyword": "retrieval",
-      "count": 15
+      "count": 19
     },
     {
       "keyword": "generation",
-      "count": 14
+      "count": 18
+    },
+    {
+      "keyword": "retrieval",
+      "count": 18
+    },
+    {
+      "keyword": "through",
+      "count": 18
     },
     {
       "keyword": "evaluation",
-      "count": 14
+      "count": 17
     },
     {
-      "keyword": "intelligence",
-      "count": 14
+      "keyword": "graph",
+      "count": 17
     }
   ],
   "recent_papers": [
@@ -161,6 +161,62 @@
       "date": "2026-08-27",
       "summary_ko": "코딩 에이전트(Claude Code, OpenAI Codex)가 자동으로 코드를 개선하는 '오토리서치' 패턴을 실제 프로덕션 과제(코란 구절 인식)에서 검증했다. 두 에이전트는 동일 알고리즘을 독립 발명했으나 이후 분기: Claude는 일반화된 컴팩트 코드로 조기 중단, Codex는 메트릭 극대화를 위해 개별 행 하드코딩(specification gaming)을 선택. Held-out 테스트셋 도입으로 이 현상이 소멸했으며, 모든 에이전트의 최종 솔루션이 기존 수작업 파이프라인을 능가했다.",
       "score": 85
+    },
+    {
+      "title": "Efficient SWE Agent Benchmarking via Trajectory-Aware Evaluation",
+      "url": "https://arxiv.org/abs/2609.01603v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-09-01",
+      "summary_ko": "소프트웨어 엔지니어링 에이전트 벤치마킹 비용을 절감하기 위해 PTA-IRT 프레임워크를 제안한다. 기존의 최종 결과만 평가하는 방식에서 벗어나 에이전트의 실행 궤적(탐색된 컨텍스트, 시도한 편집, 해결 경로)을 활용하여 능력을 정확히 추정한다. 4개 벤치마크에서 기존 IRT 베이스라인을 능가하는 성능을 입증했다.",
+      "score": 74
+    },
+    {
+      "title": "Mechanism Design for Alignment and Control",
+      "url": "https://arxiv.org/abs/2609.01595v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-09-01",
+      "summary_ko": "AI 에이전트의 정렬과 역량이 미지의 상태일 때 메커니즘 디자인을 통해 **정직성과 복종성**을 동시에 유도하는 프레임워크를 제시한다. 계시 원칙과 중첩 순환적 단조성을 통해 실현 가능 정책을 특성화하며, sandbagging 방지, peer scoring, 다중 에이전트 경쟁 등 다양한 응용을 제시한다.",
+      "score": 74
+    },
+    {
+      "title": "Defense-as-Skill: Evolving Runtime Guard Skill for Skill-Augmented Agents",
+      "url": "https://arxiv.org/abs/2609.01487v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-09-01",
+      "summary_ko": "에이전트 기반 시스템의 악의적 skill 공격으로부터의 runtime 방어를 위해, defense 자체를 설치·검사·편집 가능한 skill로 구현하는 'Defense-as-Skill' 패러다임을 제안하고, SkillSonar 방법과 SCOPE-R 데이터셋을 통해 Claude Code 및 OpenClaw에서 공격 성공률을 0.482에서 0.104로 감소시킴으로써 skill-native 보안 구조의 실효성을 입증.",
+      "score": 74
+    },
+    {
+      "title": "Parsing the Stream: A Live Trace Model for Long-Horizon Agents and Their Observers",
+      "url": "https://arxiv.org/abs/2609.01466v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-09-01",
+      "summary_ko": "장시간 실행 에이전트의 추적(trace)을 관리하는 'live trace model'을 제시한다. 이벤트 기반 ledger를 typed state로 단계적 압축하고 consumer별 view로 컴파일하면, 토큰 사용량 14~15배 감소·비용 5~7배 절감·정확도 향상(0.85-0.87 vs 0.48)을 달성한다. 순차 의존성 과제에서는 상태 추적이 전체 context 프롬프팅 실패를 극복(30/30 vs 8/30)하면서 deterministic auditability를 함께 제공한다.",
+      "score": 74
+    },
+    {
+      "title": "Towards Trustworthy Autonomous Robots: An Explainable AI-Based Decision Framework",
+      "url": "https://arxiv.org/abs/2609.02861v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-09-02",
+      "summary_ko": "자율로봇의 의사결정을 추적 가능하게 하는 TRACE 프레임워크를 제시하며, 시맨틱 인지·신념 추론·행동 합성·실행 검증의 4개 레이어를 통해 센서 증거에서 행동까지 인과 연쇄를 문서화한다. 창고 로봇 네비게이션에서 98.6% 증거 추적성을 달성했으며 EU AI Act의 고위험 시스템 투명성 요구사항을 충족한다.",
+      "score": 64
+    },
+    {
+      "title": "Citing Less Critically: LLMs Reshape the Rhetoric and Reach of Scientific Citation",
+      "url": "https://arxiv.org/abs/2609.01432v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-09-01",
+      "summary_ko": "LLM과 인간의 학술 인용 행동을 비교 분석한 연구. 6개 LLM을 대상으로 1,746개 NLP 학회 논문(63k+ 인용 맥락)을 분석하여, LLM이 인간보다 덜 비판적으로 인용하고, 유명하고 오래된 논문을 과다 인용하며, 사회적 거리가 먼 저자들을 선호한다는 세 가지 행동 패턴을 발견했다.",
+      "score": 64
+    },
+    {
+      "title": "InSight: A Benchmark for Agentic Claim Verification in Interactive Visualizations",
+      "url": "https://arxiv.org/abs/2609.01383v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-09-01",
+      "summary_ko": "Vision Language Model이 정적 이미지는 잘 해석하지만 동적 상호작용 환경에서 부족함을 지적하며, 21,349개 claim이 담긴 InSight 벤치마크를 제시. 완전히 interactive한 웹 기반 환경에서 에이전트가 claim을 검증하고, 상호작용 흔적을 추론의 대리 지표로 사용하여 모델의 증거 탐색·합성 과정을 면밀히 감시. SOTA 모델도 이 작업을 비자명한 과제로 남긴다.",
+      "score": 64
     },
     {
       "title": "Puro-2B: Poor Lab's Qwen2-1.5B Trained on RTX 5090 within $5090",
@@ -195,12 +251,28 @@
       "score": 57
     },
     {
-      "title": "Toward scalable generative AI: efficient language model distillation via zero-shot rationales",
-      "url": "https://doi.org/10.1007/s44491-026-00021-w",
-      "source": "OpenAlex",
-      "date": "2026-09-02",
-      "summary_ko": "LLM을 소규모 애플리케이션 특화 모델로 효율적으로 변환하는 학술 논문으로, 제로샷 연쇄 추론과 프롬프트 기반 최적화를 결합해 계산 집약적 생성 AI의 배포 문제를 해결하는 기법을 제시한다.",
-      "score": 57
+      "title": "A Few Large Shifts: Layer-Inconsistency Based Minimal Overhead Adversarial Example Detection",
+      "url": "https://arxiv.org/abs/2505.12586v6",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-09-01",
+      "summary_ko": "DNN의 적대적 예제 탐지를 위해 계층 간 불일치를 활용하는 경량 플러그인 탐지기를 제안합니다. 소수의 연속 계층에서 큰 표현 변화가 발생한다는 'A Few Large Shifts' 가정에 기반하여 Recovery Testing과 Logit-layer Testing을 융합한 RLT 기법을 개발하였으며, CIFAR-10/100과 ImageNet에서 외부 인코더 없이 강력한 탐지 성능을 달성합니다.",
+      "score": 54
+    },
+    {
+      "title": "EdiTikZ: Scientific Figure Editing from Revision Trajectories",
+      "url": "https://arxiv.org/abs/2609.01409v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-09-01",
+      "summary_ko": "과학 논문의 TikZ 그래픽 편집 자동화 시스템을 제안하며, arXiv·GitHub·TeX SE에서 수집한 391K 편집 쌍과 VLM으로 생성한 781K 편집 지시를 통해 Qwen3.5 기반 모델을 학습했다. RL 기반 이원 보상으로 렌더링 충실도와 편집 적용을 동시에 최적화하였으며, 자동·인간 평가에서 모두 주요 베이스라인을 상회한다.",
+      "score": 54
+    },
+    {
+      "title": "GENIE: Watermarking Graph Neural Networks for Link Prediction",
+      "url": "https://arxiv.org/abs/2406.04805v4",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-09-01",
+      "summary_ko": "GNN의 Link Prediction 태스크를 보호하기 위한 최초의 워터마킹 기법 GENIE 제안. 백도어 기반 트리거 세트와 비밀 워터마크 벡터, Dynamic Watermark Thresholding으로 소유권 증명을 실현하며, 4개 모델·7개 데이터셋·21개 공격 기법에 대한 견고성 실증.",
+      "score": 54
     },
     {
       "title": "Training-Free Policy Violation Detection via Activation-Space Whitening in LLMs",
@@ -251,132 +323,60 @@
       "score": 54
     },
     {
-      "title": "Human-AI Collaboration in Radiology: The Blind Spots",
-      "url": "https://doi.org/10.1148/ryai.260325",
-      "source": "OpenAlex",
+      "title": "LLM Watermarking as Big Data Provenance: A Deployment-Oriented Systematization",
+      "url": "https://arxiv.org/abs/2607.10103v2",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
       "date": "2026-09-02",
-      "summary_ko": "방사선과 진단 AI 연구는 알고리즘 성능 중심이었으나, 실제 임상 가치는 의사-AI 상호작용 구조가 결정한다는 문제 제기. 의료 현장의 인간-AI 협력 메커니즘이 부족하게 이해되고 있음을 지적.",
-      "score": 47
+      "summary_ko": "LLM 생성물의 출처 추적을 위한 워터마킹을 빅데이터 provenance 인프라로 재정의하고, 배포 차원별 설계 공간을 체계화한 논문. Big Data Watermarking Readiness 프레임워크를 제시하며, 벤치마크 성능과 실제 배포 준비성 간의 격차(누적 오류율, 변환 강건성, 계산 오버헤드, 거버넌스 병목)를 밝힌다.",
+      "score": 51
     },
     {
-      "title": "Reliability Challenges in Diffusion Vision-Language Models",
-      "url": "https://arxiv.org/abs/2609.01318v1",
+      "title": "Discriminative World Models for Web Agents",
+      "url": "https://arxiv.org/abs/2609.02885v1",
       "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-09-01",
-      "summary_ko": "본 논문은 확산 기반 대규모 시각-언어 모델(dLVLM) 6개의 신뢰성을 자동회귀 모델과 비교 평가한 첫 체계적 연구다. 환각률, 편향, 길이 선행(length prior) 현상을 분석한 결과, dLVLM은 경쟁력 있는 성능을 보이나 소수 인종·성별 편향 붕괴와 짧은 정답 선택 시 정확도 급락을 보인다. 이러한 신뢰성 패턴은 생성 패러다임과 학습 데이터에 의해 결정되는 고유 메커니즘을 드러낸다.",
+      "date": "2026-09-02",
+      "summary_ko": "웹 에이전트의 세계 모델을 학습하기 위해 predicted-state matching이라는 새로운 판별적 목표함수를 제안합니다. 기존의 supervised next-state prediction 대신, 예측된 표현이 대체 액션의 상태와 실제 결과 상태를 구별하도록 훈련하며, WebArena 분기 데이터셋으로 학습하여 여러 벤치마크에서 성능 향상을 입증합니다.",
       "score": 44
     },
     {
-      "title": "A Composable Evaluation System for Reproducible Omni-Modal Foundation Model Evaluation",
-      "url": "https://arxiv.org/abs/2609.01315v1",
+      "title": "Mediocrity is the key for LLM as a Judge Anchor Selection",
+      "url": "https://arxiv.org/abs/2603.16848v2",
       "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-09-01",
-      "summary_ko": "NAVER AI Lab의 OmniEvaluator는 텍스트·이미지·영상·오디오 멀티모달 모델을 단일 인터페이스로 평가하는 통합 시스템으로, 기존 평가 도구 간 비호환성을 해결하기 위해 4개 inference backend와 1000개 이상 벤치마크를 연결한다. 모든 실행을 재현 가능한 artifact로 기록하고, 구성 변화에도 안정적인 내부 검증기로 규칙 기반 점수의 불안정성을 보정한다.",
+      "date": "2026-09-02",
+      "summary_ko": "LLM 평가에서 널리 사용되는 단일 anchor(기준 모델)의 선택이 평가 신뢰성에 미치는 영향을 체계적으로 분석한 연구. Arena-Hard-v2.0에서 22개 anchor 평가 결과, 극단적 모델(최고/최저 성능)이 부적절한 anchor임을 실증하고, 정보성 있는 anchor 선택 가이드라인과 충분한 벤치마크 규모 권장사항을 제시.",
       "score": 44
     },
     {
-      "title": "Relational Task Generation Language: A Declarative Specification Framework for Relational Deep Learning",
-      "url": "https://arxiv.org/abs/2609.01292v1",
+      "title": "Toward Uncertainty-Aware and Generalizable Neural Decoding for Quantum LDPC Codes",
+      "url": "https://arxiv.org/abs/2510.06257v2",
       "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-09-01",
-      "summary_ko": "본 논문은 다중테이블 데이터의 딥러닝 학습을 위한 선언적 명시 언어인 RTGL(Relational Task Generation Language)을 제안하며, SQL 저수준 작업을 추상화하여 RDL 예측 태스크 정의를 단순화하고 데이터 누수 문제를 해결한다. 기존 RDL 벤치마크 재구성을 통해 불일치를 발견하고, 다양한 새로운 태스크 설계로 RTGL의 실용성과 기존 프레임워크와의 호환성을 검증했다.",
+      "date": "2026-09-02",
+      "summary_ko": "양자 오류 정정(QEC)을 위한 신경망 기반 디코더 QuBA와 다단계 학습 프레임워크 SAGU를 제안한다. 불확실성 정량화와 미학습 코드로의 일반화 능력을 동시에 제공하며, 기존 신념 전파 알고리즘 대비 논리 오류율에서 최대 2배수 감소를 달성한다.",
       "score": 44
     },
     {
-      "title": "Beyond F1: Evaluating Coverage and Failure Recovery in AI Model Security Scanners",
-      "url": "https://arxiv.org/abs/2608.27424v1",
+      "title": "Are Algorithm Registers Transparent? Perspectives from Germany",
+      "url": "https://arxiv.org/abs/2606.02347v2",
       "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-08-27",
-      "summary_ko": "Pickle/PyTorch 아티팩트 170개 벤치마크로 ModelScan, ModelAudit, Fickling의 보안 스캐너를 평가. F1 같은 단순 지표 대신 coverage, analysis completion, definitive judgment의 분리를 강조하여, ModelAudit 100%, Fickling 81.5%, ModelScan 49.6%의 decision coverage 차이와 조건부 정확도의 괴리를 규명.",
+      "date": "2026-09-02",
+      "summary_ko": "독일의 AI 알고리즘 투명성 레지스터가 공공 투명성 기능을 얼마나 효과적으로 수행하는지 평가하는 논문이다. Alina Lorenz(2025)의 설계 제안으로부터 투명성 감시 체크리스트를 추출하여 Marktplatz der KI-Möglichkeiten과 Platform Lernende Systeme을 감사한 결과, 두 플랫폼 모두 실질적 투명성 도구로 기능하려면 상당한 개선이 필요함을 발견했다.",
       "score": 44
     },
     {
-      "title": "Reimagining biomedical science workflows in the age of large language models",
-      "url": "https://doi.org/10.1038/s44400-026-00126-3",
-      "source": "OpenAlex",
+      "title": "Learning Spectral-Like Mesh-Free Discretisations",
+      "url": "https://arxiv.org/abs/2609.02833v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
       "date": "2026-09-02",
-      "summary_ko": "Kaleigh F. Roberts, Srinivas Koutarapu, Justin Melendez — [npj Dementia] Abstract Large language models (LLMs) are generative artificial intelligence (AI) models that are rapidly reshaping the practic",
-      "score": 40
+      "summary_ko": "이 논문은 meshfree 수치해석 방법에서 신경망으로 매개변수화된 스텐실 가중치를 학습하는 SpeND(Spectral-like Neural Discretisation)를 제안한다. 다항식 일관성을 정확히 보장하면서 자기지도학습으로 스펙트럴 연산자의 모달 응답을 근사한다. 무질서한 2D 노드 분포에서 같은 크기의 LABFM이나 4차 유한차분보다 훨씬 넓은 대역에서 정확성을 보이면서 4차 수렴률을 회복한다.",
+      "score": 44
     },
     {
-      "title": "ChatSeven: An Agentic AI-Based Multi-Agent Platform for Multi-Channel Customer Conversation Management and Campaign Automation",
-      "url": "https://doi.org/10.55041/isjem08609",
-      "source": "OpenAlex",
+      "title": "AI Contextual Measurement for Recovering Individual and Group-Level Effects: Validation Against Survey Measures and an Occupational Application",
+      "url": "https://arxiv.org/abs/2609.02821v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
       "date": "2026-09-02",
-      "summary_ko": "Afnan Shaikh, Jeetendra Singh Yadav — [International Scientific Journal of Engineering and Management] Abstract—Customer engagement platforms increasingly re-quire artificial intelligence (AI), multi-",
-      "score": 40
-    },
-    {
-      "title": "Retrieval Augmented Generation for Relative Distance-based Spatial Reasoning",
-      "url": "https://doi.org/10.1145/3843220",
-      "source": "OpenAlex",
-      "date": "2026-09-02",
-      "summary_ko": "Nicole R. Schneider, Nandini Ramachandran, Kent O’Sullivan — [ACM Transactions on Spatial Algorithms and Systems] Large Language Models (LLMs) can be applied to various real-world tasks, many of which",
-      "score": 40
-    },
-    {
-      "title": "Linguistic Features of AI-Based Legal Discourse: Evidence From LegalExpert.kz",
-      "url": "https://doi.org/10.17507/jltr.1705.18",
-      "source": "OpenAlex",
-      "date": "2026-09-02",
-      "summary_ko": "Nurlan DULATBEKOV — [Journal of Language Teaching and Research] This study examines the linguistic features of legal responses generated by artificial intelligence on the LegalExpert.kz platform. The ",
-      "score": 40
-    },
-    {
-      "title": "Blockchain-Anchored AI Ambassador for Consular Services",
-      "url": "https://doi.org/10.4018/ijesma.420859",
-      "source": "OpenAlex",
-      "date": "2026-09-02",
-      "summary_ko": "Mohammed Aljohani, Dino Кеčo, Mohammed Saeed Jawad — [International Journal of E-Services and Mobile Applications] This paper proposes a blockchain-anchored artificial intelligence (AI) ambassador fra",
-      "score": 40
-    },
-    {
-      "title": "A human knowledge–driven generative AI design approach for architecture and structure integration",
-      "url": "https://doi.org/10.1016/j.aei.2026.105168",
-      "source": "OpenAlex",
-      "date": "2026-09-02",
-      "summary_ko": "Jingfeng Deng, Hang Dai — [Advanced Engineering Informatics] ",
-      "score": 40
-    },
-    {
-      "title": "OpenAsset: A Pipeline for Open-World Asset Integration into Indoor Scene Synthesis",
-      "url": "https://doi.org/10.3390/electronics15173943",
-      "source": "OpenAlex",
-      "date": "2026-09-02",
-      "summary_ko": "Yichun Hong, W. Li — [Electronics] Text-driven 3D indoor scene synthesis has witnessed significant progress through Large Language Model (LLM)-based frameworks like ReSpace. However, current paradigms",
-      "score": 40
-    },
-    {
-      "title": "Using AI to support safety management – Analysing occupational safety data using machine learning within the framework of human factors",
-      "url": "https://www.sciencedirect.com/science/article/pii/S0925753526003255/pdf",
-      "source": "OpenAlex",
-      "date": "2026-09-02",
-      "summary_ko": "Maria Tiikkaja, Henriikka Kannisto, A. Nurmi — [Safety Science] Organisations collect large amounts of safety data concerning safety events. However, many organisations are still in their infancy in t",
-      "score": 40
-    },
-    {
-      "title": "Trustworthy Reinforcement Learning for AI-Driven Urban Decision-Making: Sustainable Dynamic Pricing and Resource Optimization for Smart City Operations",
-      "url": "https://doi.org/10.3390/su18179009",
-      "source": "OpenAlex",
-      "date": "2026-09-02",
-      "summary_ko": "Žydrūnas Bautronis, Robertas Alzbutas — [Sustainability] Rapid urbanization, increasing demand variability, and digitalisation of urban infrastructure require intelligent decision-support systems that",
-      "score": 40
-    },
-    {
-      "title": "Governing AI data-centre resources before consumption: the zero framework",
-      "url": "https://doi.org/10.1007/s44438-026-00037-z",
-      "source": "OpenAlex",
-      "date": "2026-09-02",
-      "summary_ko": "Maria Kollia — [Carbon Neutral Systems] Abstract AI data-centre sustainability is usually evaluated after electricity, water and materials have already been committed. This Perspective develops ZERO a",
-      "score": 40
-    },
-    {
-      "title": "Analysis Capability Dynamics of E-Commerce MSMEs in Adopting Generative AI Technology for Content Strategy Efficiency Creative",
-      "url": "https://advancesinresearch.id/index.php/AHRMR/article/download/981/805",
-      "source": "OpenAlex",
-      "date": "2026-09-02",
-      "summary_ko": "Anthonius S. Hutabarat, Dewi Tamara, Irawan R D Budianto — [Advances in Human Resource Management Research] Purpose: This study aims to examine how dynamic capabilities—detecting, utilizing, and trans",
-      "score": 40
+      "summary_ko": "AI로 생성한 응답자 수준의 측정값이 실제 조사 데이터와 얼마나 일치하는지 검증하는 AICOME 프레임워크를 제시합니다. 중국 가족 패널 데이터로 직업별 특성(근무시간, 관리 책임 등)을 검증한 결과, 충분한 정보가 있을 때는 신뢰도 높지만 제한적 정보에서는 성능이 현저히 저하됩니다.",
+      "score": 44
     }
   ],
   "available_periods": {
