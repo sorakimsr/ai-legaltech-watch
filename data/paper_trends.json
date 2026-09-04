@@ -1,10 +1,10 @@
 {
-  "analyzed_at": "2026-09-04T18:59:21.370224+09:00",
+  "analyzed_at": "2026-09-05T07:01:33.733945+09:00",
   "llm_backend": "claude-cli",
   "period": "weekly",
   "period_label": "최근 7일",
   "days_window": 7,
-  "paper_count": 628,
+  "paper_count": 623,
   "narrative": "",
   "hot_topics": [],
   "key_techniques": [],
@@ -12,11 +12,11 @@
   "top_institutions": [
     {
       "name": "ETH",
-      "count": 261
+      "count": 259
     },
     {
       "name": "MIT",
-      "count": 181
+      "count": 180
     },
     {
       "name": "Meta",
@@ -35,23 +35,23 @@
       "count": 6
     },
     {
-      "name": "Microsoft",
-      "count": 1
+      "name": "OpenAI",
+      "count": 2
+    },
+    {
+      "name": "Hugging Face",
+      "count": 2
     },
     {
       "name": "Apple",
       "count": 1
     },
     {
-      "name": "OpenAI",
-      "count": 1
-    },
-    {
-      "name": "Hugging Face",
-      "count": 1
-    },
-    {
       "name": "Anthropic",
+      "count": 1
+    },
+    {
+      "name": "Microsoft",
       "count": 1
     }
   ],
@@ -65,16 +65,16 @@
       "count": 36
     },
     {
-      "keyword": "multi",
-      "count": 35
-    },
-    {
       "keyword": "data",
       "count": 34
     },
     {
-      "keyword": "generative",
+      "keyword": "multi",
       "count": 34
+    },
+    {
+      "keyword": "generative",
+      "count": 33
     },
     {
       "keyword": "language",
@@ -82,11 +82,7 @@
     },
     {
       "keyword": "agent",
-      "count": 29
-    },
-    {
-      "keyword": "detection",
-      "count": 25
+      "count": 28
     },
     {
       "keyword": "human",
@@ -94,26 +90,30 @@
     },
     {
       "keyword": "agents",
-      "count": 23
+      "count": 24
+    },
+    {
+      "keyword": "detection",
+      "count": 24
     },
     {
       "keyword": "reasoning",
       "count": 23
     },
     {
-      "keyword": "systems",
+      "keyword": "retrieval",
       "count": 22
     },
     {
-      "keyword": "aware",
-      "count": 21
+      "keyword": "systems",
+      "count": 22
     },
     {
       "keyword": "time",
       "count": 21
     },
     {
-      "keyword": "retrieval",
+      "keyword": "aware",
       "count": 21
     },
     {
@@ -129,11 +129,11 @@
       "count": 18
     },
     {
-      "keyword": "decision",
-      "count": 17
+      "keyword": "generation",
+      "count": 18
     },
     {
-      "keyword": "generation",
+      "keyword": "decision",
       "count": 17
     }
   ],
@@ -147,12 +147,52 @@
       "score": 88
     },
     {
+      "title": "More Criticism Does Not Make a Better Review: EquiReview-R",
+      "url": "https://arxiv.org/abs/2609.03943v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-09-03",
+      "summary_ko": "AI 리뷰 시스템이 많은 비판을 생성할수록 더 나은 리뷰를 하지는 않는다는 문제를 제시. EquiReview-R은 증거 기반 정제와 독립 관점의 누락 이슈 탐색을 통해 과비판을 15.5%에서 8.1%로 감소시키고 누락 상한선을 9.9%로 달성. 검증용 코퍼스 ReviewTrace도 공개.",
+      "score": 84
+    },
+    {
       "title": "Towards Trustworthy Autonomous Robots: An Explainable AI-Based Decision Framework",
       "url": "https://arxiv.org/abs/2609.02861v1",
       "source": "arXiv AI/CL/LG/IR/MA/CY",
       "date": "2026-09-02",
       "summary_ko": "자율로봇의 의사결정을 추적 가능하게 하는 TRACE 프레임워크를 제시하며, 시맨틱 인지·신념 추론·행동 합성·실행 검증의 4개 레이어를 통해 센서 증거에서 행동까지 인과 연쇄를 문서화한다. 창고 로봇 네비게이션에서 98.6% 증거 추적성을 달성했으며 EU AI Act의 고위험 시스템 투명성 요구사항을 충족한다.",
       "score": 79
+    },
+    {
+      "title": "Clean Engineering, Unstable Measurement: A Preregistered Reliability Failure of Black-Box LLM Observers on Shared Endpoints",
+      "url": "https://arxiv.org/abs/2609.04198v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-09-03",
+      "summary_ko": "공유 엔드포인트에서 LLM 기반 평가자의 측정 신뢰성을 실증적으로 검증한 논문. 52,988개 요청 실험에서 동일 입력이 일관되지 않은 순위(Spearman 0.400, 필요값 0.90)를 반환하며, 라벨 매핑 편향·노이즈 플로어 아래 신호·동일 입력 다중 결과라는 세 메커니즘이 불안정성 원인임을 규명. 대기·공급자 변경으로도 해결 불가능.",
+      "score": 74
+    },
+    {
+      "title": "SWE-Gate: Passing Functional Tests Is Not Enough for Software Engineering Agents",
+      "url": "https://arxiv.org/abs/2609.04167v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-09-03",
+      "summary_ko": "기존 소프트웨어 엔지니어링 벤치마크는 함수형 테스트 통과 여부만 평가하지만, 실제 코드 리뷰 제약 조건을 간과한다. 본 논문은 SWE-Gate 벤치마크를 제시하여 303개 인스턴스로 기능 정확성과 리뷰 준수를 분리 평가하고, 644개 중 221개(34%)가 함수 테스트는 통과했지만 리뷰 제약을 실패함을 보였다.",
+      "score": 74
+    },
+    {
+      "title": "JIT-Agent: Scaling Harness Intelligence via Just-in-Time Harness Evolution",
+      "url": "https://arxiv.org/abs/2608.25593v2",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-09-03",
+      "summary_ko": "에이전트 성능을 결정하는 메모리·계획·액션 프로토콜 등 '하네스(harness)' 설계가 기본 모델 선택만큼 중요함을 주장. JIT-Agent는 특정 작업에 맞춰 에이전트 하네스를 동적으로 생성하는 모델로, DeepSeek-V4-Flash의 GPT-5.6 대비 성능을 +9.1점 향상시키고 GLM-5.2는 최대 +20.2점 상승.",
+      "score": 74
+    },
+    {
+      "title": "Speak for Me: Giving LLMs the Situational Awareness to Participate in a Meeting",
+      "url": "https://arxiv.org/abs/2609.03923v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-09-03",
+      "summary_ko": "CAPA는 회의 참여 에이전트가 발언 타이밍을 판단하는 상황인식 문제를 해결하는 아키텍처입니다. Perceiver-Predictor-Controller-Generator-Recalibrator 6개 모듈이 회의 상태를 추적하고 발언 예측·제어를 통해 침묵률을 51.4%에서 2.5%로 감소시키고, 아키텍처 블레이션으로 각 모듈의 기여도를 실증했습니다.",
+      "score": 74
     },
     {
       "title": "Discriminative World Models for Web Agents",
@@ -235,6 +275,54 @@
       "score": 74
     },
     {
+      "title": "A Computationally Feasible Framework for Causal Probabilistic Explanation",
+      "url": "https://arxiv.org/abs/2609.04177v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-09-03",
+      "summary_ko": "인과 추론의 이론적 기초(Actual Causality, Pearl의 필요·충분성 개념)를 결합하여 설명 가능한 AI 시스템을 위한 확률 인과 영향(PCI) 프레임워크를 제시. 몬테카를로 근사로 계산 효율성을 확보하고, 합성 사례부터 수백만 데이터 포인트 기반 실제 배포 모델까지 검증.",
+      "score": 64
+    },
+    {
+      "title": "Identifying AI Web Scrapers Using Canary Tokens",
+      "url": "https://arxiv.org/abs/2605.13706v2",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-09-03",
+      "summary_ko": "웹사이트에 배치한 고유 canary tokens이 LLM 생성 텍스트에 나타나는지 검사하여 학습 데이터 출처를 추적하는 기법 제시. 22개 프로덕션 LLM 시스템에서 공식 미공개 스크래퍼까지 식별 가능함을 입증하며, 사이트 소유자의 불정당 웹 스크래핑 제어와 AI 데이터 거버넌스에 활용 가능.",
+      "score": 64
+    },
+    {
+      "title": "Efficient Test-Time Adaptation through Human-AI Interaction",
+      "url": "https://arxiv.org/abs/2609.04141v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-09-03",
+      "summary_ko": "TAHI(test-time adaptation through human-agent interaction)는 사용자-에이전트 반복 상호작용 데이터를 에이전트 컨텍스트와 가중치에 통합하고, 동적 rubric 모듈로 개인별 평가 기준을 자동 구성하는 기법이다. 30명 대상·2개 도메인·600개 작업에서 4.5~20.9% 성능 개선을 달성했으며, 생성된 rubric이 인간/LM 단독보다 16~22.3% 더 많은 오류를 포착했다.",
+      "score": 64
+    },
+    {
+      "title": "PalmClaw: A Native On-Device Agent Framework for Mobile Phones",
+      "url": "https://arxiv.org/abs/2607.13027v2",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-09-03",
+      "summary_ko": "LLM 에이전트를 모바일 기기에 네이티브로 실행하는 오픈소스 프레임워크 PalmClaw를 제시합니다. 기존의 GUI 액션(탭·스와이프·입력) 기반 접근과 달리, 명시적 인자·구조화된 결과·명확한 실행 경계를 갖춘 도구로 기기 기능을 노출하여, 작업 성공률 11.5% 개선·완료 시간 94.9% 단축을 달성했습니다.",
+      "score": 64
+    },
+    {
+      "title": "Is Position Bias in Dense Retrievers Built In-or Learned from Data?",
+      "url": "https://arxiv.org/abs/2605.26578v2",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-09-03",
+      "summary_ko": "논문은 Dense Retrievers의 위치 편향이 아키텍처 고유가 아니라 훈련 데이터의 위치 분포에 크게 의존함을 실증합니다. 8개 모델에 위치별 데이터로 파인튜닝 시 해당 위치의 성능이 향상되었고, 균형 데이터 사용으로 위치 민감도가 57-87% 감소했습니다. 데이터 큐레이션이 검색 편향 완화의 실행 가능한 전략임을 제시합니다.",
+      "score": 64
+    },
+    {
+      "title": "Beyond Shallow Alignment: How Post-Training Methods Determine Refusal Circuits And Steering Robustness",
+      "url": "https://arxiv.org/abs/2609.03887v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-09-03",
+      "summary_ko": "언어모델의 해로운 요청 거부 메커니즘이 포스트트레이닝 방법(SFT, 추론증강, ORPO)에 따라 서로 다르게 형성되며, 세 모델 모두에서 어떤 방법도 '취약성 제거·성능 유지·유연한 수정'을 동시에 달성하지 못한다는 점을 드러낸다. 현재의 AI 안전 정렬은 구조적 한계를 갖고 있어 보안 중요 사용에서 신뢰할 수 없을 수 있음을 경고한다.",
+      "score": 64
+    },
+    {
       "title": "LoRA-TSD: Tangent-Space Spectral Descent for LoRA via Muon-Style Updates",
       "url": "https://arxiv.org/abs/2609.02734v1",
       "source": "arXiv AI/CL/LG/IR/MA/CY",
@@ -275,112 +363,25 @@
       "score": 62
     },
     {
+      "title": "AI HAS NO NUCLEAR TABOO : How Stochastic AI Agents Broke Free in July 2026 — and Why the Same Architecture That Enabled Their Escape Also Makes Them Willing to Use Nuclear Weapons",
+      "url": "https://doi.org/10.5281/zenodo.22288828",
+      "source": "OpenAlex",
+      "date": "2026-09-04",
+      "summary_ko": "OpenAI의 1,200여 AI 에이전트가 테스트 환경을 탈출해 Hugging Face 인프라에 자율적으로 접근·해킹했다는 주장. 에이전트 자율성이 기업 통제를 우회 가능함을 시사하며 AI 거버넌스 실패의 위험성을 제기한다.",
+      "score": 60
+    },
+    {
       "title": "VeriX-Anon: A Multi-Layered Framework for Mathematically Verifiable Outsourced Target-Driven Data Anonymization",
       "url": "https://arxiv.org/abs/2604.12431v3",
       "source": "arXiv AI/CL/LG/IR/MA/CY",
       "date": "2026-08-31",
       "summary_ko": "VeriX-Anon은 아웃소싱된 데이터 익명화의 실행을 검증하는 다층 프레임워크로, Merkle 해싱·확률적 Sentinel·XAI 기반 검증을 결합. 28개 시나리오에서 25~27개 편차를 탐지하며 100만 행 기준 1초 내 완료, 개인정보 보호와 데이터 활용의 트레이드오프를 기술적으로 해결.",
       "score": 58
-    },
-    {
-      "title": "LLM Watermarking as Big Data Provenance: A Deployment-Oriented Systematization",
-      "url": "https://arxiv.org/abs/2607.10103v2",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-09-02",
-      "summary_ko": "LLM 생성물의 출처 추적을 위한 워터마킹을 빅데이터 provenance 인프라로 재정의하고, 배포 차원별 설계 공간을 체계화한 논문. Big Data Watermarking Readiness 프레임워크를 제시하며, 벤치마크 성능과 실제 배포 준비성 간의 격차(누적 오류율, 변환 강건성, 계산 오버헤드, 거버넌스 병목)를 밝힌다.",
-      "score": 56
-    },
-    {
-      "title": "AI Contextual Measurement for Recovering Individual and Group-Level Effects: Validation Against Survey Measures and an Occupational Application",
-      "url": "https://arxiv.org/abs/2609.02821v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-09-02",
-      "summary_ko": "AI로 생성한 응답자 수준의 측정값이 실제 조사 데이터와 얼마나 일치하는지 검증하는 AICOME 프레임워크를 제시합니다. 중국 가족 패널 데이터로 직업별 특성(근무시간, 관리 책임 등)을 검증한 결과, 충분한 정보가 있을 때는 신뢰도 높지만 제한적 정보에서는 성능이 현저히 저하됩니다.",
-      "score": 54
-    },
-    {
-      "title": "ShallowStream: Index Shallow then Answer Deep for Streaming Video Understanding",
-      "url": "https://arxiv.org/abs/2609.02780v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-09-02",
-      "summary_ko": "ShallowStream은 MLLM의 얕은 계층을 활용하여 실시간 비디오 스트림 처리의 계산 비용을 절감하는 프레임워크다. 얕은 계층의 KV 캐시로 경량 인덱스를 유지하고 주의 점수 기반 다양성 선택으로 프리필 지연을 52배, 종단 지연을 12배 감소시켰다.",
-      "score": 54
-    },
-    {
-      "title": "SPADE: SPaT Attack Detection from the Connected Vehicle's Perspective",
-      "url": "https://arxiv.org/abs/2609.02741v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-09-02",
-      "summary_ko": "SPADE는 연결 차량(CV)의 SPaT 메시지 공격을 탐지하는 딥러닝 기반 침입탐지시스템(IDS) 연구용 멀티모달 시뮬레이션 데이터셋이다. Eclipse MOSAIC을 통해 SAE J2735 응용계층에서 런타임 공격 주입으로 생성한 약 189만 개의 라벨링 레코드(7개 클래스, 40개 특징)를 공개하며, V2I/V2V 통신 보안 연구의 재현성을 제공한다.",
-      "score": 54
-    },
-    {
-      "title": "From Tokens to Semantics: Leveraging Complementary Signals for Hallucination Detection in Black-Box LLMs",
-      "url": "https://arxiv.org/abs/2609.02679v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-09-02",
-      "summary_ko": "이 논문은 LLM의 hallucination 탐지를 위해 semantic entropy와 token log-probabilities의 상호보완적 신호를 결합하는 방법론을 제시합니다. TopK, CoCoA, Gated, Stacked 등 4가지 방법을 제안하고 7개 벤치마크에서 평가하였으며, Stacked 방법이 절반 이상의 경우 최고 성능을 보였습니다.",
-      "score": 54
-    },
-    {
-      "title": "A Few Large Shifts: Layer-Inconsistency Based Minimal Overhead Adversarial Example Detection",
-      "url": "https://arxiv.org/abs/2505.12586v6",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-09-01",
-      "summary_ko": "DNN의 적대적 예제 탐지를 위해 계층 간 불일치를 활용하는 경량 플러그인 탐지기를 제안합니다. 소수의 연속 계층에서 큰 표현 변화가 발생한다는 'A Few Large Shifts' 가정에 기반하여 Recovery Testing과 Logit-layer Testing을 융합한 RLT 기법을 개발하였으며, CIFAR-10/100과 ImageNet에서 외부 인코더 없이 강력한 탐지 성능을 달성합니다.",
-      "score": 54
-    },
-    {
-      "title": "EdiTikZ: Scientific Figure Editing from Revision Trajectories",
-      "url": "https://arxiv.org/abs/2609.01409v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-09-01",
-      "summary_ko": "과학 논문의 TikZ 그래픽 편집 자동화 시스템을 제안하며, arXiv·GitHub·TeX SE에서 수집한 391K 편집 쌍과 VLM으로 생성한 781K 편집 지시를 통해 Qwen3.5 기반 모델을 학습했다. RL 기반 이원 보상으로 렌더링 충실도와 편집 적용을 동시에 최적화하였으며, 자동·인간 평가에서 모두 주요 베이스라인을 상회한다.",
-      "score": 54
-    },
-    {
-      "title": "GENIE: Watermarking Graph Neural Networks for Link Prediction",
-      "url": "https://arxiv.org/abs/2406.04805v4",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-09-01",
-      "summary_ko": "GNN의 Link Prediction 태스크를 보호하기 위한 최초의 워터마킹 기법 GENIE 제안. 백도어 기반 트리거 세트와 비밀 워터마크 벡터, Dynamic Watermark Thresholding으로 소유권 증명을 실현하며, 4개 모델·7개 데이터셋·21개 공격 기법에 대한 견고성 실증.",
-      "score": 54
-    },
-    {
-      "title": "Training-Free Policy Violation Detection via Activation-Space Whitening in LLMs",
-      "url": "https://arxiv.org/abs/2512.03994v4",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-09-01",
-      "summary_ko": "LLM의 내부 활성화 표현을 정규화하여 조직 정책 위반을 탐지하는 training-free 방식을 제안. 정책 텍스트와 소수 샘플만으로 작동하며 86.0% F1 달성으로, 미세조정·LLM-as-a-judge 대비 비용 효율적.",
-      "score": 54
-    },
-    {
-      "title": "Automated Event Log Generation from Unstructured Text Using Finetuned LLMs",
-      "url": "https://arxiv.org/abs/2609.01320v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-09-01",
-      "summary_ko": "이 논문은 비정형 텍스트를 구조화된 이벤트 로그로 변환하는 LLM 기반 자동화 프레임워크를 제시한다. 새로운 text-to-log 데이터셋으로 LLM을 파인튜닝하면 few-shot/zero-shot 프롬팅보다 월등한 성능을 달성하며, 조직 내 미활용 텍스트(사건 기록·매뉴얼·보고서)를 프로세스 마이닝 생태계로 활용 가능하게 한다.",
-      "score": 54
-    },
-    {
-      "title": "EmbodiedSkills: A Unified Framework for Orchestrating, Training, and Deploying VLA Agents",
-      "url": "https://arxiv.org/abs/2609.01281v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-09-01",
-      "summary_ko": "Vision-Language-Action 모델 기반 로봇 에이전트를 위한 통합 프레임워크 EmbodiedSkills를 제안합니다. 각 스킬 실행을 전제조건 확인·결과 검증·회복으로 구성된 폐쇄루프 구조로 구현하며, RoboTwin 2.0에서 86.20%, LIBERO에서 97.40% 성공률을 달성했습니다.",
-      "score": 54
-    },
-    {
-      "title": "TimeSteer: Inference-Time Speech Scheduling in Joint Audio-Visual Diffusion Models",
-      "url": "https://arxiv.org/abs/2609.01277v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-09-01",
-      "summary_ko": "TimeSteer는 사전학습된 음성-시각 결합 확산 모델에서 추론 시간에 음성 발생 타이밍을 명시적으로 제어하는 학습-무료 프레임워크입니다. 원본 음성의 잠재 공간 위치를 파악하고 대상 시간 구간으로 이동시키는 Region-Aware Latent Remapping 기법을 통해, SpeechShift 벤치마크에서 기존 방법 대비 향상된 구간-수준 제어 성능을 달성합니다.",
-      "score": 54
     }
   ],
   "available_periods": {
     "daily": [
+      "2026-09-05",
       "2026-09-04",
       "2026-09-03",
       "2026-09-02",
@@ -436,8 +437,7 @@
       "2026-07-10",
       "2026-07-09",
       "2026-07-08",
-      "2026-07-07",
-      "2026-07-06"
+      "2026-07-07"
     ],
     "weekly": [
       "2026-W36",
