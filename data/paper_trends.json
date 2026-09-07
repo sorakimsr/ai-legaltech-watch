@@ -1,10 +1,10 @@
 {
-  "analyzed_at": "2026-09-07T18:59:16.244727+09:00",
+  "analyzed_at": "2026-09-08T07:04:16.335331+09:00",
   "llm_backend": "claude-cli",
   "period": "weekly",
   "period_label": "최근 7일",
   "days_window": 7,
-  "paper_count": 606,
+  "paper_count": 505,
   "narrative": "",
   "hot_topics": [],
   "key_techniques": [],
@@ -12,19 +12,19 @@
   "top_institutions": [
     {
       "name": "ETH",
-      "count": 245
+      "count": 201
     },
     {
       "name": "MIT",
-      "count": 166
+      "count": 136
     },
     {
       "name": "Meta",
-      "count": 16
+      "count": 11
     },
     {
       "name": "AWS",
-      "count": 12
+      "count": 9
     },
     {
       "name": "FAIR",
@@ -32,7 +32,7 @@
     },
     {
       "name": "NVIDIA",
-      "count": 7
+      "count": 6
     },
     {
       "name": "OpenAI",
@@ -40,10 +40,6 @@
     },
     {
       "name": "Hugging Face",
-      "count": 1
-    },
-    {
-      "name": "Apple",
       "count": 1
     },
     {
@@ -62,94 +58,86 @@
   "top_keywords": [
     {
       "keyword": "framework",
-      "count": 38
-    },
-    {
-      "keyword": "generative",
-      "count": 34
+      "count": 35
     },
     {
       "keyword": "llms",
-      "count": 34
-    },
-    {
-      "keyword": "multi",
       "count": 32
     },
     {
+      "keyword": "generative",
+      "count": 28
+    },
+    {
       "keyword": "language",
-      "count": 31
-    },
-    {
-      "keyword": "data",
-      "count": 30
-    },
-    {
-      "keyword": "agent",
-      "count": 29
+      "count": 26
     },
     {
       "keyword": "agents",
-      "count": 27
-    },
-    {
-      "keyword": "detection",
       "count": 23
     },
     {
-      "keyword": "human",
+      "keyword": "agent",
+      "count": 23
+    },
+    {
+      "keyword": "data",
       "count": 22
     },
     {
-      "keyword": "reasoning",
-      "count": 21
+      "keyword": "multi",
+      "count": 22
     },
     {
-      "keyword": "retrieval",
-      "count": 21
-    },
-    {
-      "keyword": "driven",
+      "keyword": "detection",
       "count": 20
     },
     {
-      "keyword": "aware",
+      "keyword": "driven",
       "count": 19
     },
     {
-      "keyword": "training",
-      "count": 19
-    },
-    {
-      "keyword": "systems",
+      "keyword": "human",
       "count": 18
     },
     {
-      "keyword": "time",
+      "keyword": "retrieval",
       "count": 17
     },
     {
-      "keyword": "evaluation",
+      "keyword": "systems",
       "count": 17
+    },
+    {
+      "keyword": "aware",
+      "count": 16
+    },
+    {
+      "keyword": "decision",
+      "count": 14
     },
     {
       "keyword": "engineering",
-      "count": 16
+      "count": 14
+    },
+    {
+      "keyword": "evaluation",
+      "count": 14
+    },
+    {
+      "keyword": "training",
+      "count": 14
+    },
+    {
+      "keyword": "free",
+      "count": 14
     },
     {
       "keyword": "generation",
-      "count": 16
+      "count": 14
     }
   ],
   "recent_papers": [
-    {
-      "title": "Law of Large Numbers: Accuracy as Statistical Measure for AI Compliance and Competition",
-      "url": "https://arxiv.org/abs/2608.31018v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-08-31",
-      "summary_ko": "본 논문은 머신러닝 커뮤니티가 추구하는 '정확도(accuracy)'와 EU AI Act에서 요구하는 규제 기준으로서의 '정확도' 간의 근본적 불일치를 분석한다. 정의·성능 개념·타당성 범위·목적·통계성의 다섯 가지 긴장관계를 통해 두 커뮤니티가 정확도에 대해 상반된 기대를 갖고 있음을 보이며, 표준화 및 측정 도구 개발의 필요성을 제시한다.",
-      "score": 88
-    },
     {
       "title": "More Criticism Does Not Make a Better Review: EquiReview-R",
       "url": "https://arxiv.org/abs/2609.03943v1",
@@ -381,10 +369,19 @@
       "date": "2026-09-01",
       "summary_ko": "Vision Language Model이 정적 이미지는 잘 해석하지만 동적 상호작용 환경에서 부족함을 지적하며, 21,349개 claim이 담긴 InSight 벤치마크를 제시. 완전히 interactive한 웹 기반 환경에서 에이전트가 claim을 검증하고, 상호작용 흔적을 추론의 대리 지표로 사용하여 모델의 증거 탐색·합성 과정을 면밀히 감시. SOTA 모델도 이 작업을 비자명한 과제로 남긴다.",
       "score": 64
+    },
+    {
+      "title": "LLM Watermarking as Big Data Provenance: A Deployment-Oriented Systematization",
+      "url": "https://arxiv.org/abs/2607.10103v2",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-09-02",
+      "summary_ko": "LLM 생성물의 출처 추적을 위한 워터마킹을 빅데이터 provenance 인프라로 재정의하고, 배포 차원별 설계 공간을 체계화한 논문. Big Data Watermarking Readiness 프레임워크를 제시하며, 벤치마크 성능과 실제 배포 준비성 간의 격차(누적 오류율, 변환 강건성, 계산 오버헤드, 거버넌스 병목)를 밝힌다.",
+      "score": 56
     }
   ],
   "available_periods": {
     "daily": [
+      "2026-09-08",
       "2026-09-07",
       "2026-09-06",
       "2026-09-05",
@@ -440,8 +437,7 @@
       "2026-07-13",
       "2026-07-12",
       "2026-07-11",
-      "2026-07-10",
-      "2026-07-09"
+      "2026-07-10"
     ],
     "weekly": [
       "2026-W37",
