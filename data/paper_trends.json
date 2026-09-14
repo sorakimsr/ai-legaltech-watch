@@ -1,10 +1,10 @@
 {
-  "analyzed_at": "2026-09-14T19:03:58.146617+09:00",
+  "analyzed_at": "2026-09-15T07:09:58.882071+09:00",
   "llm_backend": "claude-cli",
   "period": "weekly",
   "period_label": "최근 7일",
   "days_window": 7,
-  "paper_count": 659,
+  "paper_count": 536,
   "narrative": "",
   "hot_topics": [],
   "key_techniques": [],
@@ -12,39 +12,35 @@
   "top_institutions": [
     {
       "name": "ETH",
-      "count": 260
+      "count": 232
     },
     {
       "name": "MIT",
-      "count": 152
+      "count": 142
     },
     {
       "name": "Meta",
-      "count": 15
+      "count": 13
     },
     {
       "name": "AWS",
-      "count": 12
+      "count": 10
     },
     {
       "name": "FAIR",
-      "count": 8
+      "count": 5
     },
     {
       "name": "OpenAI",
       "count": 4
     },
     {
-      "name": "Anthropic",
-      "count": 2
-    },
-    {
       "name": "Hugging Face",
       "count": 2
     },
     {
-      "name": "Google",
-      "count": 2
+      "name": "Anthropic",
+      "count": 1
     },
     {
       "name": "KAIST",
@@ -69,88 +65,92 @@
     {
       "name": "Berkeley",
       "count": 1
+    },
+    {
+      "name": "Microsoft",
+      "count": 1
     }
   ],
   "top_keywords": [
     {
-      "keyword": "generative",
-      "count": 50
-    },
-    {
       "keyword": "framework",
-      "count": 44
+      "count": 37
     },
     {
-      "keyword": "multi",
-      "count": 32
+      "keyword": "generative",
+      "count": 34
     },
     {
       "keyword": "language",
-      "count": 32
-    },
-    {
-      "keyword": "governance",
-      "count": 30
-    },
-    {
-      "keyword": "time",
       "count": 29
     },
     {
-      "keyword": "systems",
+      "keyword": "multi",
+      "count": 28
+    },
+    {
+      "keyword": "time",
       "count": 27
-    },
-    {
-      "keyword": "agent",
-      "count": 26
-    },
-    {
-      "keyword": "driven",
-      "count": 24
-    },
-    {
-      "keyword": "data",
-      "count": 24
-    },
-    {
-      "keyword": "human",
-      "count": 23
-    },
-    {
-      "keyword": "agentic",
-      "count": 23
-    },
-    {
-      "keyword": "llms",
-      "count": 22
     },
     {
       "keyword": "training",
       "count": 21
     },
     {
-      "keyword": "evaluation",
+      "keyword": "llms",
       "count": 21
     },
     {
-      "keyword": "agents",
+      "keyword": "agent",
+      "count": 21
+    },
+    {
+      "keyword": "systems",
+      "count": 20
+    },
+    {
+      "keyword": "governance",
       "count": 19
+    },
+    {
+      "keyword": "driven",
+      "count": 18
+    },
+    {
+      "keyword": "data",
+      "count": 18
+    },
+    {
+      "keyword": "agentic",
+      "count": 17
+    },
+    {
+      "keyword": "context",
+      "count": 17
+    },
+    {
+      "keyword": "human",
+      "count": 16
+    },
+    {
+      "keyword": "agents",
+      "count": 16
+    },
+    {
+      "keyword": "evaluation",
+      "count": 16
     },
     {
       "keyword": "reasoning",
-      "count": 19
+      "count": 16
     },
     {
       "keyword": "self",
-      "count": 19
+      "count": 16
     },
     {
-      "keyword": "aware",
-      "count": 18
-    },
-    {
-      "keyword": "system",
-      "count": 18
+      "keyword": "modeling",
+      "count": 15
     }
   ],
   "recent_papers": [
@@ -185,6 +185,14 @@
       "date": "2026-09-10",
       "summary_ko": "기존 규제 프레임(EU AI Act, NIST AI RMF, ISO/IEC 42001)이 역할·책임을 정의하는 단계를 넘어, AI 도입이 제도적 실패를 드러내고 보수·악화·은폐할 수 있음을 지적. Pope Leo XIV의 도덕 프레임을 기초로 '제도적 기반 진단-시스템 평가 연계'와 '근거 범위 제한·증거 기반 배포'라는 RISE AI 아키텍처 제시.",
       "score": 78
+    },
+    {
+      "title": "Pre-AGI AI Action Governance: Governing Autonomous Authority, Scale, and Consequential Action Before AGI",
+      "url": "https://doi.org/10.5281/zenodo.22737518",
+      "source": "OpenAlex",
+      "date": "2026-09-13",
+      "summary_ko": "CERN 산하 Zenodo에서 발표된 '자동화된 AI 행동 거버넌스' 프레임워크로, AGI를 기다리지 않고 현재의 자동화된 AI 시스템에 대한 권한·규모·외부 행동의 책임을 통제하는 거버넌스 방식을 제시한다.",
+      "score": 74
     },
     {
       "title": "Artificial Id: Drive and Persistent Alignment in Agentic AI",
@@ -232,14 +240,6 @@
       "source": "arXiv AI/CL/LG/IR/MA/CY",
       "date": "2026-09-08",
       "summary_ko": "LLM 기반 팩트 체킹에서 모델이 제공 증거가 아닌 모수 지식에 의존하는 문제를 진단하기 위해 FAE(Fact-Ablated Evaluation) 평가 프레임워크를 제시하고, 반사실 증거 감시를 통해 증거-의존성을 개선하는 REAL 훈련 방법을 제안한다. 4개 팩트-체킹 데이터셋 실험에서 REAL 모델이 우수한 증거-의존 성능을 달성했다.",
-      "score": 74
-    },
-    {
-      "title": "Pre-AGI AI Action Governance: Governing Autonomous Authority, Scale, and Consequential Action Before AGI",
-      "url": "https://doi.org/10.5281/zenodo.22737518",
-      "source": "OpenAlex",
-      "date": "2026-09-13",
-      "summary_ko": "CERN 산하 Zenodo에서 발표된 '자동화된 AI 행동 거버넌스' 프레임워크로, AGI를 기다리지 않고 현재의 자동화된 AI 시스템에 대한 권한·규모·외부 행동의 책임을 통제하는 거버넌스 방식을 제시한다.",
       "score": 74
     },
     {
@@ -339,22 +339,6 @@
       "score": 64
     },
     {
-      "title": "The Governance-Experience Gap in Generative AI: A Cross-Level Analysis of Regulatory Frameworks and Interactional Frictions",
-      "url": "https://doi.org/10.6084/m9.figshare.33453816.v1",
-      "source": "OpenAlex",
-      "date": "2026-09-07",
-      "summary_ko": "생성형 AI의 글로벌 거버넌스 프레임워크(EU AI Act, NIST Framework, OECD Principles)와 실제 사용자 경험 간의 괴리를 분석한다. 신뢰할 수 있는 AI 보장을 목표로 하는 규제 체계의 상호작용적 마찰을 실증적으로 검토하는 학술 연구다.",
-      "score": 62
-    },
-    {
-      "title": "The Sovereign AI Reality Check- Governance, cost, and the limits of control",
-      "url": "https://doi.org/10.13140/rg.2.2.25556.16006",
-      "source": "OpenAlex",
-      "date": "2026-09-07",
-      "summary_ko": "AI 주권화·자주권 전략의 현실적 한계를 거버넌스, 비용, 통제 관점에서 재검토하는 칼럼. 정부·기업의 자주적 AI 개발 추구 시 당면한 실무적 제약과 거버넌스 비용의 트레이드오프를 분석한다.",
-      "score": 62
-    },
-    {
       "title": "MindTopo: Can Foundation Models Reason in Topological Space?",
       "url": "https://arxiv.org/abs/2609.11900v1",
       "source": "arXiv AI/CL/LG/IR/MA/CY",
@@ -393,10 +377,27 @@
       "date": "2026-09-10",
       "summary_ko": "양자 스펙트럼 특성 추출을 통해 부호 있는 그래프의 구조적 균형을 학습하는 새로운 방법론을 제안했다. Ising 모델 기반 임베딩과 DOS-QPE 기법으로 Hadamard 테스트 대비 몇 배 더 효율적인 스펙트럼 샘플링을 실현했으며, 1.4×10⁵개 그래프에서 좌절도 예측을 정확히 수행했다.",
       "score": 54
+    },
+    {
+      "title": "Edu-QuRating: Multi-Dimensional Educational Data Curation with Distilled Pairwise Judgements",
+      "url": "https://arxiv.org/abs/2609.09425v2",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-09-10",
+      "summary_ko": "교육 자료의 다차원적 품질을 LLM 판사 기반 쌍 비교로 평가하는 Edu-QuRating 파이프라인을 제시. 322.25M 문서를 점수 매김해 소규모 언어모델 사전학습에서 FineWeb-Edu 대비 성능 향상, GRPO 포스트트레이닝에서도 교육적 품질 개선을 입증.",
+      "score": 54
+    },
+    {
+      "title": "Characterizing Job Power Elasticity for Power-Flexible AI Training",
+      "url": "https://arxiv.org/abs/2609.11542v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-09-10",
+      "summary_ko": "LLM 학습 시 GPU 전력 감소에 따른 성능 변화를 측정하는 Power Flexibility Index(PFI) 메트릭을 제안하고, H200 GPU를 활용한 131회 실험을 통해 전력 30% 감소 상황에서 PFI 기반 할당으로 약 1.5k tokens/s 성능을 회복할 수 있음을 입증했다.",
+      "score": 54
     }
   ],
   "available_periods": {
     "daily": [
+      "2026-09-15",
       "2026-09-14",
       "2026-09-12",
       "2026-09-11",
@@ -451,8 +452,7 @@
       "2026-07-20",
       "2026-07-19",
       "2026-07-18",
-      "2026-07-17",
-      "2026-07-16"
+      "2026-07-17"
     ],
     "weekly": [
       "2026-W38",
