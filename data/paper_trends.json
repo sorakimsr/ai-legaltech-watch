@@ -1,10 +1,10 @@
 {
-  "analyzed_at": "2026-09-16T07:01:18.157524+09:00",
+  "analyzed_at": "2026-09-16T19:01:52.495150+09:00",
   "llm_backend": "claude-cli",
   "period": "weekly",
   "period_label": "최근 7일",
   "days_window": 7,
-  "paper_count": 595,
+  "paper_count": 725,
   "narrative": "",
   "hot_topics": [],
   "key_techniques": [],
@@ -12,34 +12,38 @@
   "top_institutions": [
     {
       "name": "ETH",
-      "count": 250
+      "count": 303
     },
     {
       "name": "MIT",
-      "count": 139
+      "count": 185
     },
     {
       "name": "Meta",
-      "count": 15
+      "count": 19
     },
     {
       "name": "AWS",
-      "count": 12
+      "count": 15
     },
     {
       "name": "FAIR",
-      "count": 9
+      "count": 11
     },
     {
       "name": "OpenAI",
-      "count": 7
+      "count": 8
     },
     {
       "name": "Google",
-      "count": 4
+      "count": 3
     },
     {
       "name": "Anthropic",
+      "count": 2
+    },
+    {
+      "name": "NVIDIA",
       "count": 2
     },
     {
@@ -59,10 +63,6 @@
       "count": 1
     },
     {
-      "name": "NVIDIA",
-      "count": 1
-    },
-    {
       "name": "Harvard",
       "count": 1
     },
@@ -74,83 +74,83 @@
   "top_keywords": [
     {
       "keyword": "framework",
-      "count": 49
+      "count": 51
     },
     {
       "keyword": "generative",
       "count": 49
     },
     {
+      "keyword": "language",
+      "count": 38
+    },
+    {
+      "keyword": "data",
+      "count": 34
+    },
+    {
+      "keyword": "multi",
+      "count": 32
+    },
+    {
+      "keyword": "agent",
+      "count": 31
+    },
+    {
+      "keyword": "human",
+      "count": 30
+    },
+    {
       "keyword": "governance",
       "count": 28
     },
     {
-      "keyword": "language",
-      "count": 28
-    },
-    {
-      "keyword": "human",
+      "keyword": "self",
       "count": 27
-    },
-    {
-      "keyword": "data",
-      "count": 27
-    },
-    {
-      "keyword": "agent",
-      "count": 25
-    },
-    {
-      "keyword": "multi",
-      "count": 24
-    },
-    {
-      "keyword": "driven",
-      "count": 23
     },
     {
       "keyword": "agents",
-      "count": 22
+      "count": 26
     },
     {
-      "keyword": "intelligence",
-      "count": 22
-    },
-    {
-      "keyword": "time",
-      "count": 22
+      "keyword": "driven",
+      "count": 26
     },
     {
       "keyword": "llms",
-      "count": 22
+      "count": 26
+    },
+    {
+      "keyword": "intelligence",
+      "count": 25
+    },
+    {
+      "keyword": "time",
+      "count": 25
     },
     {
       "keyword": "systems",
-      "count": 20
-    },
-    {
-      "keyword": "speech",
-      "count": 20
+      "count": 24
     },
     {
       "keyword": "agentic",
-      "count": 19
+      "count": 23
     },
     {
-      "keyword": "context",
-      "count": 19
+      "keyword": "speech",
+      "count": 22
     },
     {
       "keyword": "through",
-      "count": 18
+      "count": 21
     },
     {
-      "keyword": "system",
-      "count": 17
+      "keyword": "reasoning",
+      "count": 21
     },
     {
-      "keyword": "self",
-      "count": 17
+      "keyword": "context",
+      "count": 21
     }
   ],
   "recent_papers": [
@@ -299,6 +299,14 @@
       "score": 64
     },
     {
+      "title": "AgentRivet: an automated system for producing Rivet routines from journal publications",
+      "url": "https://arxiv.org/abs/2606.13535v4",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-09-14",
+      "summary_ko": "AgentRivet은 입자 물리학 논문에서 분석 정보를 LLM으로 자동 추출하여 누락된 Rivet 루틴(C++ 코드)을 생성하는 멀티스텝 워크플로우입니다. OpenAI, Anthropic, Google 모델을 비교 평가하여 문법 오류는 적으나 물리 구현 이슈가 발생함을 확인했습니다.",
+      "score": 60
+    },
+    {
       "title": "MindTopo: Can Foundation Models Reason in Topological Space?",
       "url": "https://arxiv.org/abs/2609.11900v1",
       "source": "arXiv AI/CL/LG/IR/MA/CY",
@@ -384,14 +392,6 @@
       "source": "arXiv AI/CL/LG/IR/MA/CY",
       "date": "2026-09-09",
       "summary_ko": "프로비넌스 기반 침입탐지 시스템(PIDS)의 벤치마크 성능이 평가 프로토콜 선택에 극도로 민감함을 보이는 메타-평가 연구. DARPA TC E3 데이터셋의 통일된 재평가를 통해 단순 allowlist가 심화된 학습 모델과 맹등하거나 우월한 성능을 내며, 평가 기준과 벤치마크 특성을 분리하여 아키텍처 주장을 해석할 수 없음을 입증.",
-      "score": 54
-    },
-    {
-      "title": "Training Trajectories Determine Circuit Removability in Annealable Soft-Prior Transformers",
-      "url": "https://arxiv.org/abs/2609.10287v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-09-09",
-      "summary_ko": "이 논문은 소프트 위치 선행(soft positional prior)을 사용한 Transformer가 검색 회로를 학습할 수 있지만, 선행 제거 후 회로 기능이 학습 궤적에 따라 보존되거나 붕괴될 수 있음을 보인다. 평탄한 감쇠 학습(smooth fade-to-zero)이 회로 통합을 효과적으로 달성하는 반면, 강제 영점 학습이나 사후 연속성은 실패한다.",
       "score": 54
     }
   ],
