@@ -1,10 +1,10 @@
 {
-  "analyzed_at": "2026-09-18T19:07:46.987178+09:00",
+  "analyzed_at": "2026-09-19T07:00:21.008790+09:00",
   "llm_backend": "claude-cli",
   "period": "weekly",
   "period_label": "최근 7일",
   "days_window": 7,
-  "paper_count": 598,
+  "paper_count": 545,
   "narrative": "",
   "hot_topics": [],
   "key_techniques": [],
@@ -12,23 +12,23 @@
   "top_institutions": [
     {
       "name": "ETH",
-      "count": 202
+      "count": 185
     },
     {
       "name": "MIT",
-      "count": 123
+      "count": 117
     },
     {
       "name": "Meta",
-      "count": 16
-    },
-    {
-      "name": "FAIR",
-      "count": 9
+      "count": 12
     },
     {
       "name": "AWS",
       "count": 9
+    },
+    {
+      "name": "FAIR",
+      "count": 8
     },
     {
       "name": "OpenAI",
@@ -62,86 +62,94 @@
   "top_keywords": [
     {
       "keyword": "generative",
-      "count": 48
+      "count": 46
     },
     {
       "keyword": "framework",
-      "count": 40
+      "count": 35
     },
     {
       "keyword": "data",
-      "count": 34
+      "count": 31
     },
     {
       "keyword": "governance",
-      "count": 30
-    },
-    {
-      "keyword": "agent",
-      "count": 29
-    },
-    {
-      "keyword": "human",
       "count": 28
     },
     {
-      "keyword": "driven",
+      "keyword": "agent",
       "count": 27
     },
     {
-      "keyword": "intelligence",
+      "keyword": "human",
       "count": 27
-    },
-    {
-      "keyword": "language",
-      "count": 25
-    },
-    {
-      "keyword": "systems",
-      "count": 25
     },
     {
       "keyword": "agentic",
       "count": 24
     },
     {
-      "keyword": "multi",
+      "keyword": "intelligence",
       "count": 24
     },
     {
-      "keyword": "self",
+      "keyword": "driven",
+      "count": 23
+    },
+    {
+      "keyword": "language",
       "count": 22
+    },
+    {
+      "keyword": "self",
+      "count": 21
+    },
+    {
+      "keyword": "systems",
+      "count": 21
+    },
+    {
+      "keyword": "multi",
+      "count": 21
     },
     {
       "keyword": "agents",
-      "count": 22
-    },
-    {
-      "keyword": "aware",
-      "count": 18
-    },
-    {
-      "keyword": "artificial",
-      "count": 18
-    },
-    {
-      "keyword": "through",
-      "count": 18
+      "count": 21
     },
     {
       "keyword": "control",
       "count": 17
     },
     {
-      "keyword": "artificial intelligence",
+      "keyword": "through",
       "count": 17
     },
     {
       "keyword": "llms",
       "count": 17
+    },
+    {
+      "keyword": "autonomous",
+      "count": 16
+    },
+    {
+      "keyword": "explainable",
+      "count": 15
+    },
+    {
+      "keyword": "when",
+      "count": 15
     }
   ],
   "recent_papers": [
+    {
+      "title": "Who Owns AI When It Breaks? The Convergence of AI Governance and Cybersecurity Accountability",
+      "url": "https://doi.org/10.61643/c79060",
+      "source": "OpenAlex",
+      "date": "2026-09-17",
+      "summary_ko": "AI 시스템이 적재적소에 실패해도 기업 경영진은 이를 감지하지 못하는 문제를 분석한 학술 칼럼. 권장사항 저하, 입력 조작, 에이전트 권한 초과 등 침묵한 실패들이 거버넌스 공백을 만든다.",
+      "score": 82
+    },
     {
       "title": "Agentic Societies Need a Social Harness",
       "url": "https://arxiv.org/abs/2609.17527v1",
@@ -151,20 +159,28 @@
       "score": 74
     },
     {
-      "title": "EviScope: Paired Counterfactual Evidence Diagnostics for Faithful and Efficient Grounded Language Models",
-      "url": "https://arxiv.org/abs/2609.17081v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-09-15",
-      "summary_ko": "EviScope는 증거 추가·제거·간섭·모순 삽입을 통한 paired counterfactual 벤치마크로, 정답 정확도만으로는 드러나지 않는 LLM의 grounding 신뢰성 문제를 진단합니다. Qwen, Llama, Gemini 등 주요 모델에서 현재 RAG 방식의 blind spot과 conflict blindness(모순 대면 시에도 5% 답변)을 확인했습니다.",
-      "score": 74
-    },
-    {
       "title": "Pre-AGI AI Action Governance: Governing Autonomous Authority, Scale, and Consequential Action Before AGI",
       "url": "https://doi.org/10.5281/zenodo.22737518",
       "source": "OpenAlex",
       "date": "2026-09-13",
       "summary_ko": "CERN 산하 Zenodo에서 발표된 '자동화된 AI 행동 거버넌스' 프레임워크로, AGI를 기다리지 않고 현재의 자동화된 AI 시스템에 대한 권한·규모·외부 행동의 책임을 통제하는 거버넌스 방식을 제시한다.",
       "score": 74
+    },
+    {
+      "title": "WP-AI-8.2 AI Responsibility Escape: Mechanisms, Attribution Layers, and Control Architecture",
+      "url": "https://doi.org/10.5281/zenodo.22819439",
+      "source": "OpenAlex",
+      "date": "2026-09-17",
+      "summary_ko": "AI 거버넌스의 핵심은 모델 정렬이 아니라 **책임 회피 메커니즘 차단**이라는 학술 주장. 인간이 권한은 유지하면서 **책임만 이동·희석·모호해지는 구조**를 분석하는 이론적 프레임을 제시한다.",
+      "score": 72
+    },
+    {
+      "title": "Operationalising Responsible AI Governance in Financial Crime Compliance: An Evidence-Based Control Framework for Financial Institutions",
+      "url": "https://doi.org/10.65921/wg5rcn92",
+      "source": "OpenAlex",
+      "date": "2026-09-14",
+      "summary_ko": "싱가포르 통화청의 책임 있는 AI 거버넌스 원칙(FEAT)을 금융범죄 규제의 **감사 가능한 제어**로 구체화하는 프레임워크 제시. 금융기관의 AI 시스템 운영 감시·감사의 실행 수단을 설계 과학 방법론으로 구현.",
+      "score": 72
     },
     {
       "title": "Lexplorer: Navigating the Complexity of Legal Document Landscapes",
@@ -197,6 +213,14 @@
       "date": "2026-09-17",
       "summary_ko": "고등교육 AI 개발자 교육에서 설명가능성(XAI)과 사회적 책임 원칙을 기술 능력과 통합해야 한다는 개념적 프레임을 제안하고, 기술 숙련도만이 아닌 윤리적 책임감을 갖춘 실무자 양성의 필요성을 강조합니다.",
       "score": 58
+    },
+    {
+      "title": "Fragment-Based Explainable AI for Pathogen-Selective Antimicrobial Drug Design",
+      "url": "https://doi.org/10.1021/acsinfecdis.6c00325",
+      "source": "OpenAlex",
+      "date": "2026-09-13",
+      "summary_ko": "항생제 내성 극복을 위해 fragment-based explainable AI 방식으로 약물설계 계산 도구를 제시한 학술논문. 단순 항균활성 예측을 넘어 약물화학 통찰력 제공으로 신약개발 효율화를 목표.",
+      "score": 56
     },
     {
       "title": "Coupled Calibration and Learning: Mitigating Teacher Bias in LLM Distillation without Target-Domain Reward Feedback",
@@ -253,6 +277,22 @@
       "date": "2026-09-15",
       "summary_ko": "이 연구는 XGBoost와 Semi-Supervised 학습을 이용하여 11,150개 유전자 발현 수준으로부터 간암(HCC) 다단계 분류 데이터셋을 구성했다. 770개 환자 샘플을 정상 조직 및 HCC 5개 단계로 분류하여 96.5% 정확도를 달성했으며, 공개 HCC 게노믹 데이터셋 부족을 보완하는 기여를 제시했다.",
       "score": 54
+    },
+    {
+      "title": "Digital Governance and Artificial Intelligence AI Ethics in Public Administration",
+      "url": "https://doi.org/10.56201/jpslr.vol.12.no3.2026.pg64.72",
+      "source": "OpenAlex",
+      "date": "2026-09-14",
+      "summary_ko": "공공행정에서 디지털 거버넌스와 AI 윤리를 통합하면 효율성·투명성·시민 참여를 강화할 수 있으나, 편향·책임성·공정성 등 윤리적 우려를 동시에 관리해야 한다.",
+      "score": 52
+    },
+    {
+      "title": "Improving Public-Sector Service Delivery through ServiceNow-Based ITSM Workflow Automation: An AI-Driven Approach to Reducing Manual Case Handling and Response Time in Government Benefit Systems",
+      "url": "https://doi.org/10.58425/ajt.v5i10.607",
+      "source": "OpenAlex",
+      "date": "2026-09-13",
+      "summary_ko": "정부 복지 시스템에서 ServiceNow 기반 ITSM 도구(Now Assist, Flow Designer)를 활용한 워크플로우 자동화 도입 사례를 종합 분석한 학술 연구. 수동 업무 감소, 시민 신뢰도 향상, 조직 거버넌스 개선을 검토 대상으로 함.",
+      "score": 52
     },
     {
       "title": "PhysStream: Streaming Physics-Grounded Video Generation with Structured Scene Memory and Fine-Grained Motion Control",
@@ -341,46 +381,6 @@
       "date": "2026-09-15",
       "summary_ko": "위성 이미지 기초 모델 AlphaEarth embeddings을 활용하여 농지 분류를 수행한 연구. 미세 조정 없이도 93.7% 정확도를 달성했으며, 제한된 레이블 데이터로도 효과적이고 연도 간 전이 가능성을 보였으며, 인간 검증(κ=0.82)을 통해 기초 모델 기반 지역 농지 지도의 실용성을 입증.",
       "score": 44
-    },
-    {
-      "title": "FirmCORe: A Benchmark for Structured Reasoning about Inter-Firm Collaboration Opportunities",
-      "url": "https://arxiv.org/abs/2609.17128v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-09-15",
-      "summary_ko": "기업 간 협력 기회를 구조화된 추론으로 판단하는 벤치마크 FirmCORe(2,805개 레이블 기업 쌍)를 제시했습니다. LLM들의 협력 기회 탐지 성능은 74.51 macro-F1이지만, 협력 유형·역할 예측은 61.57%에 그쳐, 구조화된 판단이 여전히 LLM의 약점임을 드러냅니다.",
-      "score": 44
-    },
-    {
-      "title": "The Evolving Security of the Internet of Vehicles: A Survey from Classical Machine Learning to Large Language Models, Adversarial Robustness, and Explainable AI",
-      "url": "https://doi.org/10.3390/s26185862",
-      "source": "OpenAlex",
-      "date": "2026-09-16",
-      "summary_ko": "IoV의 메시지 스푸핑, DoS, MITM 등 보안 위협을 고전 ML부터 LLM, adversarial robustness, XAI 기술로 방어하는 방법을 다루는 학술 서베이. ML 기반 방어 자체가 공격 대상이 될 수 있다는 점을 강조하고 있다.",
-      "score": 43
-    },
-    {
-      "title": "Who Owns AI When It Breaks? The Convergence of AI Governance and Cybersecurity Accountability",
-      "url": "https://doi.org/10.61643/c79060",
-      "source": "OpenAlex",
-      "date": "2026-09-17",
-      "summary_ko": "Jess Montgomery, Joshua Copeland — [The Pinnacle A Journal by Scholar-Practitioners] Artificial intelligence (AI) system failures are often silent. Applications may remain operational and continue to ",
-      "score": 42
-    },
-    {
-      "title": "WP-AI-8.2 AI Responsibility Escape: Mechanisms, Attribution Layers, and Control Architecture",
-      "url": "https://doi.org/10.5281/zenodo.22819439",
-      "source": "OpenAlex",
-      "date": "2026-09-17",
-      "summary_ko": "Qingyun Hu-Yang — [Zenodo (CERN European Organization for Nuclear Research)] Responsibility escape is the displacement, dilution, obscuring, or substitution of human accountability while substantive a",
-      "score": 42
-    },
-    {
-      "title": "Operationalising Responsible AI Governance in Financial Crime Compliance: An Evidence-Based Control Framework for Financial Institutions",
-      "url": "https://doi.org/10.65921/wg5rcn92",
-      "source": "OpenAlex",
-      "date": "2026-09-14",
-      "summary_ko": "Chiaw Boon Lee — [Academos Journal] Purpose: This paper analyses how responsible artificial intelligence principles can be translated into auditable controls to support artificial-intelligence-enabled",
-      "score": 42
     }
   ],
   "available_periods": {
@@ -439,8 +439,7 @@
       "2026-07-25",
       "2026-07-24",
       "2026-07-23",
-      "2026-07-21",
-      "2026-07-20"
+      "2026-07-21"
     ],
     "weekly": [
       "2026-W38",
