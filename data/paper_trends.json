@@ -1,10 +1,10 @@
 {
-  "analyzed_at": "2026-10-10T19:06:32.395416+09:00",
+  "analyzed_at": "2026-10-11T07:06:26.304997+09:00",
   "llm_backend": "claude-cli",
   "period": "weekly",
   "period_label": "최근 7일",
   "days_window": 7,
-  "paper_count": 535,
+  "paper_count": 527,
   "narrative": "",
   "hot_topics": [],
   "key_techniques": [],
@@ -12,11 +12,11 @@
   "top_institutions": [
     {
       "name": "ETH",
-      "count": 264
+      "count": 261
     },
     {
       "name": "MIT",
-      "count": 165
+      "count": 163
     },
     {
       "name": "Meta",
@@ -89,12 +89,12 @@
       "count": 23
     },
     {
-      "keyword": "self",
-      "count": 22
-    },
-    {
       "keyword": "agentic",
       "count": 21
+    },
+    {
+      "keyword": "self",
+      "count": 20
     },
     {
       "keyword": "world",
@@ -125,11 +125,11 @@
       "count": 17
     },
     {
-      "keyword": "generative",
-      "count": 17
+      "keyword": "state",
+      "count": 16
     },
     {
-      "keyword": "state",
+      "keyword": "generative",
       "count": 16
     },
     {
@@ -141,15 +141,31 @@
       "count": 15
     },
     {
-      "keyword": "what",
+      "keyword": "memory",
       "count": 14
     },
     {
-      "keyword": "memory",
-      "count": 14
+      "keyword": "llms",
+      "count": 13
     }
   ],
   "recent_papers": [
+    {
+      "title": "On the estimation and validity of AI time horizons---a statistical look at the METR plot",
+      "url": "https://arxiv.org/abs/2610.12466v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-10-08",
+      "summary_ko": "METR 벤치마크의 50% time horizon 측정을 재검토하는 통계 분석. 228개 과제·26개 AI를 대상으로 spline과 item-response theory를 적용하여 AI 어려움과 인간 수행 시간 간의 선형성 가정을 완화. 시간 영역에 따른 비선형성을 발견하고, 영역별로 다른 신뢰도를 갖는 점수 추정법과 진단 방법을 제안.",
+      "score": 82
+    },
+    {
+      "title": "Cited but Not Consulted: A Counterfactual Audit of Legal Chain-of-Thought Faithfulness",
+      "url": "https://arxiv.org/abs/2610.12361v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-10-08",
+      "summary_ko": "본 논문은 대규모언어모델이 법적 판단의 근거로 명시하는 법률조항이 실제로 그 판단에 미치는 인과적 영향을 대반사실 테스트(counterfactual audit)로 검증한다. 7개 모델 4개 벤치마크에서 올바른 법률 인용률(66.7~100%)에 비해 해당 법률을 다른 것으로 대체했을 때 판결이 변하는 비율(0~76.7%)이 현저히 낮으며, 적대적 지시어 준수율(73.3~96.4%)은 높아 설명의 신뢰성이 의심됨을 입증한다.",
+      "score": 82
+    },
     {
       "title": "The Handover Problem: Governing Autonomy Transitions in Human-AI Collaboration",
       "url": "https://arxiv.org/abs/2610.10352v1",
@@ -157,6 +173,30 @@
       "date": "2026-10-07",
       "summary_ko": "논문은 인간-AI 협업에서 자동화 수준의 전환을 결정하는 새로운 문제를 형식화하고, 4개 신호(운영자 준비도·신뢰·학습 안정성·성과)를 통합한 'Handover Readiness Score(HRS)'를 제시한다. 히스테리시스 기반 정책으로 자동화 증대 전 지속적 증거를 요구하고 악화 시 즉각 복귀하는 거버넌스 프레임워크를 제안한다.",
       "score": 77
+    },
+    {
+      "title": "Salesforce Koa: An Enterprise Language Model for Agentic Tool Use",
+      "url": "https://arxiv.org/abs/2609.15066v2",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-10-08",
+      "summary_ko": "GRPO 강화학습과 선언적 에이전트 사양으로 Nemotron-3-Super-120B를 파인튜닝한 Salesforce Koa는 CRMAgentBench에서 87%의 작업 성공률로 GPT-4.1을 초과하며, 공개 벤치마크에서의 일반 성능을 유지하면서 엔터프라이즈 도구 호출에 특화했다.",
+      "score": 74
+    },
+    {
+      "title": "One Word Opens the Gate: The Option-Channel Attack on Typed Decision Models as Agent Guardrails",
+      "url": "https://arxiv.org/abs/2610.12292v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-10-08",
+      "summary_ko": "논문은 에이전트 시스템의 보안 가드레일로 사용되는 타입된 의사결정 모델(7개 오픈 웨이트 모델)을 평가하여, 프롬프트 인젝션·옵션명 조작 공격으로 fail-open 오류율이 0%에서 93~100%로 급증하며 모든 방어 메커니즘이 공격에 무효화됨을 보입니다. 결정론적 규칙 파싱만이 100% 정확도에 도달하지만, 이는 모델 자체를 불필요하게 만듭니다.",
+      "score": 74
+    },
+    {
+      "title": "Recursive Self-Improvement through Multi-Agent Self-Supervision",
+      "url": "https://arxiv.org/abs/2610.12176v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-10-08",
+      "summary_ko": "비검증 가능한 개방형 연구 작업에서 인간 평가 한계를 넘어선 자동 개선을 위해, 다중 에이전트 워크플로우를 진화 알고리즘과 지도학습으로 반복 최적화하는 MASS 방법을 제안한다. Qwen 모델이 2 사이클 후 4개 공개 벤치마크에서 1.2~1.6배 성능 향상을 달성하고, 다중 에이전트 궤적 학습이 1.4배 적은 토큰으로 단일 에이전트를 능가함을 입증했다.",
+      "score": 74
     },
     {
       "title": "A Society of Researchers: Designing Institutions for Populations of Autonomous Research Agents",
@@ -247,12 +287,84 @@
       "score": 74
     },
     {
+      "title": "RoboRSI: Stable, efficient, and reusable robot self-evolution in complex real-world environments",
+      "url": "https://arxiv.org/abs/2610.12424v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-10-08",
+      "summary_ko": "RoboRSI는 Top-Down Skill Refinement(TSR) 기반 로봇 자체 개선 시스템으로, 복잡한 작업을 계층화된 스킬로 분해하고 Manager-Planner-Engineer-Reviewer 다중 에이전트 조정을 통해 실행 피드백으로부터 스킬을 반복 개선한다. 실제 로봇에서 104라운드 학습 후 LIBERO 등 4개 벤치마크에서 기존 방법을 2.7~11.0% 초과 달성했다.",
+      "score": 72
+    },
+    {
+      "title": "WOVEN: Weaving Visual World Modeling into Multimodal LLMs",
+      "url": "https://arxiv.org/abs/2610.12417v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-10-08",
+      "summary_ko": "MLLMs의 공간·시간적 추론 능력 부족을 visual transition reasoning 결핍으로 진단하고, 36,076개 예제로 구성된 WOVEN 벤치마크를 개발했다. 38개 frontier 모델 평가 결과 광범위한 결핍을 확인했으며, WOVEN 학습으로 22개 external benchmark에서 최대 27.3% 성능 개선과 30-50% 데이터 효율성을 달성했다.",
+      "score": 72
+    },
+    {
+      "title": "LLM Persona Unlearning",
+      "url": "https://arxiv.org/abs/2609.39882v2",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-10-08",
+      "summary_ko": "LLM이 사전학습으로 습득한 다양한 페르소나를 선택적으로 제거하는 기술 문제를 정의하고, PersonaUnlearnBench 벤치마크와 PaCE 방법론을 제안. PaCE는 목표 페르소나 응답과 바람직한 응답 비교를 통해 모델 내부 행동 방향을 파악한 후 점진적으로 제거하여 높은 품질의 대체 행동을 유도.",
+      "score": 72
+    },
+    {
+      "title": "Accurate but Not Humble: Evaluating Epistemic Humility in LLM Agents under Knowledge Conflict",
+      "url": "https://arxiv.org/abs/2610.12360v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-10-08",
+      "summary_ko": "LLM 에이전트가 지식 충돌 상황에서 불확실성을 인식·행동·소통하는 능력인 에피스테믹 휼륨을 ISE(Identify-Solve-Escalate) 프레임워크로 평가했다. 높은 정확도가 반드시 불확실성 표현 능력과 일치하지 않으며, 에이전트는 초기 단계에서 충돌을 감지하지만 최종 답변에서 불확실성을 제대로 전달하지 못하는 구조적 문제를 발견했다.",
+      "score": 72
+    },
+    {
+      "title": "Agentic Critical Training",
+      "url": "https://arxiv.org/abs/2603.08706v2",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-10-08",
+      "summary_ko": "모델 에이전트 학습에서 모방학습의 한계를 극복하기 위해 검증 가능한 보상을 활용한 강화학습(RLVR)으로 전문가 행동과 대안 행동을 비교 판단하도록 훈련하는 ACT 방법론을 제시. ALFWorld·WebShop·ScienceWorld에서 IL 대비 평균 5.85점, CoT 대비 15.36점 향상을 달성하며 MATH-500·GPQA-Diamond에서 최고 성능 기록.",
+      "score": 72
+    },
+    {
+      "title": "Verdict Without the Rule: Diagnosing and Auditing Regulatory Rule Sensitivity in LLM Compliance Systems",
+      "url": "https://arxiv.org/abs/2610.12313v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-10-08",
+      "summary_ko": "LLM 기반 컴플라이언스 시스템이 실제로 주어진 규칙에 의존하는지 실증 진단했다. 5개 모델과 20개 규제·정책 도메인에서 규칙을 삭제·교체·부정해도 판결(OCS)이나 내부 표현(ICS-delta)이 거의 변하지 않았고, 특히 검증 모델(guard model)이 가장 규칙에 둔감했다. 높은 정확도만으로는 AI 판결이 공급된 규칙에 기반했다는 보장이 없음을 증명했다.",
+      "score": 72
+    },
+    {
+      "title": "Who Does Withholding Delay? A Welfare Model of Open-Weight AI Release Under Asymmetric Proliferation",
+      "url": "https://arxiv.org/abs/2607.22957v2",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-10-08",
+      "summary_ko": "논문은 오픈웨이트 AI 모델 공개 제한의 효과를 게임 이론 기반 후생경제 모델로 분석합니다. 적대자가 방어자보다 빠르게 대체 기술을 확보하면 제한이 오히려 방어자를 더 지연시킬 수 있으며, 네 가지 공개 정책(통제 접근·방어자 우선·안전장치 공개·최소 제한 공개)의 최적성이 파라미터 공간에서 교대로 성립함을 보입니다.",
+      "score": 72
+    },
+    {
+      "title": "Language Models as AI Research World Models",
+      "url": "https://arxiv.org/abs/2610.12235v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-10-08",
+      "summary_ko": "AI 연구 에이전트의 실행 제약을 극복하기 위해 언어 모델을 Research World Models로 활용해 미래 개입 결과를 예측한다. 171,000 GPU시간의 대규모 실험 데이터에서 학습한 경험이 동일 환경 내 예측 정확도를 개선(Spearman +0.27)하고 환경 간 재사용 가능함을 입증했으며, 자율 연구(Autoresearch) 성능을 15.8~11.6% 향상시킨다.",
+      "score": 72
+    },
+    {
       "title": "Who Is Responsible When AI Shapes Corporate Decisions? Director Duties and Corporate Accountability under Indian Company Law",
       "url": "https://doi.org/10.63108/ijlmh.12976",
       "source": "OpenAlex",
       "date": "2026-10-07",
       "summary_ko": "AI 시스템이 M&A 의사결정을 권고하고 이사회가 승인한 후 손실 발생 시, 인도 회사법상 이사와 기업의 책임 범위와 경계를 다룬 학술 논의. AI 도입에 따른 법적 책임 구조의 불명확성을 제기.",
       "score": 72
+    },
+    {
+      "title": "Ecology of AI Agents: Collaboration Creates a Population Threshold for Takeoff",
+      "url": "https://arxiv.org/abs/2610.12436v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-10-08",
+      "summary_ko": "AI agents의 협력이 collective cybersecurity capability을 population size에 비례하게 증강시켜, 개별 에이전트 능력 변화 없이도 population threshold(강한 Allee 효과)를 넘으면 자가 증식 순환이 발생할 수 있음을 보여줍니다. 논문은 population-level 안전성을 위해 ecological red teaming과 controlled population pacing을 제안합니다.",
+      "score": 64
     },
     {
       "title": "SkillRL: Evolving Agents via Recursive Skill-Augmented Reinforcement Learning",
@@ -277,122 +389,11 @@
       "date": "2026-10-06",
       "summary_ko": "IdeaAnchor는 LLM이 관련 논문들을 종합하여 새로운 연구 아이디어를 생성하도록 훈련하는 패러다임입니다. 구조화된 명세를 학습 신호로 활용하여 실제 논문에서 아이디어가 도출되는 방식을 모방하며, demonstration, self-distillation, 강화학습, retrieval 증강을 통해 합성과 상세 설명의 품질을 개선합니다.",
       "score": 64
-    },
-    {
-      "title": "Regime-Conditional Verification: Correctness Estimation for Adapting and Monitoring Safety Classifiers",
-      "url": "https://arxiv.org/abs/2608.14089v3",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-10-06",
-      "summary_ko": "LLM 기반 안전 분류기가 배포자 정책과 불일치하고 배포 중 성능이 저하되는 문제를 해결하기 위해 RCV를 제시했다. 재훈련 없이 분류기의 내부 표현으로부터 오분류 확률을 추정하고 선택적으로 예측을 수정하며, 분포 변화 감지 신호로 유지보수 루프를 구성한다. 세 가지 분류기-벤치마크 조합에서 배포자 정책 준수를 모두 개선했고 실제 공격 캠페인 10건에서 실시간 감지에 성공했다.",
-      "score": 64
-    },
-    {
-      "title": "The Latent Diagnostic Taxonomy: A Framework for Constructing Classifiers and Diagnosing Their Decisions, Applied to Prompt Injection Detection",
-      "url": "https://arxiv.org/abs/2608.26423v2",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-10-06",
-      "summary_ko": "본 논문은 프롬프트 인젝션 공격에 대한 분류기 안전성을 진단하는 'Latent Diagnostic Taxonomy' 프레임워크를 제안한다. 임베딩 차원 최적화, 잠재 지원 벡터 선별, 공격 토큰 분석을 통해 신뢰 가능한 결정을 구별하며, 77%의 신뢰 결정이 단일 토큰 제거에 취약함을 발견했다. 신뢰 보정 실패와 악용 가능한 단축으로 분류된 실패 패턴별 완화 전략을 제시한다.",
-      "score": 64
-    },
-    {
-      "title": "JEV versus LLMs: Accuracy, Cost and Calibration on Seven Political Science Replications",
-      "url": "https://arxiv.org/abs/2610.06625v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-10-05",
-      "summary_ko": "TypeSafe의 JEV(System One 모델)가 기존 LLM의 비용·속도·확률 보정 측면에서 실제로 우수한지를 정치학 복제 연구 7개 과제에서 실증 검증. GPT-6 Luna·Qwen3.8-27B와 비교한 결과, JEV는 성능은 동등하나 비용 우위는 없고, 확률 보정에서만 부분적 장점 확인.",
-      "score": 55
-    },
-    {
-      "title": "Oracle-Efficient and Parameter-Free Agnostic Smoothed Online Learning",
-      "url": "https://arxiv.org/abs/2610.10499v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-10-07",
-      "summary_ko": "매개변수와 기저 분포 정보 없이 민첩한(agnostic) 설정에서 smoothed online learning을 달성하는 첫 번째 oracle-효율 알고리즘을 제시합니다. 가우스 Follow-The-Perturbed-Leader 기반으로 O(d√T/σ) 최적 회귀를 라운드당 ERM 오라클 단일 호출로 실현하며, 새로운 이론 기법들을 도입합니다.",
-      "score": 54
-    },
-    {
-      "title": "Scaling Down the Scaling Laws: Parameter Efficiency and Compute-Optimal Training in Resource-Constrained Large Language Models",
-      "url": "https://arxiv.org/abs/2610.06387v2",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-10-07",
-      "summary_ko": "LLM 스케일링 이론의 진화를 종합하는 리뷰 논문으로, 전통적 '규모 극대화' 패러다임에서 파라미터·토큰·컴퓨트의 '의도적 배분' 패러다임으로의 전환을 강조합니다. 컴퓨트-최적 훈련, 양자화, low-rank adaptation 등 효율화 기법을 체계화하며, 자원 제약 환경에서 스케일링 원칙의 일반화 가능성이라는 미해결 과제를 제시합니다.",
-      "score": 54
-    },
-    {
-      "title": "Absorbing State Phase Transitions in Multi-Agent Search",
-      "url": "https://arxiv.org/abs/2609.38327v2",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-10-07",
-      "summary_ko": "통계역학의 흡수 상태 위상전이 이론을 다중 에이전트 검색에 적용하여, 에이전트 간 최소 통신 차수(critical communication degree)의 이론적 임계값을 도출했으나, 실제 LLM 에이전트는 개별 이익 추구로 협력을 회피하며 이론적 예측과 괴리가 발생함을 보고.",
-      "score": 54
-    },
-    {
-      "title": "A Good Self-Teacher Meets the Student Where They Are: Joint On-Policy Learning and Teaching",
-      "url": "https://arxiv.org/abs/2610.10447v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-10-07",
-      "summary_ko": "논문은 강화학습의 자가-증류에서 특권 정보 기반 교사가 학생에게 부적절한 지도를 제공하는 문제를 분석하고, 교사의 증류 업데이트가 학생의 보상 그래디언트와 일치하기 위한 필요충분조건을 도출한다. 이를 토대로 KL-정규화 교사와 밀집 증류 학생을 동시 학습하는 JOLT 방법을 제안하며, 수학 추론·코딩 등에서 검증한다.",
-      "score": 54
-    },
-    {
-      "title": "Which Rollout Taught It That? BehaviorTrace and the Limits of Training-Data Attribution in Online RL",
-      "url": "https://arxiv.org/abs/2610.10422v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-10-07",
-      "summary_ko": "온라인 RL을 통해 언어모델에 새 행동을 가르칠 때 기여한 training rollout을 찾는 문제를 연구합니다. BehaviorTrace 평가 도구를 개발해 gradient 기반 attribution 방법들의 한계를 드러냈으며, gradient magnitude 같은 단순 제어만으로도 targeted estimator 수준의 성능을 낸다는 것을 발견했습니다. 모델 유창성과 seed별 변동성의 영향이 크고, trigger token gradient를 제외한 attribution 신호는 재현성이 약합니다.",
-      "score": 54
-    },
-    {
-      "title": "The Answer Is Not the Argument",
-      "url": "https://arxiv.org/abs/2609.00264v2",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-10-07",
-      "summary_ko": "Chain-of-Thought 추적을 통한 AI 감시에서 정답 참조의 역할을 실험 검증한 연구로, 정답 접근이 평균 정확도를 0.637에서 0.796으로 향상시키나 효과가 결론 일치 신호에 의존함을 발견했다. 특히 정답 내 추론 오류 탐지는 개선되지 않으며, 신뢰할 수 있는 정답은 독립적 추론 검증이 아닌 '정답-결론 일치 신호'에 모니터링 성능을 의존하게 하여 감시 시스템의 신뢰도를 과대평가하게 한다.",
-      "score": 54
-    },
-    {
-      "title": "Continual Learning without Continual Training",
-      "url": "https://arxiv.org/abs/2610.10379v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-10-07",
-      "summary_ko": "매개변수 고정 후 인컨텍스트 베이지안 추론으로 새 도메인·클래스에 적응하는 연속학습 방법 제안. 기존 지식 보존과 빠른 적응의 트레이드오프를 해결하며 노이즈·불완전한 어노테이션도 처리 가능.",
-      "score": 54
-    },
-    {
-      "title": "SLDR: Defending Against Malicious Fine-tuning via Selective Layers Recovery and Dynamic Routing",
-      "url": "https://arxiv.org/abs/2610.10345v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-10-07",
-      "summary_ko": "본 논문은 파인튜닝 서비스 환경에서 악의적 공격으로부터 LLM을 보호하는 SLDR 방법을 제안합니다. 계층별 안전성 민감도를 분석하여 선택적으로 LoRA 어댑터를 학습하고, 표현 기반 동적 라우팅으로 악의적 쿼리에만 방어를 활성화합니다. Llama3.1/SST2에서 해로운 점수를 11.54에서 0.08로 크게 감소시키면서 정상 작업 성능을 유지합니다.",
-      "score": 54
-    },
-    {
-      "title": "Learning to Act with Task Progress: Distilling Small Agents from Compact Teacher Supervision",
-      "url": "https://arxiv.org/abs/2610.10332v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-10-07",
-      "summary_ko": "작은 에이전트(1.7B)를 대형 모델의 데모로부터 효율적으로 훈련하기 위해 Task-Progress Distillation (TPD)를 제안합니다. 각 행동에 현재 task stage 레이블을 붙여 학습하며, ALFWorld 벤치마크에서 404개 데모로 72.4% 성공률을 달성했고, 200개 데모에서 명시적 progress 정보의 이점이 특히 두드러집니다.",
-      "score": 54
-    },
-    {
-      "title": "Nobody Truly Agrees on Sentiment: Humans, Bespoke Tools, and LLMs Struggle with Social Media Texts",
-      "url": "https://arxiv.org/abs/2610.10318v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-10-07",
-      "summary_ko": "감정 분석 도구와 LLM의 신뢰성을 인간 평가자 6명과 비교 평가한 논문. 100개 트윗에 대해 코헨·플라이스 카파로 일치도를 측정한 결과, 인간끼리도 공정한 수준의 일치도만 보였으며, Twitter-roBERTa-base가 LLM보다 성능이 우수했고, 도메인 특화 미세조정의 중요성이 강조되었다.",
-      "score": 54
-    },
-    {
-      "title": "Artificial Hivemind: The Open-Ended Homogeneity of Language Models (and Beyond)",
-      "url": "https://arxiv.org/abs/2510.22954v2",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-10-06",
-      "summary_ko": "26K 오픈엔디드 쿼리와 31,250개 인간 주석을 포함한 Infinity-Chat 데이터셋을 통해 언어모델의 '인공 하이브마인드' 효과를 분석했으며, 단일 모델 내 반복성(intra-model repetition)과 모델 간 동형성(inter-model homogeneity) 두 수준의 출력 균질화를 발견했다. 또한 리워드 모델과 LM 판사가 개인별 선호도 차이가 큰 생성물에서 인간 평가와의 보정이 미흡함을 드러냈다.",
-      "score": 54
     }
   ],
   "available_periods": {
     "daily": [
+      "2026-10-11",
       "2026-10-10",
       "2026-10-09",
       "2026-10-08",
@@ -450,8 +451,7 @@
       "2026-08-15",
       "2026-08-14",
       "2026-08-13",
-      "2026-08-12",
-      "2026-08-11"
+      "2026-08-12"
     ],
     "weekly": [
       "2026-W41",
