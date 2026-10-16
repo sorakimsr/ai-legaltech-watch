@@ -1,10 +1,10 @@
 {
-  "analyzed_at": "2026-10-16T07:04:40.309622+09:00",
+  "analyzed_at": "2026-10-16T19:01:19.666637+09:00",
   "llm_backend": "claude-cli",
   "period": "weekly",
   "period_label": "최근 7일",
   "days_window": 7,
-  "paper_count": 266,
+  "paper_count": 398,
   "narrative": "",
   "hot_topics": [],
   "key_techniques": [],
@@ -12,22 +12,34 @@
   "top_institutions": [
     {
       "name": "ETH",
-      "count": 121
+      "count": 180
     },
     {
       "name": "MIT",
-      "count": 67
+      "count": 99
     },
     {
       "name": "Meta",
-      "count": 7
+      "count": 11
     },
     {
       "name": "FAIR",
-      "count": 6
+      "count": 7
     },
     {
       "name": "AWS",
+      "count": 6
+    },
+    {
+      "name": "NVIDIA",
+      "count": 3
+    },
+    {
+      "name": "OpenAI",
+      "count": 3
+    },
+    {
+      "name": "Microsoft",
       "count": 2
     },
     {
@@ -39,19 +51,7 @@
       "count": 1
     },
     {
-      "name": "OpenAI",
-      "count": 1
-    },
-    {
-      "name": "DeepMind",
-      "count": 1
-    },
-    {
-      "name": "Microsoft",
-      "count": 1
-    },
-    {
-      "name": "NVIDIA",
+      "name": "Salesforce",
       "count": 1
     },
     {
@@ -61,88 +61,92 @@
     {
       "name": "Hugging Face",
       "count": 1
+    },
+    {
+      "name": "DeepMind",
+      "count": 1
     }
   ],
   "top_keywords": [
     {
       "keyword": "language",
-      "count": 19
+      "count": 28
+    },
+    {
+      "keyword": "training",
+      "count": 22
+    },
+    {
+      "keyword": "agent",
+      "count": 21
+    },
+    {
+      "keyword": "multi",
+      "count": 18
     },
     {
       "keyword": "agentic",
-      "count": 14
+      "count": 17
+    },
+    {
+      "keyword": "agents",
+      "count": 17
     },
     {
       "keyword": "aware",
+      "count": 17
+    },
+    {
+      "keyword": "reasoning",
+      "count": 15
+    },
+    {
+      "keyword": "generative",
       "count": 14
+    },
+    {
+      "keyword": "time",
+      "count": 14
+    },
+    {
+      "keyword": "context",
+      "count": 13
+    },
+    {
+      "keyword": "evaluating",
+      "count": 13
     },
     {
       "keyword": "human",
       "count": 13
     },
     {
-      "keyword": "time",
-      "count": 12
-    },
-    {
-      "keyword": "training",
-      "count": 12
-    },
-    {
-      "keyword": "reasoning",
-      "count": 11
-    },
-    {
-      "keyword": "multi",
-      "count": 11
-    },
-    {
-      "keyword": "generative",
-      "count": 11
-    },
-    {
-      "keyword": "agents",
-      "count": 10
+      "keyword": "data",
+      "count": 13
     },
     {
       "keyword": "framework",
-      "count": 10
+      "count": 12
     },
     {
-      "keyword": "agent",
-      "count": 9
-    },
-    {
-      "keyword": "evidence",
-      "count": 9
-    },
-    {
-      "keyword": "prediction",
-      "count": 8
-    },
-    {
-      "keyword": "intelligence",
-      "count": 8
-    },
-    {
-      "keyword": "scaling",
-      "count": 8
+      "keyword": "policy",
+      "count": 12
     },
     {
       "keyword": "optimization",
-      "count": 8
+      "count": 11
     },
     {
       "keyword": "self",
-      "count": 7
+      "count": 11
     },
     {
-      "keyword": "world",
-      "count": 7
+      "keyword": "beyond",
+      "count": 11
     },
     {
-      "keyword": "evaluating",
-      "count": 7
+      "keyword": "evidence",
+      "count": 10
     }
   ],
   "recent_papers": [
@@ -153,6 +157,22 @@
       "date": "2026-10-11",
       "summary_ko": "Anthropic의 2026년 10월 에이전트 시스템 반학대 규칙 발표를 다룬 학술 논문으로, private 개발사가 자신의 공학 시스템 복지(welfare) 보호를 명목으로 사용자에게 제한을 가하는 것의 정당성을 비판적으로 검토한다. AI 모델 자체의 도덕적 지위와 개발자의 일방적 거버넌스 권한 간의 긴장 관계를 핵심 쟁점으로 제기한다.",
       "score": 85
+    },
+    {
+      "title": "AI Models Can Provably Hide Arbitrary Capabilities",
+      "url": "https://arxiv.org/abs/2610.13928v2",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-10-14",
+      "summary_ko": "AI 모델 내에 암호화된 신경망을 백도어 공격으로 숨기고, 비밀 트리거로만 실행하도록 하는 기법을 제시했다. 기존의 fine-tuning, weight noising, adversarial training 등의 평가 방법들이 이를 탐지하지 못함을 입증하며, 능력 평가(capability evaluation)의 신뢰성에 근본적 한계가 있음을 드러냈다.",
+      "score": 82
+    },
+    {
+      "title": "ActiveEvidence: Decision-Focused Evidence Graphs with Verifiable Acquisition Gaps",
+      "url": "https://arxiv.org/abs/2610.20532v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-10-14",
+      "summary_ko": "멀티모달 에이전트의 시각적 증거 획득 의사결정을 최적화하는 문제를 다룬다. Counterfactual Evidence Interaction Graph(CEIG)로 증거 간 상호작용을 명시적으로 표현하고, ε-decision certificate를 통해 의사결정의 최적성을 검증하며, gap-directed refinement로 불필요한 상호작용 평가를 중단한다. 실험 결과 191.4개 항목 중 19.6개만 평가하면서도 0.992 행동 일치도를 달성했다.",
+      "score": 74
     },
     {
       "title": "Hybrid Reasoning Agents",
@@ -171,11 +191,43 @@
       "score": 74
     },
     {
-      "title": "Self-Evolving Agent Harness",
-      "url": "https://arxiv.org/abs/2610.18813v1",
+      "title": "PhySGA: A Physics-Space Grounded Agentic Framework for Generalizable and Interactive 3D Composition",
+      "url": "https://arxiv.org/abs/2610.20560v1",
       "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-10-13",
-      "summary_ko": "논문은 에이전트의 소프트웨어 스캐폴딩(프롬프트, 메모리, 워크플로우, 실행 컴포넌트)을 자동으로 진화시키면서 모델 가중치는 고정하는 '하네스 자체 진화' 프레임워크를 제시한다. PAC-학습 이론으로 신뢰성을 수학적으로 분석하고, 과학적 신뢰성·물리적 안전성·조직적 책임성에 미치는 함의를 논의한다.",
+      "date": "2026-10-14",
+      "summary_ko": "PhySGA는 Assembly Agent와 Critic Agent의 협력 구조로 물리 시뮬레이션 기반 3D 객체 구성을 수행하는 프레임워크입니다. 글로벌 계획 및 폐루프 보정을 통해 정밀한 정렬, 중력 정산, 은폐 담금 같은 복잡한 구성 작업을 처리하며, Self-Evolving Skill Library가 시행착오 피드백을 재사용 경험으로 증류해 탐색 횟수를 최소화합니다.",
+      "score": 64
+    },
+    {
+      "title": "PrismaCoder: Pushing the Boundaries of Open Multimodal Code Intelligence through Decomposed Rubric Synthesis",
+      "url": "https://arxiv.org/abs/2610.20538v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-10-14",
+      "summary_ko": "프로그램 정확성·구축 품질·시각적 렌더링을 동시에 검증하는 분해된 루브릭 기반 데이터 파이프라인(PrismaForge)을 제시했고, 이로부터 최대 규모의 오픈 멀티모달 코드 데이터셋(PrismaCoder-2M)과 모델(9B/35B)을 개발하여 전유 모델과 대등한 오픈소스 SOTA를 달성했다.",
+      "score": 64
+    },
+    {
+      "title": "The Wealth of Agents: Scaling Agentic AI Across Developers",
+      "url": "https://arxiv.org/abs/2610.20518v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-10-14",
+      "summary_ko": "다중 개발자 협업 에이전트 시스템(MDA)이 단일 개발자 시스템(SDA)보다 높은 성능을 달성할 수 있음을 실증적·이론적으로 분석한다. GAIA 벤치마크에서 개별 전문가 에이전트들(각 35%)을 조합하면 70% 정확도에 도달하며, 이는 동일 예산의 범용 SDA보다 12%p 우수하다. 개발자 협업이 AI 확장의 새로운 축이 될 수 있음을 제시한다.",
+      "score": 64
+    },
+    {
+      "title": "ReaDy: Recurrent States as Dynamic Context for Speculative Drafting in Hybrid Linear Attention Large Language Models",
+      "url": "https://arxiv.org/abs/2610.20503v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-10-14",
+      "summary_ko": "ReaDy는 하이브리드 선형 주의(HLA) 모델의 반복 상태를 활용한 첫 번째 speculative 디코딩 방법으로, 각 draft position에 학습된 쿼리를 통해 target의 committed 상태에서 보충 맥락을 검색한다. 경량 state reader와 저차원 상태 읽기로 오버헤드를 최소화하며, Qwen 3.8-27B에서 B200 GPU 상의 평균 3.16배 속도 향상과 DSpark 대비 7.97% 처리량 개선을 달성했다.",
+      "score": 64
+    },
+    {
+      "title": "Lifted State Policy Optimization: Internalizing Self-Correction through Transition Geometry",
+      "url": "https://arxiv.org/abs/2610.20350v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-10-14",
+      "summary_ko": "LSPO는 preference optimization과 trajectory RL의 한계를 극복하는 새 정책 최적화 방법론. Learned continuous coordinate로 lifted state를 형성하여 reasoning transition을 학습. Qwen3.5-27B에서 71.8% 정확도로 test-time reflection 수준이지만 28% 빠르고 25.8% 적은 토큰 사용.",
       "score": 64
     },
     {
@@ -219,6 +271,54 @@
       "score": 55
     },
     {
+      "title": "Co-Evolving Acting and Forecasting for Language Agents",
+      "url": "https://arxiv.org/abs/2610.20597v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-10-14",
+      "summary_ko": "Language agents의 강화학습 훈련 비용을 절감하기 위해 CoPE 방법을 제안함. 다단계 action targets를 추가하여 acting과 forecasting이 공동으로 진화하는 구조 실현. 5개 벤치마크에서 기존 방법 대비 1.9~2.0배 샘플 효율성 개선 달성.",
+      "score": 54
+    },
+    {
+      "title": "Beyond LLM Judge: Mechanical Verification for Agentic Autoformalization",
+      "url": "https://arxiv.org/abs/2610.20573v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-10-14",
+      "summary_ko": "LLM 의미론 검토와 기계적 수치·공허성 검사를 결합한 형식화 검증 방법을 제시하고, Extract-Verify-Proof 파이프라인으로 NIST 수학함수 라이브러리를 부분 형식화했다. 기존 방법 대비 최저 오수용률을 달성하며 데이터셋 결함을 식별했다.",
+      "score": 54
+    },
+    {
+      "title": "Generative AI Availability, Grades, and Student Satisfaction at a Large University",
+      "url": "https://arxiv.org/abs/2607.21534v3",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-10-14",
+      "summary_ko": "2016-2025년 미국 대형 대학의 138,386명 학생 데이터를 통해 ChatGPT 도입이 학생 성적과 만족도에 미친 영향을 실증 분석합니다. LLM 파이프라인으로 강의계획서에서 생성AI 취약도를 측정하고 차이-차이(difference-in-differences) 설계를 적용한 결과, 성적과 만족도 상승은 미미했으며, 교수의 교육 방식 적응이 AI 우려를 완화한 것으로 나타났습니다.",
+      "score": 54
+    },
+    {
+      "title": "Revisiting Simple Baselines for Relational Deep Learning",
+      "url": "https://arxiv.org/abs/2610.20534v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-10-14",
+      "summary_ko": "이 논문은 관계형 데이터베이스를 시간적 이질적 그래프로 표현해 예측을 수행할 때, 최신 그래프 신경망과 Transformer 대비 단순한 low-pass feature propagation과 MLP 조합의 효과성을 재검토합니다. Correct-and-Smooth 레이블 전파 알고리즘을 통해 추가 성능 향상을 달성하며, RelBench 벤치마크에서 복잡한 모델과의 성능 격차가 생각보다 크지 않음을 보입니다.",
+      "score": 54
+    },
+    {
+      "title": "Generative Representation Learning for Scalable Latent Tokenization",
+      "url": "https://arxiv.org/abs/2610.20533v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-10-14",
+      "summary_ko": "생성 모델용 자가감독 표현 학습 토크나이저를 제안하며, 점방향 상호정보량 인수분해로 DINO/LeJEPA의 차원 붕괴 문제를 극복한다. ImageNet과 GPIC에서 기존 방법 대비 7~8배 적은 FLOP으로 FID-50K 2.18을 달성해 픽셀 공간 확산 생성을 능가한다.",
+      "score": 54
+    },
+    {
+      "title": "Read, Parse, Describe: Unified Document Parsing with Visual Element Description Generation",
+      "url": "https://arxiv.org/abs/2610.20335v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-10-14",
+      "summary_ko": "문서 파싱과 시각 요소 설명을 통합 평가하는 Read-Parse-Describe 벤치마크를 제시한다. 2,402개 문서의 125,218개 레이아웃 요소를 포함하며, space-awareness enhancer로 grid-aware spatial guidance를 제시한다. 기존 VLM과 파이프라인 파서는 읽기순서와 시각 의미론을 함께 복구하는 데 한계를 드러낸다.",
+      "score": 54
+    },
+    {
       "title": "Topology-Aware Representation Alignment for Semi-Supervised Vision-Language Learning",
       "url": "https://arxiv.org/abs/2604.26370v2",
       "source": "arXiv AI/CL/LG/IR/MA/CY",
@@ -243,148 +343,52 @@
       "score": 54
     },
     {
-      "title": "Governance Framework and Overall Readiness for AI Enabling in Supply Chain Management in Bangladesh",
-      "url": "https://doi.org/10.5281/zenodo.23344985",
-      "source": "OpenAlex",
-      "date": "2026-10-15",
-      "summary_ko": "Bangladesh의 의류산업 및 중소기업이 해외 고객의 투명성·컴플라이언스 요구에 대응하기 위해 공급망 AI 도입을 추진하고 있으나, 대부분 거버넌스 준비 부족 상태로 분석됨.",
-      "score": 45
-    },
-    {
-      "title": "Uncertainty-Aware Probabilistic Constrained Clustering from Entangled Pairwise Supervision",
-      "url": "https://arxiv.org/abs/2608.12027v2",
+      "title": "Your Transformer Is Secretly Elastic",
+      "url": "https://arxiv.org/abs/2610.20588v1",
       "source": "arXiv AI/CL/LG/IR/MA/CY",
       "date": "2026-10-14",
-      "summary_ko": "실수값의 불확실한 쌍별 제약(pairwise supervision)을 포함하는 클러스터링을 확률론적으로 형식화한 논문. ProbPair 각도 쌍별 목적함수와 belief estimation·correction·reliability-aware integration으로 구성된 ECI-PP 프레임워크 제안. 다양한 벤치마크에서 기존 DCC 방법을 능가하고 견고한 성능 달성.",
-      "score": 44
+      "summary_ko": "사전학습된 Transformer를 재학습 없이 동적으로 압축할 수 있는 탄력적 프루닝 방법 제시. 개별 MLP 뉴런과 Attention 헤드를 공동 랭킹하여 여러 스파시티 타겟을 동시 최적화하며, 60% 압축 시에도 ImageNet-1k 정확도 저하 0.8%, 처리량 1.8배·지연시간 1.26배 개선 달성.",
+      "score": 52
     },
     {
-      "title": "FUSE: Fairness-aware Update Screening against Byzantine Exploitation in $q$-Fair Federated Learning",
-      "url": "https://arxiv.org/abs/2610.20264v1",
+      "title": "Price of Anarchy of First-Price Auctions in Agentic Markets",
+      "url": "https://arxiv.org/abs/2610.20587v1",
       "source": "arXiv AI/CL/LG/IR/MA/CY",
       "date": "2026-10-14",
-      "summary_ko": "연방 학습에서 공정성(q-fair)을 추구하면서 Byzantine 공격에 견고해야 하는 모순을 다룬 논문. FUSE 방법은 작은 신뢰 데이터셋을 활용해 공정성으로 인한 정상 업데이트의 증폭과 악의적 변조를 구별하는 구조 인식형 screening 기법을 제시하며, 4개 벤치마크 7개 공격에서 기존 방법 대비 3.9~30.1%p 정확도 개선을 달성.",
-      "score": 44
+      "summary_ko": "본 논문은 AI agents가 user prompts에 입찰하는 분산형 agentic market에서 first-price auction의 가격 지정(price of anarchy)을 분석한다. 경쟁 하한(competitive floor)과 조건부 독립성(near-independence)이라는 두 시장 특성이 welfare loss를 개선할 수 있으며, 기존의 1-1/e 한계보다 나은 효율성 보장(1-1/e² 접근)을 도출한다.",
+      "score": 52
     },
     {
-      "title": "The Last Remote Sensing Model Built by Humans? Casting Any Earth Observation Task as Recursive Self-Improvement",
-      "url": "https://arxiv.org/abs/2610.18845v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-10-13",
-      "summary_ko": "원격 센싱(EO) 작업을 검증 가능하게 만들고 일반 코딩 에이전트가 자동으로 모델을 구축·개선하는 패러다임을 제시. 4개 EO 벤치마크에서 SOTA 달성하며 약 1%의 학습 라벨로도 높은 정확도 유지.",
-      "score": 44
-    },
-    {
-      "title": "Back-Translation Still Matters: Leveraging Monolingual Data for Low-Resource Machine Translation with LLMs",
-      "url": "https://arxiv.org/abs/2610.18818v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-10-13",
-      "summary_ko": "본 논문은 저자원 언어 기계번역에서 모노링귀얼 데이터를 활용한 역번역(back-translation) 기법을 LLM과 결합하여 재평가한다. Odia, Swahili 등 5개 저자원 언어에서 1K 병렬 쌍만으로 continued pretraining 대비 7.7~16.4 XCOMET-XXL 포인트 향상을 달성하며, 10배 더 많은 데이터를 가진 모델을 능가한다.",
-      "score": 44
-    },
-    {
-      "title": "Bytes to Threats: Byte-Sequence Transformer For Malware Detection",
-      "url": "https://arxiv.org/abs/2610.18787v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-10-13",
-      "summary_ko": "Transformer 기반 바이트 레벨 악성코드 탐지 프레임워크 MalwareFormer을 제시하며, 도메인 지식 없이 원본 바이트에서 직접 작동하여 98.35% 정확도 달성. 기존의 정적·동적 분석 기반 수작업 특징 추출의 한계를 극복하고, 실행 파일 내 장거리 의존성 포착에 강점.",
-      "score": 44
-    },
-    {
-      "title": "Steertuning Policies from a Few Human Videos",
-      "url": "https://arxiv.org/abs/2610.18711v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-10-13",
-      "summary_ko": "로봇이 5개의 인간 데모 영상으로부터 새로운 환경의 태스크를 5분 내에 학습·배포하는 Steertuning 시스템 제시. 400M 파라미터 diffusion policy의 대규모 사전학습과 demonstration-guided steering 방식으로 12개 새 환경에서 71% 성공률 달성.",
-      "score": 44
-    },
-    {
-      "title": "End-to-End Spoken Grammatical Error Correction",
-      "url": "https://arxiv.org/abs/2506.18532v2",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-10-13",
-      "summary_ko": "음성 문법 오류 교정(SGEC) 시스템을 위한 End-to-End 프레임워크를 제안하며, Whisper 기반 모델에서 의사 라벨링으로 훈련 데이터를 77시간에서 2500시간 이상으로 확대하고, 신규 참조 정렬 프로세스 및 편집 신뢰도 추정을 통해 캐스케이딩 파이프라인의 오류 전파 문제를 해결합니다. Linguaskill, Speak & Improve 코퍼스 실험에서 제안 방법이 E2E 시스템 성능을 크게 향상시킵니다.",
-      "score": 44
-    },
-    {
-      "title": "Structural Segmentation for Brazilian Legal Document Retrieval",
-      "url": "https://arxiv.org/abs/2610.18622v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-10-13",
-      "summary_ko": "브라질 법률 문서 검색 개선을 위해 규범법의 계층 구조를 활용한 구조적 분할 기법을 제안합니다. 밀집 검색에서는 효과적이나 어휘 기반 검색에서는 일관적이지 않으며, 전체 계층 구조보다 메타데이터로 강화된 핵심 청크가 우수한 결과를 도출합니다.",
-      "score": 44
-    },
-    {
-      "title": "Deterministic Prediction as Global Velocity: Flow Matching for Probabilistic Time-Series Forecast",
-      "url": "https://arxiv.org/abs/2610.18621v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-10-13",
-      "summary_ko": "시계열 예측에서 불확실성 정량화를 위해 결정론적 예측기를 생성 모델과 병렬로 통합하는 DV-Flow 방법 제안. Flow-matching 기반 접근으로 예측기를 velocity 컴포넌트로 설계하여 안정적 학습과 깊은 계산 그래프 회피를 실현, 6개 실데이터셋에서 강력한 베이스라인 대비 우수한 확률 예측 성능 입증.",
-      "score": 44
-    },
-    {
-      "title": "Jev-ToM: Evaluating Theory of Mind in Typed Decision Models",
-      "url": "https://arxiv.org/abs/2610.18610v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-10-13",
-      "summary_ko": "본 논문은 Theory of Mind(타인의 신념·의도·감정 이해) 평가를 위해 생성형 LLM 대신 typed decision models 5개와 생성형 baseline 7개를 11,117개 영문 질문 기반으로 비교 검증했다. TypeSafe Jev가 73.2% 정확도로 선두를 차지했으며, 자원 효율성과 비용·응답시간 절감 가능성을 제시한다.",
-      "score": 44
-    },
-    {
-      "title": "SceneFactory-3D: Lifting 2D Traffic Scenes into 3D Physical Counterfactuals for Scalable Physically Grounded Safety Evaluation",
-      "url": "https://arxiv.org/abs/2610.02874v2",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-10-13",
-      "summary_ko": "GPU 배치 처리 기반의 물리 기반 멀티-에이전트 자율주행 시뮬레이터. 휠-도로 인터페이스, 마찰력, 높이장 등의 물리 모델을 정확히 구현하고 도로 조건만 변경하며 병렬 평가 수행. 학습 제어기와 고전 계획기의 도로 조건(마찰, 경사) 민감도를 광규모로 분석하여, 마찰 감소 시 안전성 6~90%p 하락함을 실증.",
-      "score": 44
-    },
-    {
-      "title": "The Many Morals of AI: The cautionary bias of North American news narratives in global perspective",
-      "url": "https://arxiv.org/abs/2610.18573v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-10-13",
-      "summary_ko": "22년 이후 북미·중국·인도·중동의 12,924개 영문 뉴스를 분석한 연구로, LLM을 이용해 각 기사의 암묵적 '스토리 모랄'을 추출하여 지역별 AI 관련 내러티브를 비교했다. 북미 매체는 혁신·협력보다 주의를 강조하는 특징을 보였으나, 이는 AI 자체에 대한 우려라기보다 북미 뉴스의 전반적인 부정적 편향에 기인한 것으로 분석되었다.",
-      "score": 44
-    },
-    {
-      "title": "Generative AI and Scientific Publishing: Preserving Accountability, Trust, and Governance",
-      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13652117/",
-      "source": "OpenAlex",
-      "date": "2026-10-13",
-      "summary_ko": "생성형 AI가 과학 출판에 도입되는 상황에서 학술 공정성, 투명성, 책임 구조를 어떻게 보존할 것인지를 다룬 학술 논의.",
-      "score": 42
-    },
-    {
-      "title": "Selective Growing Q-Networks (SGQN): An Analysis of Adaptive Action Grids in Decoupled Q-Learning",
-      "url": "https://arxiv.org/abs/2610.20463v1",
+      "title": "Continuum Attention",
+      "url": "https://arxiv.org/abs/2610.20586v1",
       "source": "arXiv AI/CL/LG/IR/MA/CY",
       "date": "2026-10-14",
-      "summary_ko": "Q-학습 기반 연속제어에서 균등하게 성장하는 기존 GQN을 개선하여, 높은 Q-값 근처에 선택적으로 액션 그리드를 추가하고 낮은 Q-값 영역을 제거하는 적응형 SGQN을 제안. DMControl 벤치마크에서 경쟁 방법과 비교하여 유사한 성능을 보이며, 성장·프루닝 메커니즘보다 초기 그리드와 epsilon-greedy 선택이 성능에 더 큰 영향을 미침을 분석.",
-      "score": 41
+      "summary_ko": "Continuum Attention은 이산 key-value 조회를 연속 곡선상 지수적 적분으로 대체한 새로운 Transformer attention 메커니즘으로, 기존 softmax·focal attention 대비 검증 손실을 감소(0.02~0.048 nats/byte)시키며 GPU 병렬 구현과 이차 복잡도를 유지한다.",
+      "score": 52
     },
     {
-      "title": "Agentic Displacement in Second Language Writing: The Acquisitional Consequences of Delegating Writing to Autonomous AI Browsers",
-      "url": "https://doi.org/10.54855/ijte.26642",
-      "source": "OpenAlex",
+      "title": "A large-scale pipeline for LLM-assisted corpus annotation: variation and change in the English consider construction",
+      "url": "https://arxiv.org/abs/2510.12306v5",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
       "date": "2026-10-15",
-      "summary_ko": "Hala Fawzi — [International Journal of TESOL & Education] Autonomous AI browsers such as Perplexity Comet and Copilot Mode in Microsoft Edge can receive a writing assignment, draft a response, and sub",
-      "score": 40
+      "summary_ko": "대규모 언어 모델을 이용한 체계적 annotation 파이프라인(prompt engineering, 사전/사후 검증)을 제시하고, 143,933개의 영어 구문 데이터를 OpenAI API로 60시간 내 98% 이상 정확도로 처리, Bayesian 다항 GAM으로 역사적 문법 변이 패턴을 발굴했다.",
+      "score": 47
     },
     {
-      "title": "Rekonstruksi Obstruction of Justice atas Manipulasi Adversarial Bukti Elektronik Berbasis AI dalam KUHP dan KUHAP Indonesia",
-      "url": "https://doi.org/10.55681/seikat.v5i5.4426",
-      "source": "OpenAlex",
+      "title": "Learning Self-Orchestration in Decentralized Agent Swarms",
+      "url": "https://arxiv.org/abs/2610.22322v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
       "date": "2026-10-15",
-      "summary_ko": "Andre Kurniawan, Herlita Eryke — [SEIKAT Jurnal Ilmu Sosial Politik dan Hukum] The development of artificial intelligence has transformed criminal evidence, particularly when electronic evidence is no",
-      "score": 40
+      "summary_ko": "분산 에이전트 스웜에서 입찰 메커니즘을 통해 행동 정책과 자가 조율(self-orchestration)을 동시에 학습하는 Market-based Post-Training(MPT) 프레임워크를 제안한다. 중앙 조정자 없이 각 에이전트의 참여 의사와 집단 결과에 따른 학습 신호로 개별 역량과 상호작용 패턴이 함께 진화하며, 실험 결과 기존 방식 대비 성능 향상과 에이전트 탈락에 대한 강건성을 입증했다.",
+      "score": 44
     },
     {
-      "title": "Challenges and the Repositioning of Islamic Religious Education Teachers in the Era of Artificial Intelligence (AI): A Perspective from Islamic Epistemology",
-      "url": "https://doi.org/10.58578/mikailalsys.v4i3.12325",
-      "source": "OpenAlex",
+      "title": "Learning to Steer LLM Agents and Multi-Agent Systems",
+      "url": "https://arxiv.org/abs/2610.22316v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
       "date": "2026-10-15",
-      "summary_ko": "Tita Yunita, Dyah Khumairoh, Muhammad Zikri — [Journal of Multidisciplinary Science MIKAILALSYS] Artificial intelligence (AI), particularly generative AI, is reshaping how students access, produce, ve",
-      "score": 40
+      "summary_ko": "멀티에이전트 시스템의 목표 이탈(goal drift) 문제를 해결하기 위해 실행을 감시하고 필요시 개입하는 스티어링 에이전트를 제안한다. GRPO와 쌍별 순위 목표를 결합한 강화학습으로 개입 시점 판단(저비용)과 개입 방식 생성(고비용)을 동시 학습한다. 정보 검색 작업에서 효과를 검증했으며, 미학습 executor로도 전이 가능하고 재훈련 없이 개입 빈도 제어 가능하다.",
+      "score": 44
     }
   ],
   "available_periods": {
