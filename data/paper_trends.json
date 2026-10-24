@@ -1,10 +1,10 @@
 {
-  "analyzed_at": "2026-10-24T19:02:43.802063+09:00",
+  "analyzed_at": "2026-10-25T07:02:08.777189+09:00",
   "llm_backend": "claude-cli",
   "period": "weekly",
   "period_label": "최근 7일",
   "days_window": 7,
-  "paper_count": 450,
+  "paper_count": 448,
   "narrative": "",
   "hot_topics": [],
   "key_techniques": [],
@@ -16,7 +16,7 @@
     },
     {
       "name": "MIT",
-      "count": 121
+      "count": 120
     },
     {
       "name": "Meta",
@@ -70,26 +70,26 @@
     },
     {
       "keyword": "multi",
-      "count": 25
+      "count": 26
     },
     {
       "keyword": "agent",
       "count": 23
     },
     {
-      "keyword": "language",
-      "count": 22
-    },
-    {
       "keyword": "generative",
-      "count": 20
+      "count": 21
     },
     {
-      "keyword": "data",
+      "keyword": "language",
+      "count": 21
+    },
+    {
+      "keyword": "agentic",
       "count": 19
     },
     {
-      "keyword": "framework",
+      "keyword": "data",
       "count": 19
     },
     {
@@ -97,8 +97,8 @@
       "count": 18
     },
     {
-      "keyword": "agentic",
-      "count": 17
+      "keyword": "framework",
+      "count": 18
     },
     {
       "keyword": "optimization",
@@ -113,7 +113,7 @@
       "count": 15
     },
     {
-      "keyword": "human",
+      "keyword": "generation",
       "count": 15
     },
     {
@@ -121,11 +121,7 @@
       "count": 15
     },
     {
-      "keyword": "driven",
-      "count": 14
-    },
-    {
-      "keyword": "generation",
+      "keyword": "human",
       "count": 14
     },
     {
@@ -143,6 +139,10 @@
     {
       "keyword": "assisted",
       "count": 13
+    },
+    {
+      "keyword": "driven",
+      "count": 13
     }
   ],
   "recent_papers": [
@@ -153,6 +153,14 @@
       "date": "2026-10-21",
       "summary_ko": "기업 문서 처리 에이전트가 텍스트 변환 시 저자의 포매팅(색상, 하이라이트) 의미를 손실하는 문제를 76개 정책 문서로 실증. 하이라이트·색상이 핵심 신호(+0.302, +0.262)이지만 주류 변환기는 보존하지 않으며, Claude·GPT 모두 포맷 무시 시 F1이 0.690에서 0.150 이하로 급락. 의무조항의 10.3%이 색상으로 표시되는 상황에서 에이전트의 자신감 있는 오류 위험을 경고.",
       "score": 87
+    },
+    {
+      "title": "Adaptive Skill Granularity for Coding Agents: Runtime Routing and Macro-to-Micro Recovery",
+      "url": "https://arxiv.org/abs/2610.31461v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-10-22",
+      "summary_ko": "논문은 코딩 에이전트에서 skill의 추상화 수준(granularity)을 runtime에 동적으로 선택하는 Adaptive Skill Granularity 프레임워크를 제시합니다. 원시 tool call, macro skill, 또는 hybrid execution 중 현재 상태에 맞는 방식을 선택하고 macro 실패 시 micro-level로 복구하는 메커니즘으로, 고정 granularity보다 runtime routing이 robustness와 cost 측면에서 우수함을 입증합니다.",
+      "score": 84
     },
     {
       "title": "Certified Execution Harness for Agentic AI: Safe and Least-Intrusive Petri-Net Supervisory Control Between Reasoning and Action",
@@ -201,6 +209,14 @@
       "date": "2026-10-21",
       "summary_ko": "외부 데이터 없이 LLM이 자기 생성 질문-답변-증거를 structured form으로 합성한 후 장문 맥락으로 확장하는 LongZero 방법 제안. GRPO로 다중-홉 추론·다중-라운드 검색 과제 학습, 5개 벤치마크에서 외부 데이터 기반 baseline 능가.",
       "score": 82
+    },
+    {
+      "title": "Reliable AI-Assisted Decisions via Selective Auditing",
+      "url": "https://arxiv.org/abs/2610.31662v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-10-22",
+      "summary_ko": "AI 시스템의 의사결정을 모니터링하면서 신뢰도 점수 기반으로 자동 수용과 전문가 감사를 선택하는 온라인 최적화 문제를 제시한다. 감사 비용을 최소화하면서 AI 오류를 사용자 정의 임계값 이하로 보장하는 알고리즘을 개발했으며, 가정 없이도 증명 가능한 오류 제어 보장을 제공한다. LLM 해로운 요청 필터링, 텍스트 주석, 데이터 라벨링에서 기존 대비 감사량을 크게 줄였다.",
+      "score": 74
     },
     {
       "title": "World of SWECraft: Agent Collaboration at Scale via Simulated Software Worlds",
@@ -267,6 +283,54 @@
       "score": 66
     },
     {
+      "title": "Can an Agent Debug a Web Corpus? Agentic Auditing of Slovak FineWeb2",
+      "url": "https://arxiv.org/abs/2610.31636v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-10-22",
+      "summary_ko": "다국어 텍스트 파이프라인 FineWeb2의 슬로바키아 언어 부분(26.5M 문서)에서 LLM 에이전트를 '분류기'가 아닌 '코퍼스 디버거'로 활용하여 데이터 품질을 감시했다. 에이전트가 읽기 전용 API를 통해 코퍼스를 탐색하고 발견을 자동화된 테스트로 변환한 결과, 머신 생성 콘텐츠 팜 1.4M 개(5.32%)를 포함 7개 발견을 도출했으며, 비용은 $2.21–$2.84로 LLM 분류 대비 99% 이상 절감했다.",
+      "score": 64
+    },
+    {
+      "title": "Contestable Agents for Data Governance: Recording Human Stewardship of AI-Generated Metadata Across Structured and Unstructured Systems",
+      "url": "https://arxiv.org/abs/2610.31553v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-10-22",
+      "summary_ko": "LLM 기반 에이전트가 생성한 메타데이터 제안에 대해 인간 steward가 contested arguments를 검증하고 모든 개입·근거를 governance record에 남기는 'contestable governance' 프레임워크를 제시합니다. 도메인 glossary를 통해 agent에게 model-specific 용어를 공급하고, HVAC 점 분류 및 warranty 분석에서 구조화·비구조화 데이터의 AI-assisted decision 추적성을 확보하는 방법을 보여줍니다.",
+      "score": 64
+    },
+    {
+      "title": "Shift-aware score transport for privacy auditing without retraining",
+      "url": "https://arxiv.org/abs/2610.31549v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-10-22",
+      "summary_ko": "대규모 배포된 모델의 개인정보 누수를 재훈련 없이 감시하기 위해, 분포 이동으로 인한 멤버십 추론 점수 왜곡을 보정하는 'shift-aware score transport' 방법을 제안합니다. OOD 비멤버 데이터로부터 학습한 표현-점수 관계를 목표 분포로 전송하고 보수적 보정으로 감시 오류를 완화하여, 다양한 데이터셋에서 더 안정적인 개인정보 누수 추정을 실현합니다.",
+      "score": 64
+    },
+    {
+      "title": "Semantics Delivery Network: Rethinking Web Retrieval Infrastructure for LLM Agents",
+      "url": "https://arxiv.org/abs/2609.22486v2",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-10-22",
+      "summary_ko": "SemDN은 웹 콘텐츠를 의미론적 청크 단위로 인덱싱·검색·캐싱하는 계층 구조 네트워크로, LLM 에이전트의 반복적 fetch/clean/chunk/embed 비효율을 해결합니다. 예비 결과에서 페이지 기반 검색은 에이전트 소비량의 2~3배를 처리하며, 청크 기반 전달이 토큰당 답변 품질을 개선합니다.",
+      "score": 64
+    },
+    {
+      "title": "R$^2$Orch: Recursive Self-Improvement for Agent Orchestration via Self-Play within a Skill-Internalization Loop",
+      "url": "https://arxiv.org/abs/2610.22740v2",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-10-22",
+      "summary_ko": "본 논문은 에이전트 오케스트레이션의 학습 문제(수작업 커리큘럼, advantage collapse, 신뢰 불가능한 평가)를 해결하기 위해 R²Orch를 제안한다. 자기 플레이 기반의 내부 루프와 개선 방식을 개선하는 외부 루프, Recursive Learnability 목적 함수와 Skill Withdrawal 메커니즘을 통해 에이전트를 점진적으로 스킬에 의존하지 않게 훈련시키는 새로운 패러다임을 제시한다.",
+      "score": 64
+    },
+    {
+      "title": "Major Revision, Minor Accountability: LLMs as Reviewers of Published Articles in Top-Tier Journals",
+      "url": "https://arxiv.org/abs/2610.31414v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-10-22",
+      "summary_ko": "이 논문은 4개의 최신 LLM(상용 2개, 오픈웨이트 2개)을 이용해 상위 저널(Nature, Science, Cell 등)에 출판된 200개 논문의 피어리뷰를 수행한 결과, LLM들의 평가가 일관성이 부족하고 신뢰성이 낮음을 보였다. 실제 편집자를 통과한 논문의 75.6%에 대해 major revision 또는 rejection을 권고했지만 모델 간 편차가 극심했으며, 의도적으로 삽입한 결함의 탐지율도 17~60%로 크게 달랐다.",
+      "score": 64
+    },
+    {
       "title": "Learning Large-Scale Competitive Team Behaviors with Mean-Field Interactions",
       "url": "https://arxiv.org/abs/2504.21164v4",
       "source": "arXiv AI/CL/LG/IR/MA/CY",
@@ -307,88 +371,25 @@
       "score": 64
     },
     {
-      "title": "An Integrated XAI-RL Architecture for Ethical Decision-Making in Autonomous Robots",
-      "url": "https://doi.org/10.54878/h0csbb74",
+      "title": "AI AND EUROPE'S WORRIES : On Responsible AI, Global Governance, Copyright, Social Impact, and the Architecture That Answers",
+      "url": "https://doi.org/10.5281/zenodo.23580218",
       "source": "OpenAlex",
-      "date": "2026-10-17",
-      "summary_ko": "자율로봇이 의사결정 속도를 유지하면서 윤리적 추론을 투명하게 할 수 있도록 설명 가능 AI와 강화학습을 통합한 아키텍처를 제시한 학술 연구.",
-      "score": 56
+      "date": "2026-10-23",
+      "summary_ko": "유럽의회가 책임감 있고 윤리적인 AI 개발을 위해 글로벌 거버넌스 강화, 저작권 보호(언론인·예술가·창작자), 사회적 영향 구체 대응 필요를 표명했다. EU AI 정책 방향을 시사하는 신호.",
+      "score": 62
     },
     {
-      "title": "Giskard : Byzantine Robust and Private Aggregation for Large-Scale Decentralized Learning",
-      "url": "https://arxiv.org/abs/2606.19129v2",
+      "title": "Direct Pass@$k$ Optimization for Thought Pruning: Balancing Quality and Diversity in Test-Time Reasoning",
+      "url": "https://arxiv.org/abs/2610.31667v1",
       "source": "arXiv AI/CL/LG/IR/MA/CY",
       "date": "2026-10-22",
-      "summary_ko": "분산 학습에서 차등 개인정보보호와 Byzantine 공격 대응을 동시에 충족하는 Giskard 프로토콜을 제시. n명 참여자를 O(log n) 크기 위원회 트리로 구성하고 MPC 기반 안전한 quantile 검색으로 선택적 중앙값을 계산하여 통신 복잡도를 3배 이상 개선한 백만 명 규모 분산 집계 솔루션.",
-      "score": 54
-    },
-    {
-      "title": "Auditing the Hand-Written Inputs of Learned Access Control",
-      "url": "https://arxiv.org/abs/2610.31388v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-10-22",
-      "summary_ko": "논문은 학습 기반 접근 제어(learned access control) 시스템의 두 수동 구성 요소—hard-deny 규칙 집합과 영역 맵—을 감시한다. ABAC Lab 5개 정책에서 명시적 거부 규칙의 건전성을 형식적으로 검증하고, 저자 1명과 盲 LLM 3명이 작성한 규칙들이 0.50~0.70 비율로 불건전함(프로즈 범위 vs 디스조인 관계 불일치)을 밝혔으며, 미검증 규칙이 실제 정책 허가의 16~78%를 부당 거부할 가능성을 입증했다.",
-      "score": 54
-    },
-    {
-      "title": "Probabilistic Energy Modeling Unifies Versatile Swarm Control",
-      "url": "https://arxiv.org/abs/2610.31371v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-10-22",
-      "summary_ko": "로봇 떼의 다양한 작업을 단일 제어기로 수행하도록 확률적 에너지 모델링을 제시합니다. Gibbs 난수장과 보상 최대화의 대응성을 활용해 기본 행동들을 재사용 가능한 에너지항으로 인코딩하고, 경정책 게이팅으로 재학습 없이 구성합니다. 실제 드론 떼 배포에서 10-100 에이전트, 6개 작업 클래스, 2개 하드웨어에 걸쳐 제로샷 전이를 달성했습니다.",
-      "score": 54
-    },
-    {
-      "title": "To Distill or Decide? Understanding the Algorithmic Trade-off in Partially Observable Reinforcement Learning",
-      "url": "https://arxiv.org/abs/2510.03207v2",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-10-22",
-      "summary_ko": "부분 관찰성 강화학습에서 전문가 증류와 표준 RL의 알고리즘적 트레이드오프를 perturbed Block MDP 이론 모델과 제어된 시뮬레이션 실험으로 분석. 트레이드오프가 잠재 역학의 확률성에 의존하며, 이론적 최적 정책이 반드시 최선의 증류 대상은 아님을 발견하여 privileged information 활용의 실무 가이드라인 제시.",
-      "score": 54
-    },
-    {
-      "title": "Charts as Epistemic Actions for Experience-Driven Agentic Data Analysis",
-      "url": "https://arxiv.org/abs/2610.30072v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-10-21",
-      "summary_ko": "데이터 에이전트가 텍스트 중심 추론에 의존하는 한계를 식별하고, 경험 증류와 궤적 판별기를 통해 에이전트가 차트·시각적 증거를 상황별로 자율 선택·활용하도록 학습시키는 방법론 제시. 모델 파라미터 수정 없이 다중 모달 추론 능력 강화 입증.",
-      "score": 54
-    },
-    {
-      "title": "From Text to Voice: A Reproducible and Verifiable Framework for Evaluating Tool Calling LLM Agents",
-      "url": "https://arxiv.org/abs/2605.15104v3",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-10-21",
-      "summary_ko": "음성 기반 도구 호출 LLM 에이전트를 평가하기 위해 텍스트-음성 변환, 스피커 변이, 환경 노이즈를 적용해 기존 텍스트 벤치마크(Confetti, When2Call)를 오디오 데이터로 변환하는 프레임워크 제시. 7개 옴니모달 모델 평가 결과 text-to-voice 성능 격차는 1.8~4.8 포인트이며, Qwen3 판사가 프로프리에터리 판사와 80% 일치율 달성으로 개인정보보호 평가 가능성 검증.",
-      "score": 54
-    },
-    {
-      "title": "EPIC: Rethinking Trust Regions for Autoregressive LLM Policies via Exact-KL Prefix Importance-Ratio Clipping",
-      "url": "https://arxiv.org/abs/2610.29999v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-10-21",
-      "summary_ko": "EPIC은 자동회귀 LLM의 강화학습에서 prefix 레벨의 정책 변화를 정확히 추적하는 새로운 방법론이다. 기존 토큰 레벨 클리핑의 한계(prefix context가 정책으로 생성되는 점 미고려)를 exact-KL 좌표 기반 trust region으로 극복했고, 오프-정책 학습 환경에서 표준 PPO를 능가했다.",
-      "score": 54
-    },
-    {
-      "title": "FaultGene: LLM-Assisted Fault-Augmented Test Generation for Hardware-in-the-Loop Validation of Autonomous Driving Systems",
-      "url": "https://arxiv.org/abs/2610.29969v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-10-21",
-      "summary_ko": "논문은 LLM 기반 FaultGene 프레임워크를 제시하여 자율주행 시스템의 하드웨어-인-더-루프 검증 시 오류 주입 테스트를 자동 생성한다. 의미론적 일관성 검사와 실행 수준 피드백으로 테스트 품질을 보증하며, 배포 시 수동 개입 없이 직접 실행 가능한 테스트를 생성할 수 있다.",
-      "score": 54
-    },
-    {
-      "title": "RelAgent: LLM Agents as Data Scientists for Relational Learning",
-      "url": "https://arxiv.org/abs/2605.07840v2",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-10-21",
-      "summary_ko": "RelAgent는 LLM 기반 자율 데이터 과학자로, 검색 단계에서 SQL 피처 프로그램을 구성하고 모델을 선택한 후 추론 단계에서 결과를 실행한다. 최종 예측기는 SQL 쿼리와 고전 모델로 구성되어 빠르고 결정론적이며 해석 가능한 예측을 제공한다.",
-      "score": 54
+      "summary_ko": "이 논문은 추론 모델의 test-time scaling에서 부분 솔루션(partial solution)을 선별할 때, 품질 점수와 다양성 기준 간의 모순을 pass@k 직접 최적화로 해결하는 방법을 제안합니다. 선택된 후보 풀 중 최소 하나가 올바른 답을 완성할 확률을 최대화함으로써 품질-다양성 균형을 자동으로 달성하며, 8개의 오픈웨이트 추론 모델에서 기존 pruning 전략을 능가합니다.",
+      "score": 62
     }
   ],
   "available_periods": {
     "daily": [
+      "2026-10-25",
       "2026-10-24",
       "2026-10-23",
       "2026-10-22",
@@ -447,8 +448,7 @@
       "2026-08-29",
       "2026-08-28",
       "2026-08-27",
-      "2026-08-26",
-      "2026-08-25"
+      "2026-08-26"
     ],
     "weekly": [
       "2026-W43",
