@@ -1,10 +1,10 @@
 {
-  "analyzed_at": "2026-11-02T19:01:12.194164+09:00",
+  "analyzed_at": "2026-11-03T06:59:14.879084+09:00",
   "llm_backend": "claude-cli",
   "period": "weekly",
   "period_label": "최근 7일",
   "days_window": 7,
-  "paper_count": 462,
+  "paper_count": 322,
   "narrative": "",
   "hot_topics": [],
   "key_techniques": [],
@@ -12,23 +12,23 @@
   "top_institutions": [
     {
       "name": "ETH",
-      "count": 188
+      "count": 132
     },
     {
       "name": "MIT",
-      "count": 109
+      "count": 75
     },
     {
       "name": "AWS",
-      "count": 15
+      "count": 11
     },
     {
       "name": "Meta",
-      "count": 12
+      "count": 9
     },
     {
       "name": "FAIR",
-      "count": 7
+      "count": 4
     },
     {
       "name": "Google",
@@ -51,10 +51,6 @@
       "count": 1
     },
     {
-      "name": "Hugging Face",
-      "count": 1
-    },
-    {
       "name": "NVIDIA",
       "count": 1
     },
@@ -66,83 +62,83 @@
   "top_keywords": [
     {
       "keyword": "language",
-      "count": 34
+      "count": 25
     },
     {
       "keyword": "agents",
-      "count": 29
+      "count": 22
     },
     {
       "keyword": "generative",
-      "count": 26
+      "count": 22
     },
     {
       "keyword": "multi",
-      "count": 26
+      "count": 20
     },
     {
       "keyword": "framework",
-      "count": 23
-    },
-    {
-      "keyword": "agent",
-      "count": 19
-    },
-    {
-      "keyword": "training",
-      "count": 18
-    },
-    {
-      "keyword": "aware",
-      "count": 18
+      "count": 16
     },
     {
       "keyword": "data",
-      "count": 18
+      "count": 15
+    },
+    {
+      "keyword": "training",
+      "count": 14
+    },
+    {
+      "keyword": "agent",
+      "count": 13
+    },
+    {
+      "keyword": "aware",
+      "count": 13
     },
     {
       "keyword": "time",
-      "count": 16
-    },
-    {
-      "keyword": "prediction",
-      "count": 16
+      "count": 13
     },
     {
       "keyword": "human",
-      "count": 16
+      "count": 13
     },
     {
       "keyword": "when",
-      "count": 14
+      "count": 11
     },
     {
-      "keyword": "agentic",
-      "count": 14
-    },
-    {
-      "keyword": "graph",
-      "count": 14
+      "keyword": "prediction",
+      "count": 11
     },
     {
       "keyword": "reinforcement",
-      "count": 14
+      "count": 11
+    },
+    {
+      "keyword": "agentic",
+      "count": 10
     },
     {
       "keyword": "multimodal",
-      "count": 14
+      "count": 10
     },
     {
       "keyword": "reasoning",
-      "count": 14
-    },
-    {
-      "keyword": "llms",
-      "count": 13
+      "count": 10
     },
     {
       "keyword": "self",
-      "count": 13
+      "count": 9
+    },
+    {
+      "keyword": "efficient",
+      "count": 9
+    },
+    {
+      "keyword": "graph",
+      "count": 9
     }
   ],
   "recent_papers": [
@@ -232,14 +228,6 @@
       "source": "arXiv AI/CL/LG/IR/MA/CY",
       "date": "2026-10-29",
       "summary_ko": "도구 사용 에이전트의 평가에서 최종 성공 여부만 측정하는 문제를 지적하고, 모든 중간 단계(prefix)의 실행 가능성을 평가하는 'Prefix Executability' 프로토콜을 제안한다. 다양한 벤치마크에서 최종 성공률이 높은 에이전트도 중간 실행 과정의 신뢰성이 낮을 수 있음을 보여주며, 사전 계획 검증이 개선 효과를 갖는다는 것을 입증한다.",
-      "score": 72
-    },
-    {
-      "title": "Preserving Evidentiary Authority During Corrective Regeneration in Multistage LLM Systems: An Applied Engineering Case",
-      "url": "https://doi.org/10.5281/zenodo.23540167",
-      "source": "OpenAlex",
-      "date": "2026-10-26",
-      "summary_ko": "증거 기반 의사결정에 사용되는 LLM이 증거보다 강한 주장을 생성하는 문제를 다루는 학술 논문으로, 멀티스테이지 시스템에서 각 단계의 증거적 권위를 유지하는 수정적 재생성 메커니즘을 제시한다.",
       "score": 72
     },
     {
@@ -385,10 +373,19 @@
       "date": "2026-10-29",
       "summary_ko": "의료 영상의 다중 뷰 구조를 활용하는 자가지도 학습 모델 MVMAE를 제안하며, 방사선 보고서를 추가 신호로 통합한 MVMAE-V2T로 확장했다. MIMIC-CXR, CheXpert, PadChest에서 지도학습 및 비전-언어 모델 대비 우수한 성능을 달성했으며, 특히 라벨 부족 환경에서 강력한 효과를 보였다.",
       "score": 54
+    },
+    {
+      "title": "Radiology Guideline-derived Decision Graph for Efficient Clinical Decision Support",
+      "url": "https://arxiv.org/abs/2610.40327v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-10-29",
+      "summary_ko": "의료 가이드라인을 LLM으로 파싱하여 구조화된 결정 그래프로 변환하는 GDGraph 프레임워크를 제시. System One 모델의 빠른 추론에 결정논리를 겹쳐 추적 가능한 의사결정을 구현하며, 신장 낭종·난소 종양·갑상선 결절 347개 사례에서 57.3%→90.8% 정확도 개선, GPT-4o 검색증강(80.1%), CoT 방식(82.7%) 추월.",
+      "score": 54
     }
   ],
   "available_periods": {
     "daily": [
+      "2026-11-03",
       "2026-11-02",
       "2026-11-01",
       "2026-10-31",
@@ -446,8 +443,7 @@
       "2026-09-07",
       "2026-09-06",
       "2026-09-05",
-      "2026-09-04",
-      "2026-09-03"
+      "2026-09-04"
     ],
     "weekly": [
       "2026-W45",
