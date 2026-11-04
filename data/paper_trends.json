@@ -1,10 +1,10 @@
 {
-  "analyzed_at": "2026-11-04T06:47:39.131549+09:00",
+  "analyzed_at": "2026-11-04T19:02:49.507562+09:00",
   "llm_backend": "claude-cli",
   "period": "weekly",
   "period_label": "최근 7일",
   "days_window": 7,
-  "paper_count": 355,
+  "paper_count": 490,
   "narrative": "",
   "hot_topics": [],
   "key_techniques": [],
@@ -12,42 +12,54 @@
   "top_institutions": [
     {
       "name": "ETH",
-      "count": 150
+      "count": 216
     },
     {
       "name": "MIT",
-      "count": 86
-    },
-    {
-      "name": "Meta",
-      "count": 13
+      "count": 130
     },
     {
       "name": "AWS",
-      "count": 11
+      "count": 20
+    },
+    {
+      "name": "Meta",
+      "count": 16
+    },
+    {
+      "name": "FAIR",
+      "count": 5
+    },
+    {
+      "name": "OpenAI",
+      "count": 4
     },
     {
       "name": "NVIDIA",
       "count": 4
     },
     {
-      "name": "FAIR",
-      "count": 4
-    },
-    {
-      "name": "OpenAI",
+      "name": "Google",
       "count": 3
     },
     {
-      "name": "Google",
-      "count": 2
+      "name": "Apple",
+      "count": 1
     },
     {
       "name": "Microsoft",
       "count": 1
     },
     {
-      "name": "Apple",
+      "name": "Anthropic",
+      "count": 1
+    },
+    {
+      "name": "Hugging Face",
+      "count": 1
+    },
+    {
+      "name": "Berkeley",
       "count": 1
     },
     {
@@ -61,84 +73,84 @@
   ],
   "top_keywords": [
     {
-      "keyword": "agents",
-      "count": 24
+      "keyword": "language",
+      "count": 34
     },
     {
-      "keyword": "generative",
-      "count": 23
+      "keyword": "agents",
+      "count": 28
     },
     {
       "keyword": "multi",
-      "count": 22
+      "count": 28
     },
     {
-      "keyword": "language",
-      "count": 22
-    },
-    {
-      "keyword": "framework",
-      "count": 20
+      "keyword": "generative",
+      "count": 27
     },
     {
       "keyword": "agentic",
-      "count": 17
+      "count": 23
     },
     {
-      "keyword": "training",
-      "count": 16
+      "keyword": "framework",
+      "count": 23
     },
     {
       "keyword": "data",
-      "count": 16
+      "count": 22
+    },
+    {
+      "keyword": "training",
+      "count": 20
     },
     {
       "keyword": "systems",
-      "count": 13
+      "count": 17
     },
     {
       "keyword": "aware",
-      "count": 12
-    },
-    {
-      "keyword": "human",
-      "count": 12
-    },
-    {
-      "keyword": "agent",
-      "count": 11
+      "count": 17
     },
     {
       "keyword": "prediction",
-      "count": 11
-    },
-    {
-      "keyword": "memory",
-      "count": 11
-    },
-    {
-      "keyword": "control",
-      "count": 11
+      "count": 16
     },
     {
       "keyword": "self",
-      "count": 10
+      "count": 15
     },
     {
-      "keyword": "time",
-      "count": 10
+      "keyword": "networks",
+      "count": 15
     },
     {
-      "keyword": "intelligence",
-      "count": 10
+      "keyword": "memory",
+      "count": 14
     },
     {
-      "keyword": "reinforcement",
-      "count": 10
+      "keyword": "agent",
+      "count": 14
     },
     {
-      "keyword": "evaluating",
-      "count": 9
+      "keyword": "human",
+      "count": 14
+    },
+    {
+      "keyword": "optimization",
+      "count": 14
+    },
+    {
+      "keyword": "efficient",
+      "count": 13
+    },
+    {
+      "keyword": "multimodal",
+      "count": 13
+    },
+    {
+      "keyword": "control",
+      "count": 13
     }
   ],
   "recent_papers": [
@@ -149,6 +161,22 @@
       "date": "2026-10-29",
       "summary_ko": "LLM이 프롬프트의 출처를 스타일로 오인하여 악의적 텍스트가 사용자로 위장하는 'role spoofing' 공격을 분석하고, 콘텐츠·구조 기반 공격의 조합에 대한 취약성을 드러내며, 선형 프로브를 통한 탐지 방법을 제안합니다.",
       "score": 84
+    },
+    {
+      "title": "Memory Efficient Audio Synthesis with Decoupled Temporal Depth Diffusion Transformers",
+      "url": "https://arxiv.org/abs/2607.23811v3",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-11-02",
+      "summary_ko": "Apple의 Siri Expressive Voices를 구동하는 메모리 효율적 음성 합성 아키텍처. Diffusion Transformer 기반 RVQ 디코더와 causal sliding window attention으로 21MB 피크 메모리에서 실시간 16배 속도 생성 및 MOS +0.28 개선을 달성하며, 시퀀스 길이와 무관한 상수 메모리 복잡도를 보장한다.",
+      "score": 74
+    },
+    {
+      "title": "Do Neural Retrievers Prefer Certain Documents? Evidence of Learned Relevance Priors",
+      "url": "https://arxiv.org/abs/2606.02814v2",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-11-02",
+      "summary_ko": "신경망 검색 모델(neural retrievers)이 훈련 과정에서 query-independent한 document-level relevance prior를 암묵적으로 학습한다는 것을 실증적으로 밝힌 논문. 저자들은 supervised bi-encoders가 주류적·종합적 문서를 선호하고 niche·기술적 콘텐츠를 체계적으로 누락시키는 편향을 발견했으며, 이것이 실제 관련성과 무관하게 작동함을 보임.",
+      "score": 74
     },
     {
       "title": "Pre-Crime for Agents, at the Last Second: Probing When a Recruited Agent Gives In",
@@ -231,6 +259,30 @@
       "score": 72
     },
     {
+      "title": "Should We Combine Our Data? Algorithms and Limits for Privately Assessing Data Sharing",
+      "url": "https://arxiv.org/abs/2611.03599v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-11-02",
+      "summary_ko": "두 당사자가 민감한 데이터를 공유할지 판단하기 위해 개별 공개 없이 차분 프라이버시 하에서 호환성을 테스트하는 알고리즘을 연구했다. 실선 도메인에서 신뢰할 수 있는 큐레이터 대비 지수적 개선(Õ(log log m/ε))을 달성했다. 반공간(R^d)에서 이론적 상한과 하한을 설정했다.",
+      "score": 64
+    },
+    {
+      "title": "SparkMe: Adaptive Semi-Structured Interviewing for Qualitative Insight Discovery",
+      "url": "https://arxiv.org/abs/2602.21136v2",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-11-02",
+      "summary_ko": "LLM 기반 적응형 반구조화 인터뷰 시스템 SparkMe을 제시하며, 시뮬레이션 기반 계획으로 주제 커버리지와 신흥 테마 발견의 트레이드오프를 최적화한다. 70명 참여자 사용자 연구에서 기존 방식 대비 토픽 커버리지 +4.7% 달성, 더 적은 턴으로 고품질 정성조사 생성.",
+      "score": 64
+    },
+    {
+      "title": "Same Outputs, Different Scores: Auditing the Unchecked Graders of Multimodal LLM Benchmarks",
+      "url": "https://arxiv.org/abs/2611.03377v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-11-02",
+      "summary_ko": "멀티모달 LLM 벤치마크의 채점 규칙(scoring rule)이 동일한 모델 출력에 대해 최대 22점 차이를 발생시키는 문제를 8개 벤치마크와 5개 오픈 VLM으로 실증합니다. 코헨 카파 0.956의 블라인드 인간-AI 판정을 통해 검증하며, 비준수율 공시와 다중 평가 규칙 도입을 제안합니다.",
+      "score": 64
+    },
+    {
       "title": "ShallowDefend: Harnessing Shallow Safety Alignment for Multi-Turn Defender",
       "url": "https://arxiv.org/abs/2610.40627v1",
       "source": "arXiv AI/CL/LG/IR/MA/CY",
@@ -295,6 +347,14 @@
       "score": 58
     },
     {
+      "title": "Can We Stop the Backtest Yet? Anytime-Valid Promotion Tests for Adaptive Financial Research Agents",
+      "url": "https://arxiv.org/abs/2611.03384v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-11-02",
+      "summary_ko": "금융 에이전트가 생성한 트레이딩 규칙의 적응형 선택 및 모니터링 과정에서도 통계적 타당성을 보장하는 PROMOTE 프로토콜을 제시. e-process 누적과 Ville 논증을 활용하여 거짓 양성을 제어하며, 실험 결과 자동 다중검정 대비 거짓 발견 비율을 94.5%에서 0%로 감소.",
+      "score": 55
+    },
+    {
       "title": "Decision and System One models in rheumatology: accuracy and calibration on specialty-training examination questions and diagnostic case vignettes",
       "url": "https://arxiv.org/abs/2610.40318v1",
       "source": "arXiv AI/CL/LG/IR/MA/CY",
@@ -303,83 +363,35 @@
       "score": 55
     },
     {
-      "title": "One to More, More to One: Category-Aware Iterative Expert Training for Software Engineering Agents",
-      "url": "https://arxiv.org/abs/2609.23377v2",
+      "title": "CRAD: Class-wise Reliability-Aware Distillation for Decentralized Heterogeneous Federated Learning",
+      "url": "https://arxiv.org/abs/2609.00446v2",
       "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-10-29",
-      "summary_ko": "Repository-level SWE 작업의 이질적 범주 간 학습 불균형을 해결하기 위해 Category-aware Expert Training과 Policy Integration 프레임워크를 제안한다. Refresh-Repair-Expand(RRE) 메커니즘과 Label-routed Multi-teacher On-Policy Distillation(MOPD)을 통해 여러 전문가 모델을 단일 학생으로 통합하며, SWE-bench Pro V2에서 86.19%, Multilingual에서 71.78%의 성공률을 달성한다.",
+      "date": "2026-11-02",
+      "summary_ko": "본 논문은 탈중앙화 연합학습(FL) 환경에서 클라이언트들이 이질적 아키텍처를 사용하면서도 서버 없이 지식을 교환하는 프레임워크를 제안합니다. 제안된 CRAD 방법은 클래스별로 교사 모델의 신뢰도를 평가한 후 합의 이상의 모델만 선별하여 신뢰도 가중 평균으로 결합하며, CIFAR-10/100, PathMNIST에서 기존 균일 평균 방법을 초과합니다.",
       "score": 54
     },
     {
-      "title": "Difficulty Calibration Across Time for Membership Inference in Diffusion Models",
-      "url": "https://arxiv.org/abs/2610.40616v1",
+      "title": "Pulling Back the Curtain on Deep Networks",
+      "url": "https://arxiv.org/abs/2507.22832v7",
       "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-10-29",
-      "summary_ko": "Diffusion 모델의 훈련 데이터 멤버십 추론에서 이미지 자체의 난이도와 실제 기억을 분리하기 위해 Reference-Model Calibration(이전 체크포인트 비교)과 Temporal Self-Calibration(노이즈 수준 간 비교)을 제시. 기존 기법 대비 성능 대폭 향상 및 다양한 모델 매개변수화에 대한 일반화 달성.",
+      "date": "2026-11-02",
+      "summary_ko": "딥 네트워크의 시각화 시 기존 Gradient 기반 해석의 한계를 지적하고, adjoint transport 기반의 'Pullback' 방법론을 제시한다. ResNet50, VGG, PVT에서 GradientAscent 대비 Infidelity를 2.8~5.5배 감소시켰으며, 기존 설명 절차(local attribution, smoothing, iterative ascent)에 선택적 적용 가능함을 입증했다.",
       "score": 54
     },
     {
-      "title": "Improved Sampling Schedules for Discrete Diffusion Models",
-      "url": "https://arxiv.org/abs/2602.06849v3",
+      "title": "Online Label-Free Gradient Matching for Continual Language Model Training",
+      "url": "https://arxiv.org/abs/2611.03496v1",
       "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-10-29",
-      "summary_ko": "이산 확산 모델의 역프로세스를 열역학적 엔트로피와 동적 활동 관점에서 분석하여 Entropic Discrete Schedule(EDS)과 Wasserstein Discrete Schedule(WDS) 두 가지 새로운 샘플링 스케줄을 제시합니다. WDS는 MBPP 벤치마크에서 균등 스케줄과 동등한 성능을 절반의 계산량으로 달성하여 생성 모델의 효율성을 대폭 개선합니다.",
+      "date": "2026-11-02",
+      "summary_ko": "OLGA는 언어 모델의 연속적 학습을 위해 레이블 없는 데이터에서 모델의 다음 토큰 예측을 gradient matching 목표로 사용하여 synthetic examples를 생성합니다. Online 설정에서 rehearsal memory를 유지하며 텍스트 분류에서 10% 정확도 개선, 30% 런타임 단축을 달성합니다.",
       "score": 54
     },
     {
-      "title": "Every Token Needs Its Own Teacher: Multi-teacher Adaptive On-policy Self-distillation",
-      "url": "https://arxiv.org/abs/2610.40574v1",
+      "title": "Finite-Memory Control of POMDPs: Fundamental Limits and Efficient Design",
+      "url": "https://arxiv.org/abs/2611.03414v1",
       "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-10-29",
-      "summary_ko": "토큰 단위로 선호하는 교사(teacher)를 동적 선택하는 MTA-OPSD 방법을 제안하며, 기존 자체-증류 방식을 개선한다. Qwen3 모델의 수학 추론 성능을 최대 5.9% 향상시켰다.",
-      "score": 54
-    },
-    {
-      "title": "Gym-Anything for Robotics: Scaling physical simulations with digital agents",
-      "url": "https://arxiv.org/abs/2610.40565v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-10-29",
-      "summary_ko": "코딩 에이전트가 현실적인 로봇 시뮬레이션을 자동 생성하는 Gym-Anything 프레임워크를 제안합니다. GDP 기준으로 선별한 25개 시뮬레이션과 200개 RL 환경으로 구성된 RoboWorld 벤치마크를 구축했으며, in-context learning·privileged teacher·자가학습으로 frontier 모델의 성능을 개선합니다.",
-      "score": 54
-    },
-    {
-      "title": "LoRIF: Pushing the Scalability Frontier of Training Data Attribution",
-      "url": "https://arxiv.org/abs/2601.21929v3",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-10-29",
-      "summary_ko": "학습 데이터 추적(TDA)의 확장성 병목을 저해결하는 논문. 기존 방법들(TRAK, LoGRA)은 투영 그래디언트 저장(I/O) 및 역헤시안 메모리에서 O(D²) 비용 초래. LoRIF는 저랭크 구조를 이용해 저장을 O(D)에서 O(c√D)로, 메모리를 O(D²)에서 O(Dr)로 축소하여 20배 속도 향상을 달성하며, 0.1B~70B 모델 규모에서 기존 방법 이상의 어트리뷰션 품질 보장.",
-      "score": 54
-    },
-    {
-      "title": "On the Fundamental Limits of Prefill-Based Decoding Length Prediction",
-      "url": "https://arxiv.org/abs/2610.40541v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-10-29",
-      "summary_ko": "LLM의 prefill 단계 히든 스테이트로 디코딩 길이를 예측할 때 현재 벤치마크가 predictor 품질과 task 난이도를 혼동함을 지적하고, 자동회귀 디코딩의 확률성을 중심극한정리로 모델링하여 이론적 한계를 도출했다. 여러 아키텍처(MLP, FiLM, MoE)가 유사한 성능으로 수렴하며 시스템 에러가 모델 에러를 지배함을 확인했다.",
-      "score": 54
-    },
-    {
-      "title": "Efficient Scalable Oversight via Rewinding",
-      "url": "https://arxiv.org/abs/2610.40535v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-10-29",
-      "summary_ko": "약한 검증자가 강력한 AI 시스템의 출력을 검증하는 scalable oversight 문제를 해결하기 위해 rewindable interactive proofs (RIPs)를 제안한다. 모델 상태 스냅샷을 이용하여 검증자가 프로버를 이전 상태로 되돌릴 수 있으며, 암호화 없이도 선행 debate 기법보다 효율적으로 작동한다. MNIST 실험 구현으로 기존 증명 시스템보다 빠른 성능을 시연했다.",
-      "score": 54
-    },
-    {
-      "title": "Structure is Supervision: Multiview Masked Autoencoders for Radiology",
-      "url": "https://arxiv.org/abs/2511.22294v6",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-10-29",
-      "summary_ko": "의료 영상의 다중 뷰 구조를 활용하는 자가지도 학습 모델 MVMAE를 제안하며, 방사선 보고서를 추가 신호로 통합한 MVMAE-V2T로 확장했다. MIMIC-CXR, CheXpert, PadChest에서 지도학습 및 비전-언어 모델 대비 우수한 성능을 달성했으며, 특히 라벨 부족 환경에서 강력한 효과를 보였다.",
-      "score": 54
-    },
-    {
-      "title": "Radiology Guideline-derived Decision Graph for Efficient Clinical Decision Support",
-      "url": "https://arxiv.org/abs/2610.40327v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-10-29",
-      "summary_ko": "의료 가이드라인을 LLM으로 파싱하여 구조화된 결정 그래프로 변환하는 GDGraph 프레임워크를 제시. System One 모델의 빠른 추론에 결정논리를 겹쳐 추적 가능한 의사결정을 구현하며, 신장 낭종·난소 종양·갑상선 결절 347개 사례에서 57.3%→90.8% 정확도 개선, GPT-4o 검색증강(80.1%), CoT 방식(82.7%) 추월.",
+      "date": "2026-11-02",
+      "summary_ko": "부분 관찰 가능 마르코프 결정 프로세스(POMDP)의 유한 메모리 제어에서 정보 이론적 하한을 제시하고, 신념 상태 혼동을 특성화하는 'decision witness' 개념을 도입했다. RECAP 정량화 방법으로 제한된 메모리 예산 하에서 근-최적 제어기를 설계하며, 11개 벤치마크에서 기준선 대비 성능 개선을 실증했다.",
       "score": 54
     }
   ],
