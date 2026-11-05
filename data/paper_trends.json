@@ -1,10 +1,10 @@
 {
-  "analyzed_at": "2026-11-05T07:02:28.518445+09:00",
+  "analyzed_at": "2026-11-05T19:01:38.948135+09:00",
   "llm_backend": "claude-cli",
   "period": "weekly",
   "period_label": "최근 7일",
   "days_window": 7,
-  "paper_count": 468,
+  "paper_count": 598,
   "narrative": "",
   "hot_topics": [],
   "key_techniques": [],
@@ -12,54 +12,54 @@
   "top_institutions": [
     {
       "name": "ETH",
-      "count": 213
+      "count": 278
     },
     {
       "name": "MIT",
-      "count": 127
+      "count": 168
     },
     {
       "name": "AWS",
-      "count": 19
+      "count": 26
     },
     {
       "name": "Meta",
-      "count": 16
+      "count": 17
     },
     {
       "name": "FAIR",
+      "count": 7
+    },
+    {
+      "name": "Google",
       "count": 5
     },
     {
       "name": "OpenAI",
-      "count": 4
+      "count": 5
     },
     {
       "name": "NVIDIA",
-      "count": 4
+      "count": 5
     },
     {
-      "name": "Google",
+      "name": "Anthropic",
       "count": 3
     },
     {
       "name": "Apple",
-      "count": 1
+      "count": 3
     },
     {
       "name": "Microsoft",
       "count": 1
     },
     {
-      "name": "Anthropic",
+      "name": "Berkeley",
       "count": 1
     },
     {
       "name": "Hugging Face",
-      "count": 1
-    },
-    {
-      "name": "Berkeley",
       "count": 1
     },
     {
@@ -74,83 +74,83 @@
   "top_keywords": [
     {
       "keyword": "language",
-      "count": 33
-    },
-    {
-      "keyword": "multi",
-      "count": 28
+      "count": 36
     },
     {
       "keyword": "agents",
-      "count": 27
+      "count": 35
+    },
+    {
+      "keyword": "multi",
+      "count": 33
     },
     {
       "keyword": "generative",
-      "count": 23
-    },
-    {
-      "keyword": "agentic",
-      "count": 23
-    },
-    {
-      "keyword": "framework",
-      "count": 21
+      "count": 28
     },
     {
       "keyword": "training",
-      "count": 20
+      "count": 26
+    },
+    {
+      "keyword": "agentic",
+      "count": 26
+    },
+    {
+      "keyword": "framework",
+      "count": 25
     },
     {
       "keyword": "data",
+      "count": 23
+    },
+    {
+      "keyword": "time",
+      "count": 21
+    },
+    {
+      "keyword": "self",
       "count": 20
     },
     {
       "keyword": "aware",
+      "count": 20
+    },
+    {
+      "keyword": "networks",
+      "count": 19
+    },
+    {
+      "keyword": "agent",
+      "count": 18
+    },
+    {
+      "keyword": "evaluation",
+      "count": 18
+    },
+    {
+      "keyword": "memory",
       "count": 17
     },
     {
-      "keyword": "self",
-      "count": 15
+      "keyword": "optimization",
+      "count": 17
+    },
+    {
+      "keyword": "efficient",
+      "count": 16
+    },
+    {
+      "keyword": "prediction",
+      "count": 16
     },
     {
       "keyword": "systems",
       "count": 15
     },
     {
-      "keyword": "memory",
-      "count": 14
-    },
-    {
-      "keyword": "agent",
-      "count": 14
-    },
-    {
-      "keyword": "networks",
-      "count": 14
-    },
-    {
-      "keyword": "prediction",
-      "count": 14
-    },
-    {
-      "keyword": "efficient",
-      "count": 13
-    },
-    {
-      "keyword": "control",
-      "count": 13
-    },
-    {
-      "keyword": "reinforcement",
-      "count": 13
-    },
-    {
-      "keyword": "evaluation",
-      "count": 13
-    },
-    {
-      "keyword": "optimization",
-      "count": 13
+      "keyword": "free",
+      "count": 15
     }
   ],
   "recent_papers": [
@@ -161,6 +161,46 @@
       "date": "2026-10-29",
       "summary_ko": "LLM이 프롬프트의 출처를 스타일로 오인하여 악의적 텍스트가 사용자로 위장하는 'role spoofing' 공격을 분석하고, 콘텐츠·구조 기반 공격의 조합에 대한 취약성을 드러내며, 선형 프로브를 통한 탐지 방법을 제안합니다.",
       "score": 84
+    },
+    {
+      "title": "Conduct Under Pressure: What Sixty Language Models Do When a User Pushes",
+      "url": "https://arxiv.org/abs/2609.25447v3",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-11-03",
+      "summary_ko": "사용자의 압박 상황에서 60개 LLM(13개 벤더)의 응답 행동을 다중 턴 대화로 분석한 실증 연구. Anthropic·OpenAI·Google·Meta별로 상이한 행동 패턴을 발견했고, 더 새로운 모델일수록 압박에 덜 굴복하는 경향을 보였다.",
+      "score": 80
+    },
+    {
+      "title": "A Circuit for In-Context Learning",
+      "url": "https://arxiv.org/abs/2611.05344v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-11-03",
+      "summary_ko": "In-context learning의 작동 메커니즘을 3-4B 파라미터 트랜스포머에서 mechanistic하게 규명한 논문으로, label-token positions의 key-value memory와 attention heads의 클래스 매칭·복사, early-layer gating 신호로 구성된 신경 회로를 발견했다. 인과적 패칭·head ablation으로 검증하고 다양한 모델에서 conservation을 확인했다.",
+      "score": 74
+    },
+    {
+      "title": "trajectory-judge: What Outcome-Only LLM Judges Miss on Agent Trajectories",
+      "url": "https://arxiv.org/abs/2609.00038v4",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-11-03",
+      "summary_ko": "본 논문은 outcome-only LLM judge의 한계를 노출하는 방법론을 제시합니다. 결정론적 support desk에서 400개 trajectory에 결함을 주입하고 paired discrimination을 통해 측정하면, recall 수치가 실제 감지 능력을 과대평가함을 보였습니다. Step-by-step checking으로는 95% 정확도 달성 가능합니다.",
+      "score": 74
+    },
+    {
+      "title": "LatentTriad: Pre-Action Risk Representations for Malicious Agent Skill Detection",
+      "url": "https://arxiv.org/abs/2611.05088v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-11-03",
+      "summary_ko": "LLM 에이전트의 악의적 스킬 조작을 탐지하는 LatentTriad 방법 제안. 모델 prefill 단계의 숨겨진 상태에서 task-operation 일치도를 학습하여 실제 실행 없이 위험을 사전 식별. 5,830개 스킬 패키지에서 99% 이상의 F1 성능 달성.",
+      "score": 74
+    },
+    {
+      "title": "The Price of Scale in Proactive Memory Recall",
+      "url": "https://arxiv.org/abs/2610.34507v3",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-11-03",
+      "summary_ko": "메모리를 가진 AI 어시스턴트가 사용자 요청 없이 정보를 회상할 때, 저장소 크기(N) 증가에 따라 거짓양성 제어가 불가능해지는 '스케일의 비용' 문제를 증명. LongMemEval과 LoCoMo 벤치마크에서 N=8에서 튜닝한 5% 거짓양성 임계값이 N=2048에서 84-100%로 악화되며, Conformal gate 기법으로 부분 완화를 제시.",
+      "score": 74
     },
     {
       "title": "Memory Efficient Audio Synthesis with Decoupled Temporal Depth Diffusion Transformers",
@@ -259,6 +299,46 @@
       "score": 72
     },
     {
+      "title": "Pretraining Knows What, Simulation Teaches How: Compositional Generalization for Agentic Robotics",
+      "url": "https://arxiv.org/abs/2610.35817v3",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-11-03",
+      "summary_ko": "프런티어 모델 GPT-6 Astra의 로봇 제어 능력을 '의미 이해'(VLM)와 '동작 제어' 두 가지 구성 가능한 스킬로 분석하고, 소규모 오픈 VLM으로도 시뮬레이션에서만 학습하여 실제 로봇 작업에 96.7% 성공률을 달성할 수 있음을 보였다. Zero-real Agent Policy(ZAP) 방법은 GPT-6 Astra의 성능을 유지하면서 17배 저렴하고 3배 빠르다.",
+      "score": 64
+    },
+    {
+      "title": "LeanPRM: Lean-Grounded Process Supervision for Natural Language Proof Verification",
+      "url": "https://arxiv.org/abs/2610.17697v3",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-11-03",
+      "summary_ko": "LeanPRM은 수학 증명의 자동 검증을 위해 형식 증명(Lean)과 자연언어 증명을 쌍으로 작성하고, Lean이 각 단계를 자동으로 레이블링하는 프레임워크다. 인간 주석 없이 10.6K 증명, 152K 단계의 데이터셋을 생성했으며, 이로 학습한 Qwen3-4B 검증기는 단계 정확도를 48.2%에서 74.7%로 향상시켰다.",
+      "score": 64
+    },
+    {
+      "title": "Persona-Guided LLM Agents for Task-Oriented Dialogue",
+      "url": "https://arxiv.org/abs/2608.18085v3",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-11-03",
+      "summary_ko": "LLM 에이전트가 사용자 성격에 맞춰 응답하면서도 작업 완료율을 유지할 수 있는지 검증한 논문으로, 관찰된 신호 기반의 적응(Try)이 명시적 레이블(Oracle)보다 효과적이며 안전함을 3개 플래그십 모델(GPT-4o, Qwen3, Gemini 2.0 Flash) 평가를 통해 9,000 대화로 실증.",
+      "score": 64
+    },
+    {
+      "title": "Towards Multi-Method Evaluation of AI in Health: Integrating Benchmarks, Autoraters, and Expert Evaluation",
+      "url": "https://arxiv.org/abs/2611.05127v1",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-11-03",
+      "summary_ko": "의료 분야 생성형 AI를 평가하기 위한 다중 방법론 프레임워크를 제시. Critical User Journeys를 중심으로 AI 생명주기 단계별 벤치마크, LLM 자동 평가, 전문가 검토 세 가지 방법을 통합하여 정확성·안전성·유용성을 평가하는 체계적 접근으로, 벤치마크 결과와 실제 임상 성능 간의 괴리 해소를 목표로 함.",
+      "score": 64
+    },
+    {
+      "title": "Backpropagation-Free Test-Time Adaptation via Probabilistic Gaussian Alignment",
+      "url": "https://arxiv.org/abs/2508.15568v9",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-11-03",
+      "summary_ko": "논문은 역전파 없는 test-time adaptation 방법 ADAPT를 제안합니다. 클래스별 조건부 특성을 가우시안 확률 모델로 정의하고 CLIP 사전 정보로 정규화하여 폐쇄형 추론을 실현합니다. 소스 데이터 불필요하고 실시간 배포 성능을 개선하며 다양한 분포 변화에 견고합니다.",
+      "score": 64
+    },
+    {
       "title": "Should We Combine Our Data? Algorithms and Limits for Privately Assessing Data Sharing",
       "url": "https://arxiv.org/abs/2611.03599v1",
       "source": "arXiv AI/CL/LG/IR/MA/CY",
@@ -313,90 +393,11 @@
       "date": "2026-10-29",
       "summary_ko": "차등 프라이버시 메커니즘의 노이즈 스케일링 문제를 해결하는 Propose-Filter-Release(PFR) 방법을 제시한다. 개인정보 보호 필터링으로 이상치를 먼저 제거한 후 정상 데이터에만 적은 노이즈를 적용하며, 스칼라 통계, 주요 부공간 추정, KL 발산, 그래프 유효 저항 등 다양한 통계 문제에 적용 가능한 일반적 프라이버시 프리미티브를 제공한다.",
       "score": 62
-    },
-    {
-      "title": "TextSeal2: Distortion-Free LLM Watermarking with Copula Mixing and Memoryless Races",
-      "url": "https://arxiv.org/abs/2610.40613v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-10-29",
-      "summary_ko": "LLM 워터마킹 신기술로, 투기적 디코딩 하에서도 신호를 유지하면서 출력 다양성과 추론 지연을 보존. Copula Mixing과 Memoryless Races 기법으로 다중 키 병합 시 신호 감소 없이 100~200토큰 답변에서 기존 TextSeal 대비 8~22%p 검출 성능 향상.",
-      "score": 62
-    },
-    {
-      "title": "Training Foundation Models with a Single Algorithm",
-      "url": "https://arxiv.org/abs/2610.40564v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-10-29",
-      "summary_ko": "Foundation model의 pretraining, midtraining, SFT, RL 4단계를 최대우도추정 기반의 단일 알고리즘으로 통합하는 'unified training' 프레임워크를 제시합니다. 데이터 선택·시점·비율 최적화 문제로 재구성하며, 정확도-계산 트레이드오프 개선과 광범위한 능력 보존을 실증합니다.",
-      "score": 62
-    },
-    {
-      "title": "AI Hallucinations",
-      "url": "https://doi.org/10.5281/zenodo.23688329",
-      "source": "OpenAlex",
-      "date": "2026-10-31",
-      "summary_ko": "대규모 언어모델(LLM)의 환각(hallucinations) 현상이 헬스케어, 법률, 교육, 금융 등 AI 확산 분야의 지속적 기술 과제로 지적되고 있다.",
-      "score": 60
-    },
-    {
-      "title": "Explainable AI in Critical Systems: Techniques, Trust and Challenges",
-      "url": "https://doi.org/10.5281/zenodo.23636869",
-      "source": "OpenAlex",
-      "date": "2026-10-31",
-      "summary_ko": "의료, 금융, 사이버보안 등 민감한 분야에서 AI 기반 의사결정의 신뢰성을 높이기 위해 설명가능한 AI(XAI)가 투명성과 책임성의 핵심 수단으로 제안되고 있으나, 실제 도입 및 신뢰 확보에는 다양한 기술적·운영적 과제가 존재함을 다루는 학술 논문.",
-      "score": 58
-    },
-    {
-      "title": "Can We Stop the Backtest Yet? Anytime-Valid Promotion Tests for Adaptive Financial Research Agents",
-      "url": "https://arxiv.org/abs/2611.03384v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-11-02",
-      "summary_ko": "금융 에이전트가 생성한 트레이딩 규칙의 적응형 선택 및 모니터링 과정에서도 통계적 타당성을 보장하는 PROMOTE 프로토콜을 제시. e-process 누적과 Ville 논증을 활용하여 거짓 양성을 제어하며, 실험 결과 자동 다중검정 대비 거짓 발견 비율을 94.5%에서 0%로 감소.",
-      "score": 55
-    },
-    {
-      "title": "Decision and System One models in rheumatology: accuracy and calibration on specialty-training examination questions and diagnostic case vignettes",
-      "url": "https://arxiv.org/abs/2610.40318v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-10-29",
-      "summary_ko": "이 논문은 Jev, Clef, Microsoft-Decision-1, Laya 등 System One 모델과 GPT-6 Luna/Sol의 류마티스 의료 벤치마크(시험 문제 172개, 진단 사례 70개) 성능을 실증 평가했습니다. System One 모델들이 시험에서는 최대 93% 정확도를 기록했으나, 복잡한 진단 사례에서는 40~50%로 급락했으며, 높은 신뢰도로 예측한 답변의 신뢰성도 떨어지는 calibration 문제가 드러났습니다.",
-      "score": 55
-    },
-    {
-      "title": "CRAD: Class-wise Reliability-Aware Distillation for Decentralized Heterogeneous Federated Learning",
-      "url": "https://arxiv.org/abs/2609.00446v2",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-11-02",
-      "summary_ko": "본 논문은 탈중앙화 연합학습(FL) 환경에서 클라이언트들이 이질적 아키텍처를 사용하면서도 서버 없이 지식을 교환하는 프레임워크를 제안합니다. 제안된 CRAD 방법은 클래스별로 교사 모델의 신뢰도를 평가한 후 합의 이상의 모델만 선별하여 신뢰도 가중 평균으로 결합하며, CIFAR-10/100, PathMNIST에서 기존 균일 평균 방법을 초과합니다.",
-      "score": 54
-    },
-    {
-      "title": "Pulling Back the Curtain on Deep Networks",
-      "url": "https://arxiv.org/abs/2507.22832v7",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-11-02",
-      "summary_ko": "딥 네트워크의 시각화 시 기존 Gradient 기반 해석의 한계를 지적하고, adjoint transport 기반의 'Pullback' 방법론을 제시한다. ResNet50, VGG, PVT에서 GradientAscent 대비 Infidelity를 2.8~5.5배 감소시켰으며, 기존 설명 절차(local attribution, smoothing, iterative ascent)에 선택적 적용 가능함을 입증했다.",
-      "score": 54
-    },
-    {
-      "title": "Online Label-Free Gradient Matching for Continual Language Model Training",
-      "url": "https://arxiv.org/abs/2611.03496v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-11-02",
-      "summary_ko": "OLGA는 언어 모델의 연속적 학습을 위해 레이블 없는 데이터에서 모델의 다음 토큰 예측을 gradient matching 목표로 사용하여 synthetic examples를 생성합니다. Online 설정에서 rehearsal memory를 유지하며 텍스트 분류에서 10% 정확도 개선, 30% 런타임 단축을 달성합니다.",
-      "score": 54
-    },
-    {
-      "title": "Finite-Memory Control of POMDPs: Fundamental Limits and Efficient Design",
-      "url": "https://arxiv.org/abs/2611.03414v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-11-02",
-      "summary_ko": "부분 관찰 가능 마르코프 결정 프로세스(POMDP)의 유한 메모리 제어에서 정보 이론적 하한을 제시하고, 신념 상태 혼동을 특성화하는 'decision witness' 개념을 도입했다. RECAP 정량화 방법으로 제한된 메모리 예산 하에서 근-최적 제어기를 설계하며, 11개 벤치마크에서 기준선 대비 성능 개선을 실증했다.",
-      "score": 54
     }
   ],
   "available_periods": {
     "daily": [
+      "2026-11-05",
       "2026-11-04",
       "2026-11-03",
       "2026-11-02",
