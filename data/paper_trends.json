@@ -1,10 +1,10 @@
 {
-  "analyzed_at": "2026-11-09T18:59:31.176603+09:00",
+  "analyzed_at": "2026-11-10T07:02:27.345485+09:00",
   "llm_backend": "claude-cli",
   "period": "weekly",
   "period_label": "최근 7일",
   "days_window": 7,
-  "paper_count": 545,
+  "paper_count": 419,
   "narrative": "",
   "hot_topics": [],
   "key_techniques": [],
@@ -12,43 +12,47 @@
   "top_institutions": [
     {
       "name": "ETH",
-      "count": 271
+      "count": 210
     },
     {
       "name": "MIT",
-      "count": 178
+      "count": 134
     },
     {
       "name": "AWS",
-      "count": 24
+      "count": 19
     },
     {
       "name": "Meta",
-      "count": 15
+      "count": 9
     },
     {
       "name": "FAIR",
       "count": 7
     },
     {
-      "name": "OpenAI",
-      "count": 6
-    },
-    {
       "name": "Google",
       "count": 5
     },
     {
-      "name": "NVIDIA",
-      "count": 5
+      "name": "OpenAI",
+      "count": 4
     },
     {
       "name": "Anthropic",
       "count": 3
     },
     {
-      "name": "Apple",
+      "name": "NVIDIA",
       "count": 3
+    },
+    {
+      "name": "Apple",
+      "count": 2
+    },
+    {
+      "name": "Amazon",
+      "count": 1
     },
     {
       "name": "Berkeley",
@@ -57,92 +61,88 @@
     {
       "name": "Hugging Face",
       "count": 1
-    },
-    {
-      "name": "Amazon",
-      "count": 1
     }
   ],
   "top_keywords": [
     {
       "keyword": "language",
-      "count": 28
-    },
-    {
-      "keyword": "agents",
-      "count": 27
-    },
-    {
-      "keyword": "multi",
-      "count": 26
+      "count": 25
     },
     {
       "keyword": "time",
-      "count": 24
-    },
-    {
-      "keyword": "data",
-      "count": 24
-    },
-    {
-      "keyword": "networks",
-      "count": 22
-    },
-    {
-      "keyword": "training",
-      "count": 21
-    },
-    {
-      "keyword": "agent",
-      "count": 20
-    },
-    {
-      "keyword": "evaluation",
-      "count": 20
-    },
-    {
-      "keyword": "agentic",
-      "count": 20
-    },
-    {
-      "keyword": "optimization",
       "count": 19
     },
     {
-      "keyword": "generative",
+      "keyword": "data",
       "count": 18
     },
     {
-      "keyword": "memory",
+      "keyword": "evaluation",
+      "count": 18
+    },
+    {
+      "keyword": "multi",
+      "count": 18
+    },
+    {
+      "keyword": "agent",
       "count": 17
     },
     {
-      "keyword": "aware",
+      "keyword": "agents",
       "count": 17
+    },
+    {
+      "keyword": "training",
+      "count": 16
+    },
+    {
+      "keyword": "generative",
+      "count": 16
+    },
+    {
+      "keyword": "networks",
+      "count": 16
+    },
+    {
+      "keyword": "optimization",
+      "count": 15
     },
     {
       "keyword": "benchmark",
-      "count": 16
-    },
-    {
-      "keyword": "framework",
-      "count": 16
-    },
-    {
-      "keyword": "reasoning",
-      "count": 16
-    },
-    {
-      "keyword": "self",
       "count": 15
+    },
+    {
+      "keyword": "memory",
+      "count": 13
+    },
+    {
+      "keyword": "multimodal",
+      "count": 13
     },
     {
       "keyword": "prediction",
-      "count": 15
+      "count": 13
     },
     {
-      "keyword": "efficient",
-      "count": 14
+      "keyword": "context",
+      "count": 12
+    },
+    {
+      "keyword": "framework",
+      "count": 12
+    },
+    {
+      "keyword": "aware",
+      "count": 12
+    },
+    {
+      "keyword": "reasoning",
+      "count": 12
+    },
+    {
+      "keyword": "agentic",
+      "count": 12
     }
   ],
   "recent_papers": [
@@ -267,30 +267,6 @@
       "score": 74
     },
     {
-      "title": "Memory Efficient Audio Synthesis with Decoupled Temporal Depth Diffusion Transformers",
-      "url": "https://arxiv.org/abs/2607.23811v3",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-11-02",
-      "summary_ko": "Apple의 Siri Expressive Voices를 구동하는 메모리 효율적 음성 합성 아키텍처. Diffusion Transformer 기반 RVQ 디코더와 causal sliding window attention으로 21MB 피크 메모리에서 실시간 16배 속도 생성 및 MOS +0.28 개선을 달성하며, 시퀀스 길이와 무관한 상수 메모리 복잡도를 보장한다.",
-      "score": 74
-    },
-    {
-      "title": "Do Neural Retrievers Prefer Certain Documents? Evidence of Learned Relevance Priors",
-      "url": "https://arxiv.org/abs/2606.02814v2",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-11-02",
-      "summary_ko": "신경망 검색 모델(neural retrievers)이 훈련 과정에서 query-independent한 document-level relevance prior를 암묵적으로 학습한다는 것을 실증적으로 밝힌 논문. 저자들은 supervised bi-encoders가 주류적·종합적 문서를 선호하고 niche·기술적 콘텐츠를 체계적으로 누락시키는 편향을 발견했으며, 이것이 실제 관련성과 무관하게 작동함을 보임.",
-      "score": 74
-    },
-    {
-      "title": "DistDebug-Bench: Can LLM Agents Diagnose Bugs in Distributed Systems?",
-      "url": "https://arxiv.org/abs/2611.03523v1",
-      "source": "arXiv AI/CL/LG/IR/MA/CY",
-      "date": "2026-11-02",
-      "summary_ko": "분산 시스템의 복잡한 버그 진단 능력을 평가하는 DistDebug-Bench 벤치마크 제시. 11개 시스템에서 수집한 120개 실제 버그(5개 언어, 10개 failure 패턴)로 SOTA LLM 에이전트를 평가하여, 명확한 추론 구조 부재와 도구 사용 비일관성으로 인한 tunnel vision이라는 구조적 약점을 실증.",
-      "score": 74
-    },
-    {
       "title": "Scientist World: Grow a Research World for AI-Scientists",
       "url": "https://arxiv.org/abs/2611.08478v1",
       "source": "arXiv AI/CL/LG/IR/MA/CY",
@@ -385,10 +361,35 @@
       "date": "2026-11-05",
       "summary_ko": "LLM 강화학습의 데이터 엔지니어링을 모델 내부 특성 기반으로 최적화하는 SAERL 방법을 제안합니다. SAE 특성 공간에서 샘플 선택, 학습 순서, 배치 구성을 최적화하여 Qwen2.5-Math에서 정확도 3.1%, 학습 스텝 42% 개선을 달성했습니다.",
       "score": 64
+    },
+    {
+      "title": "A Trust Layer for Agent Evaluation",
+      "url": "https://arxiv.org/abs/2610.07274v2",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-11-05",
+      "summary_ko": "에이전트 성능 평가의 신뢰성 문제를 다루는 논문으로, 벤치마크 점수만으로는 에이전트의 실제 성능을 보장할 수 없음을 정량적으로 실증. 결과 검증(채점 로직 정합성), 계산 추적성, 완료 주장 일치도, 재현성 4가지 속성을 검증하는 'Trust Layer' 프레임워크를 제안하고, 108개 작업 평가 결과 기록된 통과의 22.6%만 모든 검증을 통과함.",
+      "score": 64
+    },
+    {
+      "title": "Set-Valued Routing for Language-Model Agent Systems: A WildChat Benchmark and Cost-Aware Evaluation",
+      "url": "https://arxiv.org/abs/2606.28925v3",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-11-05",
+      "summary_ko": "언어모델 에이전트 시스템에서 자연언어 요청을 여러 전문 에이전트에 동적으로 할당하는 '집합값 라우팅' 문제를 정식화하고, 3,000개 WildChat 프롬프트 벤치마크를 구성해 프로필 검색, 멀티레이블 분류, 미세조정 인코더, GPT-4o를 비교했다. 미세조정 인코더가 89.59 F1을 달성하고, 재학습 없이 비용-성능 트레이드오프를 조정하는 WAR(Weighted Agent Routing) 후처리 규칙을 제안했다.",
+      "score": 64
+    },
+    {
+      "title": "CivBench: A Long-Horizon Benchmark for Tool-Mediated Agents in Civilization VI",
+      "url": "https://arxiv.org/abs/2609.02459v2",
+      "source": "arXiv AI/CL/LG/IR/MA/CY",
+      "date": "2026-11-04",
+      "summary_ko": "CivBench는 Civilization VI 환경에서 MCP 도구를 활용해 300+ 턴의 장기 작업을 수행하는 에이전트를 평가하는 벤치마크로, 전략 상태 모니터링 부재와 계획-실행 괴리를 측정하는 PMR·RAG@10 메트릭을 제시한다. 4개 모델 패밀리 분석은 도구 접근성과 명시적 가이드에도 불구하고 에이전트들이 일관된 행동 편향을 보임을 드러낸다.",
+      "score": 64
     }
   ],
   "available_periods": {
     "daily": [
+      "2026-11-10",
       "2026-11-09",
       "2026-11-08",
       "2026-11-07",
@@ -446,8 +447,7 @@
       "2026-09-15",
       "2026-09-14",
       "2026-09-12",
-      "2026-09-11",
-      "2026-09-10"
+      "2026-09-11"
     ],
     "weekly": [
       "2026-W46",
