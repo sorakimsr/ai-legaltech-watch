@@ -1117,7 +1117,9 @@ def main():
     #   실행되거나(예: #91이 06-03 00:25 실행 → today=06-03, 기사 부족으로 skip) 그날 빌드가
     #   실패하면 과거 날짜(06-02)가 임시(_emergency) 카드로 영구 고착됨.
     #   변경: 최근 HEAL_PAST_DAYS일을 점검해 '전부 임시'인 날을 (streaming-fixed) LLM으로 재생성.
-    HEAL_PAST_DAYS = 3
+    # v8.1 (2026-11-24): 환경변수화. Pro 구독 한도 소진 대응 — 워크플로에서 0으로 끔.
+    #   한도가 찬 상태에서 과거 임시카드 재생성이 대형 Sonnet 호출을 반복 소모하던 문제.
+    HEAL_PAST_DAYS = max(0, int(os.environ.get("STRATEGY_HEAL_PAST_DAYS", "3")))
     if backend != "none":
         for _back in range(1, HEAL_PAST_DAYS + 1):
             past = today - timedelta(days=_back)

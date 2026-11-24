@@ -95,7 +95,10 @@ def call_claude_cli(prompt: str, max_tokens: int = 800) -> str:
                 last_err = "empty response (exit 0, 본문 0자)"
                 print(f"  [claude-cli] 빈 응답 (attempt {attempt}/3)", file=sys.stderr)
             else:
-                last_err = r.stderr.strip()[:200]
+                # v8.1: CLI는 한도 초과 등 일부 오류를 stdout으로 출력 → stderr가 비면 stdout 기록
+                _err = (r.stderr or "").strip()
+                _out = (r.stdout or "").strip()
+                last_err = (_err or _out or "no output")[:300]
                 print(f"  [claude-cli] exit {r.returncode}: {last_err} (attempt {attempt}/3)",
                       file=sys.stderr)
         except subprocess.TimeoutExpired:
