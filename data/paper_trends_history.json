@@ -17590,139 +17590,183 @@
       ]
     },
     "2026-11-26": {
-      "analyzed_at": "2026-11-26T06:16:50.035270+09:00",
+      "analyzed_at": "2026-11-26T18:19:01.397453+09:00",
       "llm_backend": "claude-cli",
       "period": "daily",
       "period_label": "오늘",
       "days_window": 1,
-      "paper_count": 11,
-      "narrative": "한 줄 요약 오늘 발표된 논문군은 AI 기술 그 자체보다 '어떻게 통제하고, 얼마에 사고, 누가 책임지는가'라는 거버넌스·비용·책임 구조 문제에 집중하고 있으며, **기업이 AI를 도입하는 방식 자체가 새로운 경쟁 변수**로 전면에 올라오고 있다.\n\n1) 무엇이 부상하고 있는가 이번 논문군에서 가장 선명하게 드러나는 흐름은 AI 거버넌스의 국제 비교와 기업 비용 구조의 재편이다. A. Shaji George의 AI Tokenomics 논문은 전통적인 '사용자·좌석·서버' 단위 소프트웨어 과금 모델이 사라지고 토큰(token) 단위 소비 모델이 기업 IT 예산 편성 방식 자체를 바꾸고 있음을 지적한다. **기존 API 호출 단위 비용 측정이 다단계 에이전트 오케스트레이션 환경에서는 무의미**해지고 있으며, 기업은 성과 단위(task completion)당 비용을 추적하는 새 KPI 체계가 필요해진다. 거버넌스 측면에서는 인도네시아·말레이시아 비교 연구와 7개국 비교 연구가 각국의 중앙집권형 대 분산형 규제 모델을 분석하며, 국가별 규제 접근 방식이 기업의 AI 도입 속도를 직접 결정함을 보여준다. 법률 분야에서는 Rezzy Eko Caraka의 연구가 추론 가능한 언어 모델(reasoning-capable LLM)과 RAG(Retrieval-Augmented Generation)이 인도네시아 법률 실무에 이미 침투하고 있지만 사법·옹호 기관들이 대응을 거의 시작조차 못 했다는 현실을 짚는다.\n\n2) 한국 실무자에게 이 흐름이 무슨 의미인가 IT 예산을 편성하거나 AI 프로젝트 ROI를 보고하는 기획 담당자 입장에서, **성공한 목표당 비용으로 KPI를 재설계해야** 한다는 메시지는 실무에 직결되는 함의를 가진다. 현재 대부분의 국내 기업은 AI 사용량을 API 호출 건수나 월 구독 비용으로 추적하지만, 멀티에이전트 파이프라인이 확산될수록 그 측정 단위는 실제 업무 성과와 괴리된다. 조직 변화 관리 측면에서는 Paula Marques의 연구가 AI가 조직 내 의사결정 권한과 책임 구조를 반복적으로 흔드는 '파동형 변화'로 작동함을 경고한다. **책임 경계가 명확히 설계된 아키텍처를 선택**하지 않으면 AI 도입 이후 발생하는 오류의 귀책 주체가 불분명해져 내부 감사와 컴플라이언스 대응이 어려워진다. **한국 기업 환경에서는 개인정보보호법상 국외 데이터 이전 제한, 금융위·금감원의 AI 모델 설명 요구, 공공기관의 망분리 정책이 클라우드 기반 멀티에이전트 도입의 현실적 장벽으로 작용**한다.\n\n3) 산업 적용 흐름 법률·공공·예산 분야에서 선도적 적용이 진행 중이다. 법률 분야에서는 RAG 기반 법령 검색과 추론 LLM을 결합한 리걸테크(LegalTech) 솔루션이 먼저 들어오고 있으며, 한국에서도 로펌과 기업 법무팀의 계약 검토 자동화 수요가 이 흐름에 올라탈 가능성이 높다. 공공·스마트시티 분야에서는 Igor Calzada의 디지털 메트로폴리스 연구가 디지털 트윈(Digital Twin)과 공공서비스 AI를 결합한 도시 거버넌스 모델을 제시하며, Ameneh Khadivar의 성과 기반 예산 편성 연구는 신경망-최적화 하이브리드 모델을 공공지출 관리에 적용하는 경로를 열어준다. 이는 **국내 금융·공공 분야의 내부통제 자동화 수요와 직결**되는 흐름이다. 단, **온프레미스(on-premise) 또는 폐쇄망 요구가 도입 속도를 제한하는 현실적 제약으로 작동**하므로, 클라우드 AI 플랫폼을 그대로 가져오는 방식보다는 경량화·로컬 배포 옵션을 병행 검토하는 것이 현실적이다.",
+      "paper_count": 152,
+      "narrative": "한 줄 요약: AI가 클라우드 서비스 형태로 기업 운영에 본격 편입되는 단계에서, 평가 신뢰성 훼손·파이프라인 보안 공백·의사결정 미연동이라는 세 가지 실무 리스크가 동시에 부상하고 있다.\n\n1) 무엇이 부상하고 있는가 오늘 논문들은 세 흐름을 형성한다. 첫째, MaaS(Model-as-a-Service) 보안 체계화다. 클라우드 AI 파이프라인에서 여러 주체의 자산이 한 서비스 안에 혼재되는 구조적 취약점을 체계적으로 분류한 연구(논문 1)와, AI 모니터가 공격 시나리오 선택 방식에 따라 오탐률이 크게 달라진다는 OpenAI 모니터 사례 연구(논문 2)가 한 쌍을 이룬다. LLM 기반 추천 에이전트의 협업 반성 메커니즘을 통한 VirusCascade 공격(논문 27)은 에이전트가 상태를 공유하는 구조 자체가 새로운 공격 면임을 보여 준다. 둘째, 벤치마크 오염과 평가 신뢰성 위기다. MathArena(논문 14)는 AIME 2024 등 주요 수학 평가 데이터가 온라인에 유통되며 모델의 실질 추론 능력이 과대평가되고 있다고 지적하고, Benchmark Everything Everywhere All at Once(논문 32)는 포화된 벤치마크 재활용이 모델 간 변별력을 잃게 만든다고 비판한다. 셋째, 금융 현장의 의사결정 미연동 문제다. Decision-Focused Fine-Tuning(논문 7)은 확률 예측에 그치지 않고 비대칭 비용 구조를 학습에 직접 반영해, 사기 탐지처럼 오탐·미탐 비용이 비대칭인 도메인에서 AI를 실제 의사결정 단계까지 연결하는 방향을 제시한다.\n\n2) 한국 실무자에게 이 흐름이 무슨 의미인가 가장 직접적인 함의는 AI 평가 기준의 재설계다. 현재 많은 기업이 외부 벤치마크 점수를 AI 도입 조달 기준으로 삼고 있지만, **벤치마크 점수와 실제 운영 데이터 분포 사이의 간극을 독립적으로 검증하는 프로세스**가 조달 기준서에 없다면 과대평가된 모델을 구매하는 리스크가 현실화된다. 금융 AI 측면에서는 이상거래·사기 탐지를 정확도(accuracy) 하나로 관리하는 방식이 한계에 다다랐다는 신호가 뚜렷하다. **놓친 고위험 사건의 비용과 과다 차단의 비용을 모두 반영한 비용 민감 KPI로 모델 평가 체계를 재설계해야** 운영 효율과 비용 통제가 동시에 가능해진다. 보안 측면에서는 클라우드 AI를 사용하는 순간부터 **파이프라인 전체의 보안 경계와 주체별 책임 귀속 구조를 계약서와 아키텍처 설계 단계에서 명시**해야 하는 거버넌스 과제가 생긴다.\n\n3) 산업 적용 흐름 금융은 비용 민감 의사결정 AI 수요가 가장 먼저 가시화될 분야다. 그러나 **금융위·금감원의 AI 모델 설명 요구와 내부통제 감사 기준이 도입 속도의 현실적 제약으로 작동**한다. 의료 분야는 뇌종양 분류(논문 15)·알츠하이머 진단(논문 25) 등 기반 모델 평가 연구가 축적되고 있지만, 개인정보보호법상 의료 데이터 국외 이전 제한과 의료기기 허가 절차가 클라우드 AI 도입의 현실적 장벽으로 남는다. AI 에이전트 메모리 자동화(HoMe, 논문 35) 같은 운영 최적화 기술은 고객 서비스·내부 지식 관리 영역에 먼저 적용될 가능성이 높다. **온프레미스(on-premise) 또는 폐쇄망 환경을 요구하는 공공·금융기관은 대형 클라우드 LLM 없이 도메인 특화 에이전트를 처음부터 학습하는 ZeroHero(논문 33) 방식이 현실적인 도입 경로가 될 수 있으며**, 경량 증류 모델의 신뢰성 보정 연구(논문 11)가 이를 기술적으로 뒷받침한다.",
       "hot_topics": [
         {
-          "topic": "AI 거버넌스 국제 비교 (AI Governance Comparative Analysis)",
-          "description": "국가별 AI 규제 모델(중앙집권형 vs. 분산형)이 기업 도입 전략에 미치는 영향을 분석하는 흐름으로, 한국 기업의 글로벌 AI 운영 기준 설계에 직접 참조 가능.",
-          "paper_count": 3,
-          "paper_indices": [
-            1,
-            6,
-            7
-          ],
-          "papers": [
-            {
-              "title": "Building Intelligent Ethical Governance in the AI Era through AI-Based Prophetic Leadership for Institutional Transformation",
-              "url": "https://ejournal.duniakampus.org/index.php/Jetech/article/download/451/384",
-              "source": "OpenAlex",
-              "date": "2026-11-25"
-            },
-            {
-              "title": "AI Governance Systems in Southeast Asia: A Comparative Analysis of Indonesia and Malaysia",
-              "url": "https://doi.org/10.47176/etg.2026.1008",
-              "source": "OpenAlex",
-              "date": "2026-11-25"
-            },
-            {
-              "title": "A Comparative Study of Artificial Intelligence Governance Patterns in Selected Countries",
-              "url": "https://etg.ihu.ac.ir/article_210534_c6bd21346cb1328ba15d5b7062b5f0cc.pdf",
-              "source": "OpenAlex",
-              "date": "2026-11-25"
-            }
-          ]
-        },
-        {
-          "topic": "기업 AI 비용 구조 혁신—토큰 이코노믹스 (Enterprise AI Tokenomics)",
-          "description": "기존 소프트웨어 라이선스 과금 모델이 토큰 소비 단위로 대체되면서, 기업 IT 예산 편성 및 ROI 측정 방식의 전면 재설계가 요구됨.",
-          "paper_count": 2,
-          "paper_indices": [
-            4,
-            2
-          ],
-          "papers": [
-            {
-              "title": "AI Tokenomics: The New Economic Language of Enterprise Intelligence",
-              "url": "https://doi.org/10.5281/zenodo.23604570",
-              "source": "OpenAlex",
-              "date": "2026-11-25"
-            },
-            {
-              "title": "Artificial intelligence as recurring organizational change: accountability and management control challenges across AI waves",
-              "url": "https://doi.org/10.1108/jaoc-01-2026-0058",
-              "source": "OpenAlex",
-              "date": "2026-11-25"
-            }
-          ]
-        },
-        {
-          "topic": "법률 분야 AI 도입—리걸테크 (Legal AI / LegalTech)",
-          "description": "추론 LLM과 RAG 기술이 법률 문서 검토·판례 검색에 실제 적용되고 있으며, 법무·컴플라이언스 부서의 자동화 가능성을 현실화하고 있음.",
-          "paper_count": 2,
-          "paper_indices": [
-            3,
-            7
-          ],
-          "papers": [
-            {
-              "title": "From chain-of-thought to case law: governing AI-powered lawyering in Indonesia",
-              "url": "https://doi.org/10.1108/ijlma-08-2026-0425",
-              "source": "OpenAlex",
-              "date": "2026-11-25"
-            },
-            {
-              "title": "A Comparative Study of Artificial Intelligence Governance Patterns in Selected Countries",
-              "url": "https://etg.ihu.ac.ir/article_210534_c6bd21346cb1328ba15d5b7062b5f0cc.pdf",
-              "source": "OpenAlex",
-              "date": "2026-11-25"
-            }
-          ]
-        },
-        {
-          "topic": "AI 기반 공공행정·스마트시티 혁신 (AI-Enabled Public Administration & Smart City)",
-          "description": "디지털 트윈과 성과 기반 예산 편성에 AI를 결합하는 공공 거버넌스 모델이 확산되며, 국내 공공기관 디지털 전환 로드맵과 접점이 넓어지고 있음.",
-          "paper_count": 2,
-          "paper_indices": [
-            10,
-            11
-          ],
-          "papers": [
-            {
-              "title": "The Foundations of the Digital Metropolis: An International Perspective on Digital Strategies, Digital Twins and Public-Service AI",
-              "url": "https://doi.org/10.5281/zenodo.24476191",
-              "source": "OpenAlex",
-              "date": "2026-11-25"
-            },
-            {
-              "title": "AI-Enabled Robust Performance-Based Budgeting: A Hybrid Neural–Optimization Approach for Smart Governance",
-              "url": "https://etg.ihu.ac.ir/article_210530_decf130fecee735670b02670ecc67858.pdf",
-              "source": "OpenAlex",
-              "date": "2026-11-25"
-            }
-          ]
-        },
-        {
-          "topic": "조직 내 AI 책임 구조와 관리통제 (AI Accountability & Organizational Change Management)",
-          "description": "AI가 조직 의사결정 권한을 반복적으로 재편함에 따라, 감사·내부통제·경영진 책임 체계를 명확히 설계해야 한다는 경영 과제가 부각됨.",
-          "paper_count": 3,
+          "topic": "AI 서비스 보안 체계화 (MaaS Security Systematization)",
+          "description": "클라우드 AI 파이프라인에서 여러 주체의 자산이 혼재되는 구조적 취약점을 분류하고, AI 모니터·에이전트 협업 구조의 새로운 공격 면을 경고하는 흐름.",
+          "paper_count": 4,
           "paper_indices": [
             1,
             2,
-            5
+            6,
+            27
           ],
           "papers": [
             {
-              "title": "Building Intelligent Ethical Governance in the AI Era through AI-Based Prophetic Leadership for Institutional Transformation",
-              "url": "https://ejournal.duniakampus.org/index.php/Jetech/article/download/451/384",
-              "source": "OpenAlex",
+              "title": "From Models to Services: Systematizing Security Assurance for Model-as-a-Service",
+              "url": "https://arxiv.org/abs/2611.34623v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
               "date": "2026-11-25"
             },
             {
-              "title": "Artificial intelligence as recurring organizational change: accountability and management control challenges across AI waves",
-              "url": "https://doi.org/10.1108/jaoc-01-2026-0058",
-              "source": "OpenAlex",
+              "title": "Attack Policy Selection can Mislead Monitor Evaluators",
+              "url": "https://arxiv.org/abs/2611.34934v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
               "date": "2026-11-25"
             },
             {
-              "title": "Cognitive Management: A Systematic Explication of Applying Cognitive Sciences in Management",
-              "url": "https://etg.ihu.ac.ir/article_210529_d45b03921a69759f8d4c35cfe1156bed.pdf",
-              "source": "OpenAlex",
+              "title": "A Survey of Security, Privacy, and Ethics of Large Language Models in Telecom",
+              "url": "https://arxiv.org/abs/2611.34868v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-11-25"
+            },
+            {
+              "title": "VirusCascade: Hijacking Collaborative Reflection in LLM-Powered Recommender Agents",
+              "url": "https://arxiv.org/abs/2609.38270v2",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-11-25"
+            }
+          ]
+        },
+        {
+          "topic": "벤치마크 오염과 평가 신뢰성 위기 (Benchmark Contamination & Evaluation Reliability)",
+          "description": "주요 평가 데이터가 온라인에 유통되며 모델 성능이 과대평가되고, 포화된 벤치마크 재활용이 모델 간 변별력을 상실시킨다는 위기 의식.",
+          "paper_count": 3,
+          "paper_indices": [
+            2,
+            14,
+            32
+          ],
+          "papers": [
+            {
+              "title": "Attack Policy Selection can Mislead Monitor Evaluators",
+              "url": "https://arxiv.org/abs/2611.34934v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-11-25"
+            },
+            {
+              "title": "MathArena: Evaluating LLMs on Uncontaminated Math Competitions",
+              "url": "https://arxiv.org/abs/2505.23281v4",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-11-25"
+            },
+            {
+              "title": "Benchmark Everything Everywhere All at Once",
+              "url": "https://arxiv.org/abs/2606.06462v2",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-11-25"
+            }
+          ]
+        },
+        {
+          "topic": "비용 민감 의사결정 AI (Cost-Sensitive Decision-Focused AI)",
+          "description": "확률 예측에 그치지 않고 오탐·미탐의 비대칭 비용 구조를 학습에 직접 반영해 금융 사기 탐지 등 고위험 의사결정에 AI를 연결하는 접근.",
+          "paper_count": 2,
+          "paper_indices": [
+            7,
+            16
+          ],
+          "papers": [
+            {
+              "title": "From Prediction to Decision: Decision-Focused Fine-Tuning of Autoregressive Tabular Transformers for Cost-Sensitive Financial Events",
+              "url": "https://arxiv.org/abs/2611.34858v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-11-25"
+            },
+            {
+              "title": "When to Trust a PFN: Detecting Harmful Shift in Tabular Foundation Models",
+              "url": "https://arxiv.org/abs/2611.34767v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-11-25"
+            }
+          ]
+        },
+        {
+          "topic": "의료 AI 기반 모델 평가 (Medical AI Foundation Model Evaluation)",
+          "description": "병리·뇌종양·알츠하이머 등 의료 도메인에서 기반 모델이 실제 생물학적 지식을 얼마나 반영하는지 평가하는 벤치마크·진단 연구들.",
+          "paper_count": 3,
+          "paper_indices": [
+            3,
+            15,
+            25
+          ],
+          "papers": [
+            {
+              "title": "A gene informed benchmark for BioScoring of pathology foundation models",
+              "url": "https://arxiv.org/abs/2611.34930v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-11-25"
+            },
+            {
+              "title": "Comparative Study of Deep Learning Architectures for Brain Tumour Classification",
+              "url": "https://arxiv.org/abs/2611.34781v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-11-25"
+            },
+            {
+              "title": "Privileged On-Policy Distillation for Calibrated Alzheimer's Diagnosis With Missing Modalities",
+              "url": "https://arxiv.org/abs/2611.34721v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-11-25"
+            }
+          ]
+        },
+        {
+          "topic": "AI 에이전트 메모리 최적화 (AI Agent Memory Systems Optimization)",
+          "description": "장기 운영 AI 에이전트의 메모리 하네스(코드·프롬프트·설정 조합) 자동 최적화와, 지식 그래프·시간적 지식 그래프를 에이전트 메모리로 활용하는 방법론 연구.",
+          "paper_count": 3,
+          "paper_indices": [
+            20,
+            26,
+            35
+          ],
+          "papers": [
+            {
+              "title": "How Well Do Vision-Language Scene Graphs Serve as Memory for Embodied Question Answering?",
+              "url": "https://arxiv.org/abs/2611.34745v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-11-25"
+            },
+            {
+              "title": "From Shared Patterns to Individual Evidence: Two-Stage Reasoning for Emerging Entities in Temporal Knowledge Graphs",
+              "url": "https://arxiv.org/abs/2611.34708v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-11-25"
+            },
+            {
+              "title": "HoMe: Toward Practical Harness Optimization of Memory Systems for AI Assistants",
+              "url": "https://arxiv.org/abs/2611.34624v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-11-25"
+            }
+          ]
+        },
+        {
+          "topic": "경량 언어 에이전트 개발 (Small Language Agent Development)",
+          "description": "대형 LLM 없이 특정 도메인에 특화된 소형 에이전트를 처음부터 학습하거나, 증류 모델의 신뢰성을 복구하는 경량화·소형화 연구.",
+          "paper_count": 2,
+          "paper_indices": [
+            11,
+            33
+          ],
+          "papers": [
+            {
+              "title": "Repairing the Trustworthiness of Distilled Language Models",
+              "url": "https://arxiv.org/abs/2611.34831v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-11-25"
+            },
+            {
+              "title": "ZeroHero: Training Small Language Agents from Scratch",
+              "url": "https://arxiv.org/abs/2611.34635v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
               "date": "2026-11-25"
             }
           ]
@@ -17730,269 +17774,466 @@
       ],
       "key_techniques": [
         {
-          "technique": "토큰 기반 비용 측정 체계 (Token-based Cost Metering)",
-          "description": "AI 사용량을 API 호출이 아닌 토큰 소비량으로 측정해 에이전트 파이프라인 단위의 실제 원가를 계산하는 방식으로, 기업 IT 예산 관리의 새 기준이 됨.",
+          "technique": "의사결정 중심 파인튜닝 (Decision-Focused Fine-Tuning)",
+          "description": "모델이 확률 예측이 아닌 비용 민감 의사결정을 직접 최적화하도록 학습시키는 방식 — 금융 사기 탐지·이상거래 탐지 KPI 재설계의 기술적 근거.",
           "paper_count": 1,
           "paper_indices": [
-            4
+            7
           ],
           "papers": [
             {
-              "title": "AI Tokenomics: The New Economic Language of Enterprise Intelligence",
-              "url": "https://doi.org/10.5281/zenodo.23604570",
-              "source": "OpenAlex",
+              "title": "From Prediction to Decision: Decision-Focused Fine-Tuning of Autoregressive Tabular Transformers for Cost-Sensitive Financial Events",
+              "url": "https://arxiv.org/abs/2611.34858v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
               "date": "2026-11-25"
             }
           ]
         },
         {
-          "technique": "검색 증강 생성 (Retrieval-Augmented Generation, RAG)",
-          "description": "외부 문서 데이터베이스를 실시간 참조해 LLM 답변 정확도를 높이는 기법으로, 법령·판례·내규 검색 자동화의 핵심 기반 기술이며 법무·컴플라이언스 도입의 사실상 표준임.",
-          "paper_count": 1,
+          "technique": "지식 증류 신뢰성 복구 (Trustworthy Knowledge Distillation Repair)",
+          "description": "대형 모델을 소형 모델로 압축할 때 발생하는 신뢰성 저하를 탐지하고 수정하는 기법 — 경량 모델 도입 시 성능 외 신뢰성 보증의 핵심 과제.",
+          "paper_count": 2,
           "paper_indices": [
-            3
+            11,
+            25
           ],
           "papers": [
             {
-              "title": "From chain-of-thought to case law: governing AI-powered lawyering in Indonesia",
-              "url": "https://doi.org/10.1108/ijlma-08-2026-0425",
-              "source": "OpenAlex",
+              "title": "Repairing the Trustworthiness of Distilled Language Models",
+              "url": "https://arxiv.org/abs/2611.34831v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-11-25"
+            },
+            {
+              "title": "Privileged On-Policy Distillation for Calibrated Alzheimer's Diagnosis With Missing Modalities",
+              "url": "https://arxiv.org/abs/2611.34721v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
               "date": "2026-11-25"
             }
           ]
         },
         {
-          "technique": "신경망-최적화 하이브리드 모델 (Neural-Optimization Hybrid Model)",
-          "description": "딥러닝 예측 모델과 수리 최적화를 결합해 예산 배분·성과 목표를 동시에 처리하는 기법으로, 공공·금융 분야 성과 관리 자동화에 적용 가능.",
-          "paper_count": 1,
+          "technique": "배포 후 분포 이동 감지 (Post-Deployment Distribution Shift Detection)",
+          "description": "운영 중 데이터 분포 변화를 무감독 방식으로 감지해 모델 실패를 조기 경보하는 기법 — AI 모니터와 금융 모델 모두에 적용 가능한 운영 리스크 관리 도구.",
+          "paper_count": 2,
           "paper_indices": [
-            11
+            2,
+            16
           ],
           "papers": [
             {
-              "title": "AI-Enabled Robust Performance-Based Budgeting: A Hybrid Neural–Optimization Approach for Smart Governance",
-              "url": "https://etg.ihu.ac.ir/article_210530_decf130fecee735670b02670ecc67858.pdf",
-              "source": "OpenAlex",
+              "title": "Attack Policy Selection can Mislead Monitor Evaluators",
+              "url": "https://arxiv.org/abs/2611.34934v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-11-25"
+            },
+            {
+              "title": "When to Trust a PFN: Detecting Harmful Shift in Tabular Foundation Models",
+              "url": "https://arxiv.org/abs/2611.34767v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
               "date": "2026-11-25"
             }
           ]
         },
         {
-          "technique": "디지털 트윈 기반 도시 모델링 (Digital Twin-based Urban Modeling)",
-          "description": "도시 인프라의 실시간 가상 복제 모델을 구축해 AI 기반 행정 의사결정을 지원하는 기술로, 스마트시티·공공서비스 혁신의 기반 플랫폼.",
-          "paper_count": 1,
+          "technique": "메모리 하네스 자동 최적화 (Automated Memory Harness Optimization)",
+          "description": "장기 운영 AI 에이전트의 메모리 구성·유지·검색·답변 생성 설정을 수동 튜닝 없이 자동으로 최적화하는 프레임워크 — 대규모 에이전트 운영의 실질적 병목 해소.",
+          "paper_count": 2,
           "paper_indices": [
-            10
+            35,
+            20
           ],
           "papers": [
             {
-              "title": "The Foundations of the Digital Metropolis: An International Perspective on Digital Strategies, Digital Twins and Public-Service AI",
-              "url": "https://doi.org/10.5281/zenodo.24476191",
-              "source": "OpenAlex",
+              "title": "HoMe: Toward Practical Harness Optimization of Memory Systems for AI Assistants",
+              "url": "https://arxiv.org/abs/2611.34624v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-11-25"
+            },
+            {
+              "title": "How Well Do Vision-Language Scene Graphs Serve as Memory for Embodied Question Answering?",
+              "url": "https://arxiv.org/abs/2611.34745v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
               "date": "2026-11-25"
             }
           ]
         },
         {
-          "technique": "YOLO 알고리즘 기반 실시간 객체 탐지 (YOLO-based Real-time Object Detection)",
-          "description": "초소형 드론(마이크로 UAV)을 가시광선 영상에서 실시간 탐지하는 기법으로, 보안·방위 분야 AI 적용의 대표 사례이며 산업 시설 보안 적용으로 확장 가능.",
+          "technique": "LLM 지도 기반 소형 에이전트 훈련 (Small Agent Training from Scratch via LLM Guidance)",
+          "description": "대형 LLM이 교사 역할을 하고 소형 에이전트가 환경과 상호작용하며 처음부터 학습하는 방식 — on-premise 폐쇄망 환경에서의 에이전트 도입 경로 제시.",
           "paper_count": 1,
           "paper_indices": [
-            9
+            33
           ],
           "papers": [
             {
-              "title": "Detection of Micro-UAVs in Visible Spectrum Using YOLO Algorithm",
-              "url": "https://pd.ihu.ac.ir/article_209342_7791677852cc329a8a2eea59d172d8f9.pdf",
-              "source": "OpenAlex",
+              "title": "ZeroHero: Training Small Language Agents from Scratch",
+              "url": "https://arxiv.org/abs/2611.34635v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
               "date": "2026-11-25"
             }
           ]
         }
       ],
       "actionable_insights": [
-        "AI 프로젝트 예산 보고 체계를 'API 호출 건수'나 '월 구독료' 중심에서 벗어나, **성공한 목표당 비용으로 KPI를 재설계해야** 한다. 멀티에이전트 파이프라인 환경에서는 기존 측정 단위가 실제 업무 성과와 비례하지 않아 이사회·경영진 보고 시 혼선이 발생할 수 있다.",
-        "AI 시스템 도입 시 의사결정 권한·오류 귀책 주체·감사 증적 체계를 사전에 문서화해야 하며, **책임 경계가 명확히 설계된 아키텍처를 선택**하지 않으면 내부 감사·컴플라이언스 심사에서 치명적 공백이 생긴다.",
-        "법무·컴플라이언스 부서에 RAG 파이프라인을 도입한 뒤 초기 구축에 그치는 경우가 많은데, **RAG 파이프라인을 한 번 구축하고 방치하는 운영 방식은 재검토가 필요한 시점**이다. 법령·내규 업데이트 주기에 맞춰 인덱스와 검색 품질을 주기적으로 재검증하는 운영 체계를 함께 설계해야 한다.",
-        "국내 클라우드 기반 AI 도입을 계획할 때, **한국 기업 환경에서는 개인정보보호법상 국외 데이터 이전 제한, 금융위·금감원의 AI 모델 설명 요구, 공공기관의 망분리 정책이 클라우드 기반 멀티에이전트 도입의 현실적 장벽으로 작용**한다는 점을 도입 초기 타당성 검토 단계에 반영해야 한다.",
-        "공공기관 또는 금융 계열사를 보유한 기업집단의 기획 담당자라면, 성과 기반 예산(Performance-Based Budgeting) 자동화 솔루션이 **국내 금융·공공 분야의 내부통제 자동화 수요와 직결**됨을 인지하고, 해외 파일럿 도입 사례를 벤치마킹해 계열사별 도입 우선순위를 선제적으로 검토할 필요가 있다."
+        "AI 모델 도입 조달 단계에서 외부 벤치마크 점수를 단독 기준으로 삼는 관행을 재검토해야 한다. **벤치마크 데이터 오염 여부와 실제 내부 운영 데이터 분포와의 간극을 독립적으로 검증하는 평가 절차**를 조달 기준서에 명시적으로 포함시켜야 과대평가된 모델 구매 리스크를 차단할 수 있다.",
+        "금융·보험사에서 사기 탐지·이상거래 탐지 모델을 정확도(accuracy) 단일 지표로 평가하고 있다면, **놓친 고위험 사건의 비용과 과다 차단 비용을 비대칭적으로 반영한 비용 민감 KPI로 모델 성과 체계를 재설계해야** 운영 효율과 리스크 관리가 동시에 개선된다.",
+        "클라우드 AI 서비스(MaaS) 계약 시, 모델 성능 SLA뿐 아니라 **파이프라인 전체의 보안 경계, 주체별 자산 분리 방식, 보안 사고 발생 시 책임 귀속 구조를 계약서와 아키텍처 설계 단계에서 명시적으로 정의**하는 프로세스를 거버넌스 체계에 포함해야 한다.",
+        "장기 운영 AI 에이전트(챗봇·지식 관리 도구 등)의 메모리 시스템을 한 번 구축하고 수동으로 관리하는 방식은 운영 복잡도 증가와 함께 성능 저하 위험을 높인다. **메모리 하네스 자동 최적화 접근법을 도입해 운영 주기별 메모리 품질을 자동 점검하는 체계**를 갖추어야 에이전트 서비스 품질을 유지할 수 있다.",
+        "온프레미스(on-premise)·폐쇄망 환경에서 AI 에이전트를 도입해야 하는 공공기관·금융기관은, 대형 클라우드 LLM 의존 없이 **도메인 특화 소형 에이전트를 처음부터 학습하는 방식을 중장기 도입 로드맵의 현실적 대안으로 검토**해야 한다."
       ],
       "top_institutions": [
         {
           "name": "ETH",
+          "count": 73
+        },
+        {
+          "name": "MIT",
+          "count": 30
+        },
+        {
+          "name": "Meta",
+          "count": 6
+        },
+        {
+          "name": "Google",
           "count": 3
+        },
+        {
+          "name": "FAIR",
+          "count": 3
+        },
+        {
+          "name": "OpenAI",
+          "count": 1
+        },
+        {
+          "name": "AWS",
+          "count": 1
         }
       ],
       "top_keywords": [
         {
-          "keyword": "governance",
-          "count": 4
+          "keyword": "agents",
+          "count": 11
         },
         {
-          "keyword": "intelligence",
-          "count": 4
+          "keyword": "language",
+          "count": 8
         },
         {
           "keyword": "digital",
-          "count": 4
+          "count": 7
         },
         {
-          "keyword": "artificial",
-          "count": 3
+          "keyword": "data",
+          "count": 7
         },
         {
-          "keyword": "management",
-          "count": 3
+          "keyword": "knowledge",
+          "count": 7
         },
         {
-          "keyword": "artificial intelligence",
-          "count": 3
+          "keyword": "benchmark",
+          "count": 6
         },
         {
-          "keyword": "indonesia",
-          "count": 2
+          "keyword": "decision",
+          "count": 6
         },
         {
-          "keyword": "cognitive",
-          "count": 2
+          "keyword": "world",
+          "count": 6
         },
         {
-          "keyword": "comparative",
-          "count": 2
+          "keyword": "reasoning",
+          "count": 6
         },
         {
-          "keyword": "building",
-          "count": 1
+          "keyword": "when",
+          "count": 6
         },
         {
-          "keyword": "intelligent",
-          "count": 1
+          "keyword": "networks",
+          "count": 6
         },
         {
-          "keyword": "ethical",
-          "count": 1
+          "keyword": "intelligence",
+          "count": 6
         },
         {
-          "keyword": "through",
-          "count": 1
+          "keyword": "what",
+          "count": 5
         },
         {
-          "keyword": "prophetic",
-          "count": 1
+          "keyword": "agent",
+          "count": 5
         },
         {
-          "keyword": "leadership",
-          "count": 1
+          "keyword": "vision",
+          "count": 5
         },
         {
-          "keyword": "institutional",
-          "count": 1
+          "keyword": "memory",
+          "count": 5
         },
         {
-          "keyword": "transformation",
-          "count": 1
+          "keyword": "training",
+          "count": 5
         },
         {
-          "keyword": "building intelligent",
-          "count": 1
+          "keyword": "generative",
+          "count": 5
         },
         {
-          "keyword": "intelligent ethical",
-          "count": 1
+          "keyword": "detection",
+          "count": 5
         },
         {
-          "keyword": "ethical governance",
-          "count": 1
+          "keyword": "multi",
+          "count": 5
         }
       ],
       "recent_papers": [
         {
-          "title": "Building Intelligent Ethical Governance in the AI Era through AI-Based Prophetic Leadership for Institutional Transformation",
-          "url": "https://ejournal.duniakampus.org/index.php/Jetech/article/download/451/384",
-          "source": "OpenAlex",
+          "title": "From Models to Services: Systematizing Security Assurance for Model-as-a-Service",
+          "url": "https://arxiv.org/abs/2611.34623v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
           "date": "2026-11-25",
-          "summary_ko": "Masyhudi, Izzatul Munawwaroh, Eka Diana — [JETech: Journal of Education and Technology] The development of Artificial Intelligence (AI) has accelerated institutional transformation through data analys",
-          "score": 47
+          "summary_ko": "Large language models are mainly delivered as cloud services, in which the assets of different principals are coupled within a single service pipeline, while the related security research is scattered",
+          "score": 46
         },
         {
-          "title": "Artificial intelligence as recurring organizational change: accountability and management control challenges across AI waves",
-          "url": "https://doi.org/10.1108/jaoc-01-2026-0058",
-          "source": "OpenAlex",
+          "title": "Attack Policy Selection can Mislead Monitor Evaluators",
+          "url": "https://arxiv.org/abs/2611.34934v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
           "date": "2026-11-25",
-          "summary_ko": "Paula Cristina de Almeida Marques, Marcelo de Santana Porte — [Journal of Accounting & Organizational Change] Purpose Artificial intelligence (AI) is increasingly embedded in organizational decision-m",
-          "score": 42
+          "summary_ko": "AI monitors, classifiers that flag dangerous behaviour by AI agents, are often evaluated against transcripts generated by attack policies acting as proxies for dangerous behaviour in deployment. We ev",
+          "score": 45
         },
         {
-          "title": "From chain-of-thought to case law: governing AI-powered lawyering in Indonesia",
-          "url": "https://doi.org/10.1108/ijlma-08-2026-0425",
-          "source": "OpenAlex",
+          "title": "A gene informed benchmark for BioScoring of pathology foundation models",
+          "url": "https://arxiv.org/abs/2611.34930v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
           "date": "2026-11-25",
-          "summary_ko": "Rezzy Eko Caraka, Dodik Pranata Wijaya — [International Journal of Law and Management] Purpose Reasoning-capable language models and retrieval-augmented generation are already changing how legal work ",
-          "score": 40
+          "summary_ko": "Pathology foundation models are usually compared by their performance on downstream tasks such as classification and retrieval. While such benchmarks measure how useful a model is, they provide no ins",
+          "score": 44
         },
         {
-          "title": "AI Tokenomics: The New Economic Language of Enterprise Intelligence",
-          "url": "https://doi.org/10.5281/zenodo.23604570",
-          "source": "OpenAlex",
+          "title": "Enhancing Maritime Domain Awareness using Latent Space Representations",
+          "url": "https://arxiv.org/abs/2611.34899v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
           "date": "2026-11-25",
-          "summary_ko": "A. Shaji George — [Zenodo (CERN European Organization for Nuclear Research)] The arrival of generative artificial intelligence has quietly rewritten the financial grammar of enterprise technology. Whi",
-          "score": 40
+          "summary_ko": "This work presents a novel application of Earth Observation (EO) embeddings for Maritime Domain Awareness (MDA) from the perspective of the geospatial foundation model TerraMind. By operating directly",
+          "score": 44
         },
         {
-          "title": "Cognitive Management: A Systematic Explication of Applying Cognitive Sciences in Management",
-          "url": "https://etg.ihu.ac.ir/article_210529_d45b03921a69759f8d4c35cfe1156bed.pdf",
-          "source": "OpenAlex",
+          "title": "What a Drop Reveals: Sim-to-Real Material Estimation for Deformable Objects from Video",
+          "url": "https://arxiv.org/abs/2611.34894v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
           "date": "2026-11-25",
-          "summary_ko": "Mohammad Milad Ahmadi, Peyman Hajizadeh, Changiz Valmohammadi — [Emerging Technologies and Governance] Cognitive sciences have significantly advanced the understanding of human behavior; however, the ",
-          "score": 40
+          "summary_ko": "How an object deforms when it hits the ground reveals what it is made of. From a single real video of a drop, we estimate a deformable object's density-normalized stiffness $E/ρ$, and its yield stress",
+          "score": 44
         },
         {
-          "title": "AI Governance Systems in Southeast Asia: A Comparative Analysis of Indonesia and Malaysia",
-          "url": "https://doi.org/10.47176/etg.2026.1008",
-          "source": "OpenAlex",
+          "title": "A Survey of Security, Privacy, and Ethics of Large Language Models in Telecom",
+          "url": "https://arxiv.org/abs/2611.34868v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
           "date": "2026-11-25",
-          "summary_ko": "Ilham Sentosa, Behrang Hani Parhizkar, Abdolreza Alami — [Emerging Technologies and Governance] This study examines how artificial intelligence (AI) governance takes shape within two contrasting admin",
-          "score": 40
+          "summary_ko": "Large Language Models (LLMs) are increasingly integrated into telecommunications for customer service, network analytics, and operational support. While offering efficiency and innovation, their deplo",
+          "score": 44
         },
         {
-          "title": "A Comparative Study of Artificial Intelligence Governance Patterns in Selected Countries",
-          "url": "https://etg.ihu.ac.ir/article_210534_c6bd21346cb1328ba15d5b7062b5f0cc.pdf",
-          "source": "OpenAlex",
+          "title": "From Prediction to Decision: Decision-Focused Fine-Tuning of Autoregressive Tabular Transformers for Cost-Sensitive Financial Events",
+          "url": "https://arxiv.org/abs/2611.34858v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
           "date": "2026-11-25",
-          "summary_ko": "Mahdi Abedipour, Abed Rezaei, SeyedAli Mousavi — [Emerging Technologies and Governance] This study employs a comparative qualitative approach to analyze AI governance patterns in seven countries (Iran",
-          "score": 40
+          "summary_ko": "Autoregressive transformers trained on tokenized tabular event streams are a simple and strong baseline for predicting financial events such as fraud. Yet institutions do not act on probabilities; the",
+          "score": 44
         },
         {
-          "title": "Conceptual Framework for the Development of Digital Humanities Based on Artificial Intelligence",
-          "url": "https://etg.ihu.ac.ir/article_210535_6498430eacbc273d79a92ddd08e9d4f6.pdf",
-          "source": "OpenAlex",
+          "title": "Put the World Back: Timestamps Matter in Time Series Reasoning",
+          "url": "https://arxiv.org/abs/2611.34848v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
           "date": "2026-11-25",
-          "summary_ko": "Akram Fathian Dastgerdi, Saeed Bakhtiari — [Emerging Technologies and Governance] This study aims to develop a conceptual framework for advancing Digital Humanities (DH) through Artificial Intelligenc",
-          "score": 40
+          "summary_ko": "Large language models (LLMs) are increasingly applied to time series reasoning. However, current evaluations often give models events in chronological order and already matched to the time series. Thi",
+          "score": 44
         },
         {
-          "title": "Detection of Micro-UAVs in Visible Spectrum Using YOLO Algorithm",
-          "url": "https://pd.ihu.ac.ir/article_209342_7791677852cc329a8a2eea59d172d8f9.pdf",
-          "source": "OpenAlex",
+          "title": "STAR-XPC: Set Transformer for Estimating X-ray Transmission in Polymer Composites",
+          "url": "https://arxiv.org/abs/2610.28709v2",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
           "date": "2026-11-25",
-          "summary_ko": "shahin mirzaei, S. Khazai — [فصلنامه پدافند غیرعامل] The micro-drone, a type of unmanned aerial vehicle, typically measures only a few centimeters and is commonly employed in military operations and e",
-          "score": 40
+          "summary_ko": "Evaluating the energy transmission ratio of an X-ray beam through a polymer composite is a challenging task in radiation shielding studies. The reference solution with Monte Carlo transport simulation",
+          "score": 44
         },
         {
-          "title": "The Foundations of the Digital Metropolis: An International Perspective on Digital Strategies, Digital Twins and Public-Service AI",
-          "url": "https://doi.org/10.5281/zenodo.24476191",
-          "source": "OpenAlex",
+          "title": "Proverbs As A Window On Collective Prescriptions",
+          "url": "https://arxiv.org/abs/2611.34832v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
           "date": "2026-11-25",
-          "summary_ko": "Igor Calzada — [Zenodo (CERN European Organization for Nuclear Research)] This presentation is prepared for an invited opening keynote at the International Seminar on Digital Governance and Urban Inno",
-          "score": 40
+          "summary_ko": "Proverbs, as repositories of traditional wisdom, have informed human reasoning for millennia. Yet the collective prescriptions they encode have remained largely unquantified. We introduce a computatio",
+          "score": 44
         },
         {
-          "title": "AI-Enabled Robust Performance-Based Budgeting: A Hybrid Neural–Optimization Approach for Smart Governance",
-          "url": "https://etg.ihu.ac.ir/article_210530_decf130fecee735670b02670ecc67858.pdf",
-          "source": "OpenAlex",
+          "title": "Repairing the Trustworthiness of Distilled Language Models",
+          "url": "https://arxiv.org/abs/2611.34831v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
           "date": "2026-11-25",
-          "summary_ko": "Ameneh Khadivar, Saba Abdian — [Emerging Technologies and Governance] Performance-based budgeting (PBB) remains one of the most critical challenges in modern public expenditure management, particularl",
-          "score": 0
+          "summary_ko": "Knowledge distillation enables the deployment of large language models through smaller student models, but the compression process can introduce regressions in trustworthiness even when downstream per",
+          "score": 44
+        },
+        {
+          "title": "Transferring Architecture as an Optimization Prior",
+          "url": "https://arxiv.org/abs/2611.34816v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-11-25",
+          "summary_ko": "Initialization determines the optimization \"fate\" of a model, going far beyond just setting the scale of its weights. It establishes a fundamental initial geometry over the input data, dictating certa",
+          "score": 44
+        },
+        {
+          "title": "Split-RL: Local Conflict Resolution in Reinforcement Learning",
+          "url": "https://arxiv.org/abs/2611.34799v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-11-25",
+          "summary_ko": "Reinforcement learning (RL) policies are often trained by mixing contradictory feedback that is localized in space and time. For example, a robot may prioritize speed in open areas versus precision in",
+          "score": 44
+        },
+        {
+          "title": "MathArena: Evaluating LLMs on Uncontaminated Math Competitions",
+          "url": "https://arxiv.org/abs/2505.23281v4",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-11-25",
+          "summary_ko": "The rapid advancement of reasoning capabilities in large language models (LLMs) has led to notable improvements on mathematical benchmarks. However, many of the most commonly used evaluation datasets ",
+          "score": 44
+        },
+        {
+          "title": "Comparative Study of Deep Learning Architectures for Brain Tumour Classification",
+          "url": "https://arxiv.org/abs/2611.34781v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-11-25",
+          "summary_ko": "Accurate and early classification of brain tumours from magnetic resonance imaging (MRI) is essential for treatment planning, yet many published deep learning studies are trained and tested on small, ",
+          "score": 44
+        },
+        {
+          "title": "When to Trust a PFN: Detecting Harmful Shift in Tabular Foundation Models",
+          "url": "https://arxiv.org/abs/2611.34767v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-11-25",
+          "summary_ko": "Tabular prior-fitted networks (PFNs) work well across tabular classification problems but can fail silently at deployment when distributions shift. We propose CALD (Calibrated Anchor-Loss Disagreement",
+          "score": 44
+        },
+        {
+          "title": "InterConRank: Joint Node Centrality in Interconnected Heterogeneous Networks",
+          "url": "https://arxiv.org/abs/2611.34763v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-11-25",
+          "summary_ko": "Two nodes with identical connections within their own layer can differ in importance if their neighbors in another layer occupy different positions in the network. We introduce InterConRank, a central",
+          "score": 44
+        },
+        {
+          "title": "AutoRSP: An AI Agent for Radar Sensing Pipeline Design",
+          "url": "https://arxiv.org/abs/2611.34754v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-11-25",
+          "summary_ko": "Radar sensing demands a pipeline that is well-thought-out across hardware and software. We ask whether an AI agent can automatically design radar sensing pipelines at a fraction of the time, cost, and",
+          "score": 44
+        },
+        {
+          "title": "StochEP: Stochastic Equilibrium Propagation for Spiking Convergent Recurrent Neural Networks",
+          "url": "https://arxiv.org/abs/2511.11320v2",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-11-25",
+          "summary_ko": "Spiking Neural Networks (SNNs) promise energy-efficient, sparse, biologically inspired computation. Training them with Backpropagation Through Time (BPTT) and surrogate gradients achieves strong perfo",
+          "score": 44
+        },
+        {
+          "title": "How Well Do Vision-Language Scene Graphs Serve as Memory for Embodied Question Answering?",
+          "url": "https://arxiv.org/abs/2611.34745v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-11-25",
+          "summary_ko": "Embodied QA needs memory, but answer accuracy mixes retained evidence, reading errors and question priors. For a simulated multi-room scene-graph pipeline we define answerability: the fraction of ques",
+          "score": 44
+        },
+        {
+          "title": "Resolution-free neural surrogates for geometric parameterization and mapping with spatially varying fields",
+          "url": "https://arxiv.org/abs/2605.28551v3",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-11-25",
+          "summary_ko": "Many imaging problems require computing spatial transformations induced by spatially varying intensity, feature, or density fields. Canonical examples include distortion correction, deformable image r",
+          "score": 44
+        },
+        {
+          "title": "Was the Model Given the Right Action? Auditing and Repairing Action Interfaces in Navigation World Models",
+          "url": "https://arxiv.org/abs/2611.34739v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-11-25",
+          "summary_ko": "World models are evaluated by predicting future observations from actions. These evaluations assume that actions are prepared the same way as during training, but an unchecked mismatch can make a mode",
+          "score": 44
+        },
+        {
+          "title": "Digital sovereignty in professional translation workflows: a case study of migrating from Windows to Linux",
+          "url": "https://arxiv.org/abs/2610.41561v4",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-11-25",
+          "summary_ko": "This study examines digital sovereignty in professional translation through a screening of computer-assisted translation tools and translation management systems, and a case study of migrating a trans",
+          "score": 44
+        },
+        {
+          "title": "LiDAR Intensity Reconstruction with Limited Real Data: An Architecture Benchmark under Fixed-Epoch Training",
+          "url": "https://arxiv.org/abs/2611.34724v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-11-25",
+          "summary_ko": "Physics-derived simulation can supplement scarce real-world LiDAR intensity measurements, but its effectiveness depends on the learning architecture and the amount of real training data available. We ",
+          "score": 44
+        },
+        {
+          "title": "Privileged On-Policy Distillation for Calibrated Alzheimer's Diagnosis With Missing Modalities",
+          "url": "https://arxiv.org/abs/2611.34721v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-11-25",
+          "summary_ko": "Alzheimer's disease is diagnosed from clinical, biospecimen and imaging evidence, but few patients undergo every test. Because these modalities are complementary, a missing one has many plausible valu",
+          "score": 44
+        },
+        {
+          "title": "From Shared Patterns to Individual Evidence: Two-Stage Reasoning for Emerging Entities in Temporal Knowledge Graphs",
+          "url": "https://arxiv.org/abs/2611.34708v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-11-25",
+          "summary_ko": "Temporal knowledge graphs (TKGs) continually introduce emerging entities whose interaction histories evolve from zero-shot debuts into sparse, bursty few-shot trajectories. However, current paradigms ",
+          "score": 44
+        },
+        {
+          "title": "VirusCascade: Hijacking Collaborative Reflection in LLM-Powered Recommender Agents",
+          "url": "https://arxiv.org/abs/2609.38270v2",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-11-25",
+          "summary_ko": "Advancing beyond traditional static scoring models, LLM-powered agentic recommender systems (LLM-ARS) instantiate users and items as autonomous agents, whose semantic states are dynamically refined th",
+          "score": 44
+        },
+        {
+          "title": "Caravan MultiMet: Extending Caravan with Multiple Weather Nowcasts and Forecasts",
+          "url": "https://arxiv.org/abs/2411.09459v2",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-11-25",
+          "summary_ko": "The Caravan large-sample hydrology dataset (Kratzert et al., 2023) was created to standardize and harmonize streamflow data from various regional datasets, combined with globally available meteorologi",
+          "score": 44
+        },
+        {
+          "title": "Neural Rendering Compiler: Generative Video Models as Programmable Renderers",
+          "url": "https://arxiv.org/abs/2611.34680v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-11-25",
+          "summary_ko": "Generative video models are becoming powerful renderers, yet lack the predictable control interfaces of conventional systems such as HTML/CSS engines or Blender. Their capabilities emerge implicitly f",
+          "score": 44
+        },
+        {
+          "title": "DemoFoundry: Toward Scalable Photorealistic Robot Data with Coding Agents and Generative Rendering",
+          "url": "https://arxiv.org/abs/2611.34671v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-11-25",
+          "summary_ko": "Scaling robot learning requires demonstrations that combine realistic visual observations with reliable action supervision. Simulation-based synthesis faces a substantial visual gap relative to real e",
+          "score": 44
         }
       ]
     }
@@ -31385,24 +31626,26 @@
       ]
     },
     "2026-W48": {
-      "analyzed_at": "2026-11-26T06:20:10.297665+09:00",
+      "analyzed_at": "2026-11-26T18:21:39.032917+09:00",
       "llm_backend": "claude-cli",
       "period": "weekly",
       "period_label": "최근 7일",
       "days_window": 7,
-      "paper_count": 324,
-      "narrative": "한 줄 요약 AI 에이전트가 외부 도구·시스템과 자율 연결되기 시작한 지금, 비용 통제·보안 추적·거버넌스 체계화라는 세 과제가 한국 기업의 AI 도입 속도를 결정짓는 실질적 병목으로 동시에 부상하고 있다.\n\n1) 무엇이 부상하고 있는가 논문군 전체를 관통하는 핵심 화두는 에이전트의 '자율 실행'에 따른 리스크 가시화다. MCP(Model Context Protocol)를 통해 AI 에이전트가 유료 리서치 도구를 자동 호출하는 환경에서는, **단순 API 호출 비용 측정 체계로는 에이전트 오케스트레이션의 실제 지출을 추적하는 것이 불가능**하다는 사실이 명시적으로 증명되었다(논문 5). 동시에 LLM 에이전트가 소프트웨어 취약점을 인간 개입 없이 자율 발견·패치하는 역량 연구(논문 8)는 2026년 공개 취약점 2배 급증 현상을 에이전트 자율화와 직접 연결 짓는다. 에이전트 보안 사고 후 타협 진입점을 역추적하는 Origin 도구(논문\n\n9) 역시 같은 맥락이다. 한편 LLM이 불완전한 정보 하에서 OWA·CWA 같은 규칙 전환 시 정확도가 18%까지 추락한다는 ClosureBench(논문\n\n3) 결과는, 에이전트가 정책·규정 준수 업무에 단독 투입될 경우 발생할 수 있는 치명적 오작동을 수치로 보여준다. 여기에 LLM이 온라인 사기 시나리오를 자동 수행할 수 있다는 연구(논문 71)와 LLM 판사가 임상 위험 행동을 놓친다는 연구(논문 63)까지 더해지면, 에이전트 신뢰성 문제는 연구 단계가 아닌 운영 설계 단계의 의사결정 사안이 되었다.\n\n2) 한국 실무자에게 이 흐름이 무슨 의미인가 에이전트 비용 거버넌스 문제는 한국 기업에 두 방향으로 압박한다. 현재 많은 기업이 AI 비용을 GPU 시간·API 단가로 KPI화하고 있지만, **에이전트가 멀티스텝으로 도구를 자율 호출하는 구조에서는 성공한 목표당 총 소비 비용으로 KPI를 재설계해야** 한다. ClosureBench 데이터는 **법률 검토·규정 준수 자동화에 LLM을 단독 적용하는 설계가 감사 리스크를 구조적으로 내포**한다는 직접 근거다. 조직 AI 거버넌스 연구(논문 21, 36)가 거버넌스를 단순 윤리 선언이 아닌 경영통제 메커니즘으로 재정의하는 흐름도 중요하다. **AI 도입 로드맵에서 책임 경계가 명확히 설계된 아키텍처를 선택하지 않으면**, 감사·컴플라이언스 대응 비용이 나중에 도입 원가를 초과하는 사례가 늘어날 것이다. 아울러 에이전트 귀인 추적 기술인 Tokengeist(논문 4)와 유틸리티 중심 에이전트 메모리 Leto(논문 65)가 보여주듯, **에이전트 출력의 감사 가능성(auditability)이 없는 운영 체계는 내부 통제 기준을 충족하기 어려운 구조적 약점**을 안고 있다.\n\n3) 산업 적용 흐름 의료·법률·금융이 가장 빠른 도입 압력을 받고 있다. 의료 분야에서는 XAI 기반 뇌종양 분할(논문 35), DeepQuest 알츠하이머 가설 생성(논문 17), 생의학 비전-언어 모델 BioLoom(논문 48)이 임상 직전 단계까지 진입한 반면, LLM 판사의 임상 위험 행동 탐지 실패 연구(논문 63)는 도입 전 검증 기준 설계가 필수임을 경고한다. 법률 분야에서는 추론 LLM과 RAG가 인도네시아 사법 환경을 이미 바꾸기 시작했다는 연구(논문 39)가 한국 법무·사내 준법 조직에 직접적 시사점을 준다. **국내 금융·공공 분야의 내부통제 자동화 수요와 직결**되는 흐름이지만, 개인정보보호법상 국외 데이터 이전 제한, 금융위·금감원의 AI 모델 설명 요구, 공공기관 망분리 정책이 클라우드 기반 에이전트 도입의 현실적 장벽으로 작용한다. HiSA(논문 2), TideCache(논문 23), Small Models 조사(논문 7)가 집중적으로 보여주는 경량화 추세는, **온프레미스(on-premise) 또는 폐쇄망 요구가 도입 속도를 제한하는 현실적 제약으로 작동하는 조직에서 경량 모델 자체 운영 선택지가 실질적 대안으로 가까워지고 있음**을 의미한다.",
+      "paper_count": 463,
+      "narrative": "한 줄 요약: AI 에이전트가 기업 내외부 시스템을 자율 연결하기 시작하면서, **성능 경쟁보다 보안·비용·거버넌스 설계가 도입의 실질적 병목**으로 부상하고 있다.\n\n1) 무엇이 부상하고 있는가 논문군에서 두 가지 흐름이 두드러진다. 첫째, AI 추론 능력의 질적 도약이다. Anthropic의 Claude가 수학자 Levent Alpöge와 협력해 167년 역사의 리만 가설 형식 증명에 기여한 사례(논문 1)는 단순 텍스트 생성을 넘어 고난도 전문 영역 작업에 AI가 실질적으로 쓰일 수 있다는 신호다. EMA Policy Gradient 기법(논문 22)은 RL 기반 LLM 학습에서 수학 추론 성능을 OlympiadBench 기준 50.8%에서 53.9%로 끌어올리며 추론 고도화 경쟁이 훈련 기법 수준까지 내려왔음을 보여준다. 둘째, 에이전트 보안 리스크의 가시화다. MCP(Model Context Protocol)를 통해 에이전트가 유료 리서치 도구를 자율 호출할 때 비용 통제 불가·증거 무결성 훼손이 발생한다는 경고(논문 5), 2026년 공개 취약점 2배 급증의 원인으로 LLM 에이전트의 자율 취약점 탐지·패치 역량이 지목된 연구(논문 8), 그리고 에이전트 사고 후 타협 진입점을 Cross-Layer Dependency Graph로 역추적하는 Origin 도구(논문 9)까지, **에이전트가 공격 표면이자 공격 도구로 동시에 작동하는 국면**이 본격화됐다.\n\n2) 한국 실무자에게 이 흐름이 무슨 의미인가 에이전트 도입을 검토하는 팀이라면 **책임 경계와 비용 거버넌스를 아키텍처 설계 단계에 명시적으로 포함**해야 한다. MCP 연동 에이전트가 외부 API를 자율 호출하면 비용이 걷잡을 수 없이 증가하거나, 사고 후 진입점을 추적할 수 없다는 문제가 실제 운영 사고로 이어진다. 한편 소형 모델 역할에 대한 체계적 조사(논문 7)와 단일 소비자용 GPU에서 55달러 미만으로 경쟁력 있는 이미지 생성 모델을 훈련한 Asuka-FM 사례(논문 16)는 **클라우드 의존 없이 온프레미스에서 AI를 운영할 선택지가 현실화**되고 있음을 의미한다. ClosureBench(논문\n\n3) 연구에서 LLM이 규칙 전환 시나리오에서 정확도가 99%에서 18%까지 급락한다는 결과는, **에이전트를 내부 정책·규정 준수가 중요한 프로세스에 적용할 때 규칙 전환 케이스에 대한 별도 검증 체계가 필수적 선결 조건**임을 시사한다.\n\n3) 산업 적용 흐름 법률·금융·의료 분야에서 채택 압력이 가장 먼저 높아질 가능성이 크다. 의료에서는 Alzheimer's 연구용 AI 과학자 프레임워크 DeepQuest(논문 17)와 설명 가능 AI를 결합한 뇌종양 MRI 분석(논문 73)이 임상 도입 가능성을 높이고 있다. 금융에서는 사기 탐지 같은 비대칭 비용 의사결정에 오토리그레시브 트랜스포머를 결합한 연구(논문 33)가 **국내 금융·공공 분야의 내부통제 자동화 수요와 직결**된다. 그러나 **한국 기업 환경에서는 개인정보보호법상 국외 데이터 이전 제한, 금융위·금감원의 AI 모델 설명 요구, 공공기관의 망분리 정책이 클라우드 기반 에이전트 도입의 현실적 장벽으로 작용**한다. 소형 모델 경량화 흐름이 이 제약을 일부 해소할 수 있지만, **온프레미스(on-premise) 또는 폐쇄망 요구가 도입 속도를 제한하는 현실적 제약으로 작동**하는 국면은 당분간 지속될 것으로 보인다.",
       "hot_topics": [
         {
-          "topic": "AI 에이전트 보안·거버넌스 리스크 (Agentic AI Security & Governance Risk)",
-          "description": "에이전트가 외부 도구를 자율 호출하고 취약점을 스스로 탐색하면서, 비용·보안·책임 통제 체계가 기존 IT 거버넌스로는 감당 불가한 영역으로 진입하고 있다.",
-          "paper_count": 5,
+          "topic": "AI 에이전트 보안·거버넌스 (Agent Security & Governance)",
+          "description": "에이전트가 외부 서비스·내부 시스템을 자율 연결하면서 비용 통제·보안 감사·공격 표면 관리가 도입 전 필수 설계 항목으로 떠올랐다.",
+          "paper_count": 7,
           "paper_indices": [
             5,
             8,
             9,
-            60,
-            71
+            27,
+            28,
+            32,
+            53
           ],
           "papers": [
             {
@@ -31424,80 +31667,78 @@
               "date": "2026-11-19"
             },
             {
-              "title": "SALSA: Sampling Adversarial Suffixes from Learned Distributions for LLM Safety Assessment",
-              "url": "https://arxiv.org/abs/2611.33030v1",
+              "title": "From Models to Services: Systematizing Security Assurance for Model-as-a-Service",
+              "url": "https://arxiv.org/abs/2611.34623v1",
               "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-11-24"
+              "date": "2026-11-25"
             },
             {
-              "title": "\"I Do Intend to Deliver\": Will LLMs Run a Marketplace Advance-Fee Scam?",
-              "url": "https://arxiv.org/abs/2611.32957v1",
+              "title": "Attack Policy Selection can Mislead Monitor Evaluators",
+              "url": "https://arxiv.org/abs/2611.34934v1",
               "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-11-24"
+              "date": "2026-11-25"
+            },
+            {
+              "title": "A Survey of Security, Privacy, and Ethics of Large Language Models in Telecom",
+              "url": "https://arxiv.org/abs/2611.34868v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-11-25"
+            },
+            {
+              "title": "VirusCascade: Hijacking Collaborative Reflection in LLM-Powered Recommender Agents",
+              "url": "https://arxiv.org/abs/2609.38270v2",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-11-25"
             }
           ]
         },
         {
-          "topic": "LLM 신뢰성·평가 벤치마크 (LLM Reliability & Evaluation Benchmarks)",
-          "description": "LLM이 규칙 전환·통계적 일관성·환각 등에서 체계적 오작동을 보인다는 사실이 수치로 증명되면서, 실무 도입 전 모델 검증 기준 설계가 필수 과제로 부각되고 있다.",
-          "paper_count": 6,
+          "topic": "AI 고도 추론 능력 (Advanced AI Reasoning)",
+          "description": "수학·논리 영역에서 LLM 추론 성능이 질적 도약하며, 전문 지식 협업 도구로서 AI의 쓸모가 급격히 넓어지고 있다.",
+          "paper_count": 4,
           "paper_indices": [
-            3,
-            6,
-            10,
-            26,
-            33,
-            63
+            1,
+            22,
+            40,
+            77
           ],
           "papers": [
             {
-              "title": "ClosureBench: A Benchmark for Reasoning under Closure Assumptions",
-              "url": "https://arxiv.org/abs/2611.26335v1",
+              "title": "Human Intent vs. Algorithmic Density: What the Riemann Hypothesis Breakthrough Reveals About the Future of AI",
+              "url": "https://doi.org/10.5281/zenodo.24431148",
+              "source": "OpenAlex",
+              "date": "2026-11-22"
+            },
+            {
+              "title": "EMA Policy Gradient: Taming Reinforcement Learning for LLMs with EMA Anchor and Top-k KL",
+              "url": "https://arxiv.org/abs/2602.04417v2",
               "source": "arXiv AI/CL/LG/IR/MA/CY",
               "date": "2026-11-19"
             },
             {
-              "title": "Partition, Prompt, Aggregate: Statistical Self-Consistency in Language Models",
-              "url": "https://arxiv.org/abs/2607.15277v2",
+              "title": "MathArena: Evaluating LLMs on Uncontaminated Math Competitions",
+              "url": "https://arxiv.org/abs/2505.23281v4",
               "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-11-19"
+              "date": "2026-11-25"
             },
             {
-              "title": "One Framework to Diagnose Them All: A Stratified Benchmark for Bengali LLM Hallucination",
-              "url": "https://arxiv.org/abs/2611.26336v1",
+              "title": "Diverse Alternative Reasoning Traces for Hard Math Problems",
+              "url": "https://arxiv.org/abs/2611.34928v1",
               "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-11-19"
-            },
-            {
-              "title": "Realized versus Population Reliability: Anytime-Valid Self-Consistency Certification under Correlated Reasoning",
-              "url": "https://arxiv.org/abs/2611.26592v1",
-              "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-11-19"
-            },
-            {
-              "title": "Robust LLM Evaluation with Boundedly Bad Judges: A Constrained Maximum Likelihood Approach",
-              "url": "https://arxiv.org/abs/2604.03257v2",
-              "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-11-19"
-            },
-            {
-              "title": "Can LLM Judges Catch Unsafe Clinical Actions? A Fault-Injection Study",
-              "url": "https://arxiv.org/abs/2611.33012v1",
-              "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-11-24"
+              "date": "2026-11-25"
             }
           ]
         },
         {
-          "topic": "LLM 추론 효율화·경량화 (LLM Inference Efficiency & Lightweight Models)",
-          "description": "어텐션 압축·하이브리드 캐싱·소형 모델 역할 재정립 등 추론 비용을 획기적으로 낮추는 기법들이 집중 등장하며, 온프레미스 도입 가능성을 현실화하고 있다.",
+          "topic": "경량·효율 AI 모델 (Lightweight & Efficient AI)",
+          "description": "소비자 GPU 한 대로 경쟁력 있는 모델 훈련이 가능해지면서, 클라우드 의존 없는 온프레미스 AI 도입 선택지가 현실화되고 있다.",
           "paper_count": 5,
           "paper_indices": [
             2,
             7,
+            16,
             23,
-            53,
-            67
+            59
           ],
           "papers": [
             {
@@ -31513,80 +31754,86 @@
               "date": "2026-11-21"
             },
             {
+              "title": "Asuka-FM: A System-Architectural Co-Design Framework for Efficient Text-to-Image Pretraining on Consumer Hardware",
+              "url": "https://arxiv.org/abs/2611.26437v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-11-19"
+            },
+            {
               "title": "TideCache: Efficient Hybrid LLM Serving with Transparent Cache Management and Layer-Wise Streaming",
               "url": "https://arxiv.org/abs/2611.26619v1",
               "source": "arXiv AI/CL/LG/IR/MA/CY",
               "date": "2026-11-19"
             },
             {
-              "title": "Understanding Clipping In Zeroth-Order Optimization",
-              "url": "https://arxiv.org/abs/2611.33062v1",
+              "title": "ZeroHero: Training Small Language Agents from Scratch",
+              "url": "https://arxiv.org/abs/2611.34635v1",
               "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-11-24"
-            },
-            {
-              "title": "Unlocking the Power of Loops in Pretrained LLMs with Loop Residuals",
-              "url": "https://arxiv.org/abs/2611.31094v2",
-              "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-11-24"
+              "date": "2026-11-25"
             }
           ]
         },
         {
-          "topic": "AI 거버넌스·조직 변화 관리 (AI Governance & Organizational Change Management)",
-          "description": "AI 윤리 거버넌스가 직원 창의성·경영통제·책임 구조에 미치는 영향을 체계화한 연구들이 쏟아지며, 거버넌스를 선언이 아닌 운영 메커니즘으로 설계해야 한다는 압력이 커지고 있다.",
-          "paper_count": 5,
+          "topic": "에이전트 벤치마크·평가 체계 (Agent Benchmark & Evaluation)",
+          "description": "에이전트가 모바일·음성·로봇 등 다양한 환경으로 확장되면서 평가 기준도 단일 질의응답을 넘어 다중 사용자·다중 턴·다중 도메인으로 고도화되고 있다.",
+          "paper_count": 6,
           "paper_indices": [
-            21,
-            27,
-            36,
-            42,
-            43
+            3,
+            4,
+            13,
+            46,
+            58,
+            78
           ],
           "papers": [
             {
-              "title": "How Organizational AI Ethics Governance Shapes Employee Creativity: A Conceptual Analysis of Mechanisms and Boundary Conditions",
-              "url": "https://doi.org/10.70693/itphss.v3i6.745",
-              "source": "OpenAlex",
-              "date": "2026-11-23"
+              "title": "ClosureBench: A Benchmark for Reasoning under Closure Assumptions",
+              "url": "https://arxiv.org/abs/2611.26335v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-11-19"
             },
             {
-              "title": "Building Intelligent Ethical Governance in the AI Era through AI-Based Prophetic Leadership for Institutional Transformation",
-              "url": "https://ejournal.duniakampus.org/index.php/Jetech/article/download/451/384",
-              "source": "OpenAlex",
+              "title": "Tokengeist: Multi-Turn Attribution Tracing in Agentic Conversations",
+              "url": "https://arxiv.org/abs/2607.22610v2",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-11-19"
+            },
+            {
+              "title": "PhoneWorld: From Real-App Trajectories to Dynamic and Verifiable Environments for Phone-Use Agents",
+              "url": "https://arxiv.org/abs/2605.29486v4",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-11-19"
+            },
+            {
+              "title": "How Well Do Vision-Language Scene Graphs Serve as Memory for Embodied Question Answering?",
+              "url": "https://arxiv.org/abs/2611.34745v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
               "date": "2026-11-25"
             },
             {
-              "title": "Artificial intelligence as recurring organizational change: accountability and management control challenges across AI waves",
-              "url": "https://doi.org/10.1108/jaoc-01-2026-0058",
-              "source": "OpenAlex",
+              "title": "Benchmark Everything Everywhere All at Once",
+              "url": "https://arxiv.org/abs/2606.06462v2",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
               "date": "2026-11-25"
             },
             {
-              "title": "AI Governance Systems in Southeast Asia: A Comparative Analysis of Indonesia and Malaysia",
-              "url": "https://doi.org/10.47176/etg.2026.1008",
-              "source": "OpenAlex",
-              "date": "2026-11-25"
-            },
-            {
-              "title": "A Comparative Study of Artificial Intelligence Governance Patterns in Selected Countries",
-              "url": "https://etg.ihu.ac.ir/article_210534_c6bd21346cb1328ba15d5b7062b5f0cc.pdf",
-              "source": "OpenAlex",
+              "title": "$μ$-Bench: Benchmarking Multi-User Task Completion in Shared Interaction Voice Agents",
+              "url": "https://arxiv.org/abs/2611.34920v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
               "date": "2026-11-25"
             }
           ]
         },
         {
-          "topic": "의료·바이오 AI 응용 (Medical & Biomedical AI Applications)",
-          "description": "뇌종양 분할·알츠하이머 가설 생성·mRNA 최적화·의료 엔티티 링킹 등 임상 도입 직전 단계의 AI 연구가 집중되며, 설명가능성·안전성 요구가 함께 높아지고 있다.",
-          "paper_count": 6,
+          "topic": "AI 과학·의료 응용 (AI for Science & Healthcare)",
+          "description": "Alzheimer's 가설 생성부터 뇌종양 MRI 분석까지 AI가 임상·연구 워크플로에 실질적으로 편입되며, 설명 가능성이 도입 허들로 부각되고 있다.",
+          "paper_count": 5,
           "paper_indices": [
             17,
-            31,
-            35,
-            38,
-            48,
-            66
+            29,
+            41,
+            51,
+            73
           ],
           "papers": [
             {
@@ -31596,106 +31843,41 @@
               "date": "2026-11-19"
             },
             {
-              "title": "LongBEL: Long-Context and Document-Consistent Biomedical Entity Linking",
-              "url": "https://arxiv.org/abs/2605.13451v2",
+              "title": "A gene informed benchmark for BioScoring of pathology foundation models",
+              "url": "https://arxiv.org/abs/2611.34930v1",
               "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-11-19"
+              "date": "2026-11-25"
+            },
+            {
+              "title": "Comparative Study of Deep Learning Architectures for Brain Tumour Classification",
+              "url": "https://arxiv.org/abs/2611.34781v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-11-25"
+            },
+            {
+              "title": "Privileged On-Policy Distillation for Calibrated Alzheimer's Diagnosis With Missing Modalities",
+              "url": "https://arxiv.org/abs/2611.34721v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-11-25"
             },
             {
               "title": "Explainable AI-driven 3D U-Net framework for accurate and interpretable brain tumor segmentation in clinical MRI",
               "url": "https://doi.org/10.1108/ijhrh-04-2026-0015",
               "source": "OpenAlex",
               "date": "2026-11-20"
-            },
-            {
-              "title": "RNAGenScape: Property-Guided, Optimized Generation of mRNA Sequences with Manifold Langevin Dynamics",
-              "url": "https://arxiv.org/abs/2510.24736v6",
-              "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-11-19"
-            },
-            {
-              "title": "BioLoom: Scaling Biomedical Vision-Language Models by Learning from the Structure of Scientific Articles",
-              "url": "https://arxiv.org/abs/2611.33151v1",
-              "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-11-24"
-            },
-            {
-              "title": "One, No One and One Hundred Thousand CTs: Testing Anatomical Control in Text-to-CT Generation",
-              "url": "https://arxiv.org/abs/2611.33003v1",
-              "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-11-24"
-            }
-          ]
-        },
-        {
-          "topic": "멀티에이전트 조정·메모리 관리 (Multi-Agent Coordination & Memory Management)",
-          "description": "장기 대화·다중 에이전트 협업에서 귀인 추적·메모리 유틸리티·조정 벤치마크가 본격 연구되며, 에이전트 팀 운영의 감사 가능성과 품질 측정 기반이 마련되고 있다.",
-          "paper_count": 3,
-          "paper_indices": [
-            4,
-            65,
-            72
-          ],
-          "papers": [
-            {
-              "title": "Tokengeist: Multi-Turn Attribution Tracing in Agentic Conversations",
-              "url": "https://arxiv.org/abs/2607.22610v2",
-              "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-11-19"
-            },
-            {
-              "title": "Leto: Utility-Centric Agent Memory",
-              "url": "https://arxiv.org/abs/2611.33005v1",
-              "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-11-24"
-            },
-            {
-              "title": "Benchmarking Open-Ended Multi-Agent Coordination in Language Agents",
-              "url": "https://arxiv.org/abs/2606.08340v2",
-              "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-11-24"
             }
           ]
         }
       ],
       "key_techniques": [
         {
-          "technique": "추론 스파시피케이션·캐시 최적화 (Inference Sparsification & KV Cache Optimization)",
-          "description": "어텐션 연산의 2/3를 생략하거나 계층별 스트리밍으로 GPU 메모리를 절감하는 기법으로, 고가 클라우드 없이도 LLM을 운영할 수 있는 온프레미스 경제성의 근거가 된다.",
+          "technique": "강화학습 기반 LLM 미세조정 (RL-based LLM Post-Training)",
+          "description": "고정 앵커 대신 EMA를 활용하거나 에이전트 궤적을 재활용하는 방식으로 수학·에이전트 도메인 추론 성능을 안정적으로 끌어올리는 훈련 패러다임이다.",
           "paper_count": 3,
           "paper_indices": [
-            2,
-            23,
-            67
-          ],
-          "papers": [
-            {
-              "title": "HiSA: Sparsifying the Hidden Dimension of RoPE Attention in LLMs",
-              "url": "https://arxiv.org/abs/2611.26363v1",
-              "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-11-19"
-            },
-            {
-              "title": "TideCache: Efficient Hybrid LLM Serving with Transparent Cache Management and Layer-Wise Streaming",
-              "url": "https://arxiv.org/abs/2611.26619v1",
-              "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-11-19"
-            },
-            {
-              "title": "Unlocking the Power of Loops in Pretrained LLMs with Loop Residuals",
-              "url": "https://arxiv.org/abs/2611.31094v2",
-              "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-11-24"
-            }
-          ]
-        },
-        {
-          "technique": "LLM 강화학습 안정화 (RL Stability for LLMs — EMA Policy Gradient)",
-          "description": "EMA 앵커와 Top-k KL 추정기로 LLM RL 학습 불안정성을 해소하는 기법으로, 도메인 특화 에이전트 성능을 35% 이상 끌어올릴 수 있어 파인튜닝 비용 대비 효과가 크다.",
-          "paper_count": 2,
-          "paper_indices": [
             22,
-            34
+            72,
+            79
           ],
           "papers": [
             {
@@ -31709,16 +31891,45 @@
               "url": "https://arxiv.org/abs/2611.26313v1",
               "source": "arXiv AI/CL/LG/IR/MA/CY",
               "date": "2026-11-19"
+            },
+            {
+              "title": "Reinforcement Learning Can Be Recovered From Its Own Rollouts",
+              "url": "https://arxiv.org/abs/2611.33102v2",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-11-25"
             }
           ]
         },
         {
-          "technique": "에이전트 귀인 추적·유틸리티 중심 메모리 (Agent Attribution Tracing & Utility-Centric Memory)",
-          "description": "다중 턴 대화 출처를 역추적하고 메모리를 미래 응답 품질 개선 기준으로 관리하는 기법으로, 에이전트의 감사 가능성과 운영 효율을 동시에 높인다.",
+          "technique": "어텐션 스파시피케이션·효율 추론 (Attention Sparsification & Efficient Inference)",
+          "description": "쿼리-키 연산의 2/3를 생략하거나 계층별 스트리밍으로 GPU 메모리를 최적화해, 동일 하드웨어에서 처리량과 지연시간을 동시에 개선하는 기술이다.",
+          "paper_count": 2,
+          "paper_indices": [
+            2,
+            23
+          ],
+          "papers": [
+            {
+              "title": "HiSA: Sparsifying the Hidden Dimension of RoPE Attention in LLMs",
+              "url": "https://arxiv.org/abs/2611.26363v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-11-19"
+            },
+            {
+              "title": "TideCache: Efficient Hybrid LLM Serving with Transparent Cache Management and Layer-Wise Streaming",
+              "url": "https://arxiv.org/abs/2611.26619v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-11-19"
+            }
+          ]
+        },
+        {
+          "technique": "에이전트 행동 귀인·감사 추적 (Multi-Turn Attribution & Audit Tracing)",
+          "description": "다중 턴 대화와 에이전트 궤적 로그에서 의사결정의 근거 경로를 역추적하는 기술로, 보안 사고 후 책임 소재 확인과 감사 대응의 기반이 된다.",
           "paper_count": 2,
           "paper_indices": [
             4,
-            65
+            9
           ],
           "papers": [
             {
@@ -31728,87 +31939,105 @@
               "date": "2026-11-19"
             },
             {
-              "title": "Leto: Utility-Centric Agent Memory",
-              "url": "https://arxiv.org/abs/2611.33005v1",
-              "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-11-24"
-            }
-          ]
-        },
-        {
-          "technique": "소비자급 하드웨어 경량 생성 모델 훈련 (Consumer-Grade Lightweight Generative Model Training)",
-          "description": "단일 소비자용 GPU에서 55달러 미만으로 경쟁력 있는 이미지 생성 모델을 훈련하는 프레임워크로, 콘텐츠·마케팅 AI의 자체 구축 비용 장벽을 대폭 낮추는 선례가 된다.",
-          "paper_count": 1,
-          "paper_indices": [
-            16
-          ],
-          "papers": [
-            {
-              "title": "Asuka-FM: A System-Architectural Co-Design Framework for Efficient Text-to-Image Pretraining on Consumer Hardware",
-              "url": "https://arxiv.org/abs/2611.26437v1",
+              "title": "Backtracking Agent Applications Security Incidents",
+              "url": "https://arxiv.org/abs/2611.26525v1",
               "source": "arXiv AI/CL/LG/IR/MA/CY",
               "date": "2026-11-19"
             }
           ]
         },
         {
-          "technique": "불확실성 정량화·컨포멀 예측 (Uncertainty Quantification & Conformal Prediction)",
-          "description": "LLM 추천·예측의 신뢰 구간을 통계적으로 보증하는 기법으로, AI 출력을 의사결정에 직접 반영해야 하는 금융·의료 분야에서 모델 출력의 법적 방어 가능성을 높인다.",
+          "technique": "서비스형 모델 보안 프레임워크 (Model-as-a-Service Security Framework)",
+          "description": "클라우드 기반 LLM 서비스 파이프라인에서 프롬프트 인젝션·공급망 공격·모니터 우회 등 다양한 위협 모델을 체계화하고 완화 방안을 제시하는 연구 방향이다.",
           "paper_count": 3,
           "paper_indices": [
-            58,
-            62,
-            80
+            8,
+            27,
+            28
           ],
           "papers": [
             {
-              "title": "Towards Realistic Evaluation of Uncertainty Quantification for LLM-Based Recommender Systems",
-              "url": "https://arxiv.org/abs/2611.33036v1",
+              "title": "SoK: Assessing the Evolution of LLM Capability in Software Vulnerability Research",
+              "url": "https://arxiv.org/abs/2611.26601v1",
               "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-11-24"
+              "date": "2026-11-19"
             },
             {
-              "title": "PAC-style Bounds on the Conditional Validity of Conformal Predictors",
-              "url": "https://arxiv.org/abs/2611.33023v1",
+              "title": "From Models to Services: Systematizing Security Assurance for Model-as-a-Service",
+              "url": "https://arxiv.org/abs/2611.34623v1",
               "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-11-24"
+              "date": "2026-11-25"
             },
             {
-              "title": "Coverage Guarantees for Pseudo-Calibrated Conformal Prediction under Distribution Shift",
-              "url": "https://arxiv.org/abs/2602.14913v4",
+              "title": "Attack Policy Selection can Mislead Monitor Evaluators",
+              "url": "https://arxiv.org/abs/2611.34934v1",
               "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-11-24"
+              "date": "2026-11-25"
+            }
+          ]
+        },
+        {
+          "technique": "소형 에이전트 훈련·픽셀 기반 스킬 학습 (Small Agent Training & Pixel-Space Skill Learning)",
+          "description": "대형 LLM을 교사로 활용해 소형 전문 에이전트를 처음부터 훈련하거나, 텍스트 대신 이미지 픽셀로 에이전트 스킬을 압축해 추론 토큰을 60~70% 절감하는 기법이다.",
+          "paper_count": 3,
+          "paper_indices": [
+            7,
+            20,
+            59
+          ],
+          "papers": [
+            {
+              "title": "What is the Role of Small Models in the LLM Era: A Survey",
+              "url": "https://direct.mit.edu/coli/article-pdf/doi/10.1162/COLI.a.652/2629040/coli.a.652.pdf",
+              "source": "OpenAlex",
+              "date": "2026-11-21"
+            },
+            {
+              "title": "SKILL.PNG: Learning Agent Skills in Pixel Space",
+              "url": "https://arxiv.org/abs/2611.26296v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-11-19"
+            },
+            {
+              "title": "ZeroHero: Training Small Language Agents from Scratch",
+              "url": "https://arxiv.org/abs/2611.34635v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-11-25"
             }
           ]
         }
       ],
       "actionable_insights": [
-        "AI 에이전트가 MCP를 통해 외부 도구를 자율 호출하는 환경을 도입하거나 평가할 때, 기존 API 단가 기반 비용 체계로는 에이전트 운영 실비를 추적할 수 없으므로 **성공한 태스크당 총 소비 비용(cost-per-completed-task)으로 KPI를 재설계해야** 한다.",
-        "LLM이 규정·정책 준수 여부를 판단하는 업무에 단독 투입될 때, 규칙 전환 시 정확도가 급락할 수 있다는 ClosureBench 결과에 근거하여, **고위험 규정 준수 자동화에는 LLM 출력 위에 명시적 규칙 검증 계층을 반드시 포함하는 2-레이어 설계가 필수**다.",
-        "AI 거버넌스를 선언·문서 수준에서 멈추지 않고 경영통제 메커니즘으로 작동시키려면, **AI 에이전트 도입 프로젝트마다 책임 경계가 명확히 설계된 아키텍처를 선택하고, 에이전트 행동 감사 추적 로그를 운영 요건으로 명시**해야 한다.",
-        "HiSA와 TideCache 같은 추론 효율화 기법이 성숙 단계에 진입하고 있으므로, **국내 금융·공공 분야의 망분리·온프레미스 요구가 클라우드 LLM 도입의 장벽으로 작용하는 조직은 경량 모델 자체 운영 가능성을 타진할 수 있는 기술적 여건이 갖춰지고 있음**을 인식해야 한다.",
-        "LLM이 임상 위험 행동을 놓칠 수 있다는 연구와 LLM이 고의적 사기 시나리오를 자동화할 수 있다는 연구는, **고위험 프로세스에서 AI 출력을 최종 결정으로 사용하는 모든 설계에 인간 검토 단계를 명시적으로 포함하도록 프로세스를 재점검**해야 함을 경고한다."
+        "MCP로 연동된 AI 에이전트가 외부 유료 서비스를 자율 호출하는 환경에서는 **기존 API 호출 단위 비용 측정이 다단계 에이전트 오케스트레이션 환경에서는 무의미**하므로, 호출 허가 범위·비용 상한선·행동 감사 로그를 사전 아키텍처에 명시적으로 포함해야 한다.",
+        "ClosureBench 연구에서 LLM이 규칙 전환 시나리오에서 정확도가 99%에서 18%까지 급락한다는 결과는, 에이전트를 사내 정책·컴플라이언스 프로세스에 적용할 때 **단순 평균 정확도가 아닌 규칙 전환 케이스 단위의 별도 검증 체계를 설계**해야 함을 의미한다.",
+        "소형 모델 경량화와 소비자 GPU 훈련 가능성의 성숙은 **온프레미스(on-premise) 또는 폐쇄망 요구가 도입 속도를 제한하는 현실적 제약으로 작동**하는 국내 금융·공공 조직에게, 클라우드 외부 이전 없이 AI를 사내 직접 운영할 경로를 현실적 선택지로 만들었다.",
+        "의료·금융 영역 AI 의사결정 도입 시 **모델 설명 가능성(Explainability)과 감사 추적성(Audit Trail)이 성능 지표보다 중요한 채택 기준**으로 부상하고 있으며, 국내 금융위·금감원의 AI 모델 설명 요구와 직결되므로 모델 선택 단계에서 XAI 지원 여부를 필수 평가 항목으로 포함해야 한다.",
+        "LLM 에이전트가 소프트웨어 취약점을 자율 탐지·패치하는 단계에 도달했다는 실증은 **보안 운영(SecOps) 조직의 역할 재정의와 AI 도입 범위의 동시 확대를 요구**하며, AI가 먼저 취약점을 발견·수정할 수 있는 환경에서 기존 취약점 관리 프로세스와 책임 구조를 점검해야 한다."
       ],
       "top_institutions": [
         {
           "name": "ETH",
-          "count": 140
+          "count": 209
         },
         {
           "name": "MIT",
-          "count": 93
+          "count": 123
         },
         {
           "name": "Meta",
-          "count": 7
-        },
-        {
-          "name": "AWS",
-          "count": 5
+          "count": 12
         },
         {
           "name": "FAIR",
-          "count": 3
+          "count": 6
+        },
+        {
+          "name": "AWS",
+          "count": 6
+        },
+        {
+          "name": "Google",
+          "count": 4
         },
         {
           "name": "NVIDIA",
@@ -31819,29 +32048,49 @@
           "count": 1
         },
         {
-          "name": "Google",
+          "name": "OpenAI",
           "count": 1
         }
       ],
       "top_keywords": [
         {
           "keyword": "framework",
-          "count": 19
+          "count": 22
         },
         {
           "keyword": "language",
-          "count": 15
+          "count": 21
+        },
+        {
+          "keyword": "agents",
+          "count": 21
         },
         {
           "keyword": "generative",
-          "count": 15
+          "count": 20
         },
         {
           "keyword": "multi",
-          "count": 14
+          "count": 19
+        },
+        {
+          "keyword": "agent",
+          "count": 18
+        },
+        {
+          "keyword": "data",
+          "count": 18
         },
         {
           "keyword": "efficient",
+          "count": 16
+        },
+        {
+          "keyword": "intelligence",
+          "count": 15
+        },
+        {
+          "keyword": "context",
           "count": 14
         },
         {
@@ -31849,60 +32098,40 @@
           "count": 14
         },
         {
-          "keyword": "agent",
+          "keyword": "when",
+          "count": 14
+        },
+        {
+          "keyword": "memory",
+          "count": 14
+        },
+        {
+          "keyword": "what",
           "count": 13
-        },
-        {
-          "keyword": "intelligence",
-          "count": 13
-        },
-        {
-          "keyword": "data",
-          "count": 11
-        },
-        {
-          "keyword": "human",
-          "count": 10
-        },
-        {
-          "keyword": "context",
-          "count": 10
-        },
-        {
-          "keyword": "agents",
-          "count": 10
-        },
-        {
-          "keyword": "artificial",
-          "count": 10
-        },
-        {
-          "keyword": "generation",
-          "count": 10
         },
         {
           "keyword": "under",
-          "count": 9
+          "count": 13
+        },
+        {
+          "keyword": "knowledge",
+          "count": 13
         },
         {
           "keyword": "reinforcement",
-          "count": 9
+          "count": 13
         },
         {
-          "keyword": "optimization",
-          "count": 9
+          "keyword": "generation",
+          "count": 13
         },
         {
-          "keyword": "artificial intelligence",
-          "count": 9
+          "keyword": "reasoning",
+          "count": 12
         },
         {
-          "keyword": "digital",
-          "count": 9
-        },
-        {
-          "keyword": "time",
-          "count": 9
+          "keyword": "decision",
+          "count": 12
         }
       ],
       "recent_papers": [
@@ -32115,35 +32344,35 @@
           "score": 52
         },
         {
-          "title": "Building Intelligent Ethical Governance in the AI Era through AI-Based Prophetic Leadership for Institutional Transformation",
-          "url": "https://ejournal.duniakampus.org/index.php/Jetech/article/download/451/384",
-          "source": "OpenAlex",
+          "title": "From Models to Services: Systematizing Security Assurance for Model-as-a-Service",
+          "url": "https://arxiv.org/abs/2611.34623v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
           "date": "2026-11-25",
-          "summary_ko": "Masyhudi, Izzatul Munawwaroh, Eka Diana — [JETech: Journal of Education and Technology] The development of Artificial Intelligence (AI) has accelerated institutional transformation through data analys",
-          "score": 47
+          "summary_ko": "Large language models are mainly delivered as cloud services, in which the assets of different principals are coupled within a single service pipeline, while the related security research is scattered",
+          "score": 46
         },
         {
-          "title": "Implicit Neural Representations of Individual Behavior",
-          "url": "https://arxiv.org/abs/2606.12200v2",
+          "title": "Attack Policy Selection can Mislead Monitor Evaluators",
+          "url": "https://arxiv.org/abs/2611.34934v1",
           "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-11-19",
-          "summary_ko": "비전 도메인의 implicit neural representations (INRs)를 행동 도메인으로 확장하여 라벨 없는 정책 행동 데이터에서 정책을 자가 감독으로 학습하는 Behavioral INR을 제안합니다. 상태-행동 함수를 FiLM 계층으로 조절하여 에피소드별 정책 아이덴티티를 추론하며, MuJoCo·체스·F1·로봇공학 데이터셋에서 OOD 시프트가 클수록 정책 식별 성능이 개선됨을 보입니다.",
+          "date": "2026-11-25",
+          "summary_ko": "AI monitors, classifiers that flag dangerous behaviour by AI agents, are often evaluated against transcripts generated by attack policies acting as proxies for dangerous behaviour in deployment. We ev",
+          "score": 45
+        },
+        {
+          "title": "A gene informed benchmark for BioScoring of pathology foundation models",
+          "url": "https://arxiv.org/abs/2611.34930v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-11-25",
+          "summary_ko": "Pathology foundation models are usually compared by their performance on downstream tasks such as classification and retrieval. While such benchmarks measure how useful a model is, they provide no ins",
           "score": 44
         },
         {
-          "title": "Natural Language Processing: An Applied Research Practicum From Classical Text Processing to Multimodal and Agentic Systems",
-          "url": "https://arxiv.org/abs/2605.03799v4",
+          "title": "Enhancing Maritime Domain Awareness using Latent Space Representations",
+          "url": "https://arxiv.org/abs/2611.34899v1",
           "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-11-19",
-          "summary_ko": "고전 텍스트 처리부터 트랜스포머·LLM·RAG·멀티모달 에이전트 시스템까지 NLP 전체 파이프라인을 다루는 체계적 교육 가이드로, 18개 실습 프로젝트·저리소스 언어(타직·타타르·바시르어) 중심 최적화·프롬프트 엔지니어링·다중 에이전트 협업·도메인 특화 NLP 개발 방법론을 제공한다.",
-          "score": 44
-        },
-        {
-          "title": "Bayesian optimization on amortized search space",
-          "url": "https://arxiv.org/abs/2611.26459v1",
-          "source": "arXiv AI/CL/LG/IR/MA/CY",
-          "date": "2026-11-19",
-          "summary_ko": "흑상자 최적화에서 시뮬레이터의 amortized inverse map을 활용하여 Bayesian optimization 탐색 공간을 제한하는 방법을 제안한다. Gaussian process 커널과 결합하여 저차원 특성을 활용하며, Parkinson 질병 약물 용량 개인화에 적용하여 시뮬레이터 오차 하에서도 성능 개선을 입증한다.",
+          "date": "2026-11-25",
+          "summary_ko": "This work presents a novel application of Earth Observation (EO) embeddings for Maritime Domain Awareness (MDA) from the perspective of the geospatial foundation model TerraMind. By operating directly",
           "score": 44
         }
       ]
