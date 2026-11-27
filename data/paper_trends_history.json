@@ -18036,22 +18036,126 @@
       ]
     },
     "2026-11-27": {
-      "analyzed_at": "2026-11-27T06:36:29.567743+09:00",
+      "analyzed_at": "2026-11-27T18:18:14.800665+09:00",
       "llm_backend": "claude-cli",
       "period": "daily",
       "period_label": "오늘",
       "days_window": 1,
-      "paper_count": 17,
-      "narrative": "한 줄 요약 AI 거버넌스 체계의 공백이 기술 도입 속도를 갉아먹는 실질적 병목으로 여러 연구에서 동시에 확인되고 있으며, '어떻게 쓸 것인가'보다 **'어떻게 책임 경계를 설계하고 통제할 것인가'가 전략 우선순위**가 되어야 함을 오늘의 논문군이 뒷받침하고 있다.\n\n1) 무엇이 부상하고 있는가 가장 선명한 흐름은 AI 에이전트가 조직 의사결정에 깊이 개입하면서 'Human-in-the-loop'라는 기존 거버넌스 원칙이 근본적으로 흔들리고 있다는 점이다. Matteo Cristofaro 등의 연구(Beyond human-in-the-loop)는 에이전트가 실질 의사결정을 수행하는 상황에서 인간을 단순히 루프 안에 두는 것만으로는 책임 소재를 확보할 수 없으며, **에이전트가 결정의 정당화 근거를 직접 생성·기록하는 아키텍처가 새로운 통제 방식**으로 부상함을 보여 준다. Stefan Pasch의 대규모 사용자 리뷰 분석은 고수준 거버넌스 프레임워크와 현장 사용자 경험 사이의 괴리가 상당히 크다는 사실을 드러내며, 정책이 실제로 작동하는지를 사용자 데이터로 검증하는 접근법의 필요성을 제기한다. Syed Muntasir Mamun의 AI 팩토리 디지털 트윈 연구는 AI 연산 집약 인프라를 정보기하학과 주권 컴퓨팅 관점에서 계획·운영하는 새 프레임워크를 제시하며, **인프라 투자 의사결정에서 '에너지 효율 대비 성능'이라는 새로운 측정 단위가 병목 기준으로 부상**하고 있음을 시사한다.\n\n2) 한국 실무자에게 이 흐름이 무슨 의미인가 AI 에이전트가 내부 의사결정 프로세스에 편입될수록, **책임 경계가 명확히 설계된 아키텍처를 선택하지 않으면 감사·규제 대응 비용이 사후에 급등**한다. 국내 금융·공공 분야에서는 금융위·금감원의 AI 모델 설명 요구와 공공기관 망분리 정책이 에이전트 기반 자동화의 실질적 장벽으로 이미 작동 중이다. David Edgar 등의 조직 변화 관리 연구가 보여주듯 AI는 변화 촉진자이자 동시에 조직 문화를 흔드는 불안 요인으로 이중 작용하며, **변화관리(OCM) 계획 없이 AI 도구를 롤아웃하면 조직 저항이 가시화되는 시점에서 ROI가 역전될 수 있다**. 생성형 AI 사용자 행동을 자원 고갈(resource depletion) 관점에서 분석한 Naman Sreen 등의 연구는 직원들이 왜 GenAI를 깊은 지식 생산에 활용하지 않는지를 설명하며, **단순 접근 권한 부여가 아닌 인지 부하 경감 설계가 실질 활용률을 결정**함을 실증한다.\n\n3) 산업 적용 흐름 법률·사법 영역에서는 러시아연방 사법 AI 도입 개념(Arkhireyskaya & Ivanova)이 보여주듯 헌법적 한계와 절차 보장 요건이 먼저 정비되는 순서를 따르고 있으며, 한국도 법원행정처 디지털 사법 로드맵과 맞물려 법률 AI 적용 범위가 증거 분류·판례 검색에서 보조 의견 생성으로 확대될 공산이 크다. HR·코칭 분야에서는 Silja Kotte & Gil Bozer의 하이브리드 인간-AI 코칭 연구가 AI 코치와 인간 코치의 메시지 불일치가 직원 혼란을 야기함을 실증하며, **HR 도구로 AI를 도입할 때 신호 일관성(signalling consistency)을 설계 조건으로 명시**해야 함을 가리킨다. 한국 기업 환경에서는 **온프레미스(on-premise) 또는 폐쇄망 요구가 도입 속도를 제한하는 현실적 제약으로 작동**하며, Digital Twins for AI Factories가 제시하는 주권 컴퓨팅 개념은 반도체·AI 인프라 국산화 담론이 활성화된 현 시점에서 조달·인프라 기획자의 참조 프레임으로 직결된다.",
+      "paper_count": 30,
+      "narrative": "한 줄 요약 AI 거버넌스와 에이전트 신뢰 설계가 단순한 기술 과제를 넘어 조직 전략의 핵심 아젠다로 부상하고 있으며, 의료·법률 등 고위험 도메인의 LLM 실증 연구가 도입 조건을 구체화하기 시작했다.\n\n1) 무엇이 부상하고 있는가 이번 논문군에서 가장 선명한 흐름은 \"에이전트를 어떻게 통제할 것인가\"라는 거버넌스 질문이다. Matteo Cristofaro 등이 발표한 'Beyond human-in-the-loop'은 인간 감독을 루프에 넣는 것만으로는 불충분하며, **에이전트가 생성한 의사결정 근거(justification)의 저작 책임을 명시하는 것이 새 거버넌스 단위**가 되어야 한다고 주장한다. 같은 맥락에서 TDS-DP12 아키텍처 연구는 단기 컨텍스트가 장기 메모리로 승격될 때 발생하는 메모리 오염(memory poisoning)을 차단하기 위해 7단계 불변 메모리 프로모션 게이트와 Ed25519 서명 검증을 결합하는 기법을 제안하는데, 이는 **에이전트 간 신뢰·조정 계층이 새 아키텍처 병목**으로 부각되는 신호다. 의료 분야에서는 신장내과 LLM 진단 보조 성능 평가(Chalid Hasan 등)와 LLM 기반 골 연령 판독의 임상 일치도 검증(Kürşat Çetin 등)이 나란히 발표되며, LLM이 전문 도메인에서 \"유용하지만 한계가 있다\"는 패턴을 반복 확인시키고 있다.\n\n2) 한국 실무자에게 이 흐름이 무슨 의미인가 에이전트 거버넌스 논의는 국내 기업의 AI 도입 설계에 직접적 함의를 갖는다. 현재 많은 기업이 LLM을 도입할 때 \"결과물을 사람이 최종 검토\"하는 구조를 거버넌스 완비로 여기지만, 이번 연구들은 **결과물 검토만으로는 에이전트의 추론 경로와 메모리 오염을 통제하기 어려우며, 책임 경계가 명확히 설계된 아키텍처를 선택**해야 한다고 시사한다. 조직 변화관리 측면에서는 하이브리드 인간-AI 코칭 연구(Silja Kotte 등)가 중요한 경고를 제공한다—AI 코치와 인간 코치의 메시지가 불일치할 때 직원 혼란과 불신이 발생하며, **일관된 신호 설계(signal consistency)가 하이브리드 AI 운영의 선결 조건**임을 보여준다. 또한 Naman Sreen 등은 생성 AI에 대한 불확실성 관리를 자원 고갈 관점에서 분석하며, 직원이 AI와의 상호작용에서 소진되는 인지 자원이 조직 내 AI 활용 깊이를 제한한다고 지적한다—이는 **AI 도입 성과 KPI를 도구 활용률이 아닌 실질 지식 생산량으로 재설계해야** 한다는 함의다.\n\n3) 산업 적용 흐름 의료·법률 분야가 가장 적극적인 실증 무대가 되고 있다. 러시아 사법부의 AI 도입 개념(2026)을 분석한 연구는 사법 AI의 헌법적 한계를 다루며, **법적 책임 귀속 문제가 AI 도입의 선결 조건으로 작동**한다는 점을 재확인시킨다. AI 팩토리(전문 고밀도 AI 컴퓨팅 인프라) 디지털 트윈 프레임워크를 제안한 Syed Mamun의 연구는 에너지 제약 환경에서 인프라를 최적화하는 접근인데, **온프레미스(on-premise) 또는 폐쇄망 요구가 도입 속도를 제한하는 현실적 제약으로 작동**하는 국내 환경에서 인프라 설계 비용을 사전에 모델링하는 수단으로 주목할 만하다. 한국 기업 환경에서는 개인정보보호법상 국외 데이터 이전 제한, 금융위·금감원의 AI 모델 설명 요구, 공공기관의 망분리 정책이 **클라우드 기반 멀티에이전트 도입의 현실적 장벽으로 작용**하므로, 도입 로드맵 수립 시 이 제약들을 초기 아키텍처 결정 단계의 체크포인트로 반영해야 한다.",
       "hot_topics": [
         {
-          "topic": "AI 거버넌스·책임 체계 (AI Governance & Accountability Frameworks)",
-          "description": "고수준 정책과 현장 사용자 경험 사이의 괴리가 대규모 데이터로 실증되면서, 거버넌스가 문서가 아닌 운영 프로세스로 작동해야 한다는 압력이 커지고 있다.",
+          "topic": "AI 에이전트 거버넌스 (AI Agent Governance)",
+          "description": "인간 감독을 루프에 넣는 것만으로는 에이전트 행동을 통제할 수 없다는 인식이 확산되며, 책임 귀속과 의사결정 근거 설계가 새 거버넌스 단위로 부상.",
+          "paper_count": 4,
+          "paper_indices": [
+            1,
+            3,
+            4,
+            6
+          ],
+          "papers": [
+            {
+              "title": "AI Governance, Safety, and Embodied AI — Original Research Manuscripts Archive (2026)",
+              "url": "https://doi.org/10.5281/zenodo.24545975",
+              "source": "OpenAlex",
+              "date": "2026-11-26"
+            },
+            {
+              "title": "TDS-DP12: Daemonless Agent Trust-Boundary Control Architecture Combining a Seven-State Immutable Memory Promotion Gate, Six-Fold Ed25519 Signed Command Verifica",
+              "url": "https://doi.org/10.5281/zenodo.24519928",
+              "source": "OpenAlex",
+              "date": "2026-11-26"
+            },
+            {
+              "title": "AI governance through the eyes of users: a large-scale study of online reviews",
+              "url": "https://arxiv.org/pdf/2506.00080",
+              "source": "OpenAlex",
+              "date": "2026-11-26"
+            },
+            {
+              "title": "Beyond human-in-the-loop: governing AI agents through the authorship of justification",
+              "url": "https://www.emerald.com/cemj/article-pdf/doi/10.1108/CEMJ-07-2026-0210/12004929/cemj-07-2026-0210en.pdf",
+              "source": "OpenAlex",
+              "date": "2026-11-26"
+            }
+          ]
+        },
+        {
+          "topic": "LLM 의료 전문 도메인 적용 (LLM in Specialized Medical Domains)",
+          "description": "신장내과·소아내분비·간질환 등 고위험 임상 분야에서 LLM 성능을 실증 검증하는 연구가 증가하며 도입 조건과 한계가 구체화되는 단계.",
+          "paper_count": 4,
+          "paper_indices": [
+            2,
+            5,
+            9,
+            19
+          ],
+          "papers": [
+            {
+              "title": "Large language models as diagnostic tools in nephrology: Helpful, with limitations",
+              "url": "https://doi.org/10.3238/arztebl.m2026.0164",
+              "source": "OpenAlex",
+              "date": "2026-11-27"
+            },
+            {
+              "title": "Agreement of automated and clinician Greulich–Pyle bone age assessment with large language model applications in healthy children",
+              "url": "https://doi.org/10.1515/jpem-2026-0387",
+              "source": "OpenAlex",
+              "date": "2026-11-26"
+            },
+            {
+              "title": "From barriers to roadmaps: prioritizing AI adoption challenges in UAE healthcare",
+              "url": "https://doi.org/10.1108/msar-05-2026-0274",
+              "source": "OpenAlex",
+              "date": "2026-11-26"
+            },
+            {
+              "title": "Translational artificial intelligence in therapeutic-era metabolic dysfunction-associated steatohepatitis: The ACTION framework",
+              "url": "https://www.f6publishing.com/Forms/Main/DownloadFile.aspx?type=m&typeid=2&id=125990&filepath=8E31D0401EB18CD6271A9142AB7E05E3657B9A2E8418A495446483FA478960E1E142C2763FFD5C14",
+              "source": "OpenAlex",
+              "date": "2026-11-27"
+            }
+          ]
+        },
+        {
+          "topic": "조직 내 AI 도입과 변화관리 (Organizational AI Adoption & Change Management)",
+          "description": "AI 코칭·생성 AI 활용 불확실성·조직문화 변화 연구가 집중되며, 기술 도입 이후 구성원 수용과 운영 일관성이 핵심 과제로 부각.",
+          "paper_count": 3,
+          "paper_indices": [
+            7,
+            12,
+            17
+          ],
+          "papers": [
+            {
+              "title": "The challenge of signalling consistency: a comparative case study of hybrid human–AI coaching implementation",
+              "url": "https://www.emerald.com/emjb/article-pdf/doi/10.1108/EMJB-03-2026-0148/12004922/emjb-03-2026-0148en.pdf",
+              "source": "OpenAlex",
+              "date": "2026-11-26"
+            },
+            {
+              "title": "Managing uncertainty in generative AI interactions: a resource depletion perspective",
+              "url": "https://doi.org/10.1108/jeim-02-2026-0311",
+              "source": "OpenAlex",
+              "date": "2026-11-26"
+            },
+            {
+              "title": "The role of artificial intelligence in change management: ethical and organizational culture implications",
+              "url": "https://doi.org/10.1108/jocm-12-2024-0806",
+              "source": "OpenAlex",
+              "date": "2026-11-26"
+            }
+          ]
+        },
+        {
+          "topic": "법률·제도적 AI 프레임워크 (Legal & Regulatory AI Framework)",
+          "description": "사법 AI의 헌법적 한계, 사용자 관점의 AI 거버넌스 프레임워크 평가 등 제도화 연구가 증가하며 도입 선결 조건으로서 법적 책임 설계가 강조.",
           "paper_count": 3,
           "paper_indices": [
             1,
-            2,
-            3
+            4,
+            8
           ],
           "papers": [
             {
@@ -18067,25 +18171,119 @@
               "date": "2026-11-26"
             },
             {
-              "title": "Beyond human-in-the-loop: governing AI agents through the authorship of justification",
-              "url": "https://www.emerald.com/cemj/article-pdf/doi/10.1108/CEMJ-07-2026-0210/12004929/cemj-07-2026-0210en.pdf",
+              "title": "Artificial Intelligence in Legal Proceedings: Constitutional Limits",
+              "url": "https://doi.org/10.18572/1812-3929-2026-11-41-47",
               "source": "OpenAlex",
               "date": "2026-11-26"
             }
           ]
         },
         {
-          "topic": "AI 에이전트 자율성과 조직 통제 (AI Agent Autonomy & Organizational Control)",
-          "description": "에이전트가 실질 의사결정을 수행하는 환경에서 Human-in-the-loop만으로는 책임 소재가 확보되지 않으며, 아키텍처 수준의 거버넌스 재설계가 요구된다.",
+          "topic": "AI 인프라 설계 및 디지털 트윈 (AI Infrastructure & Digital Twin)",
+          "description": "AI 팩토리의 에너지 제약 운영 최적화와 AI 기반 가상 오가노이드 프레임워크가 인프라 설계 방법론으로 주목받는 흐름.",
           "paper_count": 2,
           "paper_indices": [
-            3,
-            10
+            18,
+            30
+          ],
+          "papers": [
+            {
+              "title": "Digital Twins for AI Factories: An Information-Geometric and Sovereign-Compute Framework for Planning, Energy-Constrained Operation and Lifecycle Optimisation",
+              "url": "https://doi.org/10.5281/zenodo.24544079",
+              "source": "OpenAlex",
+              "date": "2026-11-26"
+            },
+            {
+              "title": "Artificial intelligence-enabled virtual organoids: Digital-twin frameworks for predictive stem cell biology and precision regenerative medicine",
+              "url": "https://www.f6publishing.com/Forms/Main/DownloadFile.aspx?type=m&typeid=2&id=128748&filepath=8E31D0401EB18CD6271A9142AB7E05E34A0B6F9410621169D9F5915BB8F4F213C8C52DF957376C82",
+              "source": "OpenAlex",
+              "date": "2026-11-26"
+            }
+          ]
+        }
+      ],
+      "key_techniques": [
+        {
+          "technique": "에이전트 메모리 신뢰 경계 설계 (Agent Trust-Boundary Memory Architecture)",
+          "description": "단기 컨텍스트가 장기 메모리로 오염 없이 승격되도록 다단계 불변 게이트와 서명 검증을 결합하는 기법—에이전트 오케스트레이션 도입 기업이 반드시 고려해야 할 보안 아키텍처 설계 패턴.",
+          "paper_count": 1,
+          "paper_indices": [
+            3
+          ],
+          "papers": [
+            {
+              "title": "TDS-DP12: Daemonless Agent Trust-Boundary Control Architecture Combining a Seven-State Immutable Memory Promotion Gate, Six-Fold Ed25519 Signed Command Verifica",
+              "url": "https://doi.org/10.5281/zenodo.24519928",
+              "source": "OpenAlex",
+              "date": "2026-11-26"
+            }
+          ]
+        },
+        {
+          "technique": "의사결정 근거 저작 기반 거버넌스 (Authorship-of-Justification Governance)",
+          "description": "에이전트가 생성한 모든 추론 경로에 책임 주체를 명시하는 프레임워크—'결과물 검토'에서 '추론 경로 감사'로 거버넌스 패러다임을 전환하는 핵심 접근.",
+          "paper_count": 2,
+          "paper_indices": [
+            6,
+            1
           ],
           "papers": [
             {
               "title": "Beyond human-in-the-loop: governing AI agents through the authorship of justification",
               "url": "https://www.emerald.com/cemj/article-pdf/doi/10.1108/CEMJ-07-2026-0210/12004929/cemj-07-2026-0210en.pdf",
+              "source": "OpenAlex",
+              "date": "2026-11-26"
+            },
+            {
+              "title": "AI Governance, Safety, and Embodied AI — Original Research Manuscripts Archive (2026)",
+              "url": "https://doi.org/10.5281/zenodo.24545975",
+              "source": "OpenAlex",
+              "date": "2026-11-26"
+            }
+          ]
+        },
+        {
+          "technique": "LLM 임상 진단 일치도 검증 (LLM Clinical Concordance Validation)",
+          "description": "일반 벤치마크 성능이 아닌 실제 임상 전문가 판단과의 일치율을 측정하는 실증 평가 방법론—전문 도메인 도입 전 필수 검증 절차로 정착 중.",
+          "paper_count": 3,
+          "paper_indices": [
+            2,
+            5,
+            19
+          ],
+          "papers": [
+            {
+              "title": "Large language models as diagnostic tools in nephrology: Helpful, with limitations",
+              "url": "https://doi.org/10.3238/arztebl.m2026.0164",
+              "source": "OpenAlex",
+              "date": "2026-11-27"
+            },
+            {
+              "title": "Agreement of automated and clinician Greulich–Pyle bone age assessment with large language model applications in healthy children",
+              "url": "https://doi.org/10.1515/jpem-2026-0387",
+              "source": "OpenAlex",
+              "date": "2026-11-26"
+            },
+            {
+              "title": "Translational artificial intelligence in therapeutic-era metabolic dysfunction-associated steatohepatitis: The ACTION framework",
+              "url": "https://www.f6publishing.com/Forms/Main/DownloadFile.aspx?type=m&typeid=2&id=125990&filepath=8E31D0401EB18CD6271A9142AB7E05E3657B9A2E8418A495446483FA478960E1E142C2763FFD5C14",
+              "source": "OpenAlex",
+              "date": "2026-11-27"
+            }
+          ]
+        },
+        {
+          "technique": "하이브리드 인간-AI 협업 신호 설계 (Hybrid Human-AI Signal Consistency Design)",
+          "description": "인간과 AI가 동일 업무를 병행할 때 메시지·판단 일관성을 사전에 설계하는 운영 모델—신호 불일치로 인한 구성원 혼란을 구조적으로 방지.",
+          "paper_count": 2,
+          "paper_indices": [
+            7,
+            17
+          ],
+          "papers": [
+            {
+              "title": "The challenge of signalling consistency: a comparative case study of hybrid human–AI coaching implementation",
+              "url": "https://www.emerald.com/emjb/article-pdf/doi/10.1108/EMJB-03-2026-0148/12004922/emjb-03-2026-0148en.pdf",
               "source": "OpenAlex",
               "date": "2026-11-26"
             },
@@ -18098,144 +18296,16 @@
           ]
         },
         {
-          "topic": "생성형 AI 도입 장벽·불확실성 관리 (GenAI Adoption Barriers & Uncertainty Management)",
-          "description": "기술 준비도보다 거버넌스·문화·인지 부하 측면의 준비도가 실질 활용률을 결정하는 선행 변수임이 여러 산업·지역에서 반복 확인된다.",
-          "paper_count": 3,
-          "paper_indices": [
-            5,
-            6,
-            7
-          ],
-          "papers": [
-            {
-              "title": "From barriers to roadmaps: prioritizing AI adoption challenges in UAE healthcare",
-              "url": "https://doi.org/10.1108/msar-05-2026-0274",
-              "source": "OpenAlex",
-              "date": "2026-11-26"
-            },
-            {
-              "title": "Managing uncertainty in generative AI interactions: a resource depletion perspective",
-              "url": "https://doi.org/10.1108/jeim-02-2026-0311",
-              "source": "OpenAlex",
-              "date": "2026-11-26"
-            },
-            {
-              "title": "The challenge of signalling consistency: a comparative case study of hybrid human–AI coaching implementation",
-              "url": "https://www.emerald.com/emjb/article-pdf/doi/10.1108/EMJB-03-2026-0148/12004922/emjb-03-2026-0148en.pdf",
-              "source": "OpenAlex",
-              "date": "2026-11-26"
-            }
-          ]
-        },
-        {
-          "topic": "AI 인프라·주권 컴퓨팅 (AI Infrastructure & Sovereign Compute)",
-          "description": "AI 연산 집약 시설의 에너지 효율·운영 최적화와 데이터 주권 요건이 인프라 조달 의사결정의 새 기준으로 부상하고 있다.",
+          "technique": "AI 팩토리 디지털 트윈 프레임워크 (Digital Twin Framework for AI Factory)",
+          "description": "고밀도 AI 컴퓨팅 인프라의 에너지·수명주기 최적화를 사전에 시뮬레이션하는 프레임워크—on-prem 인프라 투자 의사결정에 활용 가능한 비용 모델링 수단.",
           "paper_count": 1,
           "paper_indices": [
-            11
+            18
           ],
           "papers": [
             {
               "title": "Digital Twins for AI Factories: An Information-Geometric and Sovereign-Compute Framework for Planning, Energy-Constrained Operation and Lifecycle Optimisation",
               "url": "https://doi.org/10.5281/zenodo.24544079",
-              "source": "OpenAlex",
-              "date": "2026-11-26"
-            }
-          ]
-        },
-        {
-          "topic": "법률·사법 절차에서의 AI (AI in Legal & Judicial Proceedings)",
-          "description": "헌법적 한계와 절차 보장 요건이 사법 AI 도입의 선행 조건으로 정비되는 흐름이며, 국내 법무·컴플라이언스 팀의 AI 적용 범위 사전 설정 작업이 중요해진다.",
-          "paper_count": 1,
-          "paper_indices": [
-            4
-          ],
-          "papers": [
-            {
-              "title": "Artificial Intelligence in Legal Proceedings: Constitutional Limits",
-              "url": "https://doi.org/10.18572/1812-3929-2026-11-41-47",
-              "source": "OpenAlex",
-              "date": "2026-11-26"
-            }
-          ]
-        }
-      ],
-      "key_techniques": [
-        {
-          "technique": "정당화 서술 기반 에이전트 거버넌스 (Authorship of Justification for AI Agent Governance)",
-          "description": "에이전트가 의사결정 근거를 직접 생성·기록하도록 아키텍처를 설계함으로써 Human-in-the-loop의 한계를 보완하는 접근법으로, 감사 추적성 확보에 직결된다.",
-          "paper_count": 1,
-          "paper_indices": [
-            3
-          ],
-          "papers": [
-            {
-              "title": "Beyond human-in-the-loop: governing AI agents through the authorship of justification",
-              "url": "https://www.emerald.com/cemj/article-pdf/doi/10.1108/CEMJ-07-2026-0210/12004929/cemj-07-2026-0210en.pdf",
-              "source": "OpenAlex",
-              "date": "2026-11-26"
-            }
-          ]
-        },
-        {
-          "technique": "사용자 리뷰 분석 기반 거버넌스 갭 진단 (User Review Analysis for Governance Gap Identification)",
-          "description": "온라인 사용자 리뷰 대규모 분석을 통해 고수준 AI 거버넌스 프레임워크가 현장에서 실제로 어떻게 경험되는지를 측정하는 방법론으로, 정책 실효성 검증 도구로 활용 가능하다.",
-          "paper_count": 1,
-          "paper_indices": [
-            2
-          ],
-          "papers": [
-            {
-              "title": "AI governance through the eyes of users: a large-scale study of online reviews",
-              "url": "https://arxiv.org/pdf/2506.00080",
-              "source": "OpenAlex",
-              "date": "2026-11-26"
-            }
-          ]
-        },
-        {
-          "technique": "AI 팩토리 디지털 트윈 (Digital Twin for AI Factory Planning & Operation)",
-          "description": "정보기하학과 주권 컴퓨팅 프레임워크를 결합해 AI 인프라의 에너지 제약·수명 주기·운영 최적화를 사전 시뮬레이션하는 접근법으로, 대규모 AI 인프라 투자 기획에 적용 가능하다.",
-          "paper_count": 1,
-          "paper_indices": [
-            11
-          ],
-          "papers": [
-            {
-              "title": "Digital Twins for AI Factories: An Information-Geometric and Sovereign-Compute Framework for Planning, Energy-Constrained Operation and Lifecycle Optimisation",
-              "url": "https://doi.org/10.5281/zenodo.24544079",
-              "source": "OpenAlex",
-              "date": "2026-11-26"
-            }
-          ]
-        },
-        {
-          "technique": "하이브리드 인간-AI 코칭 (Hybrid Human-AI Coaching)",
-          "description": "인간 코치와 AI 코치가 동시에 직원을 코칭하는 HRD 모델로, 메시지 불일치로 인한 직원 혼란을 최소화하려면 신호 일관성 설계가 선행되어야 함이 실증되었다.",
-          "paper_count": 1,
-          "paper_indices": [
-            7
-          ],
-          "papers": [
-            {
-              "title": "The challenge of signalling consistency: a comparative case study of hybrid human–AI coaching implementation",
-              "url": "https://www.emerald.com/emjb/article-pdf/doi/10.1108/EMJB-03-2026-0148/12004922/emjb-03-2026-0148en.pdf",
-              "source": "OpenAlex",
-              "date": "2026-11-26"
-            }
-          ]
-        },
-        {
-          "technique": "자원 고갈 관점 GenAI 사용자 행동 분석 (Resource Depletion Perspective on GenAI User Behavior)",
-          "description": "직원이 GenAI를 깊은 지식 생산에 활용하지 못하는 원인을 인지 자원 고갈 관점에서 분석하는 프레임워크로, 조직 내 GenAI 활용 깊이를 높이는 설계 개선에 적용 가능하다.",
-          "paper_count": 1,
-          "paper_indices": [
-            6
-          ],
-          "papers": [
-            {
-              "title": "Managing uncertainty in generative AI interactions: a resource depletion perspective",
-              "url": "https://doi.org/10.1108/jeim-02-2026-0311",
               "source": "OpenAlex",
               "date": "2026-11-26"
             }
@@ -18243,41 +18313,89 @@
         }
       ],
       "actionable_insights": [
-        "AI 에이전트 도입 프로젝트의 범위를 정의할 때, Human-in-the-loop 체크박스 충족만으로는 감사·규제 대응이 불충분하며 **에이전트가 의사결정 근거를 추적 가능한 형태로 기록하는 '정당화 추적 아키텍처'를 설계 단계 명세서에 반드시 반영**해야 한다.",
-        "조직 내 AI 거버넌스 프레임워크가 문서로만 존재하는지 현장에서 실제로 작동하는지를 주기적으로 검증하는 체계가 없으면 **정책과 현장 경험의 괴리가 누적되어 규제 리스크 대응 비용이 사후에 집중**되므로, 사용자 피드백 데이터를 거버넌스 개선 루프에 연결하는 프로세스 설계가 필요하다.",
-        "AI 도구 롤아웃 로드맵에 **변화관리(OCM) 계획과 조직 문화 준비도 진단을 기술 도입 계획과 동일한 위상으로 편성**해야 하며, 두 로드맵이 분리 운영되면 조직 저항이 가시화되는 시점에서 투자 대비 효과가 역전될 수 있다.",
-        "GenAI 도입 후 활용률이 기대에 미치지 못할 때, 접근 권한 부재보다 **인지 부하와 불확실성이 실질 사용의 병목일 가능성을 먼저 진단하고, 사용 시나리오별 불확실성 경감 설계(프롬프트 가이드·사용 사례 패키지)를 도구와 함께 제공**해야 활용 깊이가 올라간다.",
-        "법무·컴플라이언스 부서와 협업해 **AI 의사결정이 허용되는 범위와 반드시 인간 판단이 개입해야 하는 경계를 도입 초기 단계에서 명문화**하지 않으면, 규제 환경이 변화하는 시점에 사후 재설계 비용이 급증하므로 범위 설정 작업을 도입 거버넌스의 선행 조건으로 위치시켜야 한다."
+        "AI 에이전트 도입 시 '사람이 최종 검토한다'는 프로세스 설계만으로는 거버넌스가 완성되지 않는다. **에이전트의 추론 경로와 메모리 승격 과정에 책임 귀속 메커니즘을 설계**해야 하며, 이를 위한 아키텍처 평가 기준을 RFP(제안요청서) 단계에 포함시켜야 한다.",
+        "조직 내 AI 코칭·HR 솔루션 도입 시, AI와 인간 담당자의 메시지 일관성 프로토콜을 먼저 정의해야 한다. **신호 불일치가 구성원의 불신과 운영 혼란을 유발한다**는 실증 결과가 반복되므로, 솔루션 선택 기준에 '메시지 조율 체계'를 반드시 포함해야 한다.",
+        "의료·법률 등 고위험 도메인에서 LLM 도입을 검토할 때, **일반 벤치마크 성능이 아닌 실제 전문 판단과의 일치율을 도입 전 POC 단계에서 측정하는 절차를 표준화**해야 한다. 범용 성능을 과신한 채 도메인 검증을 생략하면 도입 이후 운영 리스크가 급격히 높아진다.",
+        "법률·공공 분야 AI 도입 로드맵을 수립할 때, **법적 책임 귀속 설계를 기술 선택보다 선행**해야 한다. 사법·행정 AI에서 헌법적 한계를 분석한 연구들이 공통으로 지적하는 것은, 책임 귀속이 불명확한 상태에서의 도입이 사후 규제 리스크를 높인다는 점이다.",
+        "국내 AI 인프라 투자를 검토하는 기업은 **클라우드 기반 에이전트 도입과 on-prem 구축 간 비용·제약 비교를 에너지 소비와 규제 준수 비용까지 포함한 전체 수명주기 관점에서 평가**해야 한다. 개인정보보호법상 국외 이전 제한과 망분리 정책이 클라우드 옵션의 현실적 범위를 제한하므로, 초기 아키텍처 결정 단계에서 이 변수를 반영해야 한다."
       ],
       "top_institutions": [
         {
           "name": "ETH",
-          "count": 5
+          "count": 9
         },
         {
           "name": "MIT",
-          "count": 2
+          "count": 4
+        },
+        {
+          "name": "Meta",
+          "count": 3
+        },
+        {
+          "name": "FAIR",
+          "count": 1
         }
       ],
       "top_keywords": [
         {
           "keyword": "artificial",
-          "count": 4
+          "count": 5
         },
         {
           "keyword": "intelligence",
-          "count": 4
+          "count": 5
         },
         {
           "keyword": "artificial intelligence",
-          "count": 4
+          "count": 5
         },
         {
           "keyword": "digital",
           "count": 4
         },
         {
+          "keyword": "stem",
+          "count": 4
+        },
+        {
+          "keyword": "cell",
+          "count": 4
+        },
+        {
+          "keyword": "large",
+          "count": 3
+        },
+        {
+          "keyword": "trust",
+          "count": 3
+        },
+        {
+          "keyword": "surgery",
+          "count": 3
+        },
+        {
+          "keyword": "stem cell",
+          "count": 3
+        },
+        {
           "keyword": "governance",
+          "count": 2
+        },
+        {
+          "keyword": "research",
+          "count": 2
+        },
+        {
+          "keyword": "language",
+          "count": 2
+        },
+        {
+          "keyword": "large language",
+          "count": 2
+        },
+        {
+          "keyword": "boundary",
           "count": 2
         },
         {
@@ -18285,60 +18403,20 @@
           "count": 2
         },
         {
+          "keyword": "bone",
+          "count": 2
+        },
+        {
           "keyword": "human",
           "count": 2
         },
         {
-          "keyword": "generative",
+          "keyword": "case",
           "count": 2
         },
         {
-          "keyword": "resource",
+          "keyword": "challenges",
           "count": 2
-        },
-        {
-          "keyword": "perspective",
-          "count": 2
-        },
-        {
-          "keyword": "role",
-          "count": 2
-        },
-        {
-          "keyword": "education",
-          "count": 2
-        },
-        {
-          "keyword": "development",
-          "count": 2
-        },
-        {
-          "keyword": "safety",
-          "count": 1
-        },
-        {
-          "keyword": "embodied",
-          "count": 1
-        },
-        {
-          "keyword": "original",
-          "count": 1
-        },
-        {
-          "keyword": "research",
-          "count": 1
-        },
-        {
-          "keyword": "manuscripts",
-          "count": 1
-        },
-        {
-          "keyword": "archive",
-          "count": 1
-        },
-        {
-          "keyword": "governance safety",
-          "count": 1
         }
       ],
       "recent_papers": [
@@ -18348,7 +18426,23 @@
           "source": "OpenAlex",
           "date": "2026-11-26",
           "summary_ko": "Vladisav Jovanovic — [Zenodo (CERN European Organization for Nuclear Research)] This archive preserves nine original research manuscripts by Vladisav Jovanović on AI governance, human oversight, accou",
-          "score": 47
+          "score": 42
+        },
+        {
+          "title": "Large language models as diagnostic tools in nephrology: Helpful, with limitations",
+          "url": "https://doi.org/10.3238/arztebl.m2026.0164",
+          "source": "OpenAlex",
+          "date": "2026-11-27",
+          "summary_ko": "Chalid Hasan, Göran Ramin Boeckel, Sami Siam — [Deutsches Ärzteblatt international] BACKGROUND: Large language models (LLMs) are increasingly being used to support diagnostic decision-making. It is un",
+          "score": 40
+        },
+        {
+          "title": "TDS-DP12: Daemonless Agent Trust-Boundary Control Architecture Combining a Seven-State Immutable Memory Promotion Gate, Six-Fold Ed25519 Signed Command Verification, and a Serialized UNKNOWN Execution-Lock Ledger",
+          "url": "https://doi.org/10.5281/zenodo.24519928",
+          "source": "OpenAlex",
+          "date": "2026-11-26",
+          "summary_ko": "HYEONSEUNG LEE — [Zenodo (CERN European Organization for Nuclear Research)] Autonomous AI agents that promote short-term context into long-term memory solely by relevance score suffer from memory pois",
+          "score": 39
         },
         {
           "title": "AI governance through the eyes of users: a large-scale study of online reviews",
@@ -18356,7 +18450,15 @@
           "source": "OpenAlex",
           "date": "2026-11-26",
           "summary_ko": "Stefan Pasch — [Information Technology and People] Purpose With the growing importance of artificial intelligence (AI) governance, numerous high-level frameworks have been articulated by policymakers ",
-          "score": 42
+          "score": 37
+        },
+        {
+          "title": "Agreement of automated and clinician Greulich–Pyle bone age assessment with large language model applications in healthy children",
+          "url": "https://doi.org/10.1515/jpem-2026-0387",
+          "source": "OpenAlex",
+          "date": "2026-11-26",
+          "summary_ko": "Kürşat Çetin, Berna Singin, Yasemin Funda Bahar — [Journal of Pediatric Endocrinology and Metabolism] OBJECTIVES: This study aimed to evaluate the agreement between bone age (BA) assessments performed",
+          "score": 35
         },
         {
           "title": "Beyond human-in-the-loop: governing AI agents through the authorship of justification",
@@ -18364,31 +18466,7 @@
           "source": "OpenAlex",
           "date": "2026-11-26",
           "summary_ko": "Matteo Cristofaro, Mie Augier, Alexis J. Bañón Gomis — [Central European Management Journal] Purpose Artificial intelligence (AI) agents in organizations challenge a basic premise of decision governan",
-          "score": 40
-        },
-        {
-          "title": "Artificial Intelligence in Legal Proceedings: Constitutional Limits",
-          "url": "https://doi.org/10.18572/1812-3929-2026-11-41-47",
-          "source": "OpenAlex",
-          "date": "2026-11-26",
-          "summary_ko": "Tatyana Yu. Arkhireyskaya, Marina A. Ivanova — [JURIST] Based on the Concept for the Introduction of AI Technologies in Judicial Proceedings of the Russian Federation (2026), the authors examine the t",
-          "score": 40
-        },
-        {
-          "title": "From barriers to roadmaps: prioritizing AI adoption challenges in UAE healthcare",
-          "url": "https://doi.org/10.1108/msar-05-2026-0274",
-          "source": "OpenAlex",
-          "date": "2026-11-26",
-          "summary_ko": "Faiha Hilal, Rhea Feroz, Salma Fazal — [Management & Sustainability An Arab Review] Purpose Artificial intelligence (AI) is reshaping global healthcare delivery, yet its adoption remains uneven across",
-          "score": 40
-        },
-        {
-          "title": "Managing uncertainty in generative AI interactions: a resource depletion perspective",
-          "url": "https://doi.org/10.1108/jeim-02-2026-0311",
-          "source": "OpenAlex",
-          "date": "2026-11-26",
-          "summary_ko": "Naman Sreen, Ebtesam Abdullah Alzeiby, Vaishali Agarwal — [Journal of Enterprise Information Management] Purpose Despite significant investments from organizations, generative artificial intelligence ",
-          "score": 40
+          "score": 35
         },
         {
           "title": "The challenge of signalling consistency: a comparative case study of hybrid human–AI coaching implementation",
@@ -18396,39 +18474,47 @@
           "source": "OpenAlex",
           "date": "2026-11-26",
           "summary_ko": "Silja Christina Kotte, Gil Bozer — [EuroMed Journal of Business] Purpose AI is transforming organisational HRD practices, including workplace coaching. Hybrid human–AI coaching, in which employees are",
-          "score": 40
+          "score": 35
         },
         {
-          "title": "A resource orchestration perspective on how founders with boundary-spanning R&D experience impact patent quality",
-          "url": "https://www.emerald.com/apjie/article-pdf/doi/10.1108/APJIE-04-2026-0065/12004865/apjie-04-2026-0065en.pdf",
+          "title": "Artificial Intelligence in Legal Proceedings: Constitutional Limits",
+          "url": "https://doi.org/10.18572/1812-3929-2026-11-41-47",
           "source": "OpenAlex",
           "date": "2026-11-26",
-          "summary_ko": "Xiaoqing Song, Ling Wang, 张香玉 — [Asia Pacific Journal of Innovation and Entrepreneurship] Purpose In emerging economies today, a small group of industry leaders is emerging. They are small and medium-",
-          "score": 40
+          "summary_ko": "Tatyana Yu. Arkhireyskaya, Marina A. Ivanova — [JURIST] Based on the Concept for the Introduction of AI Technologies in Judicial Proceedings of the Russian Federation (2026), the authors examine the t",
+          "score": 35
         },
         {
-          "title": "Modeling of consensus protocols of the digital ruble trust infrastructure",
-          "url": "https://doi.org/10.24891/dpwjst",
+          "title": "From barriers to roadmaps: prioritizing AI adoption challenges in UAE healthcare",
+          "url": "https://doi.org/10.1108/msar-05-2026-0274",
           "source": "OpenAlex",
           "date": "2026-11-26",
-          "summary_ko": "A. V. Ivanov, Булгакова Елена Валерьевна, Andrei O. KIRICHENKO — [National Interests Priorities and Security] Subject. This article discusses the assessment of the Raft consensus protocol stability in",
-          "score": 40
+          "summary_ko": "Faiha Hilal, Rhea Feroz, Salma Fazal — [Management & Sustainability An Arab Review] Purpose Artificial intelligence (AI) is reshaping global healthcare delivery, yet its adoption remains uneven across",
+          "score": 35
         },
         {
-          "title": "The role of artificial intelligence in change management: ethical and organizational culture implications",
-          "url": "https://doi.org/10.1108/jocm-12-2024-0806",
+          "title": "What Makes Parents Say Yes to AI Homework Assistants? Their Attitude, Social Influence, Practical Support, Trust, and Risk",
+          "url": "https://doi.org/10.5281/zenodo.24518722",
           "source": "OpenAlex",
           "date": "2026-11-26",
-          "summary_ko": "David Edgar, Roberto Biloslavo, Matteo Rizzo — [Journal of Organizational Change Management] Purpose This paper examines the accelerating integration of artificial intelligence (AI) into organizationa",
-          "score": 40
+          "summary_ko": "Chunli Liang — [Zenodo (CERN European Organization for Nuclear Research)] Generative artificial intelligence (Gen-AI) is increasingly used in children’s home-learning environments, yet primary-school ",
+          "score": 35
         },
         {
-          "title": "Digital Twins for AI Factories: An Information-Geometric and Sovereign-Compute Framework for Planning, Energy-Constrained Operation and Lifecycle Optimisation",
-          "url": "https://doi.org/10.5281/zenodo.24544079",
+          "title": "SCIENCE BFSP CoS | WP8 | D8.1 Set-up and data integration of AI service",
+          "url": "https://doi.org/10.5281/zenodo.24545703",
           "source": "OpenAlex",
           "date": "2026-11-26",
-          "summary_ko": "Syed Muntasir Mamun — [Zenodo (CERN European Organization for Nuclear Research)] Demand for AI factories—specialised high-density computing infrastructure for the development and operation of artifici",
-          "score": 40
+          "summary_ko": "Auke Damstra — [Zenodo (CERN European Organization for Nuclear Research)] High-quality, machine-readable metadata is essential for FAIR data but remains a time-consuming research bottleneck. MetaBuddy",
+          "score": 35
+        },
+        {
+          "title": "Managing uncertainty in generative AI interactions: a resource depletion perspective",
+          "url": "https://doi.org/10.1108/jeim-02-2026-0311",
+          "source": "OpenAlex",
+          "date": "2026-11-26",
+          "summary_ko": "Naman Sreen, Ebtesam Abdullah Alzeiby, Vaishali Agarwal — [Journal of Enterprise Information Management] Purpose Despite significant investments from organizations, generative artificial intelligence ",
+          "score": 35
         },
         {
           "title": "The University amidst ‘Knowledge Abundance’: Reconsidering the Values of Higher Education in the Age of Generative AI",
@@ -18436,7 +18522,15 @@
           "source": "OpenAlex",
           "date": "2026-11-26",
           "summary_ko": "Yan Zhang, Hei-hang Hayes Tang — [International education journal] ",
-          "score": 40
+          "score": 35
+        },
+        {
+          "title": "A resource orchestration perspective on how founders with boundary-spanning R&D experience impact patent quality",
+          "url": "https://www.emerald.com/apjie/article-pdf/doi/10.1108/APJIE-04-2026-0065/12004865/apjie-04-2026-0065en.pdf",
+          "source": "OpenAlex",
+          "date": "2026-11-26",
+          "summary_ko": "Xiaoqing Song, Ling Wang, 张香玉 — [Asia Pacific Journal of Innovation and Entrepreneurship] Purpose In emerging economies today, a small group of industry leaders is emerging. They are small and medium-",
+          "score": 35
         },
         {
           "title": "Artificial Intelligence in Science and Physics Education, 2015-2026: An AI-Assisted Bibliometric and Title-and-Abstract Analysis across Fourteen Journals",
@@ -18444,7 +18538,79 @@
           "source": "OpenAlex",
           "date": "2026-11-26",
           "summary_ko": "Konstantinos T. Kotsis — [EIKI Journal of Effective Teaching Methods] Artificial intelligence (AI) research in science and physics education has expanded rapidly, particularly since the emergence of g",
-          "score": 40
+          "score": 35
+        },
+        {
+          "title": "Modeling of consensus protocols of the digital ruble trust infrastructure",
+          "url": "https://doi.org/10.24891/dpwjst",
+          "source": "OpenAlex",
+          "date": "2026-11-26",
+          "summary_ko": "A. V. Ivanov, Булгакова Елена Валерьевна, Andrei O. KIRICHENKO — [National Interests Priorities and Security] Subject. This article discusses the assessment of the Raft consensus protocol stability in",
+          "score": 35
+        },
+        {
+          "title": "The role of artificial intelligence in change management: ethical and organizational culture implications",
+          "url": "https://doi.org/10.1108/jocm-12-2024-0806",
+          "source": "OpenAlex",
+          "date": "2026-11-26",
+          "summary_ko": "David Edgar, Roberto Biloslavo, Matteo Rizzo — [Journal of Organizational Change Management] Purpose This paper examines the accelerating integration of artificial intelligence (AI) into organizationa",
+          "score": 35
+        },
+        {
+          "title": "Digital Twins for AI Factories: An Information-Geometric and Sovereign-Compute Framework for Planning, Energy-Constrained Operation and Lifecycle Optimisation",
+          "url": "https://doi.org/10.5281/zenodo.24544079",
+          "source": "OpenAlex",
+          "date": "2026-11-26",
+          "summary_ko": "Syed Muntasir Mamun — [Zenodo (CERN European Organization for Nuclear Research)] Demand for AI factories—specialised high-density computing infrastructure for the development and operation of artifici",
+          "score": 35
+        },
+        {
+          "title": "Translational artificial intelligence in therapeutic-era metabolic dysfunction-associated steatohepatitis: The ACTION framework",
+          "url": "https://www.f6publishing.com/Forms/Main/DownloadFile.aspx?type=m&typeid=2&id=125990&filepath=8E31D0401EB18CD6271A9142AB7E05E3657B9A2E8418A495446483FA478960E1E142C2763FFD5C14",
+          "source": "OpenAlex",
+          "date": "2026-11-27",
+          "summary_ko": "Yuhang Liu, Si-Yan Li, Shi-Tian Zhang — [World Journal of Hepatology] Metabolic dysfunction-associated steatohepatitis (MASH) has entered a therapeutic era in which priorities extend beyond detecting ",
+          "score": 0
+        },
+        {
+          "title": "Acquired hemophilia A following choledochal cyst excision - highlighting postoperative bile leak and infection as potential triggers: A case report",
+          "url": "https://www.f6publishing.com/Forms/Main/DownloadFile.aspx?type=m&typeid=2&id=125182&filepath=8E31D0401EB18CD6271A9142AB7E05E3EE7E6CE8AB251609D7FFDCFC0937916540043D1250276E31",
+          "source": "OpenAlex",
+          "date": "2026-11-27",
+          "summary_ko": "Shun-Rong Yuan, Li Cao, Xiao‐ju Li — [World Journal of Gastrointestinal Surgery] BACKGROUND Acquired hemophilia A (AHA) is a rare and potentially fatal bleeding disorder mediated by autoantibodies aga",
+          "score": 0
+        },
+        {
+          "title": "Enhanced recovery after surgery in colorectal surgery: Do average benefits mask heterogeneous effects in patients underrepresented in trials?",
+          "url": "https://www.f6publishing.com/Forms/Main/DownloadFile.aspx?type=m&typeid=2&id=125939&filepath=8E31D0401EB18CD6271A9142AB7E05E32B472C866718A5B36E695DD8E9A04C2EFD26FA06D0840528",
+          "source": "OpenAlex",
+          "date": "2026-11-27",
+          "summary_ko": "Yi Ding, Hang Yu, Xue-Lei Zhan — [World Journal of Gastrointestinal Surgery] For elective colorectal surgery, enhanced recovery protocols are now standard practice, with convincing trial evidence show",
+          "score": 0
+        },
+        {
+          "title": "Research progress on traditional Chinese medicine emotional nursing for drug efficacy and negative emotions in elderly post-gastrointestinal surgery patients",
+          "url": "https://www.f6publishing.com/Forms/Main/DownloadFile.aspx?type=m&typeid=2&id=122391&filepath=8E31D0401EB18CD6271A9142AB7E05E3233F08CFBD3D105DD06CC3CFDA75F2F7E04EEEACFF723F5E",
+          "source": "OpenAlex",
+          "date": "2026-11-27",
+          "summary_ko": "Liu Yu-qian, Jin-Xin Yao, Lijun Liu — [World Journal of Gastrointestinal Surgery] With an accelerating aging population, the number of elderly patients undergoing gastrointestinal surgery is increasin",
+          "score": 0
+        },
+        {
+          "title": "Mechanisms, clinical translation, and future perspectives of liver-mediated immunoprotection in combined organ transplantation",
+          "url": "https://www.f6publishing.com/Forms/Main/DownloadFile.aspx?type=m&typeid=2&id=124378&filepath=8E31D0401EB18CD6271A9142AB7E05E3A2739D6B23FBFF3D1AF26E00E85EB4F8DF9B3C06805456A7",
+          "source": "OpenAlex",
+          "date": "2026-11-27",
+          "summary_ko": "Zhengwei Zhao, Yu-Guo Chen, Guang-Yi Wang — [World Journal of Gastrointestinal Surgery] Owing to its unique tolerogenic immune microenvironment, the liver can confer substantial immunologic protection",
+          "score": 0
+        },
+        {
+          "title": "Stem cell-based therapy for premature ovarian insufficiency: From mechanisms to clinical translation",
+          "url": "https://www.f6publishing.com/Forms/Main/DownloadFile.aspx?type=m&typeid=2&id=127499&filepath=8E31D0401EB18CD6271A9142AB7E05E3D29759B3E4BCD12B6578742CB69372D6D442E210DC14464A",
+          "source": "OpenAlex",
+          "date": "2026-11-26",
+          "summary_ko": "Lichun Weng, Shuping Lyu, Hai-Yan Peng — [World Journal of Stem Cells] Premature ovarian insufficiency (POI) is a major cause of diminished fertility and premature reproductive aging. POI is accompani",
+          "score": 0
         },
         {
           "title": "Putative role of helminths in mucosal regeneration for tissue engineering of gastrointestinal tract: A hypothesis",
@@ -18463,11 +18629,27 @@
           "score": 0
         },
         {
+          "title": "Potential roles of bacterial extracellular vesicles in mesenchymal stem/stromal cell-mediated bone repair",
+          "url": "https://www.f6publishing.com/Forms/Main/DownloadFile.aspx?type=m&typeid=2&id=127214&filepath=8E31D0401EB18CD6271A9142AB7E05E3C2E56069A349A84414F8FF4B745F07DF019E0F8246D6DF24",
+          "source": "OpenAlex",
+          "date": "2026-11-26",
+          "summary_ko": "Tonghan Zhao, Jin Shao — [World Journal of Stem Cells] The success of bone repair largely depends on mesenchymal stem/stromal cells (MSCs); however, under pathological conditions, dysregulation of the",
+          "score": 0
+        },
+        {
           "title": "Development of a multicomponent mindfulness and movement program for lumbosacral radicular pain: protocol for a mixed methods feasibility study",
           "url": "https://doi.org/10.1186/s40814-026-01973-w",
           "source": "OpenAlex",
           "date": "2026-11-26",
           "summary_ko": "Ryan S. Wexler, Anand Parikshak, Wade Balsamo — [Pilot and Feasibility Studies] Background Lumbosacral radicular pain (LRP) is a highly disabling condition frequently accompanied by pain-related fear,",
+          "score": 0
+        },
+        {
+          "title": "Stem cell preconditioning for enhanced therapeutic efficacy: Translational challenges and strategic solutions",
+          "url": "https://www.f6publishing.com/Forms/Main/DownloadFile.aspx?type=m&typeid=2&id=127968&filepath=8E31D0401EB18CD6271A9142AB7E05E3EDE92A4E9BD6106142665F1FE583DA724786D85C083C0D3D",
+          "source": "OpenAlex",
+          "date": "2026-11-26",
+          "summary_ko": "Han-Kun Su, Can Cui, Zhou Yu — [World Journal of Stem Cells] Stem cell preconditioning can enhance survival, trafficking, and paracrine activity, but promising preclinical enhancement has not yet tran",
           "score": 0
         },
         {
@@ -31869,28 +32051,32 @@
       ]
     },
     "2026-W48": {
-      "analyzed_at": "2026-11-27T06:38:46.682092+09:00",
+      "analyzed_at": "2026-11-27T18:22:19.633524+09:00",
       "llm_backend": "claude-cli",
       "period": "weekly",
       "period_label": "최근 7일",
       "days_window": 7,
-      "paper_count": 350,
-      "narrative": "한 줄 요약 AI가 조직 의사결정의 보조자를 넘어 실질적 행위 주체로 올라서면서, **통제 가능성과 비용 가시성을 갖춘 거버넌스 아키텍처 설계**가 도입 성패를 가르는 핵심 변수로 부상하고 있다.\n\n1) 무엇이 부상하고 있는가 Anthropic의 Claude가 167년 묵은 리만 가설의 형식 증명에 기여했다는 사례는 AI의 고도 추론 능력이 수학·법률·과학 등 전문 영역으로 확장되고 있음을 상징적으로 보여준다. 동시에 MCP(Model Context Protocol)를 통해 에이전트가 유료 리서치 도구를 자동 호출하는 환경에서 비용 통제 불가·확률적 답변 오독·증거 무결성 훼손이라는 세 가지 거버넌스 리스크가 동시에 대두된다. AI 모니터 평가가 공격 정책 선택에 따라 오도될 수 있다는 연구, LLM 판사가 임상적으로 위험한 행동을 간과할 수 있다는 연구는 **조직 내 AI 감사를 단일 모니터에 의존하는 구조가 재점검 대상**임을 시사한다. '인간을 루프 안에 두는 것만으로는 의미 있는 통제가 불가능하다'는 거버넌스 연구도 같은 흐름을 가속화한다.\n\n2) 한국 실무자에게 이 흐름이 무슨 의미인가 에이전트가 조직 외부 API를 자율적으로 호출하기 시작하면 비용·증거·책임의 세 축 모두가 불투명해진다. 조직 AI 윤리 거버넌스가 직원 창의성 발현 조건까지 규정한다는 연구 결과는 내부 정책 설계에서 세부 경계 조건까지 고민해야 한다는 메시지를 전달하며, **거버넌스를 사후 규제가 아닌 아키텍처 설계 단계에서 내재화**하는 접근이 필요하다. 소형 언어 모델(SLM) 활용 가능성 조사는 고비용 LLM 의존에서 벗어나 비용·보안을 함께 잡는 하이브리드 전략의 현실성을 높이며, **LLM 호출 단위 비용 측정 방식은 멀티에이전트 오케스트레이션 환경에서 무의미해지므로 성공한 목표당 비용으로 KPI를 재설계해야** 하는 압력이 커진다.\n\n3) 산업 적용 흐름 법률 분야는 러시아연방이 2026년 사법 절차 AI 도입 개념을 공표할 만큼 제도화가 빠르게 진행 중이며, 한국에서도 계약 검토·판례 분석 자동화 수요가 증가하고 있다. 금융은 의사결정 집중 파인튜닝(Decision-Focused Fine-Tuning)처럼 확률 예측을 비대칭 비용 의사결정으로 연결하는 기법이 사기 탐지·신용심사와 **국내 금융·공공 분야의 내부통제 자동화 수요와 직결**된다. 의료는 뇌종양 분할·알츠하이머 진단 등 임상 AI 적용이 가속화되지만, **온프레미스(on-premise) 또는 폐쇄망 요구가 도입 속도를 제한하는 현실적 제약으로 작동**한다. 한국 기업 환경에서는 개인정보보호법상 국외 데이터 이전 제한, 금융위·금감원의 AI 모델 설명 요구, 공공기관 망분리 정책이 **클라우드 기반 멀티에이전트 도입의 현실적 장벽으로 작용하므로, 책임 경계가 명확히 설계된 아키텍처를 선택**하는 것이 규제 대응의 출발점이 된다.",
+      "paper_count": 363,
+      "narrative": "한 줄 요약 AI 에이전트가 외부 시스템을 자율 호출하고 순수 수학 난제까지 해결하는 단계에 진입하면서, **비용·신뢰·규정 준수 세 가지 제어 요소가 조직 도입의 새로운 병목**으로 동시에 부상하고 있다.\n\n1) 무엇이 부상하고 있는가 MCP(Model Context Protocol)를 통해 AI 에이전트가 유료 리서치 도구를 자율 호출하는 환경에서 비용 통제 불가·확률적 답변 오독·증거 무결성 훼손이라는 복합 거버넌스 리스크가 실증됐다(논문 2). **기존 API 호출 단위 비용 측정이 다단계 에이전트 오케스트레이션 환경에서는 무의미**해지는 구조적 문제다. Anthropic의 Claude가 수학자 Levent Alpöge와 협력해 리만 가설의 형식적 증명을 발표한 사례(논문 1)는 **단일 LLM 선택은 이미 낡은 질문이고, 에이전트 간 협업 구조와 신뢰 계층이 새 경쟁 요소**가 됐음을 보여 준다. OpenAI 모니터를 사례 연구로 삼아 AI 안전 모니터 평가 방법론 자체에 허점이 있음이 드러났고(논문 10), 소형 모델의 전략적 역할을 체계화한 연구(논문 3)는 비용·에너지를 줄이면서 도메인 특화 성능을 유지하는 경로가 성숙 중임을 확인했다.\n\n2) 한국 실무자에게 이 흐름이 무슨 의미인가 에이전트가 외부 유료 도구를 자율 호출하는 환경이 사내에 도입될 경우, **사전 견적 메커니즘 없이 운영하면 예산 초과와 감사 추적 불능이 동시에 발생**한다. AI 윤리 거버넌스가 직원 창의성에 미치는 메커니즘을 분석한 연구(논문 4)는 AI 도입 정책 설계 시 금지·제한 조항뿐 아니라 활성화 조건을 함께 명시해야 함을 시사한다. 소형 언어 모델 연구(논문 3)는 **모든 태스크에 최대 모델을 적용하는 전략이 비용·보안·규정 준수 측면 모두에서 최선이 아님**을 구체화하며, 금융 사기 탐지와 같은 비대칭 비용 구조 태스크에서는 **정확도 중심 KPI를 성공한 목표당 비용으로 재설계해야** 한다는 방향성(논문 16)도 제시됐다.\n\n3) 산업 적용 흐름 의료 분야에서는 LLM이 신장내과 진단 지원에 활용되면서 지식 과제는 수행하나 임상 해석에는 한계가 있다는 평가가 나왔고(논문 9), 임상 AI 에이전트가 전자의무기록과 상호작용할 때 LLM 판사가 위험한 임상 오류를 신뢰성 있게 감지하는지에 대한 의문도 제기됐다(논문 66). 금융·공공 분야에서는 **개인정보보호법상 국외 데이터 이전 제한, 금융위·금감원의 AI 모델 설명 요구, 공공기관의 망분리 정책이 클라우드 기반 멀티에이전트 도입의 현실적 장벽으로 작용**한다. 에이전트 메모리 신뢰 경계(논문 11, 68)와 LLM 보안(논문 8, 63)을 온프레미스 또는 하이브리드 구조에서 구현할 수 있는 소형 모델 조합 전략이 국내 도입의 현실적 경로이며, **책임 경계가 명확히 설계된 아키텍처를 선택**하지 않으면 AI 거버넌스 위반과 귀책 불명확의 이중 리스크에 노출된다.",
       "hot_topics": [
         {
-          "topic": "AI 거버넌스와 조직 윤리 (AI Governance & Organizational Ethics)",
-          "description": "에이전트 자율화가 가속화될수록 책임 귀속·창의성 보호·제도적 통제 설계가 경영 의제로 올라오고 있음.",
-          "paper_count": 7,
+          "topic": "AI 에이전트 거버넌스 & 비용 통제 (AI Agent Governance & Cost Control)",
+          "description": "MCP 기반 자율 도구 호출 환경에서 비용 예측·증거 무결성·책임 귀속이 동시에 흔들리는 구조적 위험이 거버넌스 의제로 본격 부상.",
+          "paper_count": 5,
           "paper_indices": [
+            2,
             4,
-            5,
+            6,
             7,
-            8,
-            10,
-            11,
-            17
+            11
           ],
           "papers": [
+            {
+              "title": "Quote Before You Run: Cost Governance, Reproducibility and Evidence Handling for Agent-Callable Marketing Research Tools",
+              "url": "https://doi.org/10.5281/zenodo.24380238",
+              "source": "OpenAlex",
+              "date": "2026-11-20"
+            },
             {
               "title": "How Organizational AI Ethics Governance Shapes Employee Creativity: A Conceptual Analysis of Mechanisms and Boundary Conditions",
               "url": "https://doi.org/10.70693/itphss.v3i6.745",
@@ -31904,118 +32090,27 @@
               "date": "2026-11-26"
             },
             {
-              "title": "AI governance through the eyes of users: a large-scale study of online reviews",
-              "url": "https://arxiv.org/pdf/2506.00080",
-              "source": "OpenAlex",
-              "date": "2026-11-26"
-            },
-            {
               "title": "Building Intelligent Ethical Governance in the AI Era through AI-Based Prophetic Leadership for Institutional Transformation",
               "url": "https://ejournal.duniakampus.org/index.php/Jetech/article/download/451/384",
               "source": "OpenAlex",
               "date": "2026-11-25"
             },
             {
-              "title": "Beyond human-in-the-loop: governing AI agents through the authorship of justification",
-              "url": "https://www.emerald.com/cemj/article-pdf/doi/10.1108/CEMJ-07-2026-0210/12004929/cemj-07-2026-0210en.pdf",
-              "source": "OpenAlex",
-              "date": "2026-11-26"
-            },
-            {
-              "title": "Artificial Intelligence in Legal Proceedings: Constitutional Limits",
-              "url": "https://doi.org/10.18572/1812-3929-2026-11-41-47",
-              "source": "OpenAlex",
-              "date": "2026-11-26"
-            },
-            {
-              "title": "The role of artificial intelligence in change management: ethical and organizational culture implications",
-              "url": "https://doi.org/10.1108/jocm-12-2024-0806",
+              "title": "TDS-DP12: Daemonless Agent Trust-Boundary Control Architecture Combining a Seven-State Immutable Memory Promotion Gate, Six-Fold Ed25519 Signed Command Verifica",
+              "url": "https://doi.org/10.5281/zenodo.24519928",
               "source": "OpenAlex",
               "date": "2026-11-26"
             }
           ]
         },
         {
-          "topic": "AI 에이전트 비용·보안 리스크 (AI Agent Cost & Security Risk)",
-          "description": "MCP 기반 자동 도구 호출, 적대적 공격, LLM 판사의 임상 오판 등 에이전트 도입 시 발생하는 복합 리스크가 동시에 부각됨.",
-          "paper_count": 4,
-          "paper_indices": [
-            2,
-            21,
-            46,
-            72
-          ],
-          "papers": [
-            {
-              "title": "Quote Before You Run: Cost Governance, Reproducibility and Evidence Handling for Agent-Callable Marketing Research Tools",
-              "url": "https://doi.org/10.5281/zenodo.24380238",
-              "source": "OpenAlex",
-              "date": "2026-11-20"
-            },
-            {
-              "title": "Attack Policy Selection can Mislead Monitor Evaluators",
-              "url": "https://arxiv.org/abs/2611.34934v1",
-              "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-11-25"
-            },
-            {
-              "title": "VirusCascade: Hijacking Collaborative Reflection in LLM-Powered Recommender Agents",
-              "url": "https://arxiv.org/abs/2609.38270v2",
-              "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-11-25"
-            },
-            {
-              "title": "SALSA: Sampling Adversarial Suffixes from Learned Distributions for LLM Safety Assessment",
-              "url": "https://arxiv.org/abs/2611.33030v1",
-              "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-11-24"
-            }
-          ]
-        },
-        {
-          "topic": "소형 언어 모델 활용과 효율화 (Small Language Models & Efficiency)",
-          "description": "고비용 LLM 대안으로 SLM·증류 모델의 현실 도입 가능성이 체계적으로 연구되고 있으며, 온프레미스 전략과 연결됨.",
-          "paper_count": 4,
-          "paper_indices": [
-            3,
-            52,
-            65,
-            79
-          ],
-          "papers": [
-            {
-              "title": "What is the Role of Small Models in the LLM Era: A Survey",
-              "url": "https://direct.mit.edu/coli/article-pdf/doi/10.1162/COLI.a.652/2629040/coli.a.652.pdf",
-              "source": "OpenAlex",
-              "date": "2026-11-21"
-            },
-            {
-              "title": "ZeroHero: Training Small Language Agents from Scratch",
-              "url": "https://arxiv.org/abs/2611.34635v1",
-              "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-11-25"
-            },
-            {
-              "title": "Understanding Clipping In Zeroth-Order Optimization",
-              "url": "https://arxiv.org/abs/2611.33062v1",
-              "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-11-24"
-            },
-            {
-              "title": "Unlocking the Power of Loops in Pretrained LLMs with Loop Residuals",
-              "url": "https://arxiv.org/abs/2611.31094v2",
-              "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-11-24"
-            }
-          ]
-        },
-        {
-          "topic": "AI 추론 고도화와 전문 영역 확장 (Advanced AI Reasoning & Domain Expansion)",
-          "description": "수학 경시대회·형식 증명 등 고난도 추론 영역에서 LLM 성능이 검증되면서 법률·금융 분석 자동화의 신뢰 근거가 형성되고 있음.",
-          "paper_count": 2,
+          "topic": "LLM 추론 능력 검증 & 벤치마크 과포화 (LLM Reasoning Verification & Benchmark Saturation)",
+          "description": "AI가 수학 난제를 해결하는 고도 추론 능력을 보여 주는 한편, 기존 벤치마크가 포화 상태에 이르러 모델 간 변별력을 잃고 있음.",
+          "paper_count": 3,
           "paper_indices": [
             1,
-            33
+            24,
+            42
           ],
           "papers": [
             {
@@ -32029,42 +32124,69 @@
               "url": "https://arxiv.org/abs/2505.23281v4",
               "source": "arXiv AI/CL/LG/IR/MA/CY",
               "date": "2026-11-25"
+            },
+            {
+              "title": "Benchmark Everything Everywhere All at Once",
+              "url": "https://arxiv.org/abs/2606.06462v2",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-11-25"
             }
           ]
         },
         {
-          "topic": "에이전트 메모리 시스템 최적화 (Agent Memory System Optimization)",
-          "description": "장기 운용 AI 에이전트가 과거 정보를 얼마나 효율적으로 활용하느냐가 성능·비용의 새 변수로 부상함.",
-          "paper_count": 2,
+          "topic": "AI 안전 모니터링 & LLM 보안 (AI Safety Monitoring & LLM Security)",
+          "description": "AI 안전 모니터의 평가 방법론 허점, 적대적 접미사 공격, LLM 사기 자동화 등 보안 위협이 실증적으로 확인되며 감사 체계 재설계 압력이 커짐.",
+          "paper_count": 5,
           "paper_indices": [
-            54,
-            77
+            8,
+            10,
+            63,
+            66,
+            74
           ],
           "papers": [
             {
-              "title": "HoMe: Toward Practical Harness Optimization of Memory Systems for AI Assistants",
-              "url": "https://arxiv.org/abs/2611.34624v1",
+              "title": "From Models to Services: Systematizing Security Assurance for Model-as-a-Service",
+              "url": "https://arxiv.org/abs/2611.34623v1",
               "source": "arXiv AI/CL/LG/IR/MA/CY",
               "date": "2026-11-25"
             },
             {
-              "title": "Leto: Utility-Centric Agent Memory",
-              "url": "https://arxiv.org/abs/2611.33005v1",
+              "title": "Attack Policy Selection can Mislead Monitor Evaluators",
+              "url": "https://arxiv.org/abs/2611.34934v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-11-25"
+            },
+            {
+              "title": "SALSA: Sampling Adversarial Suffixes from Learned Distributions for LLM Safety Assessment",
+              "url": "https://arxiv.org/abs/2611.33030v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-11-24"
+            },
+            {
+              "title": "Can LLM Judges Catch Unsafe Clinical Actions? A Fault-Injection Study",
+              "url": "https://arxiv.org/abs/2611.33012v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-11-24"
+            },
+            {
+              "title": "\"I Do Intend to Deliver\": Will LLMs Run a Marketplace Advance-Fee Scam?",
+              "url": "https://arxiv.org/abs/2611.32957v1",
               "source": "arXiv AI/CL/LG/IR/MA/CY",
               "date": "2026-11-24"
             }
           ]
         },
         {
-          "topic": "임상·의료 AI 도입 가속화 (Clinical & Healthcare AI Adoption)",
-          "description": "뇌종양·알츠하이머·암 분류 등 고위험 의사결정 보조 AI가 실제 임상 환경 도입 단계로 진입하고 있음.",
+          "topic": "의료·임상 AI 적용과 한계 (Medical & Clinical AI Application)",
+          "description": "LLM의 진단 지원 성능이 검증되는 동시에 임상 해석 오류와 설명 가능 AI(XAI) 필요성이 함께 제기되며 도입 조건이 구체화.",
           "paper_count": 5,
           "paper_indices": [
-            6,
-            34,
-            44,
-            60,
-            75
+            5,
+            9,
+            25,
+            35,
+            66
           ],
           "papers": [
             {
@@ -32072,6 +32194,12 @@
               "url": "https://doi.org/10.1108/ijhrh-04-2026-0015",
               "source": "OpenAlex",
               "date": "2026-11-20"
+            },
+            {
+              "title": "Large language models as diagnostic tools in nephrology: Helpful, with limitations",
+              "url": "https://doi.org/10.3238/arztebl.m2026.0164",
+              "source": "OpenAlex",
+              "date": "2026-11-27"
             },
             {
               "title": "Comparative Study of Deep Learning Architectures for Brain Tumour Classification",
@@ -32086,14 +32214,75 @@
               "date": "2026-11-25"
             },
             {
-              "title": "BioLoom: Scaling Biomedical Vision-Language Models by Learning from the Structure of Scientific Articles",
-              "url": "https://arxiv.org/abs/2611.33151v1",
+              "title": "Can LLM Judges Catch Unsafe Clinical Actions? A Fault-Injection Study",
+              "url": "https://arxiv.org/abs/2611.33012v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-11-24"
+            }
+          ]
+        },
+        {
+          "topic": "소형 모델 경량화 전략 (Small Language Model Strategy)",
+          "description": "대형 LLM 대비 비용·에너지를 줄이면서 특정 도메인 성능을 유지하는 소형 모델 활용 경로가 체계화되며 온프레미스 도입 가능성이 높아짐.",
+          "paper_count": 4,
+          "paper_indices": [
+            3,
+            20,
+            43,
+            56
+          ],
+          "papers": [
+            {
+              "title": "What is the Role of Small Models in the LLM Era: A Survey",
+              "url": "https://direct.mit.edu/coli/article-pdf/doi/10.1162/COLI.a.652/2629040/coli.a.652.pdf",
+              "source": "OpenAlex",
+              "date": "2026-11-21"
+            },
+            {
+              "title": "Repairing the Trustworthiness of Distilled Language Models",
+              "url": "https://arxiv.org/abs/2611.34831v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-11-25"
+            },
+            {
+              "title": "ZeroHero: Training Small Language Agents from Scratch",
+              "url": "https://arxiv.org/abs/2611.34635v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-11-25"
+            },
+            {
+              "title": "Understanding Clipping In Zeroth-Order Optimization",
+              "url": "https://arxiv.org/abs/2611.33062v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-11-24"
+            }
+          ]
+        },
+        {
+          "topic": "비즈니스 AI 의사결정 & 사용자 경험 (Business AI Decision-Making & User Experience)",
+          "description": "정확도 대신 비대칭 비용 구조를 반영한 의사결정 중심 KPI로 AI를 평가·최적화하는 접근과, 응답 속도·스트리밍 방식이 품질 인식에 미치는 영향이 사업화 설계에 직결.",
+          "paper_count": 3,
+          "paper_indices": [
+            16,
+            59,
+            61
+          ],
+          "papers": [
+            {
+              "title": "From Prediction to Decision: Decision-Focused Fine-Tuning of Autoregressive Tabular Transformers for Cost-Sensitive Financial Events",
+              "url": "https://arxiv.org/abs/2611.34858v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-11-25"
+            },
+            {
+              "title": "Worth the Wait? How Response Time and Streaming Shape Judgments of Generative AI Answers and Chatbot Engagement",
+              "url": "https://arxiv.org/abs/2611.33050v1",
               "source": "arXiv AI/CL/LG/IR/MA/CY",
               "date": "2026-11-24"
             },
             {
-              "title": "Can LLM Judges Catch Unsafe Clinical Actions? A Fault-Injection Study",
-              "url": "https://arxiv.org/abs/2611.33012v1",
+              "title": "Towards Realistic Evaluation of Uncertainty Quantification for LLM-Based Recommender Systems",
+              "url": "https://arxiv.org/abs/2611.33036v1",
               "source": "arXiv AI/CL/LG/IR/MA/CY",
               "date": "2026-11-24"
             }
@@ -32102,13 +32291,12 @@
       ],
       "key_techniques": [
         {
-          "technique": "MCP 기반 에이전트 자동화 거버넌스 (MCP-based Agent Automation Governance)",
-          "description": "에이전트가 외부 도구를 자율 호출할 때 비용·증거·책임을 사전 설계로 통제하는 프레임워크로, 도입 전 거버넌스 정책 수립이 선행돼야 함.",
-          "paper_count": 3,
+          "technique": "MCP 기반 에이전트 도구 호출 (MCP-based Agent Tool Calling)",
+          "description": "AI 에이전트가 외부 API·유료 서비스를 자율 호출할 수 있게 하는 프로토콜로, 비용·보안·증거 무결성 거버넌스 설계가 반드시 선행되어야 하는 핵심 인프라 계층.",
+          "paper_count": 2,
           "paper_indices": [
             2,
-            10,
-            54
+            11
           ],
           "papers": [
             {
@@ -32118,26 +32306,58 @@
               "date": "2026-11-20"
             },
             {
-              "title": "Beyond human-in-the-loop: governing AI agents through the authorship of justification",
-              "url": "https://www.emerald.com/cemj/article-pdf/doi/10.1108/CEMJ-07-2026-0210/12004929/cemj-07-2026-0210en.pdf",
+              "title": "TDS-DP12: Daemonless Agent Trust-Boundary Control Architecture Combining a Seven-State Immutable Memory Promotion Gate, Six-Fold Ed25519 Signed Command Verifica",
+              "url": "https://doi.org/10.5281/zenodo.24519928",
               "source": "OpenAlex",
               "date": "2026-11-26"
-            },
-            {
-              "title": "HoMe: Toward Practical Harness Optimization of Memory Systems for AI Assistants",
-              "url": "https://arxiv.org/abs/2611.34624v1",
-              "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-11-25"
             }
           ]
         },
         {
-          "technique": "모델 서비스 보안 체계화 (Model-as-a-Service Security Systematization)",
-          "description": "클라우드 LLM 서비스 파이프라인에 복수 주체의 자산이 결합될 때 발생하는 보안 위협을 체계적으로 분류하고 대응 방안을 설계하는 접근.",
-          "paper_count": 2,
+          "technique": "소형 언어 모델 증류 & 경량화 (Knowledge Distillation & Small Language Model Optimization)",
+          "description": "대형 모델의 능력을 소형 모델로 압축하는 기법으로, 온프레미스 도입·비용 절감·신뢰성 보정이라는 세 과제를 동시에 다루어 국내 규제 환경에 적합한 도입 경로를 열어 줌.",
+          "paper_count": 4,
           "paper_indices": [
-            9,
-            25
+            3,
+            20,
+            43,
+            56
+          ],
+          "papers": [
+            {
+              "title": "What is the Role of Small Models in the LLM Era: A Survey",
+              "url": "https://direct.mit.edu/coli/article-pdf/doi/10.1162/COLI.a.652/2629040/coli.a.652.pdf",
+              "source": "OpenAlex",
+              "date": "2026-11-21"
+            },
+            {
+              "title": "Repairing the Trustworthiness of Distilled Language Models",
+              "url": "https://arxiv.org/abs/2611.34831v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-11-25"
+            },
+            {
+              "title": "ZeroHero: Training Small Language Agents from Scratch",
+              "url": "https://arxiv.org/abs/2611.34635v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-11-25"
+            },
+            {
+              "title": "Understanding Clipping In Zeroth-Order Optimization",
+              "url": "https://arxiv.org/abs/2611.33062v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-11-24"
+            }
+          ]
+        },
+        {
+          "technique": "AI 모니터 평가 & 감사 프레임워크 (AI Monitor Evaluation & Audit Framework)",
+          "description": "AI 에이전트의 위험 행동을 감지하는 모니터가 공격 시나리오에 의해 오도될 수 있음을 검증하는 방법론으로, 내부 AI 감사 설계의 신뢰성 기반을 흔들어 재설계 필요성을 제기.",
+          "paper_count": 3,
+          "paper_indices": [
+            8,
+            10,
+            66
           ],
           "papers": [
             {
@@ -32147,20 +32367,26 @@
               "date": "2026-11-25"
             },
             {
-              "title": "A Survey of Security, Privacy, and Ethics of Large Language Models in Telecom",
-              "url": "https://arxiv.org/abs/2611.34868v1",
+              "title": "Attack Policy Selection can Mislead Monitor Evaluators",
+              "url": "https://arxiv.org/abs/2611.34934v1",
               "source": "arXiv AI/CL/LG/IR/MA/CY",
               "date": "2026-11-25"
+            },
+            {
+              "title": "Can LLM Judges Catch Unsafe Clinical Actions? A Fault-Injection Study",
+              "url": "https://arxiv.org/abs/2611.33012v1",
+              "source": "arXiv AI/CL/LG/IR/MA/CY",
+              "date": "2026-11-24"
             }
           ]
         },
         {
-          "technique": "의사결정 집중 파인튜닝 (Decision-Focused Fine-Tuning)",
-          "description": "확률 예측이 아닌 실제 비대칭 비용 구조에 맞춘 의사결정 최적화로, 금융 사기 탐지·신용심사처럼 오분류 비용이 비대칭인 업무에 직결됨.",
+          "technique": "의사결정 중심 파인튜닝 (Decision-Focused Fine-tuning)",
+          "description": "정확도 대신 의사결정의 비대칭 비용을 목적함수로 삼아 모델을 최적화하는 기법으로, 금융 사기 탐지·보험 심사 등 손실 비용이 비대칭인 업무에 KPI 재설계의 기술적 근거를 제공.",
           "paper_count": 2,
           "paper_indices": [
-            26,
-            70
+            16,
+            61
           ],
           "papers": [
             {
@@ -32178,37 +32404,21 @@
           ]
         },
         {
-          "technique": "경량 모델 신뢰성 복원 (Trustworthiness Repair in Distilled/Small Models)",
-          "description": "증류·압축 과정에서 훼손된 모델 신뢰성을 사후 복원하는 기법으로, 온프레미스 경량화 전략에서 성능 저하를 최소화하는 핵심 수단.",
-          "paper_count": 2,
+          "technique": "에이전트 메모리 신뢰 경계 설계 (Agent Memory Trust Boundary Architecture)",
+          "description": "장기 메모리 오염(memory poisoning) 방지와 맥락 간 정보 무결성 유지를 위해 메모리 승격 경계를 명시적으로 설계하는 아키텍처로, 자율 에이전트의 오작동 귀책을 추적 가능하게 함.",
+          "paper_count": 3,
           "paper_indices": [
-            30,
-            52
+            11,
+            45,
+            68
           ],
           "papers": [
             {
-              "title": "Repairing the Trustworthiness of Distilled Language Models",
-              "url": "https://arxiv.org/abs/2611.34831v1",
-              "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-11-25"
+              "title": "TDS-DP12: Daemonless Agent Trust-Boundary Control Architecture Combining a Seven-State Immutable Memory Promotion Gate, Six-Fold Ed25519 Signed Command Verifica",
+              "url": "https://doi.org/10.5281/zenodo.24519928",
+              "source": "OpenAlex",
+              "date": "2026-11-26"
             },
-            {
-              "title": "ZeroHero: Training Small Language Agents from Scratch",
-              "url": "https://arxiv.org/abs/2611.34635v1",
-              "source": "arXiv AI/CL/LG/IR/MA/CY",
-              "date": "2026-11-25"
-            }
-          ]
-        },
-        {
-          "technique": "에이전트 메모리 하네스 자동 최적화 (Agent Memory Harness Auto-Optimization)",
-          "description": "장기 운용 AI 에이전트의 메모리 구성·유지·검색 코드를 자동 최적화하여 응답 품질과 비용 효율을 동시에 향상시키는 접근.",
-          "paper_count": 2,
-          "paper_indices": [
-            54,
-            77
-          ],
-          "papers": [
             {
               "title": "HoMe: Toward Practical Harness Optimization of Memory Systems for AI Assistants",
               "url": "https://arxiv.org/abs/2611.34624v1",
@@ -32225,28 +32435,28 @@
         }
       ],
       "actionable_insights": [
-        "AI 에이전트가 외부 유료 API를 자동 호출하는 환경을 도입하기 전에 MCP 도구 호출 로그를 감사 가능한 형태로 보존하는 정책을 수립해야 하며, **비용·증거·책임의 세 축을 아키텍처 설계 단계에서 사전에 거버넌스 프레임 안에 묶어야** 한다.",
-        "AI 모니터·LLM 판사 시스템이 공격 정책 선택이나 작업 완료 외관에 따라 위험 행동을 간과할 수 있다는 연구 결과를 바탕으로, **단일 모니터 의존 감사 구조에서 다중 검증 레이어 체계로 전환하는 내부 AI 거버넌스 설계**가 필요하다.",
-        "고비용 클라우드 LLM 의존 구조를 재점검하고, 소형 언어 모델(SLM) 온프레미스 하이브리드 구성을 선행 검토해야 하며, **LLM 호출 단위 비용 측정 방식은 멀티에이전트 오케스트레이션 환경에서 무의미해지므로 성공한 목표당 비용으로 KPI를 재설계해야** 한다.",
-        "의사결정 집중 파인튜닝(Decision-Focused Fine-Tuning) 기법이 사기 탐지·신용심사 프로세스와 **국내 금융·공공 분야의 내부통제 자동화 수요와 직결**되므로, 현재 확률 예측 중심으로 설계된 AI 모델의 목적함수를 비대칭 비용 구조에 맞게 재정의하는 파일럿을 검토해볼 수 있다.",
-        "의료·공공 분야 AI 도입 시 **온프레미스(on-premise) 또는 폐쇄망 요구가 도입 속도를 제한하는 현실적 제약으로 작동**하며, 개인정보보호법상 국외 데이터 이전 제한과 망분리 정책이 **클라우드 기반 멀티에이전트 도입의 현실적 장벽으로 작용**하는 한국 환경에서는 **책임 경계가 명확히 설계된 아키텍처를 선택**하는 것이 조달·규제 대응의 출발점이 된다."
+        "MCP 에이전트가 외부 유료 API를 자율 호출하도록 허용하기 전에, 호출 건당 예상 비용을 사전 승인하는 **사전 견적 프로세스를 AI 운영 정책의 의무 단계로 삽입**해야 한다. 비용 초과뿐 아니라 감사 추적 불능이라는 컴플라이언스 리스크도 함께 차단할 수 있는 가장 현실적인 첫 번째 통제 지점이다.",
+        "소형 언어 모델(SLM)과 대형 모델을 태스크 복잡도별로 분리 운영하는 하이브리드 구성을 검토해야 한다. **클라우드 GPU 비용 절감과 개인정보 국외 이전 위험 감소를 동시에 달성하는 아키텍처**이며, 모든 태스크에 최대 모델을 쓰는 현행 방식은 비용·보안 측면 모두에서 재검토 대상이다.",
+        "조직 내 AI 모니터·감사 시스템의 평가 지표가 공격 시나리오에 의해 오도될 수 있음이 실증됐다. **단일 KPI로 AI 안전성을 판단하지 않고 복수의 독립적 평가 방법론을 병행**하는 감사 체계가 필요하며, 이는 금융·공공기관의 내부통제 자동화 수요와 직결된 설계 원칙이다.",
+        "금융 사기 탐지·보험 심사 등 비대칭 비용 구조를 가진 태스크에서 AI 도입 성과를 측정할 때, 정확도(accuracy) 대신 **사기 미탐지와 오탐지의 실제 손실 비용을 반영한 의사결정 중심 KPI로 성과 지표를 재설계**해야 현장 도입의 실질 가치를 측정할 수 있다.",
+        "AI 도입 정책 수립 시 금지·제한 조항만 열거하면 **직원 창의성을 위축시키는 거버넌스 역효과**가 발생한다. 허용 범위·실험 샌드박스·책임 주체를 명시하는 활성화 조건을 함께 포함한 양면 정책 구조로 설계해야 도입 초기 조직 수용성을 확보할 수 있다."
       ],
       "top_institutions": [
         {
           "name": "ETH",
-          "count": 161
+          "count": 164
         },
         {
           "name": "MIT",
-          "count": 84
+          "count": 86
         },
         {
           "name": "Meta",
-          "count": 7
+          "count": 9
         },
         {
           "name": "FAIR",
-          "count": 5
+          "count": 6
         },
         {
           "name": "AWS",
@@ -32267,7 +32477,11 @@
       ],
       "top_keywords": [
         {
-          "keyword": "agents",
+          "keyword": "language",
+          "count": 18
+        },
+        {
+          "keyword": "framework",
           "count": 17
         },
         {
@@ -32275,19 +32489,23 @@
           "count": 17
         },
         {
-          "keyword": "framework",
-          "count": 16
-        },
-        {
-          "keyword": "language",
-          "count": 16
-        },
-        {
           "keyword": "intelligence",
+          "count": 16
+        },
+        {
+          "keyword": "data",
+          "count": 15
+        },
+        {
+          "keyword": "agents",
           "count": 15
         },
         {
           "keyword": "artificial",
+          "count": 15
+        },
+        {
+          "keyword": "through",
           "count": 14
         },
         {
@@ -32295,16 +32513,8 @@
           "count": 14
         },
         {
-          "keyword": "data",
-          "count": 14
-        },
-        {
-          "keyword": "through",
-          "count": 13
-        },
-        {
           "keyword": "artificial intelligence",
-          "count": 13
+          "count": 14
         },
         {
           "keyword": "when",
@@ -32315,15 +32525,15 @@
           "count": 13
         },
         {
+          "keyword": "agent",
+          "count": 12
+        },
+        {
           "keyword": "management",
           "count": 12
         },
         {
-          "keyword": "agent",
-          "count": 11
-        },
-        {
-          "keyword": "knowledge",
+          "keyword": "what",
           "count": 11
         },
         {
@@ -32331,15 +32541,15 @@
           "count": 11
         },
         {
-          "keyword": "what",
-          "count": 10
-        },
-        {
-          "keyword": "beyond",
+          "keyword": "policy",
           "count": 10
         },
         {
           "keyword": "decision",
+          "count": 10
+        },
+        {
+          "keyword": "knowledge",
           "count": 10
         },
         {
@@ -32381,14 +32591,6 @@
           "score": 52
         },
         {
-          "title": "AI Governance, Safety, and Embodied AI — Original Research Manuscripts Archive (2026)",
-          "url": "https://doi.org/10.5281/zenodo.24545975",
-          "source": "OpenAlex",
-          "date": "2026-11-26",
-          "summary_ko": "Vladisav Jovanovic — [Zenodo (CERN European Organization for Nuclear Research)] This archive preserves nine original research manuscripts by Vladisav Jovanović on AI governance, human oversight, accou",
-          "score": 47
-        },
-        {
           "title": "Explainable AI-driven 3D U-Net framework for accurate and interpretable brain tumor segmentation in clinical MRI",
           "url": "https://doi.org/10.1108/ijhrh-04-2026-0015",
           "source": "OpenAlex",
@@ -32397,11 +32599,11 @@
           "score": 43
         },
         {
-          "title": "AI governance through the eyes of users: a large-scale study of online reviews",
-          "url": "https://arxiv.org/pdf/2506.00080",
+          "title": "AI Governance, Safety, and Embodied AI — Original Research Manuscripts Archive (2026)",
+          "url": "https://doi.org/10.5281/zenodo.24545975",
           "source": "OpenAlex",
           "date": "2026-11-26",
-          "summary_ko": "Stefan Pasch — [Information Technology and People] Purpose With the growing importance of artificial intelligence (AI) governance, numerous high-level frameworks have been articulated by policymakers ",
+          "summary_ko": "Vladisav Jovanovic — [Zenodo (CERN European Organization for Nuclear Research)] This archive preserves nine original research manuscripts by Vladisav Jovanović on AI governance, human oversight, accou",
           "score": 42
         },
         {
@@ -32421,91 +32623,11 @@
           "score": 41
         },
         {
-          "title": "Beyond human-in-the-loop: governing AI agents through the authorship of justification",
-          "url": "https://www.emerald.com/cemj/article-pdf/doi/10.1108/CEMJ-07-2026-0210/12004929/cemj-07-2026-0210en.pdf",
+          "title": "Large language models as diagnostic tools in nephrology: Helpful, with limitations",
+          "url": "https://doi.org/10.3238/arztebl.m2026.0164",
           "source": "OpenAlex",
-          "date": "2026-11-26",
-          "summary_ko": "Matteo Cristofaro, Mie Augier, Alexis J. Bañón Gomis — [Central European Management Journal] Purpose Artificial intelligence (AI) agents in organizations challenge a basic premise of decision governan",
-          "score": 40
-        },
-        {
-          "title": "Artificial Intelligence in Legal Proceedings: Constitutional Limits",
-          "url": "https://doi.org/10.18572/1812-3929-2026-11-41-47",
-          "source": "OpenAlex",
-          "date": "2026-11-26",
-          "summary_ko": "Tatyana Yu. Arkhireyskaya, Marina A. Ivanova — [JURIST] Based on the Concept for the Introduction of AI Technologies in Judicial Proceedings of the Russian Federation (2026), the authors examine the t",
-          "score": 40
-        },
-        {
-          "title": "From barriers to roadmaps: prioritizing AI adoption challenges in UAE healthcare",
-          "url": "https://doi.org/10.1108/msar-05-2026-0274",
-          "source": "OpenAlex",
-          "date": "2026-11-26",
-          "summary_ko": "Faiha Hilal, Rhea Feroz, Salma Fazal — [Management & Sustainability An Arab Review] Purpose Artificial intelligence (AI) is reshaping global healthcare delivery, yet its adoption remains uneven across",
-          "score": 40
-        },
-        {
-          "title": "Managing uncertainty in generative AI interactions: a resource depletion perspective",
-          "url": "https://doi.org/10.1108/jeim-02-2026-0311",
-          "source": "OpenAlex",
-          "date": "2026-11-26",
-          "summary_ko": "Naman Sreen, Ebtesam Abdullah Alzeiby, Vaishali Agarwal — [Journal of Enterprise Information Management] Purpose Despite significant investments from organizations, generative artificial intelligence ",
-          "score": 40
-        },
-        {
-          "title": "The challenge of signalling consistency: a comparative case study of hybrid human–AI coaching implementation",
-          "url": "https://www.emerald.com/emjb/article-pdf/doi/10.1108/EMJB-03-2026-0148/12004922/emjb-03-2026-0148en.pdf",
-          "source": "OpenAlex",
-          "date": "2026-11-26",
-          "summary_ko": "Silja Christina Kotte, Gil Bozer — [EuroMed Journal of Business] Purpose AI is transforming organisational HRD practices, including workplace coaching. Hybrid human–AI coaching, in which employees are",
-          "score": 40
-        },
-        {
-          "title": "A resource orchestration perspective on how founders with boundary-spanning R&D experience impact patent quality",
-          "url": "https://www.emerald.com/apjie/article-pdf/doi/10.1108/APJIE-04-2026-0065/12004865/apjie-04-2026-0065en.pdf",
-          "source": "OpenAlex",
-          "date": "2026-11-26",
-          "summary_ko": "Xiaoqing Song, Ling Wang, 张香玉 — [Asia Pacific Journal of Innovation and Entrepreneurship] Purpose In emerging economies today, a small group of industry leaders is emerging. They are small and medium-",
-          "score": 40
-        },
-        {
-          "title": "Modeling of consensus protocols of the digital ruble trust infrastructure",
-          "url": "https://doi.org/10.24891/dpwjst",
-          "source": "OpenAlex",
-          "date": "2026-11-26",
-          "summary_ko": "A. V. Ivanov, Булгакова Елена Валерьевна, Andrei O. KIRICHENKO — [National Interests Priorities and Security] Subject. This article discusses the assessment of the Raft consensus protocol stability in",
-          "score": 40
-        },
-        {
-          "title": "The role of artificial intelligence in change management: ethical and organizational culture implications",
-          "url": "https://doi.org/10.1108/jocm-12-2024-0806",
-          "source": "OpenAlex",
-          "date": "2026-11-26",
-          "summary_ko": "David Edgar, Roberto Biloslavo, Matteo Rizzo — [Journal of Organizational Change Management] Purpose This paper examines the accelerating integration of artificial intelligence (AI) into organizationa",
-          "score": 40
-        },
-        {
-          "title": "Digital Twins for AI Factories: An Information-Geometric and Sovereign-Compute Framework for Planning, Energy-Constrained Operation and Lifecycle Optimisation",
-          "url": "https://doi.org/10.5281/zenodo.24544079",
-          "source": "OpenAlex",
-          "date": "2026-11-26",
-          "summary_ko": "Syed Muntasir Mamun — [Zenodo (CERN European Organization for Nuclear Research)] Demand for AI factories—specialised high-density computing infrastructure for the development and operation of artifici",
-          "score": 40
-        },
-        {
-          "title": "The University amidst ‘Knowledge Abundance’: Reconsidering the Values of Higher Education in the Age of Generative AI",
-          "url": "https://doi.org/10.70830/iejcp.2502.23965",
-          "source": "OpenAlex",
-          "date": "2026-11-26",
-          "summary_ko": "Yan Zhang, Hei-hang Hayes Tang — [International education journal] ",
-          "score": 40
-        },
-        {
-          "title": "Artificial Intelligence in Science and Physics Education, 2015-2026: An AI-Assisted Bibliometric and Title-and-Abstract Analysis across Fourteen Journals",
-          "url": "https://journals.eikipub.com/index.php/jetm/article/download/998/525",
-          "source": "OpenAlex",
-          "date": "2026-11-26",
-          "summary_ko": "Konstantinos T. Kotsis — [EIKI Journal of Effective Teaching Methods] Artificial intelligence (AI) research in science and physics education has expanded rapidly, particularly since the emergence of g",
+          "date": "2026-11-27",
+          "summary_ko": "Chalid Hasan, Göran Ramin Boeckel, Sami Siam — [Deutsches Ärzteblatt international] BACKGROUND: Large language models (LLMs) are increasingly being used to support diagnostic decision-making. It is un",
           "score": 40
         },
         {
@@ -32515,6 +32637,14 @@
           "date": "2026-11-25",
           "summary_ko": "AI monitors, classifiers that flag dangerous behaviour by AI agents, are often evaluated against transcripts generated by attack policies acting as proxies for dangerous behaviour in deployment. We ev",
           "score": 40
+        },
+        {
+          "title": "TDS-DP12: Daemonless Agent Trust-Boundary Control Architecture Combining a Seven-State Immutable Memory Promotion Gate, Six-Fold Ed25519 Signed Command Verification, and a Serialized UNKNOWN Execution-Lock Ledger",
+          "url": "https://doi.org/10.5281/zenodo.24519928",
+          "source": "OpenAlex",
+          "date": "2026-11-26",
+          "summary_ko": "HYEONSEUNG LEE — [Zenodo (CERN European Organization for Nuclear Research)] Autonomous AI agents that promote short-term context into long-term memory solely by relevance score suffer from memory pois",
+          "score": 39
         },
         {
           "title": "A gene informed benchmark for BioScoring of pathology foundation models",
@@ -32586,6 +32716,86 @@
           "source": "arXiv AI/CL/LG/IR/MA/CY",
           "date": "2026-11-25",
           "summary_ko": "Knowledge distillation enables the deployment of large language models through smaller student models, but the compression process can introduce regressions in trustworthiness even when downstream per",
+          "score": 39
+        },
+        {
+          "title": "Transferring Architecture as an Optimization Prior",
+          "url": "https://arxiv.org/abs/2611.34816v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-11-25",
+          "summary_ko": "Initialization determines the optimization \"fate\" of a model, going far beyond just setting the scale of its weights. It establishes a fundamental initial geometry over the input data, dictating certa",
+          "score": 39
+        },
+        {
+          "title": "HOG-WAM: Improving Visual Robustness through Future Gradient Prediction",
+          "url": "https://arxiv.org/abs/2611.34811v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-11-25",
+          "summary_ko": "World-action models jointly predict future observations and actions, yet visual corruption can disrupt the resulting policies. We introduce HOG-WAM, which adds future Histograms of Oriented Gradients ",
+          "score": 39
+        },
+        {
+          "title": "Split-RL: Local Conflict Resolution in Reinforcement Learning",
+          "url": "https://arxiv.org/abs/2611.34799v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-11-25",
+          "summary_ko": "Reinforcement learning (RL) policies are often trained by mixing contradictory feedback that is localized in space and time. For example, a robot may prioritize speed in open areas versus precision in",
+          "score": 39
+        },
+        {
+          "title": "MathArena: Evaluating LLMs on Uncontaminated Math Competitions",
+          "url": "https://arxiv.org/abs/2505.23281v4",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-11-25",
+          "summary_ko": "The rapid advancement of reasoning capabilities in large language models (LLMs) has led to notable improvements on mathematical benchmarks. However, many of the most commonly used evaluation datasets ",
+          "score": 39
+        },
+        {
+          "title": "Comparative Study of Deep Learning Architectures for Brain Tumour Classification",
+          "url": "https://arxiv.org/abs/2611.34781v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-11-25",
+          "summary_ko": "Accurate and early classification of brain tumours from magnetic resonance imaging (MRI) is essential for treatment planning, yet many published deep learning studies are trained and tested on small, ",
+          "score": 39
+        },
+        {
+          "title": "When to Trust a PFN: Detecting Harmful Shift in Tabular Foundation Models",
+          "url": "https://arxiv.org/abs/2611.34767v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-11-25",
+          "summary_ko": "Tabular prior-fitted networks (PFNs) work well across tabular classification problems but can fail silently at deployment when distributions shift. We propose CALD (Calibrated Anchor-Loss Disagreement",
+          "score": 39
+        },
+        {
+          "title": "InterConRank: Joint Node Centrality in Interconnected Heterogeneous Networks",
+          "url": "https://arxiv.org/abs/2611.34763v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-11-25",
+          "summary_ko": "Two nodes with identical connections within their own layer can differ in importance if their neighbors in another layer occupy different positions in the network. We introduce InterConRank, a central",
+          "score": 39
+        },
+        {
+          "title": "AutoRSP: An AI Agent for Radar Sensing Pipeline Design",
+          "url": "https://arxiv.org/abs/2611.34754v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-11-25",
+          "summary_ko": "Radar sensing demands a pipeline that is well-thought-out across hardware and software. We ask whether an AI agent can automatically design radar sensing pipelines at a fraction of the time, cost, and",
+          "score": 39
+        },
+        {
+          "title": "StochEP: Stochastic Equilibrium Propagation for Spiking Convergent Recurrent Neural Networks",
+          "url": "https://arxiv.org/abs/2511.11320v2",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-11-25",
+          "summary_ko": "Spiking Neural Networks (SNNs) promise energy-efficient, sparse, biologically inspired computation. Training them with Backpropagation Through Time (BPTT) and surrogate gradients achieves strong perfo",
+          "score": 39
+        },
+        {
+          "title": "How Well Do Vision-Language Scene Graphs Serve as Memory for Embodied Question Answering?",
+          "url": "https://arxiv.org/abs/2611.34745v1",
+          "source": "arXiv AI/CL/LG/IR/MA/CY",
+          "date": "2026-11-25",
+          "summary_ko": "Embodied QA needs memory, but answer accuracy mixes retained evidence, reading errors and question priors. For a simulated multi-room scene-graph pipeline we define answerability: the fraction of ques",
           "score": 39
         }
       ]
